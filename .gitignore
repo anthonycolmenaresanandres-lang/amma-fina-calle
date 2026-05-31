@@ -1,0 +1,8 @@
+﻿node_modules/
+.next/
+.vercel/
+.env
+.env.*
+_local_secrets/
+.claude/
+.DS_Store

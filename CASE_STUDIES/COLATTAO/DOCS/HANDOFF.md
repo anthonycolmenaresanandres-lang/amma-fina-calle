@@ -1,0 +1,181 @@
+# HANDOFF
+
+## STARTED
+- [2026-05-31 15:43:07] Session started
+- [2026-05-30 13:56:50] Session started
+- [2026-05-30 13:50:59] Session started
+- [2026-05-30 13:41:12] Session started
+- [2026-05-30 10:08:10] Session started
+- [2026-05-30 10:06:23] Session started
+- [2026-05-30 10:01:42] Session started
+- [2026-05-30 09:28:13] Session started
+- [2026-05-30 09:03:37] Session started
+- [2026-05-30 09:01:16] Session started
+- [2026-05-30 08:59:41] Session started
+- [2026-05-30 08:52:48] Session started
+- [2026-05-30 08:43:23] Session started
+- [2026-05-30 08:38:06] Session started
+- [2026-05-30 08:31:02] Session started
+- [2026-05-30 08:26:31] Session started
+- [2026-05-30 08:24:15] Session started
+- [2026-05-30 08:20:53] Session started
+- [2026-05-30 08:18:57] Session started
+- [2026-05-30 08:15:57] Session started
+- [2026-05-30 08:11:04] Session started
+- [2026-05-30 08:05:17] Session started
+- [2026-05-30 08:03:30] Session started
+- [2026-05-30 08:01:24] Session started
+- [2026-05-30 08:00:01] Session started
+- [2026-05-30 07:57:49] Session started
+- [2026-05-30 07:55:19] Session started
+- [2026-05-30 07:53:28] Session started
+- [2026-05-30 07:48:36] Session started
+- [2026-05-30 07:37:53] Session started
+- [2026-05-30 07:36:29] Session started
+- [2026-05-30 07:35:07] Session started
+- [2026-05-30 07:33:08] Session started
+- [2026-05-30 07:28:55] Session started
+- [2026-05-30 07:24:30] Session started
+- [2026-05-23 16:28:01] Session started
+- [2026-05-23 16:22:06] Session started
+- [2026-05-23 16:19:11] Session started
+- [2026-05-23 16:15:18] Session started
+- [2026-05-23 15:41:28] Session started
+- [2026-05-23 15:30:55] Session started
+- [2026-05-23 15:13:58] Session started
+- [2026-05-23 15:10:37] Session started
+- [2026-05-23 10:14:27] Session started
+- [2026-05-23 10:13:29] Session started
+- [2026-05-23 10:11:57] Session started
+- [2026-05-23 10:06:57] Session started
+- [2026-05-23 10:04:56] Session started
+- [2026-05-23 09:33:18] Session started
+- [2026-05-23 09:29:00] Session started
+- [2026-05-23 09:20:41] Session started
+- [2026-05-23 08:57:21] Session started
+- [2026-05-23 08:52:56] Session started
+- [2026-05-23 08:43:45] Session started
+- [2026-05-23 08:36:41] Session started
+- [2026-05-23 08:36:23] Session started
+- [2026-05-23 08:36:15] Session started
+
+## DONE
+- [2026-05-30 10:08:25] Stashed dirty main tree, attempted merge/push (both already up to date), then restored stash successfully.
+- [2026-05-30 09:29:37] Refactored CustomerHeader to two-row sticky layout with centered brand and top-pinned Play/Menu pill buttons.
+- [2026-05-30 09:29:37] Removed redundant inline game branding from page.tsx and adjusted GameCanvas height compensation to 100dvh-112px.
+- [2026-05-30 09:03:44] Created and pushed dev/post-demo-feedback branch with upstream tracking from demo baseline.
+- [2026-05-30 08:59:54] Added Current Architecture & Constraints section to HANDOFF.md covering language split, upload resilience, PIN gate, and canvas scaling.
+- [2026-05-30 08:54:36] Implemented client-side PIN gate in owner-command-center with Spanish access screen and error state.
+- [2026-05-30 08:54:36] Verified owner-command-center PIN gate pass with npm.cmd run build.
+- [2026-05-30 08:44:14] Updated app metadata title/description and added Open Graph website fields in layout.tsx.
+- [2026-05-30 08:38:45] Updated GameCanvas to compensated height and Phaser RESIZE scale using game-container parent.
+- [2026-05-30 08:38:44] Upgraded CustomerHeader nav to pill buttons with clear active state and aria-current.
+- [2026-05-30 08:31:40] Mounted CustomerHeader in / and /menu, with menu sticky offset at top-14.
+- [2026-05-30 07:24:45] Pushed cleanup commit 7e2bb74 to origin/main.
+- [2026-05-23 16:24:33] Updated README with demo/deployment/QR instructions and added DEMO_TEST_CHECKLIST.md; verified Next.js build readiness
+- [2026-05-23 16:20:16] Updated CHECKPOINT.md with latest demo loop, asset status, social bonus behavior, build pass, and next phase recommendation
+- [2026-05-23 16:16:39] Added client-side bonus sharing flow to VisualFlashPass using Web Share API with clipboard fallback; kept base reward/cooldown unchanged
+- [2026-05-23 15:47:28] Processed latest Colattao assets into transparent RGBA outputs (256 icons + 1024x341 logo), replaced app files, validated alpha/dimensions, and confirmed readable transparent logo
+- [2026-05-23 15:33:16] Replaced app item/logo assets with newest 03:22 PM icon versions and tuned DemoScene sprite/logo sizes
+- [2026-05-23 15:17:29] Adjusted bad item behavior to immediate loss message and preserved win payload/restart flow
+- [2026-05-23 15:17:28] Copied/renamed Colattao assets and integrated them into DemoScene with fallback-safe sprite loading
+- [2026-05-23 10:15:39] Polished DemoScene visuals (warm cafe background, upgraded start screen/HUD/items, improved loss text) with gameplay unchanged
+- [2026-05-23 10:13:42] Updated CHECKPOINT.md to mark manual browser verification as passed with full checklist
+- [2026-05-23 10:12:21] Updated CHECKPOINT.md manual verification section with explicit 2026-05-23 status and checkbox checklist due to unavailable browser automation tool
+- [2026-05-23 10:07:58] Build verified and CHECKPOINT.md updated with architecture, loop, events, and verification status
+- [2026-05-23 10:05:23] Added RESTART_GAME EventBus path from React Play Again to Phaser scene restart with listener cleanup
+- [2026-05-23 09:34:38] Ran stability verification commands and fixed remaining window-is-not-defined by dynamically importing scenes in GameCanvas
+- [2026-05-23 09:29:31] Moved Phaser import to dynamic import inside GameCanvas useEffect to prevent window evaluation at module load
+- [2026-05-23 09:21:29] Added win message before unchanged GAME_WON emit and kept restart-on-loss flow
+- [2026-05-23 09:21:29] Added Start screen gate, emoji falling items, spill penalty, and floating +10/Oops feedback in DemoScene
+- [2026-05-23 08:58:44] Resolved DemoScene lint warning after gameplay refactor
+- [2026-05-23 08:58:29] Added Try Again restart flow inside Phaser when timer ends before target
+- [2026-05-23 08:58:29] Replaced demo tap object with 20-second coffee-catching game loop and GAME_WON on score >= 100
+- [2026-05-23 08:53:34] Kept cooldown behavior unchanged while improving reward presentation
+- [2026-05-23 08:53:34] Polished VisualFlashPass with reward config, date/live clock/verification text, and premium mobile styling
+- [2026-05-23 08:45:05] Ran lint successfully after reward pass changes
+- [2026-05-23 08:45:04] Updated page to show/hide VisualFlashPass from GAME_WON without remounting Phaser
+- [2026-05-23 08:45:04] Implemented Visual Flash Pass UI and 12-hour localStorage cooldown with claim blocking
+- [2026-05-23 08:41:04] Ran lint successfully for Phase 1 bridge
+- [2026-05-23 08:40:41] Implemented Phase 1 React-Phaser bridge files and wired GAME_WON event listener in page
+- [2026-05-23 08:39:33] Moved Next.js scaffold into canonical root project folder
+- [2026-05-23 08:38:22] Scaffolded fresh Next.js TypeScript Tailwind app in temporary child folder
+
+## NEXT
+- [2026-05-30 13:41:27] Ask Anthony for Gemini branch name/remote or commit hash before any merge review work.
+- [2026-05-30 10:08:25] Confirm with Anthony that production had no new commits to deploy and decide whether to commit current local UI changes on main.
+- [2026-05-30 10:01:49] Confirm on-device layout and decide whether to tune Menu alignment next.
+- [2026-05-30 09:29:37] Run npm.cmd run build and return scoped git add/commit commands for header/canvas cleanup pass.
+- [2026-05-30 09:03:44] Confirm if Anthony is closing IDE for handoff execution or continuing with feedback implementation.
+- [2026-05-30 09:01:22] Confirm release tag exists remotely and ask whether to close session or branch next feature work.
+- [2026-05-30 08:59:54] Share docs-only git add/commit commands; no build run for this documentation pass.
+- [2026-05-30 08:54:36] Share scoped git add/commit commands and confirm temporary PIN choice with Anthony.
+- [2026-05-30 08:44:14] Run npm.cmd run build and share scoped git add/commit commands for metadata pass.
+- [2026-05-30 08:38:44] Run npm.cmd run build, then provide scoped git add/commit commands for header + canvas pass.
+- [2026-05-30 08:31:40] Run npm.cmd run build and report git add/commit commands for customer header pass.
+- [2026-05-30 08:26:31] Run final pre-flight artifact sweep for logs, dead links, and TODO/FIXME in active route and core component files.
+- [2026-05-30 08:24:15] Translate all customer-facing menu strings/data to English and verify build.
+- [2026-05-30 08:20:53] Revert game onboarding and victory overlay strings to English only; verify build.
+- [2026-05-30 08:18:57] Translate VisualFlashPass hardcoded victory text to Spanish only; keep behavior unchanged.
+- [2026-05-30 08:15:57] Audit game win emit path and React victory overlay UX/copy.
+- [2026-05-30 08:11:05] Add in-canvas Spanish onboarding HUD in DemoScene start overlay with first-tap start behavior.
+- [2026-05-30 08:05:17] Eradicate mojibake in game route and DemoScene string literals/emojis only, then build.
+- [2026-05-30 08:03:31] Audit game route, Phaser bridge, EventBus, and active scene for demo readiness gaps.
+- [2026-05-30 08:01:24] Patch menu contrast classes and remove favorites keys from style maps, then run build.
+- [2026-05-30 08:00:02] Audit menu route styling/contrast and check for leftover hearts layout artifacts.
+- [2026-05-30 07:57:49] Translate owner-command-center UI copy fully to Spanish and verify build.
+- [2026-05-30 07:55:19] Fix mojibake in app/game text and remove dead favorites references from owner command center copy.
+- [2026-05-30 07:53:29] Run git status and scan owner/demo UI files for TODOs/placeholders/high-priority gaps.
+- [2026-05-30 07:48:37] Implement 10-file frontend gate with 4MB total cap and backend allSettled upload + safe resend try/catch.
+- [2026-05-30 07:37:53] Patch only files filter duck-typing check in owner-requests route, then build/commit/push.
+- [2026-05-30 07:36:29] Inspect frontend fetch headers and backend files filter logic.
+- [2026-05-30 07:28:58] Fetch latest production POST /api/owner-requests logs and extract safe email/blob diagnostics.
+- [2026-05-30 07:24:34] Push local .gitignore cleanup commit to origin/main and wait for manual upload test result.
+- [2026-05-23 16:28:02] Run git hygiene checks and create initial MVP commit for first deployment
+- [2026-05-23 16:19:11] Update CHECKPOINT.md with latest demo readiness/autonomous marketing flow
+- [2026-05-23 16:15:18] Add client-side bonus share flow to VisualFlashPass without changing cooldown logic
+- [2026-05-23 15:41:28] Process newest Colattao images into transparent RGBA game-ready assets and overwrite app files
+- [2026-05-23 15:30:55] Locate newest updated icon assets and replace app asset files; tune DemoScene sprite sizes if needed
+- [2026-05-23 15:13:59] Copy/rename provided Colattao assets into public/assets folders and integrate in DemoScene
+- [2026-05-23 15:10:49] Locate downloaded Colattao assets and copy/rename into public/assets/colattao structure
+- [2026-05-23 10:14:27] Polish DemoScene visuals (cafe atmosphere/UI/start-loss-win presentation) with unchanged gameplay logic
+- [2026-05-23 10:13:29] Update CHECKPOINT.md manual verification status to passed
+- [2026-05-23 10:11:57] Run manual browser verification loop and update CHECKPOINT.md results
+- [2026-05-23 10:07:58] Run manual browser pass for gameplay and reward interactions before/after checkpoint commit
+- [2026-05-23 10:06:57] Run build verification and write CHECKPOINT.md
+- [2026-05-23 10:04:57] Add RESTART_GAME EventBus flow so Play Again restarts Phaser scene
+- [2026-05-23 09:34:38] Manual browser validation for gameplay win and cooldown claim/block flow
+- [2026-05-23 09:33:18] Run stability verification pass (dev/build/lint checks) after dynamic Phaser import fix
+- [2026-05-23 09:29:01] Refactor GameCanvas to dynamic-import Phaser inside useEffect
+- [2026-05-23 09:20:41] Polish DemoScene with start screen and emoji item gameplay
+- [2026-05-23 08:58:44] Manual gameplay verification in browser
+- [2026-05-23 08:57:21] Replace demo tap object with 20-second coffee-catching mini game in DemoScene
+- [2026-05-23 08:52:56] Polish VisualFlashPass UI and add reward config with no bridge changes
+- [2026-05-23 08:45:05] Manual browser verification of cooldown and live clock behavior
+- [2026-05-23 08:44:03] Implement VisualFlashPass component, cooldown utility, and page wiring
+- [2026-05-23 08:43:53] Inspect current page and styles before adding Visual Flash Pass and cooldown
+- [2026-05-23 08:40:41] Run lint to validate scaffolded bridge compiles cleanly
+- [2026-05-23 08:40:41] Create Phase 1 bridge files and wire page listener
+- [2026-05-23 08:39:33] Install Phaser dependency
+- [2026-05-23 08:38:22] Move scaffolded files to canonical root and remove temporary child folder
+- [2026-05-23 08:37:07] Scaffold in temporary child folder and move files into canonical root
+- [2026-05-23 08:36:55] Scaffold app with npx.cmd create-next-app
+- [2026-05-23 08:36:50] Scaffold fresh Next.js App Router TypeScript Tailwind project in canonical Desktop folder
+
+## BLOCKERS
+- [2026-05-30 13:41:27] No Gemini-created branch found in local or remote refs; only main and dev/post-demo-feedback exist and point to same commit.
+- [2026-05-23 08:36:55] PowerShell execution policy blocked npx.ps1
+- [2026-05-23 08:36:41] handoff show failed due to utf-8 BOM in console encoding
+- [2026-05-23 08:36:23] handoff show failed due to utf-8 BOM in console encoding
+
+## NOTES
+- [2026-05-23 08:41:04] Phaser mounts once in GameCanvas via refs and useEffect empty deps; React only subscribes to EventBus
+- [2026-05-23 08:37:07] create-next-app cannot use folder name with spaces/caps as package name; using temporary child folder then moving files to canonical root
+
+## Current Architecture & Constraints
+
+- **Language Split:** Game (`/`) and Menu (`/menu`) are strictly English for customers. Command Center (`/owner-command-center`) and Request Form (`/request-update`) are strictly Spanish for owners.
+- **Upload Resilience:** The `/request-update` form is hard-capped at 10 files / 4MB total on the client. The backend uses `Promise.allSettled` to prevent single-blob failures from crashing the email.
+- **Security:** The `/owner-command-center` is protected by a client-side PIN gate (currently `1234`).
+- **Canvas Scaling:** The Phaser game canvas dynamically resizes using `calc(100dvh - 56px)` to compensate for the unified customer header.
+ unified customer header.
