@@ -9,21 +9,34 @@ type DragState = {
   targetId: string | null;
 };
 
+type SendEmitter = {
+  id: string;
+  fromId: string;
+  toId: string;
+  owner: "player" | "enemy";
+  remainingUnits: number;
+  cadenceMs: number;
+  emitTimerMs: number;
+};
+
 type TowerView = {
   circle: Phaser.GameObjects.Arc;
   label: Phaser.GameObjects.Text;
   glow: Phaser.GameObjects.Arc;
+  inText: Phaser.GameObjects.Text;
+  outText: Phaser.GameObjects.Text;
 };
 
 const TOWER_RADIUS = 24;
+const DEFAULT_GLOW_ALPHA = 0.22;
 
 export class ConquestScene extends Phaser.Scene {
   private towers = new Map<string, TowerState>();
   private packets: PacketState[] = [];
+  private emitters: SendEmitter[] = [];
   private adjacency = new Map<string, Set<string>>();
   private towerViews = new Map<string, TowerView>();
 
-  private linksGraphics!: Phaser.GameObjects.Graphics;
   private dragGraphics!: Phaser.GameObjects.Graphics;
   private packetGraphics!: Phaser.GameObjects.Graphics;
 
@@ -36,6 +49,7 @@ export class ConquestScene extends Phaser.Scene {
   private aiThinkMs = 0;
   private gameOver = false;
   private packetSeq = 0;
+  private emitterSeq = 0;
 
   constructor() {
     super("ConquestScene");
@@ -46,7 +60,6 @@ export class ConquestScene extends Phaser.Scene {
 
     this.initializeState();
 
-    this.linksGraphics = this.add.graphics();
     this.dragGraphics = this.add.graphics();
     this.packetGraphics = this.add.graphics();
 
@@ -65,18 +78,7 @@ export class ConquestScene extends Phaser.Scene {
     });
     this.statusText.setOrigin(0.5, 0);
 
-    for (const tower of this.towers.values()) {
-      const glow = this.add.circle(0, 0, TOWER_RADIUS + 8, 0xffffff, 0.13);
-      const circle = this.add.circle(0, 0, TOWER_RADIUS, 0xffffff, 0.95).setStrokeStyle(2, 0xf1d199, 0.85);
-      const label = this.add.text(0, 0, "0", {
-        fontFamily: "Arial",
-        fontSize: "16px",
-        color: "#1a1209",
-        fontStyle: "bold",
-      });
-      label.setOrigin(0.5, 0.5);
-      this.towerViews.set(tower.id, { glow, circle, label });
-    }
+    this.createTowerViews();
 
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
       if (this.gameOver) {
@@ -132,20 +134,20 @@ export class ConquestScene extends Phaser.Scene {
     this.updateHud();
   }
 
-  update(_time: number, delta: number): void {
-    const dtSec = delta / 1000;
+  update(_time: number, deltaMs: number): void {
+    const dtSec = deltaMs / 1000;
 
     if (!this.gameOver) {
       this.timeLeftSec = Math.max(0, this.timeLeftSec - dtSec);
       this.applyGrowth(dtSec);
+      this.updateEmitters(deltaMs);
       this.updatePackets(dtSec);
-      this.runEnemyAi(delta);
+      this.runEnemyAi(deltaMs);
       this.checkEndState();
       this.updateHud();
       this.refreshTowerVisuals();
     }
 
-    this.drawLinks();
     this.drawDragPreview();
     this.drawPackets();
   }
@@ -153,7 +155,9 @@ export class ConquestScene extends Phaser.Scene {
   private initializeState(): void {
     this.towers.clear();
     this.packets = [];
+    this.emitters = [];
     this.packetSeq = 0;
+    this.emitterSeq = 0;
     this.timeLeftSec = FINA_CALLE_CONQUEST_CONFIG.rules.matchDurationSec;
     this.gameOver = false;
     this.dragState = null;
@@ -177,20 +181,7 @@ export class ConquestScene extends Phaser.Scene {
     }
   }
 
-  private resetMatch(): void {
-    for (const view of this.towerViews.values()) {
-      view.circle.destroy();
-      view.glow.destroy();
-      view.label.destroy();
-    }
-    this.towerViews.clear();
-    this.linksGraphics.clear();
-    this.dragGraphics.clear();
-    this.packetGraphics.clear();
-    this.statusText.setText("");
-
-    this.initializeState();
-
+  private createTowerViews(): void {
     for (const tower of this.towers.values()) {
       const glow = this.add.circle(0, 0, TOWER_RADIUS + 8, 0xffffff, 0.13);
       const circle = this.add.circle(0, 0, TOWER_RADIUS, 0xffffff, 0.95).setStrokeStyle(2, 0xf1d199, 0.85);
@@ -201,8 +192,40 @@ export class ConquestScene extends Phaser.Scene {
         fontStyle: "bold",
       });
       label.setOrigin(0.5, 0.5);
-      this.towerViews.set(tower.id, { glow, circle, label });
+
+      const inText = this.add.text(0, 0, "IN 0", {
+        fontFamily: "Arial",
+        fontSize: "10px",
+        color: "#e7d8bc",
+      });
+      inText.setOrigin(1, 0.5);
+
+      const outText = this.add.text(0, 0, "OUT 0", {
+        fontFamily: "Arial",
+        fontSize: "10px",
+        color: "#e7d8bc",
+      });
+      outText.setOrigin(0, 0.5);
+
+      this.towerViews.set(tower.id, { glow, circle, label, inText, outText });
     }
+  }
+
+  private resetMatch(): void {
+    for (const view of this.towerViews.values()) {
+      view.circle.destroy();
+      view.glow.destroy();
+      view.label.destroy();
+      view.inText.destroy();
+      view.outText.destroy();
+    }
+    this.towerViews.clear();
+    this.dragGraphics.clear();
+    this.packetGraphics.clear();
+    this.statusText.setText("");
+
+    this.initializeState();
+    this.createTowerViews();
 
     this.layoutScene();
     this.refreshTowerVisuals();
@@ -277,18 +300,54 @@ export class ConquestScene extends Phaser.Scene {
     const target = this.towers.get(toId);
     if (!source || !target || source.owner !== sender) return;
 
-    const amount = Math.floor(source.value * FINA_CALLE_CONQUEST_CONFIG.rules.sendPercent);
+    const sourceValueAtSend = source.value;
+    const amount = Math.floor(sourceValueAtSend * FINA_CALLE_CONQUEST_CONFIG.rules.sendPercent);
     if (amount < 1) return;
 
     source.value -= amount;
-    this.packets.push({
-      id: `pkt-${this.packetSeq++}`,
+
+    this.emitters.push({
+      id: `emit-${this.emitterSeq++}`,
       fromId,
       toId,
       owner: sender,
-      amount,
-      progress: 0,
+      remainingUnits: amount,
+      cadenceMs: this.computeCadenceMs(sourceValueAtSend),
+      emitTimerMs: 0,
     });
+  }
+
+  private computeCadenceMs(sourceValue: number): number {
+    // Higher tower value emits queued single units faster.
+    // At low values cadence is slower; at high values cadence approaches the lower cap.
+    return Phaser.Math.Clamp(220 - Math.floor(sourceValue) * 2, 45, 220);
+  }
+
+  private updateEmitters(deltaMs: number): void {
+    const next: SendEmitter[] = [];
+
+    for (const emitter of this.emitters) {
+      emitter.emitTimerMs -= deltaMs;
+
+      while (emitter.remainingUnits > 0 && emitter.emitTimerMs <= 0) {
+        this.packets.push({
+          id: `pkt-${this.packetSeq++}`,
+          fromId: emitter.fromId,
+          toId: emitter.toId,
+          owner: emitter.owner,
+          amount: 1,
+          progress: 0,
+        });
+        emitter.remainingUnits -= 1;
+        emitter.emitTimerMs += emitter.cadenceMs;
+      }
+
+      if (emitter.remainingUnits > 0) {
+        next.push(emitter);
+      }
+    }
+
+    this.emitters = next;
   }
 
   private updatePackets(dtSec: number): void {
@@ -398,25 +457,13 @@ export class ConquestScene extends Phaser.Scene {
       view.glow.setPosition(pos.x, pos.y);
       view.circle.setPosition(pos.x, pos.y);
       view.label.setPosition(pos.x, pos.y);
+      view.inText.setPosition(pos.x - (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
+      view.outText.setPosition(pos.x + (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
     }
 
     const size = this.scale.gameSize;
     this.timerText.setPosition(size.width / 2, 12);
     this.statusText.setPosition(size.width / 2, 42);
-  }
-
-  private drawLinks(): void {
-    this.linksGraphics.clear();
-    this.linksGraphics.lineStyle(2, FINA_CALLE_CONQUEST_CONFIG.colors.grid, 0.7);
-
-    for (const link of FINA_CALLE_CONQUEST_CONFIG.links) {
-      const a = this.towers.get(link.a);
-      const b = this.towers.get(link.b);
-      if (!a || !b) continue;
-      const pa = this.toScreen(a.xPct, a.yPct);
-      const pb = this.toScreen(b.xPct, b.yPct);
-      this.linksGraphics.lineBetween(pa.x, pa.y, pb.x, pb.y);
-    }
   }
 
   private drawDragPreview(): void {
@@ -428,7 +475,10 @@ export class ConquestScene extends Phaser.Scene {
 
     const from = this.toScreen(source.xPct, source.yPct);
     const to = this.dragState.targetId
-      ? this.toScreen(this.towers.get(this.dragState.targetId)?.xPct ?? source.xPct, this.towers.get(this.dragState.targetId)?.yPct ?? source.yPct)
+      ? this.toScreen(
+          this.towers.get(this.dragState.targetId)?.xPct ?? source.xPct,
+          this.towers.get(this.dragState.targetId)?.yPct ?? source.yPct,
+        )
       : { x: this.dragState.pointerX, y: this.dragState.pointerY };
 
     this.dragGraphics.lineStyle(3, 0xe4bf6d, 0.9);
@@ -451,27 +501,79 @@ export class ConquestScene extends Phaser.Scene {
       const y = Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress);
 
       const color = packet.owner === "player" ? FINA_CALLE_CONQUEST_CONFIG.colors.player : FINA_CALLE_CONQUEST_CONFIG.colors.enemy;
-      this.packetGraphics.lineStyle(2, color, 0.35);
-      const backProgress = Math.max(0, packet.progress - 0.08);
+      this.packetGraphics.lineStyle(2, color, 0.32);
+      const backProgress = Math.max(0, packet.progress - 0.06);
       const tx = Phaser.Math.Linear(fromPos.x, toPos.x, backProgress);
       const ty = Phaser.Math.Linear(fromPos.y, toPos.y, backProgress);
       this.packetGraphics.lineBetween(tx, ty, x, y);
 
       this.packetGraphics.fillStyle(color, 0.95);
-      this.packetGraphics.fillCircle(x, y, 4);
+      this.packetGraphics.fillCircle(x, y, 3.5);
     }
   }
 
   private refreshTowerVisuals(): void {
+    const linkedTargets = this.dragState ? this.adjacency.get(this.dragState.sourceId) : undefined;
+
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
       if (!view) continue;
 
       const color = this.ownerColor(tower.owner);
       view.circle.setFillStyle(color, 0.96);
-      view.glow.setFillStyle(color, 0.22);
       view.label.setText(String(Math.floor(tower.value)));
+
+      let glowAlpha = DEFAULT_GLOW_ALPHA;
+      let strokeWidth = 2;
+      let strokeColor = 0xf1d199;
+      let strokeAlpha = 0.85;
+
+      if (this.dragState && tower.id === this.dragState.sourceId) {
+        glowAlpha = 0.5;
+        strokeWidth = 3;
+        strokeColor = 0xffde8a;
+        strokeAlpha = 1;
+      } else if (linkedTargets?.has(tower.id)) {
+        glowAlpha = 0.4;
+        strokeWidth = 2;
+        strokeColor = 0xe4bf6d;
+        strokeAlpha = 0.95;
+      }
+
+      view.glow.setFillStyle(color, glowAlpha);
+      view.circle.setStrokeStyle(strokeWidth, strokeColor, strokeAlpha);
+
+      const outgoing = this.getOutgoingCount(tower.id);
+      const incoming = this.getIncomingCount(tower.id);
+      view.inText.setText(`IN ${incoming}`);
+      view.outText.setText(`OUT ${outgoing}`);
+      view.inText.setAlpha(incoming > 0 ? 1 : 0.48);
+      view.outText.setAlpha(outgoing > 0 ? 1 : 0.48);
     }
+  }
+
+  private getOutgoingCount(towerId: string): number {
+    let queued = 0;
+    for (const emitter of this.emitters) {
+      if (emitter.fromId === towerId) queued += emitter.remainingUnits;
+    }
+    let inFlight = 0;
+    for (const packet of this.packets) {
+      if (packet.fromId === towerId) inFlight += packet.amount;
+    }
+    return queued + inFlight;
+  }
+
+  private getIncomingCount(towerId: string): number {
+    let queued = 0;
+    for (const emitter of this.emitters) {
+      if (emitter.toId === towerId) queued += emitter.remainingUnits;
+    }
+    let inFlight = 0;
+    for (const packet of this.packets) {
+      if (packet.toId === towerId) inFlight += packet.amount;
+    }
+    return queued + inFlight;
   }
 
   private ownerColor(owner: Owner): number {
