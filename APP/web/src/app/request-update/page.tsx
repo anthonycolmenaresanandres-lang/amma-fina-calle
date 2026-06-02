@@ -23,29 +23,21 @@ export default function RequestUpdatePage() {
           <span className="hidden sm:inline">Phase 1 Intake</span>
         </header>
 
-        <div className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:py-10">
-          <section className="flex flex-col items-start">
-            <div className="flex items-center gap-4">
-              <img
-                src="/assets/fina-calle-os-logo.png"
-                alt="Fina Calle OS"
-                className="h-16 w-16 rounded-2xl border border-[#cfd6da]/18 bg-black/30 object-cover shadow-[0_18px_42px_-26px_rgba(255,255,255,0.5)] sm:h-20 sm:w-20"
-                loading="eager"
-              />
-              <div>
-                <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
-                  Phase 1 Build Request
-                </p>
-                <p className="mt-2 text-sm uppercase tracking-[0.24em] text-[#aeb7bd]">
-                  Fina Calle OS Intake
-                </p>
-              </div>
-            </div>
+        <section className="pt-6 sm:pt-8" aria-label="Fina Calle OS intake hero">
+          <img
+            src="/assets/fina-calle-intake-hero.png"
+            alt="Fina Calle OS Intake. Phase 1 Build Request. Tell us what your business needs."
+            className="block h-auto w-full rounded-[1.75rem] border border-[#cfd6da]/14 bg-[#07090b] shadow-[0_34px_90px_-58px_rgba(255,255,255,0.55)]"
+            loading="eager"
+          />
+        </section>
 
-            <h1 className="mt-8 max-w-xl text-balance text-4xl font-semibold leading-tight tracking-normal text-white sm:text-5xl lg:text-6xl">
-              Tell us what your business needs.
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
+        <div className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:py-10">
+          <section className="flex flex-col items-start">
+            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
+              Intake Control Panel
+            </p>
+            <p className="mt-4 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
               Request a QR menu, branded web system, mini-game, customer
               journey, or digital storefront upgrade.
             </p>

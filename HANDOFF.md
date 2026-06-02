@@ -142,3 +142,23 @@ Run python handoff.py start and show, then inspect relevant repo files read-only
 - [2026-06-02 18:42:59] DONE: verified Fina Calle OS intake page customization build passed before commit
 
 - [2026-06-02 18:43:00] NEXT: commit and push approved Fina Calle OS intake page customization
+
+- [2026-06-02 18:50:33] START: Handoff session started
+
+- [2026-06-02 18:50:45] NOTE: scope changed by user: create deterministic PNG-style intake hero asset and place it on /request-update while preserving form endpoint payload validation API and Conquest files
+
+- [2026-06-02 18:50:45] NEXT: generate APP/web/public/assets/fina-calle-intake-hero.png from existing Fina Calle OS logo and update request-update page presentation only
+
+- [2026-06-02 18:53:52] DONE: generated Fina Calle OS intake hero PNG and placed it at top of request-update page without form API behavior changes
+
+- [2026-06-02 18:53:52] NEXT: run APP/web build and verify endpoint API Conquest and final status
+
+- [2026-06-02 18:54:36] DONE: verified APP/web build passes after adding Fina Calle intake hero PNG to request-update
+
+- [2026-06-02 18:54:36] NEXT: review intake hero asset and commit request-update page plus asset if approved
+
+- [2026-06-02 19:49:45] START: Handoff session started
+
+- [2026-06-02 19:50:44] DONE: verified Fina Calle intake hero asset build passed before commit
+
+- [2026-06-02 19:50:44] NEXT: commit and push approved Fina Calle intake hero asset files
