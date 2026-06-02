@@ -59,6 +59,12 @@ export default function Home() {
               >
                 Explore the Conquest Prototype
               </a>
+              <a
+                href="/request-update"
+                className="inline-flex min-h-12 items-center justify-center border border-[#91b9c6]/55 px-5 text-sm font-semibold uppercase tracking-[0.16em] text-[#d8eef4] transition hover:border-[#91b9c6] hover:bg-[#91b9c6]/10"
+              >
+                Request an Update
+              </a>
               <span
                 aria-disabled="true"
                 className="inline-flex min-h-12 cursor-not-allowed items-center justify-center border border-[#ead7b6]/30 px-5 text-sm font-semibold uppercase tracking-[0.16em] text-[#ead7b6]/55"
