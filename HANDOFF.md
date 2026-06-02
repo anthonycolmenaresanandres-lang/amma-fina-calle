@@ -100,3 +100,19 @@ Run python handoff.py start and show, then inspect relevant repo files read-only
 - [2026-06-02 18:14:59] DONE: verified approved landing and Conquest changes build successfully before commit
 
 - [2026-06-02 18:15:00] NEXT: commit and push approved landing redesign plus Conquest demo updates
+
+- [2026-06-02 18:19:49] START: Handoff session started
+
+- [2026-06-02 18:19:49] NOTE: scope changed by user: redesign only APP/web root landing page around approved Fina Calle OS logo asset; Conquest routes and logic remain out of scope
+
+- [2026-06-02 18:19:49] NEXT: locate approved uploaded Fina Calle OS logo and update APP/web root landing page only
+
+- [2026-06-02 18:22:41] DONE: copied approved Fina Calle OS logo asset and redesigned APP/web root landing page around the logo
+
+- [2026-06-02 18:22:41] NEXT: run APP/web build and verify landing-only scope
+
+- [2026-06-02 18:25:59] START: Handoff session started
+
+- [2026-06-02 18:26:41] DONE: verified Fina Calle OS logo landing page build passed and Conquest files have no diff before commit
+
+- [2026-06-02 18:26:41] NEXT: commit and push approved Fina Calle OS landing page files
