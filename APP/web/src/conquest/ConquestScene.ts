@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { FINA_CALLE_CONQUEST_CONFIG } from "./config";
-import type { Owner, PacketState, TowerState } from "./types";
+import { DEFAULT_CONQUEST_LEVEL } from "./config";
+import type { EngineConfig, Owner, PacketState, TowerState } from "./types";
 
 type DragState = {
   sourceId: string;
@@ -27,15 +27,22 @@ type TowerView = {
   outText: Phaser.GameObjects.Text;
 };
 
+type StickerView = {
+  badge: Phaser.GameObjects.Rectangle;
+  label: Phaser.GameObjects.Text;
+};
+
 const TOWER_RADIUS = 24;
 const DEFAULT_GLOW_ALPHA = 0.22;
 
 export class ConquestScene extends Phaser.Scene {
+  private levelConfig: EngineConfig;
   private towers = new Map<string, TowerState>();
   private packets: PacketState[] = [];
   private emitters: SendEmitter[] = [];
   private adjacency = new Map<string, Set<string>>();
   private towerViews = new Map<string, TowerView>();
+  private stickerViews = new Map<string, StickerView>();
 
   private dragGraphics!: Phaser.GameObjects.Graphics;
   private packetGraphics!: Phaser.GameObjects.Graphics;
@@ -45,18 +52,19 @@ export class ConquestScene extends Phaser.Scene {
 
   private dragState: DragState | null = null;
 
-  private timeLeftSec = FINA_CALLE_CONQUEST_CONFIG.rules.matchDurationSec;
+  private timeLeftSec = DEFAULT_CONQUEST_LEVEL.rules.matchDurationSec;
   private aiThinkMs = 0;
   private gameOver = false;
   private packetSeq = 0;
   private emitterSeq = 0;
 
-  constructor() {
-    super("ConquestScene");
+  constructor(levelConfig: EngineConfig = DEFAULT_CONQUEST_LEVEL) {
+    super(`ConquestScene-${levelConfig.id}`);
+    this.levelConfig = levelConfig;
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(FINA_CALLE_CONQUEST_CONFIG.colors.bg);
+    this.cameras.main.setBackgroundColor(this.levelConfig.colors.bg);
 
     this.initializeState();
 
@@ -66,19 +74,20 @@ export class ConquestScene extends Phaser.Scene {
     this.timerText = this.add.text(0, 0, "", {
       fontFamily: "Georgia, serif",
       fontSize: "20px",
-      color: FINA_CALLE_CONQUEST_CONFIG.colors.text,
+      color: this.levelConfig.colors.text,
     });
     this.timerText.setOrigin(0.5, 0);
 
     this.statusText = this.add.text(0, 0, "", {
       fontFamily: "Georgia, serif",
       fontSize: "14px",
-      color: FINA_CALLE_CONQUEST_CONFIG.colors.text,
+      color: this.levelConfig.colors.text,
       align: "center",
     });
     this.statusText.setOrigin(0.5, 0);
 
     this.createTowerViews();
+    this.createStickerViews();
 
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
       if (this.gameOver) {
@@ -158,11 +167,11 @@ export class ConquestScene extends Phaser.Scene {
     this.emitters = [];
     this.packetSeq = 0;
     this.emitterSeq = 0;
-    this.timeLeftSec = FINA_CALLE_CONQUEST_CONFIG.rules.matchDurationSec;
+    this.timeLeftSec = this.levelConfig.rules.matchDurationSec;
     this.gameOver = false;
     this.dragState = null;
 
-    for (const tower of FINA_CALLE_CONQUEST_CONFIG.towers) {
+    for (const tower of this.levelConfig.towers) {
       this.towers.set(tower.id, {
         id: tower.id,
         xPct: tower.xPct,
@@ -173,7 +182,7 @@ export class ConquestScene extends Phaser.Scene {
     }
 
     this.adjacency.clear();
-    for (const { a, b } of FINA_CALLE_CONQUEST_CONFIG.links) {
+    for (const { a, b } of this.levelConfig.links) {
       if (!this.adjacency.has(a)) this.adjacency.set(a, new Set());
       if (!this.adjacency.has(b)) this.adjacency.set(b, new Set());
       this.adjacency.get(a)?.add(b);
@@ -211,6 +220,20 @@ export class ConquestScene extends Phaser.Scene {
     }
   }
 
+  private createStickerViews(): void {
+    for (const sticker of this.levelConfig.stickers ?? []) {
+      const badge = this.add.rectangle(0, 0, 54, 22, 0x2b170d, 0.94).setStrokeStyle(1, 0xd4a24c, 0.78);
+      const label = this.add.text(0, 0, sticker.label, {
+        fontFamily: "Arial",
+        fontSize: "10px",
+        color: "#f4e6cc",
+        fontStyle: "bold",
+      });
+      label.setOrigin(0.5, 0.5);
+      this.stickerViews.set(sticker.id, { badge, label });
+    }
+  }
+
   private resetMatch(): void {
     for (const view of this.towerViews.values()) {
       view.circle.destroy();
@@ -219,13 +242,19 @@ export class ConquestScene extends Phaser.Scene {
       view.inText.destroy();
       view.outText.destroy();
     }
+    for (const view of this.stickerViews.values()) {
+      view.badge.destroy();
+      view.label.destroy();
+    }
     this.towerViews.clear();
+    this.stickerViews.clear();
     this.dragGraphics.clear();
     this.packetGraphics.clear();
     this.statusText.setText("");
 
     this.initializeState();
     this.createTowerViews();
+    this.createStickerViews();
 
     this.layoutScene();
     this.refreshTowerVisuals();
@@ -235,7 +264,7 @@ export class ConquestScene extends Phaser.Scene {
 
   private updateHud(): void {
     const timer = Math.ceil(this.timeLeftSec);
-    this.timerText.setText(`${FINA_CALLE_CONQUEST_CONFIG.brandName}  |  ${timer}s`);
+    this.timerText.setText(`Level ${this.levelConfig.levelNumber}: ${this.levelConfig.levelName}  |  ${timer}s`);
 
     const size = this.scale.gameSize;
     this.timerText.setPosition(size.width / 2, 12);
@@ -243,10 +272,10 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private applyGrowth(dtSec: number): void {
-    const growth = FINA_CALLE_CONQUEST_CONFIG.rules.growthPerSec * dtSec;
+    const growth = this.levelConfig.rules.growthPerSec * dtSec;
     for (const tower of this.towers.values()) {
       if (tower.owner === "neutral") continue;
-      tower.value = Math.min(FINA_CALLE_CONQUEST_CONFIG.rules.maxTowerValue, tower.value + growth);
+      tower.value = Math.min(this.levelConfig.rules.maxTowerValue, tower.value + growth);
     }
   }
 
@@ -272,7 +301,7 @@ export class ConquestScene extends Phaser.Scene {
         const target = this.towers.get(targetId);
         if (!target || target.owner === "enemy") continue;
 
-        const sendAmount = Math.floor(source.value * FINA_CALLE_CONQUEST_CONFIG.rules.sendPercent);
+        const sendAmount = Math.floor(source.value * this.levelConfig.rules.sendPercent);
         let score = 100 - target.value;
         if (target.owner === "neutral") score += 8;
         if (sendAmount > target.value) score += 20;
@@ -289,7 +318,7 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private scheduleNextAi(): void {
-    const { aiThinkMinMs, aiThinkMaxMs } = FINA_CALLE_CONQUEST_CONFIG.rules;
+    const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
     this.aiThinkMs = Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs);
   }
 
@@ -301,7 +330,7 @@ export class ConquestScene extends Phaser.Scene {
     if (!source || !target || source.owner !== sender) return;
 
     const sourceValueAtSend = source.value;
-    const amount = Math.floor(sourceValueAtSend * FINA_CALLE_CONQUEST_CONFIG.rules.sendPercent);
+    const amount = Math.floor(sourceValueAtSend * this.levelConfig.rules.sendPercent);
     if (amount < 1) return;
 
     source.value -= amount;
@@ -351,7 +380,7 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private updatePackets(dtSec: number): void {
-    const speed = FINA_CALLE_CONQUEST_CONFIG.rules.projectileSpeed;
+    const speed = this.levelConfig.rules.projectileSpeed;
     const next: PacketState[] = [];
 
     for (const packet of this.packets) {
@@ -382,7 +411,7 @@ export class ConquestScene extends Phaser.Scene {
     if (!target) return;
 
     if (target.owner === packet.owner) {
-      target.value = Math.min(FINA_CALLE_CONQUEST_CONFIG.rules.maxTowerValue, target.value + packet.amount);
+      target.value = Math.min(this.levelConfig.rules.maxTowerValue, target.value + packet.amount);
       return;
     }
 
@@ -432,8 +461,8 @@ export class ConquestScene extends Phaser.Scene {
     this.gameOver = true;
     this.statusText.setText(
       result === "win"
-        ? `${FINA_CALLE_CONQUEST_CONFIG.winText}\nTap anywhere to replay`
-        : `${FINA_CALLE_CONQUEST_CONFIG.loseText}\nTap anywhere to replay`,
+        ? `${this.levelConfig.winText}\nTap Replay or choose another level`
+        : `${this.levelConfig.loseText}\nTap Replay or choose another level`,
     );
   }
 
@@ -459,6 +488,18 @@ export class ConquestScene extends Phaser.Scene {
       view.label.setPosition(pos.x, pos.y);
       view.inText.setPosition(pos.x - (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
       view.outText.setPosition(pos.x + (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
+    }
+
+    for (const sticker of this.levelConfig.stickers ?? []) {
+      const tower = this.towers.get(sticker.towerId);
+      const view = this.stickerViews.get(sticker.id);
+      if (!tower || !view) continue;
+
+      const towerPos = this.toScreen(tower.xPct, tower.yPct);
+      const x = towerPos.x + (this.scale.gameSize.width * sticker.xOffsetPct) / 100;
+      const y = towerPos.y + (this.scale.gameSize.height * sticker.yOffsetPct) / 100;
+      view.badge.setPosition(x, y);
+      view.label.setPosition(x, y);
     }
 
     const size = this.scale.gameSize;
@@ -500,7 +541,7 @@ export class ConquestScene extends Phaser.Scene {
       const x = Phaser.Math.Linear(fromPos.x, toPos.x, packet.progress);
       const y = Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress);
 
-      const color = packet.owner === "player" ? FINA_CALLE_CONQUEST_CONFIG.colors.player : FINA_CALLE_CONQUEST_CONFIG.colors.enemy;
+      const color = packet.owner === "player" ? this.levelConfig.colors.player : this.levelConfig.colors.enemy;
       this.packetGraphics.lineStyle(2, color, 0.32);
       const backProgress = Math.max(0, packet.progress - 0.06);
       const tx = Phaser.Math.Linear(fromPos.x, toPos.x, backProgress);
@@ -577,9 +618,9 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private ownerColor(owner: Owner): number {
-    if (owner === "player") return FINA_CALLE_CONQUEST_CONFIG.colors.player;
-    if (owner === "enemy") return FINA_CALLE_CONQUEST_CONFIG.colors.enemy;
-    return FINA_CALLE_CONQUEST_CONFIG.colors.neutral;
+    if (owner === "player") return this.levelConfig.colors.player;
+    if (owner === "enemy") return this.levelConfig.colors.enemy;
+    return this.levelConfig.colors.neutral;
   }
 
   private findTowerAt(x: number, y: number): TowerState | null {

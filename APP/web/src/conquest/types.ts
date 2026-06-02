@@ -8,6 +8,14 @@ export type TowerConfig = {
   value: number;
 };
 
+export type StickerConfig = {
+  id: string;
+  towerId: string;
+  label: string;
+  xOffsetPct: number;
+  yOffsetPct: number;
+};
+
 export type LinkConfig = {
   a: string;
   b: string;
@@ -25,8 +33,12 @@ export type RulesConfig = {
 };
 
 export type EngineConfig = {
+  id: string;
+  levelNumber: number;
+  levelName: string;
   brandName: string;
   skinName: string;
+  selectText: string;
   winText: string;
   loseText: string;
   colors: {
@@ -40,6 +52,7 @@ export type EngineConfig = {
   rules: RulesConfig;
   towers: TowerConfig[];
   links: LinkConfig[];
+  stickers?: StickerConfig[];
 };
 
 export type TowerState = {
