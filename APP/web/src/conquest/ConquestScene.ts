@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { DEFAULT_CONQUEST_LEVEL } from "./config";
-import type { EngineConfig, Owner, PacketState, TowerState } from "./types";
+import type { EngineConfig, Owner, PacketState, StickerConfig, TowerState } from "./types";
 
 type DragState = {
   sourceId: string;
@@ -32,7 +32,6 @@ type StickerView = {
   label: Phaser.GameObjects.Text;
 };
 
-const TOWER_RADIUS = 24;
 const DEFAULT_GLOW_ALPHA = 0.22;
 
 export class ConquestScene extends Phaser.Scene {
@@ -191,12 +190,16 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private createTowerViews(): void {
+    const towerRadius = this.towerRadius();
+    const labelSize = Math.max(17, Math.round(towerRadius * 0.62));
+    const counterSize = Math.max(11, Math.round(towerRadius * 0.34));
+
     for (const tower of this.towers.values()) {
-      const glow = this.add.circle(0, 0, TOWER_RADIUS + 8, 0xffffff, 0.13);
-      const circle = this.add.circle(0, 0, TOWER_RADIUS, 0xffffff, 0.95).setStrokeStyle(2, 0xf1d199, 0.85);
+      const glow = this.add.circle(0, 0, towerRadius + 12, 0xffffff, 0.13);
+      const circle = this.add.circle(0, 0, towerRadius, 0xffffff, 0.95).setStrokeStyle(2, 0xf1d199, 0.85);
       const label = this.add.text(0, 0, "0", {
         fontFamily: "Arial",
-        fontSize: "16px",
+        fontSize: `${labelSize}px`,
         color: "#1a1209",
         fontStyle: "bold",
       });
@@ -204,14 +207,14 @@ export class ConquestScene extends Phaser.Scene {
 
       const inText = this.add.text(0, 0, "IN 0", {
         fontFamily: "Arial",
-        fontSize: "10px",
+        fontSize: `${counterSize}px`,
         color: "#e7d8bc",
       });
       inText.setOrigin(1, 0.5);
 
       const outText = this.add.text(0, 0, "OUT 0", {
         fontFamily: "Arial",
-        fontSize: "10px",
+        fontSize: `${counterSize}px`,
         color: "#e7d8bc",
       });
       outText.setOrigin(0, 0.5);
@@ -221,11 +224,16 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private createStickerViews(): void {
-    for (const sticker of this.levelConfig.stickers ?? []) {
-      const badge = this.add.rectangle(0, 0, 54, 22, 0x2b170d, 0.94).setStrokeStyle(1, 0xd4a24c, 0.78);
+    const scale = this.levelConfig.rules.stickerScale;
+    const badgeWidth = 54 * scale;
+    const badgeHeight = 22 * scale;
+    const fontSize = Math.max(10, Math.round(10 * scale));
+
+    for (const sticker of this.activeStickers()) {
+      const badge = this.add.rectangle(0, 0, badgeWidth, badgeHeight, 0x2b170d, 0.94).setStrokeStyle(1, 0xd4a24c, 0.78);
       const label = this.add.text(0, 0, sticker.label, {
         fontFamily: "Arial",
-        fontSize: "10px",
+        fontSize: `${fontSize}px`,
         color: "#f4e6cc",
         fontStyle: "bold",
       });
@@ -347,9 +355,15 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private computeCadenceMs(sourceValue: number): number {
-    // Higher tower value emits queued single units faster.
-    // At low values cadence is slower; at high values cadence approaches the lower cap.
-    return Phaser.Math.Clamp(220 - Math.floor(sourceValue) * 2, 45, 220);
+    const { sendCadenceBaseMs, sendCadenceMinMs, sendCadenceValueMultiplier } = this.levelConfig.rules;
+
+    // Higher tower value emits queued single units faster, but the config keeps
+    // the flow deliberately slower and readable for branded storefront skins.
+    return Phaser.Math.Clamp(
+      sendCadenceBaseMs - Math.floor(sourceValue * sendCadenceValueMultiplier),
+      sendCadenceMinMs,
+      sendCadenceBaseMs,
+    );
   }
 
   private updateEmitters(deltaMs: number): void {
@@ -479,6 +493,10 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private layoutScene(): void {
+    const towerRadius = this.towerRadius();
+    const counterOffsetX = towerRadius + 9;
+    const counterOffsetY = towerRadius + 11;
+
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
       if (!view) continue;
@@ -486,11 +504,11 @@ export class ConquestScene extends Phaser.Scene {
       view.glow.setPosition(pos.x, pos.y);
       view.circle.setPosition(pos.x, pos.y);
       view.label.setPosition(pos.x, pos.y);
-      view.inText.setPosition(pos.x - (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
-      view.outText.setPosition(pos.x + (TOWER_RADIUS + 6), pos.y - (TOWER_RADIUS + 8));
+      view.inText.setPosition(pos.x - counterOffsetX, pos.y - counterOffsetY);
+      view.outText.setPosition(pos.x + counterOffsetX, pos.y - counterOffsetY);
     }
 
-    for (const sticker of this.levelConfig.stickers ?? []) {
+    for (const sticker of this.activeStickers()) {
       const tower = this.towers.get(sticker.towerId);
       const view = this.stickerViews.get(sticker.id);
       if (!tower || !view) continue;
@@ -525,7 +543,7 @@ export class ConquestScene extends Phaser.Scene {
     this.dragGraphics.lineStyle(3, 0xe4bf6d, 0.9);
     this.dragGraphics.lineBetween(from.x, from.y, to.x, to.y);
     this.dragGraphics.fillStyle(0xe4bf6d, 0.85);
-    this.dragGraphics.fillCircle(to.x, to.y, 6);
+    this.dragGraphics.fillCircle(to.x, to.y, this.levelConfig.rules.unitRadius + 2);
   }
 
   private drawPackets(): void {
@@ -549,7 +567,7 @@ export class ConquestScene extends Phaser.Scene {
       this.packetGraphics.lineBetween(tx, ty, x, y);
 
       this.packetGraphics.fillStyle(color, 0.95);
-      this.packetGraphics.fillCircle(x, y, 3.5);
+      this.packetGraphics.fillCircle(x, y, this.levelConfig.rules.unitRadius);
     }
   }
 
@@ -624,9 +642,11 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private findTowerAt(x: number, y: number): TowerState | null {
+    const hitRadius = this.towerRadius() + 12;
+
     for (const tower of this.towers.values()) {
       const pos = this.toScreen(tower.xPct, tower.yPct);
-      if (Phaser.Math.Distance.Between(x, y, pos.x, pos.y) <= TOWER_RADIUS + 8) {
+      if (Phaser.Math.Distance.Between(x, y, pos.x, pos.y) <= hitRadius) {
         return tower;
       }
     }
@@ -639,9 +659,10 @@ export class ConquestScene extends Phaser.Scene {
 
   private toScreen(xPct: number, yPct: number): { x: number; y: number } {
     const size = this.scale.gameSize;
-    const padX = 24;
-    const padTop = 84;
-    const padBottom = 32;
+    const towerRadius = this.towerRadius();
+    const padX = Math.max(24, towerRadius + 10);
+    const padTop = Math.max(84, towerRadius + 54);
+    const padBottom = Math.max(32, towerRadius + 8);
 
     const usableW = Math.max(1, size.width - padX * 2);
     const usableH = Math.max(1, size.height - padTop - padBottom);
@@ -650,5 +671,13 @@ export class ConquestScene extends Phaser.Scene {
       x: padX + (xPct / 100) * usableW,
       y: padTop + (yPct / 100) * usableH,
     };
+  }
+
+  private towerRadius(): number {
+    return this.levelConfig.rules.towerRadius;
+  }
+
+  private activeStickers(): StickerConfig[] {
+    return (this.levelConfig.stickers ?? []).slice(0, this.levelConfig.rules.maxStickerCount);
   }
 }

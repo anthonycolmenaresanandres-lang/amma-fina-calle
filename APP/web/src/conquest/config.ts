@@ -10,15 +10,28 @@ const baseColors: EngineConfig["colors"] = {
 };
 
 const baseRules: EngineConfig["rules"] = {
-  matchDurationSec: 60,
+  matchDurationSec: 80,
   tickMs: 100,
-  growthPerSec: 1.2,
+  growthPerSec: 0.75,
   maxTowerValue: 99,
   sendPercent: 0.5,
-  projectileSpeed: 420,
-  aiThinkMinMs: 800,
-  aiThinkMaxMs: 1200,
+  towerRadius: 32,
+  unitRadius: 4.2,
+  projectileSpeed: 250,
+  sendCadenceBaseMs: 320,
+  sendCadenceMinMs: 100,
+  sendCadenceValueMultiplier: 2.5,
+  stickerScale: 1,
+  maxStickerCount: 4,
+  visualDensity: "medium",
+  aiThinkMinMs: 1200,
+  aiThinkMaxMs: 1700,
 };
+
+// Future sticker skins should stay lightweight: prefer transparent WebP,
+// 256-512px source art, optimized as small badges/stickers in-game.
+// Avoid video, heavy backgrounds, and asset-heavy worlds in V1; keep each
+// client skin roughly under 1-2 MB total.
 
 export const CONQUEST_LEVELS: EngineConfig[] = [
   {
@@ -33,10 +46,19 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     colors: baseColors,
     rules: {
       ...baseRules,
-      matchDurationSec: 45,
-      growthPerSec: 1,
-      aiThinkMinMs: 1800,
-      aiThinkMaxMs: 2600,
+      matchDurationSec: 75,
+      growthPerSec: 0.55,
+      towerRadius: 34,
+      unitRadius: 4.5,
+      projectileSpeed: 210,
+      sendCadenceBaseMs: 360,
+      sendCadenceMinMs: 130,
+      sendCadenceValueMultiplier: 3,
+      stickerScale: 0.9,
+      maxStickerCount: 3,
+      visualDensity: "simple",
+      aiThinkMinMs: 2600,
+      aiThinkMaxMs: 3600,
     },
     towers: [
       { id: "p1", xPct: 22, yPct: 56, owner: "player", value: 30 },
@@ -58,7 +80,20 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     winText: "District Claimed",
     loseText: "District Lost",
     colors: baseColors,
-    rules: baseRules,
+    rules: {
+      ...baseRules,
+      matchDurationSec: 80,
+      growthPerSec: 0.75,
+      towerRadius: 32,
+      unitRadius: 4.2,
+      projectileSpeed: 250,
+      sendCadenceBaseMs: 320,
+      sendCadenceMinMs: 100,
+      sendCadenceValueMultiplier: 2.5,
+      stickerScale: 1,
+      maxStickerCount: 4,
+      visualDensity: "medium",
+    },
     towers: [
       { id: "p1", xPct: 22, yPct: 68, owner: "player", value: 28 },
       { id: "p2", xPct: 34, yPct: 32, owner: "player", value: 18 },
@@ -90,9 +125,19 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     },
     rules: {
       ...baseRules,
-      growthPerSec: 1.35,
-      aiThinkMinMs: 700,
-      aiThinkMaxMs: 1100,
+      matchDurationSec: 90,
+      growthPerSec: 0.85,
+      towerRadius: 32,
+      unitRadius: 4.4,
+      projectileSpeed: 270,
+      sendCadenceBaseMs: 300,
+      sendCadenceMinMs: 90,
+      sendCadenceValueMultiplier: 2.3,
+      stickerScale: 1.05,
+      maxStickerCount: 6,
+      visualDensity: "rich",
+      aiThinkMinMs: 1100,
+      aiThinkMaxMs: 1600,
     },
     towers: [
       { id: "p1", xPct: 20, yPct: 62, owner: "player", value: 32 },

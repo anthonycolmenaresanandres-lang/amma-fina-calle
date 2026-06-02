@@ -27,7 +27,15 @@ export type RulesConfig = {
   growthPerSec: number;
   maxTowerValue: number;
   sendPercent: number;
+  towerRadius: number;
+  unitRadius: number;
   projectileSpeed: number;
+  sendCadenceBaseMs: number;
+  sendCadenceMinMs: number;
+  sendCadenceValueMultiplier: number;
+  stickerScale: number;
+  maxStickerCount: number;
+  visualDensity: "simple" | "medium" | "rich";
   aiThinkMinMs: number;
   aiThinkMaxMs: number;
 };

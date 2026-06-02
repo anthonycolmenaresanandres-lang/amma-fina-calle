@@ -74,3 +74,29 @@ Run python handoff.py start and show, then inspect relevant repo files read-only
 - [2026-06-02 15:57:49] DONE: verified APP/web build passes after landing CTA
 
 - [2026-06-02 15:58:01] DONE: staged only intake foundation files landing CTA and handoff infrastructure; Conquest files remain unstaged
+
+- [2026-06-02 18:05:48] START: Handoff session started
+
+- [2026-06-02 18:06:39] DONE: inspected Fina Calle landing page files assets git remote and Vercel deployment status read-only
+
+- [2026-06-02 18:06:39] NEXT: decide smallest landing page visual/content adjustment before editing
+
+- [2026-06-02 18:10:46] START: Handoff session started
+
+- [2026-06-02 18:10:46] NOTE: scope changed by user: redesign only APP/web root landing page into minimal image-first one-screen page; Conquest files remain protected and no auth billing database payment features
+
+- [2026-06-02 18:10:46] NEXT: replace APP/web/src/app/page.tsx root page with minimal premium one-screen landing layout
+
+- [2026-06-02 18:11:34] DONE: replaced APP/web root landing page with minimal premium one-screen Fina Calle layout
+
+- [2026-06-02 18:11:34] NEXT: run APP/web build and verify Conquest files remain untouched
+
+- [2026-06-02 18:12:08] DONE: verified APP/web build passes after minimal root landing page redesign
+
+- [2026-06-02 18:12:08] NEXT: review landing page visually and commit only APP/web/src/app/page.tsx plus handoff if approved
+
+- [2026-06-02 18:14:15] START: Handoff session started
+
+- [2026-06-02 18:14:59] DONE: verified approved landing and Conquest changes build successfully before commit
+
+- [2026-06-02 18:15:00] NEXT: commit and push approved landing redesign plus Conquest demo updates
