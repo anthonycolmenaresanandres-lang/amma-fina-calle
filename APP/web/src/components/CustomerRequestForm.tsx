@@ -21,9 +21,9 @@ const MAX_FILES = 10;
 const MAX_TOTAL_FILE_SIZE_BYTES = 4 * 1024 * 1024;
 
 const fieldClass =
-  "w-full rounded-md border border-[#8d6a25]/35 bg-[#fffaf0] px-3 py-2 text-sm text-[#24170f] placeholder:text-[#6f5a42]/50 outline-none focus:border-[#335b70] focus:ring-2 focus:ring-[#335b70]/20";
+  "w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/18";
 
-const labelClass = "mb-1 block text-xs font-semibold uppercase text-[#335b70]";
+const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]";
 
 export default function CustomerRequestForm() {
   const [businessName, setBusinessName] = useState("");
@@ -115,17 +115,19 @@ export default function CustomerRequestForm() {
 
   if (status === "success") {
     return (
-      <section className="rounded-md border border-[#d9b66d]/35 bg-[#fff7e8] px-5 py-7 text-center text-[#24170f] shadow-sm">
-        <p className="text-xs font-semibold uppercase text-[#335b70]">Request received</p>
-        <h2 className="mt-2 text-2xl font-semibold">AMMA has the request draft.</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#4c382a]">
+      <section className="rounded-2xl border border-[#cfd6da]/18 bg-[#0f1418] px-5 py-7 text-center text-[#f4f6f7] shadow-sm">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#d8b36d]">
+          Intake received
+        </p>
+        <h2 className="mt-2 text-2xl font-semibold">Fina Calle OS has the request draft.</h2>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#c8d0d4]">
           This first version validates the request and confirms the intake path. Email, file
           storage, and request tracking are intentionally not active yet.
         </p>
         <button
           type="button"
           onClick={resetForm}
-          className="mt-5 rounded-md border border-[#335b70] px-4 py-2 text-sm font-semibold text-[#335b70] transition hover:bg-[#335b70] hover:text-white"
+          className="mt-5 rounded-full border border-[#cfd6da]/28 px-5 py-2 text-sm font-semibold text-[#eef2f4] transition hover:border-[#d8b36d]/70 hover:bg-[#d8b36d]/10"
         >
           Submit another request
         </button>
@@ -136,7 +138,7 @@ export default function CustomerRequestForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-md border border-[#d9b66d]/35 bg-[#fff7e8] p-5 text-[#24170f] shadow-sm sm:p-6"
+      className="rounded-2xl border border-[#cfd6da]/16 bg-[#0b0f12] p-5 text-[#f4f6f7] shadow-sm sm:p-6"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
@@ -237,7 +239,7 @@ export default function CustomerRequestForm() {
           onChange={(event) => setMessage(event.target.value)}
           rows={6}
           className={fieldClass}
-          placeholder="Describe menu/content updates, contact changes, business info, support needs, or module ideas."
+          placeholder="Describe the QR menu, branded web system, mini-game, customer journey, content update, or support request."
           required
         />
       </div>
@@ -252,16 +254,16 @@ export default function CustomerRequestForm() {
           multiple
           accept="image/*,.pdf"
           onChange={onFilesChange}
-          className="block w-full rounded-md border border-[#8d6a25]/35 bg-[#fffaf0] px-3 py-2 text-sm text-[#24170f] file:mr-3 file:rounded-md file:border-0 file:bg-[#d9b66d] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#24170f]"
+          className="block w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] file:mr-3 file:rounded-full file:border-0 file:bg-[#d8b36d] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
         />
-        <p className="mt-1 text-xs text-[#6f5a42]">
+        <p className="mt-1.5 text-xs leading-5 text-[#8f9aa1]">
           Optional for now. Up to 10 files, 4MB total. This Phase 1 endpoint validates files but does
           not store or email them yet.
         </p>
         {selectedFileNames.length > 0 ? (
-          <ul className="mt-2 space-y-1 text-xs text-[#4c382a]">
+          <ul className="mt-2 space-y-1 text-xs text-[#c8d0d4]">
             {selectedFileNames.map((filename) => (
-              <li key={filename} className="rounded-md bg-[#f4e6cb] px-2 py-1">
+              <li key={filename} className="rounded-lg bg-[#151b20] px-2 py-1">
                 {filename}
               </li>
             ))}
@@ -284,19 +286,19 @@ export default function CustomerRequestForm() {
       <button
         type="submit"
         disabled={status === "submitting" || !isValid}
-        className="mt-6 w-full rounded-md bg-[#335b70] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#274657] disabled:cursor-not-allowed disabled:opacity-55"
+        className="mt-6 w-full rounded-full bg-[#eef2f4] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#07090b] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
       >
         {status === "submitting" ? "Submitting request..." : "Submit request"}
       </button>
 
       {status === "error" ? (
-        <p className="mt-3 rounded-md border border-[#8f3e2e]/30 bg-[#8f3e2e]/10 px-3 py-2 text-center text-sm font-semibold text-[#8f3e2e]">
+        <p className="mt-3 rounded-xl border border-[#ff7a66]/30 bg-[#8f3e2e]/16 px-3 py-2 text-center text-sm font-semibold text-[#ffad9f]">
           {errorMessage || "The request could not be submitted."}
         </p>
       ) : null}
 
-      <div className="mt-4 rounded-md border border-[#d9b66d]/35 bg-[#f4e6cb]/65 px-3 py-3 text-xs leading-5 text-[#4c382a]">
-        This is the first AMMA/Fina Calle request foundation. It is for customer change requests,
+      <div className="mt-4 rounded-xl border border-[#cfd6da]/14 bg-[#151b20]/72 px-3 py-3 text-xs leading-5 text-[#aeb7bd]">
+        This is the Fina Calle OS Phase 1 request foundation. It is for customer change requests,
         business updates, menu/content updates, and operational support. It does not process
         payments, create accounts, store uploads, or send email yet.
       </div>
