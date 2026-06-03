@@ -162,3 +162,23 @@ Run python handoff.py start and show, then inspect relevant repo files read-only
 - [2026-06-02 19:50:44] DONE: verified Fina Calle intake hero asset build passed before commit
 
 - [2026-06-02 19:50:44] NEXT: commit and push approved Fina Calle intake hero asset files
+
+- [2026-06-02 21:10:55] START: Handoff session started
+
+- [2026-06-02 22:06:45] START: Handoff session started
+
+- [2026-06-02 22:07:00] DONE: ran startup handoff show and git status; verified existing handoff stage before app inspection
+
+- [2026-06-02 22:07:00] NEXT: verify APP/web Next.js structure and inspect only routing/style files needed for customer account pages
+
+- [2026-06-02 22:07:21] NOTE: scope authorized: create manual customer account registry routes and data only; preserve Conquest request-update customer request API Stripe auth database and payment boundaries
+
+- [2026-06-02 22:07:21] NEXT: create APP/web customer data registry and /customers routes matching existing Fina Calle OS styling
+
+- [2026-06-02 22:08:29] DONE: created manual customer registry data and /customers plus /customers/[id] routes without touching Conquest request-update API Stripe auth database or payment logic
+
+- [2026-06-02 22:08:29] NEXT: run APP/web build and required route file existence checks
+
+- [2026-06-02 22:09:10] DONE: APP/web build passed and required customer registry route files exist; protected Conquest request-update and API files have no diff
+
+- [2026-06-02 22:09:10] NEXT: stage only customer registry files and HANDOFF.md then commit manual customer account registry
