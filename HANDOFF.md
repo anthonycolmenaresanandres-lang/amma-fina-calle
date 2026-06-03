@@ -4,7 +4,7 @@
 AMMA Ventures LLC DBA Fina Calle project workspace for reusable customer/business operations, website generation, and related app modules.
 
 ## Current Stage
-Inspection/report only for existing customer/change intake, upload flow, customer/business config, owner/customer pages, and future operational-site attachment points.
+Company operating protocol created. Web Studio workflow, client intake checklist, and reusable Codex build prompt template are now permanent documents. Ready to onboard first client website build.
 
 ## Protected Files
 - All app/source files are protected from modification during this inspection.
@@ -17,13 +17,17 @@ Inspection/report only for existing customer/change intake, upload flow, custome
 - Auth, webhooks, billing database, automatic access shutoff, and backend billing logic are parked.
 
 ## Current Task
-Inspect the smallest relevant file set needed to understand existing intake/upload/customer operational patterns and report findings.
+Created Fina Calle Web Studio company operating protocol documentation (3 files). No app files modified.
 
 ## Next Task
-Run python handoff.py start and show, then inspect relevant repo files read-only.
+Use the build prompt template (PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md) to start first client website build. Run intake checklist (CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md) with the client first.
 
 ## DONE
 - Minimal handoff system created because HANDOFF.md and handoff.py were missing.
+- Fina Calle Web Studio company operating protocol created (2026-06-03):
+  - PRODUCT_MODULES/FINA_CALLE_WEB_STUDIO_PROTOCOL.md
+  - CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md
+  - PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md
 
 ## KEY DECISIONS
 - Do not implement Stripe.
@@ -182,3 +186,11 @@ Run python handoff.py start and show, then inspect relevant repo files read-only
 - [2026-06-02 22:09:10] DONE: APP/web build passed and required customer registry route files exist; protected Conquest request-update and API files have no diff
 
 - [2026-06-02 22:09:10] NEXT: stage only customer registry files and HANDOFF.md then commit manual customer account registry
+
+- [2026-06-03 07:27:07] START: Handoff session started
+
+- [2026-06-03] DONE: created Fina Calle Web Studio company operating protocol — PRODUCT_MODULES/FINA_CALLE_WEB_STUDIO_PROTOCOL.md, CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md, PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md; HANDOFF.md updated; no app files modified
+
+- [2026-06-03] NEXT: run client intake checklist with first client, then use build prompt template to start first client website build
+
+- [2026-06-03 07:32:31] START: Handoff session started
