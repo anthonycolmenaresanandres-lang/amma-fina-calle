@@ -1,6 +1,6 @@
 # Web Studio Client Build — Codex Prompt Template
 _Fina Calle Web Studio — AMMA Ventures LLC_
-_Version: 1.0 | 2026-06-03_
+_Version: 1.1 | 2026-06-03_
 
 Copy this template and fill in every `[PLACEHOLDER]` before pasting into Codex. Remove any sections that are not applicable to the engagement.
 
@@ -16,6 +16,24 @@ C:\Users\antho\OneDrive\Desktop\AMMA Ventures LLC DBA Fina Calle
 
 Why:
 The [CLIENT_NAME] website has been designed, image sections are approved, and the build packet is complete. We are converting the approved design into production Next.js code.
+
+---
+
+## Strategy Intake — Must Be Complete Before This Prompt Is Submitted
+
+> If any answer below is blank (not intentionally skipped), stop and complete the strategy intake before pasting this prompt into Codex.
+
+| # | Question | Answer |
+|---|----------|--------|
+| S1 | What is the business about? | [ANSWER or "skipped"] |
+| S2 | What is the main website goal? | [ANSWER or "skipped"] |
+| S3 | How should customers take action? | [walk in / call / book / order / quote / contact] |
+| S4 | What features exist right now? | [ANSWER or "skipped"] |
+| S5 | What features are future-only — must NOT be claimed? | [ANSWER or "none"] |
+| S6 | Why do customers choose this business? | [ANSWER or "skipped"] |
+| S7 | Who are the ideal customers? | [ANSWER or "skipped"] |
+| S8 | How do people currently discover the business? | [ANSWER or "skipped"] |
+| S9 | Which website features support those channels? | [ANSWER or "skipped"] |
 
 ---
 
@@ -72,13 +90,18 @@ The [CLIENT_NAME] website has been designed, image sections are approved, and th
 
 ## Task
 
-1. Run:
+1. **Verify strategy intake is complete.**
+   - Check the Strategy Intake table above.
+   - If any field is blank (not intentionally skipped), STOP and report: "Strategy intake incomplete — cannot begin build. Missing: [list]."
+   - If S5 (future features) lists anything, confirm those items do NOT appear in any section copy, CTA, or public-facing UI.
+
+2. Run:
    python handoff.py start
    python handoff.py show
 
-2. Confirm git status is clean or expected.
+5. Confirm git status is clean or expected.
 
-3. Create the client site under:
+6. Create the client site under:
    APP/web/src/app/[CLIENT_SLUG]/
 
    Following the section map:
@@ -90,31 +113,35 @@ The [CLIENT_NAME] website has been designed, image sections are approved, and th
    Section 6: Reviews / Social Proof
    Section 7: Contact / Hours / Map / Footer
 
-4. Implement each section as a full-width stacked component that visually matches the approved desktop image at 1440px width and the approved mobile image at 390px width.
+7. Implement each section as a full-width stacked component that visually matches the approved desktop image at 1440px width and the approved mobile image at 390px width.
 
-5. Apply the overlay link map: every button, nav link, phone number, address, and social icon must be a working anchor or link.
+8. Apply the overlay link map: every button, nav link, phone number, address, and social icon must be a working anchor or link. Do not wire any feature listed in S5 (future features) — omit those CTAs entirely or leave a code comment.
 
-6. Insert the SEO/copy layer:
+9. Insert the SEO/copy layer:
    - Set <title> and <meta description> via Next.js metadata export
    - Use exactly one <h1> per page
    - Add alt text to every image
    - Add LocalBusiness schema JSON-LD in the page <head>
    - Mark any unconfirmed prices, hours, or claims as: <!-- PENDING CLIENT APPROVAL -->
+   - Mark any future features not yet live as: <!-- FUTURE: [description] — do not publish -->
 
-7. Do not publish or hardcode any price, hour, offer, or factual claim that is not in the approved SEO/copy document above.
+10. Do not publish or hardcode any price, hour, offer, future feature, or factual claim that is not in the approved SEO/copy document above.
 
-8. Run:
-   npm run build
+11. Run:
+    npm run build
 
-9. Confirm build passes with TypeScript clean and no warnings.
+12. Confirm build passes with TypeScript clean and no warnings.
 
-10. Do not commit or push.
+13. Do not commit or push.
 
-11. Report:
+14. Report:
+    - strategy intake verified (yes / which items skipped)
+    - future features identified and excluded (list from S5 or "none")
     - files created
     - sections implemented
     - links wired
     - any PENDING CLIENT APPROVAL placeholders left in the code
+    - any FUTURE placeholders left in the code
     - build result
     - recommended next step
 
@@ -155,6 +182,8 @@ The [CLIENT_NAME] website has been designed, image sections are approved, and th
 
 ## Checklist Before Pasting
 
+- [ ] **Strategy intake complete** — all 9 questions (S1–S9) answered or intentionally skipped
+- [ ] **Future features identified** — S5 filled; those features are NOT in any section copy or CTA
 - [ ] All `[PLACEHOLDER]` values filled
 - [ ] Desktop section images uploaded and paths confirmed
 - [ ] Mobile section images uploaded and paths confirmed

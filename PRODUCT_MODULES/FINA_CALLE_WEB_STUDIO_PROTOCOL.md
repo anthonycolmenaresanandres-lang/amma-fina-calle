@@ -1,6 +1,6 @@
 # Fina Calle Web Studio — Company Operating Protocol
 _AMMA Ventures LLC DBA Fina Calle_
-_Created: 2026-06-03 | Version: 1.0_
+_Created: 2026-06-03 | Version: 1.1_
 
 ---
 
@@ -23,6 +23,48 @@ We generate the full visual website as a set of designed image sections (desktop
 > **We may not publish prices, hours, offers, legal claims, health claims, or any factual representation about the client's business until the client has reviewed and approved that specific content in writing.**
 
 This rule is absolute. Placeholder copy ("Hours: TBD", "Prices vary — contact us") is always acceptable. Publishing unverified facts is never acceptable.
+
+---
+
+## Website Strategy Intake — Required Before Design
+
+> **Do not begin image generation or Codex website build until every question below is answered or intentionally marked "unknown / skipped for now."**
+
+This phase happens before any visual design, canvas work, or code prompt. Its purpose is to align the website strategy with real business facts — so design decisions, copy, and feature choices are grounded in how the business actually works today.
+
+### Required Questions
+
+| # | Question | Answer / Status |
+|---|----------|----------------|
+| S1 | **What is the business about?** | |
+| S2 | **What is the main website goal?** (drive foot traffic, capture leads, enable online orders, build credibility, etc.) | |
+| S3 | **How should customers take action?** Walk in / Call / Book / Order online / Request a quote / Contact form | |
+| S4 | **What features exist right now?** (online ordering, reservations, delivery, gift cards, loyalty program, etc.) | |
+| S5 | **What features are future-only and must NOT be claimed yet?** | |
+| S6 | **Why do customers choose this business over competitors?** | |
+| S7 | **Who are the ideal customers?** (demographics, occasions, needs) | |
+| S8 | **How do people currently discover the business?** (Google Maps, Instagram, word of mouth, Yelp, walk-by, etc.) | |
+| S9 | **Which website features support those discovery channels?** (Google profile link, reviews section, map embed, social feed, etc.) | |
+
+### Completion Rule
+
+Every answer must be one of:
+- A real answer from the client
+- `"unknown — ask client"`
+- `"skipped for now — not needed for this build"`
+
+A blank is not acceptable. An intentional skip is acceptable.
+
+### Future Features Rule
+
+> **Future features may be documented internally as "planned" but must not be advertised publicly unless (a) the client approves the claim in writing and (b) the feature already exists and works.**
+
+Examples of violations to avoid:
+- "Order online coming soon!" — do not include unless client confirms a launch date and has approved the copy
+- "Loyalty rewards available" — do not include if the program is not live
+- "Book a table" CTA — do not include if no booking system exists
+
+If a feature is planned but not live, either omit it entirely or use internal placeholder markup: `<!-- FUTURE: online ordering — not live yet -->`.
 
 ---
 
@@ -86,14 +128,15 @@ Approval is recorded as a written message, email, or voice note transcription st
 
 ### Overview
 
-1. **Intake** — collect brief, assets, references (see checklist)
-2. **Design** — generate desktop and mobile full-page composites as image sections using an AI canvas tool or design software
-3. **Client review** — share image mockups for visual approval before coding
-4. **Build** — convert approved images into production code (Next.js preferred)
-5. **Overlay** — add interaction layer: links, buttons, forms, anchor nav
-6. **SEO/copy layer** — add semantic HTML, meta tags, structured data, and approved copy
-7. **Deploy** — push to approved target (Vercel default)
-8. **Handoff** — deliver login, repo access, and maintenance instructions
+1. **Strategy intake** — answer all 9 required strategy questions (S1–S9) or mark each "unknown / skipped for now" — **no design starts until this is complete**
+2. **Intake** — collect brief, assets, references (see checklist)
+3. **Design** — generate desktop and mobile full-page composites as image sections using an AI canvas tool or design software
+4. **Client review** — share image mockups for visual approval before coding
+5. **Build** — convert approved images into production code (Next.js preferred)
+6. **Overlay** — add interaction layer: links, buttons, forms, anchor nav
+7. **SEO/copy layer** — add semantic HTML, meta tags, structured data, and approved copy
+8. **Deploy** — push to approved target (Vercel default)
+9. **Handoff** — deliver login, repo access, and maintenance instructions
 
 ---
 
@@ -196,11 +239,13 @@ A complete build packet handed to the coder (or Codex agent) contains:
 
 When this protocol is executed by an AI agent acting as Anthony:
 
-1. **Never publish without approval.** If prices, hours, or claims are missing, use placeholder text.
-2. **Follow the section map.** Do not invent sections not in the map.
-3. **Match the visual.** The approved image is the spec. Code must reproduce it — do not redesign in code.
-4. **Do not modify protected files.** App UI, routes, payment logic, deployment config, and secrets are off-limits unless the current task explicitly authorizes a change.
-5. **Log every decision.** Use `handoff.py` to record DONE/NEXT/NOTE at each decision point.
-6. **Ask before assuming.** If a required intake item is missing, note it as PENDING rather than inventing a value.
-7. **One concern per commit.** Never bundle unrelated changes.
-8. **Build passes before committing.** Run `npm run build` and confirm clean before any `git add`.
+1. **Complete strategy intake before designing.** All 9 strategy questions (S1–S9) must be answered or marked "unknown / skipped for now" before any image generation or build prompt is started.
+2. **Never advertise future features.** Features that are planned but not live must be marked `<!-- FUTURE: ... -->` internally and must not appear in any public-facing copy or UI unless the client approves in writing and the feature exists.
+3. **Never publish without approval.** If prices, hours, or claims are missing, use placeholder text.
+4. **Follow the section map.** Do not invent sections not in the map.
+5. **Match the visual.** The approved image is the spec. Code must reproduce it — do not redesign in code.
+6. **Do not modify protected files.** App UI, routes, payment logic, deployment config, and secrets are off-limits unless the current task explicitly authorizes a change.
+7. **Log every decision.** Use `handoff.py` to record DONE/NEXT/NOTE at each decision point.
+8. **Ask before assuming.** If a required intake item is missing, note it as PENDING rather than inventing a value.
+9. **One concern per commit.** Never bundle unrelated changes.
+10. **Build passes before committing.** Run `npm run build` and confirm clean before any `git add`.

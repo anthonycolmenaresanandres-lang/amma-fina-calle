@@ -1,8 +1,30 @@
 # Client Website Intake Checklist
 _Fina Calle Web Studio — AMMA Ventures LLC_
-_Version: 1.0 | 2026-06-03_
+_Version: 1.1 | 2026-06-03_
 
-Use this checklist at the start of every new client website engagement. Complete as much as possible before the first design session. Items marked **REQUIRED** must be resolved before the site goes live.
+Use this checklist at the start of every new client website engagement. **Complete Section 0 (Strategy Intake) before any design or image generation begins.** Complete remaining sections before the site goes live. Items marked **REQUIRED** must be resolved before the site goes live.
+
+---
+
+## Section 0 — Website Strategy Intake ⛔ Required Before Design
+
+> Do not begin image generation or Codex website build until every item below is answered or intentionally marked "unknown / skipped for now." A blank answer is not acceptable.
+
+| # | Question | Answer / Status |
+|---|----------|----------------|
+| S1 | **What is the business about?** | |
+| S2 | **What is the main website goal?** (drive walk-ins, capture leads, enable orders, build credibility, etc.) | |
+| S3 | **How should customers take action?** Walk in / Call / Book / Order online / Request quote / Contact form | |
+| S4 | **What features exist right now?** (online ordering, reservations, delivery, gift cards, loyalty, etc.) | |
+| S5 | **What features are future-only and must NOT be claimed yet?** | |
+| S6 | **Why do customers choose this business over competitors?** | |
+| S7 | **Who are the ideal customers?** (demographics, occasions, needs) | |
+| S8 | **How do people currently discover the business?** (Google Maps, Instagram, word of mouth, Yelp, walk-by, etc.) | |
+| S9 | **Which website features support those discovery channels?** (Google profile link, reviews section, map embed, social feed, etc.) | |
+
+**Future Features Rule:** Features that are planned but not live must not appear in any public-facing copy. Mark them internally as `<!-- FUTURE: ... -->` until the client approves the claim in writing and the feature is live.
+
+**Gate:** All 9 answers must be complete (or intentionally skipped) before proceeding to Section 1.
 
 ---
 
@@ -146,8 +168,13 @@ Additional notes:
 
 > All ⚠️ items above require written client approval before the corresponding content is published. No exceptions.
 
-1. Business hours
-2. All prices and pricing structures
-3. All promotional offers or special claims
-4. Health, safety, or nutrition claims
-5. Final hero copy and CTA text
+**Required before design starts:**
+1. Section 0 strategy intake — all 9 questions answered or intentionally skipped
+
+**Required before going live:**
+2. Business hours
+3. All prices and pricing structures
+4. All promotional offers or special claims
+5. Health, safety, or nutrition claims
+6. Final hero copy and CTA text
+7. Any feature advertised publicly must already exist and be live

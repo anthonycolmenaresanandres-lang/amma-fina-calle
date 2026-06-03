@@ -4,7 +4,7 @@
 AMMA Ventures LLC DBA Fina Calle project workspace for reusable customer/business operations, website generation, and related app modules.
 
 ## Current Stage
-Company operating protocol created. Web Studio workflow, client intake checklist, and reusable Codex build prompt template are now permanent documents. Ready to onboard first client website build.
+Protocol docs updated to v1.1 with strategy intake phase. All 3 Web Studio docs now include required Section 0 / strategy questions before design. Ready to run strategy intake with first client.
 
 ## Protected Files
 - All app/source files are protected from modification during this inspection.
@@ -17,10 +17,10 @@ Company operating protocol created. Web Studio workflow, client intake checklist
 - Auth, webhooks, billing database, automatic access shutoff, and backend billing logic are parked.
 
 ## Current Task
-Created Fina Calle Web Studio company operating protocol documentation (3 files). No app files modified.
+Added "Website Strategy Intake — Required Before Design" section to all three Web Studio protocol docs (v1.1). No app files modified.
 
 ## Next Task
-Use the build prompt template (PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md) to start first client website build. Run intake checklist (CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md) with the client first.
+Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md), then use the updated build prompt template (PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md) once all 9 strategy questions are answered.
 
 ## DONE
 - Minimal handoff system created because HANDOFF.md and handoff.py were missing.
@@ -28,6 +28,7 @@ Use the build prompt template (PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.m
   - PRODUCT_MODULES/FINA_CALLE_WEB_STUDIO_PROTOCOL.md
   - CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md
   - PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.md
+- All three protocol docs updated to v1.1 (2026-06-03): added "Website Strategy Intake — Required Before Design" section with 9 required questions (S1–S9), gating rule, and future-features rule.
 
 ## KEY DECISIONS
 - Do not implement Stripe.
@@ -194,3 +195,13 @@ Use the build prompt template (PROMPTS/WEB_STUDIO_CLIENT_BUILD_PROMPT_TEMPLATE.m
 - [2026-06-03] NEXT: run client intake checklist with first client, then use build prompt template to start first client website build
 
 - [2026-06-03 07:32:31] START: Handoff session started
+
+- [2026-06-03 07:33:27] DONE: committed and pushed Fina Calle web studio protocol docs (549fda2) to main; 4 files, 538 insertions, working tree clean
+
+- [2026-06-03 07:44:28] START: Handoff session started
+
+- [2026-06-03] DONE: updated all three Web Studio protocol docs to v1.1 — added "Website Strategy Intake — Required Before Design" section with 9 required questions (S1–S9), gating rule (no design until intake complete), future-features rule, and updated build prompt task steps and checklist; no app files modified
+
+- [2026-06-03] NEXT: run strategy intake (Section 0) with first client before starting any design or build
+
+- [2026-06-03 08:04:54] START: Handoff session started
