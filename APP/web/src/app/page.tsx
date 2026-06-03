@@ -1,7 +1,16 @@
+import Link from "next/link";
+
+const companyNav = [
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Systems", href: "/systems" },
+  { label: "R&D", href: "/rd" },
+  { label: "Contact", href: "/contact" },
+];
+
 const landingLinks = [
   {
-    label: "View Colattao Caf\u00e9 Rush",
-    href: "https://colattao-cafe-rush.vercel.app",
+    label: "Case Studies",
+    href: "/case-studies",
     position:
       "md:left-0 md:top-[46%] md:w-[clamp(13rem,20vw,18rem)]",
     line: "md:-right-16 md:top-1/2 md:h-px md:w-14",
@@ -33,7 +42,21 @@ export default function Home() {
       <section className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
         <header className="flex items-center justify-between text-[0.66rem] uppercase tracking-[0.32em] text-[#cfd6da]/58">
           <span>AMMA Ventures</span>
-          <span>Virginia Beach</span>
+          <nav
+            aria-label="Company sections"
+            className="hidden items-center gap-4 tracking-[0.22em] sm:flex"
+          >
+            {companyNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="transition hover:text-[#f4f6f7]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <span className="sm:hidden">Virginia Beach</span>
         </header>
 
         <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
