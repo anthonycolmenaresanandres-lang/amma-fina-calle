@@ -109,8 +109,29 @@ export default function Home() {
           </p>
         </div>
 
-        <footer className="pb-1 text-center text-[0.68rem] uppercase tracking-[0.3em] text-[#aeb7bd]/64">
-          Built in Virginia Beach
+        <footer className="mx-auto w-full max-w-3xl pb-1 text-center">
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#cfd6da]/22 bg-[#050607]/78 px-5 py-6 shadow-[0_24px_70px_-46px_rgba(255,255,255,0.42)] backdrop-blur sm:px-8">
+            <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#d8b36d]/70 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(216,179,109,0.12),transparent_38%)]" />
+            <p className="relative text-[0.62rem] font-semibold uppercase tracking-[0.34em] text-[#d8b36d]/86">
+              Built in Virginia Beach
+            </p>
+            <p className="relative mt-3 text-balance text-lg font-semibold leading-tight text-[#f4f6f7] sm:text-2xl">
+              Still scrolling? Good. The strategy worked.
+            </p>
+            <p className="relative mx-auto mt-3 max-w-xl text-balance text-sm leading-6 text-[#c8d0d4] sm:text-base">
+              Now follow Fina Calle before this footer starts charging rent.
+            </p>
+            <a
+              href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative mt-5 inline-flex min-h-12 items-center justify-center rounded-full border border-[#d8b36d]/70 bg-[#f4f6f7] px-6 text-xs font-black uppercase tracking-[0.18em] text-[#050607] shadow-[0_18px_46px_-28px_rgba(216,179,109,0.95)] transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d8b36d]"
+              aria-label="Open Fina Calle on Instagram"
+            >
+              @fina_calle
+            </a>
+          </div>
         </footer>
       </section>
     </main>
