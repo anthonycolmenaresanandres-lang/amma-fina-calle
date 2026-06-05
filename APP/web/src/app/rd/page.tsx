@@ -2,24 +2,34 @@ import Link from "next/link";
 
 const researchTracks = [
   {
+    name: "Fina Calle PayBridge",
+    status: "Payment-options connector R&D",
+    body: "QR-based local-business payment-options connector concept. Not a lender, not an approval party, not a repayment servicer, and not a live payment system.",
+    href: "/research-and-development/paybridge",
+  },
+  {
     name: "Shadow Engineer / CLONE_CONTROL",
     status: "Internal infrastructure",
     body: "Windows-first local command and reporting infrastructure for handoff, packet coverage, reconciliation, and planning discipline.",
+    href: undefined,
   },
   {
     name: "Franchise Certainty",
     status: "R&D prototype",
     body: "Fast-food automation research. It should be described as research until hardware and operating facts are verified for a specific release.",
+    href: undefined,
   },
   {
     name: "PermitReady",
     status: "Professional tool R&D",
     body: "Reviewer-facing permit packet tooling research under the APP Designs / PermitReady direction.",
+    href: undefined,
   },
   {
     name: "LA72",
     status: "Creative/game R&D",
     body: "Unity game prototype research. It is not presented here as a finished public product.",
+    href: undefined,
   },
 ];
 
@@ -58,22 +68,34 @@ export default function ResearchPage() {
           </div>
 
           <div className="grid gap-4">
-            {researchTracks.map((track) => (
-              <section
-                key={track.name}
-                className="rounded-lg border border-[#cfd6da]/14 bg-[#07090b]/76 p-5 sm:p-6"
-              >
-                <p className="text-[0.66rem] uppercase tracking-[0.22em] text-[#d8b36d]">
-                  {track.status}
-                </p>
-                <h2 className="mt-3 text-xl font-semibold text-[#eef2f4]">
-                  {track.name}
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-                  {track.body}
-                </p>
-              </section>
-            ))}
+            {researchTracks.map((track) => {
+              const card = (
+                <section className="rounded-lg border border-[#cfd6da]/14 bg-[#07090b]/76 p-5 transition hover:border-[#d8b36d]/42 sm:p-6">
+                  <p className="text-[0.66rem] uppercase tracking-[0.22em] text-[#d8b36d]">
+                    {track.status}
+                  </p>
+                  <h2 className="mt-3 text-xl font-semibold text-[#eef2f4]">
+                    {track.name}
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
+                    {track.body}
+                  </p>
+                  {track.href ? (
+                    <p className="mt-4 text-xs uppercase tracking-[0.2em] text-[#d8b36d]">
+                      Review concept
+                    </p>
+                  ) : null}
+                </section>
+              );
+
+              return track.href ? (
+                <Link key={track.name} href={track.href} className="block">
+                  {card}
+                </Link>
+              ) : (
+                <div key={track.name}>{card}</div>
+              );
+            })}
           </div>
         </section>
       </div>
