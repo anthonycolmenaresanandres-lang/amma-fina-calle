@@ -1,0 +1,13 @@
+{
+  "name": "fina-calle-ai-media-tools",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Dry-run-only planning scaffold for Fina Calle OS media pipelines.",
+  "scripts": {
+    "dry-run": "node -e \"console.log('AI media scaffold is dry-run only. No provider calls are configured.')\"",
+    "check": "node -e \"console.log('Scaffold check passed: no live providers enabled.')\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
