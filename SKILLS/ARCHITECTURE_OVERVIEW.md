@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Fina Calle OS Skill Library is the reusable operating layer for AMMA/Fina Calle creative, web, campaign, and Colattao digital experience work. It is documentation-only: it defines protocols, review gates, asset rules, and handoff standards without changing production application behavior.
+The Fina Calle OS Skill Library is the reusable operating layer for AMMA/Fina Calle creative, web, campaign, and Colattao digital experience work. It is documentation-only: it defines protocols, review gates, asset registry rules, and handoff standards without changing production application behavior.
 
 ## Library Model
 
@@ -16,6 +16,19 @@ The library is organized as five executable-thinking modules:
 | WEB_STUDIO | Convert approved visual concepts into production-ready client websites without inventing facts. | Build packets, overlay maps, review checklists. |
 | CAMPAIGN_LAUNCH_SYSTEM | Plan lightweight campaigns from concept through preview, production, and post-launch notes. | Campaign launch packets and handoffs. |
 
+## Asset Registry Gate
+
+`ASSET_REGISTRY/` is the single source of truth for approved campaign assets before AI generation. It sits after character/environment locks and before storyboards, shot matrices, prompt packets, render batches, edit assembly, brand overlays, and final export.
+
+Asset registry doctrine:
+
+- Logos, QR codes, text, and menu copy are overlays only.
+- AI-generated text, logos, QR codes, and menu copy are rejected.
+- Owner references must be approved before owner identity lock.
+- Cafe references must be approved before environment lock.
+- Every asset needs source, date added, status, intended use, forbidden use, and replacement rule.
+- Status values are `approved`, `pending`, `rejected`, and `deprecated`.
+
 ## Required Operating Boundary
 
 - Do not modify application code from this library.
@@ -27,6 +40,7 @@ The library is organized as five executable-thinking modules:
 ## Folder Roles
 
 - `SKILLS/`: reusable AI/operator skill modules.
+- `ASSET_REGISTRY/`: approved logos, QR codes, Digital Menu assets, owner references, cafe references, overlays, and asset QA status definitions.
 - `CHARACTER_LIBRARY/`: identity locks, negative identity references, character packets.
 - `STORYBOARDS/`: scene-by-scene sequence planning and motion rules.
 - `SHOT_MATRICES/`: shot coverage tables, camera/motion constraints, asset request matrices.
