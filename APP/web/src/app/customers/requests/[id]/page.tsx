@@ -180,16 +180,16 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
                     return (
                       <li key={file.id}>
                         <a
-                          href={file.publicUrl}
+                          href={file.url || undefined}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-4 rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-3 transition hover:border-[#d8b36d]/45 hover:bg-[#0d1115]/80"
                         >
                           <span className="flex h-14 w-14 flex-none items-center justify-center overflow-hidden rounded-xl border border-[#cfd6da]/12 bg-[#040506]">
-                            {isImage && file.publicUrl ? (
+                            {isImage && file.url ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
-                                src={file.publicUrl}
+                                src={file.url}
                                 alt={file.fileName}
                                 className="h-full w-full object-cover"
                                 loading="lazy"

@@ -109,15 +109,12 @@ export async function storeRequestAttachments(
         continue;
       }
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from(REQUEST_UPLOAD_BUCKET).getPublicUrl(path);
-
+      // Private bucket: record only bucket + path. The admin inbox mints a
+      // short-lived signed URL at read time; no public URL is ever stored.
       const { error: recordError } = await supabase.rpc("add_change_request_attachment", {
         p_reference_id: referenceId,
         p_bucket: REQUEST_UPLOAD_BUCKET,
         p_path: path,
-        p_public_url: publicUrl,
         p_file_name: file.name.slice(0, 200),
         p_content_type: file.type,
         p_byte_size: file.size,

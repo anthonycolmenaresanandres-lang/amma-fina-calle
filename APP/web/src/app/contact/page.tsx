@@ -6,10 +6,16 @@ export const metadata = {
     "Get in touch with AMMA Ventures LLC DBA Fina Calle — start a build, send a request, or email directly.",
 };
 
-const CONTACT_EMAIL = "anthonycolmenaresanandres@gmail.com";
+const CONTACT_EMAIL = "Ammaventuresvb@gmail.com";
 const EMAIL_SUBJECT = "Fina Calle — new project";
 const EMAIL_BODY =
-  "Hi Anthony,\n\nBusiness name:\nWhat I want built:\nTimeline:\n\nThanks!";
+  "Hi AMMA Ventures team,\n\nBusiness name:\nWhat I want built:\nTimeline:\n\nThanks!";
+
+const TRUST_POINTS = [
+  "Reply within 1 business day",
+  "No spam, ever",
+  "Billing stays separate from your POS",
+];
 
 export default function ContactPage() {
   return (
@@ -37,8 +43,19 @@ export default function ContactPage() {
             <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
               The fastest way in is the build request — two minutes and we reply
               with a clear direction, the right package, and a fixed quote. Prefer
-              email? Reach Anthony directly.
+              email? Reach us directly.
             </p>
+            <ul className="mt-7 flex flex-col gap-2.5">
+              {TRUST_POINTS.map((point) => (
+                <li
+                  key={point}
+                  className="flex items-center gap-3 text-sm text-[#c8d0d4]"
+                >
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-[#d8b36d] shadow-[0_0_12px_rgba(216,179,109,0.7)]" />
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <section className="rounded-lg border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">

@@ -338,6 +338,10 @@ export default function CustomerRequestForm() {
         {status === "submitting" ? "Submitting request..." : "Submit request"}
       </button>
 
+      <p className="mt-3 text-center text-xs leading-5 text-[#8f9aa1]">
+        We only use this to scope your build — no spam, no payment here.
+      </p>
+
       {status === "error" ? (
         <p className="mt-3 rounded-xl border border-[#ff7a66]/30 bg-[#8f3e2e]/16 px-3 py-2 text-center text-sm font-semibold text-[#ffad9f]">
           {errorMessage || "The request could not be submitted."}

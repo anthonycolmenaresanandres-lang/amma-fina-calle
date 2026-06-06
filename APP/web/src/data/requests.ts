@@ -24,7 +24,8 @@ export type ChangeRequestSummary = {
 export type ChangeRequestAttachment = {
   id: string;
   fileName: string;
-  publicUrl: string;
+  /** Short-lived signed URL minted at read time; empty if signing failed. */
+  url: string;
   contentType: string;
   byteSize: number;
   createdAt: string;
@@ -54,12 +55,15 @@ type DetailJson = SummaryRow & {
   attachments: Array<{
     id: string;
     file_name: string | null;
-    public_url: string | null;
+    bucket: string | null;
+    path: string | null;
     content_type: string | null;
     byte_size: number | null;
     created_at: string;
   }> | null;
 };
+
+const SIGNED_URL_TTL_SECONDS = 300;
 
 function mapSummary(row: SummaryRow): ChangeRequestSummary {
   return {
@@ -100,16 +104,31 @@ export async function getChangeRequestById(
   const row = (Array.isArray(data) ? data[0] : data) as DetailJson | null;
   if (!row) return null;
 
+  // Mint a short-lived signed URL per attachment from the private bucket.
+  // Falls back to an empty url if signing fails, so the page still renders.
+  const attachments = await Promise.all(
+    (row.attachments ?? []).map(async (a) => {
+      let url = "";
+      if (a.bucket && a.path) {
+        const { data: signed } = await supabase.storage
+          .from(a.bucket)
+          .createSignedUrl(a.path, SIGNED_URL_TTL_SECONDS);
+        url = signed?.signedUrl ?? "";
+      }
+      return {
+        id: a.id,
+        fileName: a.file_name ?? "Attachment",
+        url,
+        contentType: a.content_type ?? "",
+        byteSize: Number(a.byte_size ?? 0),
+        createdAt: a.created_at,
+      };
+    }),
+  );
+
   return {
     ...mapSummary(row),
     message: row.message ?? "",
-    attachments: (row.attachments ?? []).map((a) => ({
-      id: a.id,
-      fileName: a.file_name ?? "Attachment",
-      publicUrl: a.public_url ?? "",
-      contentType: a.content_type ?? "",
-      byteSize: Number(a.byte_size ?? 0),
-      createdAt: a.created_at,
-    })),
+    attachments,
   };
 }
