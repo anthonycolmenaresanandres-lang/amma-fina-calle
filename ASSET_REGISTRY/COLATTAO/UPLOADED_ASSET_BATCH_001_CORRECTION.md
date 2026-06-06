@@ -95,3 +95,35 @@ If Anthony approves image processing, start with:
 3. `B001-A01`, `B001-A04`, and `B001-A05` product/detail exports.
 
 Do not begin owner identity lock, QR production, Digital Menu proof production, or final campaign assembly until missing owner/QR/Digital Menu/logo inputs are provided or intentionally waived.
+
+## Owner Reference Discovery Addendum
+
+Additional targeted owner-reference discovery was completed after this correction. It searched exact names first, then close filename variants with spaces, underscores, and hyphens.
+
+Search roots used:
+
+- `C:/Users/antho/OneDrive/Desktop`
+- `C:/Users/antho/Documents/Codex`
+
+Found owner-reference files:
+
+| Asset ID | Search target | Exact filename | Result | Dimensions | Size | Likely view type | Registry action |
+|---|---|---|---|---:|---:|---|---|
+| B001-A12 | `colattao owner` | `colattao owner.PNG` | Found | 248x588 | 339.5 KB | Full-body / lifestyle | Existing registration refined. |
+| B001-A14 | `i think profile owner` | `i think profile owner.PNG` | Found | 243x311 | 211.6 KB | 3/4-to-side full-body lifestyle | Added to `ASSET_INTAKE_BATCH_001.md`. |
+| B001-A15 | `side profile of the owner` | `side profile of the owner.PNG` | Found | 286x374 | 318.7 KB | Side-profile portrait | Added to `ASSET_INTAKE_BATCH_001.md`. |
+| B001-A16 | `another of owner` | `another of owner.PNG` | Found | 194x207 | 116.6 KB | Seated front-ish supplemental reference | Added to `ASSET_INTAKE_BATCH_001.md`. |
+
+Not found:
+
+- `profile owner.png`
+- `profile owner.jpg`
+- `profile owner.jpeg`
+- `profile owner.webp`
+- close normalized `profile owner` variants using spaces, underscores, or hyphens
+
+Owner identity note:
+
+- The found owner references are enough to create `CHARACTER_LIBRARY/COLATTAO_OWNER_IDENTITY_LOCK_V1.md` as a V1 draft.
+- The owner identity lock remains partial, not final-approved.
+- The main gap is a cleaner controlled front portrait and cleaner controlled 3/4 portrait.

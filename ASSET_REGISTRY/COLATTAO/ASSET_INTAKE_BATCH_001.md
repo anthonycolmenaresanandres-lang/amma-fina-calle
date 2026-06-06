@@ -38,12 +38,31 @@ Search notes:
 - `Atmosphere fogata colattao` and `Atmosphere fogata colattao.PNG` were found as `Atmosphere fogata colattao.PNG`.
 - `Atmosphere fogata colattao.jpg` was not found.
 
+## Owner Reference Discovery 001
+
+Additional targeted owner-reference search found three more Desktop owner images:
+
+| Expected owner reference | Exact filename confirmed | Result | Registry action |
+|---|---|---|---|
+| `i think profile owner` | `i think profile owner.PNG` | Found at `C:/Users/antho/OneDrive/Desktop/i think profile owner.PNG` | Added as `B001-A14`. |
+| `profile owner` | Not found | No exact or normalized standalone `profile owner` file found. | Remains missing. |
+| `side profile of the owner` | `side profile of the owner.PNG` | Found at `C:/Users/antho/OneDrive/Desktop/side profile of the owner.PNG` | Added as `B001-A15`. |
+| `another of owner` | `another of owner.PNG` | Found at `C:/Users/antho/OneDrive/Desktop/another of owner.PNG` | Added as `B001-A16`. |
+ 
+Owner reference status after discovery:
+
+- `B001-A12` supplies a full-body / lifestyle spokesperson reference.
+- `B001-A14` supplies a 3/4-to-side full-body lifestyle reference.
+- `B001-A15` supplies the clearest side-profile facial reference.
+- `B001-A16` supplies a seated front-ish supplemental reference.
+- The set is enough for a V1 owner profile draft, but not enough for final approved identity lock without explicit approval or cleaner front and 3/4 portraits.
+
 ## Intake Rules Applied
 
 - Use `Digital Menu`, never `website`, for Colattao campaign language.
 - Logos, QR codes, CTA text, Digital Menu copy, menu copy, pricing, and legal text remain overlays or approved screenshots only.
 - AI-generated logos, AI-generated QR codes, and AI-generated readable campaign text are rejected for final overlay use.
-- Owner identity is not approved from this batch because no owner/spokesperson reference was provided in this batch.
+- Owner identity is not approved from this batch; available owner references are partial, pending approval, and not enough for final identity lock without cleaner front and 3/4 portraits or a documented waiver.
 - Cafe environment lock is not fully approved from this batch; the environment images can enter normalization review, but must still be explicitly approved or waived before environment-specific generation.
 - Sticker/cutout files with checkerboard-looking backgrounds must be treated as needing cleanup until true transparency is confirmed.
 
@@ -64,6 +83,9 @@ Search notes:
 | B001-A11 | `ai_20260523-152258_3.png` | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/ai_20260523-152258_3.png` | 1254x1254 | 1297.6 KB | Smaller matcha drink sticker candidate. No alpha detected. |
 | B001-A12 | `colattao owner.PNG` | `C:/Users/antho/OneDrive/Desktop/colattao owner.PNG` | 248x588 | 339.5 KB | Owner / spokesperson full-body reference, narrow crop. |
 | B001-A13 | `Atmosphere fogata colattao.PNG` | `C:/Users/antho/OneDrive/Desktop/Atmosphere fogata colattao.PNG` | 369x647 | 584.1 KB | Cafe fireplace atmosphere shot with baked visible text. |
+| B001-A14 | `i think profile owner.PNG` | `C:/Users/antho/OneDrive/Desktop/i think profile owner.PNG` | 243x311 | 211.6 KB | Owner / spokesperson full-body 3/4-to-side lifestyle reference. |
+| B001-A15 | `side profile of the owner.PNG` | `C:/Users/antho/OneDrive/Desktop/side profile of the owner.PNG` | 286x374 | 318.7 KB | Owner / spokesperson close side-profile facial reference. |
+| B001-A16 | `another of owner.PNG` | `C:/Users/antho/OneDrive/Desktop/another of owner.PNG` | 194x207 | 116.6 KB | Owner / spokesperson seated front-ish supplemental reference. |
 
 ## Expected Asset Crosswalk
 
@@ -71,7 +93,7 @@ The prompt listed nine expected asset classes. After Batch Correction 001, the r
 
 | Expected asset | Covered by this batch? | Notes |
 |---|---|---|
-| Owner / spokesperson full-body lifestyle image | Yes | `B001-A12`; usable with cleanup, but still not enough for full identity lock without front and 3/4 portraits. |
+| Owner / spokesperson full-body lifestyle image | Yes | `B001-A12` and `B001-A14`; usable with cleanup, but still not enough for full identity lock without approval and cleaner front/3/4 portraits or a waiver. |
 | Colattao logo image | No standalone logo | A blurred/background Colattao mark appears in B001-A02 and a small in-scene mark appears in B001-A05, but neither is a clean logo source. |
 | Fina Calle QR / branded QR image | No | No QR asset is present. QR remains blocking. |
 | Colattao mobile Digital Menu / app screenshot | No | No mobile Digital Menu screenshot is present in this exact batch. |
@@ -247,6 +269,60 @@ CLEANUP REQUIRED: Remove or crop out baked text, check mobile readability, confi
 NOTES / RISKS: Useful as a fogata/fireplace atmosphere asset after cleanup. Cafe environment lock still requires explicit approval or waiver.
 ```
 
+### B001-A14 - Owner 3/4-To-Side Lifestyle Reference
+
+```txt
+ASSET ID: B001-A14
+ASSET NAME: Colattao owner / spokesperson 3/4-to-side lifestyle reference
+EXACT FILENAME: i think profile owner.PNG
+RELATIVE PATH: ../i think profile owner.PNG relative to the AMMA workspace folder; full source path is C:/Users/antho/OneDrive/Desktop/i think profile owner.PNG
+ASSET CLASS: Owner / spokesperson reference
+LIKELY VIEW TYPE: 3/4-to-side full-body lifestyle
+CURRENT STATUS: usable with cleanup
+WHY: The image shows a full-body lifestyle pose and side-facing facial angle, useful for posture, wardrobe variation, and profile continuity, but the face is not a clean front portrait.
+FACE VISIBILITY: Moderate; facial structure is visible from a partial side angle, but small relative to frame.
+INTENDED CAMPAIGN USE: Supplemental 9:16 owner lifestyle reference, posture/presence reference, optional 4:5 lifestyle crop.
+TARGET FORMATS: 9:16 WebP lifestyle reference; 4:5 WebP crop; optional reference-only 1:1 crop.
+CLEANUP REQUIRED: Crop/quality QA, background separation if used for cutout, avoid over-reliance for front facial identity.
+NOTES / RISKS: Do not treat as controlled 3/4 portrait without approval. Useful as supplemental profile/body reference.
+```
+
+### B001-A15 - Owner Side-Profile Facial Reference
+
+```txt
+ASSET ID: B001-A15
+ASSET NAME: Colattao owner / spokesperson side-profile facial reference
+EXACT FILENAME: side profile of the owner.PNG
+RELATIVE PATH: ../side profile of the owner.PNG relative to the AMMA workspace folder; full source path is C:/Users/antho/OneDrive/Desktop/side profile of the owner.PNG
+ASSET CLASS: Owner / spokesperson reference
+LIKELY VIEW TYPE: Side profile portrait
+CURRENT STATUS: usable with cleanup
+WHY: This is the clearest close facial reference found, showing side-profile face shape, nose bridge, lips, eye shape, brow line, hair length, and accessories.
+FACE VISIBILITY: High for side profile; not a front portrait.
+INTENDED CAMPAIGN USE: Side-profile identity reference, facial feature consistency draft, profile-angle generation reference after approval.
+TARGET FORMATS: Reference-only portrait crop; optional 4:5 profile reference; not a final campaign export until approved.
+CLEANUP REQUIRED: Crop out screenshot edges/nearby partial figures, color/edge QA, confirm approval.
+NOTES / RISKS: Strongest facial reference in this set, but still partial because it is side-profile only.
+```
+
+### B001-A16 - Owner Seated Front-ish Supplemental Reference
+
+```txt
+ASSET ID: B001-A16
+ASSET NAME: Colattao owner / spokesperson seated front-ish supplemental reference
+EXACT FILENAME: another of owner.PNG
+RELATIVE PATH: ../another of owner.PNG relative to the AMMA workspace folder; full source path is C:/Users/antho/OneDrive/Desktop/another of owner.PNG
+ASSET CLASS: Owner / spokesperson reference
+LIKELY VIEW TYPE: Seated lifestyle / front-ish portrait
+CURRENT STATUS: usable with cleanup
+WHY: The image provides a front-ish view and seated posture reference, but it is small and lower-detail than the side-profile file.
+FACE VISIBILITY: Moderate; face is visible, but resolution and crop size limit precision.
+INTENDED CAMPAIGN USE: Supplemental front-ish reference, expression/posture reference, optional 4:5 lifestyle crop.
+TARGET FORMATS: Reference-only crop; optional 4:5 WebP lifestyle crop; optional 1:1 supplemental reference crop.
+CLEANUP REQUIRED: Crop/quality QA, avoid using as the only front identity reference, confirm approval.
+NOTES / RISKS: Useful for V1 owner profile, but a cleaner front portrait is still recommended.
+```
+
 ## Approved / Strong Assets
 
 These assets are strong enough to enter a future normalization queue. This does not bypass final campaign approval.
@@ -270,6 +346,9 @@ These assets are strong enough to enter a future normalization queue. This does 
 | B001-A11 | Smaller matcha drink sticker candidate | Remove checkerboard/background, dedupe against B001-A08. | Transparent PNG, transparent WebP, 1:1. |
 | B001-A12 | Owner / spokesperson full-body reference | Background removal, edge cleanup, identity-lock gap review. | Transparent PNG, 9:16, 4:5, optional 1:1. |
 | B001-A13 | Atmosphere fogata Colattao | Remove/crop baked text and export clean atmosphere crops. | 9:16, 4:5. |
+| B001-A14 | Owner 3/4-to-side lifestyle reference | Crop/quality QA; use as supplemental owner reference only. | 9:16, 4:5, optional 1:1. |
+| B001-A15 | Owner side-profile facial reference | Crop screenshot edges; use as side-profile reference only. | Reference crop, optional 4:5. |
+| B001-A16 | Owner seated front-ish supplemental reference | Crop/quality QA; use as supplemental front-ish reference only. | Reference crop, optional 4:5 / 1:1. |
 
 ## Rejected Assets
 
@@ -282,7 +361,7 @@ These assets are strong enough to enter a future normalization queue. This does 
 Required assets still missing from this exact batch:
 
 - Owner front portrait.
-- Owner 3/4 portrait.
+- Clean controlled owner 3/4 portrait.
 - Owner left/right profile if possible.
 - Cleaner official Colattao logo source if available.
 - Fina Calle QR / branded QR image.
@@ -295,7 +374,7 @@ Required assets still missing from this exact batch:
 
 These block owner-led, QR-led, or Digital Menu proof campaign production until resolved or intentionally waived:
 
-- Owner/spokesperson full-body reference is now registered as `B001-A12`, but owner identity lock remains blocked until front and 3/4 portraits are provided or intentionally waived.
+- Owner/spokesperson references are now registered as `B001-A12`, `B001-A14`, `B001-A15`, and `B001-A16`, but owner identity lock remains partial until a cleaner front portrait and controlled 3/4 portrait are provided or intentionally waived.
 - No QR file in this batch, so QR overlay processing cannot begin.
 - No mobile Digital Menu screenshot in this batch, so live Digital Menu proof remains missing for this batch.
 - No clean standalone Colattao logo source in this batch, so logo overlay cleanup must use an already registered logo source or wait for official source upload.
@@ -306,7 +385,7 @@ These block owner-led, QR-led, or Digital Menu proof campaign production until r
 | Asset group | Source assets | Best target formats | Notes |
 |---|---|---|---|
 | Product heroes | B001-A01, B001-A02 | 4:5 WebP, 1:1 WebP, optional 9:16 WebP | B001-A02 should be first product hero candidate. |
-| Owner / spokesperson | B001-A12 | Transparent PNG, 9:16 WebP, 4:5 WebP, optional 1:1 WebP | Usable with cleanup; not enough for full identity lock by itself. |
+| Owner / spokesperson | B001-A12, B001-A14, B001-A15, B001-A16 | Transparent PNG for B001-A12 only if cutout approved; 9:16/4:5 reference crops; optional 1:1 supplemental crops | Usable with cleanup; enough for V1 owner profile draft, still partial for final identity lock. |
 | Cafe environment | B001-A03, B001-A13 | 9:16 WebP, 4:5 WebP | B001-A13 needs baked text removed/cropped; environment lock still requires approval or waiver. |
 | Cafe detail inserts | B001-A04, B001-A05 | 9:16 WebP, 4:5 WebP, optional 1:1 | Useful for pacing and premium texture. |
 | Stickers / cutouts | B001-A06, B001-A07, B001-A08, B001-A10, B001-A11 | Transparent PNG, transparent WebP, 1:1 | Cleanup required because no alpha was detected. |
