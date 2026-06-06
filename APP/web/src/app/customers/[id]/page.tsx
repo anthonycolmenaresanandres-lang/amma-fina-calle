@@ -8,17 +8,15 @@ type CustomerPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 function formatStatus(value: string) {
   return value.replace(/_/g, " ");
 }
 
-function hasUrl(value: string | undefined) {
-  return Boolean(value && value.trim().length > 0);
-}
-
 export async function generateMetadata({ params }: CustomerPageProps) {
   const { id } = await params;
-  const customer = getCustomerById(id);
+  const customer = await getCustomerById(id);
 
   return {
     title: customer
@@ -29,7 +27,7 @@ export async function generateMetadata({ params }: CustomerPageProps) {
 
 export default async function CustomerAccountPage({ params }: CustomerPageProps) {
   const { id } = await params;
-  const customer = getCustomerById(id);
+  const customer = await getCustomerById(id);
 
   if (!customer) {
     notFound();
@@ -104,22 +102,6 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
                 >
                   Request Update
                 </Link>
-                {hasUrl(customer.stripeInvoiceUrl) ? (
-                  <a
-                    href={customer.stripeInvoiceUrl}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
-                  >
-                    Pay Invoice
-                  </a>
-                ) : null}
-                {hasUrl(customer.stripePortalUrl) ? (
-                  <a
-                    href={customer.stripePortalUrl}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
-                  >
-                    Manage Billing
-                  </a>
-                ) : null}
               </div>
             </section>
 
