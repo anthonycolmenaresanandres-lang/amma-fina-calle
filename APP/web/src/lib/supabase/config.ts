@@ -8,3 +8,4 @@ export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 export const MENU_IMAGE_BUCKET = "menu-images";
 export const BRAND_ASSET_BUCKET = "brand-assets";
+export const REQUEST_UPLOAD_BUCKET = "request-uploads";

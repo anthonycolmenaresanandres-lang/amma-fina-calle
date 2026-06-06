@@ -1,6 +1,6 @@
 import "server-only";
 import { createServerSupabase } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { isSupabaseConfigured, REQUEST_UPLOAD_BUCKET } from "@/lib/supabase/config";
 
 export type ChangeRequestPayload = {
   businessName: string;
@@ -48,6 +48,92 @@ export async function persistChangeRequest(
   } catch (error) {
     console.error("[customer-requests] persist threw", error);
     return { persisted: false };
+  }
+}
+
+// Extension by validated MIME type — mirrors the API route's allowlist so a
+// stored key always carries a sensible extension. Unknown types fall back to
+// "bin" rather than trusting the client-supplied filename extension.
+const EXT_BY_TYPE: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/heic": "heic",
+  "image/heif": "heif",
+  "application/pdf": "pdf",
+};
+
+/** Sanitize a base filename to [a-z0-9-]; the raw name is never used in a key. */
+function sanitizeBase(input: string): string {
+  const dot = input.lastIndexOf(".");
+  const base = dot > 0 ? input.slice(0, dot) : input;
+  return (
+    base
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "-")
+      .replace(/[-.]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60) || "file"
+  );
+}
+
+/**
+ * Upload already-validated intake files to the request-uploads bucket and
+ * record each as an attachment via add_change_request_attachment. Keyed by the
+ * request's reference_id. No-ops when Supabase is not configured. Never throws
+ * and never fails the whole batch on one bad file — returns the count stored so
+ * the API can report storage status honestly.
+ */
+export async function storeRequestAttachments(
+  referenceId: string,
+  files: File[],
+): Promise<{ stored: number }> {
+  if (!isSupabaseConfigured || files.length === 0) return { stored: 0 };
+
+  try {
+    const supabase = await createServerSupabase();
+    if (!supabase) return { stored: 0 };
+
+    let stored = 0;
+    for (const file of files) {
+      const ext = EXT_BY_TYPE[file.type] ?? "bin";
+      const stamp = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+      const path = `${referenceId}/${sanitizeBase(file.name)}-${stamp}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from(REQUEST_UPLOAD_BUCKET)
+        .upload(path, file, { contentType: file.type, upsert: false });
+      if (uploadError) {
+        console.error("[customer-requests] upload failed", uploadError.message);
+        continue;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from(REQUEST_UPLOAD_BUCKET).getPublicUrl(path);
+
+      const { error: recordError } = await supabase.rpc("add_change_request_attachment", {
+        p_reference_id: referenceId,
+        p_bucket: REQUEST_UPLOAD_BUCKET,
+        p_path: path,
+        p_public_url: publicUrl,
+        p_file_name: file.name.slice(0, 200),
+        p_content_type: file.type,
+        p_byte_size: file.size,
+      });
+      if (recordError) {
+        console.error("[customer-requests] attachment record failed", recordError.message);
+        continue;
+      }
+
+      stored += 1;
+    }
+
+    return { stored };
+  } catch (error) {
+    console.error("[customer-requests] attachment storage threw", error);
+    return { stored: 0 };
   }
 }
 

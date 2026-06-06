@@ -3,8 +3,13 @@ import Link from "next/link";
 export const metadata = {
   title: "Contact | Fina Calle OS",
   description:
-    "Static contact and next-step shell for AMMA Ventures LLC DBA Fina Calle.",
+    "Get in touch with AMMA Ventures LLC DBA Fina Calle — start a build, send a request, or email directly.",
 };
+
+const CONTACT_EMAIL = "anthonycolmenaresanandres@gmail.com";
+const EMAIL_SUBJECT = "Fina Calle — new project";
+const EMAIL_BODY =
+  "Hi Anthony,\n\nBusiness name:\nWhat I want built:\nTimeline:\n\nThanks!";
 
 export default function ContactPage() {
   return (
@@ -27,39 +32,58 @@ export default function ContactPage() {
               Next Step
             </p>
             <h1 className="mt-5 text-4xl font-semibold tracking-normal text-[#f4f6f7] sm:text-5xl">
-              Contact Anthony directly.
+              Let&apos;s build something premium.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
-              This is a static contact route shell. No form, booking system,
-              inbox automation, or payment flow is connected here.
+              The fastest way in is the build request — two minutes and we reply
+              with a clear direction, the right package, and a fixed quote. Prefer
+              email? Reach Anthony directly.
             </p>
           </div>
 
           <section className="rounded-lg border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">
-            <h2 className="text-xl font-semibold text-[#eef2f4]">
-              Direct contact
+            <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
+              Start a project
             </h2>
             <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-              Direct contact details intentionally withheld for now.
-            </p>
-            <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-              For now, this page exists to mark the public next-step route
-              without collecting personal data or pretending a booking system is
-              live.
+              Tell us your business and what you want built — QR menus, branded
+              web systems, mini-games, and customer journeys for local business.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row">
               <Link
-                href="/case-studies"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8b36d]/38 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4d99c] transition hover:border-[#f4d99c]/70 hover:bg-[#d8b36d]/16"
-              >
-                View Proof
-              </Link>
-              <Link
                 href="/request-update"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#cfd6da]/24 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
+                className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#d8b36d]/60 bg-[#f4f6f7] px-5 text-xs font-black uppercase tracking-[0.16em] text-[#050607] shadow-[0_18px_46px_-28px_rgba(216,179,109,0.95)] transition hover:-translate-y-0.5 hover:bg-white"
               >
-                Existing Intake
+                Request a Build
               </Link>
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                  EMAIL_SUBJECT,
+                )}&body=${encodeURIComponent(EMAIL_BODY)}`}
+                className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
+              >
+                Email Directly
+              </a>
+            </div>
+
+            <div className="mt-6 border-t border-[#cfd6da]/10 pt-5">
+              <p className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
+                Direct email
+              </p>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="mt-1 block break-words text-sm font-medium text-[#f4d99c] transition hover:text-[#f8e7bc]"
+              >
+                {CONTACT_EMAIL}
+              </a>
+              <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
+                Want proof first?{" "}
+                <Link href="/case-studies" className="text-[#eef2f4] underline-offset-4 hover:underline">
+                  See the Colattao case study
+                </Link>
+                . No booking system or payment flow runs on this page — billing
+                always stays separate from your POS.
+              </p>
             </div>
           </section>
         </section>
