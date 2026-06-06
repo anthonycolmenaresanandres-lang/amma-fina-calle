@@ -8,12 +8,17 @@ This document lists the remaining blockers before Colattao Encanto Digital Menu 
 
 ### 1. Approved Logo Overlay Needed
 
-Status: blocking.
+Status: reduced to approval blocker.
+
+Current evidence:
+
+- `README_colattao_overlay_assets.txt` lists transparent logo output filenames.
+- A separate Colattao logo visual reference was found and used to create local transparent PNG recovery candidates.
+- Recovered candidates are available in `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/`.
 
 Required:
 
-- Clean approved Colattao logo PNG or SVG.
-- Transparent or overlay-safe export.
+- Visual approval of the recovered transparent candidates, or replacement with a cleaner official Colattao logo PNG/SVG.
 - Confirmation that it is the official approved mark.
 
 Rule:
@@ -23,13 +28,18 @@ Rule:
 
 ### 2. Scan-Tested QR PNG Needed
 
-Status: blocking.
+Status: reduced to scan-test and destination-confirmation blocker.
+
+Current evidence:
+
+- `README_colattao_overlay_assets.txt` confirms local decode destination for Cafe Rush: `https://colattao-cafe-rush.vercel.app/`.
+- A real attached `Full Menu` QR poster was found and normalized into QR candidates in `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/`.
 
 Required:
 
-- Digital Menu QR PNG.
-- Cafe Rush QR PNG if campaign includes Cafe Rush.
-- Each QR must be generated outside AI and scan-tested.
+- Confirm whether the normalized `Full Menu` QR decodes to the Digital Menu route.
+- If the QR decodes to Cafe Rush/root instead, approve revised CTA/destination alignment.
+- The QR pattern was not AI-generated; it was cropped from the attached source and still must be phone scan-tested.
 - Destination must be written clearly in the registry.
 
 Rule:
@@ -55,11 +65,15 @@ Rule:
 
 ### 4. Final CTA Text Needed
 
-Status: blocking.
+Status: reduced to approval blocker.
+
+Current CTA candidate:
+
+- `Scan. Play Cafe Rush. Discover Colattao.`
 
 Required:
 
-- Final editable CTA copy.
+- Final approval of editable CTA copy.
 - Intended placement: 9:16 bottom safe area or 4:5 bottom safe area.
 - Confirmation of whether CTA points to Digital Menu, Cafe Rush, QR scan, or both.
 
@@ -116,15 +130,71 @@ Reason:
 
 ## Next Uploads Needed From Anthony
 
-1. Official Colattao logo source file.
-2. Approved Digital Menu QR PNG.
-3. Approved Cafe Rush QR PNG if used.
+1. Approval of recovered Colattao logo candidates, or official Colattao logo source file.
+2. Phone scan-test and destination confirmation for `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`.
+3. Revised QR/CTA alignment approval if scan result is not the Digital Menu route.
 4. Clean mobile Digital Menu screenshot/proof.
-5. Final CTA text.
+5. Final approval of CTA candidate: `Scan. Play Cafe Rush. Discover Colattao.`
 6. Owner front portrait.
 7. Owner 3/4 portrait.
 8. Manual/API transparent owner cutout if owner appears prominently.
 
 ## Recommended Next Task
 
-Create a no-render static mockup assembly plan for Variant A once logo, QR, Digital Menu proof, and CTA text are approved.
+Review Static Mockup Outputs 001, then phone scan-test the QR and approve CTA/destination alignment before publishing.
+
+
+## Overlay Registration 001 Update
+
+Registered in `ASSET_REGISTRY/COLATTAO/OVERLAY_ASSET_REGISTRATION_001.md`:
+
+- README metadata for intended Colattao transparent logo and Cafe Rush QR outputs.
+- Cafe Rush QR destination: `https://colattao-cafe-rush.vercel.app/`.
+- Editable CTA candidate: `Scan. Play Cafe Rush. Discover Colattao.`
+
+Still required:
+
+- Recover or re-upload the actual transparent logo PNG files.
+- Review recovered transparent logo candidates in `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/`.
+- Phone scan-test the normalized attached QR tile.
+- Phone scan-test every QR before posting or printing.
+- Approve the CTA candidate before final use.
+
+## Overlay Recovery Pass 001 Update
+
+Created recovered transparent logo candidates:
+
+| Output path | Dimensions | Format | Status | Limitation |
+|---|---:|---|---|---|
+| `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_cream_transparent_master.png` | 928x513 | PNG RGBA | recovered candidate | Edge quality inherits rough/speckled source texture; final approval required. |
+| `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_cream_transparent_1600px.png` | 1600x884 | PNG RGBA | recovered candidate | Upscaled from local recovery; final approval required. |
+| `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_white_transparent_master.png` | 928x513 | PNG RGBA | recovered candidate | Edge quality inherits rough/speckled source texture; final approval required. |
+| `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_white_transparent_1600px.png` | 1600x884 | PNG RGBA | recovered candidate | Upscaled from local recovery; final approval required. |
+
+QR status remains blocking:
+
+- A real attached `Full Menu` QR poster source was found and normalized.
+- QR files were created by cropping/preserving the real source QR; the QR pattern was not generated or recreated.
+- Local decode was unavailable because `cv2`, `pyzbar`, and `zbarimg` were not installed.
+- Phone scan-test remains required before posting or printing.
+
+## QR Processing Pass 001 Update
+
+Created QR candidates from the attached `Full Menu` source image:
+
+- `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_source_master.png`
+- `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`
+- `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_4x5.png`
+- `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_9x16.png`
+
+Created static mockup candidates:
+
+- `ASSET_REGISTRY/COLATTAO/normalized/mockups_v1/colattao-encanto-static-concept-a-9x16-v001.png`
+- `ASSET_REGISTRY/COLATTAO/normalized/mockups_v1/colattao-encanto-static-concept-a-4x5-v001.png`
+
+Remaining blocker is not file availability; it is verification:
+
+- Local decode was unavailable.
+- Phone scan-test is required.
+- Decoded destination must be recorded.
+- CTA/destination alignment must be approved before publishing.
