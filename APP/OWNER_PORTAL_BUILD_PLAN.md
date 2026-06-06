@@ -204,6 +204,28 @@ it" and is the prerequisite for everything else.
 - No POS integration. ✅
 - No fake features — every dashboard element maps to real data. ✅
 
+## 9a. Locked decisions (2026-06-06)
+
+- **Stack:** Supabase — built-in magic-link **Auth**, Postgres, **Row-Level Security**
+  (data locked per restaurant at the DB, not just in app code), and Storage for image
+  uploads. Chosen over hand-rolled tokens to minimize security code we own.
+- **Build scope:** one-shot foundation = auth + DB model + owner-safe menu editor +
+  audit rail + public-menu reader in a single pass.
+- **Non-negotiable rails (must hold even in a one-shot build):**
+  1. Every owner write goes through **one** `applyOwnerChange()` function that writes
+     the change *and* appends to the audit log in a single transaction. The editor
+     never writes to the DB directly.
+  2. RLS policies so a session can only read/write **its own** restaurant's rows; the
+     session's `restaurantId` must match the `/owner/{id}` URL param.
+  3. Owners edit **structured fields only** (item name, price, available flag, promo
+     text, hours, image). No freeform HTML, CSS, or design control.
+  4. Image upload is the only unstructured surface — validate type + size, store in
+     Supabase Storage, never trust the filename.
+  5. Email allowlist (`owner_emails`); no email enumeration on the request-link step.
+  6. Secrets in Vercel/Supabase env only, never committed.
+- **Audit vs rollback:** ship the append-only audit log now; one-click rollback is a
+  later, separate step (not part of the foundation).
+
 ## 10. Open decisions for later (not blockers)
 
 - Multiple owner emails per restaurant from day one, or single owner first?
