@@ -14,8 +14,16 @@ In the Supabase **SQL Editor**, run, in order:
    `apply_owner_change` audited write rail, and the public read function.
 2. `supabase/migrations/0002_change_requests_intake.sql` — intake columns + the
    `submit_change_request` RPC used to persist public change requests.
-3. `supabase/seed.sql` — seeds the Colattao restaurant + a starter menu and one
+3. `supabase/migrations/0003_customer_registry_reads.sql` — read functions for
+   the `/customers` registry.
+4. `supabase/migrations/0004_admin_gating.sql` — `admin_emails` table + admin
+   allowlist functions; locks the registry reads to admins and revokes anon.
+5. `supabase/seed.sql` — seeds the Colattao restaurant + a starter menu and one
    authorized owner email.
+
+> `/customers` and `/customers/[id]` are admin-gated: only emails in
+> `admin_emails` can sign in (via the same magic link) and read the registry.
+> `0004` seeds `anthonycolmenaresanandres@gmail.com` as the first admin.
 
 > Edit `supabase/seed.sql` first if you want a different owner email. Only emails
 > in `owner_emails` can sign in for a restaurant.

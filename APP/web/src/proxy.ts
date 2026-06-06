@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-// Next.js 16: middleware is now "proxy". Scoped to /owner/* only so unrelated
-// routes (landing, /conquest, /m, etc.) are never touched. No-ops entirely when
-// Supabase is not configured. This only refreshes the session cookie — real
-// authorization is enforced server-side in the /owner/[id] page.
+// Next.js 16: middleware is now "proxy". Scoped to /owner/* and /customers/*
+// only so unrelated routes (landing, /conquest, /m, etc.) are never touched.
+// No-ops entirely when Supabase is not configured. This only refreshes the
+// session cookie — real authorization is enforced server-side in the page
+// helpers (getOwnerContext / getAdminContext), not here.
 export async function proxy(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -34,5 +35,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/owner/:path*"],
+  matcher: ["/owner/:path*", "/customers/:path*"],
 };

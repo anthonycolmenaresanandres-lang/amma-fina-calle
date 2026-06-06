@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCustomerById } from "@/data/customers";
+import { getAdminContext } from "@/lib/admin/auth";
+import AdminGate from "../AdminGate";
 
 type CustomerPageProps = {
   params: Promise<{
@@ -27,6 +29,12 @@ export async function generateMetadata({ params }: CustomerPageProps) {
 
 export default async function CustomerAccountPage({ params }: CustomerPageProps) {
   const { id } = await params;
+
+  const admin = await getAdminContext();
+  if (admin.state !== "authorized") {
+    return <AdminGate ctx={admin} />;
+  }
+
   const customer = await getCustomerById(id);
 
   if (!customer) {
@@ -45,7 +53,11 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
           <Link href="/customers" className="transition hover:text-white">
             Back to Accounts
           </Link>
-          <span className="hidden sm:inline">Manual Customer View</span>
+          <form action="/customers/signout" method="post">
+            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
+              Sign out
+            </button>
+          </form>
         </header>
 
         <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start lg:py-14">

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getCustomers } from "@/data/customers";
+import { getAdminContext } from "@/lib/admin/auth";
+import AdminGate from "./AdminGate";
 
 function formatStatus(value: string) {
   return value.replace(/_/g, " ");
@@ -14,6 +16,11 @@ export const metadata = {
 };
 
 export default async function CustomersPage() {
+  const admin = await getAdminContext();
+  if (admin.state !== "authorized") {
+    return <AdminGate ctx={admin} />;
+  }
+
   const customers = await getCustomers();
   return (
     <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
@@ -27,7 +34,11 @@ export default async function CustomersPage() {
           <Link href="/" className="transition hover:text-white">
             Back to Fina Calle OS
           </Link>
-          <span className="hidden sm:inline">Manual Accounts</span>
+          <form action="/customers/signout" method="post">
+            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
+              Sign out
+            </button>
+          </form>
         </header>
 
         <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:py-14">
