@@ -16,6 +16,23 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Internal Admin Gate
+
+The `/customers` and `/customers/[id]` routes are internal account surfaces. They require a valid Supabase Auth session and an email listed in:
+
+```bash
+INTERNAL_ADMIN_EMAILS=anthony@example.com,other@example.com
+```
+
+Required Supabase environment variables:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+If these variables are missing, `/customers` fails closed by redirecting to `/`. Public routes remain public.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

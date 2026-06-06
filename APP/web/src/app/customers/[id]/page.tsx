@@ -17,13 +17,10 @@ function hasUrl(value: string | undefined) {
 }
 
 export async function generateMetadata({ params }: CustomerPageProps) {
-  const { id } = await params;
-  const customer = getCustomerById(id);
+  await params;
 
   return {
-    title: customer
-      ? `${customer.businessName} Account | Fina Calle OS`
-      : "Customer Account | Fina Calle OS",
+    title: "Customer Account | Fina Calle OS",
   };
 }
 
