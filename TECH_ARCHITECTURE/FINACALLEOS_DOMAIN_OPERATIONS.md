@@ -88,55 +88,33 @@ Directly verified:
 
 ## Remaining Blockers
 
-No DNS, SSL, route, or redirect blocker remains for the checked custom domain operation.
-
-Operational blocker still open:
-- Main branch redeploy risk remains documented: current `origin/main` does not contain the full Client OS dynamic route set that is live in the promoted known-good deployment.
+No DNS, SSL, route, redirect, or main-branch route-preservation blocker remains for the checked custom domain operation.
 
 ## Main Branch Redeploy Risk Verification
 
 Date checked: 2026-06-06
 
-Current status:
-- `origin/main` contains `/`, `/request-update`, `/customers`, and `/customers/colattao`.
-- `origin/main` does not contain the full live Client OS route set.
-- Live Client OS route set exists on remote branch `origin/claude/restaurant-owner-page-status-TUOJ6` at commit `48f49f8`.
+Final status:
+- PR #2 was reviewed and merged into `main`.
+- Merge commit: `fbad670caaefb77507e6f5195a0e0c4ddd3ded7f`.
+- Local `main` was fast-forwarded to latest `origin/main` after merge.
+- `origin/main` now contains the full live Client OS route set needed for future redeploys.
 
-Missing or incompatible route-set files on `origin/main`:
+Required route files verified on `main` after pull:
+- `APP/web/src/app/page.tsx`
+- `APP/web/src/app/request-update/page.tsx`
 - `APP/web/src/app/m/[id]/page.tsx`
 - `APP/web/src/app/owner/[id]/page.tsx`
-- `APP/web/src/app/owner/[id]/OwnerDashboard.tsx`
-- `APP/web/src/app/owner/[id]/OwnerLogin.tsx`
-- `APP/web/src/app/owner/[id]/auth/callback/route.ts`
-- `APP/web/src/app/owner/[id]/signout/route.ts`
-- `APP/web/src/app/customers/AdminGate.tsx`
-- `APP/web/src/app/customers/AdminLogin.tsx`
-- `APP/web/src/app/customers/auth/callback/route.ts`
-- `APP/web/src/app/customers/signout/route.ts`
-- `APP/web/src/lib/admin/*`
-- `APP/web/src/lib/owner/*`
-- `APP/web/src/lib/requests/*`
-- `APP/web/src/lib/storage/uploadImage.ts`
-- `APP/web/src/lib/supabase/config.ts`
-- Supabase migrations `APP/web/supabase/migrations/0001` through `0004`
-- `APP/web/supabase/seed.sql`
+- `APP/web/src/app/customers/page.tsx`
+- `APP/web/src/app/customers/[id]/page.tsx`
 
-Compatibility files needed with the Client OS route set:
-- Update `APP/web/package.json` and `APP/web/package-lock.json`.
-- Update `APP/web/src/app/api/customer-requests/route.ts`.
-- Update `APP/web/src/app/request-update/page.tsx`.
-- Update `APP/web/src/app/customers/page.tsx`.
-- Update `APP/web/src/app/customers/[id]/page.tsx`.
-- Update `APP/web/src/data/customers.ts`.
-- Update `APP/web/src/lib/supabase/server.ts`.
-- Remove stale main-only file `APP/web/src/app/customers/layout.tsx`.
-- Remove stale main-only file `APP/web/src/lib/auth/internal-admin.ts`.
+Stale main-only conflict files verified removed:
+- `APP/web/src/app/customers/layout.tsx`
+- `APP/web/src/lib/auth/internal-admin.ts`
 
-Build verification:
-- A temporary worktree from `origin/main` was created.
-- The minimal Client OS route-set import above was applied from `origin/claude/restaurant-owner-page-status-TUOJ6`.
-- `npm.cmd install --prefix APP/web` was run inside the temporary worktree only.
-- `npm.cmd run build --prefix APP/web` passed.
+Final build verification from `main`:
+- Command: `npm.cmd run build --prefix APP/web`
+- Result: passed.
 - Verified build routes included:
   - `/`
   - `/request-update`
@@ -145,12 +123,9 @@ Build verification:
   - `/customers`
   - `/customers/[id]`
 
-Recommended PR path:
-1. Create a branch from `origin/main`.
-2. Apply only the minimal route-set and compatibility files listed above from `origin/claude/restaurant-owner-page-status-TUOJ6`.
-3. Build with `npm.cmd run build` from `APP/web`.
-4. Open a PR to `main`.
-5. Do not deploy production until the PR is reviewed and the known-good route set is preserved on `main`.
+Production redeploy status:
+- A future production redeploy from current `main` is now safe from the previously documented missing-route risk.
+- No production redeploy was performed during this verification.
 
 ## Safe Primary-Domain Recommendation
 
@@ -158,12 +133,13 @@ Root canonicalization is complete and verified.
 
 `https://finacalleos.com` is safe as the canonical production domain from a DNS, SSL, route-health, and redirect standpoint.
 
-Do not redeploy from current `main` until the Client OS route-set risk is resolved.
+Current `main` is safe from the previously documented missing-route redeploy risk. Do not redeploy production unless a deployment is explicitly requested and verified.
 
 ## Next Action
 
-Commit this docs-only redeploy-risk update if desired.
+Final docs-only redeploy-risk update recorded after PR #2 merge and final main build verification.
 
 Separate next engineering action:
 - Create the minimal Client OS route-set PR described above.
 - Do not redeploy production from GitHub `main` until that PR is merged and verified.
+
