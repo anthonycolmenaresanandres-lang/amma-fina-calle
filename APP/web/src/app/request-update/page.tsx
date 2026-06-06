@@ -35,22 +35,51 @@ export default function RequestUpdatePage() {
         <div className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:py-10">
           <section className="flex flex-col items-start">
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
-              Intake Control Panel
+              Request a Build
             </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-normal text-[#f4f6f7] sm:text-4xl">
+              Tell us what your business needs.
+            </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
-              Request a QR menu, branded web system, mini-game, customer
-              journey, or digital storefront upgrade.
+              QR menus, branded web systems, mini-games, and customer journeys for
+              local businesses — built to look bigger than you are.
             </p>
 
-            <div className="mt-8 w-full max-w-xl rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4 text-sm leading-6 text-[#aeb7bd] shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)]">
-              <p className="font-semibold uppercase tracking-[0.18em] text-[#eef2f4]">
-                Transparent Phase 1
-              </p>
-              <p className="mt-2">
-                This intake creates a reference ID only. No payment, storage,
-                or automated approval is connected yet.
-              </p>
-            </div>
+            <ol className="mt-8 w-full max-w-xl space-y-3">
+              {[
+                {
+                  num: "01",
+                  title: "You send the request",
+                  body: "Tell us your business and what you want built. Takes two minutes.",
+                },
+                {
+                  num: "02",
+                  title: "We review and scope it",
+                  body: "We reply with a clear direction, the right package, and a fixed quote.",
+                },
+                {
+                  num: "03",
+                  title: "Approve and we build",
+                  body: "A deposit kicks off the build, and you review everything on mobile first.",
+                },
+              ].map((step) => (
+                <li
+                  key={step.num}
+                  className="flex gap-4 rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)]"
+                >
+                  <span className="text-sm font-semibold text-[#d8b36d]">{step.num}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-[#eef2f4]">{step.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mt-5 max-w-xl text-xs leading-6 text-[#8f9aa1]">
+              No payment is taken here. Packages and secure deposits arrive after we
+              scope your build — and billing always stays separate from your POS.
+            </p>
           </section>
 
           <section
