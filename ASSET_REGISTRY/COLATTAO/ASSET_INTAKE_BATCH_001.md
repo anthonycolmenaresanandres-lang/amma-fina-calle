@@ -57,6 +57,62 @@ Owner reference status after discovery:
 - `B001-A16` supplies a seated front-ish supplemental reference.
 - The set is enough for a V1 owner profile draft, but not enough for final approved identity lock without explicit approval or cleaner front and 3/4 portraits.
 
+## Animated Owner Character Reference 001
+
+A new illustrated Colattao owner character reference sheet was requested for registration as an animation translation layer.
+
+Current search result:
+
+- File not found in targeted search.
+- Expected filename not found: `colattao_owner_animated_character_reference_sheet_v1.png`.
+- No exact path is registered yet.
+- No dimensions or file size can be recorded yet.
+
+Targeted locations searched:
+
+- `ASSET_REGISTRY/COLATTAO/`
+- `CHARACTER_LIBRARY/`
+- `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/`
+
+Registry handling:
+
+```txt
+ASSET CLASS:
+owner animated character reference
+
+CURRENT STATUS:
+pending-upload
+
+TARGET STATUS AFTER FILE IS SAVED AND VISUALLY CONFIRMED:
+approved-candidate
+
+PURPOSE:
+animation translation layer for owner-led Colattao campaign visuals
+
+LIMITATION:
+not a replacement for real owner identity references
+```
+
+The illustrated sheet should be treated as style/animation support only. Real owner photos remain the identity source, and `COLATTAO_OWNER_IDENTITY_LOCK_V1` remains partial.
+
+Useful views to verify after upload:
+
+- Front body.
+- Back body.
+- Close-up portrait.
+- Consistent outfit.
+- Consistent hair.
+- Consistent body silhouette.
+- Clean animation-friendly reference sheet.
+
+Recommended future exports after source upload and approval:
+
+- `1:1` master reference sheet.
+- `9:16` owner intro frame.
+- Close-up portrait crop.
+- Full-body front crop.
+- Full-body back crop.
+
 ## Intake Rules Applied
 
 - Use `Digital Menu`, never `website`, for Colattao campaign language.

@@ -31,6 +31,31 @@ APPROVAL STATUS:
 Draft / partial owner reference lock. Not approved for final owner generation until Anthony/client approval and missing-reference waiver or cleaner front and 3/4 portraits.
 ```
 
+## Animation Translation Layer Note
+
+An illustrated Colattao owner character reference sheet has been requested as a future animation/style translation layer.
+
+Current state:
+
+- The illustrated sheet was not found in the targeted local search.
+- It is not registered as a real identity source.
+- It is not a replacement for the real owner photo references listed above.
+- It must not change, override, or finalize this V1 identity lock.
+
+If uploaded later, it may support:
+
+- Animation posture consistency.
+- Front/back body translation for illustrated motion.
+- Close-up portrait style continuity.
+- Consistent outfit/hair/body silhouette for internal animation planning.
+
+It may not support:
+
+- Final owner identity approval.
+- Final owner-led generation without Anthony/client approval.
+- New facial detail invention.
+- Replacement of real owner references.
+
 ## B. Owner Visual Profile
 
 Use this profile as stable wording only. Do not treat it as a final approved identity lock until the limitations below are resolved.
