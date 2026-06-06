@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { persistChangeRequest, sendChangeRequestEmail } from "@/lib/requests/intake";
+import {
+  persistChangeRequest,
+  sendChangeRequestEmail,
+  storeRequestAttachments,
+} from "@/lib/requests/intake";
 
 export const dynamic = "force-dynamic";
 
@@ -155,12 +159,16 @@ export async function POST(request: Request) {
     filesReceived: files.length,
   };
 
-  // Persist and notify run independently and degrade gracefully: a missing
-  // Supabase/Resend config (or a transient failure) never fails the request.
-  // File attachments are still validated only; durable file storage is a
-  // later phase.
-  const [persistResult, emailResult] = await Promise.all([
-    persistChangeRequest(payload),
+  // Persist first so attachments can link to the stored row by reference_id.
+  // Every stage degrades gracefully: a missing Supabase/Resend config (or a
+  // transient failure) never fails the request. Attachment storage only runs
+  // once the request row itself persisted.
+  const persistResult = await persistChangeRequest(payload);
+
+  const [attachmentResult, emailResult] = await Promise.all([
+    persistResult.persisted
+      ? storeRequestAttachments(referenceId, files)
+      : Promise.resolve({ stored: 0 }),
     sendChangeRequestEmail(payload),
   ]);
 
@@ -168,8 +176,9 @@ export async function POST(request: Request) {
     ok: true,
     referenceId,
     filesReceived: files.length,
+    filesStored: attachmentResult.stored,
     emailActive: emailResult.sent,
-    uploadStorageActive: false,
+    uploadStorageActive: attachmentResult.stored > 0,
     persistenceActive: persistResult.persisted,
   });
 }

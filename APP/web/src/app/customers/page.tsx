@@ -34,11 +34,16 @@ export default async function CustomersPage() {
           <Link href="/" className="transition hover:text-white">
             Back to Fina Calle OS
           </Link>
-          <form action="/customers/signout" method="post">
-            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
-              Sign out
-            </button>
-          </form>
+          <nav className="flex items-center gap-4 tracking-[0.28em]">
+            <Link href="/customers/requests" className="transition hover:text-white">
+              Request Inbox
+            </Link>
+            <form action="/customers/signout" method="post">
+              <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
+                Sign out
+              </button>
+            </form>
+          </nav>
         </header>
 
         <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:py-14">
