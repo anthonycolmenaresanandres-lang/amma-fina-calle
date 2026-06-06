@@ -12,7 +12,9 @@ The app builds and runs **without** Supabase configured — those two routes sho
 In the Supabase **SQL Editor**, run, in order:
 1. `supabase/migrations/0001_owner_portal_foundation.sql` — tables, RLS, the
    `apply_owner_change` audited write rail, and the public read function.
-2. `supabase/seed.sql` — seeds the Colattao restaurant + a starter menu and one
+2. `supabase/migrations/0002_change_requests_intake.sql` — intake columns + the
+   `submit_change_request` RPC used to persist public change requests.
+3. `supabase/seed.sql` — seeds the Colattao restaurant + a starter menu and one
    authorized owner email.
 
 > Edit `supabase/seed.sql` first if you want a different owner email. Only emails
@@ -35,6 +37,17 @@ Locally, copy `.env.example` to `.env.local`; in production, set the same in Ver
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `NEXT_PUBLIC_APP_URL` (your production origin, e.g. `https://your-app.vercel.app`)
+
+Optional (Phase B — change-request notifications; intake still works without them):
+
+- `RESEND_API_KEY` — Resend API key (server-only secret).
+- `REQUESTS_NOTIFICATION_EMAIL` — inbox that receives new requests.
+- `REQUESTS_FROM_EMAIL` — verified Resend sender.
+
+With Supabase set, change requests from `/request-update` are saved to the
+`change_requests` table (via the `submit_change_request` RPC, so no direct insert
+policy is exposed). With the Resend vars also set, each request is emailed to your
+inbox. The API response reports `persistenceActive` / `emailActive` honestly.
 
 ## 6. Verify
 - `/m/colattao` → public menu renders from the database (read-only).
