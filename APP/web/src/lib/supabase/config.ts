@@ -7,3 +7,4 @@ export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 export const MENU_IMAGE_BUCKET = "menu-images";
+export const BRAND_ASSET_BUCKET = "brand-assets";

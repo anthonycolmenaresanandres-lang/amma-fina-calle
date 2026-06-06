@@ -33,10 +33,38 @@ In **Authentication → Providers → Email**, enable email sign-in and "Email O
 magic link." Add your deployed domain under **Authentication → URL Configuration →
 Redirect URLs**, including `https://YOUR_DOMAIN/owner/*`.
 
-## 4. Create the menu image bucket
-In **Storage**, create a **public** bucket named `menu-images`. Add an insert/update
-policy for the `authenticated` role so signed-in owners can upload. (Public read is
-fine — menu photos are public.)
+## 4. Create the storage buckets
+In **Storage**, create a **public** bucket named `menu-images` (owner menu photos).
+Add an insert/update policy for the `authenticated` role so signed-in owners can
+upload. (Public read is fine — menu photos are public.)
+
+```sql
+create policy "authenticated upload menu-images" on storage.objects
+  for insert to authenticated with check (bucket_id = 'menu-images');
+create policy "authenticated update menu-images" on storage.objects
+  for update to authenticated using (bucket_id = 'menu-images');
+```
+
+**Optional — brand assets:** to enable logo/banner/brand uploads later, also create
+a **public** bucket named `brand-assets` with the same two policies (swap the bucket
+id). The shared uploader (`src/lib/storage/uploadImage.ts`, `BRAND_ASSET_BUCKET`)
+targets it. Not required until a brand-upload UI is wired.
+
+### Shared image uploader
+`uploadImage({ bucket, keyPrefix, file, name })` (`src/lib/storage/uploadImage.ts`)
+is the one place image uploads go through. It validates type (PNG/WebP/JPEG) and
+size (≤4 MB), sanitizes the name (never trusts the raw filename), uploads under a
+collision-resistant key, and returns `{ path, publicUrl }`. Callers add their own
+authorization. Example for a future brand upload:
+
+```ts
+const { publicUrl } = await uploadImage({
+  bucket: BRAND_ASSET_BUCKET,
+  keyPrefix: `${restaurantId}/brand`,
+  name: "logo",
+  file,
+});
+```
 
 ## 5. Set environment variables
 Locally, copy `.env.example` to `.env.local`; in production, set the same in Vercel

@@ -4,13 +4,11 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { MENU_IMAGE_BUCKET } from "@/lib/supabase/config";
+import { uploadImage } from "@/lib/storage/uploadImage";
 import { getOwnerContext } from "./auth";
 import { applyOwnerChange } from "./rail";
 
 export type ActionState = { ok: boolean; message: string };
-
-const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
-const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 
 // --- Magic-link request (no enumeration) ------------------------------------
 
@@ -143,31 +141,12 @@ export async function uploadItemImage(
 ): Promise<void> {
   await assertOwner(restaurantId);
 
-  const file = formData.get("image");
-  if (!(file instanceof File) || file.size === 0) {
-    throw new Error("Choose an image to upload.");
-  }
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    throw new Error("Image must be JPEG, PNG, or WebP.");
-  }
-  if (file.size > MAX_IMAGE_BYTES) {
-    throw new Error("Image must be 4MB or smaller.");
-  }
-
-  const supabase = await createServerSupabase();
-  if (!supabase) throw new Error("Supabase is not configured.");
-
-  const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
-  const path = `${restaurantId}/${itemId}-${Date.now()}.${ext}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from(MENU_IMAGE_BUCKET)
-    .upload(path, file, { contentType: file.type, upsert: true });
-  if (uploadError) throw new Error(uploadError.message);
-
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from(MENU_IMAGE_BUCKET).getPublicUrl(path);
+  const { publicUrl } = await uploadImage({
+    bucket: MENU_IMAGE_BUCKET,
+    keyPrefix: restaurantId,
+    name: itemId,
+    file: formData.get("image") as File,
+  });
 
   await applyOwnerChange({
     restaurantId,
