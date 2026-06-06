@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { customers } from "@/data/customers";
+import { getCustomers } from "@/data/customers";
+import { getAdminContext } from "@/lib/admin/auth";
+import AdminGate from "./AdminGate";
 
 function formatStatus(value: string) {
   return value.replace(/_/g, " ");
 }
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Customer Accounts | Fina Calle OS",
@@ -11,7 +15,13 @@ export const metadata = {
     "Manual customer account registry for Fina Calle OS storefront operations.",
 };
 
-export default function CustomersPage() {
+export default async function CustomersPage() {
+  const admin = await getAdminContext();
+  if (admin.state !== "authorized") {
+    return <AdminGate ctx={admin} />;
+  }
+
+  const customers = await getCustomers();
   return (
     <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_18%_80%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
@@ -24,7 +34,11 @@ export default function CustomersPage() {
           <Link href="/" className="transition hover:text-white">
             Back to Fina Calle OS
           </Link>
-          <span className="hidden sm:inline">Manual Accounts</span>
+          <form action="/customers/signout" method="post">
+            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
+              Sign out
+            </button>
+          </form>
         </header>
 
         <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:py-14">
@@ -41,6 +55,12 @@ export default function CustomersPage() {
           </div>
 
           <div className="grid gap-4">
+            {customers.length === 0 ? (
+              <article className="rounded-[1.5rem] border border-[#cfd6da]/16 bg-[#07090b]/82 p-6 text-sm text-[#aeb7bd]">
+                No customer accounts yet. New accounts appear here once added to the
+                registry.
+              </article>
+            ) : null}
             {customers.map((customer) => (
               <article
                 key={customer.id}

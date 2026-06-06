@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { persistChangeRequest, sendChangeRequestEmail } from "@/lib/requests/intake";
 
 export const dynamic = "force-dynamic";
 
@@ -140,23 +141,35 @@ export async function POST(request: Request) {
     }
   }
 
-  // Phase 1 intentionally validates the request only. Email, storage, and persistence attach later.
   const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}`;
-  console.info("[customer-requests] Validated Phase 1 request", {
-    referenceId,
+
+  const payload = {
     businessName,
+    contactName,
+    contactInfo,
     requestType,
     priority,
-    filesReceived: files.length,
+    message,
     sourcePage,
-  });
+    referenceId,
+    filesReceived: files.length,
+  };
+
+  // Persist and notify run independently and degrade gracefully: a missing
+  // Supabase/Resend config (or a transient failure) never fails the request.
+  // File attachments are still validated only; durable file storage is a
+  // later phase.
+  const [persistResult, emailResult] = await Promise.all([
+    persistChangeRequest(payload),
+    sendChangeRequestEmail(payload),
+  ]);
 
   return NextResponse.json({
     ok: true,
     referenceId,
     filesReceived: files.length,
-    emailActive: false,
+    emailActive: emailResult.sent,
     uploadStorageActive: false,
-    persistenceActive: false,
+    persistenceActive: persistResult.persisted,
   });
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCustomerById } from "@/data/customers";
+import { getAdminContext } from "@/lib/admin/auth";
+import AdminGate from "../AdminGate";
 
 type CustomerPageProps = {
   params: Promise<{
@@ -8,25 +10,32 @@ type CustomerPageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 function formatStatus(value: string) {
   return value.replace(/_/g, " ");
 }
 
-function hasUrl(value: string | undefined) {
-  return Boolean(value && value.trim().length > 0);
-}
-
 export async function generateMetadata({ params }: CustomerPageProps) {
-  await params;
+  const { id } = await params;
+  const customer = await getCustomerById(id);
 
   return {
-    title: "Customer Account | Fina Calle OS",
+    title: customer
+      ? `${customer.businessName} Account | Fina Calle OS`
+      : "Customer Account | Fina Calle OS",
   };
 }
 
 export default async function CustomerAccountPage({ params }: CustomerPageProps) {
   const { id } = await params;
-  const customer = getCustomerById(id);
+
+  const admin = await getAdminContext();
+  if (admin.state !== "authorized") {
+    return <AdminGate ctx={admin} />;
+  }
+
+  const customer = await getCustomerById(id);
 
   if (!customer) {
     notFound();
@@ -44,7 +53,11 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
           <Link href="/customers" className="transition hover:text-white">
             Back to Accounts
           </Link>
-          <span className="hidden sm:inline">Manual Customer View</span>
+          <form action="/customers/signout" method="post">
+            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
+              Sign out
+            </button>
+          </form>
         </header>
 
         <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start lg:py-14">
@@ -101,22 +114,6 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
                 >
                   Request Update
                 </Link>
-                {hasUrl(customer.stripeInvoiceUrl) ? (
-                  <a
-                    href={customer.stripeInvoiceUrl}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
-                  >
-                    Pay Invoice
-                  </a>
-                ) : null}
-                {hasUrl(customer.stripePortalUrl) ? (
-                  <a
-                    href={customer.stripePortalUrl}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
-                  >
-                    Manage Billing
-                  </a>
-                ) : null}
               </div>
             </section>
 
