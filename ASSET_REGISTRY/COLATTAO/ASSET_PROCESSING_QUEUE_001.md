@@ -14,6 +14,7 @@ Batch source folders:
 
 - `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/actual cola/`
 - `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/`
+- `C:/Users/antho/OneDrive/Desktop/`
 
 ## Queue Rules
 
@@ -23,20 +24,21 @@ Batch source folders:
 - Do not generate CTA text with AI.
 - Do not generate menu words, Digital Menu copy, pricing, or legal text with AI.
 - Logos, QR codes, CTA text, menu copy, and Digital Menu proof remain overlays or approved screenshots only.
-- Do not approve owner identity lock from this batch; no owner image was provided.
+- Do not approve owner identity lock from this batch; `B001-A12` is only a usable full-body reference and still needs front/3/4 portrait support or a documented waiver.
 - Do not approve full cafe environment lock from this batch without explicit Anthony/client approval or waiver.
 - Do not process rejected assets.
 
-## Priority 1 - Required Core Assets
+## Priority 1 - Owner And Atmosphere Assets
 
-The requested Priority 1 items are the correct production order, but the exact current batch is missing several of those inputs. The queue therefore records blocked Priority 1 work before listing processable batch assets.
+The corrected Priority 1 starts with the newly found owner reference and fogata/fireplace atmosphere asset. Logo, QR, and Digital Menu proof remain blocked until their standalone files are supplied or a previously registered source is explicitly approved.
 
 ### Q001-P1-A - Owner Image
 
 ```txt
-SOURCE: missing from this exact batch
-CURRENT STATUS: missing / blocking
-REQUESTED OUTPUTS:
+SOURCE: B001-A12
+SOURCE PATH: C:/Users/antho/OneDrive/Desktop/colattao owner.PNG
+CURRENT STATUS: usable with cleanup
+PROCESSING OUTPUTS:
 - colattao-b001-owner-fullbody-cutout-v001.png
 - colattao-b001-owner-fullbody-9x16-v001.webp
 - colattao-b001-owner-portrait-4x5-v001.webp
@@ -46,14 +48,35 @@ TARGET FORMATS:
 - 9:16 campaign/spokesperson asset
 - 4:5 premium campaign portrait
 - optional 1:1 secondary crop
-REQUIRED ACTION BEFORE PROCESSING:
-- Upload owner full-body image.
-- Upload owner front portrait.
-- Upload owner 3/4 portrait.
-- Confirm approval or waiver before owner identity lock.
+REQUIRED CHECKS:
+- Remove background and clean edges.
+- Preserve face, outfit, and body proportions.
+- Avoid over-upscaling the narrow crop.
+- Keep identity lock incomplete until front and 3/4 portraits exist or are intentionally waived.
 ```
 
-### Q001-P1-B - Colattao Logo
+### Q001-P1-B - Atmosphere Fogata Colattao
+
+```txt
+SOURCE: B001-A13
+SOURCE PATH: C:/Users/antho/OneDrive/Desktop/Atmosphere fogata colattao.PNG
+CURRENT STATUS: usable with cleanup
+PROCESSING OUTPUTS:
+- colattao-b001-atmosphere-fogata-9x16-v001.webp
+- colattao-b001-atmosphere-fogata-4x5-v001.webp
+TARGET FORMATS:
+- 9:16 environment insert
+- 4:5 premium still
+REQUIRED CHECKS:
+- Remove or crop out baked visible text.
+- Preserve fireplace, chandelier, brick, and lounge atmosphere.
+- Keep overlay-safe space if CTA or logo overlays are added later.
+- Keep cafe environment lock incomplete until explicitly approved or waived.
+```
+
+## Priority 1 Blockers - Missing Required Overlay And Proof Assets
+
+### Q001-P1-C - Colattao Logo
 
 ```txt
 SOURCE: missing as standalone logo in this exact batch
@@ -72,7 +95,7 @@ REQUIRED ACTION BEFORE PROCESSING:
 - Do not AI-generate or mutate the logo.
 ```
 
-### Q001-P1-C - Fina Calle QR / Branded QR
+### Q001-P1-D - Fina Calle QR / Branded QR
 
 ```txt
 SOURCE: missing from this exact batch
@@ -93,7 +116,7 @@ REQUIRED ACTION BEFORE PROCESSING:
 - Record destination beside the QR asset.
 ```
 
-### Q001-P1-D - Digital Menu Screenshot
+### Q001-P1-E - Digital Menu Screenshot
 
 ```txt
 SOURCE: missing from this exact batch
@@ -112,9 +135,9 @@ REQUIRED ACTION BEFORE PROCESSING:
 - Confirm approved route/destination.
 ```
 
-## Priority 1A - Processable Strong Product Assets From This Batch
+## Priority 2 - Product Hero Assets From This Batch
 
-These are the strongest assets actually present and can move first after Anthony approves image processing.
+These product assets can move after Priority 1 owner/fogata cleanup, unless Anthony chooses to process product heroes first for a product-only campaign.
 
 ### Q001-P1A-A - Pistachio Tres Leches Product Hero
 
@@ -156,7 +179,7 @@ REQUIRED CHECKS:
 - Do not add text inside the image.
 ```
 
-## Priority 2 - Environment And Detail Assets
+## Priority 2B - Additional Environment And Detail Assets
 
 ### Q001-P2-A - Cafe Fireplace Group Seating
 
@@ -309,14 +332,17 @@ ACTION:
 
 ## Recommended Processing Order After Approval
 
-1. Resolve missing Priority 1 blockers if the campaign requires owner, QR, logo, or Digital Menu proof.
-2. Normalize B001-A02 as the first product hero.
-3. Normalize B001-A01 as the secondary coffee/pastry hero.
-4. Normalize B001-A03 as the primary environment/fireplace asset.
-5. Normalize B001-A04 and B001-A05 as detail inserts.
-6. Clean and export sticker candidates from B001-A06, B001-A07/B001-A10, and B001-A08/B001-A11.
-7. Exclude B001-A09 from all production work.
-8. Run mobile readability, overlay safety, and source-status QA before campaign assembly.
+1. Process `B001-A12` owner reference into transparent PNG cutout, 9:16 spokesperson asset, and 4:5 portrait.
+2. Process `B001-A13` Atmosphere fogata Colattao into clean 9:16 and 4:5 atmosphere exports with baked text removed or cropped away.
+3. Process `B001-A01` coffee + pastry product still into a 4:5 product hero and optional 9:16 teaser.
+4. Process `B001-A04` hanging plant detail into a 9:16 insert.
+5. Process `B001-A05` shelf decor / in-store branding detail into a 9:16 insert and 4:5 detail crop.
+6. Process `B001-A02` pistachio tres leches hero into 4:5, 1:1, and optional 9:16 exports if included in the same product campaign.
+7. Process `B001-A03` wider fireplace group environment if an additional social seating scene is needed.
+8. Clean and export sticker candidates from `B001-A06`, `B001-A07/B001-A10`, and `B001-A08/B001-A11`.
+9. Resolve missing logo, QR, and Digital Menu proof blockers if the campaign requires those overlays/proof moments.
+10. Exclude `B001-A09` from all production work.
+11. Run mobile readability, overlay safety, and source-status QA before campaign assembly.
 
 ## QA Checklist Before Any Processing
 

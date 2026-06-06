@@ -20,6 +20,23 @@ Provided file locations:
 
 - `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/actual cola/`
 - `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/`
+- `C:/Users/antho/OneDrive/Desktop/`
+
+## Batch Correction 001
+
+Additional exact filename search found two new Desktop assets after the original intake commit:
+
+| Correction asset | Exact filename confirmed | Result | Registry action |
+|---|---|---|---|
+| Owner / spokesperson reference | `colattao owner.PNG` | Found at `C:/Users/antho/OneDrive/Desktop/colattao owner.PNG` | Added as `B001-A12`. |
+| Cafe fireplace atmosphere | `Atmosphere fogata colattao.PNG` | Found at `C:/Users/antho/OneDrive/Desktop/Atmosphere fogata colattao.PNG` | Added as `B001-A13`. |
+
+Search notes:
+
+- `colattaao owner.PNG` was searched as written and not found.
+- `colattao owner.PNG` was found.
+- `Atmosphere fogata colattao` and `Atmosphere fogata colattao.PNG` were found as `Atmosphere fogata colattao.PNG`.
+- `Atmosphere fogata colattao.jpg` was not found.
 
 ## Intake Rules Applied
 
@@ -45,19 +62,21 @@ Provided file locations:
 | B001-A09 | `ai_20260523-145024_4.png` | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/ai_20260523-145024_4.png` | 1254x1254 | 2256.7 KB | Sea Farer's Coffee crossed-out fake/competitor-style mark. Rejected. |
 | B001-A10 | `ai_20260523-152258_2.png` | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/ai_20260523-152258_2.png` | 1254x1254 | 1246.2 KB | Smaller croissant / pastry sticker candidate. No alpha detected. |
 | B001-A11 | `ai_20260523-152258_3.png` | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ai-generations/ai_20260523-152258_3.png` | 1254x1254 | 1297.6 KB | Smaller matcha drink sticker candidate. No alpha detected. |
+| B001-A12 | `colattao owner.PNG` | `C:/Users/antho/OneDrive/Desktop/colattao owner.PNG` | 248x588 | 339.5 KB | Owner / spokesperson full-body reference, narrow crop. |
+| B001-A13 | `Atmosphere fogata colattao.PNG` | `C:/Users/antho/OneDrive/Desktop/Atmosphere fogata colattao.PNG` | 369x647 | 584.1 KB | Cafe fireplace atmosphere shot with baked visible text. |
 
 ## Expected Asset Crosswalk
 
-The prompt listed nine expected asset classes. The exact files in this batch cover product, environment, detail, and sticker assets strongly. They do not include owner, QR, Digital Menu screenshot, or standalone logo assets.
+The prompt listed nine expected asset classes. After Batch Correction 001, the registered files cover owner reference, product, environment, detail, and sticker assets. They still do not include QR, Digital Menu screenshot, or standalone logo assets.
 
 | Expected asset | Covered by this batch? | Notes |
 |---|---|---|
-| Owner / spokesperson full-body lifestyle image | No | No owner/spokesperson image is present in the 11 provided files. |
+| Owner / spokesperson full-body lifestyle image | Yes | `B001-A12`; usable with cleanup, but still not enough for full identity lock without front and 3/4 portraits. |
 | Colattao logo image | No standalone logo | A blurred/background Colattao mark appears in B001-A02 and a small in-scene mark appears in B001-A05, but neither is a clean logo source. |
 | Fina Calle QR / branded QR image | No | No QR asset is present. QR remains blocking. |
 | Colattao mobile Digital Menu / app screenshot | No | No mobile Digital Menu screenshot is present in this exact batch. |
 | Cafe environment group seating / fireplace shot | Yes | B001-A03. |
-| Cafe environment family seating / fireplace shot | Partial | B001-A03 can support social/group seating, but no separate family-specific shot was provided. |
+| Cafe environment family seating / fireplace shot | Yes | `B001-A13` supports family/fireplace atmosphere after cleanup; `B001-A03` remains the stronger wide group seating asset. |
 | Hanging plant detail shot | Yes | B001-A04. |
 | Pistachio tres leches product hero image | Yes | B001-A02, with B001-A01 as an additional coffee/pastry product still. |
 | Colattao shelf decor / in-store branding detail shot | Yes | B001-A05. |
@@ -196,6 +215,38 @@ BEST TARGET FORMATS: Transparent PNG cutout, transparent WebP if supported clean
 NOTES / RISKS: Likely duplicate family with B001-A08. Choose one after visual QA to avoid redundant sticker exports.
 ```
 
+### B001-A12 - Owner / Spokesperson Full-Body Reference
+
+```txt
+ASSET ID: B001-A12
+ASSET NAME: Colattao owner / spokesperson full-body reference
+EXACT FILENAME: colattao owner.PNG
+RELATIVE PATH: ../colattao owner.PNG relative to the AMMA workspace folder; full source path is C:/Users/antho/OneDrive/Desktop/colattao owner.PNG
+ASSET CLASS: Owner / spokesperson reference
+CURRENT STATUS: usable with cleanup
+WHY: The image shows a clear full-body spokesperson reference and can support cutout/portrait processing, but it is a narrow crop and does not satisfy the full owner identity lock requirements by itself.
+INTENDED CAMPAIGN USE: 9:16 spokesperson cutout, 4:5 premium portrait, optional 1:1 secondary crop.
+TARGET FORMATS: Transparent PNG cutout; 9:16 WebP spokesperson asset; 4:5 WebP premium portrait; optional 1:1 WebP crop.
+CLEANUP REQUIRED: Background removal, edge cleanup, upscale/quality QA if needed, safe crop review.
+NOTES / RISKS: Still missing front portrait and 3/4 portrait for true identity lock. Do not begin owner identity generation without approval or waiver.
+```
+
+### B001-A13 - Atmosphere Fogata Colattao
+
+```txt
+ASSET ID: B001-A13
+ASSET NAME: Atmosphere fogata Colattao
+EXACT FILENAME: Atmosphere fogata colattao.PNG
+RELATIVE PATH: ../Atmosphere fogata colattao.PNG relative to the AMMA workspace folder; full source path is C:/Users/antho/OneDrive/Desktop/Atmosphere fogata colattao.PNG
+ASSET CLASS: Cafe environment atmosphere / fireplace shot
+CURRENT STATUS: usable with cleanup
+WHY: The image has strong fireplace, chandelier, brick, and lounge atmosphere, but it contains baked visible text and should not be used as a clean final environment insert until that text is removed or cropped away.
+INTENDED CAMPAIGN USE: 9:16 environment insert, 4:5 premium still, atmosphere establishing visual.
+TARGET FORMATS: 9:16 WebP atmosphere export; 4:5 WebP premium still; optional clean background/reference crop.
+CLEANUP REQUIRED: Remove or crop out baked text, check mobile readability, confirm no final AI-generated text remains, preserve fireplace/chandelier atmosphere.
+NOTES / RISKS: Useful as a fogata/fireplace atmosphere asset after cleanup. Cafe environment lock still requires explicit approval or waiver.
+```
+
 ## Approved / Strong Assets
 
 These assets are strong enough to enter a future normalization queue. This does not bypass final campaign approval.
@@ -217,6 +268,8 @@ These assets are strong enough to enter a future normalization queue. This does 
 | B001-A08 | Matcha drink sticker candidate | Remove checkerboard/background, verify product use. | Transparent PNG, transparent WebP, 1:1. |
 | B001-A10 | Smaller croissant / pastry sticker candidate | Remove checkerboard/background, dedupe against B001-A07. | Transparent PNG, transparent WebP, 1:1. |
 | B001-A11 | Smaller matcha drink sticker candidate | Remove checkerboard/background, dedupe against B001-A08. | Transparent PNG, transparent WebP, 1:1. |
+| B001-A12 | Owner / spokesperson full-body reference | Background removal, edge cleanup, identity-lock gap review. | Transparent PNG, 9:16, 4:5, optional 1:1. |
+| B001-A13 | Atmosphere fogata Colattao | Remove/crop baked text and export clean atmosphere crops. | 9:16, 4:5. |
 
 ## Rejected Assets
 
@@ -230,7 +283,6 @@ Required assets still missing from this exact batch:
 
 - Owner front portrait.
 - Owner 3/4 portrait.
-- Owner full-body standing / lifestyle image.
 - Owner left/right profile if possible.
 - Cleaner official Colattao logo source if available.
 - Fina Calle QR / branded QR image.
@@ -243,7 +295,7 @@ Required assets still missing from this exact batch:
 
 These block owner-led, QR-led, or Digital Menu proof campaign production until resolved or intentionally waived:
 
-- No owner/spokesperson image in this batch, so owner identity lock cannot begin.
+- Owner/spokesperson full-body reference is now registered as `B001-A12`, but owner identity lock remains blocked until front and 3/4 portraits are provided or intentionally waived.
 - No QR file in this batch, so QR overlay processing cannot begin.
 - No mobile Digital Menu screenshot in this batch, so live Digital Menu proof remains missing for this batch.
 - No clean standalone Colattao logo source in this batch, so logo overlay cleanup must use an already registered logo source or wait for official source upload.
@@ -254,7 +306,8 @@ These block owner-led, QR-led, or Digital Menu proof campaign production until r
 | Asset group | Source assets | Best target formats | Notes |
 |---|---|---|---|
 | Product heroes | B001-A01, B001-A02 | 4:5 WebP, 1:1 WebP, optional 9:16 WebP | B001-A02 should be first product hero candidate. |
-| Cafe environment | B001-A03 | 9:16 WebP, 4:5 WebP | Environment lock still requires approval or waiver. |
+| Owner / spokesperson | B001-A12 | Transparent PNG, 9:16 WebP, 4:5 WebP, optional 1:1 WebP | Usable with cleanup; not enough for full identity lock by itself. |
+| Cafe environment | B001-A03, B001-A13 | 9:16 WebP, 4:5 WebP | B001-A13 needs baked text removed/cropped; environment lock still requires approval or waiver. |
 | Cafe detail inserts | B001-A04, B001-A05 | 9:16 WebP, 4:5 WebP, optional 1:1 | Useful for pacing and premium texture. |
 | Stickers / cutouts | B001-A06, B001-A07, B001-A08, B001-A10, B001-A11 | Transparent PNG, transparent WebP, 1:1 | Cleanup required because no alpha was detected. |
 | Rejected/no-use | B001-A09 | None | Do not process. |
