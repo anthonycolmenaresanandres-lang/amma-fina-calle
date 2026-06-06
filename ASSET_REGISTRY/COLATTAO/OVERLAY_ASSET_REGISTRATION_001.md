@@ -90,10 +90,10 @@ INTENDED USE:
 QR overlay or square QR tile for Cafe Rush interaction.
 
 STATUS:
-New attached `Full Menu` QR source normalized; local decode unavailable; phone scan-test required.
+New attached `Full Menu` QR source normalized. Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu.
 
 NOTES:
-A new attached `Full Menu` QR poster was used as the authoritative QR source for QR Processing Pass 001. Local decode tools were unavailable; phone scan-test is required before printing or posting.
+A new attached `Full Menu` QR poster was used as the authoritative QR source for QR Processing Pass 001. Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu.
 ```
 
 ### 3. QR Poster 4x5 And 9x16
@@ -111,10 +111,10 @@ INTENDED USE:
 Supporting Cafe Rush promo/poster formats.
 
 STATUS:
-New QR poster variants created from the attached `Full Menu` QR source. Local decode unavailable; phone scan-test required.
+New QR poster variants created from the attached `Full Menu` QR source. Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu.
 
 NOTES:
-Do not use until files are recovered and phone scan-tested.
+QR files are recovered and phone scan-tested; final visual/client approval is still required.
 ```
 
 ### 4. Editable CTA Candidate
@@ -146,14 +146,14 @@ Reduced:
 Still blocking:
 
 - Original downloaded transparent logo PNG files were not found; recovered transparent candidates now exist but need visual approval.
-- QR scan tile candidate now exists at `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`; phone scan-test still required.
-- QR poster candidates now exist in `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/`; final destination must be verified.
-- Phone scan-test remains required before print or posting.
+- QR scan tile candidate exists at `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`; phone scan-test passed.
+- QR poster candidates exist in `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/`; destination confirmed by Anthony as Colattao Digital Menu.
+- Final visual/client approval remains required before print or posting.
 - Mobile Digital Menu screenshot/proof remains required for Digital Menu proof frame.
 
 ## Recommended Next Step
 
-Review recovered logo candidates, then phone scan-test the normalized QR tile and confirm destination before final static mockup publishing.
+Review recovered logo candidates and approve final visual/client use before static mockup publishing.
 
 ## Overlay Recovery Pass 001 Outputs
 
@@ -168,7 +168,7 @@ Output folder:
 | OVR-001-LOGO-WHITE-MASTER | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ChatGPT Image 5 jun 2026, 11_17_44 p.m..png` | `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_white_transparent_master.png` | 928x513 | PNG RGBA | recovered-transparent-candidate | White Colattao logo overlay master for dark or image backgrounds. | Source has rough/speckled edge texture; not a verified official source file. | yes |
 | OVR-001-LOGO-WHITE-1600 | `C:/Users/antho/OneDrive/Desktop/Fina Calle Brand images CODEX/ChatGPT Image 5 jun 2026, 11_17_44 p.m..png` | `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/colattao_logo_white_transparent_1600px.png` | 1600x884 | PNG RGBA | recovered-transparent-candidate | Large white Colattao logo overlay for high-contrast placements. | Upscaled from local recovery; edge quality needs review. | yes |
 
-QR Processing Pass 001 created normalized QR candidates from the attached `Full Menu` QR poster. Local decode was unavailable because `cv2`, `pyzbar`, and `zbarimg` were not installed; phone scan-test remains mandatory.
+QR Processing Pass 001 created normalized QR candidates from the attached `Full Menu` QR poster. Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu.
 
 ## QR Processing Pass 001 Update
 
@@ -178,14 +178,14 @@ Authoritative QR source:
 
 Source type: designed QR poster with a `Full Menu` label.
 
-Decode result: Local decode not completed: `cv2`, `pyzbar`, and `zbarimg` were not available in the local environment. Source label reads `Full Menu`; final destination must be phone scan-tested before publishing.
+Decode result: Phone scan-test passed. Destination confirmed by Anthony: Colattao Digital Menu.
 
 Created QR outputs:
 
 | Output path | Dimensions | Format | Status | Approval required |
 |---|---:|---|---|---|
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_source_master.png` | 1254x1254 | PNG RGB | source-master | yes |
-| `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png` | 1080x1080 | PNG RGB | scan-tile-candidate | yes, phone scan-test required |
+| `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png` | 1080x1080 | PNG RGB | scan-tile-candidate | yes, final visual/client approval required |
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_4x5.png` | 1080x1350 | PNG RGB | concept-poster-candidate | yes |
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_9x16.png` | 1080x1920 | PNG RGB | concept-poster-candidate | yes |
 
@@ -197,3 +197,10 @@ View the menu while you wait.
 ```
 
 The QR pattern was not generated, redrawn, or AI-recreated.
+
+## QR Approval Status Update
+
+- QR phone scan-test: passed.
+- Destination confirmed by Anthony: Colattao Digital Menu.
+- QR status: approved-candidate, pending final visual/client approval.
+- The QR remains an overlay asset and was not AI-generated or redrawn.

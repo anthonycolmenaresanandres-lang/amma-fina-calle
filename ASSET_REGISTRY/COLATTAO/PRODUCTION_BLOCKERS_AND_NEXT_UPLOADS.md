@@ -28,7 +28,7 @@ Rule:
 
 ### 2. Scan-Tested QR PNG Needed
 
-Status: reduced to scan-test and destination-confirmation blocker.
+Status: reduced to final visual/client approval blocker.
 
 Current evidence:
 
@@ -37,9 +37,9 @@ Current evidence:
 
 Required:
 
-- Confirm whether the normalized `Full Menu` QR decodes to the Digital Menu route.
-- If the QR decodes to Cafe Rush/root instead, approve revised CTA/destination alignment.
-- The QR pattern was not AI-generated; it was cropped from the attached source and still must be phone scan-tested.
+- Destination confirmed by Anthony: Colattao Digital Menu.
+- Keep final CTA/destination alignment available for final visual/client approval.
+- The QR pattern was not AI-generated; it was cropped from the attached source and phone scan-test passed.
 - Destination must be written clearly in the registry.
 
 Rule:
@@ -131,7 +131,7 @@ Reason:
 ## Next Uploads Needed From Anthony
 
 1. Approval of recovered Colattao logo candidates, or official Colattao logo source file.
-2. Phone scan-test and destination confirmation for `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`.
+2. Final visual/client approval for `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png`.
 3. Revised QR/CTA alignment approval if scan result is not the Digital Menu route.
 4. Clean mobile Digital Menu screenshot/proof.
 5. Final approval of CTA candidate: `Scan. Play Cafe Rush. Discover Colattao.`
@@ -141,7 +141,7 @@ Reason:
 
 ## Recommended Next Task
 
-Review Static Mockup Outputs 001, then phone scan-test the QR and approve CTA/destination alignment before publishing.
+Review Static Mockup Outputs 001, then approve final QR/CTA visual treatment before publishing.
 
 
 ## Overlay Registration 001 Update
@@ -156,8 +156,8 @@ Still required:
 
 - Recover or re-upload the actual transparent logo PNG files.
 - Review recovered transparent logo candidates in `ASSET_REGISTRY/COLATTAO/normalized/overlays_v1/`.
-- Phone scan-test the normalized attached QR tile.
-- Phone scan-test every QR before posting or printing.
+- Phone scan-test passed for the normalized attached QR tile.
+- Keep final visual/client approval before posting or printing.
 - Approve the CTA candidate before final use.
 
 ## Overlay Recovery Pass 001 Update
@@ -175,7 +175,7 @@ QR status remains blocking:
 
 - A real attached `Full Menu` QR poster source was found and normalized.
 - QR files were created by cropping/preserving the real source QR; the QR pattern was not generated or recreated.
-- Local decode was unavailable because `cv2`, `pyzbar`, and `zbarimg` were not installed.
+- Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu.
 - Phone scan-test remains required before posting or printing.
 
 ## QR Processing Pass 001 Update
@@ -194,7 +194,19 @@ Created static mockup candidates:
 
 Remaining blocker is not file availability; it is verification:
 
-- Local decode was unavailable.
-- Phone scan-test is required.
-- Decoded destination must be recorded.
-- CTA/destination alignment must be approved before publishing.
+- Phone scan-test passed.
+- Final visual/client approval is required.
+- Destination recorded: Colattao Digital Menu.
+- CTA/destination visual alignment must receive final visual/client approval before publishing.
+
+## QR Scan-Test Approval Update
+
+Removed active blocker: QR not scan-tested.
+
+Current QR status:
+
+- Phone scan-test: passed.
+- Destination confirmed by Anthony: Colattao Digital Menu.
+- Status: approved-candidate, pending final visual/client approval.
+
+Remaining production blocker for QR is visual/client approval only, not scan functionality.

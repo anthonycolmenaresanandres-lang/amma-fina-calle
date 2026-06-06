@@ -16,7 +16,7 @@ No app code, routes, deployments, configs, package files, secrets, API calls, or
 | Source format | PNG RGB |
 | Source status | Authoritative source for this pass |
 | QR classification | Probable Digital Menu / Full Menu QR, pending scan verification |
-| Decode result | Local decode not completed: `cv2`, `pyzbar`, and `zbarimg` were not available in the local environment. Source label reads `Full Menu`; final destination must be phone scan-tested before publishing. |
+| Decode result | Phone scan-test passed. Destination confirmed by Anthony: Colattao Digital Menu. |
 
 ## Extraction Method
 
@@ -38,7 +38,7 @@ Extraction crop: x=174, y=136, x2=1080, y2=1042
 | Output path | Dimensions | Format | Size | Purpose | Status | Limitations |
 |---|---:|---|---:|---|---|---|
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_source_master.png` | 1254x1254 | PNG `RGB` | 722612 bytes | Registry copy of the full attached QR poster source. | source-master | Includes original `Full Menu` label; not a cropped scan tile. |
-| `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png` | 1080x1080 | PNG `RGB` | 410753 bytes | 1:1 QR scan tile with added white quiet zone. | scan-tile-candidate | Local decode unavailable; phone scan-test required. |
+| `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_scan_tile_1x1.png` | 1080x1080 | PNG `RGB` | 410753 bytes | 1:1 QR scan tile with added white quiet zone. | scan-tile-candidate | Phone scan-test passed; destination confirmed by Anthony as Colattao Digital Menu. |
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_4x5.png` | 1080x1350 | PNG `RGB` | 217600 bytes | 4:5 QR poster for feed or carousel support. | concept-poster-candidate | Uses editable text rendered into this local concept output; approve final copy before publishing. |
 | `ASSET_REGISTRY/COLATTAO/normalized/qr_v1/colattao_qr_poster_9x16.png` | 1080x1920 | PNG `RGB` | 252191 bytes | 9:16 QR poster for story/reel support. | concept-poster-candidate | Uses editable text rendered into this local concept output; approve final copy before publishing. |
 
@@ -64,7 +64,14 @@ Rules:
 
 ## Approval Requirements
 
-- Phone scan-test `colattao_qr_scan_tile_1x1.png` before posting or printing.
-- Confirm decoded destination and whether it is the Colattao Digital Menu route.
+- Phone scan-test passed for `colattao_qr_scan_tile_1x1.png`.
+- Destination confirmed by Anthony: Colattao Digital Menu.
 - Approve CTA copy and placement.
 - Confirm whether the QR should be labeled as Digital Menu QR after scan verification.
+
+## Scan-Test Status Update
+
+- QR phone scan-test: passed.
+- Destination confirmed by Anthony: Colattao Digital Menu.
+- QR status: approved-candidate, pending final visual/client approval.
+- Active blocker removed: QR not scan-tested.
