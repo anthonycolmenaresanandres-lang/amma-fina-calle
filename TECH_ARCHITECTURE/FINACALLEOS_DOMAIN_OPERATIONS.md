@@ -140,6 +140,6 @@ Current `main` is safe from the previously documented missing-route redeploy ris
 Final docs-only redeploy-risk update recorded after PR #2 merge and final main build verification.
 
 Separate next engineering action:
-- Create the minimal Client OS route-set PR described above.
-- Do not redeploy production from GitHub `main` until that PR is merged and verified.
+- No route-preservation action remains.
+- If production redeploy is requested later, run a fresh build and route verification first.
 
