@@ -215,3 +215,5 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-06 23:33:58] DONE: Documented architecture: added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_ARCHITECTURE.md (one Next.js app on Vercel + Supabase; public vs admin = routing + auth gate; multi-tenant by id; DB-level security). Extended runbook with section 7 (Vercel Deployment Protection: keep Production public) and section 8 (custom SMTP for reliable Supabase magic-link emails).
 
 - [2026-06-06 23:33:58] NOTE: Could not verify finacalleos.com from the build environment: outbound blocked by network policy (x-deny-reason: host_not_allowed). Owner to verify in a browser: Production public + Supabase login form vs 'Setup needed'.
+
+- [2026-06-06 23:58:23] DONE: Added migration 0007_admin_team_update.sql: adds marbeljsiado@gmail.com as full admin; keeps anthonycolmenaresanandres@gmail.com and ammaventuresvb@gmail.com. Idempotent, removes no one.
