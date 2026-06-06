@@ -205,3 +205,9 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-03] NEXT: run strategy intake (Section 0) with first client before starting any design or build
 
 - [2026-06-03 08:04:54] START: Handoff session started
+
+- [2026-06-06 23:20:05] DONE: Shipped + merged (PR #3, f8db81e): Content Engine test route, end-to-end customer interface (request inbox, private file uploads, finished contact), and trust+security pass (business email, signed-URL attachments, security headers). Requires Supabase migrations 0005 and 0006.
+
+- [2026-06-06 23:20:05] DONE: Added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_DEPLOYMENT_RUNBOOK.md: activation checklist (env vars, migrations 0001-0006, admin allowlist), login walkthrough, request flow diagram, security posture, and work record.
+
+- [2026-06-06 23:20:05] NEXT: Owner to run migrations 0005 then 0006 in Supabase and confirm NEXT_PUBLIC_SUPABASE_* env vars in Vercel, then log in at finacalleos.com/customers. Open hardening item: durable rate limiting on /api/customer-requests.
