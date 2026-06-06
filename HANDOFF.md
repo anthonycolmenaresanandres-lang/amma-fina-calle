@@ -211,3 +211,7 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-06 23:20:05] DONE: Added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_DEPLOYMENT_RUNBOOK.md: activation checklist (env vars, migrations 0001-0006, admin allowlist), login walkthrough, request flow diagram, security posture, and work record.
 
 - [2026-06-06 23:20:05] NEXT: Owner to run migrations 0005 then 0006 in Supabase and confirm NEXT_PUBLIC_SUPABASE_* env vars in Vercel, then log in at finacalleos.com/customers. Open hardening item: durable rate limiting on /api/customer-requests.
+
+- [2026-06-06 23:33:58] DONE: Documented architecture: added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_ARCHITECTURE.md (one Next.js app on Vercel + Supabase; public vs admin = routing + auth gate; multi-tenant by id; DB-level security). Extended runbook with section 7 (Vercel Deployment Protection: keep Production public) and section 8 (custom SMTP for reliable Supabase magic-link emails).
+
+- [2026-06-06 23:33:58] NOTE: Could not verify finacalleos.com from the build environment: outbound blocked by network policy (x-deny-reason: host_not_allowed). Owner to verify in a browser: Production public + Supabase login form vs 'Setup needed'.

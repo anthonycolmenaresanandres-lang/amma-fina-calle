@@ -167,3 +167,63 @@ Key source paths:
 - Data: `APP/web/src/data/{customers,requests}.ts`
 - Intake: `APP/web/src/app/api/customer-requests/route.ts`, `APP/web/src/lib/requests/intake.ts`
 - DB: `APP/web/supabase/migrations/000{1..6}_*.sql`, `APP/web/supabase/seed.sql`
+
+---
+
+## 7. Make sure Production is publicly reachable (Vercel Deployment Protection)
+
+Vercel can require a login to view deployments. You usually want **previews
+protected** (only your team) but **Production public** (so customers can use
+finacalleos.com). If customers report a Vercel login wall, this is why.
+
+How to check / fix:
+1. Vercel → project `amma-fina-calle` → **Settings → Deployment Protection**.
+2. Look at **Vercel Authentication** (and "Protection Bypass" / "Password
+   Protection" if shown).
+3. Recommended setting: protection applies to **Preview** (and optionally
+   Development) deployments only — **Production excluded**.
+   - If a single toggle protects *all* deployments, switch it so Production is
+     not protected, or use "Standard Protection" with Production exempted.
+4. Save, then load `https://finacalleos.com/` in a private/incognito window (not
+   logged into Vercel). It should render with no login prompt.
+
+> Note: this can only be verified from a browser/network that can reach the
+> domain. The build/CI agents here are network-restricted and cannot load it.
+
+---
+
+## 8. Reliable magic-link emails (custom SMTP for Supabase Auth)
+
+Supabase's built-in email sender has low rate limits and weak deliverability — it
+is fine for testing but not for a real business. Admin/owner sign-in links may be
+delayed or land in spam. Point Supabase Auth at your own SMTP provider (Resend is
+already used for intake notifications, so it's the natural choice).
+
+How to set it up (Resend example):
+1. **Verify your sending domain in Resend.** Resend → Domains → add e.g.
+   `finacalleos.com` (or a subdomain like `mail.finacalleos.com`) → add the DNS
+   records it gives you (SPF/DKIM) at your DNS host → wait for "Verified".
+2. **Get an SMTP credential.** Resend → API Keys / SMTP. SMTP settings are:
+   - Host: `smtp.resend.com`
+   - Port: `465` (SSL) or `587` (STARTTLS)
+   - Username: `resend`
+   - Password: your Resend API key
+3. **Configure Supabase.** Supabase → **Project Settings → Authentication →
+   SMTP Settings** → enable **Custom SMTP** and enter:
+   - Sender email: an address on your verified domain (e.g.
+     `no-reply@finacalleos.com`)
+   - Sender name: `Fina Calle OS`
+   - Host / Port / Username / Password from step 2
+   - Save.
+4. **Tune the rate limit.** Supabase → Authentication → Rate Limits → raise the
+   email rate limit now that a real provider is sending.
+5. **Test end-to-end.** Go to `finacalleos.com/customers`, request a sign-in link
+   with an allowlisted admin email, and confirm it arrives quickly from your
+   domain.
+
+Related env (already referenced by the intake email path in
+`src/lib/requests/intake.ts`): `RESEND_API_KEY`, `REQUESTS_FROM_EMAIL`,
+`REQUESTS_NOTIFICATION_EMAIL`. Keep `REQUESTS_FROM_EMAIL` on the same verified
+domain for best deliverability.
+
+> Architecture context for §§7–8 lives in `CUSTOMER_INTERFACE_ARCHITECTURE.md`.
