@@ -37,6 +37,7 @@ export type DashboardData = {
   businessName: string;
   siteUrl: string | null;
   email: string;
+  logo?: string | null;
   categories: MenuCategory[];
   promos: Promo[];
   audit: AuditEntry[];
@@ -114,6 +115,14 @@ export default function OwnerDashboard({ data }: { data: DashboardData }) {
       <header className={cardClass}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
+            {data.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={data.logo}
+                alt={`${data.businessName} logo`}
+                className="mb-3 h-9 w-auto select-none opacity-90"
+              />
+            ) : null}
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Owner dashboard</p>
             <h1 className="mt-3 text-3xl font-semibold text-[#f4f6f7]">{data.businessName}</h1>
             <p className="mt-2 text-sm text-[#aeb7bd]">Signed in as {data.email}</p>

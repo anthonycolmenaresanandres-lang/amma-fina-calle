@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getBrandAssets } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -47,14 +48,34 @@ export default async function PublicMenuPage({ params }: PageProps) {
 
   if (!data?.restaurant) notFound();
 
+  const brand = getBrandAssets(id);
+
   return (
     <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-10 text-[#f4f6f7] sm:px-8">
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_14%,rgba(205,214,219,0.12),transparent_30%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
       <div className="mx-auto w-full max-w-2xl">
         <header className="text-center">
-          <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Menu</p>
+          {brand.logo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={brand.logo}
+              alt={`${data.restaurant.business_name} logo`}
+              className="mx-auto mb-4 h-20 w-auto select-none drop-shadow-[0_18px_40px_rgba(0,0,0,0.6)]"
+            />
+          ) : (
+            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Menu</p>
+          )}
           <h1 className="mt-3 text-4xl font-semibold text-[#f4f6f7]">{data.restaurant.business_name}</h1>
         </header>
+
+        {brand.menuHero ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={brand.menuHero}
+            alt={`${data.restaurant.business_name} ambiance`}
+            className="mt-6 h-48 w-full rounded-[1.5rem] border border-[#cfd6da]/14 object-cover shadow-[0_30px_70px_-50px_rgba(0,0,0,0.8)] sm:h-60"
+          />
+        ) : null}
 
         {data.promos.length > 0 ? (
           <div className="mt-6 space-y-2">

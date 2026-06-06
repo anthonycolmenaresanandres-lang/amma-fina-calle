@@ -1,5 +1,19 @@
 # Colattao Customer-Facing Asset Plan — Fina Calle Client OS
 
+> **Implemented (brand chrome slice) — 2026-06-06.** Approved assets copied to
+> `APP/web/public/assets/colattao/` and wired via a reusable resolver
+> (`src/lib/brand.ts`, keyed by restaurant id) into `/m/[id]` (header logo +
+> menu hero) and `/owner/[id]` (dashboard logo accent). `/` and `/request-update`
+> left client-agnostic. QR generation still deferred until domain lock.
+>
+> | Final path | Source | Used on |
+> |---|---|---|
+> | `public/assets/colattao/colattao-logo-cream-1600.png` | `overlays_v1/colattao_logo_cream_transparent_1600px.png` | `/m/colattao` header, `/owner/colattao` dashboard |
+> | `public/assets/colattao/colattao-logo-white-1600.png` | `overlays_v1/colattao_logo_white_transparent_1600px.png` | reserved (OG / dark sections) |
+> | `public/assets/colattao/colattao-menu-hero-4x5-v1.webp` | `environment_product_v1/colattao-b001-product-coffee-pastry-4x5-v001.webp` | `/m/colattao` hero |
+> | `public/assets/colattao/colattao-ambient-9x16-v1.webp` | `environment_product_v1/colattao-b001-atmosphere-fogata-9x16-v001.webp` | reserved (future accent) |
+
+
 Asset discovery, normalization, and placement plan for Colattao's customer-facing
 experience, plus a repeatable workflow for future restaurants. **Planning only —
 no app changes, no files copied/renamed yet.** Implementation is gated on explicit

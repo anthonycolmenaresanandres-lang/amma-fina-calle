@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
+import { getBrandAssets } from "@/lib/brand";
 import OwnerLogin from "./OwnerLogin";
 import OwnerDashboard, {
   type AuditEntry,
@@ -162,6 +163,7 @@ export default async function OwnerPage({ params }: PageProps) {
       (restaurantRes.data as { business_name?: string } | null)?.business_name ?? businessName,
     siteUrl: (restaurantRes.data as { site_url?: string } | null)?.site_url ?? null,
     email: ctx.email,
+    logo: getBrandAssets(id).logo ?? null,
     categories,
     promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
