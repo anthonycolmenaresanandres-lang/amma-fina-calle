@@ -215,3 +215,30 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-06 23:33:58] DONE: Documented architecture: added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_ARCHITECTURE.md (one Next.js app on Vercel + Supabase; public vs admin = routing + auth gate; multi-tenant by id; DB-level security). Extended runbook with section 7 (Vercel Deployment Protection: keep Production public) and section 8 (custom SMTP for reliable Supabase magic-link emails).
 
 - [2026-06-06 23:33:58] NOTE: Could not verify finacalleos.com from the build environment: outbound blocked by network policy (x-deny-reason: host_not_allowed). Owner to verify in a browser: Production public + Supabase login form vs 'Setup needed'.
+
+- [2026-06-07] DONE: Built Penalty Shootout game package V1 ("Street Shootout") on the Conquest game-engine pattern. New route /penalty-shootout (APP/web/src/penalty/ + APP/web/src/app/penalty-shootout/): Phaser scene, 6 aim targets, 3 keeper difficulties, risk/reward save model, 5-shot match with scoring + rating. No existing game code touched. APP/web build passes. Surfaced on /rd; registered in GAME_LIBRARY (GAME_PACKAGE_LIBRARY.md + new PENALTY_SHOOTOUT.md spec).
+
+- [2026-06-07] NEXT: Visual smoke-test /penalty-shootout on a mobile viewport. Optional next steps in GAME_LIBRARY/PENALTY_SHOOTOUT.md: scene->client win/lose callback + result card, sudden death, power/timing skill element, per-client skin pass.
+
+- [2026-06-07] CORRECTION: Prior Penalty Shootout work DOES exist outside this repo — owner confirmed a beta in `colattao-cafe-rush` (src/game/catalog/penalty-shootout/PenaltyScene.ts + PenaltyBootScene.ts, "Colattao Penalty Shootout" beta, asset-free Phaser primitives, best-of-5, resize-aware, not visually QA'd). The earlier "no prior Penalty Shootout work" framing was wrong as a global claim. Accurate scoping: none inside amma-fina-calle (verified full history + global code search), but correlated prior beta exists in colattao-cafe-rush (I could not read that repo — session scope denied; comparison is conceptual from owner-provided facts).
+
+- [2026-06-07] DECISION: PR #6 (this repo's V1) SUPERSEDES the old Colattao beta as the canonical AMMA/Fina Calle Penalty Shootout. It does NOT import the old code (clean-room reimplementation on the Conquest pattern) and does NOT archive/delete the old beta (stays in colattao-cafe-rush, out of scope). Lessons preserved: Colattao palette (as optional skin), asset-free/no-404 strategy, best-of-5 flow, resize-aware layout, "beta/not visually QA'd" warning. Full comparison table in GAME_LIBRARY/PENALTY_SHOOTOUT.md. Do NOT merge PR #6 yet.
+
+- [2026-06-07] DONE: Mobile QA pass on /penalty-shootout (PR #6). Could NOT run live device QA (no browser in container; Vercel preview is HTTP 403 behind Deployment Protection). Did a geometry audit from the real getLayout() math across 7 viewports + landscape, a logic/stability review, and a production build. Portrait passes on all tested devices (no crop/overlap). Fixed 2 issues: (1) score counter flashing "0/5" during the first shot's flight; (2) aim targets overlapping in landscape/short canvases (zoneRadius now height-aware; portrait unchanged). Build passes; /penalty-shootout still prerenders static. Known minor: title/score labels ~1px apart on 320-wide/landscape only (cosmetic, deferred).
+
+- [2026-06-07] NEXT: PR #6 still NOT merge-ready — needs a real eyes-on-glass mobile pass against a PUBLIC preview (Deployment Protection currently 403s the preview). Owner action: open the preview in a phone browser (or make the preview public) and confirm animation/tap feel; then PR #6 can go merge-ready. No new gameplay until then.
+
+- [2026-06-07] WAITING ON ANTHONY — Manual mobile QA acceptance checklist for /penalty-shootout (PR #6 stays DRAFT until all pass):
+  - [ ] Preview opens on phone
+  - [ ] Level select readable
+  - [ ] All 3 keeper levels playable (Street / Club / Pro)
+  - [ ] Aim targets tappable
+  - [ ] No canvas crop/scroll bugs
+  - [ ] GOAL / SAVED / MISS feedback readable
+  - [ ] Replay works
+  - [ ] Back works
+  - [ ] 5-shot ending works (final score + rating)
+  - [ ] Game feels replayable
+  If any visual/feel issue is reported, fix ONLY those targeted issues — no new features.
+
+- [2026-06-07] DONE: Anthony completed the manual mobile phone QA pass for /penalty-shootout (PR #6) — ALL 10 acceptance checks PASS (preview opens on phone, level select readable, all 3 keepers playable, aim targets tappable, no crop/scroll bugs, GOAL/SAVED/MISS readable, Replay works, Back works, 5-shot ending works, feels replayable). PR #6 flipped from draft to READY FOR REVIEW. Build re-verified green; /penalty-shootout prerenders static. NOT merged — awaiting explicit merge approval.
