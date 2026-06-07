@@ -2,6 +2,11 @@
 
 _Game package built on the Fina Calle game-engine pattern (Phaser scene + level config), the same structure as Conquest._
 
+> **Customization governed by `PRODUCT_MODULES/GAME_CUSTOMIZATION_PROTOCOL.md`** —
+> the company process for client skins, assets, the Sentinel Keeper / Match Ball
+> defaults, tiers, intake, and legal/brand guardrails. Penalty Shootout is the
+> first registered reusable customizable game package.
+
 ## Status
 
 **Playable V1.** Builds clean (`npm run build` in `APP/web`). Live route: `/penalty-shootout`. Surfaced on the R&D page (`/rd`) as a playable game-R&D track.
