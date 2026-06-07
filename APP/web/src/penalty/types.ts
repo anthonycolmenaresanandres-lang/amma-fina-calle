@@ -104,6 +104,15 @@ export type SpriteFit = {
   offsetYPct?: number;
 };
 
+export type PenaltyChrome = {
+  /** Skip the drawn goal frame, net, penalty-box line, and center spot. */
+  hideGoalArt?: boolean;
+  /** Hide the top skin-name title while keeping score and hint visible. */
+  hideTitle?: boolean;
+  /** Draw a reserved black sponsor/ad strip. */
+  adBanner?: boolean;
+};
+
 // A client skin (V2): brand identity + the base canvas palette, plus optional
 // image assets. Resolved by id through a registry, mirroring src/lib/brand.ts.
 export type PenaltySkin = {
@@ -117,6 +126,8 @@ export type PenaltySkin = {
   backgroundFit?: BackgroundFit;
   /** Optional positioning for the kicker sprite. */
   kickerFit?: SpriteFit;
+  /** Optional per-skin presentation chrome controls. */
+  chrome?: PenaltyChrome;
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";

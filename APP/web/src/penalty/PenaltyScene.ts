@@ -129,6 +129,7 @@ export class PenaltyScene extends Phaser.Scene {
       },
       this.skin.backgroundFit ?? {},
       this.skin.kickerFit ?? {},
+      this.skin.chrome ?? {},
     );
 
     const layout = this.layout();
