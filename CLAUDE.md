@@ -23,6 +23,13 @@ Architecture: engine/input/skin split → color skins → asset renderer → ass
 - Default tap behavior + all existing skins are preserved; skins/assets/input-mode never change
   gameplay, scoring, keeper logic, levels, or routes.
 - Governance: `PRODUCT_MODULES/GAME_CUSTOMIZATION_PROTOCOL.md` (Sentinel Keeper, Match Ball, tiers).
+- **Productized model:** Penalty Shootout uses a **fixed Stadium Shell + Campaign Pack** —
+  the only per-client variables are the **behind-goal ad zone**, **player shirt**, and
+  **keeper shirt** (non-human mascot kit recolor); everything else (engine, geometry,
+  field, gameplay, top scoreboard/menu strip, score placement) is frozen. Specs:
+  `ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md`, `ASSET_SPECS/PENALTY_KIT_SPEC.md`. The behind-goal
+  ad zone **supersedes** the earlier LED/scoreBug/adBanner ad ideas — don't ship those as
+  the customizable surface; reassess any open Stadium ad PR against this model before merge.
 - Roadmap next: ball art → kicker art → Sentinel Keeper sprite (tiers Product Ball → Kicker → Keeper).
 
 ## Hard guardrails (always)
@@ -30,4 +37,5 @@ Architecture: engine/input/skin split → color skins → asset renderer → ass
   secrets, or customer data.
 - Game art: **non-human mascots only**, no FIFA/World Cup/club/real-face branding, client approves
   assets before publish. Asset skins must keep primitive fallback (no broken/404 visuals).
+  **Logos are approved overlays only — never AI-generated** (use the client's real approved logo file).
 - This environment is ephemeral — commit/push anything worth keeping.

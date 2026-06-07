@@ -7,6 +7,14 @@ _Game package built on the Fina Calle game-engine pattern (Phaser scene + level 
 > defaults, tiers, intake, and legal/brand guardrails. Penalty Shootout is the
 > first registered reusable customizable game package.
 
+> **Productized model — Stadium Shell + Campaign Pack.** The standardized form of
+> this game is a **fixed Stadium Shell** with a small, swappable **Campaign Pack**:
+> the only per-client variables are the **behind-goal ad zone**, the **player
+> shirt**, and the **keeper shirt** (non-human mascot kit recolor). Everything else
+> — engine, goal geometry, field/perspective, gameplay, top scoreboard/menu strip,
+> score placement — is frozen. See the **Campaign Pack** section in the protocol and
+> the specs `ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md` + `ASSET_SPECS/PENALTY_KIT_SPEC.md`.
+
 ## Status
 
 **Playable V1.** Builds clean (`npm run build` in `APP/web`). Live route: `/penalty-shootout`. Surfaced on the R&D page (`/rd`) as a playable game-R&D track.
