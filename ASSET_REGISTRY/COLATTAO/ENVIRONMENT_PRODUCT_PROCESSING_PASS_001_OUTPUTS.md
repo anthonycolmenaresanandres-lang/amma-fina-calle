@@ -49,6 +49,18 @@ Method: crop out visible text region; no inpainting, generation, or text reconst
 Limitation: source is only 369x647, so the text-free region required significant upscaling for campaign-format exports.
 ```
 
+## Penalty Ad-Zone Derived Asset
+
+| Asset | Source path | Output path | Dimensions | Format | Text/logo/brand-mark check | Status |
+|---|---|---|---:|---|---|---|
+| Colattao coffee/pastry behind-goal ad-zone v1 | `ASSET_REGISTRY/COLATTAO/normalized/environment_product_v1/colattao-b001-product-coffee-pastry-4x5-v001.webp` | `APP/web/public/assets/colattao/penalty/adzone-coffee-pastry-v1.webp` | 1080x810 | WEBP | Logo-free; no readable text, letters, numbers, or brand marks visible. Decorative cup/plate pattern only. | PENDING CLIENT APPROVAL |
+
+Notes:
+- Created locally from owned/approved Colattao photography.
+- Reframed to 4:3 landscape for the Penalty Shootout behind-goal ad-zone.
+- Coffee/pastry subject remains upper-center; lower third was softened and darkened from the same source image for goal/keeper/ball overlay calm.
+- Source long edge is 1350px, so the 4:3 export remains at native source width instead of upscaling to 1600px.
+
 ## Files Created
 
 - `ASSET_REGISTRY/COLATTAO/normalized/environment_product_v1/colattao-b001-atmosphere-fogata-9x16-v001.webp`
