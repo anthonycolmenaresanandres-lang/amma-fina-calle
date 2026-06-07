@@ -52,24 +52,23 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   },
 };
 
-// --- Stadium (soccer-realism) skin — TEMPLATE, pending the photo ------------
-// Once a realistic stadium photo is added at the path below, uncomment this and
-// add STADIUM_PENALTY_SKIN to PENALTY_SKINS. `backgroundFit` lets the photo be
-// nudged so its goal/spot land on the game's fixed layout (goal mouth x 13–87%,
-// y 14–42%; penalty spot 50%/82%) and use a lighter scrim for realism. Tune the
-// numbers on a phone preview until the photo's goal sits under the white frame.
-//
-// export const STADIUM_PENALTY_SKIN: PenaltySkin = {
-//   id: "stadium",
-//   displayName: "Stadium",
-//   brandName: "Fina Calle Penalty Engine",
-//   skinName: "Stadium Shootout",
-//   colors: baseColors,
-//   assets: { background: "/assets/stadium/penalty/background.webp" },
-//   backgroundFit: { scrim: 0.28, scale: 1, offsetXPct: 0, offsetYPct: 0 },
-// };
+export const STADIUM_PENALTY_SKIN: PenaltySkin = {
+  id: "stadium",
+  displayName: "Stadium",
+  brandName: "Fina Calle Penalty Engine",
+  skinName: "Stadium Shootout",
+  colors: baseColors,
+  assets: { background: "/assets/stadium/penalty/background.webp" },
+  // Fit tuned to the v2 photo (goal high at ~11%, line ~33%): zoom modestly and
+  // shift the photo DOWN so its net fills the game's goal frame (14-42%).
+  backgroundFit: { scrim: 0.25, scale: 1.3, offsetXPct: 0, offsetYPct: 0.13 },
+};
 
-export const PENALTY_SKINS: PenaltySkin[] = [DEFAULT_PENALTY_SKIN, COLATTAO_PENALTY_SKIN];
+export const PENALTY_SKINS: PenaltySkin[] = [
+  DEFAULT_PENALTY_SKIN,
+  COLATTAO_PENALTY_SKIN,
+  STADIUM_PENALTY_SKIN,
+];
 
 const PENALTY_SKINS_BY_ID: Record<string, PenaltySkin> = Object.fromEntries(
   PENALTY_SKINS.map((skin) => [skin.id, skin]),
