@@ -59,7 +59,9 @@ export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   skinName: "Stadium Shootout",
   colors: baseColors,
   assets: { background: "/assets/stadium/penalty/background-v2.png" },
-  backgroundFit: { scrim: 0.25, scale: 1.95, offsetXPct: 0, offsetYPct: -0.05 },
+  // Fit tuned to the v2 photo (goal high at ~11%, line ~33%): zoom modestly and
+  // shift the photo DOWN so its net fills the game's goal frame (14–42%).
+  backgroundFit: { scrim: 0.25, scale: 1.3, offsetXPct: 0, offsetYPct: 0.13 },
 };
 
 export const PENALTY_SKINS: PenaltySkin[] = [
