@@ -94,6 +94,10 @@ place to violate them:
   likeness rights on file.
 - **No unverified factual claims** in ad copy (prices, "official", guarantees).
 - **Only owned / licensed / client-approved imagery** — no scraped or watermarked art.
+- **Logos are approved overlays only — never AI-generated.** Any logo placed in the ad
+  zone must be the client's **real, approved logo file** from intake — never AI-recreated,
+  traced, or regenerated. AI may make the surrounding promo art; the logo mark is always
+  the approved original.
 - **Client must approve the ad creative in writing before publish.** Until then
   the campaign is **PENDING CLIENT APPROVAL** and does not deploy to production.
 

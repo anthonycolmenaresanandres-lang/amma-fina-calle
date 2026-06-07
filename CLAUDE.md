@@ -37,4 +37,5 @@ Architecture: engine/input/skin split → color skins → asset renderer → ass
   secrets, or customer data.
 - Game art: **non-human mascots only**, no FIFA/World Cup/club/real-face branding, client approves
   assets before publish. Asset skins must keep primitive fallback (no broken/404 visuals).
+  **Logos are approved overlays only — never AI-generated** (use the client's real approved logo file).
 - This environment is ephemeral — commit/push anything worth keeping.
