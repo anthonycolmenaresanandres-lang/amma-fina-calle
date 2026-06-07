@@ -246,3 +246,34 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-07] DONE: MERGED PR #6 into main on explicit approval. Merge commit ac6f6cf ("Merge PR #6: Penalty Shootout V1 (Street Shootout)"). Additive only (9 files, 0 deletions); no Client OS / Conquest / Supabase / Stripe / POS files touched. Post-merge build green; Client OS route files (/m/[id], /owner/[id], /customers/[id]) confirmed present on main after merge.
 
 - [2026-06-07] DONE: PRODUCTION VERIFIED by owner in browser after merge — all six routes PASS: finacalleos.com (root), /m/colattao, /owner/colattao, /customers, /penalty-shootout, /rd. No Client OS regression. Penalty Shootout V1 is live in production. (Build env could not perform live checks itself — outbound to finacalleos.com is blocked by env network policy; verification done by owner.)
+
+---
+
+## CHAT HANDOFF — Penalty Shootout V2 (2026-06-07, low-context cutover)
+
+Durable architecture + multi-agent model live in `/CLAUDE.md` — read it first.
+
+**Agents (parallel):** Claude (cloud) = code, PRs/merges, visual recognition (view repo images), SVG alignment/preview mocks, fit tuning; cannot reach local files, generate/edit images, delete branches, or access Vercel. Codex (local) = local files, image copy/convert, branch deletes, web push — **budget ~20% left til the 11th; minimize.** ChatGPT = image gen (PNGs often NOT truly transparent — verify alpha).
+
+**Game on `main`:** engine/input/skin split. Skins: Fina Calle (default primitive), Colattao (café bg), Stadium (`background.webp` 941x1672, `backgroundFit {scrim:0.25,scale:1.3,offsetX:0,offsetY:0.13}`). Input: tap (default)/swipe toggle. Asset slots (gated, primitive fallback, no-404): background(+backgroundFit), logo, ball(spins), kicker(+kickerFit, leans). Chrome flags: hideGoalArt, hideTitle, adBanner (+ scoreBug, ledBanner in PR #22). Geometry: goal mouth x 13-87%, y 14-42%; spot 50%/82%.
+
+**Open PRs:**
+- #22 `claude/stadium-broadcast-hud` — Stadium broadcast HUD (top scorebug L-score/R-promo + LED banner behind keeper). Draft, CI green, needs phone-QA. CONFLICTS with #21 on skins.ts Stadium skin — combine both when merging (keep chrome + assets.ball/kicker + kickerFit).
+- #21 `codex/stadium-ball-kicker-art` — ball+kicker art. BLOCKED: PNGs not transparent (checkerboard baked into opaque pixels). Do not merge until clean transparent art committed.
+- #17 `codex/colattanini-campaign-plan` — Colattanini docs (manual MVP). Draft, awaiting merge.
+- #5 `claude/news-content-generation-test-G7HWE` — "Marbel admin" Supabase migration (Client OS). Open, awaiting Anthony: close 5 / keep 5.
+
+**Merged recently:** #18 (Stadium bg), #19 (ball/kicker infra + CLAUDE.md), #20 (chrome flags). Closed: #1.
+
+**Pending chores:** delete 13 merged branches via Codex (one `git push origin --delete ...`; Claude can't delete from here).
+
+**Next actions (priority):**
+1. Get TRUE transparent ball+kicker PNGs -> recommit to `APP/web/public/assets/stadium/penalty/{ball,kicker}.png` -> Claude views, tunes kickerFit (from-behind, feet at bottom), wires, resolves #21/#22 conflict.
+2. Phone-QA + merge #22.
+3. Decide #5 (Client OS — close/keep).
+4. Merge #17.
+5. Codex deletes the 13 stale branches.
+
+**Guardrails:** never touch Client OS (`/m/[id]`,`/owner/[id]`,`/customers`)/Supabase/Stripe/POS/secrets/customer data. Game art: non-human mascots only, no FIFA/World-Cup/club/real-face branding, client approves before publish, primitive fallback/no-404. One concern per commit; build must pass.
+
+**Claude method:** view repo images via Read; build SVG previews (embed image base64 + draw goal frame/zones/keeper/ball at geometry %s) and SendUserFile; tune backgroundFit/kickerFit from actual image dims.
