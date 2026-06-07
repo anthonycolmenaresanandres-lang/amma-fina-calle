@@ -5,6 +5,10 @@
 > Reuse anchor: the repo already has a per-client brand layer — `getBrandAssets(id)` in
 > `src/lib/brand.ts` (id-keyed, assets in `/public/assets/{id}/`, render-only-if-present).
 > V2's skin system extends that, it does not reinvent it.
+>
+> Customization process, tiers, default characters (Sentinel Keeper / Match Ball), and
+> legal/brand guardrails are registered in
+> `PRODUCT_MODULES/GAME_CUSTOMIZATION_PROTOCOL.md`.
 
 ---
 
