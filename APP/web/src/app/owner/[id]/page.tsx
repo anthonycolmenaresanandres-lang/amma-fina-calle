@@ -14,7 +14,10 @@ import OwnerDashboard, {
 
 export const dynamic = "force-dynamic";
 
-type PageProps = { params: Promise<{ id: string }> };
+type PageProps = {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
@@ -54,8 +57,24 @@ export async function generateMetadata({ params }: PageProps) {
   return { title: `Owner Portal — ${id} | Fina Calle OS` };
 }
 
-export default async function OwnerPage({ params }: PageProps) {
+// Maps the non-sensitive `?auth=` hint from /auth/confirm into a friendly
+// retry message shown on the sign-in form (instead of a silent bounce).
+function authNotice(reason: string | null): string | null {
+  if (!reason) return null;
+  switch (reason) {
+    case "expired":
+      return "That sign-in link didn’t work — it may have expired or already been used. Enter your email below to get a fresh one.";
+    case "unavailable":
+      return "Sign-in is briefly unavailable. Please try again in a moment.";
+    default:
+      return "That sign-in link looked incomplete. Enter your email below to get a fresh one.";
+  }
+}
+
+export default async function OwnerPage({ params, searchParams }: PageProps) {
   const { id } = await params;
+  const sp = searchParams ? await searchParams : {};
+  const notice = authNotice(typeof sp.auth === "string" ? sp.auth : null);
 
   if (!isSupabaseConfigured) {
     return (
@@ -73,7 +92,7 @@ export default async function OwnerPage({ params }: PageProps) {
   if (ctx.state === "anonymous") {
     return (
       <Shell>
-        <OwnerLogin restaurantId={id} businessName={businessName} />
+        <OwnerLogin restaurantId={id} businessName={businessName} notice={notice} />
       </Shell>
     );
   }
