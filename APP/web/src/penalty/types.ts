@@ -57,11 +57,22 @@ export type PenaltyLevel = {
   id: string;
   levelNumber: number;
   levelName: string;
+  selectText: string;
+  // Optional per-level palette tweaks layered over the active skin (e.g. a
+  // tougher keeper tinted red). Omitted = use the skin's colors unchanged.
+  colorOverrides?: Partial<PenaltyColors>;
+  rules: PenaltyRules;
+};
+
+// A color-only client skin (V2 Step 2): brand identity + the base canvas
+// palette. Asset-backed skins extend this in a later step. Resolved by id
+// through a registry, mirroring src/lib/brand.ts.
+export type PenaltySkin = {
+  id: string;
+  displayName: string;
   brandName: string;
   skinName: string;
-  selectText: string;
   colors: PenaltyColors;
-  rules: PenaltyRules;
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";

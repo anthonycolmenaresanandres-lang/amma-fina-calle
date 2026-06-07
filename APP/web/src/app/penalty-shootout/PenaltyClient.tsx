@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Game } from "phaser";
 import { PENALTY_LEVELS } from "@/penalty/config";
-import type { PenaltyLevel } from "@/penalty/types";
+import { DEFAULT_PENALTY_SKIN, PENALTY_SKINS } from "@/penalty/skin/skins";
+import type { PenaltyLevel, PenaltySkin } from "@/penalty/types";
+
+const toHex = (n: number): string => `#${n.toString(16).padStart(6, "0")}`;
 
 export default function PenaltyClient(): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Game | null>(null);
+  const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(DEFAULT_PENALTY_SKIN);
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);
 
@@ -32,8 +37,8 @@ export default function PenaltyClient(): React.JSX.Element {
         parent: mountRef.current,
         width: mountRef.current.clientWidth || 390,
         height: mountRef.current.clientHeight || 780,
-        backgroundColor: "#04130a",
-        scene: [new PenaltyScene(selectedLevel)],
+        backgroundColor: toHex(selectedSkin.colors.bg),
+        scene: [new PenaltyScene(selectedLevel, selectedSkin)],
         scale: {
           mode: Phaser.Scale.RESIZE,
           autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -54,7 +59,7 @@ export default function PenaltyClient(): React.JSX.Element {
       game.destroy(true);
       gameRef.current = null;
     };
-  }, [selectedLevel, replayKey]);
+  }, [selectedLevel, selectedSkin, replayKey]);
 
   const selectLevel = (level: PenaltyLevel) => {
     setSelectedLevel(level);
@@ -66,14 +71,38 @@ export default function PenaltyClient(): React.JSX.Element {
       <main className="mx-auto flex min-h-dvh w-full max-w-[470px] flex-col bg-[#04130a] px-5 py-6 text-[#f4f6f7]">
         <section className="flex flex-1 flex-col justify-center">
           <p className="text-center text-xs uppercase tracking-[0.2em] text-[#d8b36d]">
-            Fina Calle Penalty Engine
+            {selectedSkin.brandName}
           </p>
-          <h1 className="mt-3 text-center font-serif text-3xl text-[#f4f6f7]">Street Shootout</h1>
+          <h1 className="mt-3 text-center font-serif text-3xl text-[#f4f6f7]">{selectedSkin.skinName}</h1>
           <p className="mt-3 text-center text-sm leading-relaxed text-[#aeb7bd]">
             Five from the spot. Pick your keeper.
           </p>
 
-          <div className="mt-8 grid gap-3">
+          <div className="mt-6">
+            <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Skin</p>
+            <div className="mt-2 flex justify-center gap-2">
+              {PENALTY_SKINS.map((skin) => {
+                const active = skin.id === selectedSkin.id;
+                return (
+                  <button
+                    key={skin.id}
+                    type="button"
+                    onClick={() => setSelectedSkin(skin)}
+                    aria-pressed={active}
+                    className={
+                      active
+                        ? "rounded-full border border-[#d8b36d] bg-[#d8b36d] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#04130a]"
+                        : "rounded-full border border-[#d8b36d]/45 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4f6f7] transition hover:border-[#d8b36d]"
+                    }
+                  >
+                    {skin.displayName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-3">
             {PENALTY_LEVELS.map((level) => (
               <button
                 key={level.id}
@@ -98,7 +127,7 @@ export default function PenaltyClient(): React.JSX.Element {
     <div className="mx-auto flex min-h-dvh w-full max-w-[470px] flex-col bg-[#04130a] text-[#f4f6f7]">
       <div className="border-b border-[#d8b36d]/35 px-4 py-2">
         <p className="text-center text-xs uppercase tracking-[0.2em] text-[#d8b36d]">
-          Keeper {selectedLevel.levelNumber} - {selectedLevel.levelName}
+          {selectedSkin.displayName} · Keeper {selectedLevel.levelNumber} - {selectedLevel.levelName}
         </p>
         <div className="mt-2 flex justify-center gap-2">
           <button
@@ -117,7 +146,11 @@ export default function PenaltyClient(): React.JSX.Element {
           </button>
         </div>
       </div>
-      <div key={`${selectedLevel.id}-${replayKey}`} ref={mountRef} className="h-[calc(100dvh-75px)] w-full" />
+      <div
+        key={`${selectedSkin.id}-${selectedLevel.id}-${replayKey}`}
+        ref={mountRef}
+        className="h-[calc(100dvh-75px)] w-full"
+      />
     </div>
   );
 }

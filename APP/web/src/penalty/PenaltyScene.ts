@@ -9,7 +9,7 @@
 
 import Phaser from "phaser";
 import { DEFAULT_PENALTY_LEVEL, PENALTY_ZONES } from "./config";
-import type { PenaltyLevel, ShotOutcome, ZoneConfig } from "./types";
+import type { PenaltyColors, PenaltyLevel, PenaltySkin, ShotOutcome, ZoneConfig } from "./types";
 import { computeLayout, zoneCenter, zoneNearest, type Layout, type Vec2 } from "./geometry";
 import { resolveShot, type ShotResolution } from "./engine/resolveShot";
 import {
@@ -22,6 +22,7 @@ import {
 } from "./engine/match";
 import { TapInput } from "./input/TapInput";
 import { PenaltyRenderer, type RenderState } from "./skin/PenaltyRenderer";
+import { DEFAULT_PENALTY_SKIN, resolveColors } from "./skin/skins";
 
 const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
 
@@ -29,6 +30,10 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 export class PenaltyScene extends Phaser.Scene {
   private readonly level: PenaltyLevel;
+  // Effective canvas palette for this match = active skin's colors with the
+  // level's optional tweaks applied. Gameplay/rules are unaffected by the skin.
+  private readonly colors: PenaltyColors;
+  private readonly skinName: string;
   private penaltyRenderer!: PenaltyRenderer;
 
   private match: MatchState = createMatch();
@@ -48,10 +53,15 @@ export class PenaltyScene extends Phaser.Scene {
   private statusMessage = "";
   private statusColor: string;
 
-  constructor(level: PenaltyLevel = DEFAULT_PENALTY_LEVEL) {
-    super(`PenaltyScene-${level.id}`);
+  constructor(
+    level: PenaltyLevel = DEFAULT_PENALTY_LEVEL,
+    skin: PenaltySkin = DEFAULT_PENALTY_SKIN,
+  ) {
+    super(`PenaltyScene-${skin.id}-${level.id}`);
     this.level = level;
-    this.statusColor = level.colors.text;
+    this.colors = resolveColors(skin, level);
+    this.skinName = skin.skinName;
+    this.statusColor = this.colors.text;
   }
 
   private layout(): Layout {
@@ -60,9 +70,9 @@ export class PenaltyScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(this.level.colors.bg);
+    this.cameras.main.setBackgroundColor(this.colors.bg);
 
-    this.penaltyRenderer = new PenaltyRenderer(this, this.level.colors, this.level.skinName);
+    this.penaltyRenderer = new PenaltyRenderer(this, this.colors, this.skinName);
 
     const layout = this.layout();
     this.ballPos = { x: layout.spotX, y: layout.spotY };
@@ -191,15 +201,15 @@ export class PenaltyScene extends Phaser.Scene {
     this.phaseTimeMs = 0;
 
     if (outcome === "goal") {
-      this.statusColor = this.level.colors.goalText;
+      this.statusColor = this.colors.goalText;
       this.statusMessage = "GOAL!";
     } else if (outcome === "save") {
       // Park the ball in the keeper's hands for the hold.
       this.ballPos = { x: this.keeperPos.x, y: this.keeperPos.y };
-      this.statusColor = this.level.colors.saveText;
+      this.statusColor = this.colors.saveText;
       this.statusMessage = "SAVED";
     } else {
-      this.statusColor = this.level.colors.missText;
+      this.statusColor = this.colors.missText;
       this.statusMessage = "MISS";
     }
   }
@@ -210,7 +220,7 @@ export class PenaltyScene extends Phaser.Scene {
 
     if (this.match.phase === "gameover") {
       this.phaseTimeMs = 0;
-      this.statusColor = this.level.colors.text;
+      this.statusColor = this.colors.text;
       this.statusMessage = `${this.match.goals} / ${this.level.rules.totalShots}\n${ratingFor(
         this.match.goals,
         this.level.rules.totalShots,
