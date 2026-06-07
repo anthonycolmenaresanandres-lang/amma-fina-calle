@@ -11,6 +11,7 @@ import Phaser from "phaser";
 import { DEFAULT_PENALTY_LEVEL, PENALTY_ZONES } from "./config";
 import type {
   InputMode,
+  PenaltyCampaign,
   PenaltyColors,
   PenaltyLevel,
   PenaltySkin,
@@ -39,6 +40,7 @@ import { TapInput } from "./input/TapInput";
 import { SwipeInput } from "./input/SwipeInput";
 import { PenaltyRenderer, type RenderState } from "./skin/PenaltyRenderer";
 import { DEFAULT_PENALTY_SKIN, resolveColors } from "./skin/skins";
+import { getCampaign } from "./skin/campaigns";
 
 const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
 
@@ -47,6 +49,9 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 export class PenaltyScene extends Phaser.Scene {
   private readonly level: PenaltyLevel;
   private readonly skin: PenaltySkin;
+  // The Campaign Pack riding on the fixed shell (behind-goal ad zone + kits).
+  // Step 1: wired through but inert — it does not change rendering yet.
+  private readonly campaign: PenaltyCampaign;
   // Effective canvas palette for this match = active skin's colors with the
   // level's optional tweaks applied. Gameplay/rules are unaffected by the skin.
   private readonly colors: PenaltyColors;
@@ -75,11 +80,15 @@ export class PenaltyScene extends Phaser.Scene {
     level: PenaltyLevel = DEFAULT_PENALTY_LEVEL,
     skin: PenaltySkin = DEFAULT_PENALTY_SKIN,
     inputMode: InputMode = "tap",
+    // Campaign defaults to the one registered for this skin id (neutral fallback
+    // otherwise), so existing call sites are unchanged and behavior is identical.
+    campaign: PenaltyCampaign = getCampaign(skin.id),
   ) {
     super(`PenaltyScene-${skin.id}-${level.id}`);
     this.level = level;
     this.skin = skin;
     this.inputMode = inputMode;
+    this.campaign = campaign;
     this.colors = resolveColors(skin, level);
     this.statusColor = this.colors.text;
   }
@@ -130,6 +139,7 @@ export class PenaltyScene extends Phaser.Scene {
       this.skin.backgroundFit ?? {},
       this.skin.kickerFit ?? {},
       this.skin.chrome ?? {},
+      this.campaign,
     );
 
     const layout = this.layout();
