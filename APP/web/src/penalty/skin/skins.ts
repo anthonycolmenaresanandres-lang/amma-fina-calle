@@ -58,11 +58,16 @@ export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   brandName: "Fina Calle Penalty Engine",
   skinName: "Stadium Shootout",
   colors: baseColors,
-  assets: { background: "/assets/stadium/penalty/background.webp" },
+  assets: {
+    background: "/assets/stadium/penalty/background.webp",
+    ball: "/assets/stadium/penalty/ball.png",
+    kicker: "/assets/stadium/penalty/kicker.png",
+  },
   // Fit tuned to the v2 photo (goal high at ~11%, line ~33%): zoom modestly and
   // shift the photo DOWN so its net fills the game's goal frame (14-42%).
   backgroundFit: { scrim: 0.25, scale: 1.3, offsetXPct: 0, offsetYPct: 0.13 },
   chrome: { hideGoalArt: true, hideTitle: true, adBanner: true },
+  kickerFit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
 };
 
 export const PENALTY_SKINS: PenaltySkin[] = [
