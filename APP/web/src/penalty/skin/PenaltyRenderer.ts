@@ -163,6 +163,8 @@ export class PenaltyRenderer {
     this.positionAssets(state);
 
     this.drawField(state);
+    this.drawLedBanner(state);
+    this.drawScoreBug(state);
     this.drawAdBanner(state);
 
     const a = this.actorGraphics;
@@ -312,6 +314,41 @@ export class PenaltyRenderer {
     this.fieldGraphics.fillRect(0, layout.h * 0.84, layout.w, layout.h * 0.08);
   }
 
+  // Broadcast top bar: a dark strip with the score on the LEFT and a blacked-out
+  // promo/sponsor box on the RIGHT. Drawn under the text layer so the score reads.
+  private drawScoreBug(state: RenderState): void {
+    if (!this.chrome.scoreBug) {
+      return;
+    }
+    const { layout } = state;
+    const g = this.fieldGraphics;
+    g.fillStyle(0x000000, 0.55);
+    g.fillRect(0, 0, layout.w, layout.h * 0.072);
+    // Right-side promo / ad placeholder (blacked out for now).
+    const pw = layout.w * 0.32;
+    const ph = layout.h * 0.046;
+    g.fillStyle(0x000000, 1);
+    g.fillRect(layout.w - pw - layout.w * 0.03, layout.h * 0.013, pw, ph);
+  }
+
+  // Black LED perimeter board behind the keeper (stadium ad space placeholder).
+  private drawLedBanner(state: RenderState): void {
+    if (!this.chrome.ledBanner) {
+      return;
+    }
+    const { layout } = state;
+    const g = this.fieldGraphics;
+    const y = layout.goalBottom - layout.h * 0.08;
+    const h = layout.h * 0.04;
+    const x = layout.w * 0.1;
+    const w = layout.w * 0.8;
+    g.fillStyle(0x000000, 0.92);
+    g.fillRect(x, y, w, h);
+    // Subtle bright top edge so it reads as a lit board.
+    g.fillStyle(0xffffff, 0.12);
+    g.fillRect(x, y, w, Math.max(1, layout.h * 0.004));
+  }
+
   private drawKeeper(a: Phaser.GameObjects.Graphics, state: RenderState): void {
     const { layout } = state;
     const colors = this.colors;
@@ -374,7 +411,12 @@ export class PenaltyRenderer {
 
     const currentShot = currentShotNumber(match, totalShots);
     this.scoreText.setText(`${match.goals} GOALS · ${currentShot}/${totalShots}`);
-    this.scoreText.setPosition(layout.w / 2, layout.h * 0.06);
+    if (this.chrome.scoreBug) {
+      // Broadcast scorebug: score on the left inside the top bar.
+      this.scoreText.setOrigin(0, 0).setPosition(layout.w * 0.04, layout.h * 0.022);
+    } else {
+      this.scoreText.setOrigin(0.5, 0).setPosition(layout.w / 2, layout.h * 0.06);
+    }
 
     this.statusText.setColor(state.statusColor);
     this.statusText.setText(state.statusText);
