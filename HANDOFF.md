@@ -277,3 +277,26 @@ Durable architecture + multi-agent model live in `/CLAUDE.md` — read it first.
 **Guardrails:** never touch Client OS (`/m/[id]`,`/owner/[id]`,`/customers`)/Supabase/Stripe/POS/secrets/customer data. Game art: non-human mascots only, no FIFA/World-Cup/club/real-face branding, client approves before publish, primitive fallback/no-404. One concern per commit; build must pass.
 
 **Claude method:** view repo images via Read; build SVG previews (embed image base64 + draw goal frame/zones/keeper/ball at geometry %s) and SendUserFile; tune backgroundFit/kickerFit from actual image dims.
+
+---
+
+## 2026-06-07 — Penalty Shootout Campaign Pack: FREEZE (supersedes the stale lists above)
+
+**Project parked, stable.** The earlier "Next actions"/"Merged recently" lists in this file are
+**outdated** (they predate the Campaign Pack work). For the authoritative state see
+**`GAME_LIBRARY/PENALTY_SHOOTOUT_CAMPAIGN_PACK_STATUS.md`**.
+
+**Live on `main` (@ `229ce76`):** fixed Stadium Shell · Campaign Pack model · 941×1672 background
+template + fit solver · gated behind-goal ad-zone renderer · Colattao coffee/pastry ad image ·
+Colattao green keeper kit (owner-approved) · Fina Calle/Stadium controls · tap+swipe · no-404 fallback.
+Live demo: https://finacalleos.com/penalty-shootout
+
+**Parked:** PR #24 (Stadium broadcast HUD + ball/kicker art — superseded; don't merge as-is, art may be
+salvaged later) · PR #17 (Colattanini docs-only manual MVP). Client-OS PRs #29/#5 are separate.
+
+**Resume sequence:** (1) player layered kit spec/art → (2) campaign-on-Stadium-Shell binding →
+(3) true transparent mascot/ball assets if wanted → (4) Colattanini printable campaign (#17) →
+(5) approved logo overlay registry (`ASSET_REGISTRY/APPROVED_LOGOS.md` is empty — no in-game logos until filed).
+
+**Known minor:** Colattao keeper lower-body green `0x14332A` ≈ grass `0x14331A` (legs can blend);
+one-line kit tweak if wanted. Ad image is 1080px long edge (spec rec ≥1600) — fine at display size.

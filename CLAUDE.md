@@ -30,6 +30,9 @@ Architecture: engine/input/skin split → color skins → asset renderer → ass
   `ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md`, `ASSET_SPECS/PENALTY_KIT_SPEC.md`. The behind-goal
   ad zone **supersedes** the earlier LED/scoreBug/adBanner ad ideas — don't ship those as
   the customizable surface; reassess any open Stadium ad PR against this model before merge.
+- **Status (parked, stable):** behind-goal **ad zone** (live, Colattao coffee/pastry) + **keeper kit**
+  (live, Colattao green) are built; **player kit** and **campaign-on-Stadium-Shell binding** are not.
+  Full snapshot + sales wording + resume sequence: `GAME_LIBRARY/PENALTY_SHOOTOUT_CAMPAIGN_PACK_STATUS.md`.
 - Roadmap next: ball art → kicker art → Sentinel Keeper sprite (tiers Product Ball → Kicker → Keeper).
 
 ## Hard guardrails (always)
