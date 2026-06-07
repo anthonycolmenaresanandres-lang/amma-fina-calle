@@ -123,6 +123,7 @@ Files land under `/public/assets/{campaign-id}/penalty/` and the client's
 
 ## Cross-references
 
+- `ASSET_SPECS/PENALTY_BACKGROUND_TEMPLATE.md` — background authoring canvas, zones, safe lanes, and the exact behind-goal ad-zone panel position
 - `PRODUCT_MODULES/GAME_CUSTOMIZATION_PROTOCOL.md` — Campaign Pack tier + guardrails
 - `ASSET_SPECS/PENALTY_KIT_SPEC.md` — player/keeper shirt customization
 - `GAME_LIBRARY/PENALTY_SHOOTOUT.md` — package spec + lineage
