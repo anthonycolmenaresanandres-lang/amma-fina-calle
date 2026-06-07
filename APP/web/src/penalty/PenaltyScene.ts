@@ -30,10 +30,10 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 export class PenaltyScene extends Phaser.Scene {
   private readonly level: PenaltyLevel;
+  private readonly skin: PenaltySkin;
   // Effective canvas palette for this match = active skin's colors with the
   // level's optional tweaks applied. Gameplay/rules are unaffected by the skin.
   private readonly colors: PenaltyColors;
-  private readonly skinName: string;
   private penaltyRenderer!: PenaltyRenderer;
 
   private match: MatchState = createMatch();
@@ -59,8 +59,8 @@ export class PenaltyScene extends Phaser.Scene {
   ) {
     super(`PenaltyScene-${skin.id}-${level.id}`);
     this.level = level;
+    this.skin = skin;
     this.colors = resolveColors(skin, level);
-    this.skinName = skin.skinName;
     this.statusColor = this.colors.text;
   }
 
@@ -69,10 +69,38 @@ export class PenaltyScene extends Phaser.Scene {
     return computeLayout(width, height);
   }
 
+  // Per-skin texture key (skin id keeps keys unique across skins).
+  private assetKey(kind: "background" | "logo" | "ball"): string {
+    return `penalty-${kind}-${this.skin.id}`;
+  }
+
+  // Queue any declared skin image assets. A missing/failed file is harmless:
+  // the texture simply won't exist and create() falls back to primitives.
+  preload(): void {
+    const assets = this.skin.assets;
+    if (!assets) {
+      return;
+    }
+    if (assets.background) this.load.image(this.assetKey("background"), assets.background);
+    if (assets.logo) this.load.image(this.assetKey("logo"), assets.logo);
+    if (assets.ball) this.load.image(this.assetKey("ball"), assets.ball);
+    // Swallow load errors — the primitive fallback covers any missing asset.
+    this.load.on("loaderror", () => {});
+  }
+
+  private loadedKey(kind: "background" | "logo" | "ball"): string | undefined {
+    const key = this.assetKey(kind);
+    return this.textures.exists(key) ? key : undefined;
+  }
+
   create(): void {
     this.cameras.main.setBackgroundColor(this.colors.bg);
 
-    this.penaltyRenderer = new PenaltyRenderer(this, this.colors, this.skinName);
+    this.penaltyRenderer = new PenaltyRenderer(this, this.colors, this.skin.skinName, {
+      backgroundKey: this.loadedKey("background"),
+      logoKey: this.loadedKey("logo"),
+      ballKey: this.loadedKey("ball"),
+    });
 
     const layout = this.layout();
     this.ballPos = { x: layout.spotX, y: layout.spotY };

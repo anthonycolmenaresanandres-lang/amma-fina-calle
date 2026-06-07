@@ -1,10 +1,8 @@
-// Primitive renderer for Penalty Shootout (the default, asset-free skin).
-// Owns the Phaser graphics + text objects and draws a frame from a pure
-// RenderState snapshot. Reads colors from the level's PenaltyColors (the V1
-// "skin" surface). All drawing is verbatim from the V1 scene — pixels identical.
-//
-// This is the seam the V2 skin system grows from: a future asset-backed skin
-// swaps this renderer (or extends it) without touching engine or input.
+// Renderer for Penalty Shootout. Draws a frame from a pure RenderState snapshot
+// using the active skin's PenaltyColors. Optional skin image assets (background,
+// logo, ball) are drawn when present and fall back to the asset-free primitive
+// look when absent or if a file fails to load — so a missing asset never breaks
+// the scene (no 404 break). With no assets, output is pixel-identical to V1.
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
@@ -24,7 +22,25 @@ export type RenderState = {
   statusColor: string;
 };
 
+// Texture keys for any skin assets that actually loaded (undefined = fall back).
+export type RendererAssets = {
+  backgroundKey?: string;
+  logoKey?: string;
+  ballKey?: string;
+};
+
 const TEXT_FONT = "Georgia, serif";
+
+// Explicit depths so the layer order is deterministic regardless of object
+// creation order, and identical to V1 in the no-asset case (field < actors < text).
+const DEPTH = {
+  background: -10,
+  field: 0,
+  actors: 10,
+  ball: 11,
+  text: 20,
+  logo: 30,
+} as const;
 
 export class PenaltyRenderer {
   private readonly colors: PenaltyColors;
@@ -35,13 +51,36 @@ export class PenaltyRenderer {
   private readonly statusText: Phaser.GameObjects.Text;
   private readonly hintText: Phaser.GameObjects.Text;
 
-  constructor(scene: Phaser.Scene, colors: PenaltyColors, skinName: string) {
+  private readonly bgImage: Phaser.GameObjects.Image | null = null;
+  private readonly logoImage: Phaser.GameObjects.Image | null = null;
+  private readonly ballImage: Phaser.GameObjects.Image | null = null;
+
+  constructor(
+    scene: Phaser.Scene,
+    colors: PenaltyColors,
+    skinName: string,
+    assets: RendererAssets = {},
+  ) {
     this.colors = colors;
 
-    // Creation order matters for z-order (later objects render on top): field,
-    // then actors, then text — identical to V1.
-    this.fieldGraphics = scene.add.graphics();
-    this.actorGraphics = scene.add.graphics();
+    // Optional photographic backdrop (behind everything).
+    if (assets.backgroundKey) {
+      this.bgImage = scene.add
+        .image(0, 0, assets.backgroundKey)
+        .setOrigin(0.5, 0.5)
+        .setDepth(DEPTH.background);
+    }
+
+    this.fieldGraphics = scene.add.graphics().setDepth(DEPTH.field);
+    this.actorGraphics = scene.add.graphics().setDepth(DEPTH.actors);
+
+    // Optional product-themed ball (drawn instead of the primitive ball).
+    if (assets.ballKey) {
+      this.ballImage = scene.add
+        .image(0, 0, assets.ballKey)
+        .setOrigin(0.5, 0.5)
+        .setDepth(DEPTH.ball);
+    }
 
     this.titleText = scene.add
       .text(0, 0, skinName.toUpperCase(), {
@@ -49,7 +88,8 @@ export class PenaltyRenderer {
         fontSize: "13px",
         color: "#d8b36d",
       })
-      .setOrigin(0.5, 0);
+      .setOrigin(0.5, 0)
+      .setDepth(DEPTH.text);
 
     this.scoreText = scene.add
       .text(0, 0, "", {
@@ -57,7 +97,8 @@ export class PenaltyRenderer {
         fontSize: "20px",
         color: colors.text,
       })
-      .setOrigin(0.5, 0);
+      .setOrigin(0.5, 0)
+      .setDepth(DEPTH.text);
 
     this.statusText = scene.add
       .text(0, 0, "", {
@@ -67,7 +108,8 @@ export class PenaltyRenderer {
         color: colors.text,
         align: "center",
       })
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5)
+      .setDepth(DEPTH.text);
 
     this.hintText = scene.add
       .text(0, 0, "", {
@@ -76,10 +118,22 @@ export class PenaltyRenderer {
         color: colors.text,
         align: "center",
       })
-      .setOrigin(0.5, 1);
+      .setOrigin(0.5, 1)
+      .setDepth(DEPTH.text);
+
+    // Optional brand logo, drawn as a small top-right watermark.
+    if (assets.logoKey) {
+      this.logoImage = scene.add
+        .image(0, 0, assets.logoKey)
+        .setOrigin(1, 0)
+        .setAlpha(0.72)
+        .setDepth(DEPTH.logo);
+    }
   }
 
   render(state: RenderState): void {
+    this.positionAssets(state);
+
     this.drawField(state);
 
     const a = this.actorGraphics;
@@ -90,23 +144,49 @@ export class PenaltyRenderer {
     this.layoutTexts(state);
   }
 
+  // Position/scale the optional image assets to the current layout.
+  private positionAssets(state: RenderState): void {
+    const { layout } = state;
+
+    if (this.bgImage) {
+      // Cover-fit the backdrop to the canvas.
+      const iw = this.bgImage.width || 1;
+      const ih = this.bgImage.height || 1;
+      const scale = Math.max(layout.w / iw, layout.h / ih);
+      this.bgImage.setPosition(layout.w / 2, layout.h / 2).setScale(scale);
+    }
+
+    if (this.logoImage) {
+      const targetH = Math.max(18, layout.h * 0.05);
+      const scale = targetH / (this.logoImage.height || 1);
+      this.logoImage.setScale(scale).setPosition(layout.w - layout.w * 0.04, layout.h * 0.03);
+    }
+  }
+
   private drawField(state: RenderState): void {
     const { layout } = state;
     const colors = this.colors;
     const g = this.fieldGraphics;
     g.clear();
 
-    // Sky / stand backdrop and pitch.
-    g.fillStyle(colors.sky, 1);
-    g.fillRect(0, 0, layout.w, layout.h * 0.55);
-    g.fillStyle(colors.grass, 1);
-    g.fillRect(0, layout.h * 0.5, layout.w, layout.h * 0.5);
+    if (this.bgImage) {
+      // Photographic backdrop is its own object (behind); lay a dark scrim so
+      // the goal, ball, and text stay legible over it.
+      g.fillStyle(0x000000, 0.45);
+      g.fillRect(0, 0, layout.w, layout.h);
+    } else {
+      // Primitive sky / stand backdrop and pitch (verbatim V1).
+      g.fillStyle(colors.sky, 1);
+      g.fillRect(0, 0, layout.w, layout.h * 0.55);
+      g.fillStyle(colors.grass, 1);
+      g.fillRect(0, layout.h * 0.5, layout.w, layout.h * 0.5);
 
-    // Mowed pitch stripes converging toward the goal.
-    g.lineStyle(Math.max(10, layout.h * 0.02), colors.grassLine, 0.5);
-    for (let i = 1; i <= 4; i += 1) {
-      const y = layout.h * (0.55 + i * 0.1);
-      g.lineBetween(0, y, layout.w, y);
+      // Mowed pitch stripes converging toward the goal.
+      g.lineStyle(Math.max(10, layout.h * 0.02), colors.grassLine, 0.5);
+      for (let i = 1; i <= 4; i += 1) {
+        const y = layout.h * (0.55 + i * 0.1);
+        g.lineBetween(0, y, layout.w, y);
+      }
     }
 
     // Penalty box arc hint + spot.
@@ -184,10 +264,17 @@ export class PenaltyRenderer {
     const r = layout.ballRadius;
     const { x, y } = state.ballPos;
 
-    // Ground shadow scales down as the ball rises (sky region).
+    // Ground shadow scales down as the ball rises (sky region). Drawn for both
+    // the primitive and image ball.
     const groundFactor = Phaser.Math.Clamp((y - layout.goalTop) / (layout.spotY - layout.goalTop), 0.2, 1);
     a.fillStyle(0x000000, 0.22 * groundFactor);
     a.fillCircle(x, layout.spotY, r * groundFactor);
+
+    if (this.ballImage) {
+      const d = r * 2.4;
+      this.ballImage.setPosition(x, y).setDisplaySize(d, d);
+      return;
+    }
 
     a.fillStyle(colors.ball, 1);
     a.fillCircle(x, y, r);
