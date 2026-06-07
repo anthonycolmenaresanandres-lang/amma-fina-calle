@@ -42,6 +42,12 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
     fit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
     label: "Colattao coffee and pastry behind-goal ad zone",
   },
+  // ⚠️ QA-ONLY (Step 3a) — TEMPORARY keeper kit colors so the recolor is visible
+  // on the Colattao skin in preview (deliberately contrasting, not final brand
+  // colors). REMOVE this `kit` block before merge unless the owner approves it.
+  kit: {
+    keeper: { primary: 0x2e8b6b, secondary: 0x14332a },
+  },
 };
 
 const CAMPAIGNS: PenaltyCampaign[] = [STADIUM_CAMPAIGN, COLATTAO_CAMPAIGN];
