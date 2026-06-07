@@ -136,3 +136,62 @@ export type ShotOutcome = "goal" | "save" | "miss";
 // assisted swipe gesture (with a tap fallback). The input layer only selects an
 // aim zone — it never changes scoring or keeper logic.
 export type InputMode = "tap" | "swipe" | "auto";
+
+// --- Campaign Pack (V2 productization) -----------------------------------
+// The Stadium Shell is fixed; a Campaign is the small, per-client surface that
+// rides on top of it: one behind-goal ad zone + player/keeper shirt (kit)
+// recolor. Governance: PRODUCT_MODULES/GAME_CUSTOMIZATION_PROTOCOL.md
+// (Campaign Pack); specs ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md and
+// ASSET_SPECS/PENALTY_KIT_SPEC.md.
+//
+// Step 1 introduces these types + plumbing ONLY — nothing here changes
+// rendering yet. Every field is optional and an empty campaign reproduces the
+// current look (no ad image, default kit), so a campaign is never a 404/broken
+// look. The ad-zone renderer and the tintable kit arrive in later steps.
+
+/** Fit controls for the behind-goal ad-zone image within its reserved panel. */
+export type AdZoneFit = {
+  /** Extra zoom on top of cover-fit (default 1). */
+  scale?: number;
+  /** Horizontal shift as a fraction of the panel width (default 0). */
+  offsetXPct?: number;
+  /** Vertical shift as a fraction of the panel height (default 0). */
+  offsetYPct?: number;
+};
+
+/** A shirt (kit) recolor for one mascot. Applied to the mascot's tintable kit
+ *  layer; omitted colors fall back to the skin's default kit. */
+export type KitSpec = {
+  /** Primary jersey color. */
+  primary?: number;
+  /** Optional trim/accent color. */
+  secondary?: number;
+};
+
+/** A Campaign Pack: the per-client surface on the fixed Stadium Shell. The only
+ *  customizable slots are the behind-goal ad zone and the two mascot kits; the
+ *  top strip carries a fixed menu label/link only (not campaign creative). */
+export type PenaltyCampaign = {
+  id: string;
+  /** Client/brand the campaign runs for (e.g. "Colattao"). */
+  client: string;
+  /** The one large behind-goal ad zone — the single dynamic placement. */
+  adZone?: {
+    /** Campaign image for the behind-goal panel. Omitted = default backdrop. */
+    image?: string;
+    /** Optional alignment of the image within the reserved panel. */
+    fit?: AdZoneFit;
+    /** Optional text-free caption/label for accessibility/fallback. */
+    label?: string;
+  };
+  /** Player + keeper shirt (kit) recolors. Omitted = default kits. */
+  kit?: {
+    player?: KitSpec;
+    keeper?: KitSpec;
+  };
+  /** Fixed top-strip menu button (label/link only — not a creative zone). */
+  menu?: {
+    label?: string;
+    url?: string;
+  };
+};

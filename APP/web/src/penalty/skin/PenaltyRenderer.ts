@@ -6,9 +6,17 @@
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
-import type { BackgroundFit, InputMode, PenaltyChrome, PenaltyColors, SpriteFit } from "../types";
+import type {
+  BackgroundFit,
+  InputMode,
+  PenaltyCampaign,
+  PenaltyChrome,
+  PenaltyColors,
+  SpriteFit,
+} from "../types";
 import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
+import { DEFAULT_CAMPAIGN } from "./campaigns";
 
 export type RenderState = {
   layout: Layout;
@@ -67,6 +75,9 @@ export class PenaltyRenderer {
   private readonly bgFit: BackgroundFit;
   private readonly kickerFit: SpriteFit;
   private readonly chrome: PenaltyChrome;
+  // Campaign Pack (behind-goal ad zone + kits). Step 1: stored but not yet used
+  // for drawing — the ad-zone renderer and tintable kit arrive in later steps.
+  private readonly campaign: PenaltyCampaign;
 
   constructor(
     scene: Phaser.Scene,
@@ -76,11 +87,13 @@ export class PenaltyRenderer {
     backgroundFit: BackgroundFit = {},
     kickerFit: SpriteFit = {},
     chrome: PenaltyChrome = {},
+    campaign: PenaltyCampaign = DEFAULT_CAMPAIGN,
   ) {
     this.colors = colors;
     this.bgFit = backgroundFit;
     this.kickerFit = kickerFit;
     this.chrome = chrome;
+    this.campaign = campaign;
     this.titleLabel = skinName.toUpperCase();
 
     // Optional photographic backdrop (behind everything).
