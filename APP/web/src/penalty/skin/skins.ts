@@ -58,8 +58,8 @@ export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   brandName: "Fina Calle Penalty Engine",
   skinName: "Stadium Shootout",
   colors: baseColors,
-  assets: { background: "/assets/stadium/penalty/background.webp" },
-  backgroundFit: { scrim: 0.22, scale: 1.32, offsetXPct: 0, offsetYPct: -0.15 },
+  assets: { background: "/assets/stadium/penalty/background-v2.png" },
+  backgroundFit: { scrim: 0.25, scale: 1.95, offsetXPct: 0, offsetYPct: -0.05 },
 };
 
 export const PENALTY_SKINS: PenaltySkin[] = [
