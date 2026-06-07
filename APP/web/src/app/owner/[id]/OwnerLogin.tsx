@@ -8,9 +8,11 @@ const initialState: ActionState = { ok: false, message: "" };
 export default function OwnerLogin({
   restaurantId,
   businessName,
+  notice = null,
 }: {
   restaurantId: string;
   businessName: string;
+  notice?: string | null;
 }) {
   const action = requestMagicLink.bind(null, restaurantId);
   const [state, formAction, pending] = useActionState(action, initialState);
@@ -23,6 +25,12 @@ export default function OwnerLogin({
         Enter the email on file for this restaurant. We&apos;ll send a one-time sign-in
         link — no password to remember.
       </p>
+
+      {notice ? (
+        <p className="mt-4 rounded-xl border border-[#d8b36d]/30 bg-[#d8b36d]/10 px-3 py-2 text-sm font-medium leading-6 text-[#f4d99c]">
+          {notice}
+        </p>
+      ) : null}
 
       <form action={formAction} className="mt-6 space-y-3">
         <label
