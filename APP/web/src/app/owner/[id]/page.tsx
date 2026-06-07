@@ -167,6 +167,9 @@ export default async function OwnerPage({ params }: PageProps) {
     categories,
     promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
+    // Phase 0 AI Request Desk — off unless explicitly enabled. When off, owners
+    // use the per-field forms below exactly as before.
+    requestDeskEnabled: process.env.REQUEST_DESK_ENABLED === "true",
   };
 
   return (
