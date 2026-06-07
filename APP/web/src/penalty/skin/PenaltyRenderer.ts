@@ -17,6 +17,7 @@ import type {
 import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
 import { DEFAULT_CAMPAIGN } from "./campaigns";
+import { AD_ZONE_PANEL } from "./backgroundTemplate";
 
 export type RenderState = {
   layout: Layout;
@@ -324,11 +325,12 @@ export class PenaltyRenderer {
     }
     const { layout } = state;
 
-    // Reserved panel: upper-field backdrop behind the goal mouth, down to the
-    // goal line, a touch wider than the goal. (Tunable.)
-    const px = layout.w * 0.06;
-    const pw = layout.w * 0.88;
-    const pyTop = layout.h * 0.05;
+    // Reserved panel from the canonical background template (single source): the
+    // upper-field backdrop behind the goal mouth, down to the goal line, a touch
+    // wider than the goal. See ASSET_SPECS/PENALTY_BACKGROUND_TEMPLATE.md.
+    const px = layout.w * AD_ZONE_PANEL.leftPct;
+    const pw = layout.w * AD_ZONE_PANEL.widthPct;
+    const pyTop = layout.h * AD_ZONE_PANEL.topPct;
     const pyBottom = layout.goalBottom;
     const ph = pyBottom - pyTop;
 
@@ -348,15 +350,15 @@ export class PenaltyRenderer {
 
     // Readability scrim + feather into the grass so the panel doesn't float.
     overlay.clear();
-    overlay.fillStyle(0x000000, 0.18);
+    overlay.fillStyle(0x000000, AD_ZONE_PANEL.scrimAlpha);
     overlay.fillRect(px, pyTop, pw, ph);
 
-    const featherH = ph * 0.3;
-    const bands = 14;
+    const featherH = ph * AD_ZONE_PANEL.featherPct;
+    const bands = AD_ZONE_PANEL.featherBands;
     const bandH = featherH / bands;
     for (let i = 0; i < bands; i += 1) {
       const y = pyBottom - featherH + i * bandH;
-      const alpha = ((i + 1) / bands) * 0.9; // transparent at top → grass at base
+      const alpha = ((i + 1) / bands) * AD_ZONE_PANEL.featherMaxAlpha; // transparent top → grass base
       overlay.fillStyle(this.colors.grass, alpha);
       overlay.fillRect(px, y, pw, bandH + 1);
     }
