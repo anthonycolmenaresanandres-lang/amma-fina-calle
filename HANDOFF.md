@@ -240,3 +240,5 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
   - [ ] 5-shot ending works (final score + rating)
   - [ ] Game feels replayable
   If any visual/feel issue is reported, fix ONLY those targeted issues — no new features.
+
+- [2026-06-07] DONE: Anthony completed the manual mobile phone QA pass for /penalty-shootout (PR #6) — ALL 10 acceptance checks PASS (preview opens on phone, level select readable, all 3 keepers playable, aim targets tappable, no crop/scroll bugs, GOAL/SAVED/MISS readable, Replay works, Back works, 5-shot ending works, feels replayable). PR #6 flipped from draft to READY FOR REVIEW. Build re-verified green; /penalty-shootout prerenders static. NOT merged — awaiting explicit merge approval.
