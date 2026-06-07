@@ -109,8 +109,12 @@ export type PenaltyChrome = {
   hideGoalArt?: boolean;
   /** Hide the top skin-name title while keeping score and hint visible. */
   hideTitle?: boolean;
-  /** Draw a reserved black sponsor/ad strip. */
+  /** Draw a reserved black sponsor/ad strip across the lower third. */
   adBanner?: boolean;
+  /** Broadcast top bar: score/goals on the left, a black promo placeholder on the right. */
+  scoreBug?: boolean;
+  /** Black LED perimeter banner behind the keeper (stadium ad board). */
+  ledBanner?: boolean;
 };
 
 // A client skin (V2): brand identity + the base canvas palette, plus optional
