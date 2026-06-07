@@ -53,7 +53,10 @@ export async function requestMagicLink(
     email,
     options: {
       shouldCreateUser: false,
-      emailRedirectTo: `${origin}/owner/${restaurantId}/auth/callback`,
+      // Destination after the link is verified. The Magic Link email template
+      // wraps this as `next` on /auth/confirm (token-hash flow), which completes
+      // on any browser/device — see src/app/auth/confirm/route.ts.
+      emailRedirectTo: `${origin}/owner/${restaurantId}`,
     },
   });
 

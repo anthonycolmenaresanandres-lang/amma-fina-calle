@@ -44,7 +44,10 @@ export async function requestAdminMagicLink(
     email,
     options: {
       shouldCreateUser: false,
-      emailRedirectTo: `${origin}/customers/auth/callback`,
+      // Destination after the link is verified; the Magic Link email template
+      // wraps this as `next` on /auth/confirm (token-hash flow). See
+      // src/app/auth/confirm/route.ts.
+      emailRedirectTo: `${origin}/customers`,
     },
   });
 
