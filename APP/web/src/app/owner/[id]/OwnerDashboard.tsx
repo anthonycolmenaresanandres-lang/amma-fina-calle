@@ -4,6 +4,7 @@ import {
   updatePromoText,
   uploadItemImage,
 } from "@/lib/owner/actions";
+import RequestDesk from "./RequestDesk";
 
 export type MenuItem = {
   id: string;
@@ -41,6 +42,7 @@ export type DashboardData = {
   categories: MenuCategory[];
   promos: Promo[];
   audit: AuditEntry[];
+  requestDeskEnabled: boolean;
 };
 
 const cardClass =
@@ -144,6 +146,8 @@ export default function OwnerDashboard({ data }: { data: DashboardData }) {
           is saved to your live menu and recorded in your change history below.
         </p>
       </header>
+
+      {data.requestDeskEnabled ? <RequestDesk restaurantId={data.restaurantId} /> : null}
 
       <section className={cardClass}>
         <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">Menu</h2>
