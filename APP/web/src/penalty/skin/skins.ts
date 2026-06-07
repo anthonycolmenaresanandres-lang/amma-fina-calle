@@ -47,7 +47,7 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   // renderer falls back to primitives if a file is ever missing.
   // Pending (no suitable round-ball art yet): `ball` stays primitive.
   assets: {
-    background: "/assets/colattao/penalty/background.webp",
+    background: "/assets/colattao/penalty/background-cafe-stadium-winner-v1.webp",
     logo: "/assets/colattao/penalty/logo.png",
   },
 };
