@@ -74,6 +74,8 @@ export type PenaltySkinAssets = {
   logo?: string;
   /** Product-themed ball image, replacing the primitive ball. */
   ball?: string;
+  /** Foreground kicker character (mascot); leans into a kick on the shot. */
+  kicker?: string;
 };
 
 // Optional fit controls for a skin's background image, so a photo (e.g. a
@@ -84,6 +86,17 @@ export type BackgroundFit = {
   /** Dark overlay alpha over the photo, 0..1 (default 0.45). Lower = brighter. */
   scrim?: number;
   /** Extra zoom on top of cover-fit (default 1). >1 enlarges the photo. */
+  scale?: number;
+  /** Horizontal shift as a fraction of canvas width (default 0). */
+  offsetXPct?: number;
+  /** Vertical shift as a fraction of canvas height (default 0; negative = up). */
+  offsetYPct?: number;
+};
+
+// Optional positioning for a foreground sprite (the kicker), tuned per skin
+// once the art lands. Defaults keep it centered at the bottom foreground.
+export type SpriteFit = {
+  /** Height multiplier relative to the default kicker size (default 1). */
   scale?: number;
   /** Horizontal shift as a fraction of canvas width (default 0). */
   offsetXPct?: number;
@@ -102,6 +115,8 @@ export type PenaltySkin = {
   assets?: PenaltySkinAssets;
   /** Optional positioning/scrim tuning for the background image. */
   backgroundFit?: BackgroundFit;
+  /** Optional positioning for the kicker sprite. */
+  kickerFit?: SpriteFit;
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";

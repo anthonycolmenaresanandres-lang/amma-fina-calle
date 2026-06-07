@@ -6,7 +6,7 @@
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
-import type { BackgroundFit, InputMode, PenaltyColors } from "../types";
+import type { BackgroundFit, InputMode, PenaltyColors, SpriteFit } from "../types";
 import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
 
@@ -22,6 +22,10 @@ export type RenderState = {
   statusColor: string;
   inputMode: InputMode;
   aimPreview: AimPreview | null;
+  /** Ball image rotation (radians); spins during flight. 0 when not shooting. */
+  ballSpin: number;
+  /** Kicker lean 0..1; pulses on the shot. 0 = upright. */
+  kickLean: number;
 };
 
 // Texture keys for any skin assets that actually loaded (undefined = fall back).
@@ -29,6 +33,7 @@ export type RendererAssets = {
   backgroundKey?: string;
   logoKey?: string;
   ballKey?: string;
+  kickerKey?: string;
 };
 
 const TEXT_FONT = "Georgia, serif";
@@ -40,6 +45,7 @@ const DEPTH = {
   field: 0,
   actors: 10,
   ball: 11,
+  kicker: 16,
   text: 20,
   logo: 30,
 } as const;
@@ -56,7 +62,9 @@ export class PenaltyRenderer {
   private readonly bgImage: Phaser.GameObjects.Image | null = null;
   private readonly logoImage: Phaser.GameObjects.Image | null = null;
   private readonly ballImage: Phaser.GameObjects.Image | null = null;
+  private readonly kickerImage: Phaser.GameObjects.Image | null = null;
   private readonly bgFit: BackgroundFit;
+  private readonly kickerFit: SpriteFit;
 
   constructor(
     scene: Phaser.Scene,
@@ -64,9 +72,11 @@ export class PenaltyRenderer {
     skinName: string,
     assets: RendererAssets = {},
     backgroundFit: BackgroundFit = {},
+    kickerFit: SpriteFit = {},
   ) {
     this.colors = colors;
     this.bgFit = backgroundFit;
+    this.kickerFit = kickerFit;
 
     // Optional photographic backdrop (behind everything).
     if (assets.backgroundKey) {
@@ -85,6 +95,14 @@ export class PenaltyRenderer {
         .image(0, 0, assets.ballKey)
         .setOrigin(0.5, 0.5)
         .setDepth(DEPTH.ball);
+    }
+
+    // Optional foreground kicker (bottom-anchored so it can crop off the bottom).
+    if (assets.kickerKey) {
+      this.kickerImage = scene.add
+        .image(0, 0, assets.kickerKey)
+        .setOrigin(0.5, 1)
+        .setDepth(DEPTH.kicker);
     }
 
     this.titleText = scene.add
@@ -195,6 +213,17 @@ export class PenaltyRenderer {
       const targetH = Math.max(18, layout.h * 0.05);
       const scale = targetH / (this.logoImage.height || 1);
       this.logoImage.setScale(scale).setPosition(layout.w - layout.w * 0.04, layout.h * 0.03);
+    }
+
+    if (this.kickerImage) {
+      // Bottom-foreground; sized to the layout and tuned per skin. A small lean
+      // pulses on the shot (kickLean 0..1). Default places feet just off-screen
+      // so the kicker frames the shot without covering the goal/keeper.
+      const targetH = layout.keeperHeight * 1.5 * (this.kickerFit.scale ?? 1);
+      const scale = targetH / (this.kickerImage.height || 1);
+      const x = layout.w * (0.5 + (this.kickerFit.offsetXPct ?? 0));
+      const y = layout.h * (1.02 + (this.kickerFit.offsetYPct ?? 0));
+      this.kickerImage.setScale(scale).setPosition(x, y).setRotation(state.kickLean * -0.12);
     }
   }
 
@@ -307,7 +336,7 @@ export class PenaltyRenderer {
 
     if (this.ballImage) {
       const d = r * 2.4;
-      this.ballImage.setPosition(x, y).setDisplaySize(d, d);
+      this.ballImage.setPosition(x, y).setDisplaySize(d, d).setRotation(state.ballSpin);
       return;
     }
 

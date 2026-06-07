@@ -90,7 +90,7 @@ export class PenaltyScene extends Phaser.Scene {
   }
 
   // Per-skin texture key (skin id keeps keys unique across skins).
-  private assetKey(kind: "background" | "logo" | "ball"): string {
+  private assetKey(kind: "background" | "logo" | "ball" | "kicker"): string {
     return `penalty-${kind}-${this.skin.id}`;
   }
 
@@ -104,11 +104,12 @@ export class PenaltyScene extends Phaser.Scene {
     if (assets.background) this.load.image(this.assetKey("background"), assets.background);
     if (assets.logo) this.load.image(this.assetKey("logo"), assets.logo);
     if (assets.ball) this.load.image(this.assetKey("ball"), assets.ball);
+    if (assets.kicker) this.load.image(this.assetKey("kicker"), assets.kicker);
     // Swallow load errors — the primitive fallback covers any missing asset.
     this.load.on("loaderror", () => {});
   }
 
-  private loadedKey(kind: "background" | "logo" | "ball"): string | undefined {
+  private loadedKey(kind: "background" | "logo" | "ball" | "kicker"): string | undefined {
     const key = this.assetKey(kind);
     return this.textures.exists(key) ? key : undefined;
   }
@@ -124,8 +125,10 @@ export class PenaltyScene extends Phaser.Scene {
         backgroundKey: this.loadedKey("background"),
         logoKey: this.loadedKey("logo"),
         ballKey: this.loadedKey("ball"),
+        kickerKey: this.loadedKey("kicker"),
       },
       this.skin.backgroundFit ?? {},
+      this.skin.kickerFit ?? {},
     );
 
     const layout = this.layout();
@@ -197,7 +200,21 @@ export class PenaltyScene extends Phaser.Scene {
       statusColor: this.statusColor,
       inputMode: this.inputMode,
       aimPreview: this.aimPreview,
+      ballSpin: this.match.phase === "shooting" ? this.phaseTimeMs * 0.018 : 0,
+      kickLean: this.computeKickLean(),
     };
+  }
+
+  // Kicker lean pulse on the shot: wind up, then settle back upright. Only used
+  // by skins that supply a kicker sprite; no effect otherwise.
+  private computeKickLean(): number {
+    if (this.match.phase !== "shooting") {
+      return 0;
+    }
+    const t = this.phaseTimeMs;
+    if (t < 120) return t / 120;
+    if (t < 260) return 1 - (t - 120) / 140;
+    return 0;
   }
 
   // --- Shot lifecycle -----------------------------------------------------
