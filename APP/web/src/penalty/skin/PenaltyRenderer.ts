@@ -6,7 +6,7 @@
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
-import type { BackgroundFit, InputMode, PenaltyColors, SpriteFit } from "../types";
+import type { BackgroundFit, InputMode, PenaltyChrome, PenaltyColors, SpriteFit } from "../types";
 import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
 
@@ -58,6 +58,7 @@ export class PenaltyRenderer {
   private readonly scoreText: Phaser.GameObjects.Text;
   private readonly statusText: Phaser.GameObjects.Text;
   private readonly hintText: Phaser.GameObjects.Text;
+  private readonly titleLabel: string;
 
   private readonly bgImage: Phaser.GameObjects.Image | null = null;
   private readonly logoImage: Phaser.GameObjects.Image | null = null;
@@ -65,6 +66,7 @@ export class PenaltyRenderer {
   private readonly kickerImage: Phaser.GameObjects.Image | null = null;
   private readonly bgFit: BackgroundFit;
   private readonly kickerFit: SpriteFit;
+  private readonly chrome: PenaltyChrome;
 
   constructor(
     scene: Phaser.Scene,
@@ -73,10 +75,13 @@ export class PenaltyRenderer {
     assets: RendererAssets = {},
     backgroundFit: BackgroundFit = {},
     kickerFit: SpriteFit = {},
+    chrome: PenaltyChrome = {},
   ) {
     this.colors = colors;
     this.bgFit = backgroundFit;
     this.kickerFit = kickerFit;
+    this.chrome = chrome;
+    this.titleLabel = skinName.toUpperCase();
 
     // Optional photographic backdrop (behind everything).
     if (assets.backgroundKey) {
@@ -106,7 +111,7 @@ export class PenaltyRenderer {
     }
 
     this.titleText = scene.add
-      .text(0, 0, skinName.toUpperCase(), {
+      .text(0, 0, this.titleLabel, {
         fontFamily: TEXT_FONT,
         fontSize: "13px",
         color: "#d8b36d",
@@ -158,6 +163,7 @@ export class PenaltyRenderer {
     this.positionAssets(state);
 
     this.drawField(state);
+    this.drawAdBanner(state);
 
     const a = this.actorGraphics;
     a.clear();
@@ -253,33 +259,35 @@ export class PenaltyRenderer {
       }
     }
 
-    // Penalty box arc hint + spot.
-    g.lineStyle(2, colors.net, 0.4);
-    g.lineBetween(layout.goalLeft - layout.w * 0.04, layout.goalBottom, layout.goalRight + layout.w * 0.04, layout.goalBottom);
-    g.fillStyle(colors.goalFrame, 0.85);
-    g.fillCircle(layout.spotX, layout.spotY, Math.max(3, layout.w * 0.008));
+    if (!this.chrome.hideGoalArt) {
+      // Penalty box arc hint + spot.
+      g.lineStyle(2, colors.net, 0.4);
+      g.lineBetween(layout.goalLeft - layout.w * 0.04, layout.goalBottom, layout.goalRight + layout.w * 0.04, layout.goalBottom);
+      g.fillStyle(colors.goalFrame, 0.85);
+      g.fillCircle(layout.spotX, layout.spotY, Math.max(3, layout.w * 0.008));
 
-    // Net fill + mesh.
-    g.fillStyle(colors.net, 0.06);
-    g.fillRect(layout.goalLeft, layout.goalTop, layout.goalWidth, layout.goalHeight);
-    g.lineStyle(1, colors.net, 0.22);
-    const cols = 8;
-    const rows = 5;
-    for (let i = 1; i < cols; i += 1) {
-      const x = layout.goalLeft + (layout.goalWidth * i) / cols;
-      g.lineBetween(x, layout.goalTop, x, layout.goalBottom);
-    }
-    for (let j = 1; j < rows; j += 1) {
-      const y = layout.goalTop + (layout.goalHeight * j) / rows;
-      g.lineBetween(layout.goalLeft, y, layout.goalRight, y);
-    }
+      // Net fill + mesh.
+      g.fillStyle(colors.net, 0.06);
+      g.fillRect(layout.goalLeft, layout.goalTop, layout.goalWidth, layout.goalHeight);
+      g.lineStyle(1, colors.net, 0.22);
+      const cols = 8;
+      const rows = 5;
+      for (let i = 1; i < cols; i += 1) {
+        const x = layout.goalLeft + (layout.goalWidth * i) / cols;
+        g.lineBetween(x, layout.goalTop, x, layout.goalBottom);
+      }
+      for (let j = 1; j < rows; j += 1) {
+        const y = layout.goalTop + (layout.goalHeight * j) / rows;
+        g.lineBetween(layout.goalLeft, y, layout.goalRight, y);
+      }
 
-    // Goal frame (posts + crossbar).
-    const postW = Math.max(4, layout.w * 0.015);
-    g.fillStyle(colors.goalFrame, 1);
-    g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, postW, layout.goalHeight + postW);
-    g.fillRect(layout.goalRight, layout.goalTop - postW, postW, layout.goalHeight + postW);
-    g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, layout.goalWidth + postW * 2, postW);
+      // Goal frame (posts + crossbar).
+      const postW = Math.max(4, layout.w * 0.015);
+      g.fillStyle(colors.goalFrame, 1);
+      g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, postW, layout.goalHeight + postW);
+      g.fillRect(layout.goalRight, layout.goalTop - postW, postW, layout.goalHeight + postW);
+      g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, layout.goalWidth + postW * 2, postW);
+    }
 
     // Aim targets (only while choosing a shot).
     if (state.match.phase === "aim") {
@@ -292,6 +300,16 @@ export class PenaltyRenderer {
         g.fillCircle(c.x, c.y, Math.max(5, layout.zoneRadius * (hovered ? 0.34 : 0.22)));
       }
     }
+  }
+
+  private drawAdBanner(state: RenderState): void {
+    if (!this.chrome.adBanner) {
+      return;
+    }
+
+    const { layout } = state;
+    this.fieldGraphics.fillStyle(0x000000, 1);
+    this.fieldGraphics.fillRect(0, layout.h * 0.84, layout.w, layout.h * 0.08);
   }
 
   private drawKeeper(a: Phaser.GameObjects.Graphics, state: RenderState): void {
@@ -351,6 +369,7 @@ export class PenaltyRenderer {
   private layoutTexts(state: RenderState): void {
     const { layout, match, totalShots } = state;
 
+    this.titleText.setText(this.chrome.hideTitle ? "" : this.titleLabel);
     this.titleText.setPosition(layout.w / 2, layout.h * 0.035);
 
     const currentShot = currentShotNumber(match, totalShots);

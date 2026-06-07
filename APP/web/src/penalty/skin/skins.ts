@@ -62,6 +62,7 @@ export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   // Fit tuned to the v2 photo (goal high at ~11%, line ~33%): zoom modestly and
   // shift the photo DOWN so its net fills the game's goal frame (14-42%).
   backgroundFit: { scrim: 0.25, scale: 1.3, offsetXPct: 0, offsetYPct: 0.13 },
+  chrome: { hideGoalArt: true, hideTitle: true, adBanner: true },
 };
 
 export const PENALTY_SKINS: PenaltySkin[] = [
