@@ -42,6 +42,14 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   brandName: "Colattao Penalty Shootout",
   skinName: "Café Shootout",
   colors: colattaoColors,
+  // Verified Colattao brand art (from ASSET_REGISTRY/COLATTAO/normalized/),
+  // served from /public/assets/colattao/penalty/. Both are optional — the
+  // renderer falls back to primitives if a file is ever missing.
+  // Pending (no suitable round-ball art yet): `ball` stays primitive.
+  assets: {
+    background: "/assets/colattao/penalty/background.webp",
+    logo: "/assets/colattao/penalty/logo.png",
+  },
 };
 
 export const PENALTY_SKINS: PenaltySkin[] = [DEFAULT_PENALTY_SKIN, COLATTAO_PENALTY_SKIN];

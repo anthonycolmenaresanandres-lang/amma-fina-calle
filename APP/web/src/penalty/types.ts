@@ -64,15 +64,27 @@ export type PenaltyLevel = {
   rules: PenaltyRules;
 };
 
-// A color-only client skin (V2 Step 2): brand identity + the base canvas
-// palette. Asset-backed skins extend this in a later step. Resolved by id
-// through a registry, mirroring src/lib/brand.ts.
+// Optional image assets for an asset-backed skin (V2 Step 3). Every field is
+// optional and falls back to the primitive renderer when absent or if the file
+// fails to load — so a skin is never broken by a missing asset (no 404 break).
+export type PenaltySkinAssets = {
+  /** Image drawn behind the goal (cover-fit, with a contrast scrim). */
+  background?: string;
+  /** Brand logo drawn as a small corner watermark. */
+  logo?: string;
+  /** Product-themed ball image, replacing the primitive ball. */
+  ball?: string;
+};
+
+// A client skin (V2): brand identity + the base canvas palette, plus optional
+// image assets. Resolved by id through a registry, mirroring src/lib/brand.ts.
 export type PenaltySkin = {
   id: string;
   displayName: string;
   brandName: string;
   skinName: string;
   colors: PenaltyColors;
+  assets?: PenaltySkinAssets;
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";
