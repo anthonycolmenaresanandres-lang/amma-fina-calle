@@ -42,6 +42,12 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
     fit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
     label: "Colattao coffee and pastry behind-goal ad zone",
   },
+  // Colattao keeper kit (Campaign Pack Step 3a) — owner-approved green keeper
+  // jersey (primary) + deep-green lower body (secondary). Recolors the primitive
+  // keeper mascot; wins over the per-level keeper tint (Decision A).
+  kit: {
+    keeper: { primary: 0x2e8b6b, secondary: 0x14332a },
+  },
 };
 
 const CAMPAIGNS: PenaltyCampaign[] = [STADIUM_CAMPAIGN, COLATTAO_CAMPAIGN];

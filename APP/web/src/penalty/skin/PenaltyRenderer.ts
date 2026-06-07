@@ -434,20 +434,26 @@ export class PenaltyRenderer {
     const reach = diving ? Math.abs(state.keeperPos.x - state.keeperRest.x) : 0;
     const armSpan = kw * 0.6 + reach * 0.5;
 
+    // Keeper kit recolor (Campaign Pack Step 3a). When the campaign supplies a
+    // keeper kit, its colors win over the palette (incl. any per-level keeper
+    // tint — Decision A). No kit → palette → pixel-identical to before.
+    const keeperPrimary = this.campaign.kit?.keeper?.primary ?? colors.keeper;
+    const keeperSecondary = this.campaign.kit?.keeper?.secondary ?? colors.keeperAccent;
+
     // Shadow.
     a.fillStyle(0x000000, 0.25);
     a.fillCircle(x, layout.keeperLineY + 4, kw * 0.55);
 
     // Outstretched arms when reaching.
-    a.fillStyle(colors.keeper, 1);
+    a.fillStyle(keeperPrimary, 1);
     a.fillRect(x - armSpan, y - kh * 0.78, armSpan * 2, Math.max(6, kh * 0.16));
 
     // Body + head.
-    a.fillStyle(colors.keeperAccent, 1);
+    a.fillStyle(keeperSecondary, 1);
     a.fillRect(x - kw * 0.32, y - kh, kw * 0.64, kh);
-    a.fillStyle(colors.keeper, 1);
+    a.fillStyle(keeperPrimary, 1);
     a.fillRect(x - kw * 0.32, y - kh, kw * 0.64, kh * 0.42);
-    a.fillStyle(colors.keeper, 1);
+    a.fillStyle(keeperPrimary, 1);
     a.fillCircle(x, y - kh - kw * 0.14, kw * 0.26);
   }
 
