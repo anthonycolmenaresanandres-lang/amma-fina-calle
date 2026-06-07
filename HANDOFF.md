@@ -215,3 +215,7 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-06 23:33:58] DONE: Documented architecture: added TECH_ARCHITECTURE/CUSTOMER_INTERFACE_ARCHITECTURE.md (one Next.js app on Vercel + Supabase; public vs admin = routing + auth gate; multi-tenant by id; DB-level security). Extended runbook with section 7 (Vercel Deployment Protection: keep Production public) and section 8 (custom SMTP for reliable Supabase magic-link emails).
 
 - [2026-06-06 23:33:58] NOTE: Could not verify finacalleos.com from the build environment: outbound blocked by network policy (x-deny-reason: host_not_allowed). Owner to verify in a browser: Production public + Supabase login form vs 'Setup needed'.
+
+- [2026-06-07] DONE: Built Penalty Shootout game package V1 ("Street Shootout") on the Conquest game-engine pattern. New route /penalty-shootout (APP/web/src/penalty/ + APP/web/src/app/penalty-shootout/): Phaser scene, 6 aim targets, 3 keeper difficulties, risk/reward save model, 5-shot match with scoring + rating. No existing game code touched. APP/web build passes. Surfaced on /rd; registered in GAME_LIBRARY (GAME_PACKAGE_LIBRARY.md + new PENALTY_SHOOTOUT.md spec).
+
+- [2026-06-07] NEXT: Visual smoke-test /penalty-shootout on a mobile viewport. Optional next steps in GAME_LIBRARY/PENALTY_SHOOTOUT.md: scene->client win/lose callback + result card, sudden death, power/timing skill element, per-client skin pass.

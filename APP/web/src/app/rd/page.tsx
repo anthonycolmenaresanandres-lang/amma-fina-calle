@@ -31,6 +31,12 @@ const researchTracks = [
     body: "Unity game prototype research. It is not presented here as a finished public product.",
     href: undefined,
   },
+  {
+    name: "Penalty Shootout",
+    status: "Playable game R&D",
+    body: "Street Shootout — a lightweight branded penalty mini-game on the Fina Calle game-engine pattern (Phaser scene + level config). Playable demo, three keeper difficulties.",
+    href: "/penalty-shootout",
+  },
 ];
 
 export const metadata = {
