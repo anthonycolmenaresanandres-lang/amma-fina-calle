@@ -6,6 +6,28 @@ _Game package built on the Fina Calle game-engine pattern (Phaser scene + level 
 
 **Playable V1.** Builds clean (`npm run build` in `APP/web`). Live route: `/penalty-shootout`. Surfaced on the R&D page (`/rd`) as a playable game-R&D track.
 
+### Mobile QA pass — 2026-06-07
+
+Method note: live on-device QA was **not possible from the build container** (no
+browser tooling installed; the Vercel preview returns HTTP 403 behind Deployment
+Protection). This pass was a **geometry/layout audit driven by the real
+`getLayout()` math** across iPhone 12 (390×844), iPhone SE (375×667), small
+Android (360×640), legacy 320-wide, iPhone XR (414×896), Pixel 7 (412×915), and
+landscape, plus a logic/stability review and a production build.
+
+- **Portrait, all devices:** no crop, no scroll-clip, no target overlap, all
+  elements on-canvas. ✅
+- **Fixed:** score counter no longer flashes "0/5" while the first shot is in
+  flight (now reads the in-progress shot number).
+- **Fixed:** aim-target radius is now height-aware so the six targets don't
+  overlap in landscape / very short canvases (portrait unchanged).
+- **Known minor (cosmetic):** on the tiniest (320-wide) and landscape canvases the
+  title and score labels sit within ~1px of each other at the very top. Non-primary
+  orientation; deferred.
+- **Still required before "done":** a real human visual pass on an actual phone
+  against a public preview (animation feel, tap feel, text rendering). The static
+  audit cannot replace eyes-on-glass.
+
 ## Prior work / lineage (important — read before reworking)
 
 **This is NOT the first Penalty Shootout.** A prior beta exists in a separate

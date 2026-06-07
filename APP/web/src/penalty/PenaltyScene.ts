@@ -177,7 +177,9 @@ export class PenaltyScene extends Phaser.Scene {
       spotX: w * 0.5,
       spotY: h * 0.82,
       ballRadius: Math.max(7, w * 0.026),
-      zoneRadius: Math.max(20, w * 0.075),
+      // Height-aware so the six targets never overlap when the goal is short
+      // (landscape / very small viewports). Portrait is unaffected.
+      zoneRadius: Math.max(16, Math.min(w * 0.075, h * 0.05)),
       keeperWidth: Math.max(34, w * 0.13),
       keeperHeight: Math.max(60, h * 0.13),
       keeperLineY: goalBottom,
@@ -474,7 +476,10 @@ export class PenaltyScene extends Phaser.Scene {
     const total = this.level.rules.totalShots;
 
     this.titleText.setPosition(layout.w / 2, layout.h * 0.035);
-    this.scoreText.setText(`${this.goals} GOALS · ${Math.min(this.shotsTaken + (this.phase === "aim" ? 1 : 0), total)}/${total}`);
+    // Shot in progress = shotsTaken + 1 until the match ends; avoids the counter
+    // momentarily reading "0/5" while the first shot is still in flight.
+    const currentShot = this.phase === "gameover" ? total : Math.min(this.shotsTaken + 1, total);
+    this.scoreText.setText(`${this.goals} GOALS · ${currentShot}/${total}`);
     this.scoreText.setPosition(layout.w / 2, layout.h * 0.06);
 
     this.statusText.setPosition(layout.w / 2, layout.h * 0.52);
