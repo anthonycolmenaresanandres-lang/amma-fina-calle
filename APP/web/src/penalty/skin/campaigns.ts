@@ -34,7 +34,17 @@ export const STADIUM_CAMPAIGN: PenaltyCampaign = {
   client: "Fina Calle (house)",
 };
 
-const CAMPAIGNS: PenaltyCampaign[] = [STADIUM_CAMPAIGN];
+export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
+  id: "colattao",
+  client: "Colattao",
+  adZone: {
+    image: "/assets/colattao/penalty/adzone-coffee-pastry-v1.webp",
+    fit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
+    label: "Colattao coffee and pastry behind-goal ad zone",
+  },
+};
+
+const CAMPAIGNS: PenaltyCampaign[] = [STADIUM_CAMPAIGN, COLATTAO_CAMPAIGN];
 
 const CAMPAIGNS_BY_ID: Record<string, PenaltyCampaign> = Object.fromEntries(
   CAMPAIGNS.map((campaign) => [campaign.id, campaign]),
