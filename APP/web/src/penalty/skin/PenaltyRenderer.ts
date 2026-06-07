@@ -6,8 +6,8 @@
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
-import type { PenaltyColors } from "../types";
-import { zoneCenter, type Layout, type Vec2 } from "../geometry";
+import type { InputMode, PenaltyColors } from "../types";
+import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
 
 export type RenderState = {
@@ -20,6 +20,8 @@ export type RenderState = {
   keeperRest: Vec2;
   statusText: string;
   statusColor: string;
+  inputMode: InputMode;
+  aimPreview: AimPreview | null;
 };
 
 // Texture keys for any skin assets that actually loaded (undefined = fall back).
@@ -140,8 +142,35 @@ export class PenaltyRenderer {
     a.clear();
     this.drawKeeper(a, state);
     this.drawBall(a, state);
+    this.drawAimPreview(a, state);
 
     this.layoutTexts(state);
+  }
+
+  // Swipe aim feedback: a line from the spot to the targeted zone + a power
+  // meter. No-op in tap mode (aimPreview is null), so tap rendering is unchanged.
+  private drawAimPreview(a: Phaser.GameObjects.Graphics, state: RenderState): void {
+    const p = state.aimPreview;
+    if (!p || state.match.phase !== "aim") {
+      return;
+    }
+    const { layout } = state;
+    const colors = this.colors;
+
+    a.lineStyle(Math.max(3, layout.w * 0.01), colors.accent, 0.85);
+    a.lineBetween(p.from.x, p.from.y, p.to.x, p.to.y);
+    a.fillStyle(colors.accent, 0.9);
+    a.fillCircle(p.to.x, p.to.y, Math.max(6, layout.zoneRadius * 0.34));
+
+    // Power meter near the bottom.
+    const barW = layout.w * 0.44;
+    const barH = Math.max(6, layout.h * 0.012);
+    const bx = layout.w * 0.5 - barW / 2;
+    const by = layout.h * 0.9;
+    a.fillStyle(colors.net, 0.3);
+    a.fillRect(bx, by, barW, barH);
+    a.fillStyle(colors.accent, 0.95);
+    a.fillRect(bx, by, barW * p.power, barH);
   }
 
   // Position/scale the optional image assets to the current layout.
@@ -298,7 +327,9 @@ export class PenaltyRenderer {
     this.statusText.setPosition(layout.w / 2, layout.h * 0.52);
 
     if (match.phase === "aim") {
-      this.hintText.setText("Tap a target to shoot");
+      this.hintText.setText(
+        state.inputMode === "tap" ? "Tap a target to shoot" : "Swipe up to shoot",
+      );
     } else if (match.phase === "gameover") {
       this.hintText.setText("Tap to shoot again");
     } else {

@@ -4,14 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import type { Game } from "phaser";
 import { PENALTY_LEVELS } from "@/penalty/config";
 import { DEFAULT_PENALTY_SKIN, PENALTY_SKINS } from "@/penalty/skin/skins";
-import type { PenaltyLevel, PenaltySkin } from "@/penalty/types";
+import type { InputMode, PenaltyLevel, PenaltySkin } from "@/penalty/types";
 
 const toHex = (n: number): string => `#${n.toString(16).padStart(6, "0")}`;
+
+const INPUT_MODES: { id: InputMode; label: string }[] = [
+  { id: "tap", label: "Tap" },
+  { id: "swipe", label: "Swipe" },
+];
 
 export default function PenaltyClient(): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const gameRef = useRef<Game | null>(null);
   const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(DEFAULT_PENALTY_SKIN);
+  const [selectedInput, setSelectedInput] = useState<InputMode>("tap");
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);
 
@@ -38,7 +44,7 @@ export default function PenaltyClient(): React.JSX.Element {
         width: mountRef.current.clientWidth || 390,
         height: mountRef.current.clientHeight || 780,
         backgroundColor: toHex(selectedSkin.colors.bg),
-        scene: [new PenaltyScene(selectedLevel, selectedSkin)],
+        scene: [new PenaltyScene(selectedLevel, selectedSkin, selectedInput)],
         scale: {
           mode: Phaser.Scale.RESIZE,
           autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -59,7 +65,7 @@ export default function PenaltyClient(): React.JSX.Element {
       game.destroy(true);
       gameRef.current = null;
     };
-  }, [selectedLevel, selectedSkin, replayKey]);
+  }, [selectedLevel, selectedSkin, selectedInput, replayKey]);
 
   const selectLevel = (level: PenaltyLevel) => {
     setSelectedLevel(level);
@@ -96,6 +102,30 @@ export default function PenaltyClient(): React.JSX.Element {
                     }
                   >
                     {skin.displayName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Controls</p>
+            <div className="mt-2 flex justify-center gap-2">
+              {INPUT_MODES.map((mode) => {
+                const active = mode.id === selectedInput;
+                return (
+                  <button
+                    key={mode.id}
+                    type="button"
+                    onClick={() => setSelectedInput(mode.id)}
+                    aria-pressed={active}
+                    className={
+                      active
+                        ? "rounded-full border border-[#d8b36d] bg-[#d8b36d] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#04130a]"
+                        : "rounded-full border border-[#d8b36d]/45 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4f6f7] transition hover:border-[#d8b36d]"
+                    }
+                  >
+                    {mode.label}
                   </button>
                 );
               })}
@@ -147,7 +177,7 @@ export default function PenaltyClient(): React.JSX.Element {
         </div>
       </div>
       <div
-        key={`${selectedSkin.id}-${selectedLevel.id}-${replayKey}`}
+        key={`${selectedSkin.id}-${selectedInput}-${selectedLevel.id}-${replayKey}`}
         ref={mountRef}
         className="h-[calc(100dvh-75px)] w-full"
       />

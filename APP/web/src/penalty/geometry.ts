@@ -2,9 +2,18 @@
 // the current canvas size. Shared by the scene (positions), input (zone picking),
 // and the renderer (drawing). Extracted verbatim from the V1 scene; behavior identical.
 
-import type { ZoneConfig } from "./types";
+import type { Column, RowBand, ZoneConfig, ZoneId } from "./types";
 
 export type Vec2 = { x: number; y: number };
+
+// Live aim feedback for the swipe input: where the shot is currently pointed
+// (magnetized to a zone) and how hard, for the aim arrow + power meter.
+export type AimPreview = {
+  zoneId: ZoneId;
+  from: Vec2;
+  to: Vec2;
+  power: number; // 0..1
+};
 
 export type Layout = {
   w: number;
@@ -75,4 +84,10 @@ export function zoneNearest(
     }
   }
   return best;
+}
+
+// The single zone at a given column + height band (used by swipe to magnetize a
+// discretized aim onto an actual target zone).
+export function zoneByColRow(zones: ZoneConfig[], column: Column, row: RowBand): ZoneConfig {
+  return zones.find((zone) => zone.column === column && zone.row === row) ?? zones[0];
 }

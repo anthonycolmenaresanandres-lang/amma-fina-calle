@@ -88,3 +88,8 @@ export type PenaltySkin = {
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";
+
+// How the player aims/shoots. "tap" is the V1 default; "swipe"/"auto" use the
+// assisted swipe gesture (with a tap fallback). The input layer only selects an
+// aim zone — it never changes scoring or keeper logic.
+export type InputMode = "tap" | "swipe" | "auto";

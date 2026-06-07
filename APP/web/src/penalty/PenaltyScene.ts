@@ -1,16 +1,31 @@
 // Penalty Shootout scene — thin orchestrator. Owns Phaser timing/animation and
-// wires the three V1 layers together:
+// wires the layers together:
 //   - engine (pure):   resolveShot + match state/transitions
-//   - input:           TapInput (tap to aim/shoot/reset)
-//   - skin/renderer:   PenaltyRenderer (primitive, asset-free)
+//   - input:           TapInput (default) or SwipeInput, by inputMode
+//   - skin/renderer:   PenaltyRenderer (primitive + optional skin assets)
 //
-// Behavior, visuals, scoring, levels, and the route are unchanged from V1; this
-// is a structural refactor only (V2 Step 1).
+// Input only selects an aim zone; scoring, keeper logic, levels, and the route
+// are unchanged regardless of input mode or skin.
 
 import Phaser from "phaser";
 import { DEFAULT_PENALTY_LEVEL, PENALTY_ZONES } from "./config";
-import type { PenaltyColors, PenaltyLevel, PenaltySkin, ShotOutcome, ZoneConfig } from "./types";
-import { computeLayout, zoneCenter, zoneNearest, type Layout, type Vec2 } from "./geometry";
+import type {
+  InputMode,
+  PenaltyColors,
+  PenaltyLevel,
+  PenaltySkin,
+  ShotOutcome,
+  ZoneConfig,
+} from "./types";
+import {
+  computeLayout,
+  zoneByColRow,
+  zoneCenter,
+  zoneNearest,
+  type AimPreview,
+  type Layout,
+  type Vec2,
+} from "./geometry";
 import { resolveShot, type ShotResolution } from "./engine/resolveShot";
 import {
   beginShot,
@@ -21,6 +36,7 @@ import {
   type MatchState,
 } from "./engine/match";
 import { TapInput } from "./input/TapInput";
+import { SwipeInput } from "./input/SwipeInput";
 import { PenaltyRenderer, type RenderState } from "./skin/PenaltyRenderer";
 import { DEFAULT_PENALTY_SKIN, resolveColors } from "./skin/skins";
 
@@ -34,12 +50,14 @@ export class PenaltyScene extends Phaser.Scene {
   // Effective canvas palette for this match = active skin's colors with the
   // level's optional tweaks applied. Gameplay/rules are unaffected by the skin.
   private readonly colors: PenaltyColors;
+  private readonly inputMode: InputMode;
   private penaltyRenderer!: PenaltyRenderer;
 
   private match: MatchState = createMatch();
   private phaseTimeMs = 0;
 
   private hoverZoneId: string | null = null;
+  private aimPreview: AimPreview | null = null;
 
   // Per-shot animation state, set when the player commits a shot.
   private currentResolution: ShotResolution | null = null;
@@ -56,10 +74,12 @@ export class PenaltyScene extends Phaser.Scene {
   constructor(
     level: PenaltyLevel = DEFAULT_PENALTY_LEVEL,
     skin: PenaltySkin = DEFAULT_PENALTY_SKIN,
+    inputMode: InputMode = "tap",
   ) {
     super(`PenaltyScene-${skin.id}-${level.id}`);
     this.level = level;
     this.skin = skin;
+    this.inputMode = inputMode;
     this.colors = resolveColors(skin, level);
     this.statusColor = this.colors.text;
   }
@@ -107,15 +127,30 @@ export class PenaltyScene extends Phaser.Scene {
     this.keeperRest = { x: layout.w / 2, y: layout.keeperLineY };
     this.keeperPos = { ...this.keeperRest };
 
-    new TapInput(this, {
-      pickZone: (x, y) => zoneNearest(PENALTY_ZONES, this.layout(), x, y),
-      getPhase: () => this.match.phase,
-      onHover: (zone) => {
-        this.hoverZoneId = zone.id;
-      },
-      onShoot: (zone) => this.takeShot(zone),
-      onReset: () => this.resetMatch(),
-    });
+    if (this.inputMode === "tap") {
+      new TapInput(this, {
+        pickZone: (x, y) => zoneNearest(PENALTY_ZONES, this.layout(), x, y),
+        getPhase: () => this.match.phase,
+        onHover: (zone) => {
+          this.hoverZoneId = zone.id;
+        },
+        onShoot: (zone) => this.takeShot(zone),
+        onReset: () => this.resetMatch(),
+      });
+    } else {
+      new SwipeInput(this, {
+        getPhase: () => this.match.phase,
+        getLayout: () => this.layout(),
+        pickZone: (x, y) => zoneNearest(PENALTY_ZONES, this.layout(), x, y),
+        zoneFor: (column, row) => zoneByColRow(PENALTY_ZONES, column, row),
+        onPreview: (preview) => {
+          this.aimPreview = preview;
+          this.hoverZoneId = preview?.zoneId ?? null;
+        },
+        onShoot: (zone) => this.takeShot(zone),
+        onReset: () => this.resetMatch(),
+      });
+    }
 
     this.scale.on("resize", () => {
       // Positions are recomputed every frame from gameSize, so a resize just
@@ -154,6 +189,8 @@ export class PenaltyScene extends Phaser.Scene {
       keeperRest: this.keeperRest,
       statusText: this.statusMessage,
       statusColor: this.statusColor,
+      inputMode: this.inputMode,
+      aimPreview: this.aimPreview,
     };
   }
 
@@ -163,6 +200,7 @@ export class PenaltyScene extends Phaser.Scene {
     const layout = this.layout();
     const rules = this.level.rules;
     this.hoverZoneId = null;
+    this.aimPreview = null;
 
     const resolution = resolveShot(zone, rules);
     this.currentResolution = resolution;
