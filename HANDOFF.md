@@ -242,3 +242,7 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
   If any visual/feel issue is reported, fix ONLY those targeted issues — no new features.
 
 - [2026-06-07] DONE: Anthony completed the manual mobile phone QA pass for /penalty-shootout (PR #6) — ALL 10 acceptance checks PASS (preview opens on phone, level select readable, all 3 keepers playable, aim targets tappable, no crop/scroll bugs, GOAL/SAVED/MISS readable, Replay works, Back works, 5-shot ending works, feels replayable). PR #6 flipped from draft to READY FOR REVIEW. Build re-verified green; /penalty-shootout prerenders static. NOT merged — awaiting explicit merge approval.
+
+- [2026-06-07] DONE: MERGED PR #6 into main on explicit approval. Merge commit ac6f6cf ("Merge PR #6: Penalty Shootout V1 (Street Shootout)"). Additive only (9 files, 0 deletions); no Client OS / Conquest / Supabase / Stripe / POS files touched. Post-merge build green; Client OS route files (/m/[id], /owner/[id], /customers/[id]) confirmed present on main after merge.
+
+- [2026-06-07] DONE: PRODUCTION VERIFIED by owner in browser after merge — all six routes PASS: finacalleos.com (root), /m/colattao, /owner/colattao, /customers, /penalty-shootout, /rd. No Client OS regression. Penalty Shootout V1 is live in production. (Build env could not perform live checks itself — outbound to finacalleos.com is blocked by env network policy; verification done by owner.)
