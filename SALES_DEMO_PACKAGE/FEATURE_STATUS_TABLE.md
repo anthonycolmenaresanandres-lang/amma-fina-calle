@@ -37,7 +37,18 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 | Feedback box for customer comments | PRICING_AND_OFFER.md §1 (NOT present on live `/m/colattao` today) |
 | Basic anonymous analytics (traffic-level) | PRICING_AND_OFFER.md §1 (not verified visible-live; treat as setup deliverable) |
 | Owner presentation page | Listed in offer / old app; not a live finacalleos.com route today |
+| Restaurant-specific configuration (branding, menu data, links) | Part of every setup |
 | Monthly analytics report; seasonal game-copy updates | PRICING_AND_OFFER.md §3 upsells |
+
+> **Approved sales wording for feedback box + analytics (owner-confirmed):**
+> "We can include a simple customer feedback box and basic anonymous visit/activity
+> tracking as part of the setup, depending on the restaurant's package and needs."
+>
+> **Do NOT let the rep say (about feedback box / analytics):**
+> - ❌ "This is already live on Colattao"
+> - ❌ "Analytics are active now"
+> - ❌ "We track customers personally"
+> - ❌ "We guarantee customer behavior insights"
 
 ## 🧱 Future module (planned, not built)
 | Item | Source |
