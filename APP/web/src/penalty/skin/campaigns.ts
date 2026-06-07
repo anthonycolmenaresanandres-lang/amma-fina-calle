@@ -22,6 +22,13 @@ import type { PenaltyCampaign } from "../types";
 export const DEFAULT_CAMPAIGN: PenaltyCampaign = {
   id: "default",
   client: "Fina Calle (house)",
+  // ⚠️ QA-ONLY (Step 2) — TEMPORARY stand-in to prove the behind-goal ad-zone
+  // renderer in preview. Reuses an already-committed image; this is NOT final
+  // client art and does NOT represent a real campaign. With this set, the
+  // drawn-goal skins (Fina Calle, Colattao) show the ad behind the goal frame/
+  // net for QA. REMOVE this `adZone` line before merge so the default campaign
+  // is image-free again (then no skin renders an ad until a real one is wired).
+  adZone: { image: "/assets/colattao/penalty/background-cafe-stadium-winner-v1.webp" },
 };
 
 // The Stadium Shell's default campaign. Values are intentionally empty for now
