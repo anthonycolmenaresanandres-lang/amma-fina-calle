@@ -12,7 +12,9 @@ export const PENALTY_ZONES: ZoneConfig[] = [
   { id: "br", column: 2, row: 1, xPct: 0.84, yPct: 0.72, label: "Bottom Right" },
 ];
 
-const baseColors: PenaltyColors = {
+// Default Fina Calle palette. The base for the default skin; per-level tweaks
+// (see PENALTY_LEVELS colorOverrides) and other skins layer on top of this.
+export const baseColors: PenaltyColors = {
   bg: 0x04130a,
   sky: 0x123b2a,
   grass: 0x123d18,
@@ -44,15 +46,14 @@ const baseRules: PenaltyLevel["rules"] = {
   resultHoldMs: 1150,
 };
 
+// Difficulty definitions. Levels carry rules + an optional palette tweak; brand
+// identity and the base palette live on the active skin (see skin/skins.ts).
 export const PENALTY_LEVELS: PenaltyLevel[] = [
   {
     id: "street-keeper",
     levelNumber: 1,
     levelName: "Street Keeper",
-    brandName: "Fina Calle Penalty Engine",
-    skinName: "Street Shootout",
     selectText: "Warm-up keeper. Slow to read the shot — pick a corner and bury it.",
-    colors: baseColors,
     rules: {
       ...baseRules,
       keeperReadColumn: 0.34,
@@ -66,10 +67,7 @@ export const PENALTY_LEVELS: PenaltyLevel[] = [
     id: "club-keeper",
     levelNumber: 2,
     levelName: "Club Keeper",
-    brandName: "Fina Calle Penalty Engine",
-    skinName: "Street Shootout",
     selectText: "Reads your run-up. Mix your placement or the easy side gets eaten.",
-    colors: baseColors,
     rules: {
       ...baseRules,
     },
@@ -78,11 +76,9 @@ export const PENALTY_LEVELS: PenaltyLevel[] = [
     id: "pro-keeper",
     levelNumber: 3,
     levelName: "Pro Keeper",
-    brandName: "Fina Calle Penalty Engine",
-    skinName: "Street Shootout",
     selectText: "Fast hands, guesses well. Only top corners beat him consistently.",
-    colors: {
-      ...baseColors,
+    // The toughest keeper is tinted red over whatever skin is active.
+    colorOverrides: {
       keeper: 0xe46a4f,
       keeperAccent: 0x7a1f12,
     },
