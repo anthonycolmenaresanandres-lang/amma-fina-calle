@@ -42,14 +42,23 @@ export type RendererAssets = {
   logoKey?: string;
   ballKey?: string;
   kickerKey?: string;
+  /** Campaign behind-goal ad-zone image (Campaign Pack). Undefined = no ad. */
+  adZoneKey?: string;
 };
 
 const TEXT_FONT = "Georgia, serif";
 
 // Explicit depths so the layer order is deterministic regardless of object
 // creation order, and identical to V1 in the no-asset case (field < actors < text).
+// The field backdrop (sky/grass or photo scrim) sits on its own layer below the
+// goal frame so the optional behind-goal ad zone can slot BETWEEN them — above
+// the backdrop, below the goal frame/net/targets/keeper/ball. With no ad image
+// the in-between layers are empty, so output is unchanged.
 const DEPTH = {
   background: -10,
+  backdrop: -6,
+  adZone: -5,
+  adZoneOverlay: -4,
   field: 0,
   actors: 10,
   ball: 11,
@@ -60,8 +69,16 @@ const DEPTH = {
 
 export class PenaltyRenderer {
   private readonly colors: PenaltyColors;
+  // Field backdrop (sky/grass or photo scrim) on its own layer beneath the goal
+  // frame, so the ad zone can slot between them.
+  private readonly backdropGraphics: Phaser.GameObjects.Graphics;
   private readonly fieldGraphics: Phaser.GameObjects.Graphics;
   private readonly actorGraphics: Phaser.GameObjects.Graphics;
+  // Behind-goal ad zone (Campaign Pack). Created only when an ad image loaded;
+  // null otherwise so the scene falls back cleanly to the current backdrop.
+  private readonly adZoneImage: Phaser.GameObjects.Image | null = null;
+  private readonly adZoneOverlay: Phaser.GameObjects.Graphics | null = null;
+  private readonly adZoneMask: Phaser.GameObjects.Graphics | null = null;
   private readonly titleText: Phaser.GameObjects.Text;
   private readonly scoreText: Phaser.GameObjects.Text;
   private readonly statusText: Phaser.GameObjects.Text;
@@ -102,6 +119,20 @@ export class PenaltyRenderer {
         .image(0, 0, assets.backgroundKey)
         .setOrigin(0.5, 0.5)
         .setDepth(DEPTH.background);
+    }
+
+    this.backdropGraphics = scene.add.graphics().setDepth(DEPTH.backdrop);
+
+    // Optional behind-goal ad zone (Campaign Pack). Drawn above the backdrop and
+    // below the goal frame; clipped to a reserved panel via a geometry mask.
+    if (assets.adZoneKey) {
+      this.adZoneImage = scene.add
+        .image(0, 0, assets.adZoneKey)
+        .setOrigin(0.5, 0.5)
+        .setDepth(DEPTH.adZone);
+      this.adZoneMask = scene.make.graphics();
+      this.adZoneImage.setMask(this.adZoneMask.createGeometryMask());
+      this.adZoneOverlay = scene.add.graphics().setDepth(DEPTH.adZoneOverlay);
     }
 
     this.fieldGraphics = scene.add.graphics().setDepth(DEPTH.field);
@@ -175,6 +206,8 @@ export class PenaltyRenderer {
   render(state: RenderState): void {
     this.positionAssets(state);
 
+    this.drawBackdrop(state);
+    this.drawAdZone(state);
     this.drawField(state);
     this.drawAdBanner(state);
 
@@ -246,10 +279,13 @@ export class PenaltyRenderer {
     }
   }
 
-  private drawField(state: RenderState): void {
+  // Field backdrop (sky/grass or photo scrim). Its own layer (below the ad zone
+  // and goal frame) so the behind-goal ad zone can slot in front of it. Output
+  // is identical to the pre-split single-pass field when no ad image is present.
+  private drawBackdrop(state: RenderState): void {
     const { layout } = state;
     const colors = this.colors;
-    const g = this.fieldGraphics;
+    const g = this.backdropGraphics;
     g.clear();
 
     if (this.bgImage) {
@@ -271,6 +307,66 @@ export class PenaltyRenderer {
         g.lineBetween(0, y, layout.w, y);
       }
     }
+  }
+
+  // Reserved behind-goal ad panel (Campaign Pack). Cover-fits the campaign image
+  // into a panel in the upper-field backdrop, clipped by a geometry mask, with a
+  // light readability scrim and a feather into the grass so it reads as part of
+  // the scene. No-op (and clean fallback to the backdrop) when no ad image
+  // loaded. Panel insets are intentionally simple — exact placement is a tuning
+  // step done against real campaign art, like the stadium backdrop fit.
+  private drawAdZone(state: RenderState): void {
+    const image = this.adZoneImage;
+    const mask = this.adZoneMask;
+    const overlay = this.adZoneOverlay;
+    if (!image || !mask || !overlay) {
+      return;
+    }
+    const { layout } = state;
+
+    // Reserved panel: upper-field backdrop behind the goal mouth, down to the
+    // goal line, a touch wider than the goal. (Tunable.)
+    const px = layout.w * 0.06;
+    const pw = layout.w * 0.88;
+    const pyTop = layout.h * 0.05;
+    const pyBottom = layout.goalBottom;
+    const ph = pyBottom - pyTop;
+
+    // Cover-fit the image to the panel, then the optional per-campaign nudge.
+    const fit = this.campaign.adZone?.fit ?? {};
+    const iw = image.width || 1;
+    const ih = image.height || 1;
+    const scale = Math.max(pw / iw, ph / ih) * (fit.scale ?? 1);
+    const cx = px + pw / 2 + (fit.offsetXPct ?? 0) * pw;
+    const cy = pyTop + ph / 2 + (fit.offsetYPct ?? 0) * ph;
+    image.setPosition(cx, cy).setScale(scale);
+
+    // Clip the (cover-fit, possibly overflowing) image to the panel rectangle.
+    mask.clear();
+    mask.fillStyle(0xffffff, 1);
+    mask.fillRect(px, pyTop, pw, ph);
+
+    // Readability scrim + feather into the grass so the panel doesn't float.
+    overlay.clear();
+    overlay.fillStyle(0x000000, 0.18);
+    overlay.fillRect(px, pyTop, pw, ph);
+
+    const featherH = ph * 0.3;
+    const bands = 14;
+    const bandH = featherH / bands;
+    for (let i = 0; i < bands; i += 1) {
+      const y = pyBottom - featherH + i * bandH;
+      const alpha = ((i + 1) / bands) * 0.9; // transparent at top → grass at base
+      overlay.fillStyle(this.colors.grass, alpha);
+      overlay.fillRect(px, y, pw, bandH + 1);
+    }
+  }
+
+  private drawField(state: RenderState): void {
+    const { layout } = state;
+    const colors = this.colors;
+    const g = this.fieldGraphics;
+    g.clear();
 
     if (!this.chrome.hideGoalArt) {
       // Penalty box arc hint + spot.

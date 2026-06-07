@@ -107,19 +107,30 @@ export class PenaltyScene extends Phaser.Scene {
   // the texture simply won't exist and create() falls back to primitives.
   preload(): void {
     const assets = this.skin.assets;
-    if (!assets) {
-      return;
-    }
-    if (assets.background) this.load.image(this.assetKey("background"), assets.background);
-    if (assets.logo) this.load.image(this.assetKey("logo"), assets.logo);
-    if (assets.ball) this.load.image(this.assetKey("ball"), assets.ball);
-    if (assets.kicker) this.load.image(this.assetKey("kicker"), assets.kicker);
+    if (assets?.background) this.load.image(this.assetKey("background"), assets.background);
+    if (assets?.logo) this.load.image(this.assetKey("logo"), assets.logo);
+    if (assets?.ball) this.load.image(this.assetKey("ball"), assets.ball);
+    if (assets?.kicker) this.load.image(this.assetKey("kicker"), assets.kicker);
+    // Campaign behind-goal ad-zone image (Campaign Pack) — loaded independently
+    // of skin assets, so it works on any skin and is gated on presence.
+    const adImage = this.campaign.adZone?.image;
+    if (adImage) this.load.image(this.adZoneTextureKey(), adImage);
     // Swallow load errors — the primitive fallback covers any missing asset.
     this.load.on("loaderror", () => {});
   }
 
   private loadedKey(kind: "background" | "logo" | "ball" | "kicker"): string | undefined {
     const key = this.assetKey(kind);
+    return this.textures.exists(key) ? key : undefined;
+  }
+
+  // Campaign-scoped key for the behind-goal ad-zone texture.
+  private adZoneTextureKey(): string {
+    return `penalty-adzone-${this.campaign.id}`;
+  }
+
+  private loadedAdZoneKey(): string | undefined {
+    const key = this.adZoneTextureKey();
     return this.textures.exists(key) ? key : undefined;
   }
 
@@ -135,6 +146,7 @@ export class PenaltyScene extends Phaser.Scene {
         logoKey: this.loadedKey("logo"),
         ballKey: this.loadedKey("ball"),
         kickerKey: this.loadedKey("kicker"),
+        adZoneKey: this.loadedAdZoneKey(),
       },
       this.skin.backgroundFit ?? {},
       this.skin.kickerFit ?? {},
