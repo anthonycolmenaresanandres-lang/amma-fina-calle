@@ -76,6 +76,21 @@ export type PenaltySkinAssets = {
   ball?: string;
 };
 
+// Optional fit controls for a skin's background image, so a photo (e.g. a
+// stadium) can be nudged to line up with the fixed goal layout and use a
+// lighter overlay. All optional; defaults reproduce the original look
+// (scrim 0.45, no extra scale, no offset) so existing skins are unchanged.
+export type BackgroundFit = {
+  /** Dark overlay alpha over the photo, 0..1 (default 0.45). Lower = brighter. */
+  scrim?: number;
+  /** Extra zoom on top of cover-fit (default 1). >1 enlarges the photo. */
+  scale?: number;
+  /** Horizontal shift as a fraction of canvas width (default 0). */
+  offsetXPct?: number;
+  /** Vertical shift as a fraction of canvas height (default 0; negative = up). */
+  offsetYPct?: number;
+};
+
 // A client skin (V2): brand identity + the base canvas palette, plus optional
 // image assets. Resolved by id through a registry, mirroring src/lib/brand.ts.
 export type PenaltySkin = {
@@ -85,6 +100,8 @@ export type PenaltySkin = {
   skinName: string;
   colors: PenaltyColors;
   assets?: PenaltySkinAssets;
+  /** Optional positioning/scrim tuning for the background image. */
+  backgroundFit?: BackgroundFit;
 };
 
 export type ShotOutcome = "goal" | "save" | "miss";

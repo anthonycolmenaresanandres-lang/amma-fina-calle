@@ -116,11 +116,17 @@ export class PenaltyScene extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(this.colors.bg);
 
-    this.penaltyRenderer = new PenaltyRenderer(this, this.colors, this.skin.skinName, {
-      backgroundKey: this.loadedKey("background"),
-      logoKey: this.loadedKey("logo"),
-      ballKey: this.loadedKey("ball"),
-    });
+    this.penaltyRenderer = new PenaltyRenderer(
+      this,
+      this.colors,
+      this.skin.skinName,
+      {
+        backgroundKey: this.loadedKey("background"),
+        logoKey: this.loadedKey("logo"),
+        ballKey: this.loadedKey("ball"),
+      },
+      this.skin.backgroundFit ?? {},
+    );
 
     const layout = this.layout();
     this.ballPos = { x: layout.spotX, y: layout.spotY };

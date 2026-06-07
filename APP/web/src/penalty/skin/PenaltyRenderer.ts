@@ -6,7 +6,7 @@
 
 import Phaser from "phaser";
 import { PENALTY_ZONES } from "../config";
-import type { InputMode, PenaltyColors } from "../types";
+import type { BackgroundFit, InputMode, PenaltyColors } from "../types";
 import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry";
 import { currentShotNumber, type MatchState } from "../engine/match";
 
@@ -56,14 +56,17 @@ export class PenaltyRenderer {
   private readonly bgImage: Phaser.GameObjects.Image | null = null;
   private readonly logoImage: Phaser.GameObjects.Image | null = null;
   private readonly ballImage: Phaser.GameObjects.Image | null = null;
+  private readonly bgFit: BackgroundFit;
 
   constructor(
     scene: Phaser.Scene,
     colors: PenaltyColors,
     skinName: string,
     assets: RendererAssets = {},
+    backgroundFit: BackgroundFit = {},
   ) {
     this.colors = colors;
+    this.bgFit = backgroundFit;
 
     // Optional photographic backdrop (behind everything).
     if (assets.backgroundKey) {
@@ -178,11 +181,14 @@ export class PenaltyRenderer {
     const { layout } = state;
 
     if (this.bgImage) {
-      // Cover-fit the backdrop to the canvas.
+      // Cover-fit the backdrop to the canvas, then apply optional per-skin
+      // zoom + offset so a photo can be nudged onto the fixed goal layout.
       const iw = this.bgImage.width || 1;
       const ih = this.bgImage.height || 1;
-      const scale = Math.max(layout.w / iw, layout.h / ih);
-      this.bgImage.setPosition(layout.w / 2, layout.h / 2).setScale(scale);
+      const scale = Math.max(layout.w / iw, layout.h / ih) * (this.bgFit.scale ?? 1);
+      const ox = (this.bgFit.offsetXPct ?? 0) * layout.w;
+      const oy = (this.bgFit.offsetYPct ?? 0) * layout.h;
+      this.bgImage.setPosition(layout.w / 2 + ox, layout.h / 2 + oy).setScale(scale);
     }
 
     if (this.logoImage) {
@@ -199,9 +205,9 @@ export class PenaltyRenderer {
     g.clear();
 
     if (this.bgImage) {
-      // Photographic backdrop is its own object (behind); lay a dark scrim so
-      // the goal, ball, and text stay legible over it.
-      g.fillStyle(0x000000, 0.45);
+      // Photographic backdrop is its own object (behind); lay a scrim so the
+      // goal, ball, and text stay legible. Scrim alpha is per-skin tunable.
+      g.fillStyle(0x000000, this.bgFit.scrim ?? 0.45);
       g.fillRect(0, 0, layout.w, layout.h);
     } else {
       // Primitive sky / stand backdrop and pitch (verbatim V1).
