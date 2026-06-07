@@ -227,3 +227,16 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-07] DONE: Mobile QA pass on /penalty-shootout (PR #6). Could NOT run live device QA (no browser in container; Vercel preview is HTTP 403 behind Deployment Protection). Did a geometry audit from the real getLayout() math across 7 viewports + landscape, a logic/stability review, and a production build. Portrait passes on all tested devices (no crop/overlap). Fixed 2 issues: (1) score counter flashing "0/5" during the first shot's flight; (2) aim targets overlapping in landscape/short canvases (zoneRadius now height-aware; portrait unchanged). Build passes; /penalty-shootout still prerenders static. Known minor: title/score labels ~1px apart on 320-wide/landscape only (cosmetic, deferred).
 
 - [2026-06-07] NEXT: PR #6 still NOT merge-ready — needs a real eyes-on-glass mobile pass against a PUBLIC preview (Deployment Protection currently 403s the preview). Owner action: open the preview in a phone browser (or make the preview public) and confirm animation/tap feel; then PR #6 can go merge-ready. No new gameplay until then.
+
+- [2026-06-07] WAITING ON ANTHONY — Manual mobile QA acceptance checklist for /penalty-shootout (PR #6 stays DRAFT until all pass):
+  - [ ] Preview opens on phone
+  - [ ] Level select readable
+  - [ ] All 3 keeper levels playable (Street / Club / Pro)
+  - [ ] Aim targets tappable
+  - [ ] No canvas crop/scroll bugs
+  - [ ] GOAL / SAVED / MISS feedback readable
+  - [ ] Replay works
+  - [ ] Back works
+  - [ ] 5-shot ending works (final score + rating)
+  - [ ] Game feels replayable
+  If any visual/feel issue is reported, fix ONLY those targeted issues — no new features.
