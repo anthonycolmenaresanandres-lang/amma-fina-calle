@@ -6,7 +6,7 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { MENU_IMAGE_BUCKET } from "@/lib/supabase/config";
 import { uploadImage } from "@/lib/storage/uploadImage";
 import { getOwnerContext } from "./auth";
-import { applyOwnerChange } from "./rail";
+import { applyOwnerChange, applyOwnerSizePrice } from "./rail";
 
 export type ActionState = { ok: boolean; message: string };
 
@@ -96,6 +96,27 @@ export async function updateItemText(
     table: "menu_items",
     rowId: itemId,
     field,
+    newValue: raw,
+  });
+  revalidateOwner(restaurantId);
+}
+
+/** Edit the price of ONE size (S/M/L) inside menu_items.sizes via the audited size rail. */
+export async function updateItemSizePrice(
+  restaurantId: string,
+  itemId: string,
+  sizeLabel: string,
+  formData: FormData,
+): Promise<void> {
+  await assertOwner(restaurantId);
+  const raw = String(formData.get("value") ?? "").trim();
+  const num = Number(raw);
+  if (!Number.isFinite(num) || num < 0) throw new Error("Price must be a positive number.");
+
+  await applyOwnerSizePrice({
+    restaurantId,
+    rowId: itemId,
+    sizeLabel,
     newValue: raw,
   });
   revalidateOwner(restaurantId);

@@ -136,7 +136,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     supabase.from("menu_categories").select("id, name, sort_order").eq("restaurant_id", id).order("sort_order"),
     supabase
       .from("menu_items")
-      .select("id, category_id, name, description, price, photo_url, is_available, sort_order")
+      .select("id, category_id, name, description, price, photo_url, is_available, sizes, sort_order")
       .eq("restaurant_id", id)
       .order("sort_order"),
     supabase.from("promos").select("id, text, is_active").eq("restaurant_id", id).order("sort_order"),
@@ -156,6 +156,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     price: number | string;
     photo_url: string | null;
     is_available: boolean;
+    sizes: { label: string; price: number | string }[] | null;
   };
 
   const items = (itemsRes.data as ItemRow[] | null) ?? [];
@@ -165,13 +166,14 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
       name: cat.name,
       items: items
         .filter((item) => item.category_id === cat.id)
-        .map(({ id: itemId, name, description, price, photo_url, is_available }) => ({
+        .map(({ id: itemId, name, description, price, photo_url, is_available, sizes }) => ({
           id: itemId,
           name,
           description,
           price,
           photo_url,
           is_available,
+          sizes: Array.isArray(sizes) ? sizes : [],
         })),
     }),
   );
