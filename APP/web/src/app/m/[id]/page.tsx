@@ -208,7 +208,13 @@ export default async function PublicMenuPage({ params }: PageProps) {
         {/* Footer */}
         <footer className="mt-12 flex flex-col items-center gap-1 pb-12 text-center">
           <span className="h-px w-16 bg-[linear-gradient(90deg,transparent,rgba(216,179,109,0.5),transparent)]" />
-          <p className="mt-4 text-[0.56rem] uppercase tracking-[0.3em] text-[#9c8a72]">
+          <a
+            href={`/owner/${id}`}
+            className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-[#d8b36d]/35 bg-[#1c100a]/60 px-4 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#f4d99c] transition hover:border-[#d8b36d]/70 hover:text-[#fff7ea]"
+          >
+            ⌂ Owner portal
+          </a>
+          <p className="mt-6 text-[0.56rem] uppercase tracking-[0.3em] text-[#9c8a72]">
             Powered by
           </p>
           <p className="text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-[#d8b36d]/80">
