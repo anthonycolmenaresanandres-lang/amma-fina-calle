@@ -1,16 +1,9 @@
-import type { ReactNode } from "react";
-import {
-  setItemAvailability,
-  updateItemText,
-  updatePromoText,
-  uploadItemImage,
-} from "@/lib/owner/actions";
+import { setItemAvailability } from "@/lib/owner/actions";
 import {
   Button,
   ButtonLink,
   Card,
   Chip,
-  Field,
   SectionHeading,
   StatusPill,
   buttonClass,
@@ -55,39 +48,24 @@ export type DashboardData = {
   audit: AuditEntry[];
 };
 
-/** Wraps interactive groups in a real <form> when live, a static <div> in preview. */
-function Editable({
-  action,
-  readOnly,
-  className,
-  children,
-}: {
-  action: (formData: FormData) => void | Promise<void>;
-  readOnly: boolean;
-  className?: string;
-  children: ReactNode;
-}) {
-  if (readOnly) return <div className={className}>{children}</div>;
-  return (
-    <form action={action} className={className}>
-      {children}
-    </form>
-  );
+function money(value: number | string): string {
+  const n = Number(value);
+  return Number.isFinite(n) ? `$${n.toFixed(2)}` : String(value);
 }
 
-// --- AI Request Desk hero (Phase A placeholder; wired in the next step) -------
+// --- AI Request Desk hero (the reactive engine; wired next) ------------------
 
 function AskHero() {
   return (
     <Card className="relative overflow-hidden border-[#d8b36d]/18">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_-20%,rgba(216,179,109,0.16),transparent_42%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(216,179,109,0.16),transparent_44%)]" />
       <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#d8b36d]">
         ✦ AI Request Desk
       </p>
       <h2 className="mt-2 text-2xl font-semibold text-[#f4f6f7]">Ask for any change</h2>
       <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        Just describe it in your own words — “change the Mocha to $8”, “86 the Flan Latte”,
-        “add a 2x1 promo on Tuesdays.” You’ll preview and confirm before anything goes live.
+        Just say it — “86 the Flan Latte”, “change the Mocha to $8”, “add a Cold Brew at $5”.
+        You preview and confirm before anything goes live.
       </p>
       <div className="mt-4 flex items-center gap-2 rounded-2xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5">
         <input
@@ -99,101 +77,87 @@ function AskHero() {
         <span className={buttonClass("primary", "pointer-events-none opacity-60")}>Ask</span>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        <Chip>change the Mocha to $8</Chip>
-        <Chip>86 an item</Chip>
+        <Chip>86 the Flan Latte</Chip>
+        <Chip>change Mocha to $8</Chip>
         <Chip>new promo</Chip>
       </div>
-      <p className="mt-3 text-[0.7rem] uppercase tracking-[0.14em] text-[#7f8a91]">
-        Arriving in the next update — for now, edit below
+    </Card>
+  );
+}
+
+// --- Coming up (the proactive Seasonal Autopilot) ----------------------------
+
+function ComingUp() {
+  return (
+    <Card className="relative overflow-hidden border-[#7fd1a2]/20">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_88%_-30%,rgba(127,209,162,0.14),transparent_46%)]" />
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#9fe5bd]">
+          ✦ Coming up · Summer
+        </p>
+        <StatusPill tone="gold">From Fina Calle</StatusPill>
+      </div>
+      <h2 className="mt-2 text-xl font-semibold text-[#f4f6f7]">Summer is here</h2>
+      <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
+        Want me to feature your iced lineup, add a <span className="text-[#eef2f4]">Cold Brew 2×1
+        (weekdays)</span>, and refresh your cover photo? Approve once — I’ll handle the timing and
+        switch it back at the end of the season.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Button variant="primary">Approve all</Button>
+        <Button variant="ghost">Edit</Button>
+        <Button variant="subtle">Not now</Button>
+      </div>
+      <p className="mt-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#7f8a91]">
+        Ready to publish · auto-reverts at season end
       </p>
     </Card>
   );
 }
 
-// --- Menu item ---------------------------------------------------------------
+// --- Quick changes (fast 86 toggles for the busiest items) -------------------
 
-function MenuItemRow({
+function QuickRow({
   restaurantId,
   item,
   readOnly,
 }: {
   restaurantId: string;
-  item: MenuItem;
+  item: MenuItem & { category: string };
   readOnly: boolean;
 }) {
+  const toggle = (
+    <button
+      type="submit"
+      disabled={readOnly}
+      className={cn(
+        "shrink-0 rounded-full border px-3.5 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] transition disabled:opacity-80",
+        item.is_available
+          ? "border-[#ff7a66]/35 bg-[#8f3e2e]/14 text-[#ffad9f] hover:bg-[#8f3e2e]/24"
+          : "border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd] hover:bg-[#7fd1a2]/16",
+      )}
+    >
+      {item.is_available ? "86 it" : "Bring back"}
+    </button>
+  );
+
   return (
-    <div className="rounded-2xl border border-white/[0.07] bg-[#0b0f12]/70 p-4 transition hover:border-white/[0.12]">
-      <div className="grid gap-2.5 sm:grid-cols-[1fr_10rem]">
-        <Editable
-          action={updateItemText.bind(null, restaurantId, item.id, "name")}
-          readOnly={readOnly}
-          className="flex gap-2"
-        >
-          <Field name="value" defaultValue={item.name} aria-label="Item name" disabled={readOnly} />
-          <Button variant="subtle" type="submit" disabled={readOnly}>
-            Save
-          </Button>
-        </Editable>
-
-        <Editable
-          action={updateItemText.bind(null, restaurantId, item.id, "price")}
-          readOnly={readOnly}
-          className="flex gap-2"
-        >
-          <Field
-            name="value"
-            type="number"
-            step="0.01"
-            min="0"
-            defaultValue={String(item.price)}
-            aria-label="Price"
-            disabled={readOnly}
-          />
-          <Button variant="subtle" type="submit" disabled={readOnly}>
-            Save
-          </Button>
-        </Editable>
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-[#0b0f12]/70 px-3.5 py-2.5">
+      <div className="min-w-0">
+        <p className="truncate text-sm font-medium text-[#eef2f4]">{item.name}</p>
+        <p className="mt-0.5 text-[0.7rem] text-[#7f8a91]">
+          {item.category} · {money(item.price)}
+          {item.is_available ? "" : " · hidden"}
+        </p>
       </div>
-
-      <div className="mt-3 flex flex-wrap items-center gap-2.5">
-        <Editable
-          action={setItemAvailability.bind(null, restaurantId, item.id)}
-          readOnly={readOnly}
-        >
+      {readOnly ? (
+        toggle
+      ) : (
+        <form action={setItemAvailability.bind(null, restaurantId, item.id)}>
           <input type="hidden" name="value" value={item.is_available ? "false" : "true"} />
-          <button
-            type="submit"
-            disabled={readOnly}
-            className={cn(
-              "rounded-full border px-3.5 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] transition disabled:opacity-70",
-              item.is_available
-                ? "border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd] hover:bg-[#7fd1a2]/16"
-                : "border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f] hover:bg-[#8f3e2e]/24",
-            )}
-          >
-            {item.is_available ? "Available — tap to hide" : "Hidden — tap to show"}
-          </button>
-        </Editable>
-
-        {readOnly ? null : (
-          <form
-            action={uploadItemImage.bind(null, restaurantId, item.id)}
-            className="flex flex-wrap items-center gap-2"
-          >
-            <input
-              name="image"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              className="block max-w-[11rem] text-xs text-[#c8d0d4] file:mr-2 file:rounded-full file:border-0 file:bg-[#d8b36d] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
-            />
-            <Button variant="subtle" type="submit">
-              Photo
-            </Button>
-          </form>
-        )}
-
-        {item.photo_url ? <StatusPill tone="success">Photo set</StatusPill> : null}
-      </div>
+          {toggle}
+        </form>
+      )}
     </div>
   );
 }
@@ -211,15 +175,8 @@ const FIELD_LABELS: Record<string, string> = {
   is_closed: "open/closed",
 };
 
-function describeChange(entry: AuditEntry): string {
-  const field = FIELD_LABELS[entry.field_name] ?? entry.field_name;
-  const to = entry.new_value ?? "—";
-  return `${field} → ${to}`;
-}
-
 function timeAgo(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const mins = Math.round(diff / 60000);
+  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
   if (mins < 1) return "just now";
   if (mins < 60) return `${mins}m ago`;
   const hrs = Math.round(mins / 60);
@@ -236,8 +193,14 @@ export default function OwnerDashboard({
   data: DashboardData;
   readOnly?: boolean;
 }) {
+  const allItems = data.categories.flatMap((c) =>
+    c.items.map((it) => ({ ...it, category: c.name })),
+  );
+  // Surface the busiest items first (available ones), capped — not the whole menu.
+  const quick = [...allItems].sort((a, b) => Number(b.is_available) - Number(a.is_available)).slice(0, 5);
+
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-5">
+    <div className="mx-auto w-full max-w-2xl space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center justify-between gap-4 px-1">
         <div className="flex items-center gap-3">
@@ -280,72 +243,99 @@ export default function OwnerDashboard({
         </div>
       </header>
 
-      <p className="px-1 text-sm text-[#aeb7bd]">
-        Signed in as <span className="text-[#eef2f4]">{data.email}</span>. Every change is saved to
-        your live menu and recorded below.
-      </p>
-
       <AskHero />
+      <ComingUp />
 
-      {/* Menu */}
+      {/* Quick changes */}
       <Card>
-        <SectionHeading hint={`${data.categories.reduce((n, c) => n + c.items.length, 0)} items`}>
-          Your menu
-        </SectionHeading>
-        {data.categories.length === 0 ? (
-          <p className="mt-4 text-sm text-[#aeb7bd]">No menu items yet.</p>
-        ) : (
-          <div className="mt-4 space-y-6">
-            {data.categories.map((category) => (
-              <div key={category.id}>
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="text-base font-semibold text-[#eef2f4]">{category.name}</h3>
-                  <span className="text-[0.7rem] text-[#7f8a91]">
-                    {category.items.length} item{category.items.length === 1 ? "" : "s"}
-                  </span>
-                </div>
-                <div className="mt-3 space-y-3">
-                  {category.items.map((item) => (
-                    <MenuItemRow
-                      key={item.id}
-                      restaurantId={data.restaurantId}
-                      item={item}
-                      readOnly={readOnly}
-                    />
-                  ))}
-                </div>
-              </div>
+        <SectionHeading hint={`${allItems.length} on menu`}>Quick changes</SectionHeading>
+        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
+          Tap to 86 a busy item instantly. For prices, new items, or anything else — just ask above.
+        </p>
+        {quick.length > 0 ? (
+          <div className="mt-4 space-y-2">
+            {quick.map((item) => (
+              <QuickRow
+                key={item.id}
+                restaurantId={data.restaurantId}
+                item={item}
+                readOnly={readOnly}
+              />
             ))}
           </div>
+        ) : (
+          <p className="mt-4 text-sm text-[#aeb7bd]">No menu items yet.</p>
         )}
+
+        {allItems.length > quick.length ? (
+          <details className="group mt-3">
+            <summary className="cursor-pointer list-none text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#cfd6da]/70 transition hover:text-white">
+              See full menu ({allItems.length}) →
+            </summary>
+            <div className="mt-3 space-y-4">
+              {data.categories.map((cat) => (
+                <div key={cat.id}>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
+                    {cat.name}
+                  </p>
+                  <ul className="mt-1.5 space-y-1">
+                    {cat.items.map((it) => (
+                      <li
+                        key={it.id}
+                        className="flex items-center justify-between gap-3 text-sm text-[#c8d0d4]"
+                      >
+                        <span className={it.is_available ? "" : "text-[#7f8a91] line-through"}>
+                          {it.name}
+                        </span>
+                        <span className="text-[#7f8a91]">{money(it.price)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </details>
+        ) : null}
       </Card>
 
-      {/* Promos */}
-      {data.promos.length > 0 ? (
-        <Card>
-          <SectionHeading>Promotions</SectionHeading>
-          <div className="mt-4 space-y-3">
-            {data.promos.map((promo) => (
-              <Editable
-                key={promo.id}
-                action={updatePromoText.bind(null, data.restaurantId, promo.id)}
-                readOnly={readOnly}
-                className="flex gap-2"
-              >
-                <Field
-                  name="value"
-                  defaultValue={promo.text}
-                  aria-label="Promo text"
-                  disabled={readOnly}
-                />
-                <Button variant="subtle" type="submit" disabled={readOnly}>
-                  Save
-                </Button>
-              </Editable>
-            ))}
-          </div>
-        </Card>
-      ) : null}
+      {/* Campaigns */}
+      <Card>
+        <SectionHeading hint={`${data.promos.length} active`}>Campaigns</SectionHeading>
+        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
+          Promotions and seasonal pushes. Start one by asking above, or approve a “Coming up”
+          proposal.
+        </p>
+        <div className="mt-4 space-y-2">
+          {data.promos.map((promo) => (
+            <div
+              key={promo.id}
+              className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-[#0b0f12]/70 px-3.5 py-2.5"
+            >
+              <p className="min-w-0 truncate text-sm text-[#eef2f4]">{promo.text}</p>
+              <StatusPill tone={promo.is_active ? "success" : "neutral"}>
+                {promo.is_active ? "Live" : "Off"}
+              </StatusPill>
+            </div>
+          ))}
+          <Button variant="ghost" className="mt-1 w-full sm:w-auto" disabled={readOnly}>
+            + New campaign
+          </Button>
+        </div>
+      </Card>
+
+      {/* Attach (bigger changes → review) */}
+      <Card className="border-dashed border-white/12 bg-white/[0.015]">
+        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
+          Bigger change?
+        </p>
+        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
+          A whole new menu, a new design, or a photo? Attach it and the Fina Calle team takes it
+          from there.
+        </p>
+        <Button variant="ghost" className="mt-4" disabled={readOnly}>
+          ⬆ Attach a file
+        </Button>
+      </Card>
 
       {/* Recent activity */}
       <Card>
@@ -359,7 +349,9 @@ export default function OwnerDashboard({
                 key={entry.id}
                 className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-3.5 py-2.5 text-sm"
               >
-                <span className="text-[#c8d0d4]">{describeChange(entry)}</span>
+                <span className="text-[#c8d0d4]">
+                  {FIELD_LABELS[entry.field_name] ?? entry.field_name} → {entry.new_value ?? "—"}
+                </span>
                 <span className="shrink-0 text-[0.7rem] text-[#7f8a91]">
                   {timeAgo(entry.created_at)}
                 </span>
