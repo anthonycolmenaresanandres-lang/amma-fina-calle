@@ -287,6 +287,7 @@ export default function OwnerDashboard({
       </header>
 
       <AskBar
+        restaurantId={data.restaurantId}
         items={allItems.map((it) => ({
           name: it.name,
           price: it.price,
