@@ -25,7 +25,7 @@ const SAMPLE: DashboardData = {
       name: "Coffee",
       items: [
         { id: "i1", name: "Mocha", description: null, price: 7, photo_url: "/assets/colattao/colattao-menu-hero-4x5-v1.webp", is_available: true },
-        { id: "i2", name: "Latte", description: null, price: 5.5, photo_url: null, is_available: true },
+        { id: "i2", name: "Latte", description: null, price: 5.5, photo_url: null, is_available: true, sizes: [{ label: "Small", price: 5.5 }, { label: "Large", price: 6.5 }] },
         { id: "i3", name: "Cortado", description: null, price: 4.5, photo_url: null, is_available: false },
       ],
     },
@@ -51,6 +51,15 @@ const SAMPLE: DashboardData = {
     },
     {
       id: "a2",
+      actor_email: "owner@colattao.com",
+      table_name: "menu_items",
+      field_name: "sizes:Large",
+      old_value: "6.50",
+      new_value: "7.00",
+      created_at: new Date(Date.now() - 40 * 60000).toISOString(),
+    },
+    {
+      id: "a3",
       actor_email: "owner@colattao.com",
       table_name: "menu_items",
       field_name: "is_available",

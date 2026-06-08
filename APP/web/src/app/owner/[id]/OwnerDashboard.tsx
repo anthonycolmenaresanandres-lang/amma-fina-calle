@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
-import { setItemAvailability, updateItemText, uploadItemImage } from "@/lib/owner/actions";
+import {
+  setItemAvailability,
+  updateItemSizePrice,
+  updateItemText,
+  uploadItemImage,
+} from "@/lib/owner/actions";
 import {
   Button,
   ButtonLink,
@@ -11,6 +16,8 @@ import {
 } from "@/components/ui";
 import AskBar from "./AskBar";
 
+export type ItemSize = { label: string; price: number | string };
+
 export type MenuItem = {
   id: string;
   name: string;
@@ -18,6 +25,7 @@ export type MenuItem = {
   price: number | string;
   photo_url: string | null;
   is_available: boolean;
+  sizes?: ItemSize[] | null;
 };
 
 export type MenuCategory = {
@@ -157,26 +165,57 @@ function FeaturedSlot({
             </Editable>
           </div>
 
-          <Editable
-            action={updateItemText.bind(null, restaurantId, item.id, "price")}
-            readOnly={readOnly}
-            className="mt-2 flex items-center gap-2"
-          >
-            <span className="text-sm text-[#7f8a91]">$</span>
-            <Field
-              name="value"
-              type="number"
-              step="0.01"
-              min="0"
-              defaultValue={String(Number(item.price))}
-              aria-label={`${item.name} price`}
-              disabled={readOnly}
-              className="w-24"
-            />
-            <Button variant="subtle" type="submit" disabled={readOnly}>
-              Save
-            </Button>
-          </Editable>
+          {item.sizes && item.sizes.length > 0 ? (
+            <div className="mt-2 space-y-1.5">
+              {item.sizes.map((size) => (
+                <Editable
+                  key={size.label}
+                  action={updateItemSizePrice.bind(null, restaurantId, item.id, size.label)}
+                  readOnly={readOnly}
+                  className="flex items-center gap-2"
+                >
+                  <span className="w-16 shrink-0 text-[0.7rem] font-medium uppercase tracking-[0.1em] text-[#9aa3a9]">
+                    {size.label}
+                  </span>
+                  <span className="text-sm text-[#7f8a91]">$</span>
+                  <Field
+                    name="value"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    defaultValue={String(Number(size.price))}
+                    aria-label={`${item.name} ${size.label} price`}
+                    disabled={readOnly}
+                    className="w-20"
+                  />
+                  <Button variant="subtle" type="submit" disabled={readOnly}>
+                    Save
+                  </Button>
+                </Editable>
+              ))}
+            </div>
+          ) : (
+            <Editable
+              action={updateItemText.bind(null, restaurantId, item.id, "price")}
+              readOnly={readOnly}
+              className="mt-2 flex items-center gap-2"
+            >
+              <span className="text-sm text-[#7f8a91]">$</span>
+              <Field
+                name="value"
+                type="number"
+                step="0.01"
+                min="0"
+                defaultValue={String(Number(item.price))}
+                aria-label={`${item.name} price`}
+                disabled={readOnly}
+                className="w-24"
+              />
+              <Button variant="subtle" type="submit" disabled={readOnly}>
+                Save
+              </Button>
+            </Editable>
+          )}
         </div>
       </div>
 
@@ -220,6 +259,12 @@ const FIELD_LABELS: Record<string, string> = {
   close_time: "closing time",
   is_closed: "open/closed",
 };
+
+/** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
+function fieldLabel(name: string): string {
+  if (name.startsWith("sizes:")) return `${name.slice("sizes:".length)} price`;
+  return FIELD_LABELS[name] ?? name;
+}
 
 function timeAgo(iso: string): string {
   const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
@@ -402,7 +447,7 @@ export default function OwnerDashboard({
                 className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-3.5 py-2.5 text-sm"
               >
                 <span className="text-[#c8d0d4]">
-                  {FIELD_LABELS[entry.field_name] ?? entry.field_name} → {entry.new_value ?? "—"}
+                  {fieldLabel(entry.field_name)} → {entry.new_value ?? "—"}
                 </span>
                 <span className="shrink-0 text-[0.7rem] text-[#7f8a91]">
                   {timeAgo(entry.created_at)}
