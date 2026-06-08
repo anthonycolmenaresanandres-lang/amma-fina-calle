@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { getOwnerContext } from "@/lib/owner/auth";
-import { applyOwnerChange } from "@/lib/owner/rail";
+import { applyOwnerChange, applyOwnerSizePrice } from "@/lib/owner/rail";
 import { sendChangeRequestEmail } from "@/lib/requests/intake";
 import { readOwnerMenu } from "./menu";
 import { triageRequest } from "./triage";
@@ -114,13 +114,23 @@ export async function confirmOwnerRequest(
     }
 
     const p = result.proposal;
-    await applyOwnerChange({
-      restaurantId,
-      table: p.table,
-      rowId: p.rowId,
-      field: p.field,
-      newValue: p.newValue,
-    });
+    if (p.sizeLabel) {
+      // One size's price inside the jsonb array → dedicated audited rail.
+      await applyOwnerSizePrice({
+        restaurantId,
+        rowId: p.rowId,
+        sizeLabel: p.sizeLabel,
+        newValue: p.newValue,
+      });
+    } else {
+      await applyOwnerChange({
+        restaurantId,
+        table: p.table,
+        rowId: p.rowId,
+        field: p.field,
+        newValue: p.newValue,
+      });
+    }
     revalidateOwner(restaurantId);
     return { phase: "applied", message: `Updated ${p.entityLabel} ${p.fieldLabel} to ${p.newDisplay}.` };
   } catch (error) {

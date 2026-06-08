@@ -31,6 +31,10 @@ import { EDITABLE_FIELDS } from "@/lib/owner/rail";
 // Snapshot shape (read by menu.ts from the owner's own RLS-scoped rows)
 // ---------------------------------------------------------------------------
 
+export interface SnapSize {
+  label: string;
+  price: number | string;
+}
 export interface SnapItem {
   id: string;
   categoryId: string;
@@ -38,6 +42,7 @@ export interface SnapItem {
   description: string | null;
   price: number | string;
   isAvailable: boolean;
+  sizes: SnapSize[];
 }
 export interface SnapCategory {
   id: string;
@@ -79,6 +84,12 @@ export interface ChangeProposal {
   currentDisplay: string;
   newDisplay: string;
   newValue: string;
+  /**
+   * When set, this proposal edits the price of ONE size inside
+   * menu_items.sizes (routed through apply_owner_size_price), not a scalar
+   * column. The `field` stays "price" for display/labeling only.
+   */
+  sizeLabel?: string;
 }
 
 export type ReviewRequestType =
@@ -301,16 +312,106 @@ const PHOTO_WORDS = ["photo", "picture", "image", "logo", "headshot", "upload a 
 // specific "ambiguous entity" case, or null to let the chain continue.
 // ---------------------------------------------------------------------------
 
+const PRICE_SIGNAL = /(\$|\bprice\b|\bcost\b|\bcharge\b|\bdollars?\b|\bbucks?\b|\bto\b|\bnow\b)/;
+
+// Common spoken size words → matched against an item's real size labels by the
+// label's lead word. Single letters (s/m/l) are deliberately excluded: the
+// tokenizer can emit a stray "s" from possessives ("latte's"), which would
+// otherwise false-match "Small".
+const SIZE_SYNONYMS: Record<string, string[]> = {
+  small: ["small", "sm", "short", "mini", "kids", "kid"],
+  medium: ["medium", "med", "mid", "regular", "reg", "grande"],
+  large: ["large", "lg", "big", "venti", "jumbo", "xl"],
+};
+
+/** Does the request mention this size label (by its own words or a synonym)? */
+function sizeMentioned(label: string, textTokens: string[]): boolean {
+  const labelTokens = tokenize(label);
+  if (contiguousSpan(labelTokens, textTokens) > 0) return true;
+  const lead = labelTokens[0] ?? "";
+  const bucket = SIZE_SYNONYMS[lead];
+  return bucket ? textTokens.some((t) => bucket.includes(t)) : false;
+}
+
+function sizePriceProposal(item: SnapItem, size: SnapSize, price: string): TriageResult {
+  // Defense in depth: the underlying field is still menu_items.price.
+  if (!isEditable("menu_items", "price")) {
+    return review("That edit isn’t available automatically. Sent to the AMMA team.", "Operational support", "Normal");
+  }
+  return {
+    decision: "apply",
+    proposal: {
+      table: "menu_items",
+      field: "price",
+      rowId: item.id,
+      sizeLabel: size.label,
+      entityLabel: `${item.name} (${size.label})`,
+      fieldLabel: `${size.label} price`,
+      currentDisplay: formatMoney(size.price),
+      newDisplay: formatMoney(price),
+      newValue: price,
+    },
+  };
+}
+
+/**
+ * Price change for an item that has multiple sizes (S/M/L). Resolves which
+ * size the owner means and proposes an edit to THAT size's price via the
+ * apply_owner_size_price rail. Owns every sized item: if the size is missing
+ * or ambiguous it returns a review (so a sized item never silently edits its
+ * unused base `price` column). Returns null only when no priced item matched
+ * or the matched item has no sizes (the base-price path handles those).
+ */
+function trySizePrice(raw: string, lower: string, snap: MenuSnapshot): TriageResult | null {
+  if (/\b(hour|hours|opening|closing)\b/.test(lower)) return null;
+  const price = extractPrice(raw);
+  if (price === null) return null;
+  if (!PRICE_SIGNAL.test(lower)) return null;
+  const r = resolveByName(raw, snap.items);
+  if (r.kind === "none") return null;
+  if (r.kind === "ambiguous") {
+    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+  }
+  const item = r.row;
+  const sizes = item.sizes ?? [];
+  if (sizes.length === 0) return null; // single-price item → tryPrice handles it
+
+  const textTokens = tokenize(raw);
+  const matched = sizes.filter((s) => sizeMentioned(s.label, textTokens));
+
+  if (matched.length === 1) {
+    return sizePriceProposal(item, matched[0], price);
+  }
+  if (matched.length > 1) {
+    const which = matched.map((s) => s.label).join(", ");
+    return review(`“${item.name}” matched more than one size (${which}) — name just one.`, "Question for AMMA", "Normal");
+  }
+  if (sizes.length === 1) {
+    return sizePriceProposal(item, sizes[0], price);
+  }
+  const labels = sizes.map((s) => s.label).join(" or ");
+  return review(
+    `“${item.name}” has ${labels} prices — say which one (e.g. “change the large ${item.name} to ${formatMoney(price)}”).`,
+    "Question for AMMA",
+    "Normal",
+  );
+}
+
 function tryPrice(raw: string, lower: string, snap: MenuSnapshot): TriageResult | null {
   // Defer to hours when the sentence is clearly about hours.
   if (/\b(hour|hours|opening|closing)\b/.test(lower)) return null;
   const price = extractPrice(raw);
   if (price === null) return null;
-  if (!/(\$|\bprice\b|\bcost\b|\bcharge\b|\bdollars?\b|\bbucks?\b|\bto\b|\bnow\b)/.test(lower)) return null;
+  if (!PRICE_SIGNAL.test(lower)) return null;
   const r = resolveByName(raw, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
     return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+  }
+  // Sized items are owned by trySizePrice; never edit their unused base price.
+  if ((r.row.sizes?.length ?? 0) > 0) {
+    const labels = r.row.sizes.map((s) => s.label).join(" or ");
+    return review(`“${r.row.name}” has ${labels} prices — say which one to change.`, "Question for AMMA", "Normal");
   }
   return applyResult(
     "menu_items", "price", r.row.id,
@@ -495,6 +596,7 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
 
   // 4. Confident single-field edits (each falls through to review if unsure).
   return (
+    trySizePrice(raw, lower, snap) ??
     tryPrice(raw, lower, snap) ??
     tryAvailability(raw, lower, snap) ??
     tryRenameItem(raw, lower, snap) ??

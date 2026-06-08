@@ -9,6 +9,7 @@ type ItemRow = {
   description: string | null;
   price: number | string;
   is_available: boolean;
+  sizes: { label: string; price: number | string }[] | null;
 };
 type CategoryRow = { id: string; name: string };
 type PromoRow = { id: string; text: string; is_active: boolean };
@@ -34,7 +35,7 @@ export async function readOwnerMenu(
     supabase.from("menu_categories").select("id, name").eq("restaurant_id", restaurantId).order("sort_order"),
     supabase
       .from("menu_items")
-      .select("id, category_id, name, description, price, is_available")
+      .select("id, category_id, name, description, price, is_available, sizes")
       .eq("restaurant_id", restaurantId)
       .order("sort_order"),
     supabase.from("promos").select("id, text, is_active").eq("restaurant_id", restaurantId).order("sort_order"),
@@ -62,6 +63,7 @@ export async function readOwnerMenu(
       description: r.description,
       price: r.price,
       isAvailable: r.is_available,
+      sizes: Array.isArray(r.sizes) ? r.sizes : [],
     })),
     categories: categories.map((r) => ({ id: r.id, name: r.name })),
     promos: promos.map((r) => ({ id: r.id, text: r.text, isActive: r.is_active })),

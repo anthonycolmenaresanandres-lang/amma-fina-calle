@@ -43,3 +43,31 @@ export async function applyOwnerChange(change: OwnerChange): Promise<void> {
 
   if (error) throw new Error(error.message);
 }
+
+export type OwnerSizePriceChange = {
+  restaurantId: string;
+  rowId: string;
+  sizeLabel: string;
+  newValue: string;
+};
+
+/**
+ * Audited edit of one SIZE price inside menu_items.sizes (a jsonb array).
+ * Routes through the apply_owner_size_price SQL function — same ownership +
+ * audit-in-one-transaction guarantees as applyOwnerChange, but it rewrites a
+ * single element's price instead of a scalar column. The UI never writes the
+ * sizes array directly.
+ */
+export async function applyOwnerSizePrice(change: OwnerSizePriceChange): Promise<void> {
+  const supabase = await createServerSupabase();
+  if (!supabase) throw new Error("Supabase is not configured.");
+
+  const { error } = await supabase.rpc("apply_owner_size_price", {
+    p_restaurant_id: change.restaurantId,
+    p_row_id: change.rowId,
+    p_size_label: change.sizeLabel,
+    p_new_value: change.newValue,
+  });
+
+  if (error) throw new Error(error.message);
+}
