@@ -13,6 +13,7 @@ type PublicItem = {
   description: string | null;
   price: number | string;
   photo_url: string | null;
+  sizes?: { label: string; price: number | string }[] | null;
 };
 
 type PublicMenu = {
@@ -26,7 +27,7 @@ const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 
 function formatPrice(price: number | string) {
   const num = typeof price === "string" ? Number(price) : price;
-  return Number.isFinite(num) ? `$${num.toFixed(2)}` : "Ask";
+  return Number.isFinite(num) && num > 0 ? `$${num.toFixed(2)}` : "Ask";
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -157,10 +158,24 @@ export default async function PublicMenuPage({ params }: PageProps) {
                               {item.description}
                             </p>
                           ) : null}
+                          {Array.isArray(item.sizes) && item.sizes.length > 0 ? (
+                            <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[0.8rem]">
+                              {item.sizes.map((s, i) => (
+                                <span key={i} className="text-[#c9b79f]">
+                                  {s.label}{" "}
+                                  <span className="font-mono font-bold text-[#e9c982]">
+                                    {formatPrice(s.price)}
+                                  </span>
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
                         </div>
-                        <span className="shrink-0 font-mono text-sm font-bold tracking-tight text-[#e9c982]">
-                          {formatPrice(item.price)}
-                        </span>
+                        {!(Array.isArray(item.sizes) && item.sizes.length > 0) ? (
+                          <span className="shrink-0 font-mono text-sm font-bold tracking-tight text-[#e9c982]">
+                            {formatPrice(item.price)}
+                          </span>
+                        ) : null}
                       </div>
                     </li>
                   ))}
