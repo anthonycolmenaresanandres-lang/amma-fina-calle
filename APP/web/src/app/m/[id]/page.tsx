@@ -101,14 +101,26 @@ export default async function PublicMenuPage({ params }: PageProps) {
                 </h2>
                 <ul className="mt-4 space-y-4">
                   {category.items.map((item) => (
-                    <li key={item.id} className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="font-medium text-[#eef2f4]">{item.name}</p>
-                        {item.description ? (
-                          <p className="mt-0.5 text-sm text-[#aeb7bd]">{item.description}</p>
-                        ) : null}
+                    <li key={item.id} className="flex items-start gap-4">
+                      {item.photo_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={item.photo_url}
+                          alt={item.name}
+                          className="h-16 w-16 shrink-0 rounded-xl object-cover ring-1 ring-[#cfd6da]/12"
+                        />
+                      ) : null}
+                      <div className="flex flex-1 items-start justify-between gap-4">
+                        <div>
+                          <p className="font-medium text-[#eef2f4]">{item.name}</p>
+                          {item.description ? (
+                            <p className="mt-0.5 text-sm text-[#aeb7bd]">{item.description}</p>
+                          ) : null}
+                        </div>
+                        <span className="shrink-0 font-semibold text-[#f4f6f7]">
+                          {formatPrice(item.price)}
+                        </span>
                       </div>
-                      <span className="shrink-0 font-semibold text-[#f4f6f7]">{formatPrice(item.price)}</span>
                     </li>
                   ))}
                 </ul>

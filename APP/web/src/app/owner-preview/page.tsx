@@ -24,7 +24,7 @@ const SAMPLE: DashboardData = {
       id: "c1",
       name: "Coffee",
       items: [
-        { id: "i1", name: "Mocha", description: null, price: 7, photo_url: "x", is_available: true },
+        { id: "i1", name: "Mocha", description: null, price: 7, photo_url: "/assets/colattao/colattao-menu-hero-4x5-v1.webp", is_available: true },
         { id: "i2", name: "Latte", description: null, price: 5.5, photo_url: null, is_available: true },
         { id: "i3", name: "Cortado", description: null, price: 4.5, photo_url: null, is_available: false },
       ],
@@ -34,7 +34,7 @@ const SAMPLE: DashboardData = {
       name: "Pastries",
       items: [
         { id: "i4", name: "Croissant", description: null, price: 4, photo_url: null, is_available: true },
-        { id: "i5", name: "Guava Pastry", description: null, price: 4, photo_url: "x", is_available: true },
+        { id: "i5", name: "Guava Pastry", description: null, price: 4, photo_url: null, is_available: true },
       ],
     },
   ],
