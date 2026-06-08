@@ -76,6 +76,10 @@ export type PenaltySkinAssets = {
   ball?: string;
   /** Foreground kicker character (mascot); leans into a kick on the shot. */
   kicker?: string;
+  /** In-goal keeper character (die-cut mascot sticker); replaces the primitive
+   *  keeper. Slides + tilts on the dive. Falls back to the primitive keeper
+   *  (and its kit recolor) when absent or if the file fails to load. */
+  keeper?: string;
 };
 
 // Optional fit controls for a skin's background image, so a photo (e.g. a
@@ -126,6 +130,8 @@ export type PenaltySkin = {
   backgroundFit?: BackgroundFit;
   /** Optional positioning for the kicker sprite. */
   kickerFit?: SpriteFit;
+  /** Optional positioning for the keeper sprite (when a keeper image is used). */
+  keeperFit?: SpriteFit;
   /** Optional per-skin presentation chrome controls. */
   chrome?: PenaltyChrome;
 };

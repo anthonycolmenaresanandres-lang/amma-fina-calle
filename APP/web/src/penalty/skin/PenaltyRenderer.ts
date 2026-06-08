@@ -43,6 +43,8 @@ export type RendererAssets = {
   logoKey?: string;
   ballKey?: string;
   kickerKey?: string;
+  /** In-goal keeper mascot sticker. Undefined = primitive keeper. */
+  keeperKey?: string;
   /** Campaign behind-goal ad-zone image (Campaign Pack). Undefined = no ad. */
   adZoneKey?: string;
 };
@@ -61,6 +63,10 @@ const DEPTH = {
   adZone: -5,
   adZoneOverlay: -4,
   field: 0,
+  // Keeper sticker sits just below the actor graphics so the shadow and ball
+  // (drawn in the actor layer) render in front of it — matching the primitive
+  // keeper, where the ball can park in the keeper's hands on a save.
+  keeperSprite: 8,
   actors: 10,
   ball: 11,
   kicker: 16,
@@ -90,8 +96,10 @@ export class PenaltyRenderer {
   private readonly logoImage: Phaser.GameObjects.Image | null = null;
   private readonly ballImage: Phaser.GameObjects.Image | null = null;
   private readonly kickerImage: Phaser.GameObjects.Image | null = null;
+  private readonly keeperImage: Phaser.GameObjects.Image | null = null;
   private readonly bgFit: BackgroundFit;
   private readonly kickerFit: SpriteFit;
+  private readonly keeperFit: SpriteFit;
   private readonly chrome: PenaltyChrome;
   // Campaign Pack (behind-goal ad zone + kits). Step 1: stored but not yet used
   // for drawing — the ad-zone renderer and tintable kit arrive in later steps.
@@ -104,12 +112,14 @@ export class PenaltyRenderer {
     assets: RendererAssets = {},
     backgroundFit: BackgroundFit = {},
     kickerFit: SpriteFit = {},
+    keeperFit: SpriteFit = {},
     chrome: PenaltyChrome = {},
     campaign: PenaltyCampaign = DEFAULT_CAMPAIGN,
   ) {
     this.colors = colors;
     this.bgFit = backgroundFit;
     this.kickerFit = kickerFit;
+    this.keeperFit = keeperFit;
     this.chrome = chrome;
     this.campaign = campaign;
     this.titleLabel = skinName.toUpperCase();
@@ -153,6 +163,16 @@ export class PenaltyRenderer {
         .image(0, 0, assets.kickerKey)
         .setOrigin(0.5, 1)
         .setDepth(DEPTH.kicker);
+    }
+
+    // Optional in-goal keeper mascot sticker (bottom-anchored on the goal line).
+    // Positioned/scaled per frame in drawKeeper; falls back to the primitive
+    // keeper when absent.
+    if (assets.keeperKey) {
+      this.keeperImage = scene.add
+        .image(0, 0, assets.keeperKey)
+        .setOrigin(0.5, 1)
+        .setDepth(DEPTH.keeperSprite);
     }
 
     this.titleText = scene.add
@@ -434,15 +454,35 @@ export class PenaltyRenderer {
     const reach = diving ? Math.abs(state.keeperPos.x - state.keeperRest.x) : 0;
     const armSpan = kw * 0.6 + reach * 0.5;
 
+    // Shadow (shared by the sticker and primitive keeper so the keeper reads as
+    // grounded on the goal line in both modes).
+    a.fillStyle(0x000000, 0.25);
+    a.fillCircle(x, layout.keeperLineY + 4, kw * 0.55);
+
+    // Die-cut keeper sticker (Step 3b). When a keeper image loaded, draw it
+    // instead of the primitive mascot: bottom-anchored on the goal line, sized
+    // to the layout, sliding with keeperPos and tilting toward the dive
+    // direction. The sticker carries its own (baked) kit colors, so the kit
+    // recolor below is a no-op in image mode — layered tinting stays the
+    // documented future (PENALTY_KIT_SPEC.md). Absent image → primitive keeper
+    // and its kit recolor, pixel-identical to before.
+    if (this.keeperImage) {
+      const targetH = kh * 1.7 * (this.keeperFit.scale ?? 1);
+      const scale = targetH / (this.keeperImage.height || 1);
+      const px = x + (this.keeperFit.offsetXPct ?? 0) * layout.w;
+      const py = y + (this.keeperFit.offsetYPct ?? 0) * layout.h;
+      // Tilt toward the dive (signed by direction, scaled by how far it reached).
+      const dir = Math.sign(state.keeperPos.x - state.keeperRest.x);
+      const tilt = diving ? dir * Math.min(1, reach / (layout.goalWidth * 0.5)) * 0.35 : 0;
+      this.keeperImage.setScale(scale).setPosition(px, py).setRotation(tilt);
+      return;
+    }
+
     // Keeper kit recolor (Campaign Pack Step 3a). When the campaign supplies a
     // keeper kit, its colors win over the palette (incl. any per-level keeper
     // tint — Decision A). No kit → palette → pixel-identical to before.
     const keeperPrimary = this.campaign.kit?.keeper?.primary ?? colors.keeper;
     const keeperSecondary = this.campaign.kit?.keeper?.secondary ?? colors.keeperAccent;
-
-    // Shadow.
-    a.fillStyle(0x000000, 0.25);
-    a.fillCircle(x, layout.keeperLineY + 4, kw * 0.55);
 
     // Outstretched arms when reaching.
     a.fillStyle(keeperPrimary, 1);

@@ -43,13 +43,22 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   skinName: "Café Shootout",
   colors: colattaoColors,
   // Verified Colattao brand art (from ASSET_REGISTRY/COLATTAO/normalized/),
-  // served from /public/assets/colattao/penalty/. Both are optional — the
-  // renderer falls back to primitives if a file is ever missing.
-  // Pending (no suitable round-ball art yet): `ball` stays primitive.
+  // served from /public/assets/colattao/penalty/. All optional — the renderer
+  // falls back to primitives if a file is ever missing.
+  // Pending art (slots wired, paths added when Codex commits the files, like the
+  // ball): `ball` stays primitive; `kicker` + `keeper` die-cut mascot stickers
+  // are speced in ASSET_SPECS/PENALTY_PLAYER_STICKER_SPEC.md. Until those land,
+  // the kicker is absent and the keeper renders as the recolored primitive.
+  //   kicker: "/assets/colattao/penalty/kicker-colattao-v1.webp",
+  //   keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
   assets: {
     background: "/assets/colattao/penalty/background-cafe-stadium-winner-v1.webp",
     logo: "/assets/colattao/penalty/logo.png",
   },
+  // Fit defaults are a first pass; tune against real sticker art via the preview
+  // tool once the files land.
+  // kickerFit: { scale: 1 },
+  // keeperFit: { scale: 1 },
 };
 
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {
