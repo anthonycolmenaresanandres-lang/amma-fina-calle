@@ -18,7 +18,7 @@ const SAMPLE: DashboardData = {
   businessName: "Colattao",
   siteUrl: null,
   email: "owner@colattao.com",
-  logo: null,
+  logo: "/assets/colattao/colattao-logo-cream-1600.png",
   categories: [
     {
       id: "c1",

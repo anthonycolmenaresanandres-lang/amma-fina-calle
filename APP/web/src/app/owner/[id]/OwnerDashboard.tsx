@@ -6,7 +6,6 @@ import {
   Chip,
   SectionHeading,
   StatusPill,
-  buttonClass,
   cn,
 } from "@/components/ui";
 
@@ -67,14 +66,19 @@ function AskHero() {
         Just say it — “86 the Flan Latte”, “change the Mocha to $8”, “add a Cold Brew at $5”.
         You preview and confirm before anything goes live.
       </p>
-      <div className="mt-4 flex items-center gap-2 rounded-2xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5">
+      <div className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#d8b36d]/55 focus-within:ring-2 focus-within:ring-[#d8b36d]/20">
+        <span aria-hidden className="text-sm text-[#d8b36d]/80">✦</span>
         <input
-          disabled
           placeholder="What would you like to change today?"
-          className="flex-1 bg-transparent text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none"
-          aria-label="Ask for a change (arriving soon)"
+          className="min-w-0 flex-1 bg-transparent text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none"
+          aria-label="Ask for a change"
         />
-        <span className={buttonClass("primary", "pointer-events-none opacity-60")}>Ask</span>
+        <span
+          aria-hidden
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#d8b36d] text-base font-semibold text-[#080a0c] shadow-[0_8px_20px_-8px_rgba(216,179,109,0.75)]"
+        >
+          →
+        </span>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
         <Chip>86 the Flan Latte</Chip>
@@ -203,27 +207,22 @@ export default function OwnerDashboard({
     <div className="mx-auto w-full max-w-2xl space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center justify-between gap-4 px-1">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-1.5">
+          <span className="text-[0.56rem] uppercase tracking-[0.34em] text-[#d8b36d]/75">
+            Owner dashboard
+          </span>
           {data.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={data.logo}
-              alt={`${data.businessName} logo`}
-              className="h-9 w-9 rounded-xl object-cover ring-1 ring-white/10"
+              alt={data.businessName}
+              className="h-11 w-auto select-none sm:h-12"
             />
           ) : (
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d8b36d]/14 text-sm font-semibold text-[#f4d99c] ring-1 ring-[#d8b36d]/25">
-              {data.businessName.slice(0, 1).toUpperCase()}
-            </div>
-          )}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.28em] text-[#d8b36d]">
-              Owner dashboard
-            </p>
             <h1 className="text-xl font-semibold leading-tight text-[#f4f6f7]">
               {data.businessName}
             </h1>
-          </div>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <ButtonLink href={`/m/${data.restaurantId}`} variant="ghost">
