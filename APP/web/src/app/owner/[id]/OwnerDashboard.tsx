@@ -4,12 +4,12 @@ import {
   Button,
   ButtonLink,
   Card,
-  Chip,
   Field,
   SectionHeading,
   StatusPill,
   cn,
 } from "@/components/ui";
+import AskBar from "./AskBar";
 
 export type MenuItem = {
   id: string;
@@ -52,43 +52,6 @@ export type DashboardData = {
 function money(value: number | string): string {
   const n = Number(value);
   return Number.isFinite(n) ? `$${n.toFixed(2)}` : String(value);
-}
-
-// --- AI Request Desk hero (the reactive engine; wired next) ------------------
-
-function AskHero() {
-  return (
-    <Card className="relative overflow-hidden border-[#d8b36d]/18">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(216,179,109,0.16),transparent_44%)]" />
-      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#d8b36d]">
-        ✦ AI Request Desk
-      </p>
-      <h2 className="mt-2 text-2xl font-semibold text-[#f4f6f7]">Ask for any change</h2>
-      <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        Just say it — “86 the Flan Latte”, “change the Mocha to $8”, “add a Cold Brew at $5”.
-        You preview and confirm before anything goes live.
-      </p>
-      <div className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#d8b36d]/55 focus-within:ring-2 focus-within:ring-[#d8b36d]/20">
-        <span aria-hidden className="text-sm text-[#d8b36d]/80">✦</span>
-        <input
-          placeholder="What would you like to change today?"
-          className="min-w-0 flex-1 bg-transparent text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none"
-          aria-label="Ask for a change"
-        />
-        <span
-          aria-hidden
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#d8b36d] text-base font-semibold text-[#080a0c] shadow-[0_8px_20px_-8px_rgba(216,179,109,0.75)]"
-        >
-          →
-        </span>
-      </div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <Chip>86 the Flan Latte</Chip>
-        <Chip>change Mocha to $8</Chip>
-        <Chip>new promo</Chip>
-      </div>
-    </Card>
-  );
 }
 
 // --- Coming up (the proactive Seasonal Autopilot) ----------------------------
@@ -323,7 +286,14 @@ export default function OwnerDashboard({
         </div>
       </header>
 
-      <AskHero />
+      <AskBar
+        items={allItems.map((it) => ({
+          name: it.name,
+          price: it.price,
+          is_available: it.is_available,
+        }))}
+        demo={readOnly}
+      />
       <ComingUp />
 
       {/* Featured items — price + photo the customer sees */}
