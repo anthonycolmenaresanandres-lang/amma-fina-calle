@@ -54,9 +54,11 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
     kicker: "/assets/colattao/penalty/kicker-colattao-v1.webp",
     keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
   },
-  // First-pass fit; tune scale/offset against the live preview.
-  kickerFit: { scale: 1 },
-  keeperFit: { scale: 1 },
+  // Fit tuned against a composite over the café background: keeper at 0.95 keeps
+  // crossbar clearance with feet on the line; kicker nudged down 2% so the cup
+  // striker frames from the foreground without covering the ball on the spot.
+  kickerFit: { scale: 1, offsetYPct: 0.02 },
+  keeperFit: { scale: 0.95 },
 };
 
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {
