@@ -135,6 +135,12 @@ export type PenaltySkin = {
    *  assets.kicker for levels not listed — lets one skin field a different
    *  striker per level (e.g. a product mascot per difficulty). */
   levelKickers?: Record<string, string>;
+  /** Optional per-level background override (levelId → image path). Falls back to
+   *  assets.background for levels not listed — lets one skin show a different
+   *  backdrop per level (e.g. a product-themed crowd per difficulty). Shares the
+   *  skin's backgroundFit, so per-level art should keep a consistent crowd/pitch
+   *  line (~0.49, the goal line) for the goal/keeper to stay coordinated. */
+  levelBackgrounds?: Record<string, string>;
   /** Optional positioning/scrim tuning for the background image. */
   backgroundFit?: BackgroundFit;
   /** Optional positioning for the kicker sprite. */

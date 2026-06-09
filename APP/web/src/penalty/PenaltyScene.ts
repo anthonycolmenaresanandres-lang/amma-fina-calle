@@ -107,7 +107,10 @@ export class PenaltyScene extends Phaser.Scene {
   // the texture simply won't exist and create() falls back to primitives.
   preload(): void {
     const assets = this.skin.assets;
-    if (assets?.background) this.load.image(this.assetKey("background"), assets.background);
+    // Background can vary per level (skin.levelBackgrounds); like the kicker it
+    // uses a level-scoped key and falls back to the skin's default background.
+    const background = this.backgroundPath();
+    if (background) this.load.image(this.backgroundKey(), background);
     if (assets?.logo) this.load.image(this.assetKey("logo"), assets.logo);
     if (assets?.ball) this.load.image(this.assetKey("ball"), assets.ball);
     // Kicker can vary per level (skin.levelKickers), so it uses a level-scoped key
@@ -141,6 +144,18 @@ export class PenaltyScene extends Phaser.Scene {
     return this.textures.exists(this.kickerKey()) ? this.kickerKey() : undefined;
   }
 
+  // Effective background image for this level: per-level override if present, else
+  // the skin's default background. Keyed by level so each level can load its own.
+  private backgroundPath(): string | undefined {
+    return this.skin.levelBackgrounds?.[this.level.id] ?? this.skin.assets?.background;
+  }
+  private backgroundKey(): string {
+    return `penalty-background-${this.skin.id}-${this.level.id}`;
+  }
+  private loadedBackgroundKey(): string | undefined {
+    return this.textures.exists(this.backgroundKey()) ? this.backgroundKey() : undefined;
+  }
+
   // Campaign-scoped key for the behind-goal ad-zone texture.
   private adZoneTextureKey(): string {
     return `penalty-adzone-${this.campaign.id}`;
@@ -159,7 +174,7 @@ export class PenaltyScene extends Phaser.Scene {
       this.colors,
       this.skin.skinName,
       {
-        backgroundKey: this.loadedKey("background"),
+        backgroundKey: this.loadedBackgroundKey(),
         logoKey: this.loadedKey("logo"),
         ballKey: this.loadedKey("ball"),
         kickerKey: this.loadedKickerKey(),
