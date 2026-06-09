@@ -100,6 +100,7 @@ export class PenaltyRenderer {
   private readonly bgFit: BackgroundFit;
   private readonly kickerFit: SpriteFit;
   private readonly keeperFit: SpriteFit;
+  private readonly ballFit: SpriteFit;
   private readonly chrome: PenaltyChrome;
   // Campaign Pack (behind-goal ad zone + kits). Step 1: stored but not yet used
   // for drawing — the ad-zone renderer and tintable kit arrive in later steps.
@@ -115,11 +116,13 @@ export class PenaltyRenderer {
     keeperFit: SpriteFit = {},
     chrome: PenaltyChrome = {},
     campaign: PenaltyCampaign = DEFAULT_CAMPAIGN,
+    ballFit: SpriteFit = {},
   ) {
     this.colors = colors;
     this.bgFit = backgroundFit;
     this.kickerFit = kickerFit;
     this.keeperFit = keeperFit;
+    this.ballFit = ballFit;
     this.chrome = chrome;
     this.campaign = campaign;
     this.titleLabel = skinName.toUpperCase();
@@ -500,7 +503,9 @@ export class PenaltyRenderer {
   private drawBall(a: Phaser.GameObjects.Graphics, state: RenderState): void {
     const { layout } = state;
     const colors = this.colors;
-    const r = layout.ballRadius;
+    // Per-skin ball size (position is unchanged — stays on the penalty spot — so
+    // flight, scoring, and keeper logic are unaffected). Default 1 = current size.
+    const r = layout.ballRadius * (this.ballFit.scale ?? 1);
     const { x, y } = state.ballPos;
 
     // Ground shadow scales down as the ball rises (sky region). Drawn for both

@@ -155,6 +155,7 @@ export class PenaltyScene extends Phaser.Scene {
       this.skin.keeperFit ?? {},
       this.skin.chrome ?? {},
       this.campaign,
+      this.skin.ballFit ?? {},
     );
 
     const layout = this.layout();
