@@ -54,11 +54,15 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
     kicker: "/assets/colattao/penalty/kicker-colattao-v1.webp",
     keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
   },
-  // Fit tuned against a composite over the café background: keeper at 0.95 keeps
-  // crossbar clearance with feet on the line; kicker nudged down 2% so the cup
-  // striker frames from the foreground without covering the ball on the spot.
-  kickerFit: { scale: 1, offsetYPct: 0.02 },
+  // Fit tuned against a composite over the café background. Keeper at 0.95 keeps
+  // crossbar clearance with feet on the line. Kicker enlarged and shifted left so
+  // the cup striker reads as a big foreground figure with the (enlarged) ball
+  // clearly beside it on the spot — matching the owner's reference layout.
+  kickerFit: { scale: 2.6, offsetXPct: -0.21, offsetYPct: 0 },
   keeperFit: { scale: 0.95 },
+  // Bigger ball for Colattao (visual only — stays on the spot). Other skins keep
+  // the default size since ballFit is unset there.
+  ballFit: { scale: 3.5 },
 };
 
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {

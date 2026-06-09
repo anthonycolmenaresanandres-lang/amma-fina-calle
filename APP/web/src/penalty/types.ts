@@ -132,6 +132,9 @@ export type PenaltySkin = {
   kickerFit?: SpriteFit;
   /** Optional positioning for the keeper sprite (when a keeper image is used). */
   keeperFit?: SpriteFit;
+  /** Optional size for the ball (only `scale` is honored; position stays on the
+   *  penalty spot so gameplay is unaffected). Default 1 = current size. */
+  ballFit?: SpriteFit;
   /** Optional per-skin presentation chrome controls. */
   chrome?: PenaltyChrome;
 };
