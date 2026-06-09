@@ -448,7 +448,12 @@ export class PenaltyRenderer {
       }
 
       // Goal frame (posts + crossbar).
-      const postW = Math.max(4, layout.w * 0.015);
+      // Prominent goal frame (thicker posts/crossbar so it reads clearly against
+      // a busy backdrop like the crowd), with a soft dark edge for separation.
+      const postW = Math.max(6, layout.w * 0.024);
+      g.fillStyle(0x000000, 0.28);
+      g.fillRect(layout.goalLeft - postW * 1.35, layout.goalTop - postW * 1.35, postW * 0.4, layout.goalHeight + postW * 1.35);
+      g.fillRect(layout.goalRight + postW * 0.95, layout.goalTop - postW * 1.35, postW * 0.4, layout.goalHeight + postW * 1.35);
       g.fillStyle(colors.goalFrame, 1);
       g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, postW, layout.goalHeight + postW);
       g.fillRect(layout.goalRight, layout.goalTop - postW, postW, layout.goalHeight + postW);

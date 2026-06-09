@@ -67,7 +67,9 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   // the cup striker reads as a big foreground figure with the (enlarged) ball
   // clearly beside it on the spot — matching the owner's reference layout.
   kickerFit: { scale: 2.6, offsetXPct: -0.21, offsetYPct: 0 },
-  keeperFit: { scale: 0.95 },
+  // Keeper dropped down so its feet sit on the visible grass (the crowd/pitch
+  // line is ~0.49, below the 0.42 goal line); purely visual, dive logic unchanged.
+  keeperFit: { scale: 0.95, offsetYPct: 0.05 },
   // Bigger ball for Colattao (visual only — stays on the spot). Other skins keep
   // the default size since ballFit is unset there.
   ballFit: { scale: 3.5 },
