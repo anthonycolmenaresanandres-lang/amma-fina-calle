@@ -60,8 +60,11 @@ const TEXT_FONT = "Georgia, serif";
 const DEPTH = {
   background: -10,
   backdrop: -6,
-  adZone: -5,
-  adZoneOverlay: -4,
+  // Stadium-native signage board (posts + panel + trim) the client creative
+  // insets into; below the inset image, which is below its legibility overlay.
+  adBoard: -5,
+  adZone: -4,
+  adZoneOverlay: -3,
   field: 0,
   // Keeper sticker sits just below the actor graphics so the shadow and ball
   // (drawn in the actor layer) render in front of it — matching the primitive
@@ -86,6 +89,8 @@ export class PenaltyRenderer {
   private readonly adZoneImage: Phaser.GameObjects.Image | null = null;
   private readonly adZoneOverlay: Phaser.GameObjects.Graphics | null = null;
   private readonly adZoneMask: Phaser.GameObjects.Graphics | null = null;
+  // Stadium-native signage board the ad image insets into (engine-drawn frame).
+  private readonly adBoardGraphics: Phaser.GameObjects.Graphics | null = null;
   private readonly titleText: Phaser.GameObjects.Text;
   private readonly scoreText: Phaser.GameObjects.Text;
   private readonly statusText: Phaser.GameObjects.Text;
@@ -140,6 +145,7 @@ export class PenaltyRenderer {
     // Optional behind-goal ad zone (Campaign Pack). Drawn above the backdrop and
     // below the goal frame; clipped to a reserved panel via a geometry mask.
     if (assets.adZoneKey) {
+      this.adBoardGraphics = scene.add.graphics().setDepth(DEPTH.adBoard);
       this.adZoneImage = scene.add
         .image(0, 0, assets.adZoneKey)
         .setOrigin(0.5, 0.5)
@@ -333,58 +339,84 @@ export class PenaltyRenderer {
     }
   }
 
-  // Reserved behind-goal ad panel (Campaign Pack). Cover-fits the campaign image
-  // into a panel in the upper-field backdrop, clipped by a geometry mask, with a
-  // light readability scrim and a feather into the grass so it reads as part of
-  // the scene. No-op (and clean fallback to the backdrop) when no ad image
-  // loaded. Panel insets are intentionally simple — exact placement is a tuning
-  // step done against real campaign art, like the stadium backdrop fit.
+  // Behind-goal ad zone (Campaign Pack), drawn as a stadium-native SIGNAGE BOARD:
+  // the engine draws support posts + a cool light board with a trim frame, and
+  // the client creative (logo + product) insets into the board. This lets any
+  // restaurant's art belong to the illustrated daylight stadium without per-client
+  // compositing. No-op (clean fallback to the backdrop) when no ad image loaded.
+  // The reserved panel comes from the canonical background template (single
+  // source). See ASSET_SPECS/PENALTY_BACKGROUND_TEMPLATE.md + PENALTY_AD_ZONE_SPEC.md.
   private drawAdZone(state: RenderState): void {
     const image = this.adZoneImage;
     const mask = this.adZoneMask;
     const overlay = this.adZoneOverlay;
-    if (!image || !mask || !overlay) {
+    const board = this.adBoardGraphics;
+    if (!image || !mask || !overlay || !board) {
       return;
     }
     const { layout } = state;
 
-    // Reserved panel from the canonical background template (single source): the
-    // upper-field backdrop behind the goal mouth, down to the goal line, a touch
-    // wider than the goal. See ASSET_SPECS/PENALTY_BACKGROUND_TEMPLATE.md.
+    // Reserved panel: behind the goal mouth, down toward the goal line, a touch
+    // wider than the goal. The board occupies the upper part of it; posts drop to
+    // the goal line so it reads as a mounted hoarding rather than a floating slab.
     const px = layout.w * AD_ZONE_PANEL.leftPct;
     const pw = layout.w * AD_ZONE_PANEL.widthPct;
     const pyTop = layout.h * AD_ZONE_PANEL.topPct;
-    const pyBottom = layout.goalBottom;
-    const ph = pyBottom - pyTop;
+    const ph = layout.goalBottom - pyTop;
+    const boardH = ph * 0.78;
+    const radius = Math.min(pw, boardH) * 0.06;
+    const border = Math.max(4, pw * 0.018);
 
-    // Cover-fit the image to the panel, then the optional per-campaign nudge.
+    // Stadium-native signage palette: a cool light board with green trim + grey
+    // posts, so it reads as part of the daylight stadium (not a brand surface —
+    // the brand lives in the inset client creative).
+    const BOARD = 0xeef2f4;
+    const TRIM = 0x2f6f4e;
+    const POST = 0xb9c4ca;
+
+    board.clear();
+
+    // Support posts behind the board, dropping to the goal line.
+    const postW = Math.max(4, pw * 0.022);
+    const postTop = pyTop + boardH * 0.6;
+    for (const fx of [0.24, 0.76]) {
+      const x = px + pw * fx;
+      board.fillStyle(POST, 1);
+      board.fillRect(x - postW / 2, postTop, postW, layout.goalBottom - postTop);
+    }
+
+    // Board shadow, panel fill, trim frame.
+    board.fillStyle(0x000000, 0.22);
+    board.fillRoundedRect(px + border * 0.5, pyTop + border * 0.7, pw, boardH, radius);
+    board.fillStyle(BOARD, 1);
+    board.fillRoundedRect(px, pyTop, pw, boardH, radius);
+    board.lineStyle(border, TRIM, 1);
+    board.strokeRoundedRect(px, pyTop, pw, boardH, radius);
+
+    // Inner creative rect (inside the trim). Cover-fit the client image into it,
+    // plus the optional per-campaign nudge.
+    const ix = px + border * 1.5;
+    const iy = pyTop + border * 1.5;
+    const iw = pw - border * 3;
+    const ihh = boardH - border * 3;
     const fit = this.campaign.adZone?.fit ?? {};
-    const iw = image.width || 1;
-    const ih = image.height || 1;
-    const scale = Math.max(pw / iw, ph / ih) * (fit.scale ?? 1);
-    const cx = px + pw / 2 + (fit.offsetXPct ?? 0) * pw;
-    const cy = pyTop + ph / 2 + (fit.offsetYPct ?? 0) * ph;
+    const imw = image.width || 1;
+    const imh = image.height || 1;
+    const scale = Math.max(iw / imw, ihh / imh) * (fit.scale ?? 1);
+    const cx = ix + iw / 2 + (fit.offsetXPct ?? 0) * iw;
+    const cy = iy + ihh / 2 + (fit.offsetYPct ?? 0) * ihh;
     image.setPosition(cx, cy).setScale(scale);
 
-    // Clip the (cover-fit, possibly overflowing) image to the panel rectangle.
+    const innerR = radius * 0.6;
     mask.clear();
     mask.fillStyle(0xffffff, 1);
-    mask.fillRect(px, pyTop, pw, ph);
+    mask.fillRoundedRect(ix, iy, iw, ihh, innerR);
 
-    // Readability scrim + feather into the grass so the panel doesn't float.
+    // Light legibility scrim on the inner creative only (the board provides the
+    // grounding now, so this is much lighter than the old full-panel scrim).
     overlay.clear();
-    overlay.fillStyle(0x000000, AD_ZONE_PANEL.scrimAlpha);
-    overlay.fillRect(px, pyTop, pw, ph);
-
-    const featherH = ph * AD_ZONE_PANEL.featherPct;
-    const bands = AD_ZONE_PANEL.featherBands;
-    const bandH = featherH / bands;
-    for (let i = 0; i < bands; i += 1) {
-      const y = pyBottom - featherH + i * bandH;
-      const alpha = ((i + 1) / bands) * AD_ZONE_PANEL.featherMaxAlpha; // transparent top → grass base
-      overlay.fillStyle(this.colors.grass, alpha);
-      overlay.fillRect(px, y, pw, bandH + 1);
-    }
+    overlay.fillStyle(0x000000, 0.08);
+    overlay.fillRoundedRect(ix, iy, iw, ihh, innerR);
   }
 
   private drawField(state: RenderState): void {
