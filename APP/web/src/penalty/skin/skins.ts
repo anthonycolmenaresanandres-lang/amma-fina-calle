@@ -66,6 +66,15 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
     "club-keeper": "/assets/colattao/penalty/cappuccino-colattao-v1.webp",
     "pro-keeper": "/assets/colattao/penalty/matcha-colattao-v1.webp",
   },
+  // A drink-themed crowd per level, matching the per-level striker. Level 1
+  // (street-keeper) uses the default CHURRO LATTE backdrop above; levels 2 and 3
+  // get the CAPPUCCINO and MATCHA LEMONADE crowds. All normalized to the same
+  // crowd/pitch line (~0.49) so they share `backgroundFit` and keep the engine
+  // goal/keeper coordinated (no goal baked into the art).
+  levelBackgrounds: {
+    "club-keeper": "/assets/colattao/penalty/background-cappuccino-v1.webp",
+    "pro-keeper": "/assets/colattao/penalty/background-matcha-v1.webp",
+  },
   // Crowd/pitch line sits ~0.49; the engine goal (and keeper line at 0.42) is
   // drawn on top regardless, so this is cosmetic. Light scrim keeps the daylight
   // crowd vivid while aiding UI legibility.
