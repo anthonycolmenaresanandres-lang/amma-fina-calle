@@ -107,13 +107,22 @@ transparent) — NOT a painted checkerboard; if unavailable use FLAT pure-magent
 #FF00FF. No text, no logos, no real-team marks. High resolution.
 ```
 
-## 4. (Reference only) Behind-goal ad zone
+## 4. Behind-goal ad zone — inner board creative
 
-The ad zone is **client creative**, governed by `ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md`
-— it carries the restaurant's **approved logo** and product photography and is
-**not** generated as a mascot. Do not generate brand logos here; composite the
-approved logo file. See that spec for panel size (1080×810), safe area, and the
-behind-goal placement.
+The behind-goal ad is now an **engine-drawn stadium-native signage board** (posts +
+cool light panel + green trim); the campaign image is the **inner creative** that
+insets into it — so you author only the content, the game supplies the board.
+
+- **Format:** wide landscape, ~**16:9** (authored 960×536), to match the board's
+  inner area. Solid (opaque) — the board frames it.
+- **Brand panel, not a mascot:** the restaurant's **approved logo** (composited
+  from the real file — never generated) + product photography on a warm/brand
+  ground so the logo reads. Governed by `ASSET_SPECS/PENALTY_AD_ZONE_SPEC.md`.
+- **Keep it legible small:** big logo, one hero product, generous contrast — it's
+  seen behind the goal net. No tiny text.
+- **Guardrails still apply:** no FIFA/World Cup/club marks; logo is the approved
+  file. (Colattao reference: `adzone-colattao-board-v1.webp` — cream logo + latte
+  product card on a warm espresso panel.)
 
 ---
 

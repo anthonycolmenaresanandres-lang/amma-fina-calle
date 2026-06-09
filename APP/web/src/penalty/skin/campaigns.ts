@@ -38,9 +38,13 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
   id: "colattao",
   client: "Colattao",
   adZone: {
-    image: "/assets/colattao/penalty/adzone-coffee-pastry-v1.webp",
+    // Inner board creative: warm brand panel (cream logo + product card) authored
+    // for the engine-drawn stadium signage board, so the cream logo reads and the
+    // panel complements the daylight stadium. The raw coffee/pastry photo remains
+    // in the repo as the product source.
+    image: "/assets/colattao/penalty/adzone-colattao-board-v1.webp",
     fit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
-    label: "Colattao coffee and pastry behind-goal ad zone",
+    label: "Colattao logo and product behind-goal signage board",
   },
   // Colattao keeper kit (Campaign Pack Step 3a) — owner-approved green keeper
   // jersey (primary) + deep-green lower body (secondary). Recolors the primitive
