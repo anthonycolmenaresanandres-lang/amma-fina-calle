@@ -73,6 +73,7 @@ const DEPTH = {
   actors: 10,
   ball: 11,
   kicker: 16,
+  scoreboard: 19,
   text: 20,
   logo: 30,
 } as const;
@@ -91,6 +92,8 @@ export class PenaltyRenderer {
   private readonly adZoneMask: Phaser.GameObjects.Graphics | null = null;
   // Stadium-native signage board the ad image insets into (engine-drawn frame).
   private readonly adBoardGraphics: Phaser.GameObjects.Graphics | null = null;
+  // Top scoreboard panel (drawn behind the title/score text).
+  private readonly scoreboardGraphics: Phaser.GameObjects.Graphics;
   private readonly titleText: Phaser.GameObjects.Text;
   private readonly scoreText: Phaser.GameObjects.Text;
   private readonly statusText: Phaser.GameObjects.Text;
@@ -184,6 +187,8 @@ export class PenaltyRenderer {
         .setDepth(DEPTH.keeperSprite);
     }
 
+    this.scoreboardGraphics = scene.add.graphics().setDepth(DEPTH.scoreboard);
+
     this.titleText = scene.add
       .text(0, 0, this.titleLabel, {
         fontFamily: TEXT_FONT,
@@ -247,7 +252,35 @@ export class PenaltyRenderer {
     this.drawBall(a, state);
     this.drawAimPreview(a, state);
 
+    this.drawScoreboard(state);
     this.layoutTexts(state);
+  }
+
+  // Top scoreboard: a clean rounded panel behind the title + score, so the score
+  // reads as proper scoreboard chrome rather than floating text. Part of the
+  // fixed shell strip; shown on every skin.
+  private drawScoreboard(state: RenderState): void {
+    const { layout } = state;
+    const g = this.scoreboardGraphics;
+    g.clear();
+
+    const w = Math.min(layout.w * 0.66, layout.h * 0.42);
+    const h = Math.max(40, layout.h * 0.072);
+    const x = (layout.w - w) / 2;
+    const y = layout.h * 0.012;
+    const r = h * 0.26;
+
+    // Shadow, dark panel, gold trim.
+    g.fillStyle(0x000000, 0.3);
+    g.fillRoundedRect(x + 2, y + 3, w, h, r);
+    g.fillStyle(0x140f0a, 0.9);
+    g.fillRoundedRect(x, y, w, h, r);
+    g.lineStyle(Math.max(2, layout.w * 0.005), 0xd8b36d, 0.9);
+    g.strokeRoundedRect(x, y, w, h, r);
+
+    // Hairline separating the title (above) from the score (below).
+    g.fillStyle(0xd8b36d, 0.32);
+    g.fillRect(x + w * 0.16, y + h * 0.46, w * 0.68, Math.max(1, h * 0.02));
   }
 
   // Swipe aim feedback: a line from the spot to the targeted zone + a power
@@ -432,31 +465,37 @@ export class PenaltyRenderer {
       g.fillStyle(colors.goalFrame, 0.85);
       g.fillCircle(layout.spotX, layout.spotY, Math.max(3, layout.w * 0.008));
 
-      // Net fill + mesh.
+      // The posts/net are extended below the (gameplay) goal line down to a
+      // "ground" line so the goal looks planted on the pitch — purely visual; the
+      // aim zones, keeper line, and ball targets still use goalTop..goalBottom.
+      const groundY = layout.goalBottom + layout.h * 0.06;
+      const netH = groundY - layout.goalTop;
+
+      // Net fill + mesh (down to the ground line).
       g.fillStyle(colors.net, 0.06);
-      g.fillRect(layout.goalLeft, layout.goalTop, layout.goalWidth, layout.goalHeight);
+      g.fillRect(layout.goalLeft, layout.goalTop, layout.goalWidth, netH);
       g.lineStyle(1, colors.net, 0.22);
       const cols = 8;
-      const rows = 5;
+      const rows = 6;
       for (let i = 1; i < cols; i += 1) {
         const x = layout.goalLeft + (layout.goalWidth * i) / cols;
-        g.lineBetween(x, layout.goalTop, x, layout.goalBottom);
+        g.lineBetween(x, layout.goalTop, x, groundY);
       }
       for (let j = 1; j < rows; j += 1) {
-        const y = layout.goalTop + (layout.goalHeight * j) / rows;
+        const y = layout.goalTop + (netH * j) / rows;
         g.lineBetween(layout.goalLeft, y, layout.goalRight, y);
       }
 
-      // Goal frame (posts + crossbar).
-      // Prominent goal frame (thicker posts/crossbar so it reads clearly against
-      // a busy backdrop like the crowd), with a soft dark edge for separation.
+      // Goal frame: prominent thicker posts/crossbar (so it reads against a busy
+      // backdrop) with a soft dark edge, posts planted on the ground line.
       const postW = Math.max(6, layout.w * 0.024);
+      const postH = groundY - layout.goalTop + postW;
       g.fillStyle(0x000000, 0.28);
-      g.fillRect(layout.goalLeft - postW * 1.35, layout.goalTop - postW * 1.35, postW * 0.4, layout.goalHeight + postW * 1.35);
-      g.fillRect(layout.goalRight + postW * 0.95, layout.goalTop - postW * 1.35, postW * 0.4, layout.goalHeight + postW * 1.35);
+      g.fillRect(layout.goalLeft - postW * 1.35, layout.goalTop - postW * 1.35, postW * 0.4, postH + postW * 0.35);
+      g.fillRect(layout.goalRight + postW * 0.95, layout.goalTop - postW * 1.35, postW * 0.4, postH + postW * 0.35);
       g.fillStyle(colors.goalFrame, 1);
-      g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, postW, layout.goalHeight + postW);
-      g.fillRect(layout.goalRight, layout.goalTop - postW, postW, layout.goalHeight + postW);
+      g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, postW, postH);
+      g.fillRect(layout.goalRight, layout.goalTop - postW, postW, postH);
       g.fillRect(layout.goalLeft - postW, layout.goalTop - postW, layout.goalWidth + postW * 2, postW);
     }
 
@@ -568,12 +607,15 @@ export class PenaltyRenderer {
   private layoutTexts(state: RenderState): void {
     const { layout, match, totalShots } = state;
 
+    // Title + score sit on the scoreboard panel (title above the hairline, score
+    // below). hideTitle still suppresses the skin-name line; the score stays.
     this.titleText.setText(this.chrome.hideTitle ? "" : this.titleLabel);
-    this.titleText.setPosition(layout.w / 2, layout.h * 0.035);
+    this.titleText.setPosition(layout.w / 2, layout.h * 0.026);
 
     const currentShot = currentShotNumber(match, totalShots);
+    this.scoreText.setFontStyle("bold");
     this.scoreText.setText(`${match.goals} GOALS · ${currentShot}/${totalShots}`);
-    this.scoreText.setPosition(layout.w / 2, layout.h * 0.06);
+    this.scoreText.setPosition(layout.w / 2, layout.h * 0.053);
 
     this.statusText.setColor(state.statusColor);
     this.statusText.setText(state.statusText);

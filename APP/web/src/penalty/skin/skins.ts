@@ -57,6 +57,7 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
     logo: "/assets/colattao/penalty/logo.png",
     kicker: "/assets/colattao/penalty/kicker-colattao-v1.webp",
     keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
+    ball: "/assets/colattao/penalty/ball-colattao-v1.webp",
   },
   // Crowd/pitch line sits ~0.49; the engine goal (and keeper line at 0.42) is
   // drawn on top regardless, so this is cosmetic. Light scrim keeps the daylight
@@ -70,9 +71,10 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   // Keeper dropped down so its feet sit on the visible grass (the crowd/pitch
   // line is ~0.49, below the 0.42 goal line); purely visual, dive logic unchanged.
   keeperFit: { scale: 0.95, offsetYPct: 0.05 },
-  // Bigger ball for Colattao (visual only — stays on the spot). Other skins keep
-  // the default size since ballFit is unset there.
-  ballFit: { scale: 3.5 },
+  // Bigger ball for Colattao (visual only — stays on the spot). The image ball
+  // draws at diameter r*2.4*scale, so 2.9 keeps it ~the same on-screen size as the
+  // prior enlarged primitive. Other skins keep the default size (ballFit unset).
+  ballFit: { scale: 2.9 },
 };
 
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {
