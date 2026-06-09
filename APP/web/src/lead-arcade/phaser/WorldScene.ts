@@ -15,6 +15,10 @@ const WATER = 0x16344a;
 const LAND = 0x244a2c;
 const LAND_HI = 0x2c5a34;
 
+function reducedMotion(): boolean {
+  return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+}
+
 export class WorldScene extends Phaser.Scene {
   private hooks: WorldHooks;
   private leads: LeadState[] = [];
@@ -117,6 +121,10 @@ export class WorldScene extends Phaser.Scene {
       }).setOrigin(0.5, 0);
 
       c.add([shadow, halo, body, ring, initial, label]);
+      if (lead.stage === "flagship") {
+        const star = this.add.text(0, -r - 12, "★", { fontFamily: "system-ui, sans-serif", fontSize: "16px", color: "#d8a24c" }).setOrigin(0.5);
+        c.add(star);
+      }
       if (isClient && lead.mrr > 0) {
         const coin = this.add.text(r - 2, -r, `$${lead.mrr}`, {
           fontFamily: "system-ui, sans-serif", fontSize: "11px", color: "#1b120a",
@@ -137,15 +145,21 @@ export class WorldScene extends Phaser.Scene {
     }
   }
 
+  private floatText(x: number, y: number, str: string, size: number): void {
+    const t = this.add.text(x, y, str, {
+      fontFamily: "system-ui, sans-serif", fontSize: `${size}px`, color: "#d8a24c", fontStyle: "bold",
+    }).setOrigin(0.5).setDepth(50);
+    const dur = reducedMotion() ? 600 : 900;
+    this.tweens.add({ targets: t, y: y - (reducedMotion() ? 12 : 50), alpha: 0, duration: dur, ease: "Cubic.out", onComplete: () => t.destroy() });
+  }
+
   /** Capture flourish when a lead converts to a client. */
   playCapture(id: string): void {
     const c = this.tiles.get(id);
     if (!c) return;
+    this.floatText(c.x, c.y - 30, "GOAL!", 26);
+    if (reducedMotion()) return;
     this.tweens.add({ targets: c, scale: { from: 1, to: 1.35 }, yoyo: true, duration: 220, ease: "Back.out" });
-    const goal = this.add.text(c.x, c.y - 30, "GOAL!", {
-      fontFamily: "system-ui, sans-serif", fontSize: "26px", color: "#d8a24c", fontStyle: "bold",
-    }).setOrigin(0.5).setDepth(50);
-    this.tweens.add({ targets: goal, y: goal.y - 50, alpha: 0, duration: 900, ease: "Cubic.out", onComplete: () => goal.destroy() });
     for (let i = 0; i < 8; i++) {
       const coin = this.add.circle(c.x, c.y, 5, 0xd8a24c).setDepth(49);
       this.tweens.add({
@@ -153,5 +167,14 @@ export class WorldScene extends Phaser.Scene {
         alpha: 0, duration: 700 + Math.random() * 300, ease: "Cubic.out", onComplete: () => coin.destroy(),
       });
     }
+  }
+
+  /** Smaller flourish when a client upgrades. */
+  playUpgrade(id: string): void {
+    const c = this.tiles.get(id);
+    if (!c) return;
+    this.floatText(c.x, c.y - 26, "UPGRADE!", 18);
+    if (reducedMotion()) return;
+    this.tweens.add({ targets: c, scale: { from: 1, to: 1.2 }, yoyo: true, duration: 180, ease: "Back.out" });
   }
 }

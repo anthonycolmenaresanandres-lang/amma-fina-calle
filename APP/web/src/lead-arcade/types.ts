@@ -9,7 +9,14 @@ export type ActionType =
   | "PITCHED"
   | "CLOSED"
   | "COLLECTED"
-  | "UPGRADED";
+  | "UPGRADED"
+  | "UPDATED"; // owner edits the dossier/notes/follow-up (no stage change)
+
+export interface Dossier {
+  rating: number;
+  signature: string;
+  fit: Fit;
+}
 
 /** Static metadata for a business tile; carried on the SCOUTED event so the
  *  whole world can be rebuilt from the event log alone. Positions are board-
@@ -19,8 +26,21 @@ export interface LeadMeta {
   name: string;
   businessType: string;
   position: { x: number; y: number };
-  dossier: { rating: number; signature: string; fit: Fit };
+  dossier: Dossier;
   mockupPath?: string;
+  notes?: string;
+  followUp?: string; // ISO date (yyyy-mm-dd)
+}
+
+/** Partial edit applied by an UPDATED event. */
+export interface LeadPatch {
+  name?: string;
+  businessType?: string;
+  rating?: number;
+  signature?: string;
+  fit?: Fit;
+  notes?: string;
+  followUp?: string;
 }
 
 export interface LeadEvent {
@@ -30,6 +50,7 @@ export interface LeadEvent {
   amount?: number; // CLOSED -> monthly mrr; COLLECTED -> payment amount
   note?: string;
   meta?: LeadMeta; // present on SCOUTED
+  patch?: LeadPatch; // present on UPDATED
 }
 
 /** Derived per-lead state (never persisted; always folded from events). */
@@ -57,4 +78,14 @@ export const STAGE_COLOR: Record<Stage, number> = {
   pitched: 0xc08a3c,
   client: 0x2f9e54,
   flagship: 0xd8a24c,
+};
+
+export const ACTION_VERB: Record<ActionType, string> = {
+  SCOUTED: "scouted",
+  SURVEYED: "surveyed",
+  PITCHED: "pitched",
+  CLOSED: "converted",
+  COLLECTED: "paid",
+  UPGRADED: "upgraded",
+  UPDATED: "updated",
 };
