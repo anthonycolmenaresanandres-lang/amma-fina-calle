@@ -2,6 +2,32 @@
 
 _Plain-English guide for getting the album page + stickers printed and given away._
 
+> **Status: PROTOTYPE run.** These are for a first physical proof, not a
+> production order. The official art is ~1080 px (slightly soft at full page) —
+> good enough to evaluate in hand. For a sharp production run later, regenerate
+> the art ≥2500 px with `PROMPTS/COLATTANINI_PRINT_PROMPTS.md` and re-export.
+> Canonical numbers: **CHURRO LATTE #10 · CAPPUCCINO #7 · MATCHA LEMONADE #9**
+> (stickers match the album slots).
+
+## Quick path — Office Depot (US, prototype)
+
+Use the **Letter (8.5×11)** PDFs.
+
+**See them in person:** officedepot.com → **Print & Copy → upload file → In-Store
+Pickup** at your local store; or bring the PDFs on a phone/USB to the **Print &
+Copy desk**. **Ask for ONE proof of each first**, check it, then run the rest.
+
+| Piece | File | Ask for |
+|-------|------|---------|
+| **Album** (cardboard) | `colattanini-album-strikers-letter.pdf` | Single-sided **color on heavy cardstock** (~100 lb cover / ~270 gsm), **matte/uncoated**, Letter. Cut to the trim marks (or leave full Letter). |
+| **Stickers** (labels) | `colattanini-sticker-sheet-letter.pdf` | Full color on **full-sheet white label/sticker paper**, Letter, matte or gloss. Office Depot won't kiss-cut — it prints as one label sheet; **cut each sticker with scissors** along the white gaps. |
+
+_(A4 versions of both are also in this folder for printing outside the US. For
+true peel-off kiss-cut stickers, an online sticker service — see below — does
+that; Office Depot is fine for the prototype.)_
+
+---
+
 You have **two separate print products**:
 1. **The album page** — a printed sheet customers collect stickers onto.
 2. **The stickers** — peel-and-stick, given away with orders.
