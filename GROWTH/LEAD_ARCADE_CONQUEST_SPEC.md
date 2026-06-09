@@ -1,78 +1,109 @@
-# Lead Arcade — "Fina Calle Conquest" (build spec, for review)
+# Lead Arcade — "Fina Calle Conquest" (build spec v2)
 
-_The owner's lead-review tab, reimagined as a **territory-conquest / idle-tycoon
-game** (Age-of-Empires / idle-clicker feel): the local market is a map, every
-business is a tile you **click to work**, and the ones you convert become
-**buildings that generate income**. Playing the map *is* running the acquisition
-factory. Ties to the repo's existing "Fina Calle Conquest" theme._
+_The owner's lead-review tab as a **territory-conquest / idle-tycoon** (Age-of-
+Empires feel): the local market is a board, every business is a tile you **click to
+work**, and converted ones become **buildings that show real income**. Playing the
+board *is* running the acquisition factory._
 
-> **The core idea that makes it more than a toy:** the game state **mirrors the real
-> pipeline**, and the money is **real MRR**, not invented. Clicking a business does a
-> real pipeline action (or collects its real recurring revenue). So it's a
-> management *tool* wearing a game's skin — exactly "bring the factory to the
-> managerial process."
+> **v2 status: conditionally approved.** This revision folds in a deep design review
+> (gamification / self-determination theory + Phaser/Next.js/maps/persistence/
+> accessibility realities). The five required changes are marked **[GATE]** below.
 
-## Core loop (game verb = business action)
-| Game | Business reality |
-|---|---|
-| **Scout** a new tile | add a prospect to the list |
-| **Survey** the tile | run the Client Dossier (auto-fill the building's info) |
-| **Pitch** (deploy banner) | stamp the lean demo + send outreach |
-| **Convert** (capture the tile) | close the deal → tile becomes a built shop |
-| **Hold / collect** | client pays MRR → click the building to "collect" + it ticks income |
-| **Upgrade** | refresh campaign / upsell → building tiers up, income rises |
+> **What makes it more than a toy:** game state **mirrors the real pipeline**, the
+> money is **real MRR** (never invented), and **every click emits exactly one business
+> event**. It's a management console wearing a game's skin.
 
-## The map & buildings
-- **Territory map** (start: Virginia Beach / Hampton Roads) dotted with **business
-  tiles** placed by real location.
-- **State-based building tiers** (visual progression = pipeline stage):
-  `Prospect (tent/marker)` → `Surveyed (info flag)` → `Pitched (banner)` →
-  `Client (shop)` → `Flagship (landmark, top tier)`.
-- **Click a tile → side panel**: the **stamped demo preview**, dossier summary
-  (rating, signature item, fit score HOT/WARM/COLD), MRR if a client, and a single
-  **next-action button** ("Survey" / "Generate demo" / "Mark contacted" / "Mark
-  closed" / "Collect"). One click = one real step forward.
+## Core loop (game verb = one business event)
+| Game | Business action | Event emitted |
+|---|---|---|
+| **Scout** a tile | add a prospect | `SCOUTED` |
+| **Survey** | run the Client Dossier (fills the tile) | `SURVEYED` |
+| **Pitch** | stamp the lean demo + send outreach | `PITCHED` |
+| **Convert** | close the deal → built shop | `CLOSED` (records `mrr`) |
+| **Collect** | acknowledge a confirmed payment | `COLLECTED` (amount tied to a real/recorded payment) |
+| **Upgrade** | refresh/upsell → building tiers up | `UPGRADED` |
 
-## Economy & HUD (real numbers, game presentation)
-- **Treasury / income:** total **MRR** = "gold per month"; HUD shows MRR, # clients,
-  cumulative revenue. *(Sourced from the lead/client data — real, not fake.)*
-- **Funnel as territory control:** counts of Prospect/Surveyed/Pitched/Client shown
-  as "tiles held."
-- **Juice (the fun):** coin-pop on collect, capture fanfare (reuse the penalty
-  **"GOAL!"**), building upgrade animation, subtle ambient map. Optional sound.
-- **No vanity inflation:** idle "income" reflects actual MRR cadence; the game never
-  invents money, so the HUD doubles as your real revenue dashboard.
+## Architecture **[GATE 1: split canvas vs UI]**
+- **Phaser = the world only:** illustrated board, tiles/sprites, capture animation,
+  camera focus. (Reuses the engine already in the stack; no new dep.)
+- **HTML/React = the management UI:** HUD bar + lead side-panel (mockup, dossier, CTA,
+  states) — for density, accessibility, and future controls. Phaser DOM elements share
+  one container/camera and are wrong for a dense panel, so the panel is native UI.
+- **Route group + feature folder** (keeps it fully isolated from Client OS):
+```
+APP/web/src/app/(internal)/lead-arcade/page.tsx   # client component shell
+APP/web/src/features/lead-arcade/phaser/WorldScene.ts
+APP/web/src/features/lead-arcade/ui/HudBar.tsx
+APP/web/src/features/lead-arcade/ui/LeadPanel.tsx
+APP/web/src/features/lead-arcade/state/reducer.ts  # event-sourced
+APP/web/src/features/lead-arcade/data/seed.json    # fictional, no PII
+APP/web/src/features/lead-arcade/lib/selectors.ts  # derive HUD/funnel/MRR
+```
 
-## Data model (seed; PII stays private)
-A `leads` array, each: `id · name · type · lat/lng (or grid x/y) · dossier{rating,
-signature, fit} · stage · mockupPath · mrr`. v1 reads a **sample seed JSON** (no real
-contact data in the repo); real lists live in a private/owner store or are pasted in.
+## Event-sourced state (the real product)
+Persist the **event log**, derive everything else.
+- `event`: `{ leadId, action, at, fromStage?, toStage?, amount?, note? }`
+  where `action ∈ {SCOUTED,SURVEYED,PITCHED,CLOSED,COLLECTED,UPGRADED}`.
+- `lead` (derived/snapshot): `{ id, name, businessType, position{x,y}, dossierSnapshot,
+  stage, mockupPath, mrr, tier }`.
+- Selectors compute HUD (total MRR, clients, cumulative revenue), funnel counts, and
+  recent activity from the log. One click → one event → state re-derives.
 
-## Tech approach
-- **Reuse Phaser** (already in the stack for the penalty game) for the map canvas,
-  tiles, click handling, and animations — same engine, consistent feel, no new dep.
-- **Standalone page/route**, **outside Client OS routes** (`/m/[id]`, `/owner/[id]`,
-  `/customers`) and touching **no Supabase/Stripe/customer data**.
-- **v1 = static + seeded**, state in `localStorage` (or the seed JSON); deployable on
-  Vercel so it opens on your phone. No backend required to start.
+## Map strategy **[GATE 2: illustrated board, not GIS]**
+- v1 renders a **stylized illustrated Hampton Roads board**; tiles placed by authored
+  `position{x,y}`. `lat/lng` may ride along as **optional future metadata**.
+- Real cartography (Leaflet/MapLibre, clustering, `fitBounds`, sidebar padding) is a
+  **separate later product**, not v1.
 
-## MVP (v1) scope
-1. Map with business tiles from the seed JSON.
-2. Click tile → panel (stamped mockup + dossier + stage-advance button).
-3. HUD: total MRR, clients, funnel counts.
-4. Capture/collect feedback (coin pop + GOAL fanfare), building tiers by stage.
-5. Add-a-lead (manual) that drops a new Prospect tile.
+## Economy honesty **[GATE 4: Collect = real income only]**
+Separate three things, never conflate:
+1. **Run-rate** — sum of active clients' monthly `mrr` (HUD's "gold/month"; real).
+2. **Recorded payment** — an owner-confirmed payment (manual entry today; billing
+   stays owner-driven, no Stripe hookup).
+3. **Collect animation** — coin-pop *visualizing* a recorded payment. It **never**
+   mints money or fakes an idle tick. The HUD always reflects truth.
+
+## Progression without leaderboards **[GATE 3: no public ranking]**
+- Drop competitive leaderboards from the early roadmap.
+- "Score" = **territorial control %** (converted / total in territory) + **private
+  goals** + operational **streaks**. Empire fantasy, SDT-safe (supports autonomy/
+  competence instead of eroding them).
+
+## Persistence **[GATE 5]**
+- v1: **`localStorage`** for the small seed + event log (client-only access — guard
+  behind `useEffect` / client components; static export has no server).
+- Prepared migration to **IndexedDB** if the dataset/write-frequency grows.
+- Deploy as a **protected Vercel preview** (password/auth) for internal phone QA.
+
+## Mobile / audio / accessibility
+- **Input/scale:** Phaser unifies mouse+touch; Scale Manager `FIT`/`RESIZE`. If pan/
+  zoom is added later, set explicit `touch-action` to avoid `pointercancel` from
+  browser gestures; use the native camera for "focus the captured tile."
+- **Audio:** no autoplay — the "GOAL!" fanfare arms **after the first tap** or via a
+  sound on/off toggle.
+- **A11y:** because HUD/panel are real HTML — honor `prefers-reduced-motion` (tone down
+  fanfare) and announce "tile captured / demo generated / payment recorded" via an
+  `aria-live`/`status` region without stealing focus.
+
+## v1 cut line (ruthless)
+**In:** illustrated board + seed tiles, click→panel (stamped mockup + dossier + one
+next-action button), HUD (MRR / clients / funnel / territory %), event log +
+localStorage, one capture animation, manual add-a-lead, manual MRR on close.
+**Out (defer to v1.1+):** audio, pan/zoom, upgrade juice, IndexedDB, any live sync,
+real maps, multi-territory.
 
 ## Roadmap
-- **v2:** wire to the live lead list (dossier output) so Survey auto-fills.
-- **v3:** sync real MRR (owner-entered or, later, read-only from billing — owner-driven).
-- **v4:** multiple territories / neighborhoods; leaderboards vs goals.
+- **v1.1:** audio toggle, building-upgrade animations, reduced-motion polish.
+- **v2:** wire Survey to the live dossier output; IndexedDB if needed.
+- **v3:** owner-entered payment ledger → real recorded-payment history (still no Stripe).
+- **v4:** multiple territories; private seasonal goals (still no public leaderboard).
 
 ## Guardrails
-- Standalone internal page; **never** touches Client OS routes, Supabase, Stripe, or
-  customer data. **No PII in the repo** (seed data is fictional/sample). Approved
-  logos only in any stamped previews. Honest economy (real MRR, no fake numbers).
+Standalone internal page; **never** touches Client OS routes (`/m/[id]`,`/owner/[id]`,
+`/customers`), Supabase, Stripe, or customer data. **No PII in the repo** (seed is
+fictional). Approved logos only in stamped previews. **Honest economy** (real MRR,
+no minted money).
 
 ---
-_Status: SPEC for owner review. On approval, build v1 (Phaser map + seed + panel +
-HUD) and deploy to Vercel for phone QA._
+_Review incorporated (2026-06-09). On your green light, build v1 to the cut line and
+deploy a protected Vercel preview for phone QA._
