@@ -99,7 +99,7 @@ export class PenaltyScene extends Phaser.Scene {
   }
 
   // Per-skin texture key (skin id keeps keys unique across skins).
-  private assetKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper"): string {
+  private assetKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper" | "keeperKit"): string {
     return `penalty-${kind}-${this.skin.id}`;
   }
 
@@ -115,6 +115,7 @@ export class PenaltyScene extends Phaser.Scene {
     const kicker = this.kickerPath();
     if (kicker) this.load.image(this.kickerKey(), kicker);
     if (assets?.keeper) this.load.image(this.assetKey("keeper"), assets.keeper);
+    if (assets?.keeperKit) this.load.image(this.assetKey("keeperKit"), assets.keeperKit);
     // Campaign behind-goal ad-zone image (Campaign Pack) — loaded independently
     // of skin assets, so it works on any skin and is gated on presence.
     const adImage = this.campaign.adZone?.image;
@@ -123,7 +124,7 @@ export class PenaltyScene extends Phaser.Scene {
     this.load.on("loaderror", () => {});
   }
 
-  private loadedKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper"): string | undefined {
+  private loadedKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper" | "keeperKit"): string | undefined {
     const key = this.assetKey(kind);
     return this.textures.exists(key) ? key : undefined;
   }
@@ -163,6 +164,7 @@ export class PenaltyScene extends Phaser.Scene {
         ballKey: this.loadedKey("ball"),
         kickerKey: this.loadedKickerKey(),
         keeperKey: this.loadedKey("keeper"),
+        keeperKitKey: this.loadedKey("keeperKit"),
         adZoneKey: this.loadedAdZoneKey(),
       },
       this.skin.backgroundFit ?? {},

@@ -45,6 +45,8 @@ export type RendererAssets = {
   kickerKey?: string;
   /** In-goal keeper mascot sticker. Undefined = primitive keeper. */
   keeperKey?: string;
+  /** Tintable keeper shirt layer (drawn over keeperKey, tinted to the kit color). */
+  keeperKitKey?: string;
   /** Campaign behind-goal ad-zone image (Campaign Pack). Undefined = no ad. */
   adZoneKey?: string;
 };
@@ -70,6 +72,8 @@ const DEPTH = {
   // (drawn in the actor layer) render in front of it — matching the primitive
   // keeper, where the ball can park in the keeper's hands on a save.
   keeperSprite: 8,
+  // Tintable keeper shirt layer, just above the keeper base, below the actor/ball.
+  keeperKit: 9,
   actors: 10,
   ball: 11,
   kicker: 16,
@@ -105,6 +109,9 @@ export class PenaltyRenderer {
   private readonly ballImage: Phaser.GameObjects.Image | null = null;
   private readonly kickerImage: Phaser.GameObjects.Image | null = null;
   private readonly keeperImage: Phaser.GameObjects.Image | null = null;
+  // Tintable keeper shirt layer (drawn over the base keeper, multiply-tinted to
+  // the campaign keeper kit color). Null unless the skin supplies a keeperKit.
+  private readonly keeperKitImage: Phaser.GameObjects.Image | null = null;
   private readonly bgFit: BackgroundFit;
   private readonly kickerFit: SpriteFit;
   private readonly keeperFit: SpriteFit;
@@ -185,6 +192,18 @@ export class PenaltyRenderer {
         .image(0, 0, assets.keeperKey)
         .setOrigin(0.5, 1)
         .setDepth(DEPTH.keeperSprite);
+    }
+
+    // Optional tintable keeper shirt layer, aligned to the keeper base and
+    // multiply-tinted to the campaign keeper kit color (one keeper recolors per
+    // brand). Only created when the skin supplies a keeperKit layer.
+    if (assets.keeperKitKey) {
+      this.keeperKitImage = scene.add
+        .image(0, 0, assets.keeperKitKey)
+        .setOrigin(0.5, 1)
+        .setDepth(DEPTH.keeperKit);
+      const tint = this.campaign.kit?.keeper?.primary;
+      if (tint !== undefined) this.keeperKitImage.setTint(tint);
     }
 
     this.scoreboardGraphics = scene.add.graphics().setDepth(DEPTH.scoreboard);
@@ -554,6 +573,14 @@ export class PenaltyRenderer {
       const dir = Math.sign(state.keeperPos.x - state.keeperRest.x);
       const tilt = diving ? dir * Math.min(1, reach / (layout.goalWidth * 0.5)) * 0.35 : 0;
       this.keeperImage.setScale(scale).setPosition(px, py).setRotation(tilt);
+      // Tintable shirt layer rides on the same transform (own height keeps it
+      // aligned if authored to the same canvas), tinted to the kit color.
+      if (this.keeperKitImage) {
+        this.keeperKitImage
+          .setScale(targetH / (this.keeperKitImage.height || 1))
+          .setPosition(px, py)
+          .setRotation(tilt);
+      }
       return;
     }
 
