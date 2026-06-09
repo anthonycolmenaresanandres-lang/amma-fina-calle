@@ -110,7 +110,10 @@ export class PenaltyScene extends Phaser.Scene {
     if (assets?.background) this.load.image(this.assetKey("background"), assets.background);
     if (assets?.logo) this.load.image(this.assetKey("logo"), assets.logo);
     if (assets?.ball) this.load.image(this.assetKey("ball"), assets.ball);
-    if (assets?.kicker) this.load.image(this.assetKey("kicker"), assets.kicker);
+    // Kicker can vary per level (skin.levelKickers), so it uses a level-scoped key
+    // and falls back to the skin's default kicker for unlisted levels.
+    const kicker = this.kickerPath();
+    if (kicker) this.load.image(this.kickerKey(), kicker);
     if (assets?.keeper) this.load.image(this.assetKey("keeper"), assets.keeper);
     // Campaign behind-goal ad-zone image (Campaign Pack) — loaded independently
     // of skin assets, so it works on any skin and is gated on presence.
@@ -123,6 +126,18 @@ export class PenaltyScene extends Phaser.Scene {
   private loadedKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper"): string | undefined {
     const key = this.assetKey(kind);
     return this.textures.exists(key) ? key : undefined;
+  }
+
+  // Effective kicker image for this level: per-level override if present, else the
+  // skin's default kicker. Keyed by level so different levels can load different art.
+  private kickerPath(): string | undefined {
+    return this.skin.levelKickers?.[this.level.id] ?? this.skin.assets?.kicker;
+  }
+  private kickerKey(): string {
+    return `penalty-kicker-${this.skin.id}-${this.level.id}`;
+  }
+  private loadedKickerKey(): string | undefined {
+    return this.textures.exists(this.kickerKey()) ? this.kickerKey() : undefined;
   }
 
   // Campaign-scoped key for the behind-goal ad-zone texture.
@@ -146,7 +161,7 @@ export class PenaltyScene extends Phaser.Scene {
         backgroundKey: this.loadedKey("background"),
         logoKey: this.loadedKey("logo"),
         ballKey: this.loadedKey("ball"),
-        kickerKey: this.loadedKey("kicker"),
+        kickerKey: this.loadedKickerKey(),
         keeperKey: this.loadedKey("keeper"),
         adZoneKey: this.loadedAdZoneKey(),
       },

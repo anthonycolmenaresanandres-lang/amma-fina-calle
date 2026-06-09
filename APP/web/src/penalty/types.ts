@@ -126,6 +126,10 @@ export type PenaltySkin = {
   skinName: string;
   colors: PenaltyColors;
   assets?: PenaltySkinAssets;
+  /** Optional per-level kicker override (levelId → image path). Falls back to
+   *  assets.kicker for levels not listed — lets one skin field a different
+   *  striker per level (e.g. a product mascot per difficulty). */
+  levelKickers?: Record<string, string>;
   /** Optional positioning/scrim tuning for the background image. */
   backgroundFit?: BackgroundFit;
   /** Optional positioning for the kicker sprite. */
