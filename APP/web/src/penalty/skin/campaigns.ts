@@ -37,14 +37,12 @@ export const STADIUM_CAMPAIGN: PenaltyCampaign = {
 export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
   id: "colattao",
   client: "Colattao",
+  // Behind-goal branding now lives in the background crowd (fan signs), so the
+  // signage-board ad zone is intentionally OFF for Colattao (no image → the board
+  // is not drawn, leaving the crowd + signs visible behind the goal). The board
+  // renderer remains available for other clients via campaign adZone.image.
   adZone: {
-    // Inner board creative: warm brand panel (cream logo + product card) authored
-    // for the engine-drawn stadium signage board, so the cream logo reads and the
-    // panel complements the daylight stadium. The raw coffee/pastry photo remains
-    // in the repo as the product source.
-    image: "/assets/colattao/penalty/adzone-colattao-board-v1.webp",
-    fit: { scale: 1, offsetXPct: 0, offsetYPct: 0 },
-    label: "Colattao logo and product behind-goal signage board",
+    label: "Behind-goal branding via background crowd signs (no board)",
   },
   // Colattao keeper kit (Campaign Pack Step 3a) — owner-approved green keeper
   // jersey (primary) + deep-green lower body (secondary). Recolors the primitive
