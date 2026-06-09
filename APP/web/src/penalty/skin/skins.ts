@@ -59,6 +59,13 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
     keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
     ball: "/assets/colattao/penalty/ball-colattao-v1.webp",
   },
+  // A different Colattao striker per level (back-view game art). Level 1 uses the
+  // default kicker (Churro Latte #10); levels 2 and 3 field Cappuccino and Matcha
+  // Lemonade. (Forward-facing versions of these are the album stickers, not these.)
+  levelKickers: {
+    "club-keeper": "/assets/colattao/penalty/cappuccino-colattao-v1.webp",
+    "pro-keeper": "/assets/colattao/penalty/matcha-colattao-v1.webp",
+  },
   // Crowd/pitch line sits ~0.49; the engine goal (and keeper line at 0.42) is
   // drawn on top regardless, so this is cosmetic. Light scrim keeps the daylight
   // crowd vivid while aiding UI legibility.
