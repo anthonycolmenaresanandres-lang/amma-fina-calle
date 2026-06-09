@@ -86,6 +86,44 @@ a painted checkerboard; if unavailable use FLAT pure-magenta #FF00FF. No card
 frame, no number, no crest, NO TEXT, no real person. Square, high-res.
 ```
 
+## 2b. Keeper — LAYERED TINTABLE (base + shirt) [recommended, replicable]
+
+Authored as **two perfectly-aligned layers** at the same canvas/size so the engine
+can recolor the shirt to any brand (`campaign.kit.keeper.primary`). Generate both
+with an identical pose/framing — easiest is to make the full keeper first, then
+re-export the shirt-only layer.
+
+**Layer A — base (`keeper`):** the full mascot — body, head, gloves, boots — with
+the **jersey/shirt region left NEUTRAL GREY/UNCOLORED** (no brand color baked in).
+Everything else normal. Transparent background.
+
+**Layer B — shirt (`keeperKit`):** the **same image**, but ONLY the jersey/shirt
+region visible, painted **neutral WHITE with shading via luminance only**, and
+**everything else fully transparent**. Same size/position as layer A so they
+overlay exactly. (The engine tints this layer to the brand color — white tints
+true, a pre-colored shirt would muddy it.)
+
+```
+A stylized illustrated cartoon goalkeeper mascot for "{{BRAND}}" — an original
+"Sentinel Keeper": a mysterious HOODED guardian figure with calm glowing eyes and
+oversized goalkeeper gloves, wide ready stance, arms slightly out, alert and
+protective. Soft cel shading, bold clean outline, premium. Original character —
+NOT any movie/TV/licensed character, no real-person likeness.
+
+OUTPUT TWO MATCHING IMAGES, identical pose/size/position:
+  1) BASE: full keeper, but the JERSEY/SHIRT region left NEUTRAL GREY (no color).
+  2) SHIRT: ONLY the jersey region, NEUTRAL WHITE with shading by light/shadow,
+     everything else fully transparent.
+
+Both: full body, centered, feet at the bottom edge, headroom above the hood.
+TRANSPARENT background, real alpha (corners transparent) — not a checkerboard; if
+unavailable use FLAT magenta #FF00FF. No text, no number, no crest. Square, high-res.
+```
+
+> Wire-up: `assets.keeper` = layer A, `assets.keeperKit` = layer B. The shirt is
+> multiply-tinted to `campaign.kit.keeper.primary` (Colattao green today). No kit
+> layer → the keeper shows its own colors (current single-image behavior).
+
 ---
 
 # COMPONENTS
