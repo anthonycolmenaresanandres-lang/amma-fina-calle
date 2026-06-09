@@ -41,6 +41,7 @@ export interface LeadPatch {
   fit?: Fit;
   notes?: string;
   followUp?: string;
+  position?: { x: number; y: number };
 }
 
 export interface LeadEvent {

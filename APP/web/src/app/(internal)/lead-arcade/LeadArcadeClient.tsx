@@ -24,6 +24,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const gameRef = useRef<Game | null>(null);
   const sceneRef = useRef<WorldScene | null>(null);
   const selectRef = useRef<(id: string) => void>(() => {});
+  const moveRef = useRef<(id: string, x: number, y: number) => void>(() => {});
   const pendingCapture = useRef<string | null>(null);
   const pendingUpgrade = useRef<string | null>(null);
 
@@ -35,6 +36,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [live, setLive] = useState("");
 
   selectRef.current = (id: string) => setSelectedId(id);
+  moveRef.current = (id: string, x: number, y: number) =>
+    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch: { position: { x, y } } }]);
 
   const leads = useMemo(() => deriveLeads(events), [events]);
   const totals = useMemo(() => selectTotals(leads), [leads]);
@@ -56,7 +59,10 @@ export default function LeadArcadeClient(): React.JSX.Element {
         import("@/lead-arcade/phaser/WorldScene"),
       ]);
       if (cancelled || !mountRef.current) return;
-      const scene = new mod.WorldScene({ onSelect: (id) => selectRef.current(id) });
+      const scene = new mod.WorldScene({
+        onSelect: (id) => selectRef.current(id),
+        onMove: (id, x, y) => moveRef.current(id, x, y),
+      });
       sceneRef.current = scene;
       gameRef.current = new Phaser.Game({
         type: Phaser.AUTO, parent: mountRef.current,
@@ -159,6 +165,9 @@ export default function LeadArcadeClient(): React.JSX.Element {
             style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 10px", fontSize: 13 }}
           />
           <button onClick={addLead} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>+ Scout</button>
+        </div>
+        <div style={{ position: "absolute", right: 10, bottom: 10, zIndex: 3, fontSize: 10, color: "rgba(244,230,204,.55)", textAlign: "right", pointerEvents: "none", lineHeight: 1.5 }}>
+          drag a tile to arrange · drag the map to pan<br />scroll / pinch to zoom
         </div>
         <ActivityFeed items={activity} open={logOpen} onClose={() => setLogOpen(false)} />
         <LeadPanel lead={selected} onAction={dispatch} onUpdate={update} onClose={() => setSelectedId(null)} />

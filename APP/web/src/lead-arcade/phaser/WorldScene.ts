@@ -1,7 +1,8 @@
 // The "world" layer only (per spec v2): an illustrated territory board with
-// clickable business tiles, selection highlight, and a capture animation.
-// HUD + side panel live in React. State is owned by React; this scene just
-// renders the leads it's given and reports clicks back via onSelect.
+// clickable, DRAGGABLE business tiles, camera pan/zoom/pinch, selection
+// highlight, and capture/upgrade animations. HUD + side panel live in React.
+// State is owned by React; this scene renders the leads it's given, reports
+// clicks via onSelect, and reports drag-repositioning via onMove.
 
 import Phaser from "phaser";
 import type { LeadState, Stage } from "../types";
@@ -9,11 +10,14 @@ import { FIT_COLOR, STAGE_COLOR } from "../types";
 
 export interface WorldHooks {
   onSelect: (id: string) => void;
+  onMove: (id: string, x: number, y: number) => void;
 }
 
 const WATER = 0x16344a;
 const LAND = 0x244a2c;
 const LAND_HI = 0x2c5a34;
+const ZOOM_MIN = 0.6;
+const ZOOM_MAX = 2.6;
 
 function reducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
@@ -28,6 +32,11 @@ export class WorldScene extends Phaser.Scene {
   private tiles = new Map<string, Phaser.GameObjects.Container>();
   private ready = false;
 
+  private dragging = false;
+  private downOnTile = false;
+  private dragMoved = false;
+  private pinchDist = 0;
+
   constructor(hooks: WorldHooks) {
     super("LeadArcadeWorld");
     this.hooks = hooks;
@@ -37,11 +46,12 @@ export class WorldScene extends Phaser.Scene {
     this.board = this.add.graphics();
     this.tileLayer = this.add.container(0, 0);
     this.ready = true;
+    this.input.addPointer(1); // enable a 2nd pointer for pinch
+    this.setupCamera();
     this.layout();
     this.scale.on("resize", () => this.layout());
   }
 
-  /** Replace the rendered world with a new set of leads. */
   applyLeads(leads: LeadState[], selectedId: string | null): void {
     this.leads = leads;
     this.selectedId = selectedId;
@@ -57,17 +67,52 @@ export class WorldScene extends Phaser.Scene {
     return { w: this.scale.width, h: this.scale.height };
   }
 
+  private setupCamera(): void {
+    this.input.on("wheel", (_p: Phaser.Input.Pointer, _o: unknown, _dx: number, dy: number) => {
+      const cam = this.cameras.main;
+      cam.zoom = Phaser.Math.Clamp(cam.zoom - dy * 0.0015, ZOOM_MIN, ZOOM_MAX);
+    });
+    this.input.on("pointermove", (p: Phaser.Input.Pointer) => {
+      const p1 = this.input.pointer1;
+      const p2 = this.input.pointer2;
+      if (p1?.isDown && p2?.isDown) {
+        const dist = Phaser.Math.Distance.Between(p1.x, p1.y, p2.x, p2.y);
+        if (this.pinchDist) {
+          const cam = this.cameras.main;
+          cam.zoom = Phaser.Math.Clamp(cam.zoom * (dist / this.pinchDist), ZOOM_MIN, ZOOM_MAX);
+        }
+        this.pinchDist = dist;
+        return;
+      }
+      this.pinchDist = 0;
+      if (p.isDown && !this.dragging && !this.downOnTile) {
+        const cam = this.cameras.main;
+        cam.scrollX -= (p.x - p.prevPosition.x) / cam.zoom;
+        cam.scrollY -= (p.y - p.prevPosition.y) / cam.zoom;
+      }
+    });
+    this.input.on("pointerup", () => { this.downOnTile = false; this.pinchDist = 0; });
+  }
+
+  private toBoardPct(px: number, py: number): { x: number; y: number } {
+    const { w, h } = this.size();
+    const m = Math.min(w, h) * 0.06;
+    return {
+      x: Phaser.Math.Clamp((px - m) / (w - 2 * m), 0, 1),
+      y: Phaser.Math.Clamp((py - m) / (h - 2 * m), 0, 1),
+    };
+  }
+
   private layout(): void {
     if (!this.board) return;
     const { w, h } = this.size();
+    this.cameras.main.setBounds(0, 0, w, h);
     const g = this.board;
     g.clear();
     g.fillStyle(WATER, 1).fillRect(0, 0, w, h);
-    // land mass (rounded) with a lighter inner
     const m = Math.min(w, h) * 0.06;
     g.fillStyle(LAND, 1).fillRoundedRect(m, m, w - 2 * m, h - 2 * m, 28);
     g.fillStyle(LAND_HI, 1).fillRoundedRect(m * 1.6, m * 1.6, w - 3.2 * m, h - 3.2 * m, 22);
-    // subtle grid
     g.lineStyle(1, 0xffffff, 0.05);
     for (let x = m; x < w - m; x += 48) g.lineBetween(x, m, x, h - m);
     for (let y = m; y < h - m; y += 48) g.lineBetween(m, y, w - m, y);
@@ -89,27 +134,22 @@ export class WorldScene extends Phaser.Scene {
     const iy = (p: number) => m + p * (h - 2 * m);
 
     for (const lead of this.leads) {
-      const cx = ix(lead.meta.position.x);
-      const cy = iy(lead.meta.position.y);
-      const c = this.add.container(cx, cy);
+      const id = lead.meta.id;
+      const c = this.add.container(ix(lead.meta.position.x), iy(lead.meta.position.y));
       const r = this.tierSize(lead.stage, lead.upgrades);
       const isClient = lead.stage === "client" || lead.stage === "flagship";
-      const selected = lead.meta.id === this.selectedId;
+      const selected = id === this.selectedId;
 
       const shadow = this.add.ellipse(0, r * 0.7, r * 1.8, r * 0.7, 0x000000, 0.25);
       const body = this.add.graphics();
       if (isClient) {
-        // a "shop": building block + roof
         body.fillStyle(STAGE_COLOR[lead.stage], 1).fillRoundedRect(-r, -r * 0.6, r * 2, r * 1.4, 5);
         body.fillStyle(0x000000, 0.18).fillRoundedRect(-r, -r * 0.6, r * 2, r * 0.35, 5);
       } else {
-        // a "marker": pin circle
         body.fillStyle(STAGE_COLOR[lead.stage], 1).fillCircle(0, 0, r);
       }
-      // fit ring for non-clients
       const ring = this.add.graphics();
       if (!isClient) ring.lineStyle(3, FIT_COLOR[lead.meta.dossier.fit], 1).strokeCircle(0, 0, r + 3);
-      // selection halo
       const halo = this.add.graphics();
       if (selected) halo.lineStyle(3, 0xffffff, 0.9).strokeCircle(0, 0, r + 9);
 
@@ -122,26 +162,32 @@ export class WorldScene extends Phaser.Scene {
 
       c.add([shadow, halo, body, ring, initial, label]);
       if (lead.stage === "flagship") {
-        const star = this.add.text(0, -r - 12, "★", { fontFamily: "system-ui, sans-serif", fontSize: "16px", color: "#d8a24c" }).setOrigin(0.5);
-        c.add(star);
+        c.add(this.add.text(0, -r - 12, "★", { fontFamily: "system-ui, sans-serif", fontSize: "16px", color: "#d8a24c" }).setOrigin(0.5));
       }
       if (isClient && lead.mrr > 0) {
-        const coin = this.add.text(r - 2, -r, `$${lead.mrr}`, {
+        c.add(this.add.text(r - 2, -r, `$${lead.mrr}`, {
           fontFamily: "system-ui, sans-serif", fontSize: "11px", color: "#1b120a",
           backgroundColor: "#d8a24c", padding: { x: 4, y: 1 },
-        }).setOrigin(0.5);
-        c.add(coin);
+        }).setOrigin(0.5));
       }
 
       const hit = Math.max(r + 12, 22);
       c.setSize(hit * 2, hit * 2);
       c.setInteractive(new Phaser.Geom.Rectangle(-hit, -hit, hit * 2, hit * 2), Phaser.Geom.Rectangle.Contains);
+      this.input.setDraggable(c);
       c.on("pointerover", () => this.input.setDefaultCursor("pointer"));
       c.on("pointerout", () => this.input.setDefaultCursor("default"));
-      c.on("pointerdown", () => this.hooks.onSelect(lead.meta.id));
+      c.on("pointerdown", () => { this.downOnTile = true; this.dragMoved = false; });
+      c.on("dragstart", () => { this.dragging = true; this.dragMoved = false; });
+      c.on("drag", (_p: Phaser.Input.Pointer, dragX: number, dragY: number) => { c.x = dragX; c.y = dragY; this.dragMoved = true; });
+      c.on("dragend", () => {
+        this.dragging = false; this.downOnTile = false;
+        if (this.dragMoved) { const pos = this.toBoardPct(c.x, c.y); this.hooks.onMove(id, pos.x, pos.y); }
+      });
+      c.on("pointerup", () => { if (!this.dragMoved) this.hooks.onSelect(id); this.downOnTile = false; });
 
       this.tileLayer.add(c);
-      this.tiles.set(lead.meta.id, c);
+      this.tiles.set(id, c);
     }
   }
 
@@ -153,7 +199,6 @@ export class WorldScene extends Phaser.Scene {
     this.tweens.add({ targets: t, y: y - (reducedMotion() ? 12 : 50), alpha: 0, duration: dur, ease: "Cubic.out", onComplete: () => t.destroy() });
   }
 
-  /** Capture flourish when a lead converts to a client. */
   playCapture(id: string): void {
     const c = this.tiles.get(id);
     if (!c) return;
@@ -169,7 +214,6 @@ export class WorldScene extends Phaser.Scene {
     }
   }
 
-  /** Smaller flourish when a client upgrades. */
   playUpgrade(id: string): void {
     const c = this.tiles.get(id);
     if (!c) return;

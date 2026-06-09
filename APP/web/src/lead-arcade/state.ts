@@ -43,6 +43,7 @@ export function deriveLeads(events: LeadEvent[]): Map<string, LeadState> {
       if (p.businessType !== undefined) s.meta.businessType = p.businessType;
       if (p.notes !== undefined) s.meta.notes = p.notes;
       if (p.followUp !== undefined) s.meta.followUp = p.followUp;
+      if (p.position !== undefined) s.meta.position = p.position;
       s.meta.dossier = {
         ...s.meta.dossier,
         ...(p.rating !== undefined ? { rating: p.rating } : {}),
