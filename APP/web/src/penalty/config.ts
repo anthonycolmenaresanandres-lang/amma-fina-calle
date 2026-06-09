@@ -70,6 +70,10 @@ export const PENALTY_LEVELS: PenaltyLevel[] = [
     selectText: "Reads your run-up. Mix your placement or the easy side gets eaten.",
     rules: {
       ...baseRules,
+      // Softened so the mid level is a fair step up, not a wall.
+      keeperReadColumn: 0.45,
+      keeperReadRow: 0.45,
+      colMatchSave: 0.7,
     },
   },
   {
@@ -84,12 +88,14 @@ export const PENALTY_LEVELS: PenaltyLevel[] = [
     },
     rules: {
       ...baseRules,
-      keeperReadColumn: 0.66,
-      keeperReadRow: 0.58,
-      colMatchSave: 0.86,
+      // Hard but beatable with good aim (was near-impossible): reads less often,
+      // saves less on a column match, lower hard cap, and fewer self-misses.
+      keeperReadColumn: 0.55,
+      keeperReadRow: 0.52,
+      colMatchSave: 0.74,
       rowSaveFactor: [0.5, 1],
-      maxSaveProbability: 0.95,
-      missChance: [0.15, 0.03],
+      maxSaveProbability: 0.9,
+      missChance: [0.1, 0.02],
       keeperDiveMs: 360,
       ballFlightMs: 430,
     },
