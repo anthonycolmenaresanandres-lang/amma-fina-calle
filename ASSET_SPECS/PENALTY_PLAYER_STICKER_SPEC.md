@@ -94,6 +94,81 @@ character stands on the pitch and composites cleanly over the goal/field.
 
 ---
 
+## Background must be TRULY transparent (so the sticker fits the scene)
+
+This is the part that bit us: image generators often **fake** transparency by
+painting a grey/white **checkerboard** (and a drop shadow) into an otherwise
+**100% opaque** PNG. In-game that opaque square shows up as a hard box around the
+character — the background does not "fit." The alpha channel — not the look —
+is what matters.
+
+**Required for the file to fit the scene:**
+
+- The four **corners and all edges must have `alpha = 0`** (real transparency),
+  not a painted checkerboard. Verify, don't trust the thumbnail.
+- Only the **character + its white die-cut stroke** are opaque; everything else
+  (including the gap between the legs) is transparent.
+- No baked drop-shadow ring or grey halo — the scene supplies its own grounding.
+
+**Verify (quick check):**
+
+```python
+from PIL import Image
+a = Image.open(f).convert("RGBA").getchannel("A")
+W,H = a.size; px = a.load()
+print([px[0,0],px[W-1,0],px[0,H-1],px[W-1,H-1]])  # must be [0,0,0,0]
+```
+
+**If a sticker arrives opaque (faked checkerboard), key it (as-built recipe):**
+
+1. Flood-fill from the image border over a mask of **grayish + bright** pixels
+   (low saturation, high lightness) → that is the checkerboard. Keep the
+   connected-to-border component only.
+2. Extend the removal into the softer **drop-shadow grey** connected to that
+   background (slightly lower lightness threshold).
+3. The mascot's **dark cartoon keyline** stops the flood, so interior light areas
+   (whipped-cream top, white gloves/trim) survive — do **not** key by color
+   alone or you will punch holes in those.
+4. Erode 1px to shed the light fringe, feather the alpha ~0.8px for clean edges,
+   then **re-add a uniform white die-cut stroke** (~1.2% of the short side) around
+   the keyed silhouette so the sticker look is consistent.
+5. Re-confirm corners are `alpha = 0`, then run the placement pipeline below.
+
+> Best fix is upstream: ask the generator for a **real transparent background**,
+> or render on a **flat removable color (pure magenta #FF00FF)** rather than a
+> checkerboard, which keys out cleanly without the recipe above.
+
+---
+
+## Brand mark on the kit = the real logo, never AI text
+
+The kicker jersey wordmark must be the **approved Colattao logo file**
+(`public/assets/colattao/penalty/logo.png`), not generated lettering. As-built:
+detect the painted letters on the jersey, **repaint them with the jersey's own
+dark fabric color** (sample it; add slight noise so it isn't a flat patch), then
+**composite the real wordmark** (cup-less "Colattao" band) centered on that
+region at ~1.06× its width. This keeps the guardrail (logos are approved overlays
+only) and reads cleanly at sprite size.
+
+---
+
+## As-built fit (current Colattao stickers)
+
+Tuned by compositing each sticker over the café background at the renderer's
+computed positions (recorded so a re-gen can reuse them):
+
+| Field | Value | Effect |
+|-------|-------|--------|
+| `keeperFit.scale` | `0.95` | Keeper fills the goal with crossbar clearance, feet on the line |
+| `kickerFit.scale` | `1` | Cup striker ≈ 1.5× keeperHeight |
+| `kickerFit.offsetYPct` | `0.02` | Nudged down so it frames from the foreground **without covering the ball on the spot** |
+
+Re-tune these in `COLATTAO_PENALTY_SKIN` (`src/penalty/skin/skins.ts`) if the
+silhouette proportions change; keep the kicker low enough that its top stays
+**below the penalty spot** (`spotY = h*0.82`) so the ball is never occluded.
+
+---
+
 ## File names & placement (pipeline)
 
 ChatGPT generates → Codex commits + converts to `.webp` →
@@ -110,7 +185,9 @@ Then Claude flips the paths on in `src/penalty/skin/skins.ts`
 
 ## Acceptance checklist
 
-- [ ] Transparent PNG, no baked box/halo/checkerboard; clean die-cut edge.
+- [ ] **Corners/edges `alpha = 0`** (verified) — real transparency, not a painted
+      checkerboard; no baked box/halo/shadow; clean die-cut edge.
+- [ ] Jersey wordmark is the **approved logo file**, not AI lettering.
 - [ ] Non-human mascots; Sentinel Keeper for the keeper; no real-person likeness.
 - [ ] No FIFA/World Cup/federation/club marks; no "World Cup" wording; logo (if
       any) is the approved file, not generated.
