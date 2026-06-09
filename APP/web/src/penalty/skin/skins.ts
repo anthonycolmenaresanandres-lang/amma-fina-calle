@@ -49,17 +49,18 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   // Die-cut mascot stickers (spec: ASSET_SPECS/PENALTY_PLAYER_STICKER_SPEC.md):
   // kicker = churro-latte-cup striker (back view), keeper = green Sentinel Keeper.
   assets: {
-    // Shared brand-neutral Stadium Shell (stylized illustrated, clean daylight,
-    // 941×1672, no goal/net baked in — the engine draws the goal). Reused across
-    // restaurants; the per-client surface is the ad zone + kits, not the field.
-    background: "/assets/stadium/penalty/shell-daylight-v1.webp",
+    // Colattao bespoke backdrop: stylized daylight stadium with the home crowd
+    // holding "CHURRO LATTE" + "WE ♥ COLATTAO" fan signs (no goal baked in — the
+    // engine draws the goal, so keeper/ball/targets stay coordinated). The crowd
+    // signs are the behind-goal branding, replacing the signage-board ad zone.
+    background: "/assets/colattao/penalty/background-crowd-signs-v1.webp",
     logo: "/assets/colattao/penalty/logo.png",
     kicker: "/assets/colattao/penalty/kicker-colattao-v1.webp",
     keeper: "/assets/colattao/penalty/keeper-colattao-v1.webp",
   },
-  // The shell is exactly the authoring canvas (941×1672) and its stand/pitch line
-  // already sits at ~0.42 (the engine goal line), so cover-fit needs no scale/
-  // offset. Light scrim keeps the clean daylight bright while aiding UI legibility.
+  // Crowd/pitch line sits ~0.49; the engine goal (and keeper line at 0.42) is
+  // drawn on top regardless, so this is cosmetic. Light scrim keeps the daylight
+  // crowd vivid while aiding UI legibility.
   backgroundFit: { scrim: 0.25 },
   // Fit tuned against a composite over the café background. Keeper at 0.95 keeps
   // crossbar clearance with feet on the line. Kicker enlarged and shifted left so
