@@ -54,7 +54,10 @@ export async function confirmBooking(draftId: string): Promise<{ bookingRef: str
     const before = { ...draft };
     draft.status = "committed"; draft.bookingRef = result.bookingRef; store.putDraft(draft);
     store.audit("draft", draftId, "order.commit", before, draft);
-    return { bookingRef: result.bookingRef, text: `Booked! Confirmation ${result.bookingRef} for ${fmtTime(result.startIso)}.`, idempotent: false };
+    const text = result.pending
+      ? `Got it — I've requested ${fmtTime(result.startIso)}; the team will confirm shortly (ref ${result.bookingRef}).`
+      : `Booked! Confirmation ${result.bookingRef} for ${fmtTime(result.startIso)}.`;
+    return { bookingRef: result.bookingRef, text, idempotent: false };
   } catch (err) {
     store.putSync({ syncId: store.id(), draftId, operation: "order.commit", idempotencyKey, status: "error", retryCount: prior ? prior.retryCount + 1 : 0, lastError: String(err), at: Date.now() });
     store.audit("draft", draftId, "order.commit.error", undefined, { error: String(err) });

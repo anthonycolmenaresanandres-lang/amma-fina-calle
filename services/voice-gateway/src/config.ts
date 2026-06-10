@@ -9,13 +9,20 @@ export const config = {
   realtimeModel: process.env.OPENAI_REALTIME_MODEL ?? "gpt-realtime",
   voice: process.env.OPENAI_VOICE ?? "alloy",
 
-  // Booking connector: "mock" (default, no keys) | "calcom"
-  connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom",
+  // Booking connector: "mock" (default) | "calcom" | "square" | "proposeconfirm"
+  connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom" | "square" | "proposeconfirm",
   calcom: {
     apiKey: process.env.CALCOM_API_KEY ?? "",
     baseUrl: process.env.CALCOM_BASE_URL ?? "https://api.cal.com/v2",
     eventTypeId: Number(process.env.CALCOM_EVENT_TYPE_ID ?? 0),
     timeZone: process.env.CALCOM_TIMEZONE ?? "America/New_York",
+  },
+  square: {
+    accessToken: process.env.SQUARE_ACCESS_TOKEN ?? "",
+    baseUrl: process.env.SQUARE_BASE_URL ?? "https://connect.squareup.com", // sandbox: https://connect.squareupsandbox.com
+    locationId: process.env.SQUARE_LOCATION_ID ?? "",
+    serviceVariationId: process.env.SQUARE_SERVICE_VARIATION_ID ?? "",
+    teamMemberId: process.env.SQUARE_TEAM_MEMBER_ID ?? "",
   },
 
   // Per-client Knowledge Pack (v0 keeps it inline; later loaded per phone number).

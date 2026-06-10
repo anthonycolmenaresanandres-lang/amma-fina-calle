@@ -20,7 +20,7 @@ export interface Draft {
   bookingRef?: string; // set once committed
 }
 
-export interface BookingResult { bookingRef: string; startIso: string; service: string }
+export interface BookingResult { bookingRef: string; startIso: string; service: string; pending?: boolean }
 
 export type SyncStatus = "pending" | "ok" | "error";
 
