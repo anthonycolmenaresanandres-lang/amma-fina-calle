@@ -3,9 +3,11 @@
 // matter most: a booking only happens after a confirmed draft, and confirming
 // twice is idempotent (never double-books). Exits non-zero on any failure.
 
+import http from "node:http";
 import { store } from "./store";
 import { checkAvailability, holdSlot, confirmBooking } from "./orchestrator";
 import { ProposeConfirmConnector } from "./adapter/proposeConfirm";
+import { WebhookConnector } from "./adapter/webhook";
 
 let failures = 0;
 function check(label: string, cond: boolean): void {
@@ -65,6 +67,30 @@ async function main(): Promise<void> {
   check("booking is PENDING (awaiting human confirm)", b1.pending === true && b1.bookingRef.startsWith("PENDING-"));
   const b2 = await pc.book({ slot: s2, service, customer: cust, idempotencyKey: "draft-xyz" });
   check("propose-and-confirm is idempotent (same ref)", b2.bookingRef === b1.bookingRef);
+
+  // ---- Scenario 3: webhook/Zapier bridge connector (round-trip vs a local stub) ----
+  console.log(`\n— Scenario 3: webhook bridge connector (stub Zapier endpoint) —`);
+  const server = http.createServer((req, res) => {
+    let body = ""; req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      const data = body ? JSON.parse(body) : {};
+      res.setHeader("Content-Type", "application/json");
+      if (req.url === "/availability") {
+        res.end(JSON.stringify({ slots: [{ startIso: `${date}T10:00:00.000Z`, endIso: `${date}T11:00:00.000Z` }] }));
+      } else if (req.url === "/book") {
+        res.end(JSON.stringify({ bookingRef: "WH-555", startIso: data.slot?.startIso, pending: false }));
+      } else { res.statusCode = 404; res.end("{}"); }
+    });
+  });
+  await new Promise<void>((r) => server.listen(0, r));
+  const addr = server.address();
+  const port = typeof addr === "object" && addr ? addr.port : 0;
+  const wh = new WebhookConnector({ availabilityUrl: `http://127.0.0.1:${port}/availability`, bookUrl: `http://127.0.0.1:${port}/book` });
+  const whSlots = await wh.checkAvailability({ date, service });
+  check("webhook connector fetched availability from the endpoint", whSlots.length === 1);
+  const whBook = await wh.book({ slot: whSlots[0]!, service, customer: cust, idempotencyKey: "wh-1" });
+  check("webhook connector booked via the endpoint", whBook.bookingRef === "WH-555");
+  await new Promise<void>((r) => server.close(() => r()));
 
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);

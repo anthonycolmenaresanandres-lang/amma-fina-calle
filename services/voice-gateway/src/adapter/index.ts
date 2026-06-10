@@ -3,6 +3,7 @@ import type { BookingConnector } from "./types";
 import { MockConnector } from "./mock";
 import { CalComConnector } from "./calcom";
 import { SquareConnector } from "./square";
+import { WebhookConnector } from "./webhook";
 import { ProposeConfirmConnector } from "./proposeConfirm";
 
 let connector: BookingConnector | null = null;
@@ -18,6 +19,9 @@ export function getConnector(): BookingConnector {
     case "square":
       connector = config.square.accessToken && config.square.locationId && config.square.serviceVariationId
         ? new SquareConnector() : new ProposeConfirmConnector();
+      break;
+    case "webhook":
+      connector = config.webhook.bookUrl ? new WebhookConnector() : new ProposeConfirmConnector();
       break;
     case "proposeconfirm":
       connector = new ProposeConfirmConnector();

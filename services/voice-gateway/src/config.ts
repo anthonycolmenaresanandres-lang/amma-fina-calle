@@ -9,8 +9,8 @@ export const config = {
   realtimeModel: process.env.OPENAI_REALTIME_MODEL ?? "gpt-realtime",
   voice: process.env.OPENAI_VOICE ?? "alloy",
 
-  // Booking connector: "mock" (default) | "calcom" | "square" | "proposeconfirm"
-  connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom" | "square" | "proposeconfirm",
+  // Booking connector: "mock" (default) | "calcom" | "square" | "webhook" | "proposeconfirm"
+  connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom" | "square" | "webhook" | "proposeconfirm",
   calcom: {
     apiKey: process.env.CALCOM_API_KEY ?? "",
     baseUrl: process.env.CALCOM_BASE_URL ?? "https://api.cal.com/v2",
@@ -23,6 +23,12 @@ export const config = {
     locationId: process.env.SQUARE_LOCATION_ID ?? "",
     serviceVariationId: process.env.SQUARE_SERVICE_VARIATION_ID ?? "",
     teamMemberId: process.env.SQUARE_TEAM_MEMBER_ID ?? "",
+  },
+  // Generic webhook bridge (Zapier/Make/cloud function) — for MoeGo/Gingr/etc.
+  webhook: {
+    availabilityUrl: process.env.WEBHOOK_AVAILABILITY_URL ?? "",
+    bookUrl: process.env.WEBHOOK_BOOK_URL ?? "",
+    secret: process.env.WEBHOOK_SECRET ?? "",
   },
 
   // Per-client Knowledge Pack (v0 keeps it inline; later loaded per phone number).
