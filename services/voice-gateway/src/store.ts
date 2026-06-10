@@ -36,9 +36,13 @@ export const store = {
     const c: CallRecord = { callId: randomUUID(), fromPhone, status: "active", startedAt: Date.now() };
     db.calls[c.callId] = c; persist(); return c;
   },
+  getCall(callId: string): CallRecord | undefined { return db.calls[callId]; },
   endCall(callId: string): void {
     const c = db.calls[callId]; if (c) { c.status = "ended"; c.endedAt = Date.now(); persist(); }
   },
+
+  draftsForCall(callId: string): Draft[] { return Object.values(db.drafts).filter((d) => d.callId === callId); },
+  messagesForCall(callId: string): Message[] { return db.messages.filter((m) => m.callId === callId); },
 
   putDraft(d: Draft): void { db.drafts[d.draftId] = d; persist(); },
   getDraft(id: string): Draft | undefined { return db.drafts[id]; },
@@ -61,7 +65,7 @@ export const store = {
   stats(): {
     calls: number; activeCalls: number; drafts: number;
     bookings: number; confirmedBookings: number; pendingBookings: number;
-    messages: number; handledPct: number; conversionPct: number; syncErrors: number; audits: number;
+    messages: number; missedCalls: number; handledPct: number; conversionPct: number; syncErrors: number; audits: number;
   } {
     const calls = Object.values(db.calls);
     const drafts = Object.values(db.drafts);
@@ -71,6 +75,10 @@ export const store = {
     const syncErrors = Object.values(db.posSync).filter((s) => s.status === "error").length;
     // "Handled" = the call ended in a booking OR a captured message (i.e. not lost).
     const handled = committed.length + db.messages.length;
+    // "Missed" = an ENDED call that produced neither a booking nor a message.
+    const missedCalls = calls.filter((c) => c.status === "ended"
+      && !committed.some((d) => d.callId === c.callId)
+      && !db.messages.some((m) => m.callId === c.callId)).length;
     return {
       calls: calls.length,
       activeCalls: calls.filter((c) => c.status === "active").length,
@@ -79,6 +87,7 @@ export const store = {
       confirmedBookings,
       pendingBookings,
       messages: db.messages.length,
+      missedCalls,
       handledPct: calls.length ? Math.round((handled / calls.length) * 100) : 0,
       conversionPct: calls.length ? Math.round((committed.length / calls.length) * 100) : 0,
       syncErrors,

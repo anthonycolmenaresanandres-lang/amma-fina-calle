@@ -8,7 +8,8 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/server.ts` — HTTP `/twiml` (Twilio webhook) + WS `/media` (bidirectional Media Stream).
 - `src/realtime.ts` — OpenAI Realtime WS client (g711 μ-law in/out, tools, barge-in).
 - `src/orchestrator.ts` — **draft-first** tool handlers; `confirm_booking` is **idempotent**;
-  `take_message` captures a lead (name/number/reason + staff ping) when we can't book.
+  `take_message` captures a lead when we can't book; `finalizeCall` writes an end-of-call
+  summary (booked / message / missed) and **alerts staff on a missed call**.
 - `src/adapter/*` — the unified booking adapter contract + connectors: `mock`, `calcom`,
   `square` (Appointments), and **`proposeConfirm`** (the universal fallback).
 - `src/hours.ts` — business-hours helper (`isOpenOn` / `slotsForDate`); the mock + propose-
@@ -22,7 +23,7 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 
 ## Call analytics / ROI
 - **`GET /stats`** — live JSON rollup: `{ calls, bookings, confirmedBookings,
-  pendingBookings, messages, conversionPct, handledPct, syncErrors, audits }`. The
+  pendingBookings, messages, missedCalls, conversionPct, handledPct, syncErrors, audits }`. The
   "answered + booked while you were closed" number that justifies the subscription;
   `handledPct` counts calls that ended in a booking **or** a captured message (not lost).
 - **`npm run report`** — the same rollup at the CLI (reads `STORE_SNAPSHOT` if set).

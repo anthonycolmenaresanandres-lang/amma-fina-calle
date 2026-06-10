@@ -9,6 +9,7 @@ import { config } from "./config";
 import { connectStreamTwiML, mediaFrame, clearFrame } from "./twilio";
 import { RealtimeSession } from "./realtime";
 import { store } from "./store";
+import { finalizeCall } from "./orchestrator";
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -51,15 +52,15 @@ wss.on("connection", (twilioWs: WebSocket) => {
         if (msg.media?.payload) realtime?.appendAudio(msg.media.payload);
         break;
       case "stop":
-        realtime?.close(); store.endCall(call.callId);
+        realtime?.close(); void finalizeCall(call.callId);
         break;
       default:
         break;
     }
   });
 
-  twilioWs.on("close", () => { realtime?.close(); store.endCall(call.callId); });
-  twilioWs.on("error", () => { realtime?.close(); store.endCall(call.callId); });
+  twilioWs.on("close", () => { realtime?.close(); void finalizeCall(call.callId); });
+  twilioWs.on("error", () => { realtime?.close(); void finalizeCall(call.callId); });
 });
 
 server.listen(config.port, () => {
