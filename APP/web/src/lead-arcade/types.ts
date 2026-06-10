@@ -30,6 +30,14 @@ export interface LeadMeta {
   mockupPath?: string;
   notes?: string;
   followUp?: string; // ISO date (yyyy-mm-dd)
+  // Campaign Pack readiness inputs (gathered by Survey; logo stays approval-gated).
+  hours?: string;
+  phone?: string;
+  website?: string;
+  themeColor?: string; // brand color hex
+  logoCandidate?: string; // auto-found candidate URL — NOT approved for use
+  logoApproved?: boolean; // owner confirms the real/approved logo
+  operational?: boolean; // confirmed operating
 }
 
 /** Partial edit applied by an UPDATED event. */
@@ -42,6 +50,13 @@ export interface LeadPatch {
   notes?: string;
   followUp?: string;
   position?: { x: number; y: number };
+  hours?: string;
+  phone?: string;
+  website?: string;
+  themeColor?: string;
+  logoCandidate?: string;
+  logoApproved?: boolean;
+  operational?: boolean;
 }
 
 export interface LeadEvent {

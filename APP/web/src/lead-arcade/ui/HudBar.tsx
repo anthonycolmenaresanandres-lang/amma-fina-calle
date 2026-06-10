@@ -10,11 +10,12 @@ const chip: React.CSSProperties = { fontSize: 11, padding: "4px 8px", borderRadi
 const menuBtn: React.CSSProperties = { display: "block", width: "100%", textAlign: "left", background: "transparent", color: "#f4e6cc", border: "none", padding: "8px 12px", fontSize: 13, cursor: "pointer" };
 
 export default function HudBar({
-  totals, goals, soundOn, onToggleSound, onToggleLog, onExport, onImport, onReset,
+  totals, goals, soundOn, packReady, onToggleSound, onToggleLog, onExport, onImport, onReset,
 }: {
   totals: Totals;
   goals: Goals;
   soundOn: boolean;
+  packReady: number;
   onToggleSound: () => void;
   onToggleLog: () => void;
   onExport: () => void;
@@ -43,6 +44,7 @@ export default function HudBar({
         🎯 Week {goals.weekConversions}/{goals.weekTarget}{weekDone ? " ✓" : ""}
       </span>
       <span style={chip}>🔥 {goals.streakDays}d streak</span>
+      <span style={{ ...chip, background: packReady > 0 ? "#2f5e3a" : "#2a1e12" }}>📦 {packReady} ready</span>
 
       <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
         <button onClick={onToggleLog} style={{ ...chip, cursor: "pointer", border: "1px solid #3a2a18" }}>Log</button>
