@@ -60,6 +60,21 @@ the **owner sends**.
 7. **Onboard** — hand to the **Production loop** (Campaign Pack assembly).
 8. **Expand** — new client → write a case study + ask for 2 referrals → feed Source.
 
+## Field channels — go where owners already gather
+The cheapest "Source" step is a place that pre-filters for restaurant owners.
+- **Restaurant Depot (field channel).** A members-only wholesale supplier — almost
+  everyone walking in **owns/runs a food business**, so it's a dense, pre-qualified
+  prospecting spot. Tactic: stand near the entrance (public sidewalk / with permission),
+  hand out the **bilingual flyer** (`SALES_DEMO_PACKAGE/restaurant-depot-flyer-letter.pdf`)
+  whose **QR opens the live demo** (`/penalty-shootout`); for anyone who stops, run the
+  2-minute demo on the phone and log them in the lead tracker (HOT/WARM). The flyer's
+  hook — _"then we put YOUR brand in it"_ — sets up the Tailored Demo follow-up.
+  - Print the flyer on a quick-print/Office-Depot run (Letter, color). Keep contact
+    line current before printing. Respect the property's solicitation rules (sidewalk /
+    ask management); this is owner-run outreach, not Claude.
+- Other natural gathers to reuse the same flyer + QR: local farmers/markets, small-biz
+  meetups, chambers of commerce, Latino business associations.
+
 ## Weekly Acquisition Loop — the `/loop` runbook
 Run once a week. Claude does the repo-side steps; the owner does outreach/calls.
 1. Read the lead tracker; summarize the pipeline by `lead_temp` and stage.
