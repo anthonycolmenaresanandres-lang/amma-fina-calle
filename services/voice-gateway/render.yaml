@@ -1,0 +1,34 @@
+# One-click-ish deploy to Render (an always-on Docker web service with a persistent
+# disk for the snapshot). Adjust the region/plan as needed. Set secret values in the
+# Render dashboard (they're marked sync:false so they aren't stored in git).
+#
+#   Render → New → Blueprint → point at this repo (root: services/voice-gateway)
+#
+services:
+  - type: web
+    name: fina-calle-voice-gateway
+    runtime: docker
+    rootDir: services/voice-gateway
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    plan: starter # always-on (free tier sleeps; media streams need always-on)
+    autoDeploy: true
+    disk:
+      name: store
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: STORE_SNAPSHOT
+        value: /data/store.json # durable across restarts/deploys (single instance)
+      - key: PUBLIC_HOST
+        sync: false # e.g. fina-calle-voice-gateway.onrender.com (the wss host for <Stream>)
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: BOOKING_CONNECTOR
+        value: proposeconfirm # universal fallback; per-tenant connectors come from TENANTS_FILE
+      - key: TENANTS_FILE
+        sync: false # path to a tenants.json baked into the image or on the disk (optional)
+      - key: STAFF_WEBHOOK_URL
+        sync: false # default-tenant staff alerts (Slack/Make/SMS); per-tenant in TENANTS_FILE
