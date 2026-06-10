@@ -1,9 +1,21 @@
 # AI Phone Assistant & AI Front-Desk / Booking Bots — plan + best-quality setup (v2)
 
-> **Status: PLAN / R&D.** v2 integrates a deep technical review (own voice
-> gateway on Twilio Media Streams + OpenAI Realtime, Square-first POS adapter,
-> draft-first transactional model). Vendor specifics below should be **re-verified
-> against current docs before building** (pricing/access tiers move).
+> **Status: BUILT (v0.11) — pilotable, awaiting live keys.** The own-gateway design
+> below is implemented in `services/voice-gateway/` and verified end-to-end by a keyless
+> 43-check simulator (`npm run simulate`). Shipped: multi-tenant routing (one gateway,
+> many businesses, by dialled number), draft-first **idempotent** booking, 5 connectors
+> (mock / Cal.com / Square / generic webhook bridge / universal propose-confirm),
+> per-tenant business-hours awareness, take-a-message + missed-call alerts, end-of-call
+> summaries, per-tenant ROI at `/stats`, caller-number capture, `/tenants` ops view,
+> durable atomic snapshot + a Postgres scale-out schema (`db/schema.sql`), and deploy
+> packaging (`Dockerfile` + `render.yaml`). See `services/voice-gateway/README.md`.
+>
+> **What still needs external accounts (can't be verified in-repo):** a live
+> `OPENAI_API_KEY` (Realtime — re-verify event names/audio formats against current docs),
+> a Twilio number + `PUBLIC_HOST` (wss), and—per connector—Cal.com / Square / a
+> Zapier-Make bridge; Postgres if scaling past one instance. Two-party-consent + AI
+> disclosure stay on; inbound-only (outbound is TCPA-gated); no card-by-voice. Vendor
+> specifics below should still be **re-verified against current docs before go-live**.
 
 Two products on one engine:
 1. **AMMA's own AI phone assistant** (internal) — answers AMMA's line, qualifies, books demos.
