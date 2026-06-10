@@ -1,171 +1,175 @@
-# AI Phone Assistant & AI Call-Center Bots — plan + best-quality setup
+# AI Phone Assistant & AI Front-Desk / Booking Bots — plan + best-quality setup (v2)
 
-> **Status: PLAN / R&D.** Two products on one voice stack:
-> 1. **AMMA's own AI phone assistant** (internal) — answers AMMA's line, qualifies
->    inbound interest, books demos, and can do outbound demo follow-ups.
-> 2. **AI Front-Desk + Booking Agent for clients** (sellable) — a new Fina Calle OS
->    module: a 24/7 AI that answers the phone **and books real appointments into the
->    business's own scheduling / POS system**, then hands off to a human when needed.
->    Works across **appointment-based local businesses** — restaurants
->    (reservations/orders), **pet groomers**, salons / barbers / nails / spas, auto
->    repair, dental/clinics.
-> Both share the same engine; per-client differences are a **Knowledge Pack**
-> (greeting, services, hours, FAQ, routing) + a **booking connector** — same
-> Managerial-Factory model (one frozen engine, per-client variables).
+> **Status: PLAN / R&D.** v2 integrates a deep technical review (own voice
+> gateway on Twilio Media Streams + OpenAI Realtime, Square-first POS adapter,
+> draft-first transactional model). Vendor specifics below should be **re-verified
+> against current docs before building** (pricing/access tiers move).
 
-## Why it sells (the ROI pitch)
-- **~43% of restaurant calls go unanswered** (industry average); AI answering shows
-  **~87% fewer missed calls** and **$3k–18k/mo additional revenue captured per
-  location**; ~34% of restaurants already use AI for guest comms. The pitch writes
-  itself: *"You're missing ~4 of every 10 calls — that's reservations and orders
-  walking away. This answers all of them, 24/7, in your brand's voice."*
+Two products on one engine:
+1. **AMMA's own AI phone assistant** (internal) — answers AMMA's line, qualifies, books demos.
+2. **AI Front-Desk + Booking Agent for clients** (sellable Fina Calle OS module) — a
+   24/7 AI that answers the phone **and books real appointments into the business's own
+   scheduling / POS system**, hands off to a human when risk rises. Works across
+   appointment businesses — restaurants (reservations/orders), **pet groomers**,
+   salons/barbers/spas, auto, clinics. Per-client variables = a **Knowledge Pack** +
+   a **booking/POS connector**. Same Managerial-Factory model (frozen engine, swappable parts).
 
-## What the client bot does (v1 scope)
-Answers every call on the first ring, 24/7, and — the key capability — **books the
-appointment into the business's existing system**, reading live availability and
-confirming before it hangs up. Plus hours/services/pricing FAQ, after-hours +
-overflow, and **warm hand-off / take-a-message** for anything out of scope. Logs
-every call + outcome. Per vertical:
-- **Restaurants:** reservations + takeout orders (read-back), catering capture.
-- **Pet groomers:** book grooming slots, capture pet/breed/size + pickup-drop-off.
-- **Salons / barbers / spas:** book a service with the right stylist + duration.
-- **Auto / clinics:** book a service/appointment, capture vehicle/patient basics.
-_(v1 avoids taking card payments by voice — PCI risk; send a hosted pay link instead.)_
+## The core principle: draft-first, reversible, auditable
+**The architecture decision that matters is not "which voice sounds most human" — it's
+"which design minimizes irreversible errors."** So: the AI converses, explains the
+menu/services, **validates price/availability against the POS**, assembles an
+**auditable draft**, and only then **commits** per policy. The real transaction lives
+in the **draft**, not the call. High-risk actions (payments, loyalty redemption,
+refunds, complex substitutions) require human approval until the system has proven, in
+production, that it (a) understands the catalog, (b) validates against the POS, and
+(c) never duplicates actions (idempotency).
 
-## Best-quality setup (the recommendation)
-**Latency is the quality bar:** under ~700ms feels conversational; the best stacks
-land **~550–620ms**. Two viable architectures:
+## Why it sells (ROI)
+~43% of restaurant calls go unanswered → AI answering shows ~87% fewer missed calls
+and **$3k–18k/mo recovered per location**; ~34% of restaurants already use AI for
+guest comms. Pet grooming/salons have hungry incumbents — proof the niche pays.
 
-**(1) Managed agent platform (recommended to start) — fastest path, production-grade.**
-- **Retell AI** — best all-around for production call automation (~620ms out of the
-  box, ~$0.07/min platform + components, SOC 2 / HIPAA on standard); **or**
-  **ElevenLabs Conversational AI** — best voice quality, all-in ~$0.08–0.24/min; **or**
-  **Vapi** — most flexible (BYO providers) if we want to tune the stack.
-- **Telephony:** a **Twilio** (or Telnyx) phone number / SIP trunk into the platform
-  (Retell→Twilio SIP can be live in ~45 min).
-- **Brain:** the platform orchestrates STT→LLM→TTS; we supply the **Knowledge Pack**
-  + tools (check availability, create reservation/order, send pay link).
+## Best-quality setup — the voice layer (reconciled)
+**Latency bar:** under ~700ms feels conversational; best stacks hit **~550–620ms**.
+The adapter + draft-first core (below) is identical regardless of voice layer, so the
+voice layer is **swappable** — pick by phase:
 
-**(2) BYO orchestration (later, at scale, for margin/control).**
-- **Twilio/Telnyx** (telephony) → **Deepgram Nova** (STT) → **GPT-4o-mini / Claude**
-  (reasoning) → **ElevenLabs Flash** (TTS); this exact combo benchmarks ~**550ms**.
-- Or the **collapsed speech-to-speech** path (**OpenAI Realtime**) — one model in the
-  audio loop, lowest latency, fewer moving parts, but more vendor lock-in.
+- **Target — own gateway (control / auditability / portability / margin):**
+  **Twilio Programmable Voice + bidirectional Media Streams** (`<Connect><Stream>`) →
+  your **gateway** → **OpenAI Realtime over WebSocket** (the recommended mode when your
+  server already receives raw audio; **SIP** also supported), with **tool/function
+  calling** + interruption/turn control (`response.cancel`, `conversation.item.truncate`,
+  `semantic_vad`). You own barge-in, retries, logging, routing, and can swap the model later.
+- **Fast-start — managed platform (only if speed-to-first-client wins):** Retell AI
+  (~620ms, SOC2/HIPAA) or ElevenLabs Conversational AI (best voice) or Vapi (BYO
+  providers). They still call **our adapter** via custom tools, so nothing is lost in a later swap.
+- **Keep the orchestrator a thin seam** so the LLM/voice is replaceable (portability).
 
-**Verdict:** start on a **managed platform (Retell or ElevenLabs Conversational AI)
-+ a Twilio number** — quality + compliance now, minimal glue. Revisit BYO once volume
-makes the per-minute margin worth the engineering.
+| Component | First choice | Strong alternative | Switch when |
+|---|---|---|---|
+| Telephony | **Twilio** (Media Streams; ~$0.0085/min inbound local) | **SignalWire** (stream ~$0.003/min) / **Vonage** (Voice API + WebSockets) | SignalWire if per-minute cost dominates; Vonage if already in their stack |
+| Voice engine | **OpenAI Realtime** (WebRTC/WS/SIP + tools + semantic_vad) | **Azure OpenAI Realtime / Voice Live** | Azure if compliance/procurement is Azure-aligned |
+| Initial POS | **Square** | **Toast** | Toast if pure-restaurant **and** you already hold partner/custom-integration access; avoid **Clover** as the payments starter |
+| STT/TTS fallback | **Built-in to the runtime** | Deepgram / ElevenLabs / Google / Azure Speech | Only when real metrics justify cost/naturalness gains |
 
-## Architecture
+## Architecture — five planes (keep them separated)
+Telephony must not hold business logic; the AI must not write directly to the POS; the
+adapter must not "speak" audio. That partition is what enables control + auditability + swap.
+
+```mermaid
+flowchart TD
+  A[Inbound call] --> B[Telephony: Twilio]
+  B --> C[Voice gateway]
+  C --> D[Orchestrator]
+  D --> E[Realtime voice engine]
+  E --> D
+  D --> F[Policy + guardrails]
+  F --> G[POS Adapter]
+  G --> H[Square / alt POS]
+  D --> I[(Relational DB)]
+  D --> J[Durable queue + retries]
+  D --> K[Observability]
+  H --> D
+  D --> C --> B --> L[Caller]
 ```
-Caller ──► Twilio/Telnyx number/SIP ──► Voice agent platform (STT→LLM→TTS, turn-taking)
-                                              │  tools ▲
-                                              ▼        │
-                 Knowledge Pack (menu/hours/FAQ)   Actions: create reservation / order,
-                 + guardrails + persona            send pay link, take message, transfer
-                                              │
-                                              ▼
-                 Fina Calle OS / Client OS (log call, push reservation/order, notify owner)
-```
-Per-client config = the Knowledge Pack + phone number + routing + **booking
-connector**. Everything else (the engine, tools, logging) is shared and frozen.
 
-## Booking / POS integration layer (the key capability)
-The bot books via **tool-calling**: it asks an **Integration Adapter** for live
-availability, then writes the appointment/reservation back. The adapter is the one
-piece AMMA owns; the voice platform just calls its webhook tools
-(`check_availability`, `book`, `reschedule`, `cancel`). This keeps the engine frozen
-and the per-client work down to "pick the connector + map services."
+## The POS / booking adapter (the asset AMMA owns)
+One **unified adapter contract** for every POS/booking system; the voice engine only
+tool-calls it. Idempotency + error policy are first-class:
 
-**Connectors, by how easy + how common (priority order):**
-1. **Generic calendars/booking (cover the long tail):** **Cal.com** (most API-/
-   webhook-friendly — the standard target), **Google Calendar**, **Calendly**,
-   **Acuity**, **Square Appointments**. These alone serve a huge share of salons/
-   barbers/auto/clinics.
-2. **Vertical systems:**
-   - **Pet grooming:** MoeGo, Gingr, PetExec, ProPet (the AI-receptionist incumbents
-     integrate exactly these).
-   - **Salons/spas:** Vagaro, Booksy, Zenoti, Boulevard, Square Appointments.
-   - **Restaurants:** OpenTable, Resy (Tock merging in), SevenRooms; POS Toast/Square/Clover.
-3. **Bridge when no/limited API:** **Zapier / Make / n8n** as a connector for systems
-   without a clean API.
-4. **Universal fallback (so we can sell to ANY system):** **propose-and-confirm** —
-   the bot captures the appointment and writes it to the **Fina Calle OS owner
-   dashboard + a shared calendar + an SMS to staff**; a human confirms into the closed
-   POS. Less magic, but it closes the deal even on locked systems, and upgrades to a
-   real connector later.
+| Operation | Semantics | Idempotency | Error policy |
+|---|---|---|---|
+| `menu.snapshot.read` | AI- + POS-resolvable catalog | — | cache by version |
+| `stock.check` | item/modifier availability | — | short retry on timeout |
+| `cart.validate` | recompute tax/price/rules | read key | **never trust prompt prices** |
+| `order.draft.create` | create draft | **required** | exp. backoff on 5xx/timeout |
+| `order.commit` | draft → firm order | **required** | unknown outcome → **query by ref before retry** |
+| `payment.checkout.create` | terminal / secure flow | **required** | **never blind-retry** |
+| `loyalty.lookup` / `redeem.preview` | points / simulate | rec. | block if total changes |
+| `refund.quote` / `refund.execute` | eligibility / execute | execute **required** | double-confirm |
+| `order.status.get` | current status | — | always read source POS |
 
-**Reliability rules:** always **confirm before booking** and **read back** the slot;
-on availability conflicts, offer alternatives; never double-book (re-check at write
-time); on any adapter failure, fall back to take-a-message + notify — never drop the lead.
+**Connector priority:** generic (**Cal.com**, Google Calendar, Calendly, Acuity,
+Square Appointments) → vertical (pet: MoeGo/Gingr/PetExec; salons: Vagaro/Booksy/
+Zenoti; restaurants: OpenTable/Resy/Toast) → **Zapier/Make bridge** → **universal
+propose-and-confirm fallback** (capture → owner dashboard + shared calendar + SMS to
+staff) so we can sell to ANY system and upgrade later.
 
-## Build-vs-buy
-Managed voice platforms (Retell/ElevenLabs/Vapi) already support custom tool-calling
-to these APIs — so we **buy the voice engine** and **build the thin Integration
-Adapter + the per-client Knowledge/booking config**. That adapter (multi-connector +
-the universal fallback) is the durable, reusable asset across every vertical.
+**POS specifics:**
+- **Square (start here):** Orders (items/totals/fulfillment + send to Point of Sale),
+  Payments, **Terminal** (secure card capture on hardware), Refunds, Loyalty, and
+  first-class **idempotency keys** (+ cancel-by-idempotency-key for unknown
+  `CreatePayment` outcomes). **Caveat:** Orders API with **non-Square payments incurs a
+  1% fee** → keep orders + payments inside Square.
+- **Toast:** OAuth2 client-credentials; reads (orders/stock/availability) are fine, but
+  **order writes are partner/custom-integration access**, not standard — can slow a fast
+  launch. Loyalty is an **outbound** integration (you host the endpoint).
+- **Clover:** orders/webhooks + REST Pay Display exist, but Developer Pay **lacks
+  refunds/voids/pre-auth** → not the starter if the roadmap needs payments + post-sale.
 
-## Unit economics (illustrative)
-- **Cost:** all-in ~**$0.13–0.31/min** (platform + STT/LLM/TTS + telephony); a typical
-  restaurant's answered-call minutes are modest.
-- **Market pricing:** $30–250/mo tiers, or ~$0.12/min; specialized cashiers ~$450/mo.
-- **AMMA pricing:** **setup fee** (build the Knowledge Pack + number + routing) +
-  **monthly** (e.g., $99–299 by volume) **+ usage** beyond an included-minutes bucket.
-  COGS is the per-minute platform cost → healthy margin; the value anchor is the
-  **$3k–18k/mo recovered revenue**, not the cost.
+## Data model (minimum, from day one)
+The draft concentrates commercial state; approvals concentrate risk; the sync table
+absorbs retries/timeouts/unknown outcomes.
+- `calls` (master call state), `transcripts` (turns incl. tool calls),
+  `drafts` (cart/context + `quoted_total` + `pos_validation_hash` + `expires_at`),
+  `approvals` (policy_version, mode, who, risk_flags),
+  `pos_sync_attempts` (operation, **idempotency_key**, request_hash, status, retry_count, next_retry_at),
+  `audit_logs` (immutable before/after).
+
+## Unit economics
+- **Own gateway:** Twilio ~$0.0085/min inbound + OpenAI Realtime (token-based; Whisper
+  realtime ~$0.017/min ref) + POS = low all-in, max margin at volume, more eng.
+- **Managed:** all-in ~$0.13–0.31/min, fastest launch.
+- **AMMA pricing:** setup (Knowledge Pack + number + connector) + monthly ($99–299 by
+  volume) + usage beyond an included bucket. Value anchor = the $3k–18k/mo recovered, not cost.
 
 ## Go-to-market
-- **Multi-vertical wedge:** the same product sells to **any appointment business** —
-  restaurants, **pet groomers**, salons/barbers/spas, auto, clinics. That multiplies
-  the TAM well beyond restaurants while reusing one engine. (Pet grooming especially
-  has hungry incumbents — validation that the niche pays.)
-- **Bundle into Fina Calle OS** as the "AI Front Desk"; it pairs with the digital
-  menu/services list and the loyalty/game; the booking connector ties to their POS.
-- **Killer demo:** give prospects a **phone number to call** and hear their own
-  brand's bot **book a test appointment** — stronger than any visual demo. Feed it via
-  the acquisition loop + Restaurant Depot/field flyers ("call this number to hear it").
-- **Lead-in metric:** pull their Google/Yelp "calls" + the missed-call stat to size
-  lost bookings.
+Multi-vertical wedge (restaurants, **groomers**, salons, auto, clinics) on one engine.
+Bundle as the Fina Calle OS "AI Front Desk." **Killer demo:** a phone number prospects
+**call to hear their own brand's bot book a test appointment** — stronger than any
+visual demo; feed via the acquisition loop + Restaurant Depot/field flyers. Lead-in
+metric: their Google/Yelp calls × the missed-call stat = lost bookings.
 
-## Compliance & safety (must address)
-- **AI disclosure** — state it's an automated assistant where required.
-- **Call recording consent** — **two-party-consent states** (e.g., CA, FL) need a
-  notice/consent; play a disclosure. Virginia is one-party, but clients may operate
-  elsewhere — make disclosure configurable/on by default.
-- **TCPA** — outbound calling/automated dialing is heavily regulated (consent,
-  do-not-call); **start inbound-only**, treat outbound as a separate, gated phase.
-- **No card-by-voice** in v1 (PCI) — send a hosted pay link instead.
-- **Hallucination control** — constrain answers to the Knowledge Pack; "I'm not sure,
-  let me take a message / transfer" fallback; never invent menu items/prices.
-- **Human hand-off** always available.
+## Compliance & safety
+AI disclosure; **two-party recording consent** (CA/FL etc. — make disclosure default-on);
+**TCPA → inbound-first**, outbound is a separate gated phase; **no card-by-voice**
+(Square Terminal or hosted pay link); hallucination control (answer only from the
+Knowledge Pack; "let me take a message / transfer" fallback; never invent items/prices);
+human hand-off always available.
 
-## MVP → roadmap
-1. **v0 (AMMA's own line):** Retell/ElevenLabs + a Twilio number — answers, qualifies,
-   books a demo into **Cal.com** (proves end-to-end booking). Dogfood it; it becomes
-   the live sales demo.
-2. **v1 (first booking client):** inbound front desk + **one booking connector**
-   (Cal.com or Google Calendar) — check availability, confirm, book, notify owner;
-   FAQ + take-a-message; disclosure + logging. Pick a pet-groomer or salon pilot.
-3. **v2 — connector breadth:** add Square Appointments + Acuity/Calendly, then a
-   vertical system (MoeGo/Gingr for pet; OpenTable/Resy for restaurants); ship the
-   **propose-and-confirm fallback** so we can sell to any system; call analytics in
-   the owner dashboard; pay link for orders.
-4. **v3:** gated outbound (confirmations / wait-list / no-show callbacks) with full
-   TCPA controls; **EN/ES** bilingual for the local segment.
+## Phased scope (Phase 0 → 4)
+| Capability | P0 design | P1 | P2 | P3 | P4 |
+|---|---|---|---|---|---|
+| Answer + FAQ | sandbox | ✅ | ✅ | ✅ | ✅ |
+| Capture order/appt | simulated | draft | POS-validated | ✅ | ✅ |
+| Drafts | state model | ✅ | ✅ | ✅ | ✅ |
+| Approve | rules/UI | human req. | human + auto for low-risk | controlled auto | policy-optimized |
+| POS integration | contract + mocks | reads + validate | **write orders/booking** | + payments/refunds | multi-POS |
+| Payments | policy only | no | link/terminal | terminal/secure flow | optimize |
+| Loyalty / refunds | design | no | lookup / accrual | controlled redemption / refund workflow | advanced |
+| Missed-call recovery | design | ✅ | ✅ | ✅ | ✅ |
+**P0–P2 = control & accuracy. P3 = payments & post-sale. P4 = optimization & multi-POS.**
 
-## Risks
-Voice quality on noisy lines/accents; POS/reservation integration depth; latency
-regressions; per-minute cost creep at volume; regulatory (recording/TCPA) — keep
-inbound-first + disclosure on. Mitigate hallucination with strict knowledge-grounding
-+ hand-off.
+## Self-hosted — "Plan B" (sovereignty, later)
+Don't start here. When real transcripts + clean catalogs + metrics justify it: **vLLM**
+(OpenAI-compatible server), **Ollama** (tool calling), **Pipecat** / **LiveKit Agents**
+(real-time voice). Moves GPUs/serving/VAD/STT/TTS/observability onto our team — migrate
+only with data to justify it.
+
+## Recommended first build (v0)
+AMMA's own number → **own gateway (Twilio Media Streams + OpenAI Realtime)** → books a
+demo into **Cal.com** end-to-end (proves the full loop incl. tool-calling + draft→commit
++ idempotency). Then a **pet-groomer or salon pilot** on one connector. Dogfood becomes
+the live sales demo. (If first-client speed must win, run that pilot on a managed
+platform calling the same adapter.)
 
 ## Sources
-- Booking/POS integration: cal.com/ai, voiceinfra.ai, voiceflow.com (Cal.com agent),
-  agentzap.ai + fetchdeskai.com (pet groomers → MoeGo/Gingr/PetExec), zenoti.com,
-  callbirdai.com (salons/spas), opentable.com + resy.com + hostie.ai (restaurant POS/
-  reservations), squareup.com / vagaro.com / booksy.com / acuityscheduling.com.
-- Platform/latency/cost: retellai.com (best voice AI providers; Vapi/Bland/Retell),
-  digitalapplied.com, softcery.com (cost calculator), inworld.ai, deepgram.com,
-  hamming.ai (stack selection), medium.com (OpenAI Realtime collapses the stack).
-- Restaurant market + ROI: revsquared.ai, loman.ai, slang.ai, cloudtalk.io,
-  bitebuddy.ai, leadlock.ai (missed-call % + revenue + pricing).
+- Voice gateway/engine: Twilio Media Streams docs; OpenAI Realtime (WS/SIP/tools/
+  semantic_vad) + pricing; Azure OpenAI Realtime + Voice Live; retellai.com, hamming.ai
+  (stack/latency), softcery.com (cost). Self-host: vLLM, Ollama, Pipecat, LiveKit Agents.
+- POS: Square (Orders/Payments/Terminal/Refunds/Loyalty/idempotency + 1% non-Square fee),
+  Toast (OAuth2; partner-gated order writes; outbound loyalty), Clover (Pay API limits).
+- Booking connectors: cal.com, Google/Calendly/Acuity/Square Appointments; pet MoeGo/
+  Gingr/PetExec; salons Vagaro/Booksy/Zenoti; restaurants OpenTable/Resy/SevenRooms.
+- Restaurant ROI: revsquared.ai, loman.ai, slang.ai, cloudtalk.io, bitebuddy.ai.
+- _Re-verify all vendor pricing/access tiers against current docs before building._
