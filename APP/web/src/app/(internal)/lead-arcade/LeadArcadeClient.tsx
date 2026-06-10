@@ -370,6 +370,9 @@ export default function LeadArcadeClient(): React.JSX.Element {
               <button onClick={() => loadStarter(HAMPTON_ROADS_STARTER)} style={{ background: "#2f9e54", color: "#06180d", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>
                 ★ Load Hampton Roads starter ({HAMPTON_ROADS_STARTER.length})
               </button>
+              <div style={{ color: "rgba(244,230,204,.4)", fontSize: 10, marginTop: 8, lineHeight: 1.4 }}>
+                Tip: Survey uses free OpenStreetMap by default. Add Yelp + Foursquare keys in Vercel for richer results — see <code>docs/LEAD_ARCADE_ENRICHMENT_KEYS.md</code>.
+              </div>
             </div>
           </div>
         ) : null}

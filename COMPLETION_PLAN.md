@@ -31,7 +31,7 @@
       STARTER_EVENTS now spans all three territories (ids territory-prefixed).
 - [x] **3. Lead engine — outreach export.** A "Export pipeline (CSV)" action so leads +
       stage + contact can leave the arcade for outreach (complements the JSON log export).
-- [ ] **4. Lead engine — enrichment keys doc.** A short `docs/` note + tiny in-app hint:
+- [x] **4. Lead engine — enrichment keys doc.** A short `docs/` note + tiny in-app hint:
       how to add the free `YELP_API_KEY` + `FOURSQUARE_API_KEY` in Vercel to lift Survey
       hit-rate. (Adding the keys themselves is owner-gated.)
 - [ ] **5. Voice gateway — native MoeGo + Gingr connectors.** Write them against the
