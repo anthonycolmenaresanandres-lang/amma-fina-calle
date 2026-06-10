@@ -2,6 +2,7 @@
 // with zero external keys. Generates a few open slots per day and "books" in memory.
 
 import { config } from "../config";
+import { slotsForDate } from "../hours";
 import type { BookingResult, Customer, Service, Slot } from "../types";
 import type { BookingConnector } from "./types";
 
@@ -16,15 +17,9 @@ export class MockConnector implements BookingConnector {
   }
 
   async checkAvailability({ date }: { date: string; service: string }): Promise<Slot[]> {
-    // open slots at 10:00, 11:00, 14:00, 15:30 local on the requested date
-    const times = ["10:00", "11:00", "14:00", "15:30"];
-    return times
-      .map((t) => {
-        const start = new Date(`${date}T${t}:00`);
-        const end = new Date(start.getTime() + 60 * 60000);
-        return { startIso: start.toISOString(), endIso: end.toISOString() };
-      })
-      .filter((s) => !takenSlots.has(s.startIso));
+    // Hourly slots within the business's open window (none on closed days), minus
+    // anything already booked in this process.
+    return slotsForDate(date).filter((s) => !takenSlots.has(s.startIso));
   }
 
   async book({ slot, service, idempotencyKey }: { slot: Slot; service: string; customer: Customer; idempotencyKey: string }): Promise<BookingResult> {

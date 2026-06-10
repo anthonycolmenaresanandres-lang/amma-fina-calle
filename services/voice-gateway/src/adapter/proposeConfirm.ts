@@ -4,6 +4,7 @@
 // actually use. This is what lets us sell to ANY business regardless of POS.
 
 import { config } from "../config";
+import { slotsForDate } from "../hours";
 import type { BookingResult, Customer, Service, Slot } from "../types";
 import type { BookingConnector } from "./types";
 
@@ -16,13 +17,10 @@ export class ProposeConfirmConnector implements BookingConnector {
     return config.business.services;
   }
 
-  // No live calendar — offer standard hourly slots across a default open window.
+  // No live calendar — offer hourly slots across the business's open window, and
+  // nothing at all on closed days (the orchestrator then offers another day).
   async checkAvailability({ date }: { date: string; service: string }): Promise<Slot[]> {
-    const hours = [10, 11, 13, 14, 15, 16];
-    return hours.map((h) => {
-      const start = new Date(`${date}T${String(h).padStart(2, "0")}:00:00`);
-      return { startIso: start.toISOString(), endIso: new Date(start.getTime() + 60 * 60000).toISOString() };
-    });
+    return slotsForDate(date);
   }
 
   async book({ slot, service, idempotencyKey }: { slot: Slot; service: string; customer: Customer; idempotencyKey: string }): Promise<BookingResult> {
