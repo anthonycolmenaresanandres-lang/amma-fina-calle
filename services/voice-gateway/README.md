@@ -17,9 +17,11 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/hours.ts` — per-tenant business-hours helper (`isOpenOn` / `slotsForDate`); the
   mock + propose-confirm connectors offer slots **only within that tenant's open
   days/hours**, so the bot never books a closed day.
-- `src/store.ts` — calls / drafts / pos_sync / audit (in-memory; swap for Postgres later);
-  calls/drafts/messages are tagged with `tenantId`, and `stats(tenantId?)` rolls up the
-  ROI view per business (or across all).
+- `src/store.ts` — calls / drafts / pos_sync / audit. In-memory with an optional
+  **atomic JSON snapshot** (`STORE_SNAPSHOT`) so a single always-on instance survives
+  restarts; calls/drafts/messages are tagged with `tenantId` and `stats(tenantId?)` rolls
+  up the ROI view per business. `createStore(path)` is a factory (used by tests). For
+  multi-instance scale-out, move behind `db/schema.sql` (Postgres — same entities/keys).
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
   booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
@@ -80,6 +82,9 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
    Vercel serverless (media streams are long-lived). Expose HTTPS + WSS.
 3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`.
 4. Call the number. The agent greets + discloses, then books into the connector.
+5. For durability across restarts, set `STORE_SNAPSHOT` to a path on a **mounted volume**
+   (single instance). To scale to multiple instances, apply `db/schema.sql` to Postgres
+   and back the store with it (`psql "$DATABASE_URL" -f db/schema.sql`).
 
 ## Notes / before production
 - **Re-verify** OpenAI Realtime event names + audio formats and the Cal.com v2 endpoints
