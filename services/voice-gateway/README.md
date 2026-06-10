@@ -76,15 +76,19 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
 ```
 
 ## Go live (the remaining wiring — needs accounts)
-1. `cp .env.example .env`; set `OPENAI_API_KEY`, `PUBLIC_HOST` (your public wss host),
-   and optionally `BOOKING_CONNECTOR=calcom` + `CALCOM_API_KEY` + `CALCOM_EVENT_TYPE_ID`.
-2. Deploy this service to an **always-on** host (Render / Fly / Railway / a VM) — **not**
-   Vercel serverless (media streams are long-lived). Expose HTTPS + WSS.
-3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`.
+1. **Deploy** to an **always-on** host — **not** Vercel serverless (media streams are
+   long-lived WebSockets). A `Dockerfile` is included; `render.yaml` is a ready blueprint
+   (Docker web service + a persistent disk mounted at `/data` for the snapshot). Fly /
+   Railway / any VM work too. Expose HTTPS + WSS.
+2. Set env: `OPENAI_API_KEY`, `PUBLIC_HOST` (your public wss host, e.g.
+   `voice.example.com`), and optionally a `TENANTS_FILE` (per-client packs) or the
+   single-tenant `BOOKING_CONNECTOR` + that connector's creds.
+3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`. (For
+   multi-tenant, add each client's number to a tenant's `phoneNumbers`.)
 4. Call the number. The agent greets + discloses, then books into the connector.
-5. For durability across restarts, set `STORE_SNAPSHOT` to a path on a **mounted volume**
-   (single instance). To scale to multiple instances, apply `db/schema.sql` to Postgres
-   and back the store with it (`psql "$DATABASE_URL" -f db/schema.sql`).
+5. Durability: `STORE_SNAPSHOT` (set to `/data/store.json` in `render.yaml`) keeps state
+   across restarts on a single instance. To scale to multiple instances, apply
+   `db/schema.sql` to Postgres and back the store with it.
 
 ## Notes / before production
 - **Re-verify** OpenAI Realtime event names + audio formats and the Cal.com v2 endpoints
