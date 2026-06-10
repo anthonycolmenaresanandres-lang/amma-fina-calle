@@ -82,6 +82,35 @@ async function yelpLookup(name: string): Promise<YelpBiz | null> {
   }
 }
 
+interface FsqPlace {
+  rating?: number; price?: number; tel?: string; website?: string;
+  hours?: { display?: string; open_now?: boolean };
+  categories?: { name: string }[];
+  geocodes?: { main?: { latitude: number; longitude: number } };
+  photos?: { prefix: string; suffix: string }[];
+}
+
+// Foursquare Places enrichment — gated on FOURSQUARE_API_KEY. Fills gaps Yelp/OSM
+// miss (photo, hours, a cross-check rating). Null without the key (graceful).
+async function foursquareLookup(name: string): Promise<FsqPlace | null> {
+  const key = process.env.FOURSQUARE_API_KEY;
+  if (!key) return null;
+  try {
+    const p = new URLSearchParams({
+      query: name, near: "Hampton Roads, VA", limit: "1",
+      fields: "rating,price,tel,website,hours,categories,geocodes,photos",
+    });
+    const res = await timeoutFetch(`https://api.foursquare.com/v3/places/search?${p}`, 6000, {
+      headers: { Authorization: key, Accept: "application/json" },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { results?: FsqPlace[] };
+    return data.results?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(req: Request): Promise<NextResponse> {
   const q = new URL(req.url).searchParams.get("q")?.trim();
   if (!q) return NextResponse.json({ ok: false, error: "missing q" }, { status: 400 });
@@ -102,33 +131,36 @@ export async function GET(req: Request): Promise<NextResponse> {
     const lat = Number(hit.lat), lon = Number(hit.lon);
     const ex = hit.extratags ?? {};
     const website = ex.website ?? ex["contact:website"];
-    const [site, yelp] = await Promise.all([
+    const [site, yelp, fsq] = await Promise.all([
       website ? enrichSite(website) : Promise.resolve<SiteInfo>({ operational: false }),
       yelpLookup(q),
+      foursquareLookup(q),
     ]);
 
-    const coords = yelp?.coordinates;
+    const coords = yelp?.coordinates ?? fsq?.geocodes?.main;
+    const fsqRating = fsq?.rating != null ? Math.round((fsq.rating / 2) * 10) / 10 : null; // 0-10 → 0-5
+    const fsqPhoto = fsq?.photos?.[0] ? `${fsq.photos[0].prefix}original${fsq.photos[0].suffix}` : null;
+    const sources = ["osm", ...(yelp ? ["yelp"] : []), ...(fsq ? ["foursquare"] : [])];
+
     return NextResponse.json({
       ok: true,
       displayName: hit.display_name,
       lat, lon,
       board: coords ? toBoard(coords.latitude, coords.longitude) : toBoard(lat, lon),
-      businessType: yelp?.categories?.[0]?.title ?? ex.cuisine ?? hit.type ?? hit.category ?? hit.addresstype ?? "business",
-      hours: ex.opening_hours ?? null,
-      phone: yelp?.phone ?? ex.phone ?? ex["contact:phone"] ?? null,
-      website: website ?? null,
+      businessType: yelp?.categories?.[0]?.title ?? fsq?.categories?.[0]?.name ?? ex.cuisine ?? hit.type ?? hit.category ?? hit.addresstype ?? "business",
+      hours: ex.opening_hours ?? fsq?.hours?.display ?? null,
+      phone: yelp?.phone ?? fsq?.tel ?? ex.phone ?? ex["contact:phone"] ?? null,
+      website: website ?? fsq?.website ?? null,
       themeColor: site.themeColor ?? null,
       logoCandidate: site.logoCandidate ?? null,
-      // Yelp gives a more reliable operational signal (permanently-closed flag).
       operational: yelp ? yelp.is_closed === false : site.operational,
       siteTitle: site.title ?? null,
-      // Yelp extras (null when no key / no match)
-      rating: yelp?.rating ?? null,
+      rating: yelp?.rating ?? fsqRating,
       reviewCount: yelp?.review_count ?? null,
-      price: yelp?.price ?? null,
-      photo: yelp?.image_url ?? null,
+      price: yelp?.price ?? (fsq?.price ? "$".repeat(fsq.price) : null),
+      photo: yelp?.image_url ?? fsqPhoto,
       yelpUrl: yelp?.url ?? null,
-      sources: yelp ? ["osm", "yelp"] : ["osm"],
+      sources,
     });
   } catch (err) {
     const msg = err instanceof Error && err.name === "AbortError" ? "timeout" : "fetch failed";

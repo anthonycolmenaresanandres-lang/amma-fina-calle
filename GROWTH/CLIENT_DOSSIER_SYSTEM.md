@@ -95,7 +95,8 @@ photo, and a more reliable operational flag.
 - **Enable Yelp:** add **`YELP_API_KEY`** (Yelp Fusion, free tier) to the Vercel
   project env. With no key the route silently falls back to OSM only — nothing
   breaks. No key is stored in the repo.
-- **Foursquare** is a drop-in alternative/addition later (same pattern, its own key).
+- **Foursquare** is also wired (photo, hours, cross-check rating) — add **`FOURSQUARE_API_KEY`**
+  to enable; without it the route just skips it. Survey reports which sources answered.
 
 ## Sources
 - Build patterns: classicinformatics.com, datagrid.com, n8n.io (deep-research templates)
