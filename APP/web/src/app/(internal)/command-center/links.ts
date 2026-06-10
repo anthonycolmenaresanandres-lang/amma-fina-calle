@@ -39,6 +39,7 @@ export const sections: HubSection[] = [
     title: "Business & strategy",
     blurb: "The plan and where everything starts.",
     links: [
+      { label: "FOUNDATION — context & chat kickoffs", href: blob("FOUNDATION.md"), kind: "doc", note: "hand this to any new chat/agent" },
       { label: "AMMA Ventures Business Plan", href: blob("BUSINESS/AMMA_VENTURES_BUSINESS_PLAN.md"), kind: "doc" },
       { label: "Project Portfolio Triage", href: blob("BUSINESS/PROJECT_PORTFOLIO_TRIAGE.md"), kind: "doc" },
       { label: "START HERE (orientation)", href: blob("START_HERE.md"), kind: "doc" },
