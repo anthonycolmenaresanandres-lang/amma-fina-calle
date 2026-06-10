@@ -67,6 +67,7 @@ export interface LeadEvent {
   note?: string;
   meta?: LeadMeta; // present on SCOUTED
   patch?: LeadPatch; // present on UPDATED
+  territoryId?: string; // which board this lead belongs to (defaults to the first)
 }
 
 /** Derived per-lead state (never persisted; always folded from events). */

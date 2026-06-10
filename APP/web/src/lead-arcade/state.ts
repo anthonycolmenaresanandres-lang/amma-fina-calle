@@ -5,6 +5,12 @@
 import type { ActionType, LeadEvent, LeadState, Stage } from "./types";
 import { ACTION_VERB } from "./types";
 import { SEED_EVENTS } from "./seed";
+import { DEFAULT_TERRITORY } from "./territories";
+
+/** Events belonging to a given board (legacy/untagged events default to the first). */
+export function eventsInTerritory(events: LeadEvent[], territoryId: string): LeadEvent[] {
+  return events.filter((e) => (e.territoryId ?? DEFAULT_TERRITORY) === territoryId);
+}
 
 const STORAGE_KEY = "fina-calle-conquest-events-v1";
 

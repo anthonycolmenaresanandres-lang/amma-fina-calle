@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import type { Goals, Totals } from "../state";
+import type { Territory } from "../territories";
 
 const cell: React.CSSProperties = { display: "flex", flexDirection: "column", lineHeight: 1.1 };
 const big: React.CSSProperties = { fontSize: 20, fontWeight: 800, color: "#f4e6cc" };
@@ -10,12 +11,15 @@ const chip: React.CSSProperties = { fontSize: 11, padding: "4px 8px", borderRadi
 const menuBtn: React.CSSProperties = { display: "block", width: "100%", textAlign: "left", background: "transparent", color: "#f4e6cc", border: "none", padding: "8px 12px", fontSize: 13, cursor: "pointer" };
 
 export default function HudBar({
-  totals, goals, soundOn, packReady, onToggleSound, onToggleLog, onExport, onImport, onReset,
+  totals, goals, soundOn, packReady, territory, territories, onTerritory, onToggleSound, onToggleLog, onExport, onImport, onReset,
 }: {
   totals: Totals;
   goals: Goals;
   soundOn: boolean;
   packReady: number;
+  territory: string;
+  territories: Territory[];
+  onTerritory: (id: string) => void;
   onToggleSound: () => void;
   onToggleLog: () => void;
   onExport: () => void;
@@ -35,6 +39,10 @@ export default function HudBar({
       <div style={{ fontWeight: 900, fontSize: 16, letterSpacing: 0.5 }}>
         FINA CALLE <span style={{ color: "#d8a24c" }}>CONQUEST</span>
       </div>
+      <select value={territory} onChange={(e) => onTerritory(e.target.value)} aria-label="Territory"
+        style={{ background: "#120c07", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "5px 8px", fontSize: 12 }}>
+        {territories.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+      </select>
       <div style={cell}><span style={big}>${totals.mrr.toLocaleString()}</span><span style={small}>MRR / mo</span></div>
       <div style={cell}><span style={big}>{totals.clients}</span><span style={small}>Clients</span></div>
       <div style={cell}><span style={big}>${totals.collected.toLocaleString()}</span><span style={small}>Collected</span></div>

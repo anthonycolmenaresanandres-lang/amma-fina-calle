@@ -9,13 +9,14 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const BBOX = { lonMin: -76.6, lonMax: -75.9, latMin: 36.55, latMax: 37.3 };
+interface Bbox { lonMin: number; lonMax: number; latMin: number; latMax: number }
+const DEFAULT_BBOX: Bbox = { lonMin: -76.6, lonMax: -75.9, latMin: 36.55, latMax: 37.3 };
 
-function toBoard(lat: number, lon: number): { x: number; y: number } {
+function toBoard(lat: number, lon: number, b: Bbox): { x: number; y: number } {
   const clamp = (v: number) => Math.min(0.94, Math.max(0.06, v));
   return {
-    x: clamp((lon - BBOX.lonMin) / (BBOX.lonMax - BBOX.lonMin)),
-    y: clamp((BBOX.latMax - lat) / (BBOX.latMax - BBOX.latMin)),
+    x: clamp((lon - b.lonMin) / (b.lonMax - b.lonMin)),
+    y: clamp((b.latMax - lat) / (b.latMax - b.latMin)),
   };
 }
 
@@ -66,11 +67,11 @@ interface YelpBiz {
 // Yelp Fusion enrichment — gated on YELP_API_KEY. Without the key it returns
 // null and the dossier gracefully falls back to OpenStreetMap only. (Free tier;
 // owner adds YELP_API_KEY in the Vercel project env to activate.)
-async function yelpLookup(name: string): Promise<YelpBiz | null> {
+async function yelpLookup(name: string, near: string): Promise<YelpBiz | null> {
   const key = process.env.YELP_API_KEY;
   if (!key) return null;
   try {
-    const p = new URLSearchParams({ term: name, location: "Hampton Roads, VA", limit: "1" });
+    const p = new URLSearchParams({ term: name, location: near, limit: "1" });
     const res = await timeoutFetch(`https://api.yelp.com/v3/businesses/search?${p}`, 6000, {
       headers: { Authorization: `Bearer ${key}`, Accept: "application/json" },
     });
@@ -92,12 +93,12 @@ interface FsqPlace {
 
 // Foursquare Places enrichment — gated on FOURSQUARE_API_KEY. Fills gaps Yelp/OSM
 // miss (photo, hours, a cross-check rating). Null without the key (graceful).
-async function foursquareLookup(name: string): Promise<FsqPlace | null> {
+async function foursquareLookup(name: string, near: string): Promise<FsqPlace | null> {
   const key = process.env.FOURSQUARE_API_KEY;
   if (!key) return null;
   try {
     const p = new URLSearchParams({
-      query: name, near: "Hampton Roads, VA", limit: "1",
+      query: name, near, limit: "1",
       fields: "rating,price,tel,website,hours,categories,geocodes,photos",
     });
     const res = await timeoutFetch(`https://api.foursquare.com/v3/places/search?${p}`, 6000, {
@@ -112,12 +113,20 @@ async function foursquareLookup(name: string): Promise<FsqPlace | null> {
 }
 
 export async function GET(req: Request): Promise<NextResponse> {
-  const q = new URL(req.url).searchParams.get("q")?.trim();
+  const sp = new URL(req.url).searchParams;
+  const q = sp.get("q")?.trim();
   if (!q) return NextResponse.json({ ok: false, error: "missing q" }, { status: 400 });
+
+  const near = sp.get("near") || "Hampton Roads, VA";
+  const num = (k: string, d: number) => { const v = Number(sp.get(k)); return Number.isFinite(v) && sp.get(k) !== null ? v : d; };
+  const bbox: Bbox = {
+    lonMin: num("lonMin", DEFAULT_BBOX.lonMin), lonMax: num("lonMax", DEFAULT_BBOX.lonMax),
+    latMin: num("latMin", DEFAULT_BBOX.latMin), latMax: num("latMax", DEFAULT_BBOX.latMax),
+  };
 
   const params = new URLSearchParams({
     q, format: "jsonv2", limit: "1", addressdetails: "1", extratags: "1", namedetails: "1",
-    viewbox: `${BBOX.lonMin},${BBOX.latMax},${BBOX.lonMax},${BBOX.latMin}`, bounded: "0",
+    viewbox: `${bbox.lonMin},${bbox.latMax},${bbox.lonMax},${bbox.latMin}`, bounded: "0",
   });
 
   try {
@@ -133,8 +142,8 @@ export async function GET(req: Request): Promise<NextResponse> {
     const website = ex.website ?? ex["contact:website"];
     const [site, yelp, fsq] = await Promise.all([
       website ? enrichSite(website) : Promise.resolve<SiteInfo>({ operational: false }),
-      yelpLookup(q),
-      foursquareLookup(q),
+      yelpLookup(q, near),
+      foursquareLookup(q, near),
     ]);
 
     const coords = yelp?.coordinates ?? fsq?.geocodes?.main;
@@ -146,7 +155,7 @@ export async function GET(req: Request): Promise<NextResponse> {
       ok: true,
       displayName: hit.display_name,
       lat, lon,
-      board: coords ? toBoard(coords.latitude, coords.longitude) : toBoard(lat, lon),
+      board: coords ? toBoard(coords.latitude, coords.longitude, bbox) : toBoard(lat, lon, bbox),
       businessType: yelp?.categories?.[0]?.title ?? fsq?.categories?.[0]?.name ?? ex.cuisine ?? hit.type ?? hit.category ?? hit.addresstype ?? "business",
       hours: ex.opening_hours ?? fsq?.hours?.display ?? null,
       phone: yelp?.phone ?? fsq?.tel ?? ex.phone ?? ex["contact:phone"] ?? null,

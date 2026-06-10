@@ -26,7 +26,7 @@ const day = 86400000;
 /** Initial event log so the board opens with a lived-in pipeline. */
 export const SEED_EVENTS: LeadEvent[] = (() => {
   const ev: LeadEvent[] = [];
-  META.forEach((m, i) => ev.push({ leadId: m.id, action: "SCOUTED", at: t0 + i * day, meta: m }));
+  META.forEach((m, i) => ev.push({ leadId: m.id, action: "SCOUTED", at: t0 + i * day, meta: m, territoryId: "hampton-roads" }));
   // advance a few along the funnel
   ev.push({ leadId: "aurora", action: "SURVEYED", at: t0 + 7 * day });
   ev.push({ leadId: "aurora", action: "PITCHED", at: t0 + 8 * day });
