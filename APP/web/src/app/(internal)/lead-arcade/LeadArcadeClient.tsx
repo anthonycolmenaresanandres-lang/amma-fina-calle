@@ -34,6 +34,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [soundOn, setSoundOn] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
   const [live, setLive] = useState("");
+  const [surveyingId, setSurveyingId] = useState<string | null>(null);
 
   selectRef.current = (id: string) => setSelectedId(id);
   moveRef.current = (id: string, x: number, y: number) =>
@@ -95,17 +96,42 @@ export default function LeadArcadeClient(): React.JSX.Element {
 
   const dispatch = (action: ActionType, amount?: number) => {
     if (!selectedId) return;
-    if (action === "CLOSED") { pendingCapture.current = selectedId; if (soundOn) playGoal(); }
-    else if (action === "UPGRADED") { pendingUpgrade.current = selectedId; if (soundOn) playStep(); }
+    const id = selectedId;
+    if (action === "CLOSED") { pendingCapture.current = id; if (soundOn) playGoal(); }
+    else if (action === "UPGRADED") { pendingUpgrade.current = id; if (soundOn) playStep(); }
     else if (action === "COLLECTED") { if (soundOn) playCoin(); }
     else if (soundOn) playStep();
-    announce(selectedId, action, amount);
-    setEvents((prev) => [...prev, { leadId: selectedId, action, at: Date.now(), amount }]);
+    announce(id, action, amount);
+    setEvents((prev) => [...prev, { leadId: id, action, at: Date.now(), amount }]);
+    if (action === "SURVEYED") void surveyLead(id);
   };
 
-  const update = (patch: LeadPatch) => {
-    if (!selectedId) return;
-    setEvents((prev) => [...prev, { leadId: selectedId, action: "UPDATED", at: Date.now(), patch }]);
+  const updateLead = (id: string, patch: LeadPatch) =>
+    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch }]);
+
+  const update = (patch: LeadPatch) => { if (selectedId) updateLead(selectedId, patch); };
+
+  // Live "Survey": fetch public info (OpenStreetMap) and auto-fill the record.
+  const surveyLead = async (id: string) => {
+    const name = leads.get(id)?.meta.name;
+    if (!name) return;
+    setSurveyingId(id);
+    try {
+      const r = await fetch(`/api/lead-arcade/dossier?q=${encodeURIComponent(name)}`);
+      const d = (await r.json()) as { ok: boolean; displayName?: string; businessType?: string; board?: { x: number; y: number } };
+      if (d.ok && d.displayName) {
+        const existing = leads.get(id)?.meta.notes ?? "";
+        const notes = [existing, `📍 ${d.displayName}`].filter(Boolean).join("\n");
+        updateLead(id, { businessType: d.businessType, notes, ...(d.board ? { position: d.board } : {}) });
+        setLive(`${name} surveyed — public info added`);
+      } else {
+        setLive(`${name} surveyed — no public match, fill manually`);
+      }
+    } catch {
+      setLive(`${name} surveyed — lookup unavailable, fill manually`);
+    } finally {
+      setSurveyingId(null);
+    }
   };
 
   const addLead = () => {
@@ -175,7 +201,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
           drag a tile to arrange · drag the map to pan<br />scroll / pinch to zoom
         </div>
         <ActivityFeed items={activity} open={logOpen} onClose={() => setLogOpen(false)} />
-        <LeadPanel lead={selected} onAction={dispatch} onUpdate={update} onClose={() => setSelectedId(null)} />
+        <LeadPanel lead={selected} surveying={selected ? surveyingId === selected.meta.id : false} onAction={dispatch} onUpdate={update} onClose={() => setSelectedId(null)} />
       </div>
       <div role="status" aria-live="polite" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{live}</div>
     </div>
