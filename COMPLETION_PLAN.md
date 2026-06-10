@@ -21,9 +21,10 @@
   or it's owner-gated.
 
 ## Autonomous backlog (in order)
-- [ ] **1. Lead engine — Batch 2 (groomers + salons).** Research real, independent
+- [x] **1. Lead engine — Batch 2 (groomers + salons).** Research real, independent
       Hampton Roads pet groomers + salons/barbers/spas; add to `starter-packs.ts` so they
-      join the default board + the Load-starter button. Verify build.
+      join the default board + the Load-starter button. Verify build. ✅ +17 (6 groomers
+      HOT, 11 salons/barbers/spas) → 43 total in the default Hampton Roads pack.
 - [ ] **2. Lead engine — multi-territory packs.** Give the Richmond + Norfolk territories
       their own real starter packs (today only Hampton Roads has leads), so switching
       boards is immediately useful. Wire a per-territory default in `persist.ts`/loader.

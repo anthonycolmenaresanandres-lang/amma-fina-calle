@@ -39,6 +39,25 @@ export const HAMPTON_ROADS_STARTER: StarterBiz[] = [
   { name: "Vang Go Bistro", businessType: "restaurant", fit: "WARM" },
   { name: "Stony's Dockside Bar and Grill", businessType: "restaurant", fit: "WARM" },
   { name: "The Fishin' Pig", businessType: "restaurant", fit: "WARM" },
+  // Pet groomers — appointment-driven, the booking-bot sweet spot
+  { name: "Blue Ribbon Pet Salon", businessType: "pet grooming", fit: "HOT" },
+  { name: "Muddy Buddy", businessType: "pet grooming", fit: "HOT" },
+  { name: "Blue Haven Pet Salon", businessType: "pet grooming", fit: "HOT" },
+  { name: "Jazz Pawz Bowtique", businessType: "pet grooming", fit: "HOT" },
+  { name: "Canine Cloud 9", businessType: "pet grooming", fit: "HOT" },
+  { name: "Great Neck Pet Grooming", businessType: "pet grooming", fit: "HOT" },
+  // Salons / barbers / spas — also appointment-driven
+  { name: "Fringe Salon", businessType: "salon", fit: "WARM" },
+  { name: "Dupré's Salon & Day Spa", businessType: "spa", fit: "WARM" },
+  { name: "AOC Salon", businessType: "salon", fit: "WARM" },
+  { name: "Cali Hair Studio", businessType: "salon", fit: "WARM" },
+  { name: "Sage Hair Studio", businessType: "salon", fit: "WARM" },
+  { name: "Mint Salon", businessType: "salon", fit: "WARM" },
+  { name: "Ava Marie Salon of Creatives", businessType: "salon", fit: "WARM" },
+  { name: "Salt Hair Collective", businessType: "salon", fit: "WARM" },
+  { name: "Get Faded", businessType: "barber", fit: "WARM" },
+  { name: "Dapper St. Barbershop", businessType: "barber", fit: "WARM" },
+  { name: "The Parlor Barbershop", businessType: "barber", fit: "WARM" },
 ];
 
 /** Build a starter pack into SCOUTED events (stable ids + positions) for use as the
