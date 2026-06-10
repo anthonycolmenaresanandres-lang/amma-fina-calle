@@ -33,6 +33,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [events, setEvents] = useState<LeadEvent[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
+  const [bulkOpen, setBulkOpen] = useState(false);
+  const [bulkText, setBulkText] = useState("");
   const [soundOn, setSoundOn] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
   const [live, setLive] = useState("");
@@ -183,6 +185,44 @@ export default function LeadArcadeClient(): React.JSX.Element {
     setNewName(""); setSelectedId(id);
   };
 
+  // Bulk scout: paste a gathered list (one business per line). Each line is
+  // "Name" or "Name, type, rating, FIT" (extra fields optional, any order for
+  // rating/FIT). Appends one SCOUTED event per line into the current territory and
+  // spreads them across the board; Survey each afterward to auto-fill from public data.
+  const scoutList = () => {
+    const lines = bulkText.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    const fitOf = (parts: string[]): Fit | undefined =>
+      parts.map((p) => p.toUpperCase()).find((p) => p === "HOT" || p === "WARM" || p === "COLD") as Fit | undefined;
+    const now = Date.now();
+    const cols = Math.max(1, Math.ceil(Math.sqrt(lines.length)));
+    const rows = Math.max(1, Math.ceil(lines.length / cols));
+    const newEvents: LeadEvent[] = [];
+    lines.forEach((line, i) => {
+      const parts = line.split(/\s*[,|\t]\s*/).filter(Boolean);
+      const name = parts[0]?.trim();
+      if (!name) return;
+      const ratingRaw = parts.slice(1).find((p) => /^[0-5](\.\d)?$/.test(p));
+      const fit = fitOf(parts) ?? "WARM";
+      const businessType = parts.slice(1).find((p) => p !== ratingRaw && !["HOT", "WARM", "COLD"].includes(p.toUpperCase()))?.trim() || "business";
+      const c = i % cols;
+      const r = Math.floor(i / cols);
+      const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
+      const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
+      const id = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(now + i).toString(36)}`;
+      const meta: LeadMeta = {
+        id, name, businessType,
+        position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
+        dossier: { rating: ratingRaw ? Number(ratingRaw) : 4.0, signature: "Signature Item", fit },
+      };
+      newEvents.push({ leadId: id, action: "SCOUTED", at: now + i, meta, territoryId: territory });
+    });
+    if (!newEvents.length) { setBulkOpen(false); return; }
+    if (soundOn) playGoal();
+    setEvents((prev) => [...prev, ...newEvents]);
+    setLive(`Scouted ${newEvents.length} leads into ${getTerritory(territory).name}`);
+    setBulkText(""); setBulkOpen(false);
+  };
+
   const onExport = () => {
     if (typeof window === "undefined") return;
     const blob = new Blob([exportEvents(events)], { type: "application/json" });
@@ -227,7 +267,29 @@ export default function LeadArcadeClient(): React.JSX.Element {
             style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 10px", fontSize: 13 }}
           />
           <button onClick={addLead} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>+ Scout</button>
+          <button onClick={() => setBulkOpen((v) => !v)} title="Paste a whole list of businesses" style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>📋 Paste list</button>
         </div>
+        {bulkOpen ? (
+          <div style={{ position: "absolute", left: 12, bottom: 58, width: "min(92vw, 380px)", zIndex: 6, background: "rgba(20,12,7,.97)", border: "1px solid #3a2a18", borderRadius: 12, padding: 12, boxShadow: "0 20px 50px -20px rgba(0,0,0,.8)" }}>
+            <div style={{ color: "#f4e6cc", fontSize: 12, fontWeight: 700, marginBottom: 6 }}>
+              Scout a list into {getTerritory(territory).name}
+            </div>
+            <div style={{ color: "rgba(244,230,204,.6)", fontSize: 11, marginBottom: 8, lineHeight: 1.5 }}>
+              One business per line. Just names work — or <code>Name, type, rating, FIT</code> (rating 0–5, FIT = HOT/WARM/COLD). Survey each afterward to auto-fill hours/phone/rating.
+            </div>
+            <textarea
+              value={bulkText} onChange={(e) => setBulkText(e.target.value)} autoFocus rows={8}
+              placeholder={"Cafe Aurora\nTacos El Sol, restaurant, 4.3, WARM\nBay Bagels, bakery, HOT"}
+              style={{ width: "100%", boxSizing: "border-box", background: "rgba(10,6,3,.9)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: 9, fontSize: 13, fontFamily: "ui-monospace, monospace", resize: "vertical" }}
+            />
+            <div style={{ display: "flex", gap: 6, marginTop: 8, alignItems: "center" }}>
+              <button onClick={scoutList} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 14px", fontWeight: 800, cursor: "pointer" }}>
+                + Scout {bulkText.split(/\r?\n/).filter((l) => l.trim()).length || ""} leads
+              </button>
+              <button onClick={() => { setBulkText(""); setBulkOpen(false); }} style={{ background: "transparent", color: "rgba(244,230,204,.7)", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", cursor: "pointer" }}>Cancel</button>
+            </div>
+          </div>
+        ) : null}
         <div style={{ position: "absolute", left: 10, top: 10, zIndex: 3, display: "flex", gap: 10, flexWrap: "wrap", pointerEvents: "none", fontSize: 10, color: "rgba(244,230,204,.7)", background: "rgba(20,12,7,.6)", padding: "5px 8px", borderRadius: 8 }}>
           <span>● Prospect</span><span>● Surveyed</span><span>● Pitched</span>
           <span style={{ color: "#7be29a" }}>⌂ Client</span><span style={{ color: "#d8a24c" }}>★ Flagship</span>
