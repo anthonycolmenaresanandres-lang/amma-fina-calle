@@ -146,7 +146,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
           logoCandidate: d.logoCandidate ?? undefined,
           operational: d.operational ?? undefined,
         });
-        setLive(`${name} surveyed — ${d.sources?.includes("yelp") ? "Yelp + OSM" : "public info"} gathered`);
+        setLive(`${name} surveyed — gathered from ${(d.sources ?? ["public data"]).join(" + ")}`);
       } else {
         setLive(`${name} surveyed — no public match, fill manually`);
       }
