@@ -8,6 +8,8 @@ import { store } from "./store";
 import { checkAvailability, holdSlot, confirmBooking, takeMessage } from "./orchestrator";
 import { ProposeConfirmConnector } from "./adapter/proposeConfirm";
 import { WebhookConnector } from "./adapter/webhook";
+import { config } from "./config";
+import { isOpenOn } from "./hours";
 
 let failures = 0;
 function check(label: string, cond: boolean): void {
@@ -15,15 +17,24 @@ function check(label: string, cond: boolean): void {
   if (!cond) failures++;
 }
 
-function tomorrow(): string {
-  const d = new Date(Date.now() + 86400000);
-  return d.toISOString().slice(0, 10);
+function ymd(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+// Deterministic regardless of what day the suite runs: find the next open / next
+// closed date for the configured business hours.
+function nextDate(open: boolean): string {
+  const d = new Date();
+  for (let i = 1; i <= 14; i++) {
+    d.setDate(d.getDate() + 1);
+    if (isOpenOn(ymd(d)) === open) return ymd(d);
+  }
+  return ymd(d);
 }
 
 async function main(): Promise<void> {
   console.log("— Fina Calle voice gateway: booking simulation (mock connector) —\n");
   const call = store.createCall("+15555550123");
-  const date = tomorrow();
+  const date = nextDate(true); // a day the business is open
   const service = "Full Groom";
 
   console.log(`Caller: "I'd like a ${service} appointment."`);
@@ -110,6 +121,16 @@ async function main(): Promise<void> {
   const statsAfter = store.stats();
   check("stats counts the captured message", statsAfter.messages === store.messageCount());
   check("a booking-or-message call counts as handled", statsAfter.handledPct > 0);
+
+  // ---- Scenario 5: business-hours awareness (don't offer slots when closed) ----
+  console.log(`\n— Scenario 5: closed-day awareness (open days = ${JSON.stringify(config.business.openDays)}) —`);
+  const closed = nextDate(false);
+  const call3 = store.createCall("+15555550111");
+  console.log(`Caller (on a CLOSED day ${closed}): "Anything open?"`);
+  const closedAvail = await checkAvailability(call3.callId, closed, service);
+  console.log(`Agent (tool check_availability): ${closedAvail.text}\n`);
+  check("no slots offered on a closed day", closedAvail.slots.length === 0);
+  check("open days still produce slots (sanity)", (await checkAvailability(call.callId, nextDate(true), service)).slots.length > 0);
 
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);

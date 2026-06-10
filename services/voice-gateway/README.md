@@ -11,6 +11,9 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
   `take_message` captures a lead (name/number/reason + staff ping) when we can't book.
 - `src/adapter/*` — the unified booking adapter contract + connectors: `mock`, `calcom`,
   `square` (Appointments), and **`proposeConfirm`** (the universal fallback).
+- `src/hours.ts` — business-hours helper (`isOpenOn` / `slotsForDate`); the mock + propose-
+  confirm connectors offer slots **only within open days/hours** (`BUSINESS_OPEN_DAYS`,
+  `BUSINESS_OPEN_HOUR`, `BUSINESS_CLOSE_HOUR`), so the bot never books a closed day.
 - `src/store.ts` — calls / drafts / pos_sync / audit (in-memory; swap for Postgres later);
   `stats()` rolls up the ROI view (calls, bookings, call→booking %, pending vs confirmed).
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
