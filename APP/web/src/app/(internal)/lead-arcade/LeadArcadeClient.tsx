@@ -166,6 +166,11 @@ export default function LeadArcadeClient(): React.JSX.Element {
           />
           <button onClick={addLead} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>+ Scout</button>
         </div>
+        <div style={{ position: "absolute", left: 10, top: 10, zIndex: 3, display: "flex", gap: 10, flexWrap: "wrap", pointerEvents: "none", fontSize: 10, color: "rgba(244,230,204,.7)", background: "rgba(20,12,7,.6)", padding: "5px 8px", borderRadius: 8 }}>
+          <span>● Prospect</span><span>● Surveyed</span><span>● Pitched</span>
+          <span style={{ color: "#7be29a" }}>⌂ Client</span><span style={{ color: "#d8a24c" }}>★ Flagship</span>
+          <span style={{ color: "#e8553a" }}>○ HOT</span><span style={{ color: "#e0a13a" }}>○ WARM</span><span style={{ color: "#5a7fb0" }}>○ COLD</span>
+        </div>
         <div style={{ position: "absolute", right: 10, bottom: 10, zIndex: 3, fontSize: 10, color: "rgba(244,230,204,.55)", textAlign: "right", pointerEvents: "none", lineHeight: 1.5 }}>
           drag a tile to arrange · drag the map to pan<br />scroll / pinch to zoom
         </div>
