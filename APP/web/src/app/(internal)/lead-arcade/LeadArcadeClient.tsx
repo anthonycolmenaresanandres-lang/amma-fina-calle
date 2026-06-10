@@ -281,6 +281,29 @@ export default function LeadArcadeClient(): React.JSX.Element {
     URL.revokeObjectURL(url);
   };
 
+  // Export the current territory's pipeline as CSV for outreach (name + stage + the
+  // contact intel Survey gathered). Complements the JSON log export (which is for backup).
+  const onExportCsv = () => {
+    if (typeof window === "undefined") return;
+    const cell = (v: unknown) => {
+      const s = v == null ? "" : String(v);
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const headers = ["Business", "Type", "Stage", "Fit", "Rating", "Phone", "Website", "Hours", "MRR", "Collected", "FollowUp", "Notes"];
+    const rows = leadsArr.map((l) => [
+      l.meta.name, l.meta.businessType, l.stage, l.meta.dossier.fit, l.meta.dossier.rating ?? "",
+      l.meta.phone ?? "", l.meta.website ?? "", l.meta.hours ?? "", l.mrr || "", l.collected || "",
+      l.meta.followUp ?? "", (l.meta.notes ?? "").replace(/\n/g, " · "),
+    ].map(cell).join(","));
+    const csv = [headers.join(","), ...rows].join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `fina-calle-pipeline-${territory}.csv`; a.click();
+    URL.revokeObjectURL(url);
+    setLive(`Exported ${leadsArr.length} leads to CSV`);
+  };
+
   const onImport = (file: File) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -303,7 +326,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
         territory={territory} territories={TERRITORIES}
         onTerritory={(id) => { setTerritory(id); saveActiveTerritory(id); setSelectedId(null); }}
         onToggleSound={toggleSound} onToggleLog={() => setLogOpen((v) => !v)}
-        onExport={onExport} onImport={onImport}
+        onExport={onExport} onExportCsv={onExportCsv} onImport={onImport}
         onReset={() => { void resetEventsAsync().then((e) => { setEvents(e); setSelectedId(null); setLive("Board reset"); }); }}
       />
       <div style={{ position: "relative", flex: 1, overflow: "hidden" }}>
