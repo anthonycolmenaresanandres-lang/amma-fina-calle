@@ -87,6 +87,16 @@ NEXT ACTION:  recommended opener + which demo asset to build
   store; the in-repo template stays example-only.
 - Owner verifies before outreach; Claude prepares, owner contacts.
 
+## Live in the app — Survey (`/api/lead-arcade/dossier`)
+The Lead Arcade "Survey" already calls a server route that returns address, hours,
+website, phone, cuisine (OpenStreetMap), theme color + logo candidate (the site),
+an operational check, and — when enabled — **Yelp** rating, review count, price,
+photo, and a more reliable operational flag.
+- **Enable Yelp:** add **`YELP_API_KEY`** (Yelp Fusion, free tier) to the Vercel
+  project env. With no key the route silently falls back to OSM only — nothing
+  breaks. No key is stored in the repo.
+- **Foursquare** is a drop-in alternative/addition later (same pattern, its own key).
+
 ## Sources
 - Build patterns: classicinformatics.com, datagrid.com, n8n.io (deep-research templates)
 - Free data: bizdata-web.vercel.app, developers.google.com/maps (pricing), business.yelp.com, traveltime.com

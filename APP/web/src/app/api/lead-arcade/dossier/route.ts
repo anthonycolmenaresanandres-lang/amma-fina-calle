@@ -34,7 +34,9 @@ function meta(html: string, attr: string, val: string): string | undefined {
   return html.match(re)?.[1] ?? html.match(re2)?.[1];
 }
 
-async function enrichSite(site: string): Promise<{ operational: boolean; themeColor?: string; logoCandidate?: string; title?: string }> {
+interface SiteInfo { operational: boolean; themeColor?: string; logoCandidate?: string; title?: string }
+
+async function enrichSite(site: string): Promise<SiteInfo> {
   try {
     const url = site.startsWith("http") ? site : `https://${site}`;
     const res = await timeoutFetch(url, 5000, { headers: { "User-Agent": "FinaCalleConquest/1.0", Accept: "text/html" }, redirect: "follow" });
@@ -52,6 +54,31 @@ async function enrichSite(site: string): Promise<{ operational: boolean; themeCo
     };
   } catch {
     return { operational: false };
+  }
+}
+
+interface YelpBiz {
+  rating?: number; review_count?: number; price?: string; image_url?: string;
+  is_closed?: boolean; url?: string; phone?: string;
+  categories?: { title: string }[]; coordinates?: { latitude: number; longitude: number };
+}
+
+// Yelp Fusion enrichment — gated on YELP_API_KEY. Without the key it returns
+// null and the dossier gracefully falls back to OpenStreetMap only. (Free tier;
+// owner adds YELP_API_KEY in the Vercel project env to activate.)
+async function yelpLookup(name: string): Promise<YelpBiz | null> {
+  const key = process.env.YELP_API_KEY;
+  if (!key) return null;
+  try {
+    const p = new URLSearchParams({ term: name, location: "Hampton Roads, VA", limit: "1" });
+    const res = await timeoutFetch(`https://api.yelp.com/v3/businesses/search?${p}`, 6000, {
+      headers: { Authorization: `Bearer ${key}`, Accept: "application/json" },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { businesses?: YelpBiz[] };
+    return data.businesses?.[0] ?? null;
+  } catch {
+    return null;
   }
 }
 
@@ -75,21 +102,33 @@ export async function GET(req: Request): Promise<NextResponse> {
     const lat = Number(hit.lat), lon = Number(hit.lon);
     const ex = hit.extratags ?? {};
     const website = ex.website ?? ex["contact:website"];
-    const site = website ? await enrichSite(website) : { operational: false };
+    const [site, yelp] = await Promise.all([
+      website ? enrichSite(website) : Promise.resolve<SiteInfo>({ operational: false }),
+      yelpLookup(q),
+    ]);
 
+    const coords = yelp?.coordinates;
     return NextResponse.json({
       ok: true,
       displayName: hit.display_name,
       lat, lon,
-      board: toBoard(lat, lon),
-      businessType: ex.cuisine ?? hit.type ?? hit.category ?? hit.addresstype ?? "business",
+      board: coords ? toBoard(coords.latitude, coords.longitude) : toBoard(lat, lon),
+      businessType: yelp?.categories?.[0]?.title ?? ex.cuisine ?? hit.type ?? hit.category ?? hit.addresstype ?? "business",
       hours: ex.opening_hours ?? null,
-      phone: ex.phone ?? ex["contact:phone"] ?? null,
+      phone: yelp?.phone ?? ex.phone ?? ex["contact:phone"] ?? null,
       website: website ?? null,
       themeColor: site.themeColor ?? null,
       logoCandidate: site.logoCandidate ?? null,
-      operational: site.operational,
+      // Yelp gives a more reliable operational signal (permanently-closed flag).
+      operational: yelp ? yelp.is_closed === false : site.operational,
       siteTitle: site.title ?? null,
+      // Yelp extras (null when no key / no match)
+      rating: yelp?.rating ?? null,
+      reviewCount: yelp?.review_count ?? null,
+      price: yelp?.price ?? null,
+      photo: yelp?.image_url ?? null,
+      yelpUrl: yelp?.url ?? null,
+      sources: yelp ? ["osm", "yelp"] : ["osm"],
     });
   } catch (err) {
     const msg = err instanceof Error && err.name === "AbortError" ? "timeout" : "fetch failed";

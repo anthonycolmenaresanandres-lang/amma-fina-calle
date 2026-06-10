@@ -124,16 +124,21 @@ export default function LeadArcadeClient(): React.JSX.Element {
         ok: boolean; displayName?: string; businessType?: string; board?: { x: number; y: number };
         hours?: string | null; phone?: string | null; website?: string | null;
         themeColor?: string | null; logoCandidate?: string | null; operational?: boolean;
+        rating?: number | null; reviewCount?: number | null; price?: string | null;
+        yelpUrl?: string | null; sources?: string[];
       };
       if (d.ok && d.displayName) {
         const existing = leads.get(id)?.meta.notes ?? "";
         const lines = [existing, `📍 ${d.displayName}`];
         if (d.hours) lines.push(`🕑 ${d.hours}`);
         if (d.phone) lines.push(`☎ ${d.phone}`);
+        if (d.rating) lines.push(`⭐ ${d.rating} (${d.reviewCount ?? 0} reviews)${d.price ? ` · ${d.price}` : ""} — Yelp`);
+        if (d.yelpUrl) lines.push(`↗ ${d.yelpUrl}`);
         updateLead(id, {
           businessType: d.businessType,
           notes: lines.filter(Boolean).join("\n"),
           ...(d.board ? { position: d.board } : {}),
+          ...(d.rating ? { rating: d.rating } : {}),
           hours: d.hours ?? undefined,
           phone: d.phone ?? undefined,
           website: d.website ?? undefined,
@@ -141,7 +146,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
           logoCandidate: d.logoCandidate ?? undefined,
           operational: d.operational ?? undefined,
         });
-        setLive(`${name} surveyed — public info gathered`);
+        setLive(`${name} surveyed — ${d.sources?.includes("yelp") ? "Yelp + OSM" : "public info"} gathered`);
       } else {
         setLive(`${name} surveyed — no public match, fill manually`);
       }
