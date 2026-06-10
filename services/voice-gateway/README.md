@@ -88,7 +88,7 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
 4. Call the number. The agent greets + discloses, then books into the connector.
 5. Durability: `STORE_SNAPSHOT` (set to `/data/store.json` in `render.yaml`) keeps state
    across restarts on a single instance. To scale to multiple instances, apply
-   `db/schema.sql` to Postgres and back the store with it.
+   `db/schema.sql` to Postgres and back the store with it (`psql "$DATABASE_URL" -f db/schema.sql`).
 
 ## Notes / before production
 - **Re-verify** OpenAI Realtime event names + audio formats and the Cal.com v2 endpoints
