@@ -11,9 +11,10 @@ import type { WorldScene } from "@/lead-arcade/phaser/WorldScene";
 import type { ActionType, Fit, LeadEvent, LeadMeta, LeadPatch } from "@/lead-arcade/types";
 import { ACTION_VERB } from "@/lead-arcade/types";
 import {
-  deriveLeads, exportEvents, importEvents, readiness,
+  deriveLeads, eventsInTerritory, exportEvents, importEvents, readiness,
   selectActivity, selectGoals, selectTotals,
 } from "@/lead-arcade/state";
+import { getTerritory, loadActiveTerritory, saveActiveTerritory, TERRITORIES } from "@/lead-arcade/territories";
 import { loadEventsAsync, resetEventsAsync, saveEventsAsync } from "@/lead-arcade/persist";
 import { playCoin, playGoal, playStep, primeAudio } from "@/lead-arcade/audio";
 import HudBar from "@/lead-arcade/ui/HudBar";
@@ -38,13 +39,17 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [surveyingId, setSurveyingId] = useState<string | null>(null);
 
   selectRef.current = (id: string) => setSelectedId(id);
-  moveRef.current = (id: string, x: number, y: number) =>
-    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch: { position: { x, y } } }]);
+  const [territory, setTerritory] = useState<string>(TERRITORIES[0].id);
+  useEffect(() => { setTerritory(loadActiveTerritory()); }, []);
 
-  const leads = useMemo(() => deriveLeads(events), [events]);
+  moveRef.current = (id: string, x: number, y: number) =>
+    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch: { position: { x, y } }, territoryId: territory }]);
+
+  const filtered = useMemo(() => eventsInTerritory(events, territory), [events, territory]);
+  const leads = useMemo(() => deriveLeads(filtered), [filtered]);
   const totals = useMemo(() => selectTotals(leads), [leads]);
-  const goals = useMemo(() => selectGoals(events), [events]);
-  const activity = useMemo(() => selectActivity(events), [events]);
+  const goals = useMemo(() => selectGoals(filtered), [filtered]);
+  const activity = useMemo(() => selectActivity(filtered), [filtered]);
   const leadsArr = useMemo(() => [...leads.values()], [leads]);
   const packReady = useMemo(() => leadsArr.filter((l) => readiness(l.meta).ready).length, [leadsArr]);
   const selected = selectedId ? leads.get(selectedId) ?? null : null;
@@ -104,12 +109,12 @@ export default function LeadArcadeClient(): React.JSX.Element {
     else if (action === "COLLECTED") { if (soundOn) playCoin(); }
     else if (soundOn) playStep();
     announce(id, action, amount);
-    setEvents((prev) => [...prev, { leadId: id, action, at: Date.now(), amount }]);
+    setEvents((prev) => [...prev, { leadId: id, action, at: Date.now(), amount, territoryId: territory }]);
     if (action === "SURVEYED") void surveyLead(id);
   };
 
   const updateLead = (id: string, patch: LeadPatch) =>
-    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch }]);
+    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch, territoryId: territory }]);
 
   const update = (patch: LeadPatch) => { if (selectedId) updateLead(selectedId, patch); };
 
@@ -119,7 +124,13 @@ export default function LeadArcadeClient(): React.JSX.Element {
     if (!name) return;
     setSurveyingId(id);
     try {
-      const r = await fetch(`/api/lead-arcade/dossier?q=${encodeURIComponent(name)}`);
+      const t = getTerritory(territory);
+      const qp = new URLSearchParams({
+        q: name, near: t.near,
+        lonMin: String(t.bbox.lonMin), lonMax: String(t.bbox.lonMax),
+        latMin: String(t.bbox.latMin), latMax: String(t.bbox.latMax),
+      });
+      const r = await fetch(`/api/lead-arcade/dossier?${qp}`);
       const d = (await r.json()) as {
         ok: boolean; displayName?: string; businessType?: string; board?: { x: number; y: number };
         hours?: string | null; phone?: string | null; website?: string | null;
@@ -168,7 +179,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
       dossier: { rating: 4.0, signature: "Signature Item", fit: fits[Math.floor(Math.random() * 3)] },
     };
     if (soundOn) playStep();
-    setEvents((prev) => [...prev, { leadId: id, action: "SCOUTED", at: Date.now(), meta }]);
+    setEvents((prev) => [...prev, { leadId: id, action: "SCOUTED", at: Date.now(), meta, territoryId: territory }]);
     setNewName(""); setSelectedId(id);
   };
 
@@ -200,6 +211,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
     <div style={{ position: "fixed", inset: 0, display: "flex", flexDirection: "column", background: "#16344a", fontFamily: "system-ui, sans-serif" }}>
       <HudBar
         totals={totals} goals={goals} soundOn={soundOn} packReady={packReady}
+        territory={territory} territories={TERRITORIES}
+        onTerritory={(id) => { setTerritory(id); saveActiveTerritory(id); setSelectedId(null); }}
         onToggleSound={toggleSound} onToggleLog={() => setLogOpen((v) => !v)}
         onExport={onExport} onImport={onImport}
         onReset={() => { void resetEventsAsync().then((e) => { setEvents(e); setSelectedId(null); setLive("Board reset"); }); }}
