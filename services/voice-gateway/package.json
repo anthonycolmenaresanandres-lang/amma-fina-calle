@@ -1,0 +1,23 @@
+{
+  "name": "fina-calle-voice-gateway",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Fina Calle AI front-desk / booking voice gateway (Twilio Media Streams <-> OpenAI Realtime, draft-first booking adapter).",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "simulate": "tsx src/simulate.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
