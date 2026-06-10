@@ -11,9 +11,10 @@ import type { WorldScene } from "@/lead-arcade/phaser/WorldScene";
 import type { ActionType, Fit, LeadEvent, LeadMeta, LeadPatch } from "@/lead-arcade/types";
 import { ACTION_VERB } from "@/lead-arcade/types";
 import {
-  deriveLeads, exportEvents, importEvents, loadEvents, resetEvents, saveEvents,
+  deriveLeads, exportEvents, importEvents,
   selectActivity, selectGoals, selectTotals,
 } from "@/lead-arcade/state";
+import { loadEventsAsync, resetEventsAsync, saveEventsAsync } from "@/lead-arcade/persist";
 import { playCoin, playGoal, playStep, primeAudio } from "@/lead-arcade/audio";
 import HudBar from "@/lead-arcade/ui/HudBar";
 import LeadPanel from "@/lead-arcade/ui/LeadPanel";
@@ -47,8 +48,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const leadsArr = useMemo(() => [...leads.values()], [leads]);
   const selected = selectedId ? leads.get(selectedId) ?? null : null;
 
-  useEffect(() => { setEvents(loadEvents()); }, []);
-  useEffect(() => { if (events.length) saveEvents(events); }, [events]);
+  useEffect(() => { void loadEventsAsync().then(setEvents); }, []);
+  useEffect(() => { if (events.length) void saveEventsAsync(events); }, [events]);
 
   // boot Phaser once
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
         totals={totals} goals={goals} soundOn={soundOn}
         onToggleSound={toggleSound} onToggleLog={() => setLogOpen((v) => !v)}
         onExport={onExport} onImport={onImport}
-        onReset={() => { setEvents(resetEvents()); setSelectedId(null); setLive("Board reset"); }}
+        onReset={() => { void resetEventsAsync().then((e) => { setEvents(e); setSelectedId(null); setLive("Board reset"); }); }}
       />
       <div style={{ position: "relative", flex: 1, overflow: "hidden" }}>
         <div ref={mountRef} style={{ position: "absolute", inset: 0, touchAction: "none" }} />
