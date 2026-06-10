@@ -70,7 +70,8 @@ export function buildStarterEvents(pack: StarterBiz[], territoryId: string = DEF
     const c = i % cols, r = Math.floor(i / cols);
     const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
     const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
-    const id = b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const slug = b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const id = `${territoryId}-${slug}`; // territory-prefixed so packs never collide
     const meta: LeadMeta = {
       id, name: b.name, businessType: b.businessType,
       position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
@@ -80,5 +81,39 @@ export function buildStarterEvents(pack: StarterBiz[], territoryId: string = DEF
   });
 }
 
-/** The default opening world: the Hampton Roads starter as an event log. */
-export const STARTER_EVENTS: LeadEvent[] = buildStarterEvents(HAMPTON_ROADS_STARTER);
+// Richmond — independent coffee + iconic local restaurants.
+export const RICHMOND_STARTER: StarterBiz[] = [
+  { name: "Blanchard's Coffee", businessType: "coffee", fit: "HOT" },
+  { name: "Ironclad Coffee Roasters", businessType: "coffee", fit: "HOT" },
+  { name: "Lamplighter Coffee Roasters", businessType: "coffee", fit: "HOT" },
+  { name: "Grit Coffee", businessType: "coffee", fit: "HOT" },
+  { name: "Rostov's Coffee & Tea", businessType: "coffee", fit: "HOT" },
+  { name: "Harrison Street Café", businessType: "cafe", fit: "HOT" },
+  { name: "Mama J's", businessType: "restaurant", fit: "WARM" },
+  { name: "The Roosevelt", businessType: "restaurant", fit: "WARM" },
+  { name: "ZZQ Texas Craft Barbeque", businessType: "restaurant", fit: "WARM" },
+  { name: "Perly's", businessType: "restaurant", fit: "WARM" },
+  { name: "Sub Rosa Bakery", businessType: "bakery", fit: "WARM" },
+];
+
+// Norfolk — focused board of Norfolk-proper independents.
+export const NORFOLK_STARTER: StarterBiz[] = [
+  { name: "Three Ships Coffee", businessType: "coffee", fit: "HOT" },
+  { name: "Rich Port Coffee", businessType: "coffee", fit: "HOT" },
+  { name: "Coaster Coffee", businessType: "coffee", fit: "HOT" },
+  { name: "Fair Grounds", businessType: "coffee", fit: "HOT" },
+  { name: "LeGrand Kitchen", businessType: "restaurant", fit: "WARM" },
+  { name: "Luce", businessType: "restaurant", fit: "WARM" },
+  { name: "Press 626 Wine Bar", businessType: "restaurant", fit: "WARM" },
+  { name: "Ilo Bistro", businessType: "restaurant", fit: "WARM" },
+  { name: "Freemason Abbey Restaurant", businessType: "restaurant", fit: "WARM" },
+  { name: "Toast", businessType: "restaurant", fit: "WARM" },
+];
+
+/** The default opening world: a real starter pack per territory (board filters by the
+ *  active territory, so each board opens with its own leads). */
+export const STARTER_EVENTS: LeadEvent[] = [
+  ...buildStarterEvents(HAMPTON_ROADS_STARTER, "hampton-roads"),
+  ...buildStarterEvents(RICHMOND_STARTER, "richmond"),
+  ...buildStarterEvents(NORFOLK_STARTER, "norfolk"),
+];
