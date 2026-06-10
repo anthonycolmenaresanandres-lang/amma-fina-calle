@@ -34,10 +34,13 @@
 - [x] **4. Lead engine — enrichment keys doc.** A short `docs/` note + tiny in-app hint:
       how to add the free `YELP_API_KEY` + `FOURSQUARE_API_KEY` in Vercel to lift Survey
       hit-rate. (Adding the keys themselves is owner-gated.)
-- [ ] **5. Voice gateway — native MoeGo + Gingr connectors.** Write them against the
-      `BookingConnector` contract with simulator stubs (keyless-verifiable), so the
-      groomer vertical has first-class connectors beyond the generic webhook bridge.
-- [ ] **6. Docs refresh.** Update `FOUNDATION.md`, the Code Atlas, and
+- [~] **5. Voice gateway — native MoeGo + Gingr connectors.** ⏸ **OWNER-GATED.** Unlike
+      Cal.com/Square (open, documented APIs), MoeGo + Gingr expose **partner-gated** APIs
+      with no public booking-write docs — a faithful *native* connector needs their
+      developer credentials/specs (an account/partner approval). Writing fabricated
+      endpoints would be unverifiable. **The generic `webhook` bridge already books into
+      both today** (Zapier/Make). Resume when partner API access is available.
+- [x] **6. Docs refresh.** Update `FOUNDATION.md`, the Code Atlas, and
       `AI_PHONE_ASSISTANT_PLAN.md` status to reflect the above; ensure
       `SALES_DEMO_PACKAGE/DEMO_URLS_AND_TALK_TRACK.md` lists `/command-center` + `/lead-arcade`.
 
@@ -48,6 +51,7 @@
 - **Survey hit-rate:** add free `YELP_API_KEY` + `FOURSQUARE_API_KEY` in Vercel.
 - **The actual outreach** with the lead list (field/sales work) + **client asset approvals**.
 - **Decisions:** VBFH trigger 2a vs 2b; next active build after VBFH (Colattao Cafe Rush vs Newsroom).
+- **Native MoeGo + Gingr connectors** (backlog #5) — need partner/developer API access; webhook bridge covers them until then.
 
 ## Definition of done (this plan)
 All backlog items checked, each shipped + verified; owner-gated items collected in one
