@@ -25,6 +25,22 @@ function formatPrice(price: number | string) {
   return Number.isFinite(num) ? `$${num.toFixed(2)}` : "";
 }
 
+// "09:00:00" / "9:00" -> "9:00 AM" (presentation only; leaves anything unexpected as-is).
+function formatTime(t: string | null): string {
+  if (!t) return "";
+  const m = /^(\d{1,2}):(\d{2})/.exec(t.trim());
+  if (!m) return t;
+  let h = Number(m[1]);
+  const min = m[2];
+  const period = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+  return `${h}:${min} ${period}`;
+}
+
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
   return { title: `Menu — ${id} | Fina Calle` };
@@ -66,6 +82,16 @@ export default async function PublicMenuPage({ params }: PageProps) {
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Menu</p>
           )}
           <h1 className="mt-3 text-4xl font-semibold text-[#f4f6f7]">{data.restaurant.business_name}</h1>
+          {data.restaurant.site_url ? (
+            <a
+              href={data.restaurant.site_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8b36d]/45 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#f4d99c] transition hover:bg-[#d8b36d]/20"
+            >
+              Visit website ↗
+            </a>
+          ) : null}
         </header>
 
         {brand.menuHero ? (
@@ -90,22 +116,48 @@ export default async function PublicMenuPage({ params }: PageProps) {
           </div>
         ) : null}
 
-        <div className="mt-8 space-y-8">
+        {data.categories.length > 1 ? (
+          <nav
+            aria-label="Menu sections"
+            className="sticky top-0 z-10 -mx-5 mt-8 flex gap-2 overflow-x-auto border-b border-[#cfd6da]/12 bg-[#030405]/85 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
+          >
+            {data.categories.map((category) => (
+              <a
+                key={category.id}
+                href={`#cat-${slugify(category.name)}`}
+                className="shrink-0 rounded-full border border-[#cfd6da]/20 px-3 py-1 text-xs font-medium text-[#c8d0d4] transition hover:border-[#d8b36d]/50 hover:text-[#f4d99c]"
+              >
+                {category.name}
+              </a>
+            ))}
+          </nav>
+        ) : null}
+
+        <div className="mt-8 space-y-10">
           {data.categories.length === 0 ? (
             <p className="text-center text-sm text-[#aeb7bd]">Menu coming soon.</p>
           ) : (
             data.categories.map((category) => (
-              <section key={category.id}>
+              <section key={category.id} id={`cat-${slugify(category.name)}`} className="scroll-mt-20">
                 <h2 className="border-b border-[#cfd6da]/14 pb-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
                   {category.name}
                 </h2>
                 <ul className="mt-4 space-y-4">
                   {category.items.map((item) => (
-                    <li key={item.id} className="flex items-start justify-between gap-4">
-                      <div>
+                    <li key={item.id} className="flex items-start gap-4">
+                      {item.photo_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={item.photo_url}
+                          alt={item.name}
+                          loading="lazy"
+                          className="h-16 w-16 shrink-0 rounded-xl border border-[#cfd6da]/14 object-cover sm:h-20 sm:w-20"
+                        />
+                      ) : null}
+                      <div className="min-w-0 flex-1">
                         <p className="font-medium text-[#eef2f4]">{item.name}</p>
                         {item.description ? (
-                          <p className="mt-0.5 text-sm text-[#aeb7bd]">{item.description}</p>
+                          <p className="mt-0.5 text-sm leading-5 text-[#aeb7bd]">{item.description}</p>
                         ) : null}
                       </div>
                       <span className="shrink-0 font-semibold text-[#f4f6f7]">{formatPrice(item.price)}</span>
@@ -121,15 +173,25 @@ export default async function PublicMenuPage({ params }: PageProps) {
           <section className="mt-10">
             <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">Hours</h2>
             <ul className="mt-3 space-y-1 text-sm text-[#c8d0d4]">
-              {data.hours.map((h) => (
-                <li key={h.day_of_week} className="flex justify-between">
-                  <span>{DAYS[h.day_of_week]}</span>
-                  <span>{h.is_closed ? "Closed" : `${h.open_time ?? ""} – ${h.close_time ?? ""}`}</span>
-                </li>
-              ))}
+              {data.hours.map((h) => {
+                const isToday = h.day_of_week === new Date().getDay();
+                return (
+                  <li
+                    key={h.day_of_week}
+                    className={`flex justify-between rounded-lg px-2 py-1 ${isToday ? "bg-[#d8b36d]/10 font-semibold text-[#f4d99c]" : ""}`}
+                  >
+                    <span>{DAYS[h.day_of_week]}{isToday ? " · Today" : ""}</span>
+                    <span>{h.is_closed ? "Closed" : `${formatTime(h.open_time)} – ${formatTime(h.close_time)}`}</span>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         ) : null}
+
+        <footer className="mt-12 border-t border-[#cfd6da]/12 pt-5 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd6da]/35">
+          Menu by Fina Calle
+        </footer>
       </div>
     </main>
   );
