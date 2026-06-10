@@ -25,9 +25,10 @@
       Hampton Roads pet groomers + salons/barbers/spas; add to `starter-packs.ts` so they
       join the default board + the Load-starter button. Verify build. ✅ +17 (6 groomers
       HOT, 11 salons/barbers/spas) → 43 total in the default Hampton Roads pack.
-- [ ] **2. Lead engine — multi-territory packs.** Give the Richmond + Norfolk territories
+- [x] **2. Lead engine — multi-territory packs.** Give the Richmond + Norfolk territories
       their own real starter packs (today only Hampton Roads has leads), so switching
-      boards is immediately useful. Wire a per-territory default in `persist.ts`/loader.
+      boards is immediately useful. ✅ RICHMOND_STARTER (11) + NORFOLK_STARTER (10);
+      STARTER_EVENTS now spans all three territories (ids territory-prefixed).
 - [ ] **3. Lead engine — outreach export.** A "Export pipeline (CSV)" action so leads +
       stage + contact can leave the arcade for outreach (complements the JSON log export).
 - [ ] **4. Lead engine — enrichment keys doc.** A short `docs/` note + tiny in-app hint:
