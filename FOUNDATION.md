@@ -79,18 +79,19 @@ PPTX + email summary. Stack: Next.js, React, Playwright, Sharp, pptxgenjs, Nodem
 - **State:** engine is **healthy** — 185 tests green, full pipeline produces real
   artifacts, last manual run completed clean. Copy was tightened locally (sport-aware
   hooks, operator-language leak fixed, brand strings routed through `brandConfig`).
-- **The real gap = the trigger:** the "daily 11 PM" Windows scheduled task was **never
-  installed** — every run has been manual. "Stabilize" = close the automation gap.
-- **Open fork (needs Anthony's call):** **(2a)** install/verify the local Windows task as
-  a stopgap, or **(2b)** skip straight to a hosted/cloud trigger (Vercel Cron / GitHub
-  Action / small VM). **Lean: 2b** — don't sink effort into a Windows-only scheduler we'll
-  replace in productization Phase 3 anyway.
-- **Enabling step for cloud help:** VBFH is **local-only (no GitHub remote)**, so cloud
-  Claude can't touch it. Push it first:
-  `gh repo create vbfh-media-engine --private --source . --push`.
-- **Productization path:** Phase 0 stabilize trigger → Phase 1 de-VBFH into a tenant
-  config (route ~298 literals through `brandConfig`) → Phase 2 drop-in branding pack →
-  Phase 3 hosted scheduler → Phase 4 second pilot tenant + pricing.
+- **✅ On GitHub:** `anthonycolmenaresanandres-lang/vbfh-media-engine` (private, branch
+  `master`). Cloud Claude can work it from a session scoped to that repo.
+- **✅ Phase 0 DONE — the trigger is solved (chose 2b).** A scheduled **GitHub Action**
+  (`.github/workflows/daily.yml`: cron + `workflow_dispatch`) runs the daily job **in the
+  cloud, PC-off**. A manual run is **green** (`success` → app `needs_review`) and uploads
+  the recap artifacts (captions + feed/story PNGs + the daily PPTX). Email is currently
+  **off** (`EMAIL_ENABLED:"false"`); to enable emailed delivery, add the SMTP secrets in the
+  repo (Settings → Actions secrets) and flip `EMAIL_ENABLED:"true"`.
+  - Caveat: GitHub disables scheduled workflows after ~60 days of repo inactivity — push
+    occasionally (or run it manually) to keep the cron alive.
+- **Productization path (Phase 0 ✅):** Phase 1 de-VBFH into a tenant config (route ~298
+  literals through `brandConfig`) → Phase 2 drop-in branding pack → Phase 3 multi-instance
+  hosting → Phase 4 second pilot tenant + pricing.
 
 ## 6. Hard guardrails (always)
 - Never touch **Client OS routes** (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase,

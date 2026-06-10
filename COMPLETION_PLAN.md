@@ -45,12 +45,14 @@
       `SALES_DEMO_PACKAGE/DEMO_URLS_AND_TALK_TRACK.md` lists `/command-center` + `/lead-arcade`.
 
 ## Owner-gated — only you can finish these (cloud Claude STOPS and surfaces them)
-- **Push VBFH to GitHub** (`gh repo create vbfh-media-engine --private --source . --push`)
-  → unblocks cloud productization of the #1 build bet.
+- ✅ **Push VBFH to GitHub** — DONE (`vbfh-media-engine`, private). ✅ **VBFH Phase 0 (2b
+  cloud trigger)** — DONE: scheduled GitHub Action live, manual run green w/ artifacts.
+  *Optional next:* add SMTP secrets + flip `EMAIL_ENABLED` for emailed delivery, then VBFH
+  productization Phase 1 (multi-tenant) from a `vbfh-media-engine`-scoped session.
 - **Voice gateway go-live:** add `OPENAI_API_KEY` + a Twilio number + `PUBLIC_HOST`; make one real call.
 - **Survey hit-rate:** add free `YELP_API_KEY` + `FOURSQUARE_API_KEY` in Vercel.
 - **The actual outreach** with the lead list (field/sales work) + **client asset approvals**.
-- **Decisions:** VBFH trigger 2a vs 2b; next active build after VBFH (Colattao Cafe Rush vs Newsroom).
+- **Decision:** next active build after VBFH (Colattao Cafe Rush vs Newsroom).
 - **Native MoeGo + Gingr connectors** (backlog #5) — need partner/developer API access; webhook bridge covers them until then.
 
 ## Definition of done (this plan)

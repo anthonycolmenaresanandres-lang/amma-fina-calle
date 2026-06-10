@@ -83,7 +83,7 @@ first**; everything else is cleanup, park, or archive.
 ### Tier 2 — build bets (separate sellable products; one at a time)
 | Project | Move | Why → next action |
 |---|---|---|
-| **VBFH Media Engine** ⭐ | **Productize / Sell** | Sports-facility/league **media automation** (scrape schedules → branded recaps + captions + PPTX + email). Real product, adjacent to AMMA's local-business engagement thesis, decent completeness. **FIRST.** → push to a GitHub remote so I can review; then productize (multi-tenant, branding pack, scheduler) + a go-live. |
+| **VBFH Media Engine** ⭐ | **Productize / Sell** | Sports-facility/league **media automation** (scrape schedules → branded recaps + captions + PPTX + email). **FIRST.** ✅ Pushed to GitHub (`anthonycolmenaresanandres-lang/vbfh-media-engine`, private). ✅ **Phase 0 DONE** — daily **cloud trigger live** (scheduled GitHub Action `daily.yml`; manual run green w/ artifacts; chose **2b** over a Windows task). Next: productization Phase 1 (de-VBFH → multi-tenant via `brandConfig`), branding pack, 2nd pilot; optional: emailed delivery (add SMTP secrets + flip `EMAIL_ENABLED`). |
 | **Dual Perspective Newsroom** | **Productize *or* Integrate** | Big content-automation engine (IG/X, fact/claim separation, Fina Calle publish). High potential, high effort, brand risk. → **2nd** bet; decide standalone product vs the Fina Calle "content engine" module. |
 
 ### Tier 3 — Park (real but off-core; revisit when AMMA core has revenue)
