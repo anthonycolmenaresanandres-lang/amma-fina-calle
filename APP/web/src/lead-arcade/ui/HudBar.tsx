@@ -11,7 +11,7 @@ const chip: React.CSSProperties = { fontSize: 11, padding: "4px 8px", borderRadi
 const menuBtn: React.CSSProperties = { display: "block", width: "100%", textAlign: "left", background: "transparent", color: "#f4e6cc", border: "none", padding: "8px 12px", fontSize: 13, cursor: "pointer" };
 
 export default function HudBar({
-  totals, goals, soundOn, packReady, territory, territories, onTerritory, onToggleSound, onToggleLog, onExport, onImport, onReset,
+  totals, goals, soundOn, packReady, territory, territories, onTerritory, onToggleSound, onToggleLog, onExport, onExportCsv, onImport, onReset,
 }: {
   totals: Totals;
   goals: Goals;
@@ -23,6 +23,7 @@ export default function HudBar({
   onToggleSound: () => void;
   onToggleLog: () => void;
   onExport: () => void;
+  onExportCsv: () => void;
   onImport: (file: File) => void;
   onReset: () => void;
 }): React.JSX.Element {
@@ -65,6 +66,7 @@ export default function HudBar({
           background: "#1c140c", border: "1px solid #3a2a18", borderRadius: 10, minWidth: 180, boxShadow: "0 8px 24px rgba(0,0,0,.5)",
         }}>
           <button style={menuBtn} onClick={() => { onToggleSound(); }}>{soundOn ? "🔊 Sound: on" : "🔈 Sound: off"}</button>
+          <button style={menuBtn} onClick={() => { setOpen(false); onExportCsv(); }}>⬇ Export pipeline (CSV)</button>
           <button style={menuBtn} onClick={() => { setOpen(false); onExport(); }}>⬇ Export log (JSON)</button>
           <button style={menuBtn} onClick={() => { fileRef.current?.click(); }}>⬆ Import log…</button>
           <button style={{ ...menuBtn, color: "#e8896b" }} onClick={() => { setOpen(false); onReset(); }}>↺ Reset board</button>

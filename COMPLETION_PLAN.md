@@ -29,7 +29,7 @@
       their own real starter packs (today only Hampton Roads has leads), so switching
       boards is immediately useful. ✅ RICHMOND_STARTER (11) + NORFOLK_STARTER (10);
       STARTER_EVENTS now spans all three territories (ids territory-prefixed).
-- [ ] **3. Lead engine — outreach export.** A "Export pipeline (CSV)" action so leads +
+- [x] **3. Lead engine — outreach export.** A "Export pipeline (CSV)" action so leads +
       stage + contact can leave the arcade for outreach (complements the JSON log export).
 - [ ] **4. Lead engine — enrichment keys doc.** A short `docs/` note + tiny in-app hint:
       how to add the free `YELP_API_KEY` + `FOURSQUARE_API_KEY` in Vercel to lift Survey
