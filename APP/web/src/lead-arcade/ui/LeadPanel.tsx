@@ -12,9 +12,10 @@ const field: React.CSSProperties = { width: "100%", background: "#120c07", color
 interface Form { name: string; businessType: string; fit: Fit; signature: string; rating: number; notes: string; followUp: string }
 
 export default function LeadPanel({
-  lead, onAction, onUpdate, onClose,
+  lead, surveying = false, onAction, onUpdate, onClose,
 }: {
   lead: LeadState | null;
+  surveying?: boolean;
   onAction: (action: ActionType, amount?: number) => void;
   onUpdate: (patch: LeadPatch) => void;
   onClose: () => void;
@@ -122,10 +123,14 @@ export default function LeadPanel({
         </label>
       )}
 
+      {surveying && (
+        <div style={{ fontSize: 12, color: "#d8a24c", margin: "6px 0" }}>🔎 Fetching public info…</div>
+      )}
+
       {na && (
-        <button onClick={() => onAction(na.action, closing ? mrrInput : isClient ? lead.mrr : undefined)} style={{
-          width: "100%", marginTop: 6, padding: "12px", borderRadius: 10, border: "none", cursor: "pointer",
-          fontWeight: 800, fontSize: 14, color: "#1b120a", background: "#d8a24c",
+        <button disabled={surveying} onClick={() => onAction(na.action, closing ? mrrInput : isClient ? lead.mrr : undefined)} style={{
+          width: "100%", marginTop: 6, padding: "12px", borderRadius: 10, border: "none", cursor: surveying ? "default" : "pointer",
+          fontWeight: 800, fontSize: 14, color: "#1b120a", background: "#d8a24c", opacity: surveying ? 0.55 : 1,
         }}>{na.label}</button>
       )}
 
