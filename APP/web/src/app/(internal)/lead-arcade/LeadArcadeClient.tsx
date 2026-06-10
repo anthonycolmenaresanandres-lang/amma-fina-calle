@@ -35,6 +35,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [newName, setNewName] = useState("");
   const [bulkOpen, setBulkOpen] = useState(false);
   const [bulkText, setBulkText] = useState("");
+  const [bulkSurvey, setBulkSurvey] = useState<{ running: boolean; done: number; total: number }>({ running: false, done: 0, total: 0 });
   const [soundOn, setSoundOn] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
   const [live, setLive] = useState("");
@@ -54,6 +55,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const activity = useMemo(() => selectActivity(filtered), [filtered]);
   const leadsArr = useMemo(() => [...leads.values()], [leads]);
   const packReady = useMemo(() => leadsArr.filter((l) => readiness(l.meta).ready).length, [leadsArr]);
+  const prospectCount = useMemo(() => leadsArr.filter((l) => l.stage === "prospect").length, [leadsArr]);
   const selected = selectedId ? leads.get(selectedId) ?? null : null;
 
   useEffect(() => { void loadEventsAsync().then(setEvents); }, []);
@@ -170,6 +172,25 @@ export default function LeadArcadeClient(): React.JSX.Element {
     }
   };
 
+  // Survey every prospect in one pass — front-loads the intel gather so you don't lose
+  // momentum clicking each lead. Sequential + paced (polite to the public APIs, which
+  // also improves match success vs. hammering them). Skips already-advanced leads.
+  const surveyAllProspects = async () => {
+    if (bulkSurvey.running) return;
+    const ids = leadsArr.filter((l) => l.stage === "prospect").map((l) => l.meta.id);
+    if (!ids.length) return;
+    setBulkSurvey({ running: true, done: 0, total: ids.length });
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i];
+      setEvents((prev) => [...prev, { leadId: id, action: "SURVEYED", at: Date.now(), territoryId: territory }]);
+      try { await surveyLead(id); } catch { /* one miss shouldn't stop the batch */ }
+      setBulkSurvey((s) => ({ ...s, done: i + 1 }));
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    setBulkSurvey({ running: false, done: 0, total: 0 });
+    setLive(`Survey complete — gathered intel for ${ids.length} leads`);
+  };
+
   const addLead = () => {
     const name = newName.trim();
     if (!name) return;
@@ -268,6 +289,11 @@ export default function LeadArcadeClient(): React.JSX.Element {
           />
           <button onClick={addLead} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>+ Scout</button>
           <button onClick={() => setBulkOpen((v) => !v)} title="Paste a whole list of businesses" style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>📋 Paste list</button>
+          {prospectCount > 0 ? (
+            <button onClick={surveyAllProspects} disabled={bulkSurvey.running} title="Run the dossier lookup on every prospect at once" style={{ background: bulkSurvey.running ? "rgba(20,12,7,.92)" : "#2f9e54", color: bulkSurvey.running ? "#f4e6cc" : "#06180d", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: bulkSurvey.running ? "default" : "pointer", opacity: bulkSurvey.running ? 0.85 : 1 }}>
+              {bulkSurvey.running ? `🔭 Surveying ${bulkSurvey.done}/${bulkSurvey.total}…` : `🔭 Survey all (${prospectCount})`}
+            </button>
+          ) : null}
         </div>
         {bulkOpen ? (
           <div style={{ position: "absolute", left: 12, bottom: 58, width: "min(92vw, 380px)", zIndex: 6, background: "rgba(20,12,7,.97)", border: "1px solid #3a2a18", borderRadius: 12, padding: 12, boxShadow: "0 20px 50px -20px rgba(0,0,0,.8)" }}>
