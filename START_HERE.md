@@ -1,5 +1,9 @@
 ﻿# START HERE
 
+> **New chat or agent?** Read **`FOUNDATION.md`** first — it's the single onboarding
+> brief (company thesis, multi-agent model, what's live, portfolio triage, guardrails)
+> and has copy-paste **kickoff prompts** for cloud Claude / local Claude / Codex / ChatGPT.
+
 ## 1) What AMMA Ventures LLC DBA Fina Calle Is
 AMMA Ventures LLC DBA Fina Calle is the parent product workspace for building repeatable digital systems for local businesses: interactive storefronts, game-driven engagement, website generation pipelines, owner tools, and reusable product modules.
 
