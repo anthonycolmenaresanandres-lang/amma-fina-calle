@@ -64,4 +64,53 @@ client/IP/licensing constraints per project; flag anything regulated (payments,
 health, employee/customer data) before building.
 
 ---
-_Status: framework ready. Awaiting `LOCAL_CODE_INVENTORY.md` to populate the table._
+## Populated triage — 2026-06-10 (from LOCAL_CODE_INVENTORY)
+
+**Read:** one tight **AMMA core** (the business), **two standout separate products**
+(VBFH, Newsroom), and a tail of **off-thesis experiments**. WIP-cap → build **VBFH
+first**; everything else is cleanup, park, or archive.
+
+### Tier 1 — AMMA core (ship / consolidate; this is the company)
+| Project | Move | Why → next action |
+|---|---|---|
+| **AMMA Ventures (canonical repo)** | **Double-down** | The hub — all our work lands here. Keep as source of truth. |
+| 4 AMMA variant clones (Adzone, Campaign Wiring, Ball Kicker, Stadium Chrome) | **Salvage/consolidate** | Stale working copies of the same remote; work already merged. → confirm nothing unmerged, then delete the local clones (CLONE_CONTROL hygiene). |
+| **Fina Calle Landing** | **Ship** | ~done static marketing site. → confirm it's the deployed public site; point the domain. Quick win. |
+| **Colattao Cafe Rush** | **Ship + harvest** | Live client promo game (catch-game → discount + QR/menu). → ship for Colattao; pull reusable patterns into the OS game library. |
+| Colattao asset clone · anime pack · `_finacalle_build` | **Salvage** | Asset/scripts annexes. → move useful assets into `ASSET_REGISTRY/` + scripts into `tools/`, archive the folders. |
+| Fina Calle ops watchdog · **Shadow Engineer (RPA)** | **Keep (internal tooling)** | Governance/automation for clone-control + repo watchdog. → fold the watchdog into Shadow Engineer; not sold, internal force-multiplier. |
+
+### Tier 2 — build bets (separate sellable products; one at a time)
+| Project | Move | Why → next action |
+|---|---|---|
+| **VBFH Media Engine** ⭐ | **Productize / Sell** | Sports-facility/league **media automation** (scrape schedules → branded recaps + captions + PPTX + email). Real product, adjacent to AMMA's local-business engagement thesis, decent completeness. **FIRST.** → push to a GitHub remote so I can review; then productize (multi-tenant, branding pack, scheduler) + a go-live. |
+| **Dual Perspective Newsroom** | **Productize *or* Integrate** | Big content-automation engine (IG/X, fact/claim separation, Fina Calle publish). High potential, high effort, brand risk. → **2nd** bet; decide standalone product vs the Fina Calle "content engine" module. |
+
+### Tier 3 — Park (real but off-core; revisit when AMMA core has revenue)
+| Project | Move | Why |
+|---|---|---|
+| **PermitReadyFencePacket** | **Park → Productize (separate vertical)** | Genuinely sellable construction/permitting SaaS, but a different market — park until core has momentum. |
+| Kalshi Research Terminal (ex Cigar-Butt) | **Park** | Personal fin-research; off-thesis. |
+| Franchise Certainty (sim + Arduino) | **Park** | Early hardware PoC; off-core. |
+| New Project 2 (Unity) | **Park** | Game experiment; revisit only if it feeds the OS game library. |
+| Local AI Agent | **Park/Salvage** | Likely superseded by Codex + Shadow Engineer; harvest ideas, don't maintain. |
+
+### Tier 4 — Archive (dead / off-core; document & stop)
+VBFH desktop placeholder (empty) · CLMH_Analysis (astronomy stubs) · first-game ·
+first-game-ever (2025 Godot) · Hail Marry (DICOM/medical — personal) · Newsroom
+hardware sketch (nested appendix).
+
+### Sequenced plan of attack (WIP-capped)
+1. **VBFH** — get it on a remote → I review → productization spec → build/ship. *(active build #1)*
+2. **Core cleanup (parallel, low effort):** delete the 4 stale AMMA clones, ship/confirm Landing, salvage asset/anime/build scraps into the canonical repo, fold watchdog into Shadow Engineer.
+3. **Colattao Cafe Rush** — ship for Colattao + harvest into the OS. *(active build #2 candidate)*
+4. **Newsroom** — decide integrate-vs-standalone; then build. *(next bet)*
+5. **Park** Tier 3 with revisit triggers; **archive** Tier 4 (record why).
+
+### Enabling steps (needed before I can touch code)
+- **No-remote git repos** (VBFH, Kalshi, PermitReady, Franchise Certainty, Unity, clone):
+  push each to a GitHub remote (Codex: `gh repo create <name> --private --source . --push`)
+  so I can read/work it. Start with **VBFH**.
+- **Secrets:** several repos contain `.env`/credentials — **do not** read/modify/migrate
+  them without explicit OK; keep them out of any repo I touch.
+
