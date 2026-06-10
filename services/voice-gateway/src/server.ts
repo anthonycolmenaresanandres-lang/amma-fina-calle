@@ -11,7 +11,7 @@ import { connectStreamTwiML, mediaFrame, clearFrame } from "./twilio";
 import { RealtimeSession } from "./realtime";
 import { store } from "./store";
 import { finalizeCall } from "./orchestrator";
-import { getTenantById, getTenantByNumber } from "./tenant";
+import { getTenantById, getTenantByNumber, allTenants } from "./tenant";
 import type { CallRecord } from "./types";
 
 function readBody(req: http.IncomingMessage): Promise<string> {
@@ -32,13 +32,24 @@ const server = http.createServer(async (req, res) => {
       .end(JSON.stringify({ tenant: tenantId ?? "all", ...store.stats(tenantId) }, null, 2));
     return;
   }
+  if (url.pathname === "/tenants") {
+    // Ops view — who's wired up, on which numbers, with which connector. No secrets.
+    const list = allTenants().map((t) => ({
+      id: t.id, business: t.business.name, kind: t.business.kind,
+      phoneNumbers: t.phoneNumbers, connector: t.connector, hours: t.business.hours,
+      services: t.business.services.map((s) => s.name),
+    }));
+    res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({ count: list.length, tenants: list }, null, 2));
+    return;
+  }
   if (url.pathname === "/twiml") {
     // Twilio posts form-encoded (To, From); also accept query for GET. Route by `To`.
     const body = await readBody(req);
     const params = new URLSearchParams(body || "");
     const to = params.get("To") ?? url.searchParams.get("To") ?? undefined;
+    const from = params.get("From") ?? url.searchParams.get("From") ?? "";
     const tenant = getTenantByNumber(to ?? undefined);
-    res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id));
+    res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id, from));
     return;
   }
   res.writeHead(404).end("not found");
@@ -58,7 +69,8 @@ wss.on("connection", (twilioWs: WebSocket) => {
       case "start": {
         streamSid = msg.start?.streamSid ?? "";
         const tenant = getTenantById(msg.start?.customParameters?.tenant) ?? getTenantByNumber(undefined);
-        call = store.createCall(undefined, tenant.id);
+        const fromPhone = msg.start?.customParameters?.from || undefined;
+        call = store.createCall(fromPhone, tenant.id);
         realtime = new RealtimeSession(tenant, call.callId, {
           onAudio: (b64) => { if (streamSid) twilioWs.send(mediaFrame(streamSid, b64)); },
           onUserSpeechStarted: () => { if (streamSid) twilioWs.send(clearFrame(streamSid)); },

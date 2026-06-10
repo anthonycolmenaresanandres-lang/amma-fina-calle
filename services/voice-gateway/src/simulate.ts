@@ -43,7 +43,7 @@ async function main(): Promise<void> {
   const { checkAvailability, holdSlot, confirmBooking, takeMessage, summarizeCall, finalizeCall } = await import("./orchestrator");
   const { ProposeConfirmConnector } = await import("./adapter/proposeConfirm");
   const { WebhookConnector } = await import("./adapter/webhook");
-  const { getTenantByNumber } = await import("./tenant");
+  const { getTenantByNumber, allTenants } = await import("./tenant");
   const { isOpenOn } = await import("./hours");
   type Biz = Parameters<typeof isOpenOn>[0];
 
@@ -194,6 +194,17 @@ async function main(): Promise<void> {
   check("groomer stats show only groomer's data", gStats.calls === 4 && gStats.bookings === 1 && gStats.messages === 1);
   check("salon stats show only salon's data", sStats.calls === 1 && sStats.bookings === 1 && sStats.pendingBookings === 1 && sStats.messages === 0);
   check("global stats aggregate across tenants", store.stats().bookings === 2 && store.stats().calls === 5);
+
+  // ---- Scenario 8: call routing TwiML + caller-number capture ----
+  console.log(`\n— Scenario 8: TwiML routing + caller-number capture —`);
+  const { connectStreamTwiML } = await import("./twilio");
+  const twiml = connectStreamTwiML(salon.id, "+1 (555) 000-3333");
+  check("TwiML embeds the resolved tenant as a Stream parameter", twiml.includes(`name="tenant" value="salon"`));
+  check("TwiML embeds the caller number for callbacks", twiml.includes(`name="from"`) && twiml.includes("000-3333"));
+  const idCall = store.createCall("+15550009999", salon.id);
+  check("caller number is recorded on the call", store.getCall(idCall.callId)?.fromPhone === "+15550009999");
+  const ids = allTenants().map((t) => t.id);
+  check("tenant registry lists every configured business", ids.includes("groomer") && ids.includes("salon"));
 
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);

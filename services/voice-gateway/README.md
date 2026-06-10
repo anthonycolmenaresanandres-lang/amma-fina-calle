@@ -46,6 +46,9 @@ One deployed gateway serves any number of clients; an inbound call is routed to 
   closed" number that justifies the subscription; `handledPct` counts calls that ended in
   a booking **or** a captured message (not lost).
 - **`npm run report`** — the same rollup at the CLI (reads `STORE_SNAPSHOT` if set).
+- **`GET /tenants`** — ops listing of every wired-up business (id, numbers, connector,
+  hours, services); no secrets. The caller's number (Twilio `From`) is carried into the
+  Media Stream and recorded on the call, so missed-call/message alerts say who to ring back.
 
 ## Booking connectors (`BOOKING_CONNECTOR`)
 - **`mock`** (default) — deterministic; for the simulator + keyless demo.
