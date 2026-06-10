@@ -4,21 +4,14 @@
 // propose-and-confirm. Keep bookings + payments inside Square (the Orders API
 // charges 1% on non-Square payments).
 
-import { config } from "../config";
 import type { BookingResult, Customer, Service, Slot } from "../types";
 import type { BookingConnector } from "./types";
+import type { Tenant } from "../tenant";
 
 const SQUARE_VERSION = "2024-10-17";
 
 interface SqAvailability { start_at: string }
 
-function headers(): Record<string, string> {
-  return {
-    Authorization: `Bearer ${config.square.accessToken}`,
-    "Square-Version": SQUARE_VERSION,
-    "Content-Type": "application/json",
-  };
-}
 function timeoutFetch(url: string, init: RequestInit, ms = 6000): Promise<Response> {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), ms);
@@ -27,13 +20,28 @@ function timeoutFetch(url: string, init: RequestInit, ms = 6000): Promise<Respon
 
 export class SquareConnector implements BookingConnector {
   readonly name = "square";
+  private sq: NonNullable<Tenant["square"]>;
+  private business: Tenant["business"];
+
+  constructor(tenant: Tenant) {
+    this.sq = tenant.square!; // factory only builds this when configured
+    this.business = tenant.business;
+  }
+
+  private headers(): Record<string, string> {
+    return {
+      Authorization: `Bearer ${this.sq.accessToken}`,
+      "Square-Version": SQUARE_VERSION,
+      "Content-Type": "application/json",
+    };
+  }
 
   async listServices(): Promise<Service[]> {
-    return config.business.services; // catalog lookup could replace this later
+    return this.business.services; // catalog lookup could replace this later
   }
 
   async checkAvailability({ date }: { date: string }): Promise<Slot[]> {
-    const sq = config.square;
+    const sq = this.sq;
     const body = {
       query: {
         filter: {
@@ -43,7 +51,7 @@ export class SquareConnector implements BookingConnector {
         },
       },
     };
-    const res = await timeoutFetch(`${sq.baseUrl}/v2/bookings/availability/search`, { method: "POST", headers: headers(), body: JSON.stringify(body) });
+    const res = await timeoutFetch(`${sq.baseUrl}/v2/bookings/availability/search`, { method: "POST", headers: this.headers(), body: JSON.stringify(body) });
     if (!res.ok) return [];
     const json = (await res.json()) as { availabilities?: SqAvailability[] };
     return (json.availabilities ?? []).map((a) => {
@@ -53,7 +61,7 @@ export class SquareConnector implements BookingConnector {
   }
 
   async book({ slot, service, customer, idempotencyKey }: { slot: Slot; service: string; customer: Customer; idempotencyKey: string }): Promise<BookingResult> {
-    const sq = config.square;
+    const sq = this.sq;
     const body = {
       idempotency_key: idempotencyKey,
       booking: {
@@ -63,7 +71,7 @@ export class SquareConnector implements BookingConnector {
         appointment_segments: [{ service_variation_id: sq.serviceVariationId, team_member_id: sq.teamMemberId, duration_minutes: 60, service_variation_version: 1 }],
       },
     };
-    const res = await timeoutFetch(`${sq.baseUrl}/v2/bookings`, { method: "POST", headers: headers(), body: JSON.stringify(body) });
+    const res = await timeoutFetch(`${sq.baseUrl}/v2/bookings`, { method: "POST", headers: this.headers(), body: JSON.stringify(body) });
     if (!res.ok) throw new Error(`square booking failed: ${res.status}`);
     const json = (await res.json()) as { booking?: { id?: string; start_at?: string } };
     return { bookingRef: json.booking?.id ?? idempotencyKey.slice(0, 8), startIso: json.booking?.start_at ?? slot.startIso, service };

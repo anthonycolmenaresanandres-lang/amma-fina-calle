@@ -32,8 +32,8 @@ function persist(): void {
 export const store = {
   id: () => randomUUID(),
 
-  createCall(fromPhone?: string): CallRecord {
-    const c: CallRecord = { callId: randomUUID(), fromPhone, status: "active", startedAt: Date.now() };
+  createCall(fromPhone?: string, tenantId = "default"): CallRecord {
+    const c: CallRecord = { callId: randomUUID(), tenantId, fromPhone, status: "active", startedAt: Date.now() };
     db.calls[c.callId] = c; persist(); return c;
   },
   getCall(callId: string): CallRecord | undefined { return db.calls[callId]; },
@@ -61,24 +61,28 @@ export const store = {
   auditCount(): number { return db.audit.length; },
   bookingCount(): number { return Object.values(db.drafts).filter((d) => d.status === "committed").length; },
 
-  /** Rollup for the ROI / call-analytics view (/stats, npm run report). */
-  stats(): {
+  /** Rollup for the ROI / call-analytics view (/stats, npm run report). Optionally
+   *  scoped to a single tenant so each client sees only their own numbers. */
+  stats(tenantId?: string): {
     calls: number; activeCalls: number; drafts: number;
     bookings: number; confirmedBookings: number; pendingBookings: number;
     messages: number; missedCalls: number; handledPct: number; conversionPct: number; syncErrors: number; audits: number;
   } {
-    const calls = Object.values(db.calls);
-    const drafts = Object.values(db.drafts);
+    const inScope = <T extends { tenantId: string }>(x: T): boolean => !tenantId || x.tenantId === tenantId;
+    const calls = Object.values(db.calls).filter(inScope);
+    const drafts = Object.values(db.drafts).filter(inScope);
+    const messages = db.messages.filter(inScope);
     const committed = drafts.filter((d) => d.status === "committed");
     const pendingBookings = committed.filter((d) => d.pendingConfirm).length;
     const confirmedBookings = committed.length - pendingBookings;
-    const syncErrors = Object.values(db.posSync).filter((s) => s.status === "error").length;
+    const draftIds = new Set(drafts.map((d) => d.draftId));
+    const syncErrors = Object.values(db.posSync).filter((s) => s.status === "error" && (!tenantId || draftIds.has(s.draftId))).length;
     // "Handled" = the call ended in a booking OR a captured message (i.e. not lost).
-    const handled = committed.length + db.messages.length;
+    const handled = committed.length + messages.length;
     // "Missed" = an ENDED call that produced neither a booking nor a message.
     const missedCalls = calls.filter((c) => c.status === "ended"
       && !committed.some((d) => d.callId === c.callId)
-      && !db.messages.some((m) => m.callId === c.callId)).length;
+      && !messages.some((m) => m.callId === c.callId)).length;
     return {
       calls: calls.length,
       activeCalls: calls.filter((c) => c.status === "active").length,
@@ -86,7 +90,7 @@ export const store = {
       bookings: committed.length,
       confirmedBookings,
       pendingBookings,
-      messages: db.messages.length,
+      messages: messages.length,
       missedCalls,
       handledPct: calls.length ? Math.round((handled / calls.length) * 100) : 0,
       conversionPct: calls.length ? Math.round((committed.length / calls.length) * 100) : 0,

@@ -3,8 +3,7 @@
 // the client wires a Zapier/Make/Cloud-Function endpoint that speaks this simple
 // JSON contract, and we tool-call it. Gated on a configured book URL.
 
-import { config } from "../config";
-import type { BookingResult, Customer, Service, Slot } from "../types";
+import type { BookingResult, BusinessPack, Customer, Service, Slot } from "../types";
 import type { BookingConnector } from "./types";
 
 export interface WebhookUrls { availabilityUrl: string; bookUrl: string; secret?: string }
@@ -18,9 +17,11 @@ function timeoutFetch(url: string, init: RequestInit, ms = 6000): Promise<Respon
 export class WebhookConnector implements BookingConnector {
   readonly name = "webhook";
   private urls: WebhookUrls;
+  private business: BusinessPack;
 
-  constructor(urls: WebhookUrls = config.webhook) {
+  constructor(urls: WebhookUrls, business: BusinessPack) {
     this.urls = urls;
+    this.business = business;
   }
 
   private headers(): Record<string, string> {
@@ -28,7 +29,7 @@ export class WebhookConnector implements BookingConnector {
   }
 
   async listServices(): Promise<Service[]> {
-    return config.business.services;
+    return this.business.services;
   }
 
   async checkAvailability({ date, service }: { date: string; service: string }): Promise<Slot[]> {

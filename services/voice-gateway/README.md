@@ -12,20 +12,39 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
   summary (booked / message / missed) and **alerts staff on a missed call**.
 - `src/adapter/*` — the unified booking adapter contract + connectors: `mock`, `calcom`,
   `square` (Appointments), and **`proposeConfirm`** (the universal fallback).
-- `src/hours.ts` — business-hours helper (`isOpenOn` / `slotsForDate`); the mock + propose-
-  confirm connectors offer slots **only within open days/hours** (`BUSINESS_OPEN_DAYS`,
-  `BUSINESS_OPEN_HOUR`, `BUSINESS_CLOSE_HOUR`), so the bot never books a closed day.
+- `src/tenant.ts` — **multi-tenant registry**: routes each call to a business by the
+  dialled number; each tenant carries its own Knowledge Pack + connector + creds.
+- `src/hours.ts` — per-tenant business-hours helper (`isOpenOn` / `slotsForDate`); the
+  mock + propose-confirm connectors offer slots **only within that tenant's open
+  days/hours**, so the bot never books a closed day.
 - `src/store.ts` — calls / drafts / pos_sync / audit (in-memory; swap for Postgres later);
-  `stats()` rolls up the ROI view (calls, bookings, call→booking %, pending vs confirmed).
+  calls/drafts/messages are tagged with `tenantId`, and `stats(tenantId?)` rolls up the
+  ROI view per business (or across all).
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
   booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
 
+## Multi-tenant (one gateway, many businesses)
+One deployed gateway serves any number of clients; an inbound call is routed to a
+**tenant** by the Twilio number that was dialled.
+- Point a `TENANTS_FILE` env var at a JSON array of tenants (see `tenants.example.json`).
+  Each entry is merged over the env-derived default, so you only specify what differs.
+  With **no** `TENANTS_FILE`, the env config becomes a single catch-all "default" tenant
+  (single-client deploys keep working unchanged).
+- A tenant is the **only** per-client surface: `phoneNumbers` (routing), `business`
+  (Knowledge Pack — services + hours), `connector` + its creds, `notify.staffWebhookUrl`,
+  `disclosure`, `voice`.
+- **Routing path:** `/twiml` reads Twilio's `To` → resolves the tenant → embeds its id as
+  a `<Stream><Parameter name="tenant">`; the Media Stream `start` event carries it back,
+  so the `RealtimeSession` uses that business's pack + connector. A tenant with an empty
+  `phoneNumbers` is the catch-all; unknown numbers fall back to it (then the first tenant).
+
 ## Call analytics / ROI
-- **`GET /stats`** — live JSON rollup: `{ calls, bookings, confirmedBookings,
-  pendingBookings, messages, missedCalls, conversionPct, handledPct, syncErrors, audits }`. The
-  "answered + booked while you were closed" number that justifies the subscription;
-  `handledPct` counts calls that ended in a booking **or** a captured message (not lost).
+- **`GET /stats`** (`?tenant=<id>` to scope to one business) — live JSON rollup:
+  `{ calls, bookings, confirmedBookings, pendingBookings, messages, missedCalls,
+  conversionPct, handledPct, syncErrors, audits }`. The "answered + booked while you were
+  closed" number that justifies the subscription; `handledPct` counts calls that ended in
+  a booking **or** a captured message (not lost).
 - **`npm run report`** — the same rollup at the CLI (reads `STORE_SNAPSHOT` if set).
 
 ## Booking connectors (`BOOKING_CONNECTOR`)

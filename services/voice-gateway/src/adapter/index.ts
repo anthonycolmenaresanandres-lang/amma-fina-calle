@@ -1,34 +1,38 @@
-import { config } from "../config";
 import type { BookingConnector } from "./types";
+import type { Tenant } from "../tenant";
 import { MockConnector } from "./mock";
 import { CalComConnector } from "./calcom";
 import { SquareConnector } from "./square";
 import { WebhookConnector } from "./webhook";
 import { ProposeConfirmConnector } from "./proposeConfirm";
 
-let connector: BookingConnector | null = null;
+// One connector instance per tenant (cached), built from that tenant's config.
+const cache = new Map<string, BookingConnector>();
 
-// Select the booking connector by env, falling back to propose-and-confirm when a
-// real connector is selected but unconfigured (so the bot still works for anyone).
-export function getConnector(): BookingConnector {
-  if (connector) return connector;
-  switch (config.connector) {
+// Select a tenant's booking connector, falling back to propose-and-confirm when a real
+// connector is selected but unconfigured (so the bot still works for anyone).
+export function connectorFor(tenant: Tenant): BookingConnector {
+  const cached = cache.get(tenant.id);
+  if (cached) return cached;
+  let connector: BookingConnector;
+  switch (tenant.connector) {
     case "calcom":
-      connector = config.calcom.apiKey && config.calcom.eventTypeId ? new CalComConnector() : new ProposeConfirmConnector();
+      connector = tenant.calcom?.apiKey && tenant.calcom.eventTypeId ? new CalComConnector(tenant) : new ProposeConfirmConnector(tenant.business);
       break;
     case "square":
-      connector = config.square.accessToken && config.square.locationId && config.square.serviceVariationId
-        ? new SquareConnector() : new ProposeConfirmConnector();
+      connector = tenant.square?.accessToken && tenant.square.locationId && tenant.square.serviceVariationId
+        ? new SquareConnector(tenant) : new ProposeConfirmConnector(tenant.business);
       break;
     case "webhook":
-      connector = config.webhook.bookUrl ? new WebhookConnector() : new ProposeConfirmConnector();
+      connector = tenant.webhook?.bookUrl ? new WebhookConnector(tenant.webhook, tenant.business) : new ProposeConfirmConnector(tenant.business);
       break;
     case "proposeconfirm":
-      connector = new ProposeConfirmConnector();
+      connector = new ProposeConfirmConnector(tenant.business);
       break;
     default:
-      connector = new MockConnector();
+      connector = new MockConnector(tenant.business);
   }
+  cache.set(tenant.id, connector);
   return connector;
 }
 
