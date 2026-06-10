@@ -45,6 +45,16 @@ export interface CallRecord {
   endedAt?: number;
 }
 
+// A captured message / lead — when the bot can't book (after-hours, no fit, off-menu
+// request) it still captures the caller so the business never loses the opportunity.
+export interface Message {
+  messageId: string;
+  callId: string;
+  customer: Customer;
+  reason: string;
+  at: number;
+}
+
 export interface AuditLog {
   auditId: string;
   entityType: string;

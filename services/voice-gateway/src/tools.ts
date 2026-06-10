@@ -46,6 +46,20 @@ export const tools = [
       required: ["draft_id"],
     },
   },
+  {
+    type: "function",
+    name: "take_message",
+    description: "Capture the caller's name, number, and reason when you can't book them — after hours, no suitable time, an off-menu request, or a tool failure. Use this instead of just hanging up so the business never loses the lead.",
+    parameters: {
+      type: "object",
+      properties: {
+        customer_name: { type: "string" },
+        customer_phone: { type: "string", description: "Best callback number" },
+        reason: { type: "string", description: "Brief note on what they wanted" },
+      },
+      required: ["reason"],
+    },
+  },
 ] as const;
 
 export function systemInstructions(businessName: string, kind: string, hours: string): string {
@@ -55,7 +69,8 @@ export function systemInstructions(businessName: string, kind: string, hours: st
     `Booking flow you MUST follow: 1) find the service, 2) check_availability, 3) offer real open times,`,
     `4) hold_slot for the chosen time, 5) READ BACK the service/time/name and ask "should I book that?",`,
     `6) only after a clear yes, call confirm_booking with the draft_id. Never claim it's booked before confirm_booking succeeds.`,
-    `Never invent services, prices, or open times — only use what the tools return. If a tool fails or the caller`,
-    `needs something out of scope, take a message and say a team member will follow up. Always offer to help with anything else.`,
+    `Never invent services, prices, or open times — only use what the tools return. If a tool fails, the caller`,
+    `needs something out of scope, or there's no suitable time, call take_message to capture their name, number, and`,
+    `request so the team can follow up — never end the call empty-handed. Always offer to help with anything else.`,
   ].join(" ");
 }

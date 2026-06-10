@@ -75,6 +75,18 @@ export async function confirmBooking(draftId: string): Promise<{ bookingRef: str
   }
 }
 
+/** Capture a message / lead when we can't (or shouldn't) book — never lose the caller. */
+export async function takeMessage(callId: string, customer: Customer, reason: string): Promise<{ messageId: string; text: string }> {
+  const messageId = store.id();
+  store.putMessage({ messageId, callId, customer, reason, at: Date.now() });
+  store.audit("message", messageId, "message.capture", undefined, { customer, reason });
+  void notifyStaff(
+    `New message for ${config.business.name}: ${customer.name ?? "a caller"}` +
+    `${customer.phone ? ` (${customer.phone})` : ""} — "${reason}". Please follow up.`
+  );
+  return { messageId, text: `Got it — I've taken a message for the team and someone will follow up${customer.phone ? ` at ${customer.phone}` : ""}. Anything else?` };
+}
+
 /** Single dispatch used by the realtime engine + the simulator. Returns a string for the model. */
 export async function runTool(callId: string, name: string, args: Record<string, unknown>): Promise<string> {
   try {
@@ -92,6 +104,10 @@ export async function runTool(callId: string, name: string, args: Record<string,
     }
     if (name === "confirm_booking") {
       return (await confirmBooking(String(args.draft_id))).text;
+    }
+    if (name === "take_message") {
+      const customer: Customer = { name: args.customer_name as string | undefined, phone: args.customer_phone as string | undefined };
+      return (await takeMessage(callId, customer, String(args.reason ?? "callback requested"))).text;
     }
     return `unknown tool: ${name}`;
   } catch (err) {

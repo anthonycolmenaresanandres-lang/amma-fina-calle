@@ -5,7 +5,7 @@
 
 import http from "node:http";
 import { store } from "./store";
-import { checkAvailability, holdSlot, confirmBooking } from "./orchestrator";
+import { checkAvailability, holdSlot, confirmBooking, takeMessage } from "./orchestrator";
 import { ProposeConfirmConnector } from "./adapter/proposeConfirm";
 import { WebhookConnector } from "./adapter/webhook";
 
@@ -98,6 +98,18 @@ async function main(): Promise<void> {
   const whBook = await wh.book({ slot: whSlots[0]!, service, customer: cust, idempotencyKey: "wh-1" });
   check("webhook connector booked via the endpoint", whBook.bookingRef === "WH-555");
   await new Promise<void>((r) => server.close(() => r()));
+
+  // ---- Scenario 4: take a message (never lose the caller when we can't book) ----
+  console.log(`\n— Scenario 4: take_message (after-hours / no fit / off-menu) —`);
+  const msgBefore = store.messageCount();
+  const call2 = store.createCall("+15555550777");
+  console.log(`Caller: "Do you board dogs overnight?"  Agent: "We don't, but I'll take a message."`);
+  const msg = await takeMessage(call2.callId, { name: "Sam", phone: "+15555550777" }, "asked about overnight boarding");
+  console.log(`Agent (tool take_message): ${msg.text}\n`);
+  check("a message was captured", store.messageCount() === msgBefore + 1 && msg.messageId.length > 0);
+  const statsAfter = store.stats();
+  check("stats counts the captured message", statsAfter.messages === store.messageCount());
+  check("a booking-or-message call counts as handled", statsAfter.handledPct > 0);
 
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);
