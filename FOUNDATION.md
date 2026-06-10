@@ -51,8 +51,12 @@ The site is **finacalleos.com** (Next.js, repo root `APP/web`, auto-deploys from
   (OpenAI Realtime, a Twilio number + `PUBLIC_HOST`, per-connector creds). Plan +
   status: `PRODUCT_MODULES/AI_PHONE_ASSISTANT_PLAN.md`.
 - **Penalty Shootout** — `/penalty-shootout` — live, Colattao art-complete.
-- **Lead Arcade / Conquest** — `/lead-arcade` (internal pipeline-as-a-game) + `/conquest`
-  (public demo).
+- **Lead Arcade / Conquest** — `/lead-arcade` (internal pipeline-as-a-game; private) +
+  `/conquest` (public demo). Now ships **real default leads per territory** (Hampton
+  Roads 43, Richmond 11, Norfolk 10 — independent coffee/restaurants/groomers/salons),
+  a **📋 Paste list** bulk-scout, **🔭 Survey all** (batch enrich from OSM; richer with
+  optional Yelp/Foursquare keys — see `APP/web/docs/LEAD_ARCADE_ENRICHMENT_KEYS.md`), and
+  **Export pipeline (CSV)** for outreach. Real lead lists stay client-side (not in the repo).
 - **Colattao** — flagship client case study (`CASE_STUDIES/COLATTAO/`).
 
 ## 4. Portfolio triage (full map: `BUSINESS/PROJECT_PORTFOLIO_TRIAGE.md`)
