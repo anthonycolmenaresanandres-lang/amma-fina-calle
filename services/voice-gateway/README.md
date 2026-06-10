@@ -20,6 +20,10 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
   `SQUARE_LOCATION_ID`, `SQUARE_SERVICE_VARIATION_ID`, `SQUARE_TEAM_MEMBER_ID`,
   `SQUARE_BASE_URL`). Keep bookings + payments in Square (Orders API charges 1% on
   non-Square payments).
+- **`webhook`** — generic **Zapier/Make/cloud-function bridge** for systems without a
+  native connector (MoeGo, Gingr, PetExec, …). Set `WEBHOOK_BOOK_URL` (+ optional
+  `WEBHOOK_AVAILABILITY_URL`, `WEBHOOK_SECRET`); the endpoint speaks a simple JSON
+  contract (`{date,service}`→`{slots}`, `{slot,service,customer,idempotencyKey}`→`{bookingRef,startIso,pending}`).
 - **`proposeConfirm`** — **universal fallback, no integration needed**: offers slots from
   open hours and records each booking as a **PENDING request** (provisional ref) for staff
   to confirm into whatever system they use. Lets us sell to **any** business immediately.
