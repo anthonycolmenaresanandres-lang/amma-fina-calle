@@ -116,6 +116,7 @@ export const sections: HubSection[] = [
     title: "Tech & architecture",
     blurb: "Infra, domains, handoffs, deployment.",
     links: [
+      { label: "Project Code Atlas", href: "/command-center/code", kind: "tool", note: "every project: stack, state, move" },
       { label: "Tech Architecture", href: tree("TECH_ARCHITECTURE"), kind: "folder" },
       { label: "Infrastructure Plan", href: blob("TECH_ARCHITECTURE/FINA_CALLE_OS_INFRASTRUCTURE_PLAN.md"), kind: "doc" },
       { label: "Domain Operations (finacalleos.com)", href: blob("TECH_ARCHITECTURE/FINACALLEOS_DOMAIN_OPERATIONS.md"), kind: "doc" },
