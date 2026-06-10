@@ -121,6 +121,7 @@ export const sections: HubSection[] = [
       { label: "Domain Operations (finacalleos.com)", href: blob("TECH_ARCHITECTURE/FINACALLEOS_DOMAIN_OPERATIONS.md"), kind: "doc" },
       { label: "Handoffs", href: tree("HANDOFFS"), kind: "folder" },
       { label: "Local Code Inventory", href: blob("HANDOFFS/LOCAL_CODE_INVENTORY.md"), kind: "doc" },
+      { label: "Project Code Atlas", href: "/command-center/code", kind: "tool", note: "every project: stack, state, move" },
     ],
   },
   {
