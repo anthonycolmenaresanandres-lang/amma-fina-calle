@@ -87,6 +87,34 @@ export async function takeMessage(callId: string, customer: Customer, reason: st
   return { messageId, text: `Got it — I've taken a message for the team and someone will follow up${customer.phone ? ` at ${customer.phone}` : ""}. Anything else?` };
 }
 
+/** What did this call achieve? Used for the end-of-call summary + missed-call alerts. */
+export function summarizeCall(callId: string): { outcome: "booked" | "message" | "missed"; text: string } {
+  const booked = store.draftsForCall(callId).filter((d) => d.status === "committed");
+  if (booked.length) {
+    return { outcome: "booked", text: `booked ${booked.map((b) => `${b.service} (${b.bookingRef})`).join(", ")}` };
+  }
+  const msgs = store.messagesForCall(callId);
+  if (msgs.length) {
+    return { outcome: "message", text: `message taken: ${msgs.map((m) => m.reason).join("; ")}` };
+  }
+  return { outcome: "missed", text: "call ended with no booking and no message" };
+}
+
+/** End a call once: record it ended, audit a summary, and alert staff on a missed call. */
+export async function finalizeCall(callId: string): Promise<void> {
+  const call = store.getCall(callId);
+  if (!call || call.status === "ended") return; // idempotent — stop + close both fire
+  const summary = summarizeCall(callId);
+  store.endCall(callId);
+  store.audit("call", callId, "call.summary", undefined, summary);
+  if (summary.outcome === "missed") {
+    void notifyStaff(
+      `Missed call at ${config.business.name}: the caller hung up with no booking and no message` +
+      `${call.fromPhone ? ` (from ${call.fromPhone})` : ""} — consider a follow-up.`
+    );
+  }
+}
+
 /** Single dispatch used by the realtime engine + the simulator. Returns a string for the model. */
 export async function runTool(callId: string, name: string, args: Record<string, unknown>): Promise<string> {
   try {

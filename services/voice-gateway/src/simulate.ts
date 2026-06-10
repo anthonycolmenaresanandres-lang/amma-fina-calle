@@ -5,7 +5,7 @@
 
 import http from "node:http";
 import { store } from "./store";
-import { checkAvailability, holdSlot, confirmBooking, takeMessage } from "./orchestrator";
+import { checkAvailability, holdSlot, confirmBooking, takeMessage, summarizeCall, finalizeCall } from "./orchestrator";
 import { ProposeConfirmConnector } from "./adapter/proposeConfirm";
 import { WebhookConnector } from "./adapter/webhook";
 import { config } from "./config";
@@ -131,6 +131,19 @@ async function main(): Promise<void> {
   console.log(`Agent (tool check_availability): ${closedAvail.text}\n`);
   check("no slots offered on a closed day", closedAvail.slots.length === 0);
   check("open days still produce slots (sanity)", (await checkAvailability(call.callId, nextDate(true), service)).slots.length > 0);
+
+  // ---- Scenario 6: end-of-call summary + missed-call alert ----
+  console.log(`\n— Scenario 6: end-of-call summary + missed-call alert —`);
+  check("a booking call summarizes as 'booked'", summarizeCall(call.callId).outcome === "booked");
+  check("a message call summarizes as 'message'", summarizeCall(call2.callId).outcome === "message");
+  const missedBefore = store.stats().missedCalls;
+  const lonely = store.createCall("+15555550222");
+  console.log(`Caller hangs up without booking or leaving a message…`);
+  await finalizeCall(lonely.callId);
+  check("a no-activity call summarizes as 'missed'", summarizeCall(lonely.callId).outcome === "missed");
+  check("missed call reflected in stats", store.stats().missedCalls === missedBefore + 1);
+  await finalizeCall(lonely.callId); // stop + close both fire in real life
+  check("finalize is idempotent (no duplicate missed count)", store.stats().missedCalls === missedBefore + 1);
 
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);

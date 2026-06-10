@@ -13,6 +13,7 @@ const lines = [
   `drafts held           ${s.drafts}`,
   `bookings committed    ${s.bookings}  (confirmed: ${s.confirmedBookings}, pending: ${s.pendingBookings})`,
   `messages captured     ${s.messages}`,
+  `missed calls          ${s.missedCalls}`,
   `call→booking rate     ${s.conversionPct}%`,
   `handled (not lost)    ${s.handledPct}%`,
   `sync errors           ${s.syncErrors}`,
