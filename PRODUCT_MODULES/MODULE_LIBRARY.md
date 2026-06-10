@@ -11,3 +11,6 @@ Reusable modules planned for AMMA/Fina Calle:
 - Hosted Billing Links
 - Analytics Report
 - Seasonal Campaigns
+- AI Company Scheduler (R&D concept — `AI_COMPANY_SCHEDULER_CONCEPT.md`; AI staff
+  scheduling that weighs sales/events/sentiment/lifecycle; owner-driven, needs
+  labor-law + data-security design before build)
