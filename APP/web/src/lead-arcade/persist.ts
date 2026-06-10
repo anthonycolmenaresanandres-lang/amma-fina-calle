@@ -3,7 +3,8 @@
 // migration source + fallback when IndexedDB is unavailable. Client-only.
 
 import type { LeadEvent } from "./types";
-import { SEED_EVENTS } from "./seed";
+// Default opening world = the real Hampton Roads starter pack (was the fictional seed).
+import { STARTER_EVENTS } from "./starter-packs";
 
 const DB_NAME = "fina-calle-conquest";
 const STORE = "events";
@@ -72,12 +73,12 @@ function lsGet(): LeadEvent[] | null {
 }
 
 export async function loadEventsAsync(): Promise<LeadEvent[]> {
-  if (typeof window === "undefined") return SEED_EVENTS;
+  if (typeof window === "undefined") return STARTER_EVENTS;
   const fromIdb = await idbGet();
   if (fromIdb && fromIdb.length) return fromIdb;
   const fromLs = lsGet();
   if (fromLs) { await idbSet(fromLs); return fromLs; } // one-time migration
-  return SEED_EVENTS;
+  return STARTER_EVENTS;
 }
 
 export async function saveEventsAsync(events: LeadEvent[]): Promise<void> {
@@ -91,5 +92,5 @@ export async function resetEventsAsync(): Promise<LeadEvent[]> {
     await idbClear();
     try { window.localStorage.removeItem(LS_KEY); } catch { /* ignore */ }
   }
-  return SEED_EVENTS;
+  return STARTER_EVENTS;
 }

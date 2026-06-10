@@ -4,7 +4,8 @@
 // Loaded into whatever territory is active; Survey afterward enriches each from public
 // data. (The fictional demo world still lives in seed.ts; this is an explicit opt-in.)
 
-import type { Fit } from "./types";
+import type { Fit, LeadEvent, LeadMeta } from "./types";
+import { DEFAULT_TERRITORY } from "./territories";
 
 export interface StarterBiz { name: string; businessType: string; fit: Fit }
 
@@ -39,3 +40,26 @@ export const HAMPTON_ROADS_STARTER: StarterBiz[] = [
   { name: "Stony's Dockside Bar and Grill", businessType: "restaurant", fit: "WARM" },
   { name: "The Fishin' Pig", businessType: "restaurant", fit: "WARM" },
 ];
+
+/** Build a starter pack into SCOUTED events (stable ids + positions) for use as the
+ *  board's default opening world. Deterministic so it stays consistent across loads. */
+export function buildStarterEvents(pack: StarterBiz[], territoryId: string = DEFAULT_TERRITORY): LeadEvent[] {
+  const t0 = Date.UTC(2026, 5, 1);
+  const cols = Math.max(1, Math.ceil(Math.sqrt(pack.length)));
+  const rows = Math.max(1, Math.ceil(pack.length / cols));
+  return pack.map((b, i) => {
+    const c = i % cols, r = Math.floor(i / cols);
+    const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
+    const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
+    const id = b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const meta: LeadMeta = {
+      id, name: b.name, businessType: b.businessType,
+      position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
+      dossier: { rating: 4.0, signature: "Signature Item", fit: b.fit },
+    };
+    return { leadId: id, action: "SCOUTED" as const, at: t0 + i * 1000, meta, territoryId };
+  });
+}
+
+/** The default opening world: the Hampton Roads starter as an event log. */
+export const STARTER_EVENTS: LeadEvent[] = buildStarterEvents(HAMPTON_ROADS_STARTER);
