@@ -3,12 +3,17 @@
 
 import { config } from "./config";
 
-export function connectStreamTwiML(): string {
+// The tenant is resolved from the dialled number at /twiml and carried into the Media
+// Stream as a <Parameter>, which surfaces in the stream's `start` event as
+// customParameters.tenant — that's how one gateway serves many businesses.
+export function connectStreamTwiML(tenantId: string): string {
   const wss = `wss://${config.publicHost}/media`;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Connect>
-    <Stream url="${wss}" />
+    <Stream url="${wss}">
+      <Parameter name="tenant" value="${tenantId}" />
+    </Stream>
   </Connect>
 </Response>`;
 }

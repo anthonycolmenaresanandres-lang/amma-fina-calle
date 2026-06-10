@@ -2,6 +2,18 @@
 
 export interface Service { name: string; durationMin: number }
 
+// A business's Knowledge Pack — the per-tenant variables (everything else is frozen).
+export interface BusinessPack {
+  name: string;
+  kind: string;
+  timezone: string;
+  services: Service[];
+  hours: string;       // human-readable display string
+  openDays: number[];  // weekday indices, 0=Sun
+  openHour: number;    // 24h local
+  closeHour: number;
+}
+
 export interface Slot { startIso: string; endIso: string }
 
 export interface Customer { name?: string; phone?: string; notes?: string }
@@ -11,6 +23,7 @@ export type DraftStatus = "open" | "confirmed" | "committed" | "expired" | "canc
 export interface Draft {
   draftId: string;
   callId: string;
+  tenantId: string;
   service: string;
   slot: Slot;
   customer: Customer;
@@ -39,6 +52,7 @@ export interface PosSyncAttempt {
 
 export interface CallRecord {
   callId: string;
+  tenantId: string;
   fromPhone?: string;
   status: "active" | "ended";
   startedAt: number;
@@ -50,6 +64,7 @@ export interface CallRecord {
 export interface Message {
   messageId: string;
   callId: string;
+  tenantId: string;
   customer: Customer;
   reason: string;
   at: number;

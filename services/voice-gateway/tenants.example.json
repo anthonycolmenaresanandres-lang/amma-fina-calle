@@ -1,0 +1,48 @@
+[
+  {
+    "id": "happy-paws",
+    "phoneNumbers": ["+1 757 555 0111"],
+    "connector": "proposeconfirm",
+    "business": {
+      "name": "Happy Paws Grooming",
+      "kind": "pet grooming",
+      "timezone": "America/New_York",
+      "services": [
+        { "name": "Full Groom", "durationMin": 90 },
+        { "name": "Bath & Brush", "durationMin": 45 },
+        { "name": "Nail Trim", "durationMin": 15 }
+      ],
+      "hours": "Tue-Sat 9am-6pm",
+      "openDays": [2, 3, 4, 5, 6],
+      "openHour": 9,
+      "closeHour": 18
+    },
+    "notify": { "staffWebhookUrl": "" },
+    "disclosure": "Hi! You've reached {business}. I'm an automated assistant and this call may be recorded. How can I help you today?"
+  },
+  {
+    "id": "glow-salon",
+    "phoneNumbers": ["+1 757 555 0222"],
+    "connector": "square",
+    "square": {
+      "accessToken": "",
+      "baseUrl": "https://connect.squareup.com",
+      "locationId": "",
+      "serviceVariationId": "",
+      "teamMemberId": ""
+    },
+    "business": {
+      "name": "Glow Hair Salon",
+      "kind": "hair salon",
+      "timezone": "America/New_York",
+      "services": [
+        { "name": "Haircut", "durationMin": 45 },
+        { "name": "Color", "durationMin": 120 }
+      ],
+      "hours": "Mon-Fri 10am-7pm",
+      "openDays": [1, 2, 3, 4, 5],
+      "openHour": 10,
+      "closeHour": 19
+    }
+  }
+]

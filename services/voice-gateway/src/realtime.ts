@@ -7,6 +7,7 @@ import WebSocket from "ws";
 import { config, requireOpenAI } from "./config";
 import { tools, systemInstructions } from "./tools";
 import { runTool } from "./orchestrator";
+import type { Tenant } from "./tenant";
 
 export interface RealtimeHooks {
   onAudio: (base64ulaw: string) => void; // play to caller
@@ -15,11 +16,13 @@ export interface RealtimeHooks {
 
 export class RealtimeSession {
   private ws: WebSocket;
+  private tenant: Tenant;
   private callId: string;
   private hooks: RealtimeHooks;
   private ready = false;
 
-  constructor(callId: string, hooks: RealtimeHooks) {
+  constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
+    this.tenant = tenant;
     this.callId = callId;
     this.hooks = hooks;
     const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(config.realtimeModel)}`;
@@ -37,11 +40,12 @@ export class RealtimeSession {
   }
 
   private onOpen(): void {
+    const b = this.tenant.business;
     this.send({
       type: "session.update",
       session: {
-        instructions: systemInstructions(config.business.name, config.business.kind, config.business.hours),
-        voice: config.voice,
+        instructions: systemInstructions(b.name, b.kind, b.hours),
+        voice: this.tenant.voice,
         modalities: ["audio", "text"],
         input_audio_format: "g711_ulaw",
         output_audio_format: "g711_ulaw",
@@ -52,7 +56,7 @@ export class RealtimeSession {
     });
     this.ready = true;
     // Greet + AI disclosure as the first turn.
-    const disclosure = config.disclosure.replace("{business}", config.business.name);
+    const disclosure = this.tenant.disclosure.replace("{business}", b.name);
     this.send({ type: "response.create", response: { instructions: `Say exactly, warmly: "${disclosure}"` } });
   }
 
@@ -76,7 +80,7 @@ export class RealtimeSession {
         const callId = String(evt.call_id ?? "");
         let args: Record<string, unknown> = {};
         try { args = JSON.parse(String(evt.arguments ?? "{}")); } catch { /* keep {} */ }
-        const output = await runTool(this.callId, name, args);
+        const output = await runTool(this.tenant, this.callId, name, args);
         this.send({ type: "conversation.item.create", item: { type: "function_call_output", call_id: callId, output } });
         this.send({ type: "response.create" });
         break;
