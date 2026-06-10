@@ -10,8 +10,17 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/orchestrator.ts` — **draft-first** tool handlers; `confirm_booking` is **idempotent**.
 - `src/adapter/*` — the unified booking adapter contract + connectors: `mock`, `calcom`,
   `square` (Appointments), and **`proposeConfirm`** (the universal fallback).
-- `src/store.ts` — calls / drafts / pos_sync / audit (in-memory; swap for Postgres later).
+- `src/store.ts` — calls / drafts / pos_sync / audit (in-memory; swap for Postgres later);
+  `stats()` rolls up the ROI view (calls, bookings, call→booking %, pending vs confirmed).
+- `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
+  booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
+
+## Call analytics / ROI
+- **`GET /stats`** — live JSON rollup: `{ calls, bookings, confirmedBookings,
+  pendingBookings, conversionPct, syncErrors, audits }`. The "answered + booked while
+  you were closed" number that justifies the subscription.
+- **`npm run report`** — the same rollup at the CLI (reads `STORE_SNAPSHOT` if set).
 
 ## Booking connectors (`BOOKING_CONNECTOR`)
 - **`mock`** (default) — deterministic; for the simulator + keyless demo.

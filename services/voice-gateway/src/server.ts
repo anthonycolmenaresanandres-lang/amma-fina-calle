@@ -13,6 +13,11 @@ import { store } from "./store";
 const server = http.createServer((req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
   if (url.pathname === "/healthz") { res.writeHead(200).end("ok"); return; }
+  if (url.pathname === "/stats") {
+    res.writeHead(200, { "Content-Type": "application/json" })
+      .end(JSON.stringify({ business: config.business.name, connector: config.connector, ...store.stats() }, null, 2));
+    return;
+  }
   if (url.pathname === "/twiml") {
     res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML());
     return;

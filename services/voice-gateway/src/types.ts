@@ -18,6 +18,7 @@ export interface Draft {
   createdAt: number;
   expiresAt: number;
   bookingRef?: string; // set once committed
+  pendingConfirm?: boolean; // committed as a PENDING request (staff must confirm into their system)
 }
 
 export interface BookingResult { bookingRef: string; startIso: string; service: string; pending?: boolean }
