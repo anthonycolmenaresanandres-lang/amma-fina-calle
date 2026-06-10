@@ -16,6 +16,7 @@ import {
 } from "@/lead-arcade/state";
 import { getTerritory, loadActiveTerritory, saveActiveTerritory, TERRITORIES } from "@/lead-arcade/territories";
 import { loadEventsAsync, resetEventsAsync, saveEventsAsync } from "@/lead-arcade/persist";
+import { HAMPTON_ROADS_STARTER } from "@/lead-arcade/starter-packs";
 import { playCoin, playGoal, playStep, primeAudio } from "@/lead-arcade/audio";
 import HudBar from "@/lead-arcade/ui/HudBar";
 import LeadPanel from "@/lead-arcade/ui/LeadPanel";
@@ -191,6 +192,33 @@ export default function LeadArcadeClient(): React.JSX.Element {
     setLive(`Survey complete — gathered intel for ${ids.length} leads`);
   };
 
+  // Load a code-shipped starter pack onto the current board in one tap. De-duped by
+  // name (so re-clicking won't double-add) and non-destructive (appends).
+  const loadStarter = (pack: { name: string; businessType: string; fit: Fit }[]) => {
+    const existing = new Set(leadsArr.map((l) => l.meta.name.toLowerCase()));
+    const fresh = pack.filter((b) => !existing.has(b.name.toLowerCase()));
+    if (!fresh.length) { setLive("Starter pack already loaded"); setBulkOpen(false); return; }
+    const now = Date.now();
+    const cols = Math.max(1, Math.ceil(Math.sqrt(fresh.length)));
+    const rows = Math.max(1, Math.ceil(fresh.length / cols));
+    const evs: LeadEvent[] = fresh.map((b, i) => {
+      const c = i % cols, r = Math.floor(i / cols);
+      const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
+      const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
+      const id = `${b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(now + i).toString(36)}`;
+      const meta: LeadMeta = {
+        id, name: b.name, businessType: b.businessType,
+        position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
+        dossier: { rating: 4.0, signature: "Signature Item", fit: b.fit },
+      };
+      return { leadId: id, action: "SCOUTED", at: now + i, meta, territoryId: territory };
+    });
+    if (soundOn) playGoal();
+    setEvents((prev) => [...prev, ...evs]);
+    setLive(`Loaded ${evs.length} Hampton Roads leads — now Survey all`);
+    setBulkOpen(false);
+  };
+
   const addLead = () => {
     const name = newName.trim();
     if (!name) return;
@@ -313,6 +341,12 @@ export default function LeadArcadeClient(): React.JSX.Element {
                 + Scout {bulkText.split(/\r?\n/).filter((l) => l.trim()).length || ""} leads
               </button>
               <button onClick={() => { setBulkText(""); setBulkOpen(false); }} style={{ background: "transparent", color: "rgba(244,230,204,.7)", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", cursor: "pointer" }}>Cancel</button>
+            </div>
+            <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #3a2a18" }}>
+              <div style={{ color: "rgba(244,230,204,.55)", fontSize: 11, marginBottom: 6 }}>…or load a ready-made pack:</div>
+              <button onClick={() => loadStarter(HAMPTON_ROADS_STARTER)} style={{ background: "#2f9e54", color: "#06180d", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>
+                ★ Load Hampton Roads starter ({HAMPTON_ROADS_STARTER.length})
+              </button>
             </div>
           </div>
         ) : null}
