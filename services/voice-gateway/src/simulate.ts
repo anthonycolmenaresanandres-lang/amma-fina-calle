@@ -206,6 +206,19 @@ async function main(): Promise<void> {
   const ids = allTenants().map((t) => t.id);
   check("tenant registry lists every configured business", ids.includes("groomer") && ids.includes("salon"));
 
+  // ---- Scenario 9: durable snapshot survives a restart (atomic write + reload) ----
+  console.log(`\n— Scenario 9: durable snapshot (survives a restart) —`);
+  const { createStore } = await import("./store");
+  const snapPath = path.join(os.tmpdir(), `snap-${Date.now()}.json`);
+  const writer = createStore(snapPath);
+  const dc = writer.createCall("+15550008888", "groomer");
+  writer.putMessage({ messageId: writer.id(), callId: dc.callId, tenantId: "groomer", customer: { name: "Dot" }, reason: "callback", at: Date.now() });
+  // A brand-new store reading the same file = simulating a process restart.
+  const reloaded = createStore(snapPath);
+  check("snapshot reloads the call after a 'restart'", reloaded.getCall(dc.callId)?.fromPhone === "+15550008888");
+  check("snapshot reloads messages after a 'restart'", reloaded.messagesForCall(dc.callId).length === 1);
+  check("reloaded store reports the persisted stats", reloaded.stats("groomer").calls === 1 && reloaded.stats("groomer").messages === 1);
+
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);
 }
