@@ -4,6 +4,8 @@
 
 import { getConnector } from "./adapter";
 import { store } from "./store";
+import { notifyStaff } from "./notify";
+import { config } from "./config";
 import type { Customer, Draft, Slot } from "./types";
 
 const DRAFT_TTL_MS = 10 * 60_000;
@@ -52,8 +54,16 @@ export async function confirmBooking(draftId: string): Promise<{ bookingRef: str
     const result = await getConnector().book({ slot: draft.slot, service: draft.service, customer: draft.customer, idempotencyKey });
     store.putSync({ syncId: store.id(), draftId, operation: "order.commit", idempotencyKey, status: "ok", retryCount: 0, responseRef: result.bookingRef, at: Date.now() });
     const before = { ...draft };
-    draft.status = "committed"; draft.bookingRef = result.bookingRef; store.putDraft(draft);
+    draft.status = "committed"; draft.bookingRef = result.bookingRef; draft.pendingConfirm = !!result.pending;
+    store.putDraft(draft);
     store.audit("draft", draftId, "order.commit", before, draft);
+    if (result.pending) {
+      // Fire-and-forget: a pending booking needs a human to confirm it into their system.
+      void notifyStaff(
+        `New booking request at ${config.business.name}: ${draft.service} for ${draft.customer.name ?? "guest"}` +
+        `${draft.customer.phone ? ` (${draft.customer.phone})` : ""} at ${fmtTime(result.startIso)} — please confirm (ref ${result.bookingRef}).`
+      );
+    }
     const text = result.pending
       ? `Got it — I've requested ${fmtTime(result.startIso)}; the team will confirm shortly (ref ${result.bookingRef}).`
       : `Booked! Confirmation ${result.bookingRef} for ${fmtTime(result.startIso)}.`;

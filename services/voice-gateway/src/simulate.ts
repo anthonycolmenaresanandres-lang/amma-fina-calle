@@ -54,6 +54,13 @@ async function main(): Promise<void> {
 
   check("audit trail recorded the decisions", store.auditCount() >= 3);
 
+  // ---- Analytics rollup (powers /stats and `npm run report`) ----
+  const stats = store.stats();
+  console.log(`\nStats rollup: ${JSON.stringify(stats)}`);
+  check("stats counts the call", stats.calls >= 1);
+  check("stats counts the booking", stats.bookings === 1);
+  check("stats reports a call→booking conversion", stats.conversionPct === 100);
+
   // ---- Scenario 2: propose-and-confirm (universal fallback — sell to any system) ----
   console.log(`\n— Scenario 2: propose-and-confirm connector (no POS integration) —`);
   const pc = new ProposeConfirmConnector();

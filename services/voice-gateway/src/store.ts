@@ -51,4 +51,29 @@ export const store = {
   },
   auditCount(): number { return db.audit.length; },
   bookingCount(): number { return Object.values(db.drafts).filter((d) => d.status === "committed").length; },
+
+  /** Rollup for the ROI / call-analytics view (/stats, npm run report). */
+  stats(): {
+    calls: number; activeCalls: number; drafts: number;
+    bookings: number; confirmedBookings: number; pendingBookings: number;
+    conversionPct: number; syncErrors: number; audits: number;
+  } {
+    const calls = Object.values(db.calls);
+    const drafts = Object.values(db.drafts);
+    const committed = drafts.filter((d) => d.status === "committed");
+    const pendingBookings = committed.filter((d) => d.pendingConfirm).length;
+    const confirmedBookings = committed.length - pendingBookings;
+    const syncErrors = Object.values(db.posSync).filter((s) => s.status === "error").length;
+    return {
+      calls: calls.length,
+      activeCalls: calls.filter((c) => c.status === "active").length,
+      drafts: drafts.length,
+      bookings: committed.length,
+      confirmedBookings,
+      pendingBookings,
+      conversionPct: calls.length ? Math.round((committed.length / calls.length) * 100) : 0,
+      syncErrors,
+      audits: db.audit.length,
+    };
+  },
 };

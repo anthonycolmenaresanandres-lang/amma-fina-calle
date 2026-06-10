@@ -31,6 +31,12 @@ export const config = {
     secret: process.env.WEBHOOK_SECRET ?? "",
   },
 
+  // Staff notification — when a booking commits as PENDING (propose-and-confirm, or a
+  // POS that can't auto-write), ping the team to confirm it. Empty = console.log only.
+  notify: {
+    staffWebhookUrl: process.env.STAFF_WEBHOOK_URL ?? "", // Slack/Make/SMS-bridge incoming webhook
+  },
+
   // Per-client Knowledge Pack (v0 keeps it inline; later loaded per phone number).
   business: {
     name: process.env.BUSINESS_NAME ?? "Demo Pet Spa",

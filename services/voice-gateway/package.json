@@ -8,6 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "simulate": "tsx src/simulate.ts",
+    "report": "tsx src/report.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
