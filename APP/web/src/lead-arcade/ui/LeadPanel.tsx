@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { ActionType, Fit, LeadPatch, LeadState } from "../types";
 import { FIT_COLOR } from "../types";
 import { nextAction, readiness } from "../state";
+import { generateMockup } from "../mockup";
 
 const hex = (n: number) => `#${n.toString(16).padStart(6, "0")}`;
 const lbl: React.CSSProperties = { fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", color: "#9c8868", marginBottom: 2 };
@@ -31,6 +32,21 @@ export default function LeadPanel({
 }): React.JSX.Element | null {
   const [mrrInput, setMrrInput] = useState(99);
   const [form, setForm] = useState<Form>({ name: "", businessType: "", fit: "WARM", signature: "", rating: 4, notes: "", followUp: "", themeColor: "#d8a24c" });
+  const [genUrl, setGenUrl] = useState<string | null>(null);
+  const [genBusy, setGenBusy] = useState(false);
+
+  // Auto-generate the in-app pack preview once a real logo is APPROVED.
+  useEffect(() => {
+    if (!lead || !lead.meta.logoApproved || !lead.meta.logoCandidate) { setGenUrl(null); return; }
+    let cancelled = false;
+    setGenBusy(true);
+    generateMockup({ logoUrl: lead.meta.logoCandidate, color: lead.meta.themeColor ?? "#261810", name: lead.meta.name, item: lead.meta.dossier.signature })
+      .then((u) => { if (!cancelled) setGenUrl(u); })
+      .catch(() => { if (!cancelled) setGenUrl(null); })
+      .finally(() => { if (!cancelled) setGenBusy(false); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lead?.meta.id, lead?.meta.logoApproved, lead?.meta.logoCandidate, lead?.meta.themeColor, lead?.meta.name, lead?.meta.dossier.signature]);
 
   useEffect(() => {
     if (!lead) return;
@@ -75,12 +91,22 @@ export default function LeadPanel({
 
       <div style={{
         borderRadius: 10, overflow: "hidden", border: "1px solid #3a2a18", background: "#120c07",
-        aspectRatio: "1360 / 1120", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12,
+        aspectRatio: "1360 / 1120", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: genUrl ? 6 : 12,
       }}>
-        {lead.meta.mockupPath
-          ? <img src={lead.meta.mockupPath} alt={`${lead.meta.name} preview`} style={{ width: "100%", display: "block" }} />
-          : <span style={{ color: "#7a6a55", fontSize: 12, padding: 20, textAlign: "center" }}>No demo yet — Pitch to stamp the preview.</span>}
+        {genUrl
+          ? <img src={genUrl} alt={`${lead.meta.name} pack preview`} style={{ width: "100%", display: "block" }} />
+          : genBusy
+            ? <span style={{ color: "#d8a24c", fontSize: 12, padding: 20 }}>Generating pack preview…</span>
+            : lead.meta.mockupPath
+              ? <img src={lead.meta.mockupPath} alt={`${lead.meta.name} preview`} style={{ width: "100%", display: "block" }} />
+              : <span style={{ color: "#7a6a55", fontSize: 12, padding: 20, textAlign: "center" }}>Approve a logo below to auto-generate the pack preview.</span>}
       </div>
+      {genUrl && (
+        <a href={genUrl} download={`${lead.meta.name.replace(/[^a-z0-9]+/gi, "-")}-pack-preview.png`}
+          style={{ display: "block", textAlign: "center", marginBottom: 12, padding: "8px", borderRadius: 8, border: "1px solid #3a2a18", color: "#f4e6cc", fontSize: 12, textDecoration: "none" }}>
+          ⬇ Download pack preview
+        </a>
+      )}
 
       {/* editable dossier record */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
