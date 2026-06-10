@@ -11,7 +11,7 @@ import type { WorldScene } from "@/lead-arcade/phaser/WorldScene";
 import type { ActionType, Fit, LeadEvent, LeadMeta, LeadPatch } from "@/lead-arcade/types";
 import { ACTION_VERB } from "@/lead-arcade/types";
 import {
-  deriveLeads, exportEvents, importEvents,
+  deriveLeads, exportEvents, importEvents, readiness,
   selectActivity, selectGoals, selectTotals,
 } from "@/lead-arcade/state";
 import { loadEventsAsync, resetEventsAsync, saveEventsAsync } from "@/lead-arcade/persist";
@@ -46,6 +46,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const goals = useMemo(() => selectGoals(events), [events]);
   const activity = useMemo(() => selectActivity(events), [events]);
   const leadsArr = useMemo(() => [...leads.values()], [leads]);
+  const packReady = useMemo(() => leadsArr.filter((l) => readiness(l.meta).ready).length, [leadsArr]);
   const selected = selectedId ? leads.get(selectedId) ?? null : null;
 
   useEffect(() => { void loadEventsAsync().then(setEvents); }, []);
@@ -119,12 +120,28 @@ export default function LeadArcadeClient(): React.JSX.Element {
     setSurveyingId(id);
     try {
       const r = await fetch(`/api/lead-arcade/dossier?q=${encodeURIComponent(name)}`);
-      const d = (await r.json()) as { ok: boolean; displayName?: string; businessType?: string; board?: { x: number; y: number } };
+      const d = (await r.json()) as {
+        ok: boolean; displayName?: string; businessType?: string; board?: { x: number; y: number };
+        hours?: string | null; phone?: string | null; website?: string | null;
+        themeColor?: string | null; logoCandidate?: string | null; operational?: boolean;
+      };
       if (d.ok && d.displayName) {
         const existing = leads.get(id)?.meta.notes ?? "";
-        const notes = [existing, `📍 ${d.displayName}`].filter(Boolean).join("\n");
-        updateLead(id, { businessType: d.businessType, notes, ...(d.board ? { position: d.board } : {}) });
-        setLive(`${name} surveyed — public info added`);
+        const lines = [existing, `📍 ${d.displayName}`];
+        if (d.hours) lines.push(`🕑 ${d.hours}`);
+        if (d.phone) lines.push(`☎ ${d.phone}`);
+        updateLead(id, {
+          businessType: d.businessType,
+          notes: lines.filter(Boolean).join("\n"),
+          ...(d.board ? { position: d.board } : {}),
+          hours: d.hours ?? undefined,
+          phone: d.phone ?? undefined,
+          website: d.website ?? undefined,
+          themeColor: d.themeColor ?? undefined,
+          logoCandidate: d.logoCandidate ?? undefined,
+          operational: d.operational ?? undefined,
+        });
+        setLive(`${name} surveyed — public info gathered`);
       } else {
         setLive(`${name} surveyed — no public match, fill manually`);
       }
@@ -177,7 +194,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   return (
     <div style={{ position: "fixed", inset: 0, display: "flex", flexDirection: "column", background: "#16344a", fontFamily: "system-ui, sans-serif" }}>
       <HudBar
-        totals={totals} goals={goals} soundOn={soundOn}
+        totals={totals} goals={goals} soundOn={soundOn} packReady={packReady}
         onToggleSound={toggleSound} onToggleLog={() => setLogOpen((v) => !v)}
         onExport={onExport} onImport={onImport}
         onReset={() => { void resetEventsAsync().then((e) => { setEvents(e); setSelectedId(null); setLive("Board reset"); }); }}

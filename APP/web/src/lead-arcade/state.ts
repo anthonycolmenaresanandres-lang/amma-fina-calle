@@ -44,6 +44,13 @@ export function deriveLeads(events: LeadEvent[]): Map<string, LeadState> {
       if (p.notes !== undefined) s.meta.notes = p.notes;
       if (p.followUp !== undefined) s.meta.followUp = p.followUp;
       if (p.position !== undefined) s.meta.position = p.position;
+      if (p.hours !== undefined) s.meta.hours = p.hours;
+      if (p.phone !== undefined) s.meta.phone = p.phone;
+      if (p.website !== undefined) s.meta.website = p.website;
+      if (p.themeColor !== undefined) s.meta.themeColor = p.themeColor;
+      if (p.logoCandidate !== undefined) s.meta.logoCandidate = p.logoCandidate;
+      if (p.logoApproved !== undefined) s.meta.logoApproved = p.logoApproved;
+      if (p.operational !== undefined) s.meta.operational = p.operational;
       s.meta.dossier = {
         ...s.meta.dossier,
         ...(p.rating !== undefined ? { rating: p.rating } : {}),
@@ -87,6 +94,33 @@ export function selectTotals(leads: Map<string, LeadState>): Totals {
   const total = leads.size || 1;
   return { mrr, clients, collected, territoryPct: clients / total, funnel, total: leads.size };
 }
+
+// ---- Campaign Pack readiness standard ----
+// A lead is "package-ready" when the four required inputs are gathered/approved:
+// logo (real + owner-approved), theme (brand color), hours, and operational.
+export interface Readiness {
+  logo: boolean;
+  theme: boolean;
+  hours: boolean;
+  operational: boolean;
+  ready: boolean;
+  done: number;
+  total: number;
+}
+
+export function readiness(meta: LeadMetaLike): Readiness {
+  const logo = meta.logoApproved === true;
+  const theme = !!meta.themeColor;
+  const hours = !!meta.hours;
+  const operational = meta.operational === true;
+  const items = [logo, theme, hours, operational];
+  const done = items.filter(Boolean).length;
+  return { logo, theme, hours, operational, ready: done === items.length, done, total: items.length };
+}
+
+type LeadMetaLike = {
+  logoApproved?: boolean; themeColor?: string; hours?: string; operational?: boolean;
+};
 
 // ---- private goals + streak (SDT-safe progression; no leaderboard) ----
 const DAY = 86400000;

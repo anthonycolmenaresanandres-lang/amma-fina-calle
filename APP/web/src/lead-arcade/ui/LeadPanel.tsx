@@ -3,13 +3,22 @@
 import { useEffect, useState } from "react";
 import type { ActionType, Fit, LeadPatch, LeadState } from "../types";
 import { FIT_COLOR } from "../types";
-import { nextAction } from "../state";
+import { nextAction, readiness } from "../state";
 
 const hex = (n: number) => `#${n.toString(16).padStart(6, "0")}`;
 const lbl: React.CSSProperties = { fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", color: "#9c8868", marginBottom: 2 };
 const field: React.CSSProperties = { width: "100%", background: "#120c07", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 6, padding: "6px 8px", fontSize: 13, boxSizing: "border-box" };
 
-interface Form { name: string; businessType: string; fit: Fit; signature: string; rating: number; notes: string; followUp: string }
+function Check({ label, ok }: { label: string; ok: boolean }): React.JSX.Element {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, padding: "2px 0" }}>
+      <span style={{ color: ok ? "#7be29a" : "#7a6a55", fontWeight: 800 }}>{ok ? "✓" : "○"}</span>
+      <span style={{ color: ok ? "#f4e6cc" : "#9c8868" }}>{label}</span>
+    </div>
+  );
+}
+
+interface Form { name: string; businessType: string; fit: Fit; signature: string; rating: number; notes: string; followUp: string; themeColor: string }
 
 export default function LeadPanel({
   lead, surveying = false, onAction, onUpdate, onClose,
@@ -21,7 +30,7 @@ export default function LeadPanel({
   onClose: () => void;
 }): React.JSX.Element | null {
   const [mrrInput, setMrrInput] = useState(99);
-  const [form, setForm] = useState<Form>({ name: "", businessType: "", fit: "WARM", signature: "", rating: 4, notes: "", followUp: "" });
+  const [form, setForm] = useState<Form>({ name: "", businessType: "", fit: "WARM", signature: "", rating: 4, notes: "", followUp: "", themeColor: "#d8a24c" });
 
   useEffect(() => {
     if (!lead) return;
@@ -29,6 +38,7 @@ export default function LeadPanel({
     setForm({
       name: lead.meta.name, businessType: lead.meta.businessType, fit: d.fit,
       signature: d.signature, rating: d.rating, notes: lead.meta.notes ?? "", followUp: lead.meta.followUp ?? "",
+      themeColor: lead.meta.themeColor ?? "#d8a24c",
     });
   }, [lead]);
 
@@ -109,6 +119,46 @@ export default function LeadPanel({
         <div style={lbl}>Follow-up date</div>
         <input type="date" value={form.followUp} onChange={(e) => { setForm({ ...form, followUp: e.target.value }); commit({ followUp: e.target.value }); }} style={field} />
       </div>
+
+      {/* Campaign Pack readiness standard */}
+      {(() => {
+        const rd = readiness(lead.meta);
+        return (
+          <div style={{ margin: "10px 0", padding: 10, border: "1px solid #3a2a18", borderRadius: 10, background: "#160f08" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+              <span style={{ fontWeight: 800, fontSize: 13 }}>Campaign Pack readiness</span>
+              <span style={{ fontSize: 12, fontWeight: 800, color: rd.ready ? "#7be29a" : "#d8a24c" }}>{rd.done}/{rd.total}{rd.ready ? " ✓ READY" : ""}</span>
+            </div>
+            <Check label="Logo (real, approved)" ok={rd.logo} />
+            {lead.meta.logoCandidate && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "4px 0 6px" }}>
+                <img src={lead.meta.logoCandidate} alt="logo candidate" style={{ width: 36, height: 36, objectFit: "contain", background: "#fff", borderRadius: 6 }} />
+                <label style={{ fontSize: 11, color: "#bda98a", display: "flex", alignItems: "center", gap: 6 }}>
+                  <input type="checkbox" checked={lead.meta.logoApproved === true} onChange={(e) => onUpdate({ logoApproved: e.target.checked })} />
+                  candidate — approve as the logo
+                </label>
+              </div>
+            )}
+            <Check label="Theme (brand color)" ok={rd.theme} />
+            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 11, color: "#bda98a", margin: "2px 0 6px" }}>
+              <input type="color" value={form.themeColor} onChange={(e) => { setForm({ ...form, themeColor: e.target.value }); commit({ themeColor: e.target.value }); }} style={{ width: 28, height: 22, background: "transparent", border: "none" }} />
+              brand color
+            </label>
+            <Check label="Hours" ok={rd.hours} />
+            {lead.meta.hours && <div style={{ fontSize: 11, color: "#9c8868", marginBottom: 4 }}>🕑 {lead.meta.hours}</div>}
+            <Check label="Operational confirmed" ok={rd.operational} />
+            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#bda98a", marginTop: 2 }}>
+              <input type="checkbox" checked={lead.meta.operational === true} onChange={(e) => onUpdate({ operational: e.target.checked })} />
+              confirm operating
+            </label>
+            {lead.meta.website && (
+              <div style={{ fontSize: 11, marginTop: 6 }}>
+                <a href={lead.meta.website.startsWith("http") ? lead.meta.website : `https://${lead.meta.website}`} target="_blank" rel="noreferrer" style={{ color: "#7fb0e0" }}>↗ website</a>
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {isClient && (
         <div style={{ fontSize: 13, margin: "8px 0", color: "#d9c6a6" }}>
