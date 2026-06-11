@@ -1,13 +1,14 @@
 "use client";
 
 // Lead Arcade — "Fina Calle Conquest" v2. React owns the event-sourced state
-// (one click = one business event) and the HUD/panel/feed; Phaser owns only the
-// board, tiles, and capture/upgrade animation. Standalone internal tool —
-// touches no Client OS routes, Supabase, Stripe, or customer data. Seed is fictional.
+// (one click = one business event), the HUD, the dossier panel, the activity
+// feed, and a STAGE PIPELINE board (leads in columns by stage of the process —
+// Prospect → Surveyed → Pitched → Client → Flagship). The Pitch step now
+// generates the pitch material (one-page sheet + raw mockup) and downloads it.
+// Standalone internal tool — touches no Client OS routes, Supabase, Stripe, or
+// customer data. Seed is fictional.
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { Game } from "phaser";
-import type { WorldScene } from "@/lead-arcade/phaser/WorldScene";
+import { useEffect, useMemo, useState } from "react";
 import type { ActionType, Fit, LeadEvent, LeadMeta, LeadPatch } from "@/lead-arcade/types";
 import { ACTION_VERB } from "@/lead-arcade/types";
 import {
@@ -18,19 +19,13 @@ import { getTerritory, loadActiveTerritory, saveActiveTerritory, TERRITORIES } f
 import { loadEventsAsync, resetEventsAsync, saveEventsAsync } from "@/lead-arcade/persist";
 import { HAMPTON_ROADS_STARTER } from "@/lead-arcade/starter-packs";
 import { playCoin, playGoal, playStep, primeAudio } from "@/lead-arcade/audio";
+import { generatePitch } from "@/lead-arcade/pitch";
 import HudBar from "@/lead-arcade/ui/HudBar";
 import LeadPanel from "@/lead-arcade/ui/LeadPanel";
 import ActivityFeed from "@/lead-arcade/ui/ActivityFeed";
+import PipelineBoard from "@/lead-arcade/ui/PipelineBoard";
 
 export default function LeadArcadeClient(): React.JSX.Element {
-  const mountRef = useRef<HTMLDivElement | null>(null);
-  const gameRef = useRef<Game | null>(null);
-  const sceneRef = useRef<WorldScene | null>(null);
-  const selectRef = useRef<(id: string) => void>(() => {});
-  const moveRef = useRef<(id: string, x: number, y: number) => void>(() => {});
-  const pendingCapture = useRef<string | null>(null);
-  const pendingUpgrade = useRef<string | null>(null);
-
   const [events, setEvents] = useState<LeadEvent[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
@@ -41,13 +36,10 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [logOpen, setLogOpen] = useState(false);
   const [live, setLive] = useState("");
   const [surveyingId, setSurveyingId] = useState<string | null>(null);
+  const [pitchingId, setPitchingId] = useState<string | null>(null);
 
-  selectRef.current = (id: string) => setSelectedId(id);
   const [territory, setTerritory] = useState<string>(TERRITORIES[0].id);
   useEffect(() => { setTerritory(loadActiveTerritory()); }, []);
-
-  moveRef.current = (id: string, x: number, y: number) =>
-    setEvents((prev) => [...prev, { leadId: id, action: "UPDATED", at: Date.now(), patch: { position: { x, y } }, territoryId: territory }]);
 
   const filtered = useMemo(() => eventsInTerritory(events, territory), [events, territory]);
   const leads = useMemo(() => deriveLeads(filtered), [filtered]);
@@ -62,60 +54,52 @@ export default function LeadArcadeClient(): React.JSX.Element {
   useEffect(() => { void loadEventsAsync().then(setEvents); }, []);
   useEffect(() => { if (events.length) void saveEventsAsync(events); }, [events]);
 
-  // boot Phaser once
-  useEffect(() => {
-    if (!mountRef.current || gameRef.current || typeof window === "undefined") return;
-    let cancelled = false;
-    const init = async () => {
-      const [{ default: Phaser }, mod] = await Promise.all([
-        import("phaser"),
-        import("@/lead-arcade/phaser/WorldScene"),
-      ]);
-      if (cancelled || !mountRef.current) return;
-      const scene = new mod.WorldScene({
-        onSelect: (id) => selectRef.current(id),
-        onMove: (id, x, y) => moveRef.current(id, x, y),
-      });
-      sceneRef.current = scene;
-      gameRef.current = new Phaser.Game({
-        type: Phaser.AUTO, parent: mountRef.current,
-        width: mountRef.current.clientWidth || 800, height: mountRef.current.clientHeight || 600,
-        backgroundColor: "#16344a", scene: [scene],
-        scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
-      });
-    };
-    void init();
-    return () => { cancelled = true; gameRef.current?.destroy(true); gameRef.current = null; sceneRef.current = null; };
-  }, []);
-
-  // push state into the scene; fire any pending animation after the tile exists
-  useEffect(() => {
-    sceneRef.current?.applyLeads(leadsArr, selectedId);
-    if (pendingCapture.current) {
-      const id = pendingCapture.current; pendingCapture.current = null;
-      requestAnimationFrame(() => sceneRef.current?.playCapture(id));
-    }
-    if (pendingUpgrade.current) {
-      const id = pendingUpgrade.current; pendingUpgrade.current = null;
-      requestAnimationFrame(() => sceneRef.current?.playUpgrade(id));
-    }
-  }, [leadsArr, selectedId]);
-
   const announce = (id: string, action: ActionType, amount?: number) => {
     const name = leads.get(id)?.meta.name ?? "Lead";
     setLive(`${name} ${ACTION_VERB[action]}${amount ? ` $${amount}` : ""}`);
   };
 
+  const downloadDataUrl = (url: string, filename: string) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
+  // Pitch step: stamp the one-page pitch sheet + the raw mockup and download both.
+  const pitchAndDownload = async (id: string) => {
+    const lead = leads.get(id);
+    if (!lead) return;
+    setPitchingId(id);
+    setLive(`Generating ${lead.meta.name} pitch material…`);
+    try {
+      const { sheet, mockup } = await generatePitch(lead);
+      const slug = lead.meta.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase().replace(/(^-|-$)/g, "");
+      downloadDataUrl(sheet, `${slug}-pitch.png`);
+      // small gap so the browser doesn't collapse the two downloads into one
+      await new Promise((r) => setTimeout(r, 400));
+      downloadDataUrl(mockup, `${slug}-mockup.png`);
+      if (soundOn) playGoal();
+      setLive(`${lead.meta.name} pitch sheet + mockup downloaded — send them over`);
+    } catch {
+      setLive(`Couldn't generate pitch material for ${lead.meta.name}`);
+    } finally {
+      setPitchingId(null);
+    }
+  };
+
   const dispatch = (action: ActionType, amount?: number) => {
     if (!selectedId) return;
     const id = selectedId;
-    if (action === "CLOSED") { pendingCapture.current = id; if (soundOn) playGoal(); }
-    else if (action === "UPGRADED") { pendingUpgrade.current = id; if (soundOn) playStep(); }
+    if (action === "CLOSED") { if (soundOn) playGoal(); }
     else if (action === "COLLECTED") { if (soundOn) playCoin(); }
     else if (soundOn) playStep();
     announce(id, action, amount);
     setEvents((prev) => [...prev, { leadId: id, action, at: Date.now(), amount, territoryId: territory }]);
     if (action === "SURVEYED") void surveyLead(id);
+    if (action === "PITCHED") void pitchAndDownload(id);
   };
 
   const updateLead = (id: string, patch: LeadPatch) =>
@@ -173,9 +157,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
     }
   };
 
-  // Survey every prospect in one pass — front-loads the intel gather so you don't lose
-  // momentum clicking each lead. Sequential + paced (polite to the public APIs, which
-  // also improves match success vs. hammering them). Skips already-advanced leads.
+  // Survey every prospect in one pass — front-loads the intel gather. Sequential
+  // + paced (polite to the public APIs). Skips already-advanced leads.
   const surveyAllProspects = async () => {
     if (bulkSurvey.running) return;
     const ids = leadsArr.filter((l) => l.stage === "prospect").map((l) => l.meta.id);
@@ -192,23 +175,18 @@ export default function LeadArcadeClient(): React.JSX.Element {
     setLive(`Survey complete — gathered intel for ${ids.length} leads`);
   };
 
-  // Load a code-shipped starter pack onto the current board in one tap. De-duped by
-  // name (so re-clicking won't double-add) and non-destructive (appends).
+  // Load a code-shipped starter pack onto the current board. De-duped by name,
+  // non-destructive (appends).
   const loadStarter = (pack: { name: string; businessType: string; fit: Fit }[]) => {
     const existing = new Set(leadsArr.map((l) => l.meta.name.toLowerCase()));
     const fresh = pack.filter((b) => !existing.has(b.name.toLowerCase()));
     if (!fresh.length) { setLive("Starter pack already loaded"); setBulkOpen(false); return; }
     const now = Date.now();
-    const cols = Math.max(1, Math.ceil(Math.sqrt(fresh.length)));
-    const rows = Math.max(1, Math.ceil(fresh.length / cols));
     const evs: LeadEvent[] = fresh.map((b, i) => {
-      const c = i % cols, r = Math.floor(i / cols);
-      const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
-      const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
       const id = `${b.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(now + i).toString(36)}`;
       const meta: LeadMeta = {
         id, name: b.name, businessType: b.businessType,
-        position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
+        position: { x: 0.5, y: 0.5 },
         dossier: { rating: 4.0, signature: "Signature Item", fit: b.fit },
       };
       return { leadId: id, action: "SCOUTED", at: now + i, meta, territoryId: territory };
@@ -226,7 +204,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
     const fits: Fit[] = ["HOT", "WARM", "COLD"];
     const meta: LeadMeta = {
       id, name, businessType: "business",
-      position: { x: 0.2 + Math.random() * 0.6, y: 0.2 + Math.random() * 0.6 },
+      position: { x: 0.5, y: 0.5 },
       dossier: { rating: 4.0, signature: "Signature Item", fit: fits[Math.floor(Math.random() * 3)] },
     };
     if (soundOn) playStep();
@@ -235,16 +213,12 @@ export default function LeadArcadeClient(): React.JSX.Element {
   };
 
   // Bulk scout: paste a gathered list (one business per line). Each line is
-  // "Name" or "Name, type, rating, FIT" (extra fields optional, any order for
-  // rating/FIT). Appends one SCOUTED event per line into the current territory and
-  // spreads them across the board; Survey each afterward to auto-fill from public data.
+  // "Name" or "Name, type, rating, FIT" (extra fields optional).
   const scoutList = () => {
     const lines = bulkText.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
     const fitOf = (parts: string[]): Fit | undefined =>
       parts.map((p) => p.toUpperCase()).find((p) => p === "HOT" || p === "WARM" || p === "COLD") as Fit | undefined;
     const now = Date.now();
-    const cols = Math.max(1, Math.ceil(Math.sqrt(lines.length)));
-    const rows = Math.max(1, Math.ceil(lines.length / cols));
     const newEvents: LeadEvent[] = [];
     lines.forEach((line, i) => {
       const parts = line.split(/\s*[,|\t]\s*/).filter(Boolean);
@@ -253,14 +227,10 @@ export default function LeadArcadeClient(): React.JSX.Element {
       const ratingRaw = parts.slice(1).find((p) => /^[0-5](\.\d)?$/.test(p));
       const fit = fitOf(parts) ?? "WARM";
       const businessType = parts.slice(1).find((p) => p !== ratingRaw && !["HOT", "WARM", "COLD"].includes(p.toUpperCase()))?.trim() || "business";
-      const c = i % cols;
-      const r = Math.floor(i / cols);
-      const x = 0.14 + (cols > 1 ? c / (cols - 1) : 0.5) * 0.72;
-      const y = 0.14 + (rows > 1 ? r / (rows - 1) : 0.5) * 0.72;
       const id = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${(now + i).toString(36)}`;
       const meta: LeadMeta = {
         id, name, businessType,
-        position: { x: Math.min(0.9, x), y: Math.min(0.9, y) },
+        position: { x: 0.5, y: 0.5 },
         dossier: { rating: ratingRaw ? Number(ratingRaw) : 4.0, signature: "Signature Item", fit },
       };
       newEvents.push({ leadId: id, action: "SCOUTED", at: now + i, meta, territoryId: territory });
@@ -281,8 +251,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
     URL.revokeObjectURL(url);
   };
 
-  // Export the current territory's pipeline as CSV for outreach (name + stage + the
-  // contact intel Survey gathered). Complements the JSON log export (which is for backup).
+  // Export the current territory's pipeline as CSV for outreach.
   const onExportCsv = () => {
     if (typeof window === "undefined") return;
     const cell = (v: unknown) => {
@@ -320,7 +289,7 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const toggleSound = () => { primeAudio(); setSoundOn((v) => !v); };
 
   return (
-    <div style={{ position: "fixed", inset: 0, display: "flex", flexDirection: "column", background: "#16344a", fontFamily: "system-ui, sans-serif" }}>
+    <div style={{ position: "fixed", inset: 0, display: "flex", flexDirection: "column", background: "#16110a", fontFamily: "system-ui, sans-serif" }}>
       <HudBar
         totals={totals} goals={goals} soundOn={soundOn} packReady={packReady}
         territory={territory} territories={TERRITORIES}
@@ -330,24 +299,26 @@ export default function LeadArcadeClient(): React.JSX.Element {
         onReset={() => { void resetEventsAsync().then((e) => { setEvents(e); setSelectedId(null); setLive("Board reset"); }); }}
       />
       <div style={{ position: "relative", flex: 1, overflow: "hidden" }}>
-        <div ref={mountRef} style={{ position: "absolute", inset: 0, touchAction: "none" }} />
-        <div style={{ position: "absolute", left: 12, bottom: 12, display: "flex", gap: 6, zIndex: 4 }}>
+        <PipelineBoard leads={leadsArr} selectedId={selectedId} surveyingId={surveyingId} onSelect={setSelectedId} />
+
+        <div style={{ position: "absolute", left: 12, bottom: 12, display: "flex", gap: 6, zIndex: 4, flexWrap: "wrap" }}>
           <input
             value={newName} onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") addLead(); }}
             placeholder="Scout a business…"
-            style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 10px", fontSize: 13 }}
+            style={{ background: "rgba(20,12,7,.95)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 10px", fontSize: 13 }}
           />
           <button onClick={addLead} style={{ background: "#d8a24c", color: "#1b120a", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>+ Scout</button>
-          <button onClick={() => setBulkOpen((v) => !v)} title="Paste a whole list of businesses" style={{ background: "rgba(20,12,7,.92)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>📋 Paste list</button>
+          <button onClick={() => setBulkOpen((v) => !v)} title="Paste a whole list of businesses" style={{ background: "rgba(20,12,7,.95)", color: "#f4e6cc", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 700, cursor: "pointer" }}>📋 Paste list</button>
           {prospectCount > 0 ? (
-            <button onClick={surveyAllProspects} disabled={bulkSurvey.running} title="Run the dossier lookup on every prospect at once" style={{ background: bulkSurvey.running ? "rgba(20,12,7,.92)" : "#2f9e54", color: bulkSurvey.running ? "#f4e6cc" : "#06180d", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: bulkSurvey.running ? "default" : "pointer", opacity: bulkSurvey.running ? 0.85 : 1 }}>
+            <button onClick={surveyAllProspects} disabled={bulkSurvey.running} title="Run the dossier lookup on every prospect at once" style={{ background: bulkSurvey.running ? "rgba(20,12,7,.95)" : "#2f9e54", color: bulkSurvey.running ? "#f4e6cc" : "#06180d", border: "1px solid #3a2a18", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: bulkSurvey.running ? "default" : "pointer", opacity: bulkSurvey.running ? 0.85 : 1 }}>
               {bulkSurvey.running ? `🔭 Surveying ${bulkSurvey.done}/${bulkSurvey.total}…` : `🔭 Survey all (${prospectCount})`}
             </button>
           ) : null}
         </div>
+
         {bulkOpen ? (
-          <div style={{ position: "absolute", left: 12, bottom: 58, width: "min(92vw, 380px)", zIndex: 6, background: "rgba(20,12,7,.97)", border: "1px solid #3a2a18", borderRadius: 12, padding: 12, boxShadow: "0 20px 50px -20px rgba(0,0,0,.8)" }}>
+          <div style={{ position: "absolute", left: 12, bottom: 58, width: "min(92vw, 380px)", zIndex: 6, background: "rgba(20,12,7,.98)", border: "1px solid #3a2a18", borderRadius: 12, padding: 12, boxShadow: "0 20px 50px -20px rgba(0,0,0,.8)" }}>
             <div style={{ color: "#f4e6cc", fontSize: 12, fontWeight: 700, marginBottom: 6 }}>
               Scout a list into {getTerritory(territory).name}
             </div>
@@ -370,20 +341,16 @@ export default function LeadArcadeClient(): React.JSX.Element {
               <button onClick={() => loadStarter(HAMPTON_ROADS_STARTER)} style={{ background: "#2f9e54", color: "#06180d", border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 800, cursor: "pointer" }}>
                 ★ Load Hampton Roads starter ({HAMPTON_ROADS_STARTER.length})
               </button>
-              <div style={{ color: "rgba(244,230,204,.4)", fontSize: 10, marginTop: 8, lineHeight: 1.4 }}>
-                Tip: Survey uses free OpenStreetMap by default. Add Yelp + Foursquare keys in Vercel for richer results — see <code>docs/LEAD_ARCADE_ENRICHMENT_KEYS.md</code>.
-              </div>
             </div>
           </div>
         ) : null}
-        <div style={{ position: "absolute", left: 10, top: 10, zIndex: 3, display: "flex", gap: 10, flexWrap: "wrap", pointerEvents: "none", fontSize: 10, color: "rgba(244,230,204,.7)", background: "rgba(20,12,7,.6)", padding: "5px 8px", borderRadius: 8 }}>
-          <span>● Prospect</span><span>● Surveyed</span><span>● Pitched</span>
-          <span style={{ color: "#7be29a" }}>⌂ Client</span><span style={{ color: "#d8a24c" }}>★ Flagship</span>
-          <span style={{ color: "#e8553a" }}>○ HOT</span><span style={{ color: "#e0a13a" }}>○ WARM</span><span style={{ color: "#5a7fb0" }}>○ COLD</span>
-        </div>
-        <div style={{ position: "absolute", right: 10, bottom: 10, zIndex: 3, fontSize: 10, color: "rgba(244,230,204,.55)", textAlign: "right", pointerEvents: "none", lineHeight: 1.5 }}>
-          drag a tile to arrange · drag the map to pan<br />scroll / pinch to zoom
-        </div>
+
+        {pitchingId ? (
+          <div style={{ position: "absolute", left: "50%", top: 14, transform: "translateX(-50%)", zIndex: 6, background: "rgba(20,12,7,.96)", border: "1px solid #d8a24c", color: "#f4e6cc", borderRadius: 10, padding: "8px 14px", fontSize: 12, fontWeight: 700 }}>
+            🖨 Generating pitch material…
+          </div>
+        ) : null}
+
         <ActivityFeed items={activity} open={logOpen} onClose={() => setLogOpen(false)} />
         <LeadPanel lead={selected} surveying={selected ? surveyingId === selected.meta.id : false} onAction={dispatch} onUpdate={update} onClose={() => setSelectedId(null)} />
       </div>

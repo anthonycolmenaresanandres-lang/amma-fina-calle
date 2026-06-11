@@ -72,7 +72,7 @@ export function deriveLeads(events: LeadEvent[]): Map<string, LeadState> {
 export function nextAction(stage: Stage): { action: ActionType; label: string } | null {
   switch (stage) {
     case "prospect": return { action: "SURVEYED", label: "Survey (run dossier)" };
-    case "surveyed": return { action: "PITCHED", label: "Pitch (stamp demo + reach out)" };
+    case "surveyed": return { action: "PITCHED", label: "Pitch — generate pack material" };
     case "pitched": return { action: "CLOSED", label: "Convert (close the deal)" };
     case "client": return { action: "COLLECTED", label: "Collect payment" };
     case "flagship": return { action: "COLLECTED", label: "Collect payment" };
