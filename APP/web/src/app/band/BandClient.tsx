@@ -1,35 +1,36 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DEFAULT_BANDSTAND_SKIN } from "@/bandstand/config";
+import { BANDSTAND_SKINS } from "@/bandstand/config";
 import { Bandstand } from "@/bandstand/synth";
-import type { MascotConfig } from "@/bandstand/types";
+import type { BandstandSkin, MascotConfig } from "@/bandstand/types";
 
 type PodRect = { id: string; x: number; y: number; r: number };
 
 export default function BandClient(): React.JSX.Element {
-  const skin = DEFAULT_BANDSTAND_SKIN;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const engineRef = useRef<Bandstand | null>(null);
   const podsRef = useRef<PodRect[]>([]);
   const rafRef = useRef<number | null>(null);
 
-  const [started, setStarted] = useState(false);
+  const [skin, setSkin] = useState<BandstandSkin | null>(null);
   const [activeIds, setActiveIds] = useState<string[]>([]);
   const [recording, setRecording] = useState(false);
   const [clipUrl, setClipUrl] = useState<string | null>(null);
 
   // ---- engine lifecycle -------------------------------------------------
-  const handleStart = useCallback(async () => {
+  // Called straight from the skin-pick tap so it counts as the audio gesture.
+  const pickSkin = useCallback(async (chosen: BandstandSkin) => {
     if (engineRef.current) return;
-    const engine = new Bandstand(skin);
+    const engine = new Bandstand(chosen);
     await engine.start();
     engineRef.current = engine;
-    // Open with the heartbeat so the stage is never silent.
-    engine.toggle("boomer");
-    setActiveIds(["boomer"]);
-    setStarted(true);
-  }, [skin]);
+    // Open with the kick so the stage is never silent.
+    const kick = chosen.mascots.find((m) => m.role === "kick") ?? chosen.mascots[0];
+    engine.toggle(kick.id);
+    setActiveIds([kick.id]);
+    setSkin(chosen);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -41,7 +42,7 @@ export default function BandClient(): React.JSX.Element {
 
   // ---- canvas render loop ----------------------------------------------
   useEffect(() => {
-    if (!started) return;
+    if (!skin) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -184,7 +185,7 @@ export default function BandClient(): React.JSX.Element {
       ro.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [started, skin]);
+  }, [skin]);
 
   // ---- input ------------------------------------------------------------
   const onCanvasPointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -199,13 +200,13 @@ export default function BandClient(): React.JSX.Element {
       const dy = py - pod.y;
       if (dx * dx + dy * dy <= pod.r * pod.r * 1.6) {
         engine.toggle(pod.id);
-        setActiveIds(skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
+        setActiveIds(engine.skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
         return;
       }
     }
-  }, [skin]);
+  }, []);
 
-  // ---- recording --------------------------------------------------------
+  // ---- recording & sharing ---------------------------------------------
   const toggleRecord = useCallback(async () => {
     const engine = engineRef.current;
     if (!engine) return;
@@ -221,28 +222,68 @@ export default function BandClient(): React.JSX.Element {
     if (engine.startRecording()) setRecording(true);
   }, [recording, clipUrl]);
 
+  const shareClip = useCallback(async () => {
+    const engine = engineRef.current;
+    if (!clipUrl || !engine) return;
+    try {
+      const blob = await (await fetch(clipUrl)).blob();
+      const file = new File([blob], `${engine.skin.id}.webm`, { type: blob.type });
+      const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+      if (nav.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: engine.skin.skinName });
+        return;
+      }
+    } catch {
+      // fall through to download
+    }
+    const a = document.createElement("a");
+    a.href = clipUrl;
+    a.download = `${engine.skin.id}.webm`;
+    a.click();
+  }, [clipUrl]);
+
   // ---- render -----------------------------------------------------------
-  if (!started) {
+  if (!skin) {
+    const intro = BANDSTAND_SKINS[0];
     return (
       <main
         className="mx-auto flex min-h-dvh w-full max-w-[470px] flex-col items-center justify-center px-6 text-center"
-        style={{ background: skin.colors.bg, color: skin.colors.text }}
+        style={{ background: intro.colors.bg, color: intro.colors.text }}
       >
-        <p className="text-xs uppercase tracking-[0.24em]" style={{ color: skin.colors.dim }}>
-          {skin.brandName}
+        <p className="text-xs uppercase tracking-[0.24em]" style={{ color: intro.colors.dim }}>
+          {intro.brandName}
         </p>
-        <h1 className="mt-3 font-serif text-4xl">{skin.skinName}</h1>
-        <p className="mt-4 max-w-xs text-sm leading-relaxed" style={{ color: skin.colors.dim }}>
-          {skin.tagline}
+        <h1 className="mt-3 font-serif text-4xl">Pick your band</h1>
+        <p className="mt-4 max-w-xs text-sm leading-relaxed" style={{ color: intro.colors.dim }}>
+          Tap characters to layer parts into a looping jam. Same engine, different crew.
         </p>
-        <button
-          type="button"
-          onClick={() => void handleStart()}
-          className="mt-8 rounded-full px-8 py-3 text-sm font-semibold uppercase tracking-[0.18em]"
-          style={{ background: skin.colors.text, color: skin.colors.bg }}
-        >
-          Start the band
-        </button>
+        <div className="mt-8 grid w-full gap-3">
+          {BANDSTAND_SKINS.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => void pickSkin(s)}
+              className="rounded-2xl border px-5 py-4 text-left transition"
+              style={{ borderColor: `${s.colors.dim}66`, background: s.colors.stage }}
+            >
+              <span className="block text-[0.65rem] uppercase tracking-[0.2em]" style={{ color: s.colors.dim }}>
+                {s.brandName}
+              </span>
+              <span className="mt-1 block font-serif text-xl" style={{ color: s.colors.text }}>
+                {s.skinName}
+              </span>
+              <span className="mt-1 flex gap-1.5">
+                {s.mascots.map((m) => (
+                  <span
+                    key={m.id}
+                    className="inline-block h-3 w-3 rounded-full"
+                    style={{ background: m.color }}
+                  />
+                ))}
+              </span>
+            </button>
+          ))}
+        </div>
       </main>
     );
   }
@@ -271,31 +312,31 @@ export default function BandClient(): React.JSX.Element {
       </div>
 
       <footer className="flex flex-col items-center gap-3 px-4 py-4">
-        <button
-          type="button"
-          onClick={() => void toggleRecord()}
-          className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
-          style={
-            recording
-              ? { background: "#e8584d", color: "#ffffff" }
-              : { border: `1px solid ${skin.colors.dim}`, color: skin.colors.text }
-          }
-        >
-          {recording ? "● Stop & save clip" : "Record a clip"}
-        </button>
-        {clipUrl ? (
-          <div className="flex w-full flex-col items-center gap-2">
-            <audio controls src={clipUrl} className="w-full max-w-xs" />
-            <a
-              href={clipUrl}
-              download="fina-calle-band.webm"
-              className="text-xs underline"
-              style={{ color: skin.colors.dim }}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => void toggleRecord()}
+            className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+            style={
+              recording
+                ? { background: "#e8584d", color: "#ffffff" }
+                : { border: `1px solid ${skin.colors.dim}`, color: skin.colors.text }
+            }
+          >
+            {recording ? "● Stop & save clip" : "Record a clip"}
+          </button>
+          {clipUrl ? (
+            <button
+              type="button"
+              onClick={() => void shareClip()}
+              className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+              style={{ background: skin.colors.text, color: skin.colors.bg }}
             >
-              Download clip
-            </a>
-          </div>
-        ) : null}
+              Share
+            </button>
+          ) : null}
+        </div>
+        {clipUrl ? <audio controls src={clipUrl} className="w-full max-w-xs" /> : null}
       </footer>
     </div>
   );
