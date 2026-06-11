@@ -9,15 +9,17 @@ type DragState = {
   targetId: string | null;
 };
 
-type SendEmitter = {
+// A persistent stream from one node to another — keeps emitting units until the
+// source is lost (overpowered) or the player slashes it. Not a one-shot burst.
+type Flow = {
   id: string;
   fromId: string;
   toId: string;
   owner: "player" | "enemy";
-  remainingUnits: number;
-  cadenceMs: number;
   emitTimerMs: number;
 };
+
+type SlashState = { x0: number; y0: number; x: number; y: number };
 
 type TowerView = {
   circle: Phaser.GameObjects.Arc;
@@ -38,24 +40,25 @@ export class ConquestScene extends Phaser.Scene {
   private levelConfig: EngineConfig;
   private towers = new Map<string, TowerState>();
   private packets: PacketState[] = [];
-  private emitters: SendEmitter[] = [];
-  private adjacency = new Map<string, Set<string>>();
+  private flows: Flow[] = [];
   private towerViews = new Map<string, TowerView>();
   private stickerViews = new Map<string, StickerView>();
 
   private dragGraphics!: Phaser.GameObjects.Graphics;
   private packetGraphics!: Phaser.GameObjects.Graphics;
+  private barGraphics!: Phaser.GameObjects.Graphics;
 
   private timerText!: Phaser.GameObjects.Text;
   private statusText!: Phaser.GameObjects.Text;
 
   private dragState: DragState | null = null;
+  private slashState: SlashState | null = null; // an in-progress cut gesture
 
   private timeLeftSec = DEFAULT_CONQUEST_LEVEL.rules.matchDurationSec;
-  private aiThinkMs = 0;
+  private aiCooldown = new Map<string, number>(); // per-enemy-node action timer (real-time, no turns)
   private gameOver = false;
   private packetSeq = 0;
-  private emitterSeq = 0;
+  private flowSeq = 0;
 
   constructor(levelConfig: EngineConfig = DEFAULT_CONQUEST_LEVEL) {
     super(`ConquestScene-${levelConfig.id}`);
@@ -87,6 +90,7 @@ export class ConquestScene extends Phaser.Scene {
 
     this.createTowerViews();
     this.createStickerViews();
+    this.barGraphics = this.add.graphics(); // top — territory bar
 
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
       if (this.gameOver) {
@@ -95,19 +99,23 @@ export class ConquestScene extends Phaser.Scene {
       }
 
       const tower = this.findTowerAt(pointer.x, pointer.y);
-      if (!tower || tower.owner !== "player") {
+
+      if (tower && tower.owner === "player") {
+        // Press your node: on release, open a flow to a target — or (tap) cut its flow.
+        this.dragState = { sourceId: tower.id, pointerX: pointer.x, pointerY: pointer.y, targetId: null };
         return;
       }
 
-      this.dragState = {
-        sourceId: tower.id,
-        pointerX: pointer.x,
-        pointerY: pointer.y,
-        targetId: null,
-      };
+      // Anywhere else → start a SLASH gesture (drag across a stream to cut it).
+      this.slashState = { x0: pointer.x, y0: pointer.y, x: pointer.x, y: pointer.y };
     });
 
     this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
+      if (this.slashState) {
+        this.slashState.x = pointer.x;
+        this.slashState.y = pointer.y;
+        return;
+      }
       if (!this.dragState) {
         return;
       }
@@ -120,24 +128,31 @@ export class ConquestScene extends Phaser.Scene {
         return;
       }
 
-      this.dragState.targetId = this.isLinked(this.dragState.sourceId, hovered.id) ? hovered.id : null;
+      // Flow to ANY node — no link restriction.
+      this.dragState.targetId = hovered.id;
     });
 
     this.input.on("pointerup", () => {
-      if (!this.dragState || this.gameOver) {
-        this.dragState = null;
+      if (this.slashState) {
+        const moved = Phaser.Math.Distance.Between(this.slashState.x0, this.slashState.y0, this.slashState.x, this.slashState.y);
+        if (moved > 16) this.performSlash(this.slashState);
+        this.slashState = null;
         return;
       }
 
-      if (this.dragState.targetId) {
-        this.trySend(this.dragState.sourceId, this.dragState.targetId, "player");
-      }
+      const drag = this.dragState;
       this.dragState = null;
+      if (!drag || this.gameOver) return;
+
+      if (drag.targetId) {
+        this.setFlow(drag.sourceId, drag.targetId, "player"); // open a flow
+      } else {
+        this.flows = this.flows.filter((f) => f.fromId !== drag.sourceId); // tap = stop this node's flow
+      }
     });
 
     this.scale.on("resize", () => this.layoutScene());
     this.layoutScene();
-    this.scheduleNextAi();
     this.refreshTowerVisuals();
     this.updateHud();
   }
@@ -148,8 +163,9 @@ export class ConquestScene extends Phaser.Scene {
     if (!this.gameOver) {
       this.timeLeftSec = Math.max(0, this.timeLeftSec - dtSec);
       this.applyGrowth(dtSec);
-      this.updateEmitters(deltaMs);
+      this.updateFlows(deltaMs);
       this.updatePackets(dtSec);
+      this.resolveClashes();
       this.runEnemyAi(deltaMs);
       this.checkEndState();
       this.updateHud();
@@ -163,12 +179,14 @@ export class ConquestScene extends Phaser.Scene {
   private initializeState(): void {
     this.towers.clear();
     this.packets = [];
-    this.emitters = [];
+    this.flows = [];
     this.packetSeq = 0;
-    this.emitterSeq = 0;
+    this.flowSeq = 0;
     this.timeLeftSec = this.levelConfig.rules.matchDurationSec;
     this.gameOver = false;
     this.dragState = null;
+    this.slashState = null;
+    this.aiCooldown.clear();
 
     for (const tower of this.levelConfig.towers) {
       this.towers.set(tower.id, {
@@ -180,13 +198,6 @@ export class ConquestScene extends Phaser.Scene {
       });
     }
 
-    this.adjacency.clear();
-    for (const { a, b } of this.levelConfig.links) {
-      if (!this.adjacency.has(a)) this.adjacency.set(a, new Set());
-      if (!this.adjacency.has(b)) this.adjacency.set(b, new Set());
-      this.adjacency.get(a)?.add(b);
-      this.adjacency.get(b)?.add(a);
-    }
   }
 
   private createTowerViews(): void {
@@ -267,7 +278,6 @@ export class ConquestScene extends Phaser.Scene {
     this.layoutScene();
     this.refreshTowerVisuals();
     this.updateHud();
-    this.scheduleNextAi();
   }
 
   private updateHud(): void {
@@ -277,6 +287,26 @@ export class ConquestScene extends Phaser.Scene {
     const size = this.scale.gameSize;
     this.timerText.setPosition(size.width / 2, 12);
     this.statusText.setPosition(size.width / 2, 42);
+
+    this.drawTerritoryBar();
+  }
+
+  private drawTerritoryBar(): void {
+    if (!this.barGraphics) return;
+    const w = this.scale.gameSize.width;
+    const total = this.towers.size || 1;
+    const counts = this.countOwnership();
+    const barY = 4;
+    const barH = 5;
+    this.barGraphics.clear();
+    this.barGraphics.fillStyle(0xffffff, 0.06);
+    this.barGraphics.fillRect(0, barY, w, barH);
+    const playerW = (counts.player / total) * w;
+    const enemyW = (counts.enemy / total) * w;
+    this.barGraphics.fillStyle(this.levelConfig.colors.player, 0.9);
+    this.barGraphics.fillRect(0, barY, playerW, barH);
+    this.barGraphics.fillStyle(this.levelConfig.colors.enemy, 0.9);
+    this.barGraphics.fillRect(w - enemyW, barY, enemyW, barH);
   }
 
   private applyGrowth(dtSec: number): void {
@@ -287,110 +317,133 @@ export class ConquestScene extends Phaser.Scene {
     }
   }
 
+  // Real-time AI — no turns. Each enemy node runs on its OWN cooldown and acts the
+  // moment it's ready, so multiple enemy nodes operate continuously and in parallel.
   private runEnemyAi(deltaMs: number): void {
-    this.aiThinkMs -= deltaMs;
-    if (this.aiThinkMs > 0) return;
-    this.scheduleNextAi();
-
-    let best:
-      | {
-          source: TowerState;
-          target: TowerState;
-          score: number;
-        }
-      | undefined;
+    const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
 
     for (const source of this.towers.values()) {
-      if (source.owner !== "enemy" || source.value < 8) continue;
-      const neighbors = this.adjacency.get(source.id);
-      if (!neighbors) continue;
+      if (source.owner !== "enemy") continue;
 
-      for (const targetId of neighbors) {
-        const target = this.towers.get(targetId);
-        if (!target || target.owner === "enemy") continue;
+      const cd = (this.aiCooldown.get(source.id) ?? 0) - deltaMs;
+      if (cd > 0 || source.value < 8) {
+        this.aiCooldown.set(source.id, Math.max(0, cd));
+        continue;
+      }
 
+      let best: TowerState | undefined;
+      let bestScore = -Infinity;
+      for (const target of this.towers.values()) {
+        if (target.id === source.id || target.owner === "enemy") continue;
         const sendAmount = Math.floor(source.value * this.levelConfig.rules.sendPercent);
         let score = 100 - target.value;
         if (target.owner === "neutral") score += 8;
         if (sendAmount > target.value) score += 20;
-
-        if (!best || score > best.score) {
-          best = { source, target, score };
+        if (score > bestScore) {
+          bestScore = score;
+          best = target;
         }
       }
-    }
 
-    if (best) {
-      this.trySend(best.source.id, best.target.id, "enemy");
+      if (best) this.setFlow(source.id, best.id, "enemy");
+      this.aiCooldown.set(source.id, Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs));
     }
   }
 
-  private scheduleNextAi(): void {
-    const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
-    this.aiThinkMs = Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs);
+  /** Stream rate scales with the node's number — more units = faster flow. */
+  private flowCadenceFor(value: number): number {
+    return Phaser.Math.Clamp(280 - value * 4, 55, 280);
   }
 
-  private trySend(fromId: string, toId: string, sender: "player" | "enemy"): void {
-    if (!this.isLinked(fromId, toId)) return;
-
+  /** Open a persistent stream source→target (replaces that source's existing flow). */
+  private setFlow(fromId: string, toId: string, owner: "player" | "enemy"): void {
     const source = this.towers.get(fromId);
     const target = this.towers.get(toId);
-    if (!source || !target || source.owner !== sender) return;
+    if (!source || !target || source.id === target.id || source.owner !== owner) return;
 
-    const sourceValueAtSend = source.value;
-    const amount = Math.floor(sourceValueAtSend * this.levelConfig.rules.sendPercent);
-    if (amount < 1) return;
+    this.flows = this.flows.filter((f) => f.fromId !== fromId); // one outgoing flow per node
+    this.flows.push({ id: `flow-${this.flowSeq++}`, fromId, toId, owner, emitTimerMs: 0 });
 
-    source.value -= amount;
-
-    this.emitters.push({
-      id: `emit-${this.emitterSeq++}`,
-      fromId,
-      toId,
-      owner: sender,
-      remainingUnits: amount,
-      cadenceMs: this.computeCadenceMs(sourceValueAtSend),
-      emitTimerMs: 0,
-    });
+    if (owner === "player") {
+      this.popTower(fromId);
+      const p = this.toScreen(source.xPct, source.yPct);
+      this.fireCue(p.x, p.y);
+    }
   }
 
-  private computeCadenceMs(sourceValue: number): number {
-    const { sendCadenceBaseMs, sendCadenceMinMs, sendCadenceValueMultiplier } = this.levelConfig.rules;
-
-    // Higher tower value emits queued single units faster, but the config keeps
-    // the flow deliberately slower and readable for branded storefront skins.
-    return Phaser.Math.Clamp(
-      sendCadenceBaseMs - Math.floor(sourceValue * sendCadenceValueMultiplier),
-      sendCadenceMinMs,
-      sendCadenceBaseMs,
-    );
-  }
-
-  private updateEmitters(deltaMs: number): void {
-    const next: SendEmitter[] = [];
-
-    for (const emitter of this.emitters) {
-      emitter.emitTimerMs -= deltaMs;
-
-      while (emitter.remainingUnits > 0 && emitter.emitTimerMs <= 0) {
-        this.packets.push({
-          id: `pkt-${this.packetSeq++}`,
-          fromId: emitter.fromId,
-          toId: emitter.toId,
-          owner: emitter.owner,
-          amount: 1,
-          progress: 0,
-        });
-        emitter.remainingUnits -= 1;
-        emitter.emitTimerMs += emitter.cadenceMs;
+  private performSlash(slash: SlashState): void {
+    const kept: Flow[] = [];
+    let cut = 0;
+    for (const flow of this.flows) {
+      const from = this.towers.get(flow.fromId);
+      const to = this.towers.get(flow.toId);
+      if (!from || !to) {
+        continue;
       }
-
-      if (emitter.remainingUnits > 0) {
-        next.push(emitter);
+      const a = this.toScreen(from.xPct, from.yPct);
+      const b = this.toScreen(to.xPct, to.yPct);
+      if (this.segmentsIntersect(slash.x0, slash.y0, slash.x, slash.y, a.x, a.y, b.x, b.y)) {
+        cut += 1;
+        this.spark((a.x + b.x) / 2, (a.y + b.y) / 2, 0xffffff);
+      } else {
+        kept.push(flow);
       }
     }
+    this.flows = kept;
+    if (cut > 0) {
+      const g = this.add.graphics();
+      g.lineStyle(4, 0xffffff, 0.95);
+      g.lineBetween(slash.x0, slash.y0, slash.x, slash.y);
+      this.tweens.add({ targets: g, alpha: 0, duration: 220, onComplete: () => g.destroy() });
+    }
+  }
 
-    this.emitters = next;
+  private segmentsIntersect(
+    ax: number, ay: number, bx: number, by: number,
+    cx: number, cy: number, dx: number, dy: number,
+  ): boolean {
+    const denom = (bx - ax) * (dy - cy) - (by - ay) * (dx - cx);
+    if (denom === 0) return false;
+    const t = ((cx - ax) * (dy - cy) - (cy - ay) * (dx - cx)) / denom;
+    const u = ((cx - ax) * (by - ay) - (cy - ay) * (bx - ax)) / denom;
+    return t >= 0 && t <= 1 && u >= 0 && u <= 1;
+  }
+
+  // Each open flow emits a steady stream while its source has units. The source
+  // keeps growing AND feeding — so a flow never stops on its own; only a slash or
+  // losing the source (overpowered) ends it.
+  private updateFlows(deltaMs: number): void {
+    const next: Flow[] = [];
+
+    for (const flow of this.flows) {
+      const source = this.towers.get(flow.fromId);
+      const target = this.towers.get(flow.toId);
+      if (!source || !target || source.owner !== flow.owner) continue; // source lost → flow ends
+
+      flow.emitTimerMs -= deltaMs;
+      if (source.value >= 1) {
+        let guard = 0;
+        while (flow.emitTimerMs <= 0 && source.value >= 1 && guard < 8) {
+          this.packets.push({
+            id: `pkt-${this.packetSeq++}`,
+            fromId: flow.fromId,
+            toId: flow.toId,
+            owner: flow.owner,
+            amount: 1,
+            progress: 0,
+          });
+          source.value -= 1;
+          flow.emitTimerMs += this.flowCadenceFor(source.value);
+          guard += 1;
+        }
+      } else if (flow.emitTimerMs < 0) {
+        flow.emitTimerMs = 0; // paused with no units; resumes the moment it grows
+      }
+
+      next.push(flow);
+    }
+
+    this.flows = next;
   }
 
   private updatePackets(dtSec: number): void {
@@ -429,11 +482,114 @@ export class ConquestScene extends Phaser.Scene {
       return;
     }
 
+    // A hostile unit hit a defended node — show the fight for control.
+    const pos = this.toScreen(target.xPct, target.yPct);
     target.value -= packet.amount;
     if (target.value < 0) {
       target.owner = packet.owner;
       target.value = Math.abs(target.value);
+      // Capture juice — pop, ring burst, and a kick of screen-shake on YOUR wins.
+      this.popTower(target.id);
+      this.ringBurst(pos.x, pos.y, this.ownerColor(target.owner));
+      if (packet.owner === "player") this.cameras.main.shake(140, 0.005);
+    } else {
+      // still contested — flicker the node toward the attacker + a little spark
+      this.contestTower(target.id, packet.owner);
+      this.spark(pos.x, pos.y, this.ownerColor(packet.owner));
     }
+  }
+
+  // --- battle feedback -------------------------------------------------------
+
+  private contestTower(id: string, attacker: Owner): void {
+    const view = this.towerViews.get(id);
+    if (!view) return;
+    const flash = this.ownerColor(attacker);
+    view.circle.setFillStyle(flash, 0.96);
+    this.tweens.add({ targets: view.circle, scaleX: 1.12, scaleY: 1.12, duration: 70, yoyo: true, ease: "Quad.Out" });
+  }
+
+  private spark(x: number, y: number, color: number): void {
+    const s = this.add.circle(x, y, this.levelConfig.rules.unitRadius * 0.9, color, 0.95);
+    this.tweens.add({
+      targets: s,
+      scaleX: 0.1,
+      scaleY: 0.1,
+      alpha: 0,
+      duration: 240,
+      ease: "Quad.Out",
+      onComplete: () => s.destroy(),
+    });
+  }
+
+  private fireCue(x: number, y: number): void {
+    const txt = this.add.text(x, y - this.towerRadius() - 4, "FIRE", {
+      fontFamily: "Arial",
+      fontSize: "14px",
+      color: "#ffe6a8",
+      fontStyle: "bold",
+    });
+    txt.setOrigin(0.5, 1);
+    this.tweens.add({
+      targets: txt,
+      y: y - this.towerRadius() - 26,
+      alpha: 0,
+      duration: 520,
+      ease: "Quad.Out",
+      onComplete: () => txt.destroy(),
+    });
+  }
+
+  // Opposing units that meet in transit annihilate 1-for-1 — so the bigger stream
+  // punches through and the remainder flows on (a real clash between nodes).
+  private resolveClashes(): void {
+    const clashDist = this.levelConfig.rules.unitRadius * 2.4;
+    const positions = this.packets.map((p) => this.packetPos(p));
+    for (let i = 0; i < this.packets.length; i++) {
+      const a = this.packets[i];
+      const pa = positions[i];
+      if (a.amount <= 0 || !pa) continue;
+      for (let j = i + 1; j < this.packets.length; j++) {
+        const b = this.packets[j];
+        const pb = positions[j];
+        if (b.amount <= 0 || !pb || b.owner === a.owner) continue;
+        if (Phaser.Math.Distance.Between(pa.x, pa.y, pb.x, pb.y) <= clashDist) {
+          a.amount = 0;
+          b.amount = 0;
+          this.spark((pa.x + pb.x) / 2, (pa.y + pb.y) / 2, 0xfff0c2);
+          break;
+        }
+      }
+    }
+    if (this.packets.some((p) => p.amount <= 0)) {
+      this.packets = this.packets.filter((p) => p.amount > 0);
+    }
+  }
+
+  // --- juice helpers ---------------------------------------------------------
+
+  private punch(obj: Phaser.GameObjects.Arc): void {
+    this.tweens.add({ targets: obj, scaleX: 1.32, scaleY: 1.32, duration: 110, yoyo: true, ease: "Quad.Out" });
+  }
+
+  private popTower(id: string): void {
+    const view = this.towerViews.get(id);
+    if (view) this.punch(view.circle);
+  }
+
+  private ringBurst(x: number, y: number, color: number): void {
+    const ring = this.add.circle(x, y, this.towerRadius() * 0.7);
+    ring.setFillStyle(color, 0);
+    ring.setStrokeStyle(3, color, 0.9);
+    this.tweens.add({
+      targets: ring,
+      scaleX: 2.8,
+      scaleY: 2.8,
+      alpha: 0,
+      duration: 430,
+      ease: "Cubic.Out",
+      onComplete: () => ring.destroy(),
+    });
   }
 
   private checkEndState(): void {
@@ -475,9 +631,20 @@ export class ConquestScene extends Phaser.Scene {
     this.gameOver = true;
     this.statusText.setText(
       result === "win"
-        ? `${this.levelConfig.winText}\nTap Replay or choose another level`
-        : `${this.levelConfig.loseText}\nTap Replay or choose another level`,
+        ? `${this.levelConfig.winText}\nTap to play again`
+        : `${this.levelConfig.loseText}\nTap to play again`,
     );
+
+    if (result === "win") {
+      this.cameras.main.flash(280, 244, 230, 204);
+      for (const t of this.towers.values()) {
+        if (t.owner !== "player") continue;
+        const p = this.toScreen(t.xPct, t.yPct);
+        this.ringBurst(p.x, p.y, this.levelConfig.colors.player);
+      }
+    } else {
+      this.cameras.main.shake(240, 0.006);
+    }
   }
 
   private countOwnership(): { player: number; enemy: number; neutral: number } {
@@ -526,54 +693,44 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private drawDragPreview(): void {
+    // No aim lines for flows — nodes light up. Draw the in-progress SLASH stroke.
     this.dragGraphics.clear();
-    if (!this.dragState) return;
-
-    const source = this.towers.get(this.dragState.sourceId);
-    if (!source) return;
-
-    const from = this.toScreen(source.xPct, source.yPct);
-    const to = this.dragState.targetId
-      ? this.toScreen(
-          this.towers.get(this.dragState.targetId)?.xPct ?? source.xPct,
-          this.towers.get(this.dragState.targetId)?.yPct ?? source.yPct,
-        )
-      : { x: this.dragState.pointerX, y: this.dragState.pointerY };
-
-    this.dragGraphics.lineStyle(3, 0xe4bf6d, 0.9);
-    this.dragGraphics.lineBetween(from.x, from.y, to.x, to.y);
-    this.dragGraphics.fillStyle(0xe4bf6d, 0.85);
-    this.dragGraphics.fillCircle(to.x, to.y, this.levelConfig.rules.unitRadius + 2);
+    if (this.slashState) {
+      this.dragGraphics.lineStyle(3, 0xffffff, 0.85);
+      this.dragGraphics.lineBetween(this.slashState.x0, this.slashState.y0, this.slashState.x, this.slashState.y);
+    }
   }
 
   private drawPackets(): void {
     this.packetGraphics.clear();
+    const r = this.levelConfig.rules.unitRadius;
 
     for (const packet of this.packets) {
-      const from = this.towers.get(packet.fromId);
-      const to = this.towers.get(packet.toId);
-      if (!from || !to) continue;
-
-      const fromPos = this.toScreen(from.xPct, from.yPct);
-      const toPos = this.toScreen(to.xPct, to.yPct);
-      const x = Phaser.Math.Linear(fromPos.x, toPos.x, packet.progress);
-      const y = Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress);
-
+      const pos = this.packetPos(packet);
+      if (!pos) continue;
       const color = packet.owner === "player" ? this.levelConfig.colors.player : this.levelConfig.colors.enemy;
-      this.packetGraphics.lineStyle(2, color, 0.32);
-      const backProgress = Math.max(0, packet.progress - 0.06);
-      const tx = Phaser.Math.Linear(fromPos.x, toPos.x, backProgress);
-      const ty = Phaser.Math.Linear(fromPos.y, toPos.y, backProgress);
-      this.packetGraphics.lineBetween(tx, ty, x, y);
-
-      this.packetGraphics.fillStyle(color, 0.95);
-      this.packetGraphics.fillCircle(x, y, this.levelConfig.rules.unitRadius);
+      // glowing dot — a moving "unit", no line trails
+      this.packetGraphics.fillStyle(color, 0.22);
+      this.packetGraphics.fillCircle(pos.x, pos.y, r + 4);
+      this.packetGraphics.fillStyle(color, 1);
+      this.packetGraphics.fillCircle(pos.x, pos.y, r);
     }
   }
 
-  private refreshTowerVisuals(): void {
-    const linkedTargets = this.dragState ? this.adjacency.get(this.dragState.sourceId) : undefined;
+  /** Current screen position of a packet along its source→target path. */
+  private packetPos(packet: PacketState): { x: number; y: number } | null {
+    const from = this.towers.get(packet.fromId);
+    const to = this.towers.get(packet.toId);
+    if (!from || !to) return null;
+    const fromPos = this.toScreen(from.xPct, from.yPct);
+    const toPos = this.toScreen(to.xPct, to.yPct);
+    return {
+      x: Phaser.Math.Linear(fromPos.x, toPos.x, packet.progress),
+      y: Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress),
+    };
+  }
 
+  private refreshTowerVisuals(): void {
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
       if (!view) continue;
@@ -592,11 +749,12 @@ export class ConquestScene extends Phaser.Scene {
         strokeWidth = 3;
         strokeColor = 0xffde8a;
         strokeAlpha = 1;
-      } else if (linkedTargets?.has(tower.id)) {
-        glowAlpha = 0.4;
-        strokeWidth = 2;
-        strokeColor = 0xe4bf6d;
-        strokeAlpha = 0.95;
+      } else if (this.dragState && tower.id === this.dragState.targetId) {
+        // the node you're aiming at — highlight it (instead of a line)
+        glowAlpha = 0.42;
+        strokeWidth = 3;
+        strokeColor = 0xfff0c2;
+        strokeAlpha = 1;
       }
 
       view.glow.setFillStyle(color, glowAlpha);
@@ -612,27 +770,15 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private getOutgoingCount(towerId: string): number {
-    let queued = 0;
-    for (const emitter of this.emitters) {
-      if (emitter.fromId === towerId) queued += emitter.remainingUnits;
-    }
-    let inFlight = 0;
-    for (const packet of this.packets) {
-      if (packet.fromId === towerId) inFlight += packet.amount;
-    }
-    return queued + inFlight;
+    let n = 0;
+    for (const packet of this.packets) if (packet.fromId === towerId) n += packet.amount;
+    return n;
   }
 
   private getIncomingCount(towerId: string): number {
-    let queued = 0;
-    for (const emitter of this.emitters) {
-      if (emitter.toId === towerId) queued += emitter.remainingUnits;
-    }
-    let inFlight = 0;
-    for (const packet of this.packets) {
-      if (packet.toId === towerId) inFlight += packet.amount;
-    }
-    return queued + inFlight;
+    let n = 0;
+    for (const packet of this.packets) if (packet.toId === towerId) n += packet.amount;
+    return n;
   }
 
   private ownerColor(owner: Owner): number {
@@ -651,10 +797,6 @@ export class ConquestScene extends Phaser.Scene {
       }
     }
     return null;
-  }
-
-  private isLinked(a: string, b: string): boolean {
-    return this.adjacency.get(a)?.has(b) ?? false;
   }
 
   private toScreen(xPct: number, yPct: number): { x: number; y: number } {
