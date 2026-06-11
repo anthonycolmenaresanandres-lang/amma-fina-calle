@@ -38,7 +38,8 @@ export default function LeadArcadeClient(): React.JSX.Element {
   const [surveyingId, setSurveyingId] = useState<string | null>(null);
   const [pitchingId, setPitchingId] = useState<string | null>(null);
 
-  const [territory, setTerritory] = useState<string>(() => loadActiveTerritory());
+  const [territory, setTerritory] = useState<string>(TERRITORIES[0].id);
+  useEffect(() => { setTerritory(loadActiveTerritory()); }, []);
 
   const filtered = useMemo(() => eventsInTerritory(events, territory), [events, territory]);
   const leads = useMemo(() => deriveLeads(filtered), [filtered]);
