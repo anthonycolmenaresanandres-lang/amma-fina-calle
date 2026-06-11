@@ -57,11 +57,6 @@ export type DashboardData = {
   audit: AuditEntry[];
 };
 
-function money(value: number | string): string {
-  const n = Number(value);
-  return Number.isFinite(n) ? `$${n.toFixed(2)}` : String(value);
-}
-
 // --- Coming up (the proactive Seasonal Autopilot) ----------------------------
 
 function ComingUp() {
@@ -367,27 +362,24 @@ export default function OwnerDashboard({
         {allItems.length > featured.length ? (
           <details className="group mt-3">
             <summary className="cursor-pointer list-none text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#cfd6da]/70 transition hover:text-white">
-              See full menu ({allItems.length}) →
+              Manage all items ({allItems.length}) — price &amp; photos →
             </summary>
-            <div className="mt-3 space-y-4">
+            <div className="mt-3 space-y-5">
               {data.categories.map((cat) => (
                 <div key={cat.id}>
                   <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
                     {cat.name}
                   </p>
-                  <ul className="mt-1.5 space-y-1">
+                  <div className="mt-2 space-y-3">
                     {cat.items.map((it) => (
-                      <li
+                      <FeaturedSlot
                         key={it.id}
-                        className="flex items-center justify-between gap-3 text-sm text-[#c8d0d4]"
-                      >
-                        <span className={it.is_available ? "" : "text-[#7f8a91] line-through"}>
-                          {it.name}
-                        </span>
-                        <span className="text-[#7f8a91]">{money(it.price)}</span>
-                      </li>
+                        restaurantId={data.restaurantId}
+                        item={{ ...it, category: cat.name }}
+                        readOnly={readOnly}
+                      />
                     ))}
-                  </ul>
+                  </div>
                 </div>
               ))}
             </div>
