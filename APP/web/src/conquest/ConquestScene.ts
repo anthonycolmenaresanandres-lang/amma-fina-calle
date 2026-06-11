@@ -53,7 +53,7 @@ export class ConquestScene extends Phaser.Scene {
   private selected = new Set<string>(); // your nodes armed to fire together
 
   private timeLeftSec = DEFAULT_CONQUEST_LEVEL.rules.matchDurationSec;
-  private aiThinkMs = 0;
+  private aiCooldown = new Map<string, number>(); // per-enemy-node action timer (real-time, no turns)
   private gameOver = false;
   private packetSeq = 0;
   private emitterSeq = 0;
@@ -151,7 +151,6 @@ export class ConquestScene extends Phaser.Scene {
 
     this.scale.on("resize", () => this.layoutScene());
     this.layoutScene();
-    this.scheduleNextAi();
     this.refreshTowerVisuals();
     this.updateHud();
   }
@@ -185,6 +184,7 @@ export class ConquestScene extends Phaser.Scene {
     this.gameOver = false;
     this.dragState = null;
     this.selected.clear();
+    this.aiCooldown.clear();
 
     for (const tower of this.levelConfig.towers) {
       this.towers.set(tower.id, {
@@ -276,7 +276,6 @@ export class ConquestScene extends Phaser.Scene {
     this.layoutScene();
     this.refreshTowerVisuals();
     this.updateHud();
-    this.scheduleNextAi();
   }
 
   private updateHud(): void {
@@ -316,44 +315,37 @@ export class ConquestScene extends Phaser.Scene {
     }
   }
 
+  // Real-time AI — no turns. Each enemy node runs on its OWN cooldown and acts the
+  // moment it's ready, so multiple enemy nodes operate continuously and in parallel.
   private runEnemyAi(deltaMs: number): void {
-    this.aiThinkMs -= deltaMs;
-    if (this.aiThinkMs > 0) return;
-    this.scheduleNextAi();
-
-    let best:
-      | {
-          source: TowerState;
-          target: TowerState;
-          score: number;
-        }
-      | undefined;
+    const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
 
     for (const source of this.towers.values()) {
-      if (source.owner !== "enemy" || source.value < 8) continue;
+      if (source.owner !== "enemy") continue;
 
+      const cd = (this.aiCooldown.get(source.id) ?? 0) - deltaMs;
+      if (cd > 0 || source.value < 8) {
+        this.aiCooldown.set(source.id, Math.max(0, cd));
+        continue;
+      }
+
+      let best: TowerState | undefined;
+      let bestScore = -Infinity;
       for (const target of this.towers.values()) {
         if (target.id === source.id || target.owner === "enemy") continue;
-
         const sendAmount = Math.floor(source.value * this.levelConfig.rules.sendPercent);
         let score = 100 - target.value;
         if (target.owner === "neutral") score += 8;
         if (sendAmount > target.value) score += 20;
-
-        if (!best || score > best.score) {
-          best = { source, target, score };
+        if (score > bestScore) {
+          bestScore = score;
+          best = target;
         }
       }
-    }
 
-    if (best) {
-      this.trySend(best.source.id, best.target.id, "enemy");
+      if (best) this.trySend(source.id, best.id, "enemy");
+      this.aiCooldown.set(source.id, Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs));
     }
-  }
-
-  private scheduleNextAi(): void {
-    const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
-    this.aiThinkMs = Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs);
   }
 
   private fireSelected(targetId: string): void {
@@ -370,8 +362,9 @@ export class ConquestScene extends Phaser.Scene {
     if (!source || !target || source.id === target.id || source.owner !== sender) return;
 
     const sourceValueAtSend = source.value;
-    const amount = Math.floor(sourceValueAtSend * this.levelConfig.rules.sendPercent);
-    if (amount < 1) return;
+    if (sourceValueAtSend < 1) return;
+    // If you can move, you can do it — always send at least 1 unit.
+    const amount = Math.max(1, Math.floor(sourceValueAtSend * this.levelConfig.rules.sendPercent));
 
     source.value -= amount;
     if (sender === "player") {
