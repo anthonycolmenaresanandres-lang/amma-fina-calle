@@ -360,11 +360,28 @@ export default function OwnerDashboard({
         )}
 
         {allItems.length > featured.length ? (
-          <details className="group mt-3">
-            <summary className="cursor-pointer list-none text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#cfd6da]/70 transition hover:text-white">
-              Manage all items ({allItems.length}) — price &amp; photos →
+          <details className="group mt-4 overflow-hidden rounded-xl border border-[#cfd6da]/12 bg-white/[0.02] transition-colors open:border-[#cfd6da]/25 open:bg-white/[0.03]">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#cfd6da]/75 transition hover:text-white [&::-webkit-details-marker]:hidden">
+              <span>Manage all items · price &amp; photos</span>
+              <span className="flex items-center gap-2 text-[#7f8a91]">
+                <span className="rounded-full bg-[#cfd6da]/10 px-2 py-0.5 text-[0.68rem] tabular-nums text-[#cfd6da]/80">
+                  {allItems.length}
+                </span>
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 transition-transform duration-200 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
             </summary>
-            <div className="mt-3 space-y-5">
+            <div className="space-y-5 border-t border-[#cfd6da]/10 px-4 pb-4 pt-4">
               {data.categories.map((cat) => (
                 <div key={cat.id}>
                   <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
