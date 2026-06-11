@@ -52,6 +52,31 @@ export const COLATTAO_BAND: BandstandSkin = {
   ],
 };
 
-export const BANDSTAND_SKINS: BandstandSkin[] = [FINA_CALLE_BAND, COLATTAO_BAND];
+// Colattanini — Colattao's playful "-ini" mascot cast. Same six roles/engine;
+// brighter berry-mocha palette and a peppier tempo so they read as their own
+// poppy crew. Original café-creature names (non-human, no real IP, no AI art).
+export const COLATTANINI_BAND: BandstandSkin = {
+  id: "colattanini-band",
+  brandName: "Colattao presents",
+  skinName: "Colattanini",
+  tagline: "Tap a Colattanini to add its part. Build the jam and earn the whole crew.",
+  bpm: 104,
+  colors: {
+    bg: "#1c0f14",
+    stage: "#2c1822",
+    text: "#ffe9d6",
+    dim: "#c59a8a",
+  },
+  mascots: [
+    { id: "bombeanini", name: "Bombeanini", role: "kick", color: "#5a3a26", accent: "#d79a5e" },
+    { id: "frothalini", name: "Frothalini", role: "hat", color: "#f3e7d2", accent: "#fffaf0" },
+    { id: "roastarino", name: "Roastarino", role: "bass", color: "#3a2316", accent: "#b07b48" },
+    { id: "steamalini", name: "Steamalini", role: "pad", color: "#c3b2c9", accent: "#ece0ef" },
+    { id: "matchalini", name: "Matchalini", role: "lead", color: "#6fbf4a", accent: "#c4f0a0" },
+    { id: "sugarini", name: "Sugarini", role: "arp", color: "#f2a9c4", accent: "#ffd9e8" },
+  ],
+};
+
+export const BANDSTAND_SKINS: BandstandSkin[] = [FINA_CALLE_BAND, COLATTAO_BAND, COLATTANINI_BAND];
 
 export const DEFAULT_BANDSTAND_SKIN = FINA_CALLE_BAND;
