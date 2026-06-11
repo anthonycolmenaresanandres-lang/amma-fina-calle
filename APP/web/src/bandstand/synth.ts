@@ -9,51 +9,78 @@ import type { BandstandSkin, VoiceRole } from "./types";
 // sample-accurate times. Mascots you toggle on/off only affect notes scheduled
 // from "now" forward, so adds/removes always land on the grid — never drift.
 //
-// All notes are drawn from one pentatonic scale, so any combination of active
-// mascots is automatically consonant.
+// The loop is TWO bars (call-and-response phrasing + a chord lift in bar 2) for
+// musical variety. All notes are drawn from one pentatonic scale, so any
+// combination of active mascots is automatically consonant.
+//
+// Progression: players START with a couple of mascots and EARN the rest by
+// keeping the jam going — a "fans" meter fills faster the fuller the band is.
+// Unlocks persist to localStorage, so earned characters stay earned.
 
 const PENTA = [0, 3, 5, 7, 10]; // C minor pentatonic (relative semitones)
 const ROOT = 48; // C3
-const STEPS_PER_BAR = 16; // sixteenth-note grid, one-bar loop
+const STEPS_PER_BAR = 16; // sixteenth-note grid
+const STEPS_PER_LOOP = 32; // two-bar loop
+
+// Unlock thresholds by mascot order. 0 = available from the start.
+const UNLOCK_THRESHOLDS = [0, 0, 6, 16, 30, 50];
+const FANS_PER_PART_PER_SEC = 0.7;
 
 type Hit = { step: number; degree: number; octave: number; vel: number; durSteps: number };
+
+export type UnlockEvent = { id: string };
 
 function midiToFreq(m: number): number {
   return 440 * Math.pow(2, (m - 69) / 12);
 }
 
 function noteFor(h: Hit): number {
-  return ROOT + h.octave * 12 + PENTA[h.degree % PENTA.length];
+  return ROOT + h.octave * 12 + PENTA[((h.degree % PENTA.length) + PENTA.length) % PENTA.length];
 }
 
-// Per-role one-bar patterns. The engine owns these; skins never touch them.
+function tone(step: number, degree: number, octave: number, vel: number, durSteps: number): Hit {
+  return { step, degree, octave, vel, durSteps };
+}
+
+// Per-role two-bar patterns. The engine owns these; skins never touch them.
 const PATTERNS: Record<VoiceRole, Hit[]> = {
-  kick: [0, 4, 8, 12].map((step) => ({ step, degree: 0, octave: -2, vel: 1, durSteps: 1 })),
-  hat: [2, 6, 10, 14].map((step) => ({ step, degree: 0, octave: 0, vel: 0.5, durSteps: 1 })),
+  kick: [0, 4, 8, 12, 16, 20, 24, 28, 30].map((step) => tone(step, 0, -2, 1, 1)),
+  hat: [2, 6, 10, 14, 18, 22, 26, 29, 30, 31].map((step) => tone(step, 0, 0, 0.5, 1)),
   bass: [
-    { step: 0, degree: 0, octave: -1, vel: 0.9, durSteps: 3 },
-    { step: 6, degree: 2, octave: -1, vel: 0.7, durSteps: 2 },
-    { step: 8, degree: 0, octave: -1, vel: 0.9, durSteps: 3 },
-    { step: 11, degree: 3, octave: -1, vel: 0.7, durSteps: 2 },
-    { step: 14, degree: 2, octave: -1, vel: 0.6, durSteps: 2 },
+    tone(0, 0, -1, 0.9, 3),
+    tone(6, 2, -1, 0.7, 2),
+    tone(8, 0, -1, 0.9, 3),
+    tone(11, 3, -1, 0.7, 2),
+    tone(14, 2, -1, 0.6, 2),
+    tone(16, 0, -1, 0.9, 3),
+    tone(22, 4, -1, 0.7, 2),
+    tone(24, 2, -1, 0.9, 3),
+    tone(27, 1, -1, 0.7, 2),
+    tone(30, 0, -1, 0.6, 2),
   ],
-  pad: [{ step: 0, degree: 0, octave: 0, vel: 0.5, durSteps: 16 }],
+  // Pad: bar 1 root chord, bar 2 lifts up a step (degree picked in playPad).
+  pad: [tone(0, 0, 0, 0.5, 16), tone(16, 0, 0, 0.5, 16)],
   lead: [
-    { step: 0, degree: 4, octave: 1, vel: 0.8, durSteps: 2 },
-    { step: 3, degree: 3, octave: 1, vel: 0.7, durSteps: 1 },
-    { step: 6, degree: 2, octave: 1, vel: 0.8, durSteps: 2 },
-    { step: 8, degree: 3, octave: 1, vel: 0.7, durSteps: 1 },
-    { step: 10, degree: 4, octave: 1, vel: 0.9, durSteps: 2 },
-    { step: 13, degree: 2, octave: 1, vel: 0.6, durSteps: 2 },
+    // bar 1 — question
+    tone(0, 4, 1, 0.8, 2),
+    tone(3, 3, 1, 0.7, 1),
+    tone(6, 2, 1, 0.8, 2),
+    tone(10, 3, 1, 0.7, 1),
+    tone(13, 4, 1, 0.8, 2),
+    // bar 2 — answer, resolves down to root
+    tone(16, 4, 1, 0.8, 2),
+    tone(19, 3, 1, 0.7, 1),
+    tone(22, 2, 1, 0.8, 2),
+    tone(24, 1, 1, 0.7, 1),
+    tone(28, 0, 1, 0.9, 3),
   ],
-  arp: [0, 2, 4, 6, 8, 10, 12, 14].map((step, i) => ({
-    step,
-    degree: [0, 1, 2, 3, 4, 3, 2, 1][i],
-    octave: 1,
-    vel: 0.5,
-    durSteps: 1,
-  })),
+  arp: [
+    ...[0, 2, 4, 6, 8, 10, 12, 14].map((step, i) => tone(step, [0, 1, 2, 3, 4, 3, 2, 1][i], 1, 0.5, 1)),
+    ...[16, 18, 20, 22, 24, 26, 28, 30].map((step, i) => tone(step, [4, 3, 2, 1, 0, 1, 2, 3][i], 1, 0.5, 1)),
+  ],
 };
+
+type SavedState = { fans: number; unlocked: string[] };
 
 export class Bandstand {
   readonly skin: BandstandSkin;
@@ -64,10 +91,15 @@ export class Bandstand {
   private noiseBuffer: AudioBuffer | null = null;
 
   private active = new Set<string>();
+  private unlocked = new Set<string>();
   private timer: number | null = null;
   private nextNoteTime = 0;
   private currentStep = 0;
   private readonly secPerStep: number;
+
+  private fans = 0;
+  private lastUpdate = 0;
+  private lastSave = 0;
 
   // Visual feedback: per-mascot ring buffer of scheduled hit times.
   private hits = new Map<string, number[]>();
@@ -79,12 +111,49 @@ export class Bandstand {
     this.skin = skin;
     this.secPerStep = 60 / skin.bpm / 4;
     for (const m of skin.mascots) this.hits.set(m.id, []);
+    this.loadState();
+  }
+
+  private storageKey(): string {
+    return `bandstand:${this.skin.id}`;
+  }
+
+  private loadState(): void {
+    let saved: SavedState | null = null;
+    try {
+      const raw = typeof localStorage !== "undefined" ? localStorage.getItem(this.storageKey()) : null;
+      if (raw) saved = JSON.parse(raw) as SavedState;
+    } catch {
+      saved = null;
+    }
+    if (saved) {
+      this.fans = saved.fans ?? 0;
+      for (const id of saved.unlocked ?? []) {
+        if (this.skin.mascots.some((m) => m.id === id)) this.unlocked.add(id);
+      }
+    }
+    // Always guarantee the starter mascots are unlocked.
+    this.skin.mascots.forEach((m, i) => {
+      if ((UNLOCK_THRESHOLDS[i] ?? 0) === 0) this.unlocked.add(m.id);
+    });
+  }
+
+  private saveState(): void {
+    try {
+      if (typeof localStorage === "undefined") return;
+      const data: SavedState = { fans: this.fans, unlocked: [...this.unlocked] };
+      localStorage.setItem(this.storageKey(), JSON.stringify(data));
+    } catch {
+      // ignore (private mode / quota)
+    }
   }
 
   // Must be called from a user gesture (autoplay policy).
   async start(): Promise<void> {
     if (this.ctx) return;
-    const Ctor = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const Ctor =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     const ctx = new Ctor();
     await ctx.resume();
 
@@ -95,7 +164,6 @@ export class Bandstand {
     const recDest = ctx.createMediaStreamDestination();
     master.connect(recDest);
 
-    // Pre-build a short white-noise buffer for hats.
     const noise = ctx.createBuffer(1, ctx.sampleRate * 0.3, ctx.sampleRate);
     const data = noise.getChannelData(0);
     for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
@@ -107,6 +175,8 @@ export class Bandstand {
 
     this.nextNoteTime = ctx.currentTime + 0.1;
     this.currentStep = 0;
+    this.lastUpdate = ctx.currentTime;
+    this.lastSave = ctx.currentTime;
     this.timer = window.setInterval(() => this.scheduler(), 25);
   }
 
@@ -115,6 +185,7 @@ export class Bandstand {
     this.timer = null;
     if (this.recorder && this.recorder.state !== "inactive") this.recorder.stop();
     this.recorder = null;
+    this.saveState();
     void this.ctx?.close();
     this.ctx = null;
     this.master = null;
@@ -125,7 +196,71 @@ export class Bandstand {
     return this.ctx !== null;
   }
 
+  // ---- progression ------------------------------------------------------
+  isUnlocked(id: string): boolean {
+    return this.unlocked.has(id);
+  }
+
+  getFans(): number {
+    return Math.floor(this.fans);
+  }
+
+  // The next mascot to earn + progress toward it (null when the band is full).
+  // `from` is the previous threshold so the meter fills segment-by-segment.
+  nextUnlock(): { id: string; name: string; have: number; need: number; from: number } | null {
+    for (let i = 0; i < this.skin.mascots.length; i++) {
+      const m = this.skin.mascots[i];
+      if (this.unlocked.has(m.id)) continue;
+      return {
+        id: m.id,
+        name: m.name,
+        have: Math.floor(this.fans),
+        need: UNLOCK_THRESHOLDS[i] ?? 999,
+        from: UNLOCK_THRESHOLDS[i - 1] ?? 0,
+      };
+    }
+    return null;
+  }
+
+  // Integrate fans from active parts; unlock the next mascot when earned.
+  // Called once per animation frame. Returns an unlock event when one fires.
+  update(): UnlockEvent | null {
+    const ctx = this.ctx;
+    if (!ctx) return null;
+    const now = ctx.currentTime;
+    const dt = Math.max(0, now - this.lastUpdate);
+    this.lastUpdate = now;
+
+    let activeCount = 0;
+    for (const id of this.active) if (this.unlocked.has(id)) activeCount++;
+    this.fans += dt * activeCount * FANS_PER_PART_PER_SEC;
+
+    let event: UnlockEvent | null = null;
+    const next = this.firstLockedIndex();
+    if (next >= 0 && this.fans >= (UNLOCK_THRESHOLDS[next] ?? Infinity)) {
+      const m = this.skin.mascots[next];
+      this.unlocked.add(m.id);
+      this.saveState();
+      event = { id: m.id };
+    }
+
+    if (now - this.lastSave > 4) {
+      this.lastSave = now;
+      this.saveState();
+    }
+    return event;
+  }
+
+  private firstLockedIndex(): number {
+    for (let i = 0; i < this.skin.mascots.length; i++) {
+      if (!this.unlocked.has(this.skin.mascots[i].id)) return i;
+    }
+    return -1;
+  }
+
+  // ---- play control -----------------------------------------------------
   toggle(id: string): boolean {
+    if (!this.unlocked.has(id)) return false; // locked mascots can't play yet
     if (this.active.has(id)) {
       this.active.delete(id);
       return false;
@@ -153,8 +288,7 @@ export class Bandstand {
       if (arr[i] <= t && arr[i] > best) best = arr[i];
     }
     if (best === -Infinity) return 0;
-    const dt = t - best;
-    return Math.max(0, Math.exp(-dt * 7));
+    return Math.max(0, Math.exp(-(t - best) * 7));
   }
 
   // Progress through the current bar (0..1), for an on-beat pulse line.
@@ -172,13 +306,13 @@ export class Bandstand {
     while (this.nextNoteTime < aheadTo) {
       this.scheduleStep(this.currentStep, this.nextNoteTime);
       this.nextNoteTime += this.secPerStep;
-      this.currentStep = (this.currentStep + 1) % STEPS_PER_BAR;
+      this.currentStep = (this.currentStep + 1) % STEPS_PER_LOOP;
     }
   }
 
   private scheduleStep(step: number, time: number): void {
     for (const m of this.skin.mascots) {
-      if (!this.active.has(m.id)) continue;
+      if (!this.active.has(m.id) || !this.unlocked.has(m.id)) continue;
       const pattern = PATTERNS[m.role];
       for (const h of pattern) {
         if (h.step !== step) continue;
@@ -186,7 +320,7 @@ export class Bandstand {
         const arr = this.hits.get(m.id);
         if (arr) {
           arr.push(time);
-          if (arr.length > 16) arr.shift();
+          if (arr.length > 8) arr.shift();
         }
       }
     }
@@ -202,7 +336,7 @@ export class Bandstand {
       case "bass":
         return this.playTone(time, noteFor(h), h.durSteps, h.vel, "triangle", 600, 0.012);
       case "pad":
-        return this.playPad(time, h.durSteps, h.vel);
+        return this.playPad(time, h.durSteps, h.vel, h.step >= STEPS_PER_BAR);
       case "lead":
         return this.playTone(time, noteFor(h), h.durSteps, h.vel, "square", 2400, 0.006);
       case "arp":
@@ -271,7 +405,7 @@ export class Bandstand {
     osc.stop(time + d);
   }
 
-  private playPad(time: number, durSteps: number, vel: number): void {
+  private playPad(time: number, durSteps: number, vel: number, lift: boolean): void {
     const ctx = this.ctx!;
     const d = this.dur(durSteps);
     const g = ctx.createGain();
@@ -283,8 +417,9 @@ export class Bandstand {
     lp.type = "lowpass";
     lp.frequency.value = 1400;
     g.connect(lp).connect(this.master!);
-    // Stacked pentatonic chord (root, 5th, octave-ish) — always consonant.
-    for (const semi of [PENTA[0], PENTA[2], PENTA[4]]) {
+    // bar 1 = root stack, bar 2 = lift to the 4th-ish — both stay consonant.
+    const chord = lift ? [PENTA[2], PENTA[4], 12] : [PENTA[0], PENTA[2], PENTA[4]];
+    for (const semi of chord) {
       const osc = ctx.createOscillator();
       osc.type = "triangle";
       osc.frequency.value = midiToFreq(ROOT + semi);
