@@ -78,7 +78,8 @@ export default function BandClient(): React.JSX.Element {
     const TOP = () => h * 0.1; // reserved band for the fans meter
 
     const layout = (): PodRect[] => {
-      const cols = 2;
+      // Small casts (the 3 Colattanini strikers) get a single roomy row.
+      const cols = skin.mascots.length <= 3 ? skin.mascots.length : 2;
       const rows = Math.ceil(skin.mascots.length / cols);
       const padX = w * 0.08;
       const padTop = TOP() + h * 0.02;
@@ -132,6 +133,8 @@ export default function BandClient(): React.JSX.Element {
       const now = engineRef.current?.now() ?? 0;
       const revealAt = revealRef.current.get(m.id);
       const reveal = revealAt !== undefined ? now - revealAt : -1;
+      const img = imagesRef.current.get(m.id);
+      const imgReady = !!img && img.complete && img.naturalWidth > 0;
 
       // floor shadow
       ctx.save();
@@ -187,8 +190,8 @@ export default function BandClient(): React.JSX.Element {
         return;
       }
 
-      // active glow
-      if (active) {
+      // active glow (procedural blobs only — sprites get their own below)
+      if (active && !imgReady) {
         ctx.save();
         ctx.globalAlpha = 0.25 + bob * 0.4;
         ctx.fillStyle = m.accent;
@@ -198,16 +201,34 @@ export default function BandClient(): React.JSX.Element {
         ctx.restore();
       }
 
-      // sprite art (if loaded) draws instead of the procedural blob
-      const img = imagesRef.current.get(m.id);
-      if (img && img.complete && img.naturalWidth > 0) {
-        const scaleI = active ? 1 + bob * 0.07 : 0.9;
-        const iw = r * 2.4 * scaleI;
+      // sprite art (if loaded) — big & bouncy: hop + squash/stretch + idle sway
+      if (imgReady && img) {
+        const iw = r * 3.4;
         const ih = iw * (img.naturalHeight / img.naturalWidth);
+        const hop = bob; // 0..1
+        const feetY = pod.y + r * 1.25;
+        const midY = feetY - ih * 0.45;
+        const seed = m.id.length * 13 + m.id.charCodeAt(0);
+        const sway = Math.sin(now * 2.2 + seed) * (active ? 0.06 + hop * 0.07 : 0.045);
+        const sx = (active ? 1 : 0.9) * (1 + hop * 0.1);
+        const sy = (active ? 1 : 0.9) * (1 - hop * 0.06);
+
+        if (active) {
+          ctx.save();
+          ctx.globalAlpha = 0.2 + hop * 0.4;
+          ctx.fillStyle = m.accent;
+          ctx.beginPath();
+          ctx.arc(x, midY, r * 1.55, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
         ctx.save();
         ctx.globalAlpha = active ? 1 : 0.5;
-        // feet sit near the pod's lower edge; the bob lifts the whole sprite
-        ctx.drawImage(img, x - iw / 2, pod.y + r * 1.05 - ih - bob * r * 0.18, iw, ih);
+        ctx.translate(x, feetY - hop * r * 0.55); // hop lifts the whole striker
+        ctx.rotate(sway);
+        ctx.scale(sx, sy);
+        ctx.drawImage(img, -iw / 2, -ih, iw, ih); // bottom-anchored at the feet
         ctx.restore();
 
         const freshI = reveal >= 0 && reveal < 1.6;
@@ -215,7 +236,7 @@ export default function BandClient(): React.JSX.Element {
         ctx.font = `600 ${Math.round(r * 0.3)}px ui-sans-serif, system-ui, sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(freshI ? `${m.name} ✦` : m.name, pod.x, pod.y + r * 1.55);
+        ctx.fillText(freshI ? `${m.name} ✦` : m.name, pod.x, feetY + r * 0.32);
         return;
       }
 
