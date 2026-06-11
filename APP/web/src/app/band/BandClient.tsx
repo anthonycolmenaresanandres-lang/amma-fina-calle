@@ -75,14 +75,34 @@ export default function BandClient(): React.JSX.Element {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const TOP = () => h * 0.1; // reserved band for the fans meter
+    const TOP = () => h * 0.08; // reserved band for the fans meter
+    const PHI = 1.618;
 
     const layout = (): PodRect[] => {
-      // Small casts (the 3 Colattanini strikers) get a single roomy row.
-      const cols = skin.mascots.length <= 3 ? skin.mascots.length : 2;
-      const rows = Math.ceil(skin.mascots.length / cols);
+      const n = skin.mascots.length;
+      const stageTop = TOP();
+      const stageH = h - stageTop;
+
+      // Small casts (the Colattanini strikers): one big row that fills the
+      // screen, feet planted on the golden-ratio horizon, sized by φ.
+      if (n <= 3) {
+        const cellW = w / n;
+        const feetY = stageTop + stageH / PHI; // golden horizon (~0.618 down)
+        const byWidth = (cellW * 0.96) / 3.4; // 3.4 = sprite-width / r
+        const byHeight = (stageH * 0.92) / (3.4 * 1.7);
+        const r = Math.max(20, Math.min(byWidth, byHeight));
+        return skin.mascots.map((m, i) => ({
+          id: m.id,
+          x: cellW * (i + 0.5),
+          y: feetY - r * 1.25,
+          r,
+        }));
+      }
+
+      const cols = 2;
+      const rows = Math.ceil(n / cols);
       const padX = w * 0.08;
-      const padTop = TOP() + h * 0.02;
+      const padTop = stageTop + h * 0.02;
       const padBottom = h * 0.05;
       const cellW = (w - padX * 2) / cols;
       const cellH = (h - padTop - padBottom) / rows;
@@ -158,35 +178,49 @@ export default function BandClient(): React.JSX.Element {
       }
 
       if (locked) {
-        // silhouette + padlock
-        ctx.save();
-        ctx.globalAlpha = 0.5;
-        ctx.fillStyle = skin.colors.stage;
-        ctx.strokeStyle = `${skin.colors.dim}99`;
-        ctx.lineWidth = Math.max(2, r * 0.05);
-        ctx.beginPath();
-        ctx.arc(x, pod.y, r * 0.9, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+        const feetY = pod.y + r * 1.25;
+        const lockY = imgReady ? feetY - r * 1.4 : pod.y;
+        if (imgReady && img) {
+          // big darkened silhouette of the real striker — "earn me"
+          const iw = r * 3.4;
+          const ih = iw * (img.naturalHeight / img.naturalWidth);
+          ctx.save();
+          ctx.globalAlpha = 0.85;
+          ctx.filter = "grayscale(1) brightness(0.34)";
+          ctx.drawImage(img, x - iw / 2, feetY - ih, iw, ih);
+          ctx.restore();
+        } else {
+          ctx.save();
+          ctx.globalAlpha = 0.5;
+          ctx.fillStyle = skin.colors.stage;
+          ctx.strokeStyle = `${skin.colors.dim}99`;
+          ctx.lineWidth = Math.max(2, r * 0.05);
+          ctx.beginPath();
+          ctx.arc(x, pod.y, r * 0.9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
         // padlock glyph
-        ctx.fillStyle = `${skin.colors.dim}cc`;
+        ctx.save();
+        ctx.fillStyle = `${skin.colors.dim}dd`;
         const lw = r * 0.5;
         const lh = r * 0.42;
         ctx.beginPath();
-        ctx.roundRect(x - lw / 2, pod.y - lh * 0.1, lw, lh, r * 0.08);
+        ctx.roundRect(x - lw / 2, lockY - lh * 0.1, lw, lh, r * 0.08);
         ctx.fill();
         ctx.lineWidth = Math.max(2, r * 0.07);
-        ctx.strokeStyle = `${skin.colors.dim}cc`;
+        ctx.strokeStyle = `${skin.colors.dim}dd`;
         ctx.beginPath();
-        ctx.arc(x, pod.y - lh * 0.1, lw * 0.32, Math.PI, 0);
+        ctx.arc(x, lockY - lh * 0.1, lw * 0.32, Math.PI, 0);
         ctx.stroke();
         ctx.restore();
 
         ctx.fillStyle = skin.colors.dim;
-        ctx.font = `600 ${Math.round(r * 0.32)}px ui-sans-serif, system-ui, sans-serif`;
+        ctx.font = `600 ${Math.round(r * 0.3)}px ui-sans-serif, system-ui, sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("Locked", pod.x, pod.y + r * 1.5);
+        ctx.fillText("Locked", pod.x, feetY + r * 0.32);
         return;
       }
 
