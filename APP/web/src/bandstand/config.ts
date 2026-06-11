@@ -52,28 +52,28 @@ export const COLATTAO_BAND: BandstandSkin = {
   ],
 };
 
-// Colattanini — Colattao's playful "-ini" mascot cast. Same six roles/engine;
-// brighter berry-mocha palette and a peppier tempo so they read as their own
-// poppy crew. Original café-creature names (non-human, no real IP, no AI art).
+// Colattanini — Colattao's official "Strikers" sticker cast. These are the real
+// three characters (Churro Latte #10, Cappuccino #11, Matcha Lemonade #12), each
+// mapped to a musical part so the trio grooves together. "Collect all three" is
+// the progression: start with two, earn Matcha Lemonade by keeping the jam going.
+// Non-human, original Colattao IP, art TBD (placeholder colors until the cut
+// sticker PNGs are wired into the renderer).
 export const COLATTANINI_BAND: BandstandSkin = {
-  id: "colattanini-band",
-  brandName: "Colattao presents",
+  id: "colattanini-strikers",
+  brandName: "Colattanini · The Strikers",
   skinName: "Colattanini",
-  tagline: "Tap a Colattanini to add its part. Build the jam and earn the whole crew.",
-  bpm: 104,
+  tagline: "The Colattao striker squad. Tap a striker to add its part — collect all three.",
+  bpm: 102,
   colors: {
-    bg: "#1c0f14",
-    stage: "#2c1822",
-    text: "#ffe9d6",
-    dim: "#c59a8a",
+    bg: "#1c130a",
+    stage: "#2a1c0e",
+    text: "#ffeccb",
+    dim: "#c2a070",
   },
   mascots: [
-    { id: "bombeanini", name: "Bombeanini", role: "kick", color: "#5a3a26", accent: "#d79a5e" },
-    { id: "frothalini", name: "Frothalini", role: "hat", color: "#f3e7d2", accent: "#fffaf0" },
-    { id: "roastarino", name: "Roastarino", role: "bass", color: "#3a2316", accent: "#b07b48" },
-    { id: "steamalini", name: "Steamalini", role: "pad", color: "#c3b2c9", accent: "#ece0ef" },
-    { id: "matchalini", name: "Matchalini", role: "lead", color: "#6fbf4a", accent: "#c4f0a0" },
-    { id: "sugarini", name: "Sugarini", role: "arp", color: "#f2a9c4", accent: "#ffd9e8" },
+    { id: "churro-latte", name: "Churro Latte", role: "kick", color: "#c98a4e", accent: "#f4d6a3" },
+    { id: "cappuccino", name: "Cappuccino", role: "bass", color: "#b79a76", accent: "#ead8bd" },
+    { id: "matcha-lemonade", name: "Matcha Lemonade", role: "lead", color: "#86c23f", accent: "#cdee93" },
   ],
 };
 
