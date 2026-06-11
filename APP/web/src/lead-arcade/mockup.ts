@@ -3,7 +3,7 @@
 // drawn). Returns a PNG data URL. The logo is fetched via our same-origin image
 // proxy so the canvas stays untainted and exportable.
 
-export interface MockupOpts { logoUrl: string; color: string; name: string; item: string }
+export interface MockupOpts { logoUrl?: string; color: string; name: string; item: string }
 
 function loadImg(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -47,9 +47,26 @@ export async function generateMockup(opts: MockupOpts): Promise<string> {
   if (!ctx) throw new Error("no 2d context");
 
   const [logo, shell] = await Promise.all([
-    loadImg(`/api/lead-arcade/img?url=${encodeURIComponent(logoUrl)}`),
+    logoUrl
+      ? loadImg(`/api/lead-arcade/img?url=${encodeURIComponent(logoUrl)}`).catch(() => null)
+      : Promise.resolve(null),
     loadImg("/assets/stadium/penalty/background.webp"),
   ]);
+
+  // When there's no approved logo yet, the brand name stands in for it.
+  const logoOrName = (cx: number, cy: number, maxW: number, maxH: number, textColor: string) => {
+    if (logo) {
+      drawContain(ctx, logo, cx, cy, maxW, maxH);
+      return;
+    }
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = textColor;
+    ctx.font = `bold ${Math.round(maxH * 0.42)}px Georgia, serif`;
+    ctx.fillText(name, cx, cy, maxW);
+    ctx.restore();
+  };
 
   ctx.fillStyle = "#f7f3ec"; ctx.fillRect(0, 0, W, H);
   ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
@@ -65,7 +82,7 @@ export async function generateMockup(opts: MockupOpts): Promise<string> {
     const hh = 210;
     ctx.fillStyle = color; rr(ctx, s.sx, s.sy, s.sw, hh, 36); ctx.fill();
     ctx.fillRect(s.sx, s.sy + hh - 40, s.sw, 40);
-    drawContain(ctx, logo, s.sx + s.sw / 2, s.sy + 70, s.sw * 0.74, hh * 0.5);
+    logoOrName(s.sx + s.sw / 2, s.sy + 70, s.sw * 0.74, hh * 0.5, "#f4e6cc");
     ctx.fillStyle = "#f4e6cc"; ctx.font = "bold 20px system-ui, sans-serif";
     ctx.fillText("DIGITAL MENU", s.sx + s.sw / 2, s.sy + hh - 24);
     const items: [string, string][] = [[item, "4.75"], ["Cappuccino", "3.95"], ["House Special", "5.25"], ["Pastry", "3.50"], ["Cold Brew", "4.25"]];
@@ -96,7 +113,7 @@ export async function generateMockup(opts: MockupOpts): Promise<string> {
     // ad board + logo
     const bw = s.sw * 0.62, bh = s.sh * 0.12, bx = s.sx + (s.sw - bw) / 2, byy = s.sy + s.sh * 0.30;
     ctx.fillStyle = "rgba(28,18,10,.92)"; rr(ctx, bx, byy, bw, bh, 10); ctx.fill();
-    drawContain(ctx, logo, bx + bw / 2, byy + bh / 2, bw * 0.82, bh * 0.7);
+    logoOrName(bx + bw / 2, byy + bh / 2, bw * 0.82, bh * 0.7, "#f4e6cc");
     // goal
     const gx0 = s.sx + s.sw * 0.16, gx1 = s.sx + s.sw * 0.84, gpy = s.sy + s.sh * 0.46, gpyt = s.sy + s.sh * 0.30;
     ctx.fillStyle = "#fff"; ctx.fillRect(gx0, gpyt, 8, gpy - gpyt); ctx.fillRect(gx1 - 8, gpyt, 8, gpy - gpyt); ctx.fillRect(gx0, gpyt, gx1 - gx0, 8);
@@ -105,7 +122,7 @@ export async function generateMockup(opts: MockupOpts): Promise<string> {
     ctx.beginPath(); ctx.arc(s.sx + s.sw / 2, s.sy + s.sh * 0.72, 20, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     // scoreboard
     ctx.fillStyle = "rgba(20,14,8,.92)"; rr(ctx, s.sx + 16, s.sy + 16, s.sw - 32, 48, 14); ctx.fill();
-    drawContain(ctx, logo, s.sx + 78, s.sy + 40, 110, 34);
+    logoOrName(s.sx + 78, s.sy + 40, 110, 34, "#f4e6cc");
     ctx.fillStyle = "#f4e6cc"; ctx.textAlign = "right"; ctx.font = "bold 26px system-ui, sans-serif"; ctx.fillText("0 / 5", s.sx + s.sw - 30, s.sy + 48);
     ctx.textAlign = "center"; ctx.fillStyle = "#fff"; ctx.font = "bold 26px system-ui, sans-serif"; ctx.fillText("TAP TO SHOOT", s.sx + s.sw / 2, s.sy + s.sh - 40);
   }
