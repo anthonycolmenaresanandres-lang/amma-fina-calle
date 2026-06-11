@@ -52,7 +52,6 @@ export class ConquestScene extends Phaser.Scene {
   private statusText!: Phaser.GameObjects.Text;
 
   private dragState: DragState | null = null;
-  private selected = new Set<string>(); // your nodes armed to fire together
   private slashState: SlashState | null = null; // an in-progress cut gesture
 
   private timeLeftSec = DEFAULT_CONQUEST_LEVEL.rules.matchDurationSec;
@@ -60,7 +59,6 @@ export class ConquestScene extends Phaser.Scene {
   private gameOver = false;
   private packetSeq = 0;
   private flowSeq = 0;
-  private readonly flowCadenceMs = 150; // steady stream rate while a node has units
 
   constructor(levelConfig: EngineConfig = DEFAULT_CONQUEST_LEVEL) {
     super(`ConquestScene-${levelConfig.id}`);
@@ -103,19 +101,12 @@ export class ConquestScene extends Phaser.Scene {
       const tower = this.findTowerAt(pointer.x, pointer.y);
 
       if (tower && tower.owner === "player") {
-        // Press your node: on release we either open a flow to a target or toggle-select.
+        // Press your node: on release, open a flow to a target — or (tap) cut its flow.
         this.dragState = { sourceId: tower.id, pointerX: pointer.x, pointerY: pointer.y, targetId: null };
         return;
       }
 
-      // Tapped a non-friendly node while nodes are armed → open flows from them all.
-      if (tower && this.selected.size > 0) {
-        this.flowSelected(tower.id);
-        return;
-      }
-
-      // Empty space → start a SLASH gesture (drag across streams to cut them).
-      this.selected.clear();
+      // Anywhere else → start a SLASH gesture (drag across a stream to cut it).
       this.slashState = { x0: pointer.x, y0: pointer.y, x: pointer.x, y: pointer.y };
     });
 
@@ -154,15 +145,9 @@ export class ConquestScene extends Phaser.Scene {
       if (!drag || this.gameOver) return;
 
       if (drag.targetId) {
-        // Open a persistent flow from the dragged node AND every armed node.
-        const sources = new Set(this.selected);
-        sources.add(drag.sourceId);
-        for (const sId of sources) this.setFlow(sId, drag.targetId, "player");
-        this.selected.clear();
+        this.setFlow(drag.sourceId, drag.targetId, "player"); // open a flow
       } else {
-        // Tap on your own node (no drag) → arm/disarm it for a group flow.
-        if (this.selected.has(drag.sourceId)) this.selected.delete(drag.sourceId);
-        else this.selected.add(drag.sourceId);
+        this.flows = this.flows.filter((f) => f.fromId !== drag.sourceId); // tap = stop this node's flow
       }
     });
 
@@ -201,7 +186,6 @@ export class ConquestScene extends Phaser.Scene {
     this.gameOver = false;
     this.dragState = null;
     this.slashState = null;
-    this.selected.clear();
     this.aiCooldown.clear();
 
     for (const tower of this.levelConfig.towers) {
@@ -366,9 +350,9 @@ export class ConquestScene extends Phaser.Scene {
     }
   }
 
-  private flowSelected(targetId: string): void {
-    for (const sId of this.selected) this.setFlow(sId, targetId, "player");
-    this.selected.clear();
+  /** Stream rate scales with the node's number — more units = faster flow. */
+  private flowCadenceFor(value: number): number {
+    return Phaser.Math.Clamp(280 - value * 4, 55, 280);
   }
 
   /** Open a persistent stream source→target (replaces that source's existing flow). */
@@ -449,7 +433,7 @@ export class ConquestScene extends Phaser.Scene {
             progress: 0,
           });
           source.value -= 1;
-          flow.emitTimerMs += this.flowCadenceMs;
+          flow.emitTimerMs += this.flowCadenceFor(source.value);
           guard += 1;
         }
       } else if (flow.emitTimerMs < 0) {
@@ -759,14 +743,6 @@ export class ConquestScene extends Phaser.Scene {
       let strokeWidth = 2;
       let strokeColor = 0xf1d199;
       let strokeAlpha = 0.85;
-
-      if (this.selected.has(tower.id)) {
-        // armed for a group send — persistent bright ring
-        glowAlpha = 0.45;
-        strokeWidth = 3;
-        strokeColor = 0xffde8a;
-        strokeAlpha = 1;
-      }
 
       if (this.dragState && tower.id === this.dragState.sourceId) {
         glowAlpha = 0.5;
