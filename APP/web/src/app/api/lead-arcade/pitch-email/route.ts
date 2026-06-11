@@ -20,6 +20,15 @@ function stripPngDataUrl(value: unknown): string | null {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
+  // Same-origin guard: this endpoint spends Resend quota and emails the admin,
+  // so only allow calls from the app's own pages (blocks cross-site/drive-by
+  // POSTs). The internal page is the only legitimate caller.
+  const origin = request.headers.get("origin");
+  const host = request.headers.get("host");
+  if (!origin || !host || new URL(origin).host !== host) {
+    return NextResponse.json({ sent: false }, { status: 403 });
+  }
+
   const contentLength = Number(request.headers.get("content-length"));
   if (Number.isFinite(contentLength) && contentLength > MAX_PAYLOAD_BYTES) {
     return NextResponse.json({ sent: false }, { status: 413 });

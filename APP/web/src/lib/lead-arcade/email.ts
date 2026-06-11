@@ -1,7 +1,6 @@
 import "server-only";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-const FALLBACK_RECIPIENT = "anthonycolmenaresanandres@gmail.com";
 
 function slugify(input: string): string {
   return (
@@ -20,7 +19,9 @@ export async function sendPitchEmail(opts: {
 }): Promise<{ sent: boolean }> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.REQUESTS_FROM_EMAIL;
-  const recipient = process.env.REQUESTS_NOTIFICATION_EMAIL ?? FALLBACK_RECIPIENT;
+  // Recipient must be explicitly configured — never fall back to a hard-coded
+  // address (avoids leaking pitch packs in a partially-configured environment).
+  const recipient = process.env.REQUESTS_NOTIFICATION_EMAIL;
 
   if (!apiKey || !from || !recipient) return { sent: false };
 
