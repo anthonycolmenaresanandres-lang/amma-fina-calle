@@ -1,15 +1,11 @@
 import type { EngineConfig } from "./types";
 
-// Colattao skin — café palette. You are Colattao (gold); the chains are
-// "Chain Co" (steel-blue); unclaimed corners are latte-tan storefronts.
-// Theming only: colors + text + node stickers. Engine logic, geometry,
-// towers, links, and rules are unchanged. No logos / no AI art (guardrails).
-const colattaoColors: EngineConfig["colors"] = {
-  bg: 0x160d07,
-  grid: 0x4a3017,
-  player: 0xd8a24c,
-  enemy: 0x4f6b8a,
-  neutral: 0xa8855a,
+const baseColors: EngineConfig["colors"] = {
+  bg: 0x120905,
+  grid: 0x5b3a17,
+  player: 0xd4a24c,
+  enemy: 0x8c2f2f,
+  neutral: 0x8a6b3d,
   text: "#f4e6cc",
 };
 
@@ -40,19 +36,18 @@ const baseRules: EngineConfig["rules"] = {
 // 256-512px source art, optimized as small badges/stickers in-game.
 // Avoid video, heavy backgrounds, and asset-heavy worlds in V1; keep each
 // client skin roughly under 1-2 MB total.
-// Sticker badge width is ~54px * scale, so labels must stay short.
 
 export const CONQUEST_LEVELS: EngineConfig[] = [
   {
-    id: "first-pour",
+    id: "first-claim",
     levelNumber: 1,
-    levelName: "First Pour",
-    brandName: "Colattao Conquest",
-    skinName: "Colattao",
-    selectText: "Everyone starts with 10. Pour into your café, then claim the open corners.",
-    winText: "Corner is Colattao",
-    loseText: "Chain Co Took the Corner",
-    colors: colattaoColors,
+    levelName: "First Claim",
+    brandName: "Fina Calle Conquest Engine",
+    skinName: "District Claimed",
+    selectText: "Everyone starts with 10. Build up, then take the unclaimed nodes.",
+    winText: "First Claim Secured",
+    loseText: "First Claim Lost",
+    colors: baseColors,
     rules: {
       ...baseRules,
       matchDurationSec: 70,
@@ -60,7 +55,7 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
       aiThinkMinMs: 1800,
       aiThinkMaxMs: 2500,
     },
-    // Sparse opening — your café, Chain Co, and two empty storefronts to claim.
+    // Sparse opening — you, the enemy, and two unclaimed nodes to fight over.
     towers: [
       { id: "p1", xPct: 18, yPct: 50, owner: "player", value: 10 },
       { id: "n1", xPct: 50, yPct: 28, owner: "neutral", value: 10 },
@@ -73,23 +68,17 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
       { a: "n1", b: "e1" },
       { a: "n2", b: "e1" },
     ],
-    stickers: [
-      { id: "home", towerId: "p1", label: "Colattao", xOffsetPct: 0, yOffsetPct: -16 },
-      { id: "latte", towerId: "n1", label: "Latte", xOffsetPct: 0, yOffsetPct: -15 },
-      { id: "mocha", towerId: "n2", label: "Mocha", xOffsetPct: 0, yOffsetPct: 15 },
-      { id: "chain", towerId: "e1", label: "Chain Co", xOffsetPct: 0, yOffsetPct: -16 },
-    ],
   },
   {
-    id: "neighborhood-rush",
+    id: "flow-control",
     levelNumber: 2,
-    levelName: "Neighborhood Rush",
-    brandName: "Colattao Conquest",
-    skinName: "Colattao",
-    selectText: "More open storefronts. Spread the brand, then squeeze Chain Co out.",
-    winText: "Neighborhood is Colattao",
-    loseText: "Chain Co Owns the Block",
-    colors: colattaoColors,
+    levelName: "Flow Control",
+    brandName: "Fina Calle Conquest Engine",
+    skinName: "District Claimed",
+    selectText: "A few more unclaimed nodes. Spread, then squeeze the enemy out.",
+    winText: "District Claimed",
+    loseText: "District Lost",
+    colors: baseColors,
     rules: {
       ...baseRules,
       matchDurationSec: 78,
@@ -113,25 +102,19 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
       { a: "n1", b: "n4" },
       { a: "n3", b: "n4" },
     ],
-    stickers: [
-      { id: "home", towerId: "p1", label: "Colattao", xOffsetPct: 0, yOffsetPct: -16 },
-      { id: "matcha", towerId: "n1", label: "Matcha", xOffsetPct: 0, yOffsetPct: -15 },
-      { id: "cortado", towerId: "n2", label: "Cortado", xOffsetPct: 0, yOffsetPct: -15 },
-      { id: "chain", towerId: "e1", label: "Chain Co", xOffsetPct: 0, yOffsetPct: -16 },
-    ],
   },
   {
-    id: "beat-the-chains",
+    id: "customer-rush",
     levelNumber: 3,
-    levelName: "Beat the Chains",
-    brandName: "Colattao Conquest",
-    skinName: "Colattao",
-    selectText: "Peak rush — more cafés, smarter chains. Snowball the block before they do.",
-    winText: "District is Colattao",
-    loseText: "Chain Co Runs the District",
+    levelName: "Customer Rush",
+    brandName: "Fina Calle Conquest Engine",
+    skinName: "District Claimed",
+    selectText: "Peak rush — more nodes, a smarter enemy. Snowball before they do.",
+    winText: "Customer Rush Claimed",
+    loseText: "Customer Rush Lost",
     colors: {
-      ...colattaoColors,
-      neutral: 0xb8924f,
+      ...baseColors,
+      neutral: 0x9b6f35,
     },
     rules: {
       ...baseRules,
@@ -164,12 +147,10 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
       { a: "e1", b: "e2" },
     ],
     stickers: [
-      { id: "home", towerId: "p1", label: "Colattao", xOffsetPct: -8, yOffsetPct: 12 },
-      { id: "roastery", towerId: "p2", label: "Roastery", xOffsetPct: -10, yOffsetPct: -10 },
+      { id: "vip", towerId: "p2", label: "VIP", xOffsetPct: -10, yOffsetPct: -10 },
       { id: "rush", towerId: "n2", label: "Rush", xOffsetPct: 0, yOffsetPct: -15 },
-      { id: "latte", towerId: "n1", label: "Latte", xOffsetPct: 0, yOffsetPct: -15 },
-      { id: "chain1", towerId: "e1", label: "Chain Co", xOffsetPct: 10, yOffsetPct: -10 },
-      { id: "chain2", towerId: "e2", label: "Chain Co", xOffsetPct: 10, yOffsetPct: -10 },
+      { id: "family", towerId: "p1", label: "Family", xOffsetPct: -8, yOffsetPct: 12 },
+      { id: "lunch", towerId: "e1", label: "Lunch", xOffsetPct: 10, yOffsetPct: -10 },
     ],
   },
 ];
