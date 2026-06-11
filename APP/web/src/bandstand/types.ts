@@ -11,8 +11,9 @@ export type MascotConfig = {
   id: string;
   name: string; // short label shown under the pod
   role: VoiceRole; // which musical part this mascot sings
-  color: string; // body color (CSS)
+  color: string; // body color (CSS) — also the procedural fallback when no image
   accent: string; // accent / glow color (CSS)
+  image?: string; // optional sprite (public path); draws instead of the blob
 };
 
 export type BandstandSkin = {

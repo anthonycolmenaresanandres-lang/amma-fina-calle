@@ -71,9 +71,30 @@ export const COLATTANINI_BAND: BandstandSkin = {
     dim: "#c2a070",
   },
   mascots: [
-    { id: "churro-latte", name: "Churro Latte", role: "kick", color: "#c98a4e", accent: "#f4d6a3" },
-    { id: "cappuccino", name: "Cappuccino", role: "bass", color: "#b79a76", accent: "#ead8bd" },
-    { id: "matcha-lemonade", name: "Matcha Lemonade", role: "lead", color: "#86c23f", accent: "#cdee93" },
+    {
+      id: "churro-latte",
+      name: "Churro Latte",
+      role: "kick",
+      color: "#c98a4e",
+      accent: "#f4d6a3",
+      image: "/bandstand/colattanini/churro-latte.webp",
+    },
+    {
+      id: "cappuccino",
+      name: "Cappuccino",
+      role: "bass",
+      color: "#b79a76",
+      accent: "#ead8bd",
+      image: "/bandstand/colattanini/cappuccino.webp",
+    },
+    {
+      id: "matcha-lemonade",
+      name: "Matcha Lemonade",
+      role: "lead",
+      color: "#86c23f",
+      accent: "#cdee93",
+      image: "/bandstand/colattanini/matcha-lemonade.webp",
+    },
   ],
 };
 

@@ -13,6 +13,7 @@ export default function BandClient(): React.JSX.Element {
   const podsRef = useRef<PodRect[]>([]);
   const rafRef = useRef<number | null>(null);
   const revealRef = useRef<Map<string, number>>(new Map());
+  const imagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
 
   const [skin, setSkin] = useState<BandstandSkin | null>(null);
   const [activeIds, setActiveIds] = useState<string[]>([]);
@@ -38,6 +39,18 @@ export default function BandClient(): React.JSX.Element {
       engineRef.current = null;
     };
   }, []);
+
+  // ---- preload mascot sprites ------------------------------------------
+  useEffect(() => {
+    if (!skin) return;
+    for (const m of skin.mascots) {
+      if (m.image && !imagesRef.current.has(m.id)) {
+        const img = new window.Image();
+        img.src = m.image;
+        imagesRef.current.set(m.id, img);
+      }
+    }
+  }, [skin]);
 
   // ---- canvas render loop ----------------------------------------------
   useEffect(() => {
@@ -183,6 +196,27 @@ export default function BandClient(): React.JSX.Element {
         ctx.arc(x, y, r * (1.2 + bob * 0.15), 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
+      }
+
+      // sprite art (if loaded) draws instead of the procedural blob
+      const img = imagesRef.current.get(m.id);
+      if (img && img.complete && img.naturalWidth > 0) {
+        const scaleI = active ? 1 + bob * 0.07 : 0.9;
+        const iw = r * 2.4 * scaleI;
+        const ih = iw * (img.naturalHeight / img.naturalWidth);
+        ctx.save();
+        ctx.globalAlpha = active ? 1 : 0.5;
+        // feet sit near the pod's lower edge; the bob lifts the whole sprite
+        ctx.drawImage(img, x - iw / 2, pod.y + r * 1.05 - ih - bob * r * 0.18, iw, ih);
+        ctx.restore();
+
+        const freshI = reveal >= 0 && reveal < 1.6;
+        ctx.fillStyle = freshI ? m.accent : active ? skin.colors.text : skin.colors.dim;
+        ctx.font = `600 ${Math.round(r * 0.3)}px ui-sans-serif, system-ui, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(freshI ? `${m.name} ✦` : m.name, pod.x, pod.y + r * 1.55);
+        return;
       }
 
       // body
