@@ -83,6 +83,18 @@ export default function LeadArcadeClient(): React.JSX.Element {
       downloadDataUrl(mockup, `${slug}-mockup.png`);
       if (soundOn) playGoal();
       setLive(`${lead.meta.name} pitch sheet + mockup downloaded — send them over`);
+      void fetch("/api/lead-arcade/pitch-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessName: lead.meta.name, sheet, mockup }),
+      })
+        .then((response) => response.json() as Promise<{ sent?: boolean }>)
+        .then((result) => {
+          if (result.sent) setLive(`${lead.meta.name} pitch material downloaded + emailed`);
+        })
+        .catch(() => {
+          // Keep the download-only status; email is best-effort.
+        });
     } catch {
       setLive(`Couldn't generate pitch material for ${lead.meta.name}`);
     } finally {

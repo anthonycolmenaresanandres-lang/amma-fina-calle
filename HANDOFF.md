@@ -38,6 +38,8 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 
 ## Log
 
+- [2026-06-11 11:16:51] DONE: wired Lead Arcade Pitch email through existing Resend request env vars; added server helper, internal API route, client best-effort POST; verified tsc and changed-file eslint; draft PR #117 opened and Vercel passed
+
 - [2026-06-02 15:30:57] START: Handoff session started
 
 - [2026-06-02 15:31:07] DONE: ran required startup commands and confirmed read-only scope before app inspection
