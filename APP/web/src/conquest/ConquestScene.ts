@@ -39,13 +39,11 @@ export class ConquestScene extends Phaser.Scene {
   private towers = new Map<string, TowerState>();
   private packets: PacketState[] = [];
   private emitters: SendEmitter[] = [];
-  private adjacency = new Map<string, Set<string>>();
   private towerViews = new Map<string, TowerView>();
   private stickerViews = new Map<string, StickerView>();
 
   private dragGraphics!: Phaser.GameObjects.Graphics;
   private packetGraphics!: Phaser.GameObjects.Graphics;
-  private roadGraphics!: Phaser.GameObjects.Graphics;
   private barGraphics!: Phaser.GameObjects.Graphics;
 
   private timerText!: Phaser.GameObjects.Text;
@@ -70,7 +68,6 @@ export class ConquestScene extends Phaser.Scene {
 
     this.initializeState();
 
-    this.roadGraphics = this.add.graphics(); // behind everything — faint "roads"
     this.dragGraphics = this.add.graphics();
     this.packetGraphics = this.add.graphics();
 
@@ -167,6 +164,7 @@ export class ConquestScene extends Phaser.Scene {
       this.applyGrowth(dtSec);
       this.updateEmitters(deltaMs);
       this.updatePackets(dtSec);
+      this.resolveClashes();
       this.runEnemyAi(deltaMs);
       this.checkEndState();
       this.updateHud();
@@ -198,13 +196,6 @@ export class ConquestScene extends Phaser.Scene {
       });
     }
 
-    this.adjacency.clear();
-    for (const { a, b } of this.levelConfig.links) {
-      if (!this.adjacency.has(a)) this.adjacency.set(a, new Set());
-      if (!this.adjacency.has(b)) this.adjacency.set(b, new Set());
-      this.adjacency.get(a)?.add(b);
-      this.adjacency.get(b)?.add(a);
-    }
   }
 
   private createTowerViews(): void {
@@ -383,7 +374,11 @@ export class ConquestScene extends Phaser.Scene {
     if (amount < 1) return;
 
     source.value -= amount;
-    if (sender === "player") this.popTower(fromId); // a little pop when you fire
+    if (sender === "player") {
+      this.popTower(fromId);
+      const p = this.toScreen(source.xPct, source.yPct);
+      this.fireCue(p.x, p.y); // "FIRE" pop on send
+    }
 
     this.emitters.push({
       id: `emit-${this.emitterSeq++}`,
@@ -471,15 +466,87 @@ export class ConquestScene extends Phaser.Scene {
       return;
     }
 
+    // A hostile unit hit a defended node — show the fight for control.
+    const pos = this.toScreen(target.xPct, target.yPct);
     target.value -= packet.amount;
     if (target.value < 0) {
       target.owner = packet.owner;
       target.value = Math.abs(target.value);
       // Capture juice — pop, ring burst, and a kick of screen-shake on YOUR wins.
-      const pos = this.toScreen(target.xPct, target.yPct);
       this.popTower(target.id);
       this.ringBurst(pos.x, pos.y, this.ownerColor(target.owner));
       if (packet.owner === "player") this.cameras.main.shake(140, 0.005);
+    } else {
+      // still contested — flicker the node toward the attacker + a little spark
+      this.contestTower(target.id, packet.owner);
+      this.spark(pos.x, pos.y, this.ownerColor(packet.owner));
+    }
+  }
+
+  // --- battle feedback -------------------------------------------------------
+
+  private contestTower(id: string, attacker: Owner): void {
+    const view = this.towerViews.get(id);
+    if (!view) return;
+    const flash = this.ownerColor(attacker);
+    view.circle.setFillStyle(flash, 0.96);
+    this.tweens.add({ targets: view.circle, scaleX: 1.12, scaleY: 1.12, duration: 70, yoyo: true, ease: "Quad.Out" });
+  }
+
+  private spark(x: number, y: number, color: number): void {
+    const s = this.add.circle(x, y, this.levelConfig.rules.unitRadius * 0.9, color, 0.95);
+    this.tweens.add({
+      targets: s,
+      scaleX: 0.1,
+      scaleY: 0.1,
+      alpha: 0,
+      duration: 240,
+      ease: "Quad.Out",
+      onComplete: () => s.destroy(),
+    });
+  }
+
+  private fireCue(x: number, y: number): void {
+    const txt = this.add.text(x, y - this.towerRadius() - 4, "FIRE", {
+      fontFamily: "Arial",
+      fontSize: "14px",
+      color: "#ffe6a8",
+      fontStyle: "bold",
+    });
+    txt.setOrigin(0.5, 1);
+    this.tweens.add({
+      targets: txt,
+      y: y - this.towerRadius() - 26,
+      alpha: 0,
+      duration: 520,
+      ease: "Quad.Out",
+      onComplete: () => txt.destroy(),
+    });
+  }
+
+  // Opposing units that meet in transit annihilate 1-for-1 — so the bigger stream
+  // punches through and the remainder flows on (a real clash between nodes).
+  private resolveClashes(): void {
+    const clashDist = this.levelConfig.rules.unitRadius * 2.4;
+    const positions = this.packets.map((p) => this.packetPos(p));
+    for (let i = 0; i < this.packets.length; i++) {
+      const a = this.packets[i];
+      const pa = positions[i];
+      if (a.amount <= 0 || !pa) continue;
+      for (let j = i + 1; j < this.packets.length; j++) {
+        const b = this.packets[j];
+        const pb = positions[j];
+        if (b.amount <= 0 || !pb || b.owner === a.owner) continue;
+        if (Phaser.Math.Distance.Between(pa.x, pa.y, pb.x, pb.y) <= clashDist) {
+          a.amount = 0;
+          b.amount = 0;
+          this.spark((pa.x + pb.x) / 2, (pa.y + pb.y) / 2, 0xfff0c2);
+          break;
+        }
+      }
+    }
+    if (this.packets.some((p) => p.amount <= 0)) {
+      this.packets = this.packets.filter((p) => p.amount > 0);
     }
   }
 
@@ -576,25 +643,10 @@ export class ConquestScene extends Phaser.Scene {
     return { player, enemy, neutral };
   }
 
-  private drawRoads(): void {
-    this.roadGraphics.clear();
-    for (const { a, b } of this.levelConfig.links) {
-      const ta = this.towers.get(a);
-      const tb = this.towers.get(b);
-      if (!ta || !tb) continue;
-      const pa = this.toScreen(ta.xPct, ta.yPct);
-      const pb = this.toScreen(tb.xPct, tb.yPct);
-      this.roadGraphics.lineStyle(3, 0xd4a24c, 0.12);
-      this.roadGraphics.lineBetween(pa.x, pa.y, pb.x, pb.y);
-    }
-  }
-
   private layoutScene(): void {
     const towerRadius = this.towerRadius();
     const counterOffsetX = towerRadius + 9;
     const counterOffsetY = towerRadius + 11;
-
-    this.drawRoads();
 
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
@@ -625,58 +677,40 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private drawDragPreview(): void {
+    // No aim lines — the source/armed nodes and the hovered target light up instead.
     this.dragGraphics.clear();
-    if (!this.dragState) return;
-
-    const targetTower = this.dragState.targetId ? this.towers.get(this.dragState.targetId) : undefined;
-    const to = targetTower
-      ? this.toScreen(targetTower.xPct, targetTower.yPct)
-      : { x: this.dragState.pointerX, y: this.dragState.pointerY };
-
-    // Fan a line from the dragged node AND every armed node to the target — so a
-    // group send reads at a glance (and the target visibly takes streams from many).
-    const sources = new Set(this.selected);
-    sources.add(this.dragState.sourceId);
-
-    this.dragGraphics.lineStyle(3, 0xe4bf6d, 0.9);
-    for (const sId of sources) {
-      const s = this.towers.get(sId);
-      if (!s || s.owner !== "player") continue;
-      const from = this.toScreen(s.xPct, s.yPct);
-      this.dragGraphics.lineBetween(from.x, from.y, to.x, to.y);
-    }
-    this.dragGraphics.fillStyle(0xe4bf6d, 0.85);
-    this.dragGraphics.fillCircle(to.x, to.y, this.levelConfig.rules.unitRadius + 2);
   }
 
   private drawPackets(): void {
     this.packetGraphics.clear();
+    const r = this.levelConfig.rules.unitRadius;
 
     for (const packet of this.packets) {
-      const from = this.towers.get(packet.fromId);
-      const to = this.towers.get(packet.toId);
-      if (!from || !to) continue;
-
-      const fromPos = this.toScreen(from.xPct, from.yPct);
-      const toPos = this.toScreen(to.xPct, to.yPct);
-      const x = Phaser.Math.Linear(fromPos.x, toPos.x, packet.progress);
-      const y = Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress);
-
+      const pos = this.packetPos(packet);
+      if (!pos) continue;
       const color = packet.owner === "player" ? this.levelConfig.colors.player : this.levelConfig.colors.enemy;
-      this.packetGraphics.lineStyle(2, color, 0.32);
-      const backProgress = Math.max(0, packet.progress - 0.06);
-      const tx = Phaser.Math.Linear(fromPos.x, toPos.x, backProgress);
-      const ty = Phaser.Math.Linear(fromPos.y, toPos.y, backProgress);
-      this.packetGraphics.lineBetween(tx, ty, x, y);
-
-      this.packetGraphics.fillStyle(color, 0.95);
-      this.packetGraphics.fillCircle(x, y, this.levelConfig.rules.unitRadius);
+      // glowing dot — a moving "unit", no line trails
+      this.packetGraphics.fillStyle(color, 0.22);
+      this.packetGraphics.fillCircle(pos.x, pos.y, r + 4);
+      this.packetGraphics.fillStyle(color, 1);
+      this.packetGraphics.fillCircle(pos.x, pos.y, r);
     }
   }
 
-  private refreshTowerVisuals(): void {
-    const linkedTargets = this.dragState ? this.adjacency.get(this.dragState.sourceId) : undefined;
+  /** Current screen position of a packet along its source→target path. */
+  private packetPos(packet: PacketState): { x: number; y: number } | null {
+    const from = this.towers.get(packet.fromId);
+    const to = this.towers.get(packet.toId);
+    if (!from || !to) return null;
+    const fromPos = this.toScreen(from.xPct, from.yPct);
+    const toPos = this.toScreen(to.xPct, to.yPct);
+    return {
+      x: Phaser.Math.Linear(fromPos.x, toPos.x, packet.progress),
+      y: Phaser.Math.Linear(fromPos.y, toPos.y, packet.progress),
+    };
+  }
 
+  private refreshTowerVisuals(): void {
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
       if (!view) continue;
@@ -703,11 +737,12 @@ export class ConquestScene extends Phaser.Scene {
         strokeWidth = 3;
         strokeColor = 0xffde8a;
         strokeAlpha = 1;
-      } else if (linkedTargets?.has(tower.id)) {
-        glowAlpha = 0.4;
-        strokeWidth = 2;
-        strokeColor = 0xe4bf6d;
-        strokeAlpha = 0.95;
+      } else if (this.dragState && tower.id === this.dragState.targetId) {
+        // the node you're aiming at — highlight it (instead of a line)
+        glowAlpha = 0.42;
+        strokeWidth = 3;
+        strokeColor = 0xfff0c2;
+        strokeAlpha = 1;
       }
 
       view.glow.setFillStyle(color, glowAlpha);

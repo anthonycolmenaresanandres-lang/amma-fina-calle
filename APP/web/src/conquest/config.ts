@@ -10,18 +10,20 @@ const baseColors: EngineConfig["colors"] = {
 };
 
 // Vision: visual + deliberate. Few nodes, slow growth, everyone starts at 10.
-// You can send from any node to ANY node; links render as faint "roads".
+// Just nodes + units (no connecting lines). Send from any node to ANY node;
+// opposing unit streams clash in transit and the bigger force punches through.
+// (`links` is retained as optional data but no longer drawn.)
 const baseRules: EngineConfig["rules"] = {
-  matchDurationSec: 70,
+  matchDurationSec: 80,
   tickMs: 100,
-  growthPerSec: 0.85,
+  growthPerSec: 0.7,
   maxTowerValue: 99,
   sendPercent: 0.5,
   towerRadius: 34,
-  unitRadius: 6,
-  projectileSpeed: 300,
-  sendCadenceBaseMs: 200,
-  sendCadenceMinMs: 70,
+  unitRadius: 7,
+  projectileSpeed: 230,
+  sendCadenceBaseMs: 240,
+  sendCadenceMinMs: 95,
   sendCadenceValueMultiplier: 2.2,
   stickerScale: 1,
   maxStickerCount: 4,
@@ -48,8 +50,8 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     colors: baseColors,
     rules: {
       ...baseRules,
-      matchDurationSec: 60,
-      growthPerSec: 0.7,
+      matchDurationSec: 70,
+      growthPerSec: 0.6,
       aiThinkMinMs: 1800,
       aiThinkMaxMs: 2500,
     },
@@ -79,8 +81,8 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     colors: baseColors,
     rules: {
       ...baseRules,
-      matchDurationSec: 70,
-      growthPerSec: 0.85,
+      matchDurationSec: 78,
+      growthPerSec: 0.7,
     },
     towers: [
       { id: "p1", xPct: 16, yPct: 50, owner: "player", value: 10 },
@@ -116,8 +118,8 @@ export const CONQUEST_LEVELS: EngineConfig[] = [
     },
     rules: {
       ...baseRules,
-      matchDurationSec: 75,
-      growthPerSec: 1.05,
+      matchDurationSec: 82,
+      growthPerSec: 0.9,
       stickerScale: 1.05,
       maxStickerCount: 6,
       visualDensity: "rich",
