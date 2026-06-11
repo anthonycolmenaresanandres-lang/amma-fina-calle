@@ -45,6 +45,8 @@ export class ConquestScene extends Phaser.Scene {
 
   private dragGraphics!: Phaser.GameObjects.Graphics;
   private packetGraphics!: Phaser.GameObjects.Graphics;
+  private roadGraphics!: Phaser.GameObjects.Graphics;
+  private barGraphics!: Phaser.GameObjects.Graphics;
 
   private timerText!: Phaser.GameObjects.Text;
   private statusText!: Phaser.GameObjects.Text;
@@ -67,6 +69,7 @@ export class ConquestScene extends Phaser.Scene {
 
     this.initializeState();
 
+    this.roadGraphics = this.add.graphics(); // behind everything — faint "roads"
     this.dragGraphics = this.add.graphics();
     this.packetGraphics = this.add.graphics();
 
@@ -87,6 +90,7 @@ export class ConquestScene extends Phaser.Scene {
 
     this.createTowerViews();
     this.createStickerViews();
+    this.barGraphics = this.add.graphics(); // top — territory bar
 
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
       if (this.gameOver) {
@@ -120,7 +124,8 @@ export class ConquestScene extends Phaser.Scene {
         return;
       }
 
-      this.dragState.targetId = this.isLinked(this.dragState.sourceId, hovered.id) ? hovered.id : null;
+      // Send to ANY node (no link restriction) — links are visual ambiance only.
+      this.dragState.targetId = hovered.id;
     });
 
     this.input.on("pointerup", () => {
@@ -277,6 +282,26 @@ export class ConquestScene extends Phaser.Scene {
     const size = this.scale.gameSize;
     this.timerText.setPosition(size.width / 2, 12);
     this.statusText.setPosition(size.width / 2, 42);
+
+    this.drawTerritoryBar();
+  }
+
+  private drawTerritoryBar(): void {
+    if (!this.barGraphics) return;
+    const w = this.scale.gameSize.width;
+    const total = this.towers.size || 1;
+    const counts = this.countOwnership();
+    const barY = 4;
+    const barH = 5;
+    this.barGraphics.clear();
+    this.barGraphics.fillStyle(0xffffff, 0.06);
+    this.barGraphics.fillRect(0, barY, w, barH);
+    const playerW = (counts.player / total) * w;
+    const enemyW = (counts.enemy / total) * w;
+    this.barGraphics.fillStyle(this.levelConfig.colors.player, 0.9);
+    this.barGraphics.fillRect(0, barY, playerW, barH);
+    this.barGraphics.fillStyle(this.levelConfig.colors.enemy, 0.9);
+    this.barGraphics.fillRect(w - enemyW, barY, enemyW, barH);
   }
 
   private applyGrowth(dtSec: number): void {
@@ -302,12 +327,9 @@ export class ConquestScene extends Phaser.Scene {
 
     for (const source of this.towers.values()) {
       if (source.owner !== "enemy" || source.value < 8) continue;
-      const neighbors = this.adjacency.get(source.id);
-      if (!neighbors) continue;
 
-      for (const targetId of neighbors) {
-        const target = this.towers.get(targetId);
-        if (!target || target.owner === "enemy") continue;
+      for (const target of this.towers.values()) {
+        if (target.id === source.id || target.owner === "enemy") continue;
 
         const sendAmount = Math.floor(source.value * this.levelConfig.rules.sendPercent);
         let score = 100 - target.value;
@@ -331,17 +353,16 @@ export class ConquestScene extends Phaser.Scene {
   }
 
   private trySend(fromId: string, toId: string, sender: "player" | "enemy"): void {
-    if (!this.isLinked(fromId, toId)) return;
-
     const source = this.towers.get(fromId);
     const target = this.towers.get(toId);
-    if (!source || !target || source.owner !== sender) return;
+    if (!source || !target || source.id === target.id || source.owner !== sender) return;
 
     const sourceValueAtSend = source.value;
     const amount = Math.floor(sourceValueAtSend * this.levelConfig.rules.sendPercent);
     if (amount < 1) return;
 
     source.value -= amount;
+    if (sender === "player") this.popTower(fromId); // a little pop when you fire
 
     this.emitters.push({
       id: `emit-${this.emitterSeq++}`,
@@ -433,7 +454,38 @@ export class ConquestScene extends Phaser.Scene {
     if (target.value < 0) {
       target.owner = packet.owner;
       target.value = Math.abs(target.value);
+      // Capture juice — pop, ring burst, and a kick of screen-shake on YOUR wins.
+      const pos = this.toScreen(target.xPct, target.yPct);
+      this.popTower(target.id);
+      this.ringBurst(pos.x, pos.y, this.ownerColor(target.owner));
+      if (packet.owner === "player") this.cameras.main.shake(140, 0.005);
     }
+  }
+
+  // --- juice helpers ---------------------------------------------------------
+
+  private punch(obj: Phaser.GameObjects.Arc): void {
+    this.tweens.add({ targets: obj, scaleX: 1.32, scaleY: 1.32, duration: 110, yoyo: true, ease: "Quad.Out" });
+  }
+
+  private popTower(id: string): void {
+    const view = this.towerViews.get(id);
+    if (view) this.punch(view.circle);
+  }
+
+  private ringBurst(x: number, y: number, color: number): void {
+    const ring = this.add.circle(x, y, this.towerRadius() * 0.7);
+    ring.setFillStyle(color, 0);
+    ring.setStrokeStyle(3, color, 0.9);
+    this.tweens.add({
+      targets: ring,
+      scaleX: 2.8,
+      scaleY: 2.8,
+      alpha: 0,
+      duration: 430,
+      ease: "Cubic.Out",
+      onComplete: () => ring.destroy(),
+    });
   }
 
   private checkEndState(): void {
@@ -475,9 +527,20 @@ export class ConquestScene extends Phaser.Scene {
     this.gameOver = true;
     this.statusText.setText(
       result === "win"
-        ? `${this.levelConfig.winText}\nTap Replay or choose another level`
-        : `${this.levelConfig.loseText}\nTap Replay or choose another level`,
+        ? `${this.levelConfig.winText}\nTap to play again`
+        : `${this.levelConfig.loseText}\nTap to play again`,
     );
+
+    if (result === "win") {
+      this.cameras.main.flash(280, 244, 230, 204);
+      for (const t of this.towers.values()) {
+        if (t.owner !== "player") continue;
+        const p = this.toScreen(t.xPct, t.yPct);
+        this.ringBurst(p.x, p.y, this.levelConfig.colors.player);
+      }
+    } else {
+      this.cameras.main.shake(240, 0.006);
+    }
   }
 
   private countOwnership(): { player: number; enemy: number; neutral: number } {
@@ -492,10 +555,25 @@ export class ConquestScene extends Phaser.Scene {
     return { player, enemy, neutral };
   }
 
+  private drawRoads(): void {
+    this.roadGraphics.clear();
+    for (const { a, b } of this.levelConfig.links) {
+      const ta = this.towers.get(a);
+      const tb = this.towers.get(b);
+      if (!ta || !tb) continue;
+      const pa = this.toScreen(ta.xPct, ta.yPct);
+      const pb = this.toScreen(tb.xPct, tb.yPct);
+      this.roadGraphics.lineStyle(3, 0xd4a24c, 0.12);
+      this.roadGraphics.lineBetween(pa.x, pa.y, pb.x, pb.y);
+    }
+  }
+
   private layoutScene(): void {
     const towerRadius = this.towerRadius();
     const counterOffsetX = towerRadius + 9;
     const counterOffsetY = towerRadius + 11;
+
+    this.drawRoads();
 
     for (const tower of this.towers.values()) {
       const view = this.towerViews.get(tower.id);
@@ -651,10 +729,6 @@ export class ConquestScene extends Phaser.Scene {
       }
     }
     return null;
-  }
-
-  private isLinked(a: string, b: string): boolean {
-    return this.adjacency.get(a)?.has(b) ?? false;
   }
 
   private toScreen(xPct: number, yPct: number): { x: number; y: number } {
