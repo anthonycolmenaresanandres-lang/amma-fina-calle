@@ -478,8 +478,12 @@ export default function BandClient(): React.JSX.Element {
         </p>
       </header>
 
-      <div className="relative flex-1" style={{ background: skin.colors.stage }}>
-        <canvas ref={canvasRef} onPointerDown={onCanvasPointerDown} className="h-full w-full touch-none" />
+      <div className="relative min-h-0 flex-1" style={{ background: skin.colors.stage }}>
+        <canvas
+          ref={canvasRef}
+          onPointerDown={onCanvasPointerDown}
+          className="absolute inset-0 h-full w-full touch-none"
+        />
       </div>
 
       <footer className="flex flex-col items-center gap-3 px-4 py-4">
