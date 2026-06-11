@@ -52,6 +52,7 @@ export class ConquestScene extends Phaser.Scene {
   private statusText!: Phaser.GameObjects.Text;
 
   private dragState: DragState | null = null;
+  private selected = new Set<string>(); // your nodes armed to fire together
 
   private timeLeftSec = DEFAULT_CONQUEST_LEVEL.rules.matchDurationSec;
   private aiThinkMs = 0;
@@ -99,16 +100,21 @@ export class ConquestScene extends Phaser.Scene {
       }
 
       const tower = this.findTowerAt(pointer.x, pointer.y);
-      if (!tower || tower.owner !== "player") {
+
+      if (tower && tower.owner === "player") {
+        // Press your node: on release we either drag-send to a target or toggle-select.
+        this.dragState = { sourceId: tower.id, pointerX: pointer.x, pointerY: pointer.y, targetId: null };
         return;
       }
 
-      this.dragState = {
-        sourceId: tower.id,
-        pointerX: pointer.x,
-        pointerY: pointer.y,
-        targetId: null,
-      };
+      // Tapped a non-friendly node while nodes are armed → fire them all at it.
+      if (tower && this.selected.size > 0) {
+        this.fireSelected(tower.id);
+        return;
+      }
+
+      // Tapped empty space (or an enemy/neutral with nothing armed) → clear selection.
+      this.selected.clear();
     });
 
     this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
@@ -129,15 +135,21 @@ export class ConquestScene extends Phaser.Scene {
     });
 
     this.input.on("pointerup", () => {
-      if (!this.dragState || this.gameOver) {
-        this.dragState = null;
-        return;
-      }
-
-      if (this.dragState.targetId) {
-        this.trySend(this.dragState.sourceId, this.dragState.targetId, "player");
-      }
+      const drag = this.dragState;
       this.dragState = null;
+      if (!drag || this.gameOver) return;
+
+      if (drag.targetId) {
+        // Drag-release on a target → fire the dragged node AND every armed node.
+        const sources = new Set(this.selected);
+        sources.add(drag.sourceId);
+        for (const sId of sources) this.trySend(sId, drag.targetId, "player");
+        this.selected.clear();
+      } else {
+        // Tap on your own node (no drag) → arm/disarm it for a group send.
+        if (this.selected.has(drag.sourceId)) this.selected.delete(drag.sourceId);
+        else this.selected.add(drag.sourceId);
+      }
     });
 
     this.scale.on("resize", () => this.layoutScene());
@@ -174,6 +186,7 @@ export class ConquestScene extends Phaser.Scene {
     this.timeLeftSec = this.levelConfig.rules.matchDurationSec;
     this.gameOver = false;
     this.dragState = null;
+    this.selected.clear();
 
     for (const tower of this.levelConfig.towers) {
       this.towers.set(tower.id, {
@@ -350,6 +363,14 @@ export class ConquestScene extends Phaser.Scene {
   private scheduleNextAi(): void {
     const { aiThinkMinMs, aiThinkMaxMs } = this.levelConfig.rules;
     this.aiThinkMs = Phaser.Math.Between(aiThinkMinMs, aiThinkMaxMs);
+  }
+
+  private fireSelected(targetId: string): void {
+    for (const sId of this.selected) {
+      const s = this.towers.get(sId);
+      if (s && s.owner === "player") this.trySend(sId, targetId, "player");
+    }
+    this.selected.clear();
   }
 
   private trySend(fromId: string, toId: string, sender: "player" | "enemy"): void {
@@ -607,19 +628,23 @@ export class ConquestScene extends Phaser.Scene {
     this.dragGraphics.clear();
     if (!this.dragState) return;
 
-    const source = this.towers.get(this.dragState.sourceId);
-    if (!source) return;
-
-    const from = this.toScreen(source.xPct, source.yPct);
-    const to = this.dragState.targetId
-      ? this.toScreen(
-          this.towers.get(this.dragState.targetId)?.xPct ?? source.xPct,
-          this.towers.get(this.dragState.targetId)?.yPct ?? source.yPct,
-        )
+    const targetTower = this.dragState.targetId ? this.towers.get(this.dragState.targetId) : undefined;
+    const to = targetTower
+      ? this.toScreen(targetTower.xPct, targetTower.yPct)
       : { x: this.dragState.pointerX, y: this.dragState.pointerY };
 
+    // Fan a line from the dragged node AND every armed node to the target — so a
+    // group send reads at a glance (and the target visibly takes streams from many).
+    const sources = new Set(this.selected);
+    sources.add(this.dragState.sourceId);
+
     this.dragGraphics.lineStyle(3, 0xe4bf6d, 0.9);
-    this.dragGraphics.lineBetween(from.x, from.y, to.x, to.y);
+    for (const sId of sources) {
+      const s = this.towers.get(sId);
+      if (!s || s.owner !== "player") continue;
+      const from = this.toScreen(s.xPct, s.yPct);
+      this.dragGraphics.lineBetween(from.x, from.y, to.x, to.y);
+    }
     this.dragGraphics.fillStyle(0xe4bf6d, 0.85);
     this.dragGraphics.fillCircle(to.x, to.y, this.levelConfig.rules.unitRadius + 2);
   }
@@ -664,6 +689,14 @@ export class ConquestScene extends Phaser.Scene {
       let strokeWidth = 2;
       let strokeColor = 0xf1d199;
       let strokeAlpha = 0.85;
+
+      if (this.selected.has(tower.id)) {
+        // armed for a group send — persistent bright ring
+        glowAlpha = 0.45;
+        strokeWidth = 3;
+        strokeColor = 0xffde8a;
+        strokeAlpha = 1;
+      }
 
       if (this.dragState && tower.id === this.dragState.sourceId) {
         glowAlpha = 0.5;
