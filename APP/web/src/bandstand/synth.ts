@@ -30,6 +30,11 @@ type Hit = { step: number; degree: number; octave: number; vel: number; durSteps
 
 export type UnlockEvent = { id: string };
 
+export type Cue = { key: number; id: string; spawn: number; hit: number; done: boolean };
+export type Judgment = "perfect" | "good" | "miss";
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * Math.min(1, Math.max(0, t));
+
 function midiToFreq(m: number): number {
   return 440 * Math.pow(2, (m - 69) / 12);
 }
@@ -100,6 +105,18 @@ export class Bandstand {
   private fans = 0;
   private lastUpdate = 0;
   private lastSave = 0;
+
+  // ---- challenge (rhythm-cue) state ----
+  private chOn = false;
+  private chOver = false;
+  private crowd = 1;
+  private score = 0;
+  private combo = 0;
+  private bestCombo = 0;
+  private chStart = 0;
+  private cues: Cue[] = [];
+  private nextCueAt = 0;
+  private cueSeq = 0;
 
   // Visual feedback: per-mascot ring buffer of scheduled hit times.
   private hits = new Map<string, number[]>();
@@ -231,6 +248,11 @@ export class Bandstand {
     const dt = Math.max(0, now - this.lastUpdate);
     this.lastUpdate = now;
 
+    if (this.chOn) {
+      this.updateChallenge(now, dt);
+      return null; // fans/unlock pause during a challenge
+    }
+
     let activeCount = 0;
     for (const id of this.active) if (this.unlocked.has(id)) activeCount++;
     this.fans += dt * activeCount * FANS_PER_PART_PER_SEC;
@@ -249,6 +271,123 @@ export class Bandstand {
       this.saveState();
     }
     return event;
+  }
+
+  // ---- challenge (rhythm cues) ------------------------------------------
+  startChallenge(): void {
+    this.chOn = true;
+    this.chOver = false;
+    this.crowd = 1;
+    this.score = 0;
+    this.combo = 0;
+    this.bestCombo = 0;
+    this.cues = [];
+    this.active.clear();
+    const now = this.now();
+    this.chStart = now;
+    this.nextCueAt = now + 1.2;
+  }
+
+  stopChallenge(): void {
+    this.chOn = false;
+    this.cues = [];
+  }
+
+  isChallenge(): boolean {
+    return this.chOn;
+  }
+  isChallengeOver(): boolean {
+    return this.chOver;
+  }
+  getCrowd(): number {
+    return this.crowd;
+  }
+  getScore(): number {
+    return Math.round(this.score);
+  }
+  getCombo(): number {
+    return this.combo;
+  }
+  getBestCombo(): number {
+    return this.bestCombo;
+  }
+  getCues(): Cue[] {
+    return this.cues;
+  }
+
+  // 0 → 1 as the match heats up (over ~75s).
+  private chDiff(): number {
+    return Math.min(1, (this.now() - this.chStart) / 75);
+  }
+  private cueWindow(): number {
+    return lerp(0.2, 0.11, this.chDiff());
+  }
+
+  private updateChallenge(now: number, dt: number): void {
+    if (this.chOver) return;
+    const d = this.chDiff();
+
+    // crowd drains faster as the match heats up
+    this.crowd -= dt * lerp(0.05, 0.12, d);
+
+    // spawn cues on the beat, more often over time
+    if (now >= this.nextCueAt) {
+      const lead = lerp(1.3, 0.8, d);
+      const beat = this.secPerStep * 4;
+      const hit = Math.ceil((now + lead) / beat) * beat; // snap to a beat
+      const pool = this.skin.mascots;
+      const m = pool[Math.floor(Math.random() * pool.length)];
+      this.cues.push({ key: this.cueSeq++, id: m.id, spawn: now, hit, done: false });
+      this.nextCueAt = now + lerp(1.3, 0.5, d);
+    }
+
+    // miss cues whose window has fully passed
+    const win = this.cueWindow();
+    for (const c of this.cues) {
+      if (!c.done && now > c.hit + win) {
+        c.done = true;
+        this.combo = 0;
+        this.crowd -= 0.1;
+      }
+    }
+    this.cues = this.cues.filter((c) => now < c.hit + win + 0.35);
+
+    if (this.crowd <= 0) {
+      this.crowd = 0;
+      this.chOver = true;
+    }
+    this.crowd = Math.min(1, this.crowd);
+  }
+
+  // Tap on a striker during a challenge — judges against its nearest live cue.
+  hitCue(id: string): Judgment | null {
+    if (!this.chOn || this.chOver) return null;
+    const now = this.now();
+    const win = this.cueWindow();
+    let best: Cue | null = null;
+    let bestDt = Infinity;
+    for (const c of this.cues) {
+      if (c.id !== id || c.done) continue;
+      const adt = Math.abs(now - c.hit);
+      if (adt < bestDt) {
+        bestDt = adt;
+        best = c;
+      }
+    }
+    if (!best || bestDt > win) {
+      this.combo = 0;
+      this.crowd = Math.max(0, this.crowd - 0.04);
+      return "miss";
+    }
+    best.done = true;
+    const perfect = bestDt < win * 0.45;
+    this.combo += 1;
+    this.bestCombo = Math.max(this.bestCombo, this.combo);
+    this.score += (perfect ? 100 : 60) * (1 + Math.floor(this.combo / 5) * 0.5);
+    this.crowd = Math.min(1, this.crowd + (perfect ? 0.09 : 0.05));
+    this.active.add(id); // the hit also brings the part into the mix
+    this.hits.get(id)?.push(now);
+    return perfect ? "perfect" : "good";
   }
 
   private firstLockedIndex(): number {
@@ -312,7 +451,8 @@ export class Bandstand {
 
   private scheduleStep(step: number, time: number): void {
     for (const m of this.skin.mascots) {
-      if (!this.active.has(m.id) || !this.unlocked.has(m.id)) continue;
+      if (!this.active.has(m.id)) continue;
+      if (!this.chOn && !this.unlocked.has(m.id)) continue; // unlock gate (free play only)
       const pattern = PATTERNS[m.role];
       for (const h of pattern) {
         if (h.step !== step) continue;

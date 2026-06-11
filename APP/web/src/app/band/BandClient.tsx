@@ -14,11 +14,16 @@ export default function BandClient(): React.JSX.Element {
   const rafRef = useRef<number | null>(null);
   const revealRef = useRef<Map<string, number>>(new Map());
   const imagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
+  const judgeRef = useRef<{ text: string; color: string; at: number; x: number; y: number } | null>(null);
+  const overFlagRef = useRef(false);
 
   const [skin, setSkin] = useState<BandstandSkin | null>(null);
   const [activeIds, setActiveIds] = useState<string[]>([]);
   const [recording, setRecording] = useState(false);
   const [clipUrl, setClipUrl] = useState<string | null>(null);
+  const [challengeOn, setChallengeOn] = useState(false);
+  const [challengeOver, setChallengeOver] = useState(false);
+  const [finalStats, setFinalStats] = useState<{ score: number; combo: number }>({ score: 0, combo: 0 });
 
   // ---- engine lifecycle -------------------------------------------------
   const pickSkin = useCallback(async (chosen: BandstandSkin) => {
@@ -148,6 +153,85 @@ export default function BandClient(): React.JSX.Element {
       ctx.beginPath();
       ctx.roundRect(x, y, Math.max(th, bw * ratio), th, th / 2);
       ctx.fill();
+    };
+
+    const drawChallengeHud = () => {
+      const engine = engineRef.current;
+      if (!engine) return;
+      const x = w * 0.08;
+      const bw = w * 0.84;
+      const y = h * 0.05;
+      const crowd = engine.getCrowd();
+      ctx.font = `700 ${Math.round(h * 0.02)}px ui-sans-serif, system-ui, sans-serif`;
+      ctx.textBaseline = "alphabetic";
+      ctx.textAlign = "left";
+      ctx.fillStyle = skin.colors.text;
+      ctx.fillText(`Score ${engine.getScore()}`, x, y - h * 0.012);
+      ctx.textAlign = "right";
+      ctx.fillStyle = engine.getCombo() >= 5 ? "#ffd84a" : skin.colors.dim;
+      ctx.fillText(engine.getCombo() > 1 ? `${engine.getCombo()}x combo` : "Crowd", x + bw, y - h * 0.012);
+      // crowd track
+      const th = Math.max(6, h * 0.012);
+      ctx.fillStyle = `${skin.colors.dim}40`;
+      ctx.beginPath();
+      ctx.roundRect(x, y, bw, th, th / 2);
+      ctx.fill();
+      // crowd fill — green when full, red when about to empty
+      const hue = Math.round(crowd * 130); // 0 red → 130 green
+      ctx.fillStyle = `hsl(${hue} 75% 55%)`;
+      ctx.beginPath();
+      ctx.roundRect(x, y, Math.max(th, bw * crowd), th, th / 2);
+      ctx.fill();
+    };
+
+    const drawCues = (pods: PodRect[], now: number) => {
+      const engine = engineRef.current;
+      if (!engine || !engine.isChallenge()) return;
+      for (const c of engine.getCues()) {
+        const pod = pods.find((p) => p.id === c.id);
+        if (!pod || c.done) continue;
+        const span = Math.max(0.001, c.hit - c.spawn);
+        const prog = (now - c.spawn) / span; // → 1 on the beat
+        if (prog < 0) continue;
+        const cx = pod.x;
+        const cy = pod.y + pod.r * 0.5;
+        const target = pod.r * 1.35;
+        const ring = target + (1 - Math.min(1, prog)) * pod.r * 4.2;
+        const near = Math.abs(prog - 1) < 0.16;
+        // target ring (where to tap)
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        ctx.strokeStyle = skin.colors.dim;
+        ctx.lineWidth = Math.max(2, pod.r * 0.05);
+        ctx.beginPath();
+        ctx.arc(cx, cy, target, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+        // shrinking ring
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, prog * 1.4);
+        ctx.strokeStyle = near ? "#ffd84a" : "#ffffff";
+        ctx.lineWidth = Math.max(3, pod.r * 0.09);
+        ctx.beginPath();
+        ctx.arc(cx, cy, ring, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+      // judgment popup
+      const jg = judgeRef.current;
+      if (jg) {
+        const age = now - jg.at;
+        if (age >= 0 && age < 0.7) {
+          ctx.save();
+          ctx.globalAlpha = 1 - age / 0.7;
+          ctx.fillStyle = jg.color;
+          ctx.font = `800 ${Math.round(w * 0.06)}px ui-sans-serif, system-ui, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(jg.text, jg.x, jg.y - age * 46);
+          ctx.restore();
+        }
+      }
     };
 
     const drawMascot = (m: MascotConfig, pod: PodRect, bob: number, active: boolean, locked: boolean) => {
@@ -334,9 +418,11 @@ export default function BandClient(): React.JSX.Element {
 
       const pods = layout();
       podsRef.current = pods;
+      const now = engine.now();
       ctx.clearRect(0, 0, w, h);
 
-      drawMeter();
+      if (engine.isChallenge()) drawChallengeHud();
+      else drawMeter();
 
       // on-beat pulse line
       const phase = engine.barPhase();
@@ -346,11 +432,21 @@ export default function BandClient(): React.JSX.Element {
       ctx.fillRect(0, h - 3, w * phase, 3);
       ctx.restore();
 
-      // back-to-front so the lower (nearer) strikers overlap the lifted ones
+      // back-to-front so the lower (nearer) strikers overlap the lifted ones.
+      // During a challenge every striker is available (unlock gate is off).
       const order = skin.mascots.map((_, i) => i).sort((a, b) => pods[a].y - pods[b].y);
       for (const i of order) {
         const m = skin.mascots[i];
-        drawMascot(m, pods[i], engine.getBob(m.id), engine.isActive(m.id), !engine.isUnlocked(m.id));
+        const locked = !engine.isChallenge() && !engine.isUnlocked(m.id);
+        drawMascot(m, pods[i], engine.getBob(m.id), engine.isActive(m.id), locked);
+      }
+
+      drawCues(pods, now);
+
+      if (engine.isChallengeOver() && !overFlagRef.current) {
+        overFlagRef.current = true;
+        setFinalStats({ score: engine.getScore(), combo: engine.getBestCombo() });
+        setChallengeOver(true);
       }
 
       rafRef.current = requestAnimationFrame(frame);
@@ -380,9 +476,47 @@ export default function BandClient(): React.JSX.Element {
       })
       .sort((a, b) => b.y - a.y)[0];
     if (!hit) return;
+
+    if (engine.isChallenge()) {
+      const j = engine.hitCue(hit.id);
+      if (j) {
+        judgeRef.current = {
+          text: j === "perfect" ? "PERFECT!" : j === "good" ? "GOOD" : "MISS",
+          color: j === "miss" ? "#ff6b6b" : j === "perfect" ? "#ffd84a" : "#9fe6c8",
+          at: engine.now(),
+          x: hit.x,
+          y: hit.y,
+        };
+      }
+      setActiveIds(engine.skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
+      return;
+    }
+
     if (!engine.isUnlocked(hit.id)) return; // locked — earn it first
     engine.toggle(hit.id);
     setActiveIds(engine.skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
+  }, []);
+
+  // ---- challenge controls ----------------------------------------------
+  const startChallenge = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+    overFlagRef.current = false;
+    judgeRef.current = null;
+    engine.startChallenge();
+    setChallengeOver(false);
+    setChallengeOn(true);
+    setActiveIds([]);
+  }, []);
+
+  const exitChallenge = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+    engine.stopChallenge();
+    overFlagRef.current = false;
+    setChallengeOver(false);
+    setChallengeOn(false);
+    setActiveIds([]);
   }, []);
 
   // ---- recording & sharing ---------------------------------------------
@@ -474,7 +608,11 @@ export default function BandClient(): React.JSX.Element {
         </p>
         <h1 className="font-serif text-2xl">{skin.skinName}</h1>
         <p className="mt-1 text-xs" style={{ color: skin.colors.dim }}>
-          {activeIds.length === 0 ? "Tap a character to start a part" : `${activeIds.length} playing`}
+          {challengeOn
+            ? "Tap each striker the moment its ring lands!"
+            : activeIds.length === 0
+              ? "Tap a character to start a part"
+              : `${activeIds.length} playing`}
         </p>
       </header>
 
@@ -484,34 +622,87 @@ export default function BandClient(): React.JSX.Element {
           onPointerDown={onCanvasPointerDown}
           className="absolute inset-0 h-full w-full touch-none"
         />
+
+        {challengeOver ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/72 px-6 text-center backdrop-blur-sm">
+            <p className="text-xs uppercase tracking-[0.24em]" style={{ color: skin.colors.dim }}>
+              The crowd left
+            </p>
+            <p className="font-serif text-5xl" style={{ color: skin.colors.text }}>
+              {finalStats.score}
+            </p>
+            <p className="text-sm" style={{ color: skin.colors.dim }}>
+              Best combo {finalStats.combo}x
+            </p>
+            <div className="mt-2 flex gap-3">
+              <button
+                type="button"
+                onClick={startChallenge}
+                className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+                style={{ background: skin.colors.text, color: skin.colors.bg }}
+              >
+                Play again
+              </button>
+              <button
+                type="button"
+                onClick={exitChallenge}
+                className="rounded-full border px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+                style={{ borderColor: skin.colors.dim, color: skin.colors.text }}
+              >
+                Free play
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <footer className="flex flex-col items-center gap-3 px-4 py-4">
-        <div className="flex items-center gap-3">
+        {challengeOn && !challengeOver ? (
           <button
             type="button"
-            onClick={() => void toggleRecord()}
-            className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
-            style={
-              recording
-                ? { background: "#e8584d", color: "#ffffff" }
-                : { border: `1px solid ${skin.colors.dim}`, color: skin.colors.text }
-            }
+            onClick={exitChallenge}
+            className="rounded-full border px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+            style={{ borderColor: skin.colors.dim, color: skin.colors.text }}
           >
-            {recording ? "● Stop & save clip" : "Record a clip"}
+            ✕ End challenge
           </button>
-          {clipUrl ? (
-            <button
-              type="button"
-              onClick={() => void shareClip()}
-              className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
-              style={{ background: skin.colors.text, color: skin.colors.bg }}
-            >
-              Share
-            </button>
-          ) : null}
-        </div>
-        {clipUrl ? <audio controls src={clipUrl} className="w-full max-w-xs" /> : null}
+        ) : (
+          <>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={startChallenge}
+                className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+                style={{ background: "#ffd84a", color: "#1a1207" }}
+              >
+                ⚡ Challenge
+              </button>
+              <button
+                type="button"
+                onClick={() => void toggleRecord()}
+                className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+                style={
+                  recording
+                    ? { background: "#e8584d", color: "#ffffff" }
+                    : { border: `1px solid ${skin.colors.dim}`, color: skin.colors.text }
+                }
+              >
+                {recording ? "● Stop & save clip" : "Record a clip"}
+              </button>
+              {clipUrl ? (
+                <button
+                  type="button"
+                  onClick={() => void shareClip()}
+                  className="rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.16em]"
+                  style={{ background: skin.colors.text, color: skin.colors.bg }}
+                >
+                  Share
+                </button>
+              ) : null}
+            </div>
+            {clipUrl ? <audio controls src={clipUrl} className="w-full max-w-xs" /> : null}
+          </>
+        )}
       </footer>
     </div>
   );
