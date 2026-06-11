@@ -83,20 +83,23 @@ export default function BandClient(): React.JSX.Element {
       const stageTop = TOP();
       const stageH = h - stageTop;
 
-      // Small casts (the Colattanini strikers): one big row that fills the
-      // screen, feet planted on the golden-ratio horizon, sized by φ.
+      // Small casts (the Colattanini strikers): one big arched formation that
+      // spreads across and fills the stage — outer two planted low, middle
+      // lifted. Sizes/spacing keep a golden-ratio feel; mild overlap is fine
+      // (drawn back-to-front in the frame loop).
       if (n <= 3) {
         const cellW = w / n;
-        const feetY = stageTop + stageH / PHI; // golden horizon (~0.618 down)
-        const byWidth = (cellW * 0.96) / 3.4; // 3.4 = sprite-width / r
-        const byHeight = (stageH * 0.92) / (3.4 * 1.7);
+        const byWidth = (cellW * 1.24) / 3.4; // 3.4 = sprite-width / r; >1 overlaps a touch
+        const byHeight = (stageH * 0.58) / (3.4 * 1.62);
         const r = Math.max(20, Math.min(byWidth, byHeight));
-        return skin.mascots.map((m, i) => ({
-          id: m.id,
-          x: cellW * (i + 0.5),
-          y: feetY - r * 1.25,
-          r,
-        }));
+        const baseFeet = stageTop + stageH * 0.88; // planted near the bottom
+        const lift = stageH * (1 - 1 / PHI) * 0.42; // golden-ish arch height
+        return skin.mascots.map((m, i) => {
+          const t = n > 1 ? i / (n - 1) : 0.5; // 0..1 across the row
+          const arc = Math.sin(t * Math.PI); // 0 at ends, 1 in the middle
+          const feetY = baseFeet - arc * lift;
+          return { id: m.id, x: cellW * (i + 0.5), y: feetY - r * 1.25, r };
+        });
       }
 
       const cols = 2;
@@ -343,9 +346,12 @@ export default function BandClient(): React.JSX.Element {
       ctx.fillRect(0, h - 3, w * phase, 3);
       ctx.restore();
 
-      skin.mascots.forEach((m, i) => {
+      // back-to-front so the lower (nearer) strikers overlap the lifted ones
+      const order = skin.mascots.map((_, i) => i).sort((a, b) => pods[a].y - pods[b].y);
+      for (const i of order) {
+        const m = skin.mascots[i];
         drawMascot(m, pods[i], engine.getBob(m.id), engine.isActive(m.id), !engine.isUnlocked(m.id));
-      });
+      }
 
       rafRef.current = requestAnimationFrame(frame);
     };
@@ -365,16 +371,18 @@ export default function BandClient(): React.JSX.Element {
     const rect = canvas.getBoundingClientRect();
     const px = e.clientX - rect.left;
     const py = e.clientY - rect.top;
-    for (const pod of podsRef.current) {
-      const dx = px - pod.x;
-      const dy = py - pod.y;
-      if (dx * dx + dy * dy <= pod.r * pod.r * 1.6) {
-        if (!engine.isUnlocked(pod.id)) return; // locked — earn it first
-        engine.toggle(pod.id);
-        setActiveIds(engine.skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
-        return;
-      }
-    }
+    // front-most (lowest on screen) striker wins when pods overlap
+    const hit = [...podsRef.current]
+      .filter((pod) => {
+        const dx = px - pod.x;
+        const dy = py - pod.y;
+        return dx * dx + dy * dy <= pod.r * pod.r * 1.6;
+      })
+      .sort((a, b) => b.y - a.y)[0];
+    if (!hit) return;
+    if (!engine.isUnlocked(hit.id)) return; // locked — earn it first
+    engine.toggle(hit.id);
+    setActiveIds(engine.skin.mascots.filter((m) => engine.isActive(m.id)).map((m) => m.id));
   }, []);
 
   // ---- recording & sharing ---------------------------------------------
