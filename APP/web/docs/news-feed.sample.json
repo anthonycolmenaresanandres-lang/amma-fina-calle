@@ -1,0 +1,32 @@
+{
+  "brand": "Fina Calle",
+  "updatedAt": "2026-06-10T11:00:00.000Z",
+  "stories": [
+    {
+      "id": "sample-run-002",
+      "slug": "virginia-beach-oceanfront-festival-returns-2026-06-10",
+      "headline": "Oceanfront festival returns with 40 local vendors this weekend",
+      "brief": "The Virginia Beach oceanfront festival is back Saturday with 40 local vendors, live music on two stages, and free entry before noon.",
+      "body": [
+        "Organizers confirmed the festival runs Saturday and Sunday from 10am to 9pm along the boardwalk between 17th and 24th Street.",
+        "Forty local vendors were selected this year, up from twenty-six in 2025, with priority given to Hampton Roads small businesses."
+      ],
+      "city": "Virginia Beach",
+      "publishedAt": "2026-06-10T10:15:00.000Z",
+      "coverImageUrl": "https://picsum.photos/seed/finacalle-sample-2/1080/1350",
+      "instagramPermalink": "https://www.instagram.com/p/EXAMPLE2/",
+      "slideImageUrls": []
+    },
+    {
+      "id": "sample-run-001",
+      "slug": "summer-game-fest-2026-ps5-titles-2026-06-06",
+      "headline": "Summer Game Fest 2026 drops 16 new PS5 titles",
+      "brief": "Sixteen new PlayStation 5 titles were announced at Summer Game Fest 2026, with three studios confirming Hampton Roads-based development teams.",
+      "city": "Virginia Beach",
+      "publishedAt": "2026-06-06T10:12:00.000Z",
+      "coverImageUrl": "https://picsum.photos/seed/finacalle-sample-1/1080/1350",
+      "instagramPermalink": "https://www.instagram.com/p/EXAMPLE1/",
+      "slideImageUrls": []
+    }
+  ]
+}
