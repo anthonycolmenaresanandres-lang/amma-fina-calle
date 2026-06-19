@@ -44,5 +44,28 @@
       "openHour": 10,
       "closeHour": 19
     }
+  },
+  {
+    "id": "golden-dragon",
+    "phoneNumbers": ["+1 757 555 0333"],
+    "connector": "proposeconfirm",
+    "voice": "shimmer",
+    "language": "Mandarin Chinese",
+    "business": {
+      "name": "Golden Dragon",
+      "kind": "Chinese restaurant",
+      "timezone": "America/New_York",
+      "services": [
+        { "name": "Table Reservation", "durationMin": 90 },
+        { "name": "Large Party (8+)", "durationMin": 120 },
+        { "name": "Private Room", "durationMin": 120 }
+      ],
+      "hours": "Daily 11am-10pm",
+      "openDays": [0, 1, 2, 3, 4, 5, 6],
+      "openHour": 11,
+      "closeHour": 22
+    },
+    "notify": { "staffWebhookUrl": "" },
+    "disclosure": "您好，这里是{business}，我是自动语音助理，本次通话可能会被录音。请问有什么可以帮您？ (Hi, you've reached {business}. I'm an automated assistant and this call may be recorded — how can I help you today?)"
   }
 ]

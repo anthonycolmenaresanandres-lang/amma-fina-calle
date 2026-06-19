@@ -47,7 +47,7 @@ export class RealtimeSession {
       type: "session.update",
       session: {
         type: "realtime",
-        instructions: systemInstructions(b.name, b.kind, b.hours),
+        instructions: systemInstructions(b.name, b.kind, b.hours, this.tenant.language),
         output_modalities: ["audio"],
         audio: {
           input: {

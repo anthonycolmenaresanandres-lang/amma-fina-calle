@@ -32,6 +32,10 @@ export const config = {
   openaiApiKey: process.env.OPENAI_API_KEY ?? "",
   realtimeModel: process.env.OPENAI_REALTIME_MODEL ?? "gpt-realtime",
   voice: process.env.OPENAI_VOICE ?? "alloy",
+  // Spoken language the agent answers in. OpenAI Realtime voices are not language-locked —
+  // the timbre comes from `voice`, the language/accent from instructions — so we steer it
+  // here. English by default; set e.g. "Mandarin Chinese" for a Chinese-restaurant tenant.
+  language: process.env.LANGUAGE ?? "English",
 
   // Booking connector: "mock" (default) | "calcom" | "square" | "webhook" | "proposeconfirm"
   connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom" | "square" | "webhook" | "proposeconfirm",

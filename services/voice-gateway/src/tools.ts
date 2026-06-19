@@ -62,10 +62,24 @@ export const tools = [
   },
 ] as const;
 
-export function systemInstructions(businessName: string, kind: string, hours: string): string {
+export function systemInstructions(
+  businessName: string,
+  kind: string,
+  hours: string,
+  language = "English",
+): string {
+  // When the tenant isn't English-first, speak the target language natively (right accent,
+  // numbers/dates/names pronounced naturally) and only switch if the caller leads in another
+  // language. This is what makes the agent "sound Chinese" for a Chinese-restaurant client.
+  const lang = language.trim();
+  const isEnglish = /^english$/i.test(lang);
+  const languageLine = isEnglish
+    ? `Speak natural, conversational English.`
+    : `Speak entirely in ${lang}, like a warm native speaker — natural accent, and pronounce names, numbers, dates, and times the way a native speaker would. If the caller clearly prefers another language, follow their lead and switch to it; otherwise stay in ${lang}.`;
   return [
     `You are the friendly front-desk assistant for ${businessName}, a ${kind} business (hours: ${hours}).`,
-    `You answer calls and BOOK APPOINTMENTS. Be warm, brief, and natural; one question at a time.`,
+    languageLine,
+    `You answer calls and BOOK APPOINTMENTS or RESERVATIONS. Be warm, brief, and natural; one question at a time.`,
     `Booking flow you MUST follow: 1) find the service, 2) check_availability, 3) offer real open times,`,
     `4) hold_slot for the chosen time, 5) READ BACK the service/time/name and ask "should I book that?",`,
     `6) only after a clear yes, call confirm_booking with the draft_id. Never claim it's booked before confirm_booking succeeds.`,
