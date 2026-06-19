@@ -1,8 +1,10 @@
+# NOTE: For the Render Blueprint flow, use the render.yaml at the REPO ROOT, not this
+# file — Render only auto-detects render.yaml at the root, and its dockerfilePath/
+# dockerContext are repo-root-relative. This copy is kept for local reference only.
+#
 # One-click-ish deploy to Render (an always-on Docker web service with a persistent
 # disk for the snapshot). Adjust the region/plan as needed. Set secret values in the
 # Render dashboard (they're marked sync:false so they aren't stored in git).
-#
-#   Render → New → Blueprint → point at this repo (root: services/voice-gateway)
 #
 services:
   - type: web

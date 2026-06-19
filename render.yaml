@@ -1,0 +1,38 @@
+# Render Blueprint — MUST live at the repo ROOT (Render only auto-detects render.yaml
+# at the root). dockerfilePath and dockerContext are relative to the REPO ROOT, not to
+# rootDir, so the voice gateway under services/voice-gateway is referenced by full paths.
+# (The services/voice-gateway/render.yaml copy is kept for local reference only; THIS
+# root file is the one Render uses.)
+#
+#   Render → New + → Blueprint → pick this repo → Apply.
+#
+# Secrets are marked sync:false so they are entered in the Render dashboard, not git.
+services:
+  - type: web
+    name: fina-calle-voice-gateway
+    runtime: docker
+    rootDir: services/voice-gateway               # scopes which file changes trigger a build
+    dockerfilePath: services/voice-gateway/Dockerfile  # relative to repo root
+    dockerContext: services/voice-gateway              # relative to repo root (so COPY paths resolve)
+    healthCheckPath: /healthz
+    plan: starter # always-on (free tier sleeps; Twilio media streams need always-on)
+    autoDeploy: true
+    disk:
+      name: store
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: STORE_SNAPSHOT
+        value: /data/store.json # durable across restarts/deploys (single instance)
+      - key: PUBLIC_HOST
+        sync: false # the onrender.com hostname (no scheme) — set after first deploy
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: BOOKING_CONNECTOR
+        value: proposeconfirm # universal fallback; per-tenant connectors come from TENANTS_FILE
+      - key: TENANTS_FILE
+        sync: false # optional path to a tenants.json (leave blank for single-business)
+      - key: STAFF_WEBHOOK_URL
+        sync: false # optional staff alerts (Slack/Make/SMS)

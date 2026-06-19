@@ -1,7 +1,9 @@
-// OpenAI Realtime WebSocket client. Bridges μ-law/8k telephony audio straight to
-// Realtime (g711_ulaw in/out — no transcoding), advertises our tools, and routes
-// function calls to the orchestrator. NOTE: Realtime event names evolve — verify
-// against current docs before production (see the plan's "re-verify" note).
+// OpenAI Realtime WebSocket client (GA API). Bridges μ-law/8k telephony audio straight
+// to Realtime (G.711 μ-law = audio/pcmu in/out — no transcoding), advertises our tools,
+// and routes function calls to the orchestrator. Migrated off the beta interface, which
+// OpenAI retired 2026-05-12: nested session.audio config, audio/pcmu format objects,
+// output_modalities, no beta header, and response.output_audio.delta for streamed audio.
+// Re-confirm the function-call event name by logging raw events on the first live call.
 
 import WebSocket from "ws";
 import { config, requireOpenAI } from "./config";
@@ -27,7 +29,7 @@ export class RealtimeSession {
     this.hooks = hooks;
     const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(config.realtimeModel)}`;
     this.ws = new WebSocket(url, {
-      headers: { Authorization: `Bearer ${requireOpenAI()}`, "OpenAI-Beta": "realtime=v1" },
+      headers: { Authorization: `Bearer ${requireOpenAI()}` }, // GA: no beta header
     });
     this.ws.on("open", () => this.onOpen());
     this.ws.on("message", (d) => this.onMessage(d));
@@ -44,12 +46,19 @@ export class RealtimeSession {
     this.send({
       type: "session.update",
       session: {
+        type: "realtime",
         instructions: systemInstructions(b.name, b.kind, b.hours),
-        voice: this.tenant.voice,
-        modalities: ["audio", "text"],
-        input_audio_format: "g711_ulaw",
-        output_audio_format: "g711_ulaw",
-        turn_detection: { type: "server_vad", silence_duration_ms: 500 },
+        output_modalities: ["audio"],
+        audio: {
+          input: {
+            format: { type: "audio/pcmu" }, // G.711 μ-law from Twilio
+            turn_detection: { type: "server_vad", silence_duration_ms: 500 },
+          },
+          output: {
+            format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
+            voice: this.tenant.voice,
+          },
+        },
         tools,
         tool_choice: "auto",
       },
@@ -69,7 +78,7 @@ export class RealtimeSession {
     let evt: { type?: string; [k: string]: unknown };
     try { evt = JSON.parse(data.toString()); } catch { return; }
     switch (evt.type) {
-      case "response.audio.delta":
+      case "response.output_audio.delta":
         if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta);
         break;
       case "input_audio_buffer.speech_started":
