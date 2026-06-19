@@ -24,6 +24,7 @@ export interface Tenant {
   notify?: typeof config.notify;
   disclosure: string;
   voice: string;
+  language: string; // spoken language the agent answers in (e.g. "English", "Mandarin Chinese")
 }
 
 /** Phone numbers compared as digits only (so "+1 (555) 000-1111" === "15550001111"). */
@@ -43,6 +44,7 @@ function defaultTenant(): Tenant {
     notify: config.notify,
     disclosure: config.disclosure,
     voice: config.voice,
+    language: config.language,
   };
 }
 
@@ -58,6 +60,7 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
     notify: t.notify ?? def.notify,
     disclosure: t.disclosure ?? def.disclosure,
     voice: t.voice ?? def.voice,
+    language: t.language ?? def.language,
   };
 }
 

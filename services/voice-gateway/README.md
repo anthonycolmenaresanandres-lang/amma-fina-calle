@@ -35,7 +35,23 @@ One deployed gateway serves any number of clients; an inbound call is routed to 
   (single-client deploys keep working unchanged).
 - A tenant is the **only** per-client surface: `phoneNumbers` (routing), `business`
   (Knowledge Pack — services + hours), `connector` + its creds, `notify.staffWebhookUrl`,
-  `disclosure`, `voice`.
+  `disclosure`, `voice`, `language`.
+
+### Speaking another language (e.g. a Chinese restaurant)
+OpenAI Realtime voices are **not language-locked** — the timbre comes from `voice`, the
+language/accent from the instructions. So a tenant has two knobs:
+- **`voice`** — the timbre (`alloy` default; `shimmer`/`coral`/`sage` are warm choices).
+  Pick whichever sounds best; any of them will speak Mandarin/Cantonese when steered.
+- **`language`** (default `"English"`) — the language the agent answers in. Set it to e.g.
+  `"Mandarin Chinese"` and the agent greets and converses natively, and only switches if
+  the **caller** clearly leads in another language (a Chinese restaurant takes both
+  Chinese- and English-speaking callers). Set the `disclosure` to a matching/bilingual
+  greeting (the compliance line is read verbatim, so localize it per tenant).
+
+See the `golden-dragon` entry in `tenants.example.json` for a ready Chinese-restaurant
+tenant (Mandarin, `shimmer` voice, reservation-style services, bilingual disclosure).
+Single-client deploys can do the same with env: `LANGUAGE="Mandarin Chinese"` +
+`OPENAI_VOICE=shimmer`.
 - **Routing path:** `/twiml` reads Twilio's `To` → resolves the tenant → embeds its id as
   a `<Stream><Parameter name="tenant">`; the Media Stream `start` event carries it back,
   so the `RealtimeSession` uses that business's pack + connector. A tenant with an empty
