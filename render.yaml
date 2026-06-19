@@ -1,6 +1,7 @@
 # Render Blueprint — MUST live at the repo ROOT (Render only auto-detects render.yaml
-# at the root). dockerfilePath and dockerContext are relative to the REPO ROOT, not to
-# rootDir, so the voice gateway under services/voice-gateway is referenced by full paths.
+# at the root). With rootDir set, dockerfilePath and dockerContext are resolved
+# RELATIVE TO rootDir (verified from a failed build: a repo-root path got doubled to
+# services/voice-gateway/services/voice-gateway). So they stay rootDir-relative below.
 # (The services/voice-gateway/render.yaml copy is kept for local reference only; THIS
 # root file is the one Render uses.)
 #
@@ -11,9 +12,9 @@ services:
   - type: web
     name: fina-calle-voice-gateway
     runtime: docker
-    rootDir: services/voice-gateway               # scopes which file changes trigger a build
-    dockerfilePath: services/voice-gateway/Dockerfile  # relative to repo root
-    dockerContext: services/voice-gateway              # relative to repo root (so COPY paths resolve)
+    rootDir: services/voice-gateway   # the service lives here; paths below are relative to it
+    dockerfilePath: ./Dockerfile      # relative to rootDir
+    dockerContext: .                  # relative to rootDir (so the Dockerfile COPY paths resolve)
     healthCheckPath: /healthz
     plan: starter # always-on (free tier sleeps; Twilio media streams need always-on)
     autoDeploy: true
