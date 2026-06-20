@@ -36,6 +36,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local traffic-counter file store (dev/test fallback)
+.data
+
 # vercel
 .vercel
 

@@ -1,5 +1,14 @@
 # Handoff
 
+## 2026-06-20 - PR #132 Traffic Counter Verification
+START: Codex opened an isolated worktree for PR #132 at `C:\Users\antho\OneDrive\Desktop\AMMA Fina Calle Traffic PR132`.
+STATE: Main repo checkout has unrelated dirty work; do not touch it. PR #132 is draft, clean against `main`, and Vercel preview is Ready.
+NEXT: Install locked dependencies in the isolated worktree, rerun `traffic:selftest`, build, and report only repo-side blockers.
+BLOCKED: Owner-side Vercel Drains plan check, production env vars, deployment, and drain creation still require Anthony/account access.
+OUT: `npm.cmd ci` completed; `npm.cmd run traffic:selftest` passed 21/21; targeted ESLint by direct file paths passed; `npm.cmd run build` passed on Next 16.2.7. Local HTTP harness partially verified 401 fail-closed, 200 ingest, and 200 protected report before a payload-format harness issue; no app code changed.
+PR NOTE: Posted verification summary to PR #132 at https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/132#issuecomment-4759960641.
+FOLLOW-UP: Anthony approved remaining go-live prep. Added `@vercel/analytics` and mounted `<Analytics />` in the root layout. Re-ran `traffic:selftest`, targeted ESLint, and `next build`; all passed. Vercel project is Pro and Drains API is reachable with no existing drain returned. Production still needs a durable separate `TRAFFIC_DATABASE_URL` before creating the drain.
+
 ## Project Purpose
 AMMA Ventures LLC DBA Fina Calle project workspace for reusable customer/business operations, website generation, and related app modules.
 
