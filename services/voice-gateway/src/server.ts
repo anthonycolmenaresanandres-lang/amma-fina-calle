@@ -96,11 +96,13 @@ wss.on("connection", (twilioWs: WebSocket) => {
   let counted = false; // whether this call is counted in activeCalls
   let ended = false; // run finalize/cleanup exactly once
   let maxCallTimer: ReturnType<typeof setTimeout> | null = null;
+  let wrapUpTimer: ReturnType<typeof setTimeout> | null = null;
 
   function endCall(): void {
     if (ended) return;
     ended = true;
     if (maxCallTimer) { clearTimeout(maxCallTimer); maxCallTimer = null; }
+    if (wrapUpTimer) { clearTimeout(wrapUpTimer); wrapUpTimer = null; }
     if (counted) { activeCalls = Math.max(0, activeCalls - 1); counted = false; }
     realtime?.close();
     if (call) void finalizeCall(call.callId);
@@ -123,6 +125,10 @@ wss.on("connection", (twilioWs: WebSocket) => {
             console.warn(`[voice-gateway] call ${call?.callId} hit max duration (${config.safety.maxCallSeconds}s) — ending.`);
             endCall();
           }, config.safety.maxCallSeconds * 1000);
+          // A bit before the hard cap, ask the bot to wrap up warmly so the caller gets a
+          // graceful goodbye instead of being cut off mid-sentence.
+          const wrapUpAt = config.safety.maxCallSeconds - config.safety.wrapUpBufferSeconds;
+          if (wrapUpAt > 0) wrapUpTimer = setTimeout(() => realtime?.promptWrapUp(), wrapUpAt * 1000);
         }
         realtime = new RealtimeSession(tenant, call.callId, {
           onAudio: (b64, itemId) => {
