@@ -14,8 +14,6 @@ import type { Tenant } from "./tenant";
 export interface RealtimeHooks {
   onAudio: (base64ulaw: string, itemId?: string) => void; // play to caller (itemId = assistant turn)
   onUserSpeechStarted: () => void; // for barge-in (clear queued audio)
-  onUserSpeechStopped?: () => void; // cancel pending barge-in if VAD decides it was short/noisy
-  onAssistantSpeechDone?: () => void; // assistant finished speaking; clear bridge-side barge-in state
   onClosed?: () => void; // OpenAI socket dropped unexpectedly (so the caller isn't left in dead air)
 }
 
@@ -70,7 +68,7 @@ export class RealtimeSession {
             noise_reduction: { type: "near_field" },
             // Phone calls include room noise, breaths, taps, and acoustic echo. Keep the assistant
             // interruptible, but require clearer speech and a slightly more deliberate pause.
-            turn_detection: { type: "server_vad", threshold: 0.65, prefix_padding_ms: 250, silence_duration_ms: 750 },
+            turn_detection: { type: "server_vad", threshold: 0.6, prefix_padding_ms: 300, silence_duration_ms: 700 },
           },
           output: {
             format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
@@ -129,14 +127,10 @@ export class RealtimeSession {
       }
       case "response.output_audio.done":
       case "response.done":
-        this.hooks.onAssistantSpeechDone?.();
         this.lastAssistantItem = null; // turn finished normally — nothing to truncate
         break;
       case "input_audio_buffer.speech_started":
         this.hooks.onUserSpeechStarted();
-        break;
-      case "input_audio_buffer.speech_stopped":
-        this.hooks.onUserSpeechStopped?.();
         break;
       case "response.function_call_arguments.done": {
         const name = String(evt.name ?? "");

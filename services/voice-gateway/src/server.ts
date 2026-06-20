@@ -26,7 +26,6 @@ function readBody(req: http.IncomingMessage): Promise<string> {
 // Live-call accounting for the safety gates (denial-of-wallet / abuse on a public line).
 let activeCalls = 0;
 const callerHistory = new Map<string, number[]>(); // from-number -> recent call timestamps (ms)
-const BARGE_IN_CONFIRM_MS = 120;
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -98,29 +97,10 @@ wss.on("connection", (twilioWs: WebSocket) => {
   let ended = false; // run finalize/cleanup exactly once
   let maxCallTimer: ReturnType<typeof setTimeout> | null = null;
   let wrapUpTimer: ReturnType<typeof setTimeout> | null = null;
-  let pendingBargeInTimer: ReturnType<typeof setTimeout> | null = null;
-
-  function cancelPendingBargeIn(): void {
-    if (pendingBargeInTimer) { clearTimeout(pendingBargeInTimer); pendingBargeInTimer = null; }
-  }
-
-  function confirmBargeIn(): void {
-    pendingBargeInTimer = null;
-    if (!realtime || !streamSid || responseStartTs === null) return;
-    realtime.truncate(latestMediaTs - responseStartTs);
-    twilioWs.send(clearFrame(streamSid));
-    responseStartTs = null; lastItem = undefined;
-  }
-
-  function scheduleBargeIn(): void {
-    if (pendingBargeInTimer || responseStartTs === null) return;
-    pendingBargeInTimer = setTimeout(confirmBargeIn, BARGE_IN_CONFIRM_MS);
-  }
 
   function endCall(): void {
     if (ended) return;
     ended = true;
-    cancelPendingBargeIn();
     if (maxCallTimer) { clearTimeout(maxCallTimer); maxCallTimer = null; }
     if (wrapUpTimer) { clearTimeout(wrapUpTimer); wrapUpTimer = null; }
     if (counted) { activeCalls = Math.max(0, activeCalls - 1); counted = false; }
@@ -158,13 +138,9 @@ wss.on("connection", (twilioWs: WebSocket) => {
             twilioWs.send(mediaFrame(streamSid, b64));
           },
           onUserSpeechStarted: () => {
-            // Confirm sustained caller audio before clipping the assistant. This keeps normal
-            // barge-in, but ignores taps, breaths, and brief room noise on phone lines.
-            scheduleBargeIn();
-          },
-          onUserSpeechStopped: () => { /* keep pending barge-in; short real interruptions still count */ },
-          onAssistantSpeechDone: () => {
-            cancelPendingBargeIn();
+            // Caller barged in: tell the model how much it actually got to say, then clear Twilio's buffer.
+            if (realtime && responseStartTs !== null) realtime.truncate(latestMediaTs - responseStartTs);
+            if (streamSid) twilioWs.send(clearFrame(streamSid));
             responseStartTs = null; lastItem = undefined;
           },
           onClosed: () => {
