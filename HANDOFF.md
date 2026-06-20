@@ -40,6 +40,8 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 
 - [2026-06-20 09:15:24] START: Voice gateway natural turn-taking pass; scope is Realtime/Twilio barge-in behavior only, after tester was switched to colattao-info. NEXT: add input noise reduction and confirmed-speech barge-in gating, then run service typecheck and open PR.
 - [2026-06-20 09:19:02] DONE: added Realtime near-field input noise reduction, stricter server_vad settings, assistant-speech-done bridge reset, and confirmed-sustained-audio barge-in gate. VERIFIED: services/voice-gateway npm run typecheck passed. NEXT: review PR and merge only on Anthony approval, then live-call test tester number.
+- [2026-06-20 09:26:47] START: Live call feedback says natural turn-taking went too far; assistant no longer stops promptly when caller interrupts. NEXT: keep noise reduction, relax VAD, remove RMS-based barge-in filter, and restore fast interruption.
+- [2026-06-20 09:27:37] DONE: restored faster interruption by reducing barge-in confirm delay to 120ms, removing RMS/local active-audio filter, keeping pending barge-in through short speech_stopped events, and relaxing VAD to threshold 0.65/silence 750ms while keeping near-field noise reduction. VERIFIED: services/voice-gateway npm run typecheck passed. NEXT: merge corrective PR only on Anthony approval, then live-call test tester number.
 
 - [2026-06-11 11:16:51] DONE: wired Lead Arcade Pitch email through existing Resend request env vars; added server helper, internal API route, client best-effort POST; verified tsc and changed-file eslint; draft PR #117 opened and Vercel passed
 

@@ -26,27 +26,7 @@ function readBody(req: http.IncomingMessage): Promise<string> {
 // Live-call accounting for the safety gates (denial-of-wallet / abuse on a public line).
 let activeCalls = 0;
 const callerHistory = new Map<string, number[]>(); // from-number -> recent call timestamps (ms)
-const BARGE_IN_CONFIRM_MS = 320;
-const BARGE_IN_LOOKBACK_MS = 420;
-const BARGE_IN_MIN_ACTIVE_MS = 160;
-const BARGE_IN_MIN_RMS = 800;
-
-function pcmuRms(base64ulaw: string): number {
-  const audio = Buffer.from(base64ulaw, "base64");
-  if (!audio.length) return 0;
-  let sumSquares = 0;
-  for (const byte of audio) {
-    const muLaw = ~byte & 0xff;
-    const sign = muLaw & 0x80;
-    const exponent = (muLaw >> 4) & 0x07;
-    const mantissa = muLaw & 0x0f;
-    let sample = ((mantissa << 3) + 0x84) << exponent;
-    sample -= 0x84;
-    if (sign) sample = -sample;
-    sumSquares += sample * sample;
-  }
-  return Math.sqrt(sumSquares / audio.length);
-}
+const BARGE_IN_CONFIRM_MS = 120;
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -119,30 +99,14 @@ wss.on("connection", (twilioWs: WebSocket) => {
   let maxCallTimer: ReturnType<typeof setTimeout> | null = null;
   let wrapUpTimer: ReturnType<typeof setTimeout> | null = null;
   let pendingBargeInTimer: ReturnType<typeof setTimeout> | null = null;
-  let lastInputTs: number | null = null;
-  const recentInputLevels: Array<{ at: number; durationMs: number; rms: number }> = [];
 
   function cancelPendingBargeIn(): void {
     if (pendingBargeInTimer) { clearTimeout(pendingBargeInTimer); pendingBargeInTimer = null; }
   }
 
-  function rememberInputLevel(payload: string, at: number, durationMs: number): void {
-    recentInputLevels.push({ at, durationMs, rms: pcmuRms(payload) });
-    const cutoff = at - BARGE_IN_LOOKBACK_MS;
-    while (recentInputLevels.length && recentInputLevels[0]!.at < cutoff) recentInputLevels.shift();
-  }
-
-  function recentActiveCallerMs(): number {
-    const cutoff = latestMediaTs - BARGE_IN_LOOKBACK_MS;
-    return recentInputLevels
-      .filter((level) => level.at >= cutoff && level.rms >= BARGE_IN_MIN_RMS)
-      .reduce((total, level) => total + level.durationMs, 0);
-  }
-
   function confirmBargeIn(): void {
     pendingBargeInTimer = null;
     if (!realtime || !streamSid || responseStartTs === null) return;
-    if (recentActiveCallerMs() < BARGE_IN_MIN_ACTIVE_MS) return;
     realtime.truncate(latestMediaTs - responseStartTs);
     twilioWs.send(clearFrame(streamSid));
     responseStartTs = null; lastItem = undefined;
@@ -198,9 +162,7 @@ wss.on("connection", (twilioWs: WebSocket) => {
             // barge-in, but ignores taps, breaths, and brief room noise on phone lines.
             scheduleBargeIn();
           },
-          onUserSpeechStopped: () => {
-            cancelPendingBargeIn();
-          },
+          onUserSpeechStopped: () => { /* keep pending barge-in; short real interruptions still count */ },
           onAssistantSpeechDone: () => {
             cancelPendingBargeIn();
             responseStartTs = null; lastItem = undefined;
@@ -214,15 +176,7 @@ wss.on("connection", (twilioWs: WebSocket) => {
         break;
       }
       case "media":
-        if (msg.media?.timestamp) {
-          const nextTs = Number(msg.media.timestamp);
-          if (Number.isFinite(nextTs)) {
-            const durationMs = lastInputTs === null ? 20 : Math.max(1, Math.min(60, nextTs - lastInputTs));
-            latestMediaTs = nextTs;
-            lastInputTs = nextTs;
-            if (msg.media?.payload) rememberInputLevel(msg.media.payload, nextTs, durationMs);
-          }
-        }
+        if (msg.media?.timestamp) latestMediaTs = Number(msg.media.timestamp);
         if (msg.media?.payload) realtime?.appendAudio(msg.media.payload);
         break;
       case "stop":
