@@ -31,6 +31,8 @@ services:
         sync: false # the onrender.com hostname (no scheme) — set after first deploy
       - key: OPENAI_API_KEY
         sync: false
+      - key: OPENAI_VOICE
+        sync: false # Realtime voice. Use a stable GA voice (marin or cedar); alloy drifts on long calls.
       - key: BOOKING_CONNECTOR
         value: proposeconfirm # universal fallback; per-tenant connectors come from TENANTS_FILE
       - key: TENANTS_FILE

@@ -61,9 +61,12 @@ wss.on("connection", (twilioWs: WebSocket) => {
   let call: CallRecord | null = null;
   let streamSid = "";
   let realtime: RealtimeSession | null = null;
+  let latestMediaTs = 0; // Twilio media clock (ms) — how much caller-side audio has elapsed
+  let responseStartTs: number | null = null; // media clock when the current assistant turn began
+  let lastItem: string | undefined; // current assistant turn id, mirrored from realtime
 
   twilioWs.on("message", (raw) => {
-    let msg: { event?: string; start?: { streamSid?: string; customParameters?: Record<string, string> }; media?: { payload?: string } };
+    let msg: { event?: string; start?: { streamSid?: string; customParameters?: Record<string, string> }; media?: { payload?: string; timestamp?: string } };
     try { msg = JSON.parse(raw.toString()); } catch { return; }
     switch (msg.event) {
       case "start": {
@@ -72,12 +75,23 @@ wss.on("connection", (twilioWs: WebSocket) => {
         const fromPhone = msg.start?.customParameters?.from || undefined;
         call = store.createCall(fromPhone, tenant.id);
         realtime = new RealtimeSession(tenant, call.callId, {
-          onAudio: (b64) => { if (streamSid) twilioWs.send(mediaFrame(streamSid, b64)); },
-          onUserSpeechStarted: () => { if (streamSid) twilioWs.send(clearFrame(streamSid)); },
+          onAudio: (b64, itemId) => {
+            if (!streamSid) return;
+            // New assistant turn → mark when it began on the caller's media clock.
+            if (itemId && itemId !== lastItem) { lastItem = itemId; responseStartTs = latestMediaTs; }
+            twilioWs.send(mediaFrame(streamSid, b64));
+          },
+          onUserSpeechStarted: () => {
+            // Caller barged in: tell the model how much it actually got to say, then clear Twilio's buffer.
+            if (realtime && responseStartTs !== null) realtime.truncate(latestMediaTs - responseStartTs);
+            if (streamSid) twilioWs.send(clearFrame(streamSid));
+            responseStartTs = null; lastItem = undefined;
+          },
         });
         break;
       }
       case "media":
+        if (msg.media?.timestamp) latestMediaTs = Number(msg.media.timestamp);
         if (msg.media?.payload) realtime?.appendAudio(msg.media.payload);
         break;
       case "stop":

@@ -12,7 +12,7 @@ import { runTool } from "./orchestrator";
 import type { Tenant } from "./tenant";
 
 export interface RealtimeHooks {
-  onAudio: (base64ulaw: string) => void; // play to caller
+  onAudio: (base64ulaw: string, itemId?: string) => void; // play to caller (itemId = assistant turn)
   onUserSpeechStarted: () => void; // for barge-in (clear queued audio)
 }
 
@@ -22,6 +22,8 @@ export class RealtimeSession {
   private callId: string;
   private hooks: RealtimeHooks;
   private ready = false;
+  private lastAssistantItem: string | null = null; // current assistant audio turn (for barge-in truncate)
+  private truncatedItemId: string | null = null; // suppress audio still in flight after a truncate
 
   constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
     this.tenant = tenant;
@@ -52,7 +54,9 @@ export class RealtimeSession {
         audio: {
           input: {
             format: { type: "audio/pcmu" }, // G.711 μ-law from Twilio
-            turn_detection: { type: "server_vad", silence_duration_ms: 500 },
+            // Tuned for noisy phone lines: a higher threshold + longer trailing silence than
+            // the defaults means fewer false barge-ins, which otherwise clip/stutter the reply.
+            turn_detection: { type: "server_vad", threshold: 0.6, prefix_padding_ms: 300, silence_duration_ms: 700 },
           },
           output: {
             format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
@@ -74,12 +78,34 @@ export class RealtimeSession {
     if (this.ready) this.send({ type: "input_audio_buffer.append", audio: base64ulaw });
   }
 
+  /** Barge-in: tell the model how much of its current turn the caller actually heard, so its
+   *  memory matches reality (prevents context desync that garbles later turns). audioEndMs
+   *  comes from the Twilio media clock; no-ops if the turn already finished. */
+  truncate(audioEndMs: number): void {
+    const item = this.lastAssistantItem;
+    if (!item) return;
+    this.send({ type: "conversation.item.truncate", item_id: item, content_index: 0, audio_end_ms: Math.max(0, Math.floor(audioEndMs)) });
+    this.truncatedItemId = item;
+    this.lastAssistantItem = null;
+  }
+
   private async onMessage(data: WebSocket.RawData): Promise<void> {
     let evt: { type?: string; [k: string]: unknown };
     try { evt = JSON.parse(data.toString()); } catch { return; }
     switch (evt.type) {
-      case "response.output_audio.delta":
-        if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta);
+      case "response.output_audio.delta": {
+        const itemId = typeof evt.item_id === "string" ? evt.item_id : "";
+        if (itemId && itemId === this.truncatedItemId) break; // drop audio still in flight after a barge-in
+        if (itemId && itemId !== this.lastAssistantItem) {
+          this.lastAssistantItem = itemId; // a new assistant turn has started
+          this.truncatedItemId = null;
+        }
+        if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta, this.lastAssistantItem ?? undefined);
+        break;
+      }
+      case "response.output_audio.done":
+      case "response.done":
+        this.lastAssistantItem = null; // turn finished normally — nothing to truncate
         break;
       case "input_audio_buffer.speech_started":
         this.hooks.onUserSpeechStarted();
