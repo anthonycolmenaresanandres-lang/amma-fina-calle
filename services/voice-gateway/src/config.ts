@@ -68,7 +68,8 @@ export const config = {
   // Safety / abuse limits for a public phone line (denial-of-wallet + graceful failure).
   safety: {
     linePaused: (process.env.LINE_PAUSED ?? "false").toLowerCase() === "true", // kill switch (set true + redeploy to pause)
-    maxCallSeconds: Number(process.env.MAX_CALL_SECONDS ?? 600), // hard cap per call (cost guard + curbs voice drift)
+    maxCallSeconds: Number(process.env.MAX_CALL_SECONDS ?? 300), // hard cap per call, 5 min (cost guard + curbs voice drift)
+    wrapUpBufferSeconds: Number(process.env.WRAP_UP_SECONDS ?? 30), // warn the bot to close warmly this many secs before the cap
     maxConcurrentCalls: Number(process.env.MAX_CONCURRENT_CALLS ?? 12), // reject new calls beyond this
     perCallerMaxPerHour: Number(process.env.PER_CALLER_MAX_PER_HOUR ?? 12), // simple anti-robodialer cap per number/hour
   },
@@ -90,9 +91,10 @@ export const config = {
     closeHour: Number(process.env.BUSINESS_CLOSE_HOUR ?? 18),
   },
 
-  // Compliance: spoken AI disclosure (two-party-consent safe; default on).
+  // Compliance: spoken AI disclosure (two-party-consent safe; default on). Warm + disarming
+  // on purpose — the first impression should put the caller at ease while still disclosing.
   disclosure: process.env.DISCLOSURE ??
-    "Hi! You've reached {business}. I'm an automated assistant and this call may be recorded. How can I help you today?",
+    "Hi there — thanks so much for calling {business}! I'm your friendly automated assistant, and just so you know, this call may be recorded. I'd love to help — what can I do for you today?",
 };
 
 export function requireOpenAI(): string {

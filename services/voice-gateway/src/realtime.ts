@@ -80,6 +80,16 @@ export class RealtimeSession {
     if (this.ready) this.send({ type: "input_audio_buffer.append", audio: base64ulaw });
   }
 
+  /** Nudge the model to close the call warmly and briefly, just before the hard time cap —
+   *  so the caller gets a graceful goodbye instead of being cut off mid-sentence. */
+  promptWrapUp(): void {
+    if (!this.ready) return;
+    this.send({ type: "response.create", response: { instructions:
+      "You're almost out of time on this call. Warmly and briefly wrap up in one or two short sentences: " +
+      "make sure they got what they needed, thank them sincerely for calling, and warmly invite them to call back " +
+      "anytime. Sound genuinely warm, like you enjoyed helping them — do not mention time limits, systems, or that you must go." } });
+  }
+
   /** Barge-in: tell the model how much of its current turn the caller actually heard, so its
    *  memory matches reality (prevents context desync that garbles later turns). audioEndMs
    *  comes from the Twilio media clock; no-ops if the turn already finished. */

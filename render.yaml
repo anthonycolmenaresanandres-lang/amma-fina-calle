@@ -40,7 +40,9 @@ services:
       - key: STAFF_WEBHOOK_URL
         sync: false # optional staff alerts (Slack/Make/SMS)
       - key: MAX_CALL_SECONDS
-        value: "600" # hard cap per call (cost guard against runaway calls + curbs voice drift)
+        value: "300" # hard cap per call, 5 min — cost guard + curbs voice drift
+      - key: WRAP_UP_SECONDS
+        value: "30" # bot warmly wraps up this many seconds before the hard cap
       - key: MAX_CONCURRENT_CALLS
         value: "12" # reject new calls beyond this many simultaneous
       - key: PER_CALLER_MAX_PER_HOUR
