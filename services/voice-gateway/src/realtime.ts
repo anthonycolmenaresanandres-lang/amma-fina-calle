@@ -47,11 +47,20 @@ export class RealtimeSession {
 
   private onOpen(): void {
     const b = this.tenant.business;
+    // A tenant may fully override the instructions (e.g. an info/Q&A line) and ship its own
+    // knowledge pack; otherwise use the default booking-receptionist script. A tenant may also
+    // restrict which tools are advertised (e.g. an info line that can only take_message).
+    const instructions = this.tenant.instructions
+      ? [this.tenant.instructions, this.tenant.knowledge].filter(Boolean).join("\n\n")
+      : systemInstructions(b.name, b.kind, b.hours, this.tenant.language);
+    const advertisedTools = this.tenant.tools?.length
+      ? tools.filter((t) => this.tenant.tools!.includes(t.name))
+      : tools;
     this.send({
       type: "session.update",
       session: {
         type: "realtime",
-        instructions: systemInstructions(b.name, b.kind, b.hours, this.tenant.language),
+        instructions,
         output_modalities: ["audio"],
         audio: {
           input: {
@@ -65,7 +74,7 @@ export class RealtimeSession {
             voice: this.tenant.voice,
           },
         },
-        tools,
+        tools: advertisedTools,
         tool_choice: "auto",
       },
     });

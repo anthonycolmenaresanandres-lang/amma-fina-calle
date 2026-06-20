@@ -36,7 +36,7 @@ services:
       - key: BOOKING_CONNECTOR
         value: proposeconfirm # universal fallback; per-tenant connectors come from TENANTS_FILE
       - key: TENANTS_FILE
-        sync: false # optional path to a tenants.json (leave blank for single-business)
+        value: /app/tenants.json # baked into the image (Dockerfile COPY) — Colattao info line + Fina Calle catch-all
       - key: STAFF_WEBHOOK_URL
         sync: false # optional staff alerts (Slack/Make/SMS)
       - key: MAX_CALL_SECONDS

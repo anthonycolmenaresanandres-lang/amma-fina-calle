@@ -11,8 +11,8 @@ RUN npm ci
 # App source
 COPY tsconfig.json ./
 COPY src ./src
-# Optional: bake a tenants file into the image, or mount/Set TENANTS_FILE at runtime.
-# COPY tenants.json ./tenants.json
+# Tenant registry (Colattao info line + Fina Calle catch-all); TENANTS_FILE points here.
+COPY tenants.json ./tenants.json
 
 ENV NODE_ENV=production
 ENV PORT=8080
