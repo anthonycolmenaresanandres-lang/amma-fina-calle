@@ -24,6 +24,16 @@ export function connectStreamTwiML(tenantId: string, fromNumber = ""): string {
 </Response>`;
 }
 
+/** A minimal spoken response that hangs up — used for the busy/paused/abuse gates and the
+ *  Twilio fallback URL, so callers hear a short message instead of dead air. */
+export function sayHangupTwiML(message: string): string {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say>${xmlEscape(message)}</Say>
+  <Hangup/>
+</Response>`;
+}
+
 export function mediaFrame(streamSid: string, payloadBase64Ulaw: string): string {
   return JSON.stringify({ event: "media", streamSid, media: { payload: payloadBase64Ulaw } });
 }
