@@ -25,6 +25,9 @@ export interface Tenant {
   disclosure: string;
   voice: string;
   language: string; // spoken language the agent answers in (e.g. "English", "Mandarin Chinese")
+  instructions?: string; // full system-instruction override (e.g. an info/Q&A line instead of the booking flow)
+  knowledge?: string; // knowledge pack appended to the override instructions (the facts the bot may use)
+  tools?: string[]; // allow-list of tool names to advertise (default: all tools)
 }
 
 /** Phone numbers compared as digits only (so "+1 (555) 000-1111" === "15550001111"). */
@@ -61,6 +64,9 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
     disclosure: t.disclosure ?? def.disclosure,
     voice: t.voice ?? def.voice,
     language: t.language ?? def.language,
+    instructions: t.instructions ?? def.instructions,
+    knowledge: t.knowledge ?? def.knowledge,
+    tools: t.tools ?? def.tools,
   };
 }
 
