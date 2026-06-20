@@ -70,7 +70,7 @@ export class RealtimeSession {
             noise_reduction: { type: "near_field" },
             // Phone calls include room noise, breaths, taps, and acoustic echo. Keep the assistant
             // interruptible, but require clearer speech and a slightly more deliberate pause.
-            turn_detection: { type: "server_vad", threshold: 0.75, prefix_padding_ms: 250, silence_duration_ms: 850 },
+            turn_detection: { type: "server_vad", threshold: 0.65, prefix_padding_ms: 250, silence_duration_ms: 750 },
           },
           output: {
             format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
