@@ -65,6 +65,14 @@ export const config = {
     staffWebhookUrl: process.env.STAFF_WEBHOOK_URL ?? "", // Slack/Make/SMS-bridge incoming webhook
   },
 
+  // Safety / abuse limits for a public phone line (denial-of-wallet + graceful failure).
+  safety: {
+    linePaused: (process.env.LINE_PAUSED ?? "false").toLowerCase() === "true", // kill switch (set true + redeploy to pause)
+    maxCallSeconds: Number(process.env.MAX_CALL_SECONDS ?? 600), // hard cap per call (cost guard + curbs voice drift)
+    maxConcurrentCalls: Number(process.env.MAX_CONCURRENT_CALLS ?? 12), // reject new calls beyond this
+    perCallerMaxPerHour: Number(process.env.PER_CALLER_MAX_PER_HOUR ?? 12), // simple anti-robodialer cap per number/hour
+  },
+
   // Per-client Knowledge Pack (v0 keeps it inline; later loaded per phone number).
   business: {
     name: process.env.BUSINESS_NAME ?? "Demo Pet Spa",

@@ -14,6 +14,7 @@ import type { Tenant } from "./tenant";
 export interface RealtimeHooks {
   onAudio: (base64ulaw: string, itemId?: string) => void; // play to caller (itemId = assistant turn)
   onUserSpeechStarted: () => void; // for barge-in (clear queued audio)
+  onClosed?: () => void; // OpenAI socket dropped unexpectedly (so the caller isn't left in dead air)
 }
 
 export class RealtimeSession {
@@ -24,6 +25,7 @@ export class RealtimeSession {
   private ready = false;
   private lastAssistantItem: string | null = null; // current assistant audio turn (for barge-in truncate)
   private truncatedItemId: string | null = null; // suppress audio still in flight after a truncate
+  private closedByUs = false; // tell an intentional close() apart from an unexpected drop
 
   constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
     this.tenant = tenant;
@@ -36,7 +38,7 @@ export class RealtimeSession {
     this.ws.on("open", () => this.onOpen());
     this.ws.on("message", (d) => this.onMessage(d));
     this.ws.on("error", (e) => console.error("[realtime] error", e));
-    this.ws.on("close", () => { this.ready = false; });
+    this.ws.on("close", () => { this.ready = false; if (!this.closedByUs) this.hooks.onClosed?.(); });
   }
 
   private send(obj: unknown): void {
@@ -128,5 +130,5 @@ export class RealtimeSession {
     }
   }
 
-  close(): void { try { this.ws.close(); } catch { /* ignore */ } }
+  close(): void { this.closedByUs = true; try { this.ws.close(); } catch { /* ignore */ } }
 }

@@ -39,3 +39,11 @@ services:
         sync: false # optional path to a tenants.json (leave blank for single-business)
       - key: STAFF_WEBHOOK_URL
         sync: false # optional staff alerts (Slack/Make/SMS)
+      - key: MAX_CALL_SECONDS
+        value: "600" # hard cap per call (cost guard against runaway calls + curbs voice drift)
+      - key: MAX_CONCURRENT_CALLS
+        value: "12" # reject new calls beyond this many simultaneous
+      - key: PER_CALLER_MAX_PER_HOUR
+        value: "12" # simple anti-robodialer cap per caller number
+      - key: LINE_PAUSED
+        value: "false" # kill switch — set "true" + redeploy to pause the line
