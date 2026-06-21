@@ -65,9 +65,8 @@ export class RealtimeSession {
         audio: {
           input: {
             format: { type: "audio/pcmu" }, // G.711 μ-law from Twilio
-            noise_reduction: { type: "near_field" },
-            // Phone calls include room noise, breaths, taps, and acoustic echo. Keep the assistant
-            // interruptible, but require clearer speech and a slightly more deliberate pause.
+            // Tuned for noisy phone lines: a higher threshold + longer trailing silence than
+            // the defaults means fewer false barge-ins, which otherwise clip/stutter the reply.
             turn_detection: { type: "server_vad", threshold: 0.6, prefix_padding_ms: 300, silence_duration_ms: 700 },
           },
           output: {
