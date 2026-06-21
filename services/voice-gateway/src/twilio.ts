@@ -21,6 +21,8 @@ export function connectStreamTwiML(tenantId: string, fromNumber = ""): string {
       <Parameter name="tenant" value="${xmlEscape(tenantId)}" />${fromParam}
     </Stream>
   </Connect>
+  <Say>Sorry, our assistant is unavailable right now. Please call back shortly.</Say>
+  <Hangup/>
 </Response>`;
 }
 
