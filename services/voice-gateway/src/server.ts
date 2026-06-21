@@ -5,10 +5,10 @@
 // Pack + connector. Run on an always-on host (Render/Fly/Railway/VM), NOT serverless.
 
 import http from "node:http";
-import OpenAIWebSocket, { WebSocketServer, type WebSocket } from "ws";
+import OpenAIWebSocket, { WebSocketServer, type RawData, type WebSocket } from "ws";
 import { config } from "./config";
 import { connectStreamTwiML, mediaFrame, clearFrame, sayHangupTwiML } from "./twilio";
-import { RealtimeSession } from "./realtime";
+import { RealtimeSession, buildGreetingResponse, buildRealtimeSessionUpdate } from "./realtime";
 import { store } from "./store";
 import { finalizeCall } from "./orchestrator";
 import { getTenantById, getTenantByNumber, allTenants } from "./tenant";
@@ -35,6 +35,55 @@ function probeRealtime(): Promise<Record<string, unknown>> {
     };
     const timer = setTimeout(() => done({ ok: false, stage: "timeout" }), 5000);
     ws.on("open", () => done({ ok: true, stage: "open" }));
+    ws.on("unexpected-response", (_req, res) => done({ ok: false, stage: "unexpected-response", statusCode: res.statusCode, statusMessage: res.statusMessage }));
+    ws.on("error", (err) => done({ ok: false, stage: "error", message: err.message }));
+    ws.on("close", (code, reason) => done({ ok: false, stage: "close", code, reason: reason.toString() }));
+  });
+}
+
+function summarizeRealtimeEvent(data: RawData): Record<string, unknown> {
+  let evt: { type?: string; error?: { type?: string; code?: string; message?: string; param?: string } };
+  try { evt = JSON.parse(data.toString()); } catch { return { type: "unparseable" }; }
+  const summary: Record<string, unknown> = { type: evt.type ?? "unknown" };
+  if (evt.error) {
+    summary.error = {
+      type: evt.error.type,
+      code: evt.error.code,
+      message: evt.error.message,
+      param: evt.error.param,
+    };
+  }
+  return summary;
+}
+
+function probeRealtimeSession(tenantId: string): Promise<Record<string, unknown>> {
+  if (!config.openaiApiKey) return Promise.resolve({ ok: false, stage: "config", error: "OPENAI_API_KEY not configured" });
+  const tenant = getTenantById(tenantId);
+  if (!tenant) return Promise.resolve({ ok: false, stage: "tenant", error: "Tenant not found" });
+
+  return new Promise((resolve) => {
+    const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(config.realtimeModel)}`;
+    const ws = new OpenAIWebSocket(url, { headers: { Authorization: `Bearer ${config.openaiApiKey}` } });
+    const events: Record<string, unknown>[] = [];
+    const done = (result: Record<string, unknown>) => {
+      clearTimeout(timer);
+      try { ws.close(); } catch { /* ignore */ }
+      resolve({ model: config.realtimeModel, tenant: tenant.id, events, ...result });
+    };
+    const timer = setTimeout(() => done({ ok: false, stage: "timeout" }), 10000);
+
+    ws.on("open", () => {
+      ws.send(JSON.stringify(buildRealtimeSessionUpdate(tenant)));
+      ws.send(JSON.stringify(buildGreetingResponse(tenant)));
+    });
+    ws.on("message", (data) => {
+      const event = summarizeRealtimeEvent(data);
+      events.push(event);
+      if (events.length > 12) events.shift();
+      if (event.type === "error") done({ ok: false, stage: "realtime-error" });
+      if (event.type === "response.output_audio.delta") done({ ok: true, stage: "audio-started" });
+      if (event.type === "response.done") done({ ok: true, stage: "response-done" });
+    });
     ws.on("unexpected-response", (_req, res) => done({ ok: false, stage: "unexpected-response", statusCode: res.statusCode, statusMessage: res.statusMessage }));
     ws.on("error", (err) => done({ ok: false, stage: "error", message: err.message }));
     ws.on("close", (code, reason) => done({ ok: false, stage: "close", code, reason: reason.toString() }));
@@ -69,6 +118,11 @@ const server = http.createServer(async (req, res) => {
   }
   if (url.pathname === "/runtime/realtime-probe") {
     const result = await probeRealtime();
+    res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(result, null, 2));
+    return;
+  }
+  if (url.pathname === "/runtime/session-probe") {
+    const result = await probeRealtimeSession(url.searchParams.get("tenant") ?? "colattao-info");
     res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(result, null, 2));
     return;
   }

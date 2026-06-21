@@ -17,6 +17,46 @@ export interface RealtimeHooks {
   onClosed?: () => void; // OpenAI socket dropped unexpectedly (so the caller isn't left in dead air)
 }
 
+export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unknown> {
+  const b = tenant.business;
+  // A tenant may fully override the instructions (e.g. an info/Q&A line) and ship its own
+  // knowledge pack; otherwise use the default booking-receptionist script. A tenant may also
+  // restrict which tools are advertised (e.g. an info line that can only take_message).
+  const instructions = tenant.instructions
+    ? [tenant.instructions, tenant.knowledge].filter(Boolean).join("\n\n")
+    : systemInstructions(b.name, b.kind, b.hours, tenant.language);
+  const advertisedTools = tenant.tools?.length
+    ? tools.filter((t) => tenant.tools!.includes(t.name))
+    : tools;
+  return {
+    type: "session.update",
+    session: {
+      type: "realtime",
+      instructions,
+      output_modalities: ["audio"],
+      audio: {
+        input: {
+          format: { type: "audio/pcmu" }, // G.711 μ-law from Twilio
+          // Tuned for noisy phone lines: a higher threshold + longer trailing silence than
+          // the defaults means fewer false barge-ins, which otherwise clip/stutter the reply.
+          turn_detection: { type: "server_vad", threshold: 0.6, prefix_padding_ms: 300, silence_duration_ms: 700 },
+        },
+        output: {
+          format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
+          voice: tenant.voice,
+        },
+      },
+      tools: advertisedTools,
+      tool_choice: "auto",
+    },
+  };
+}
+
+export function buildGreetingResponse(tenant: Tenant): Record<string, unknown> {
+  const disclosure = tenant.disclosure.replace("{business}", tenant.business.name);
+  return { type: "response.create", response: { instructions: `Say exactly, warmly: "${disclosure}"` } };
+}
+
 export class RealtimeSession {
   private ws: WebSocket;
   private tenant: Tenant;
@@ -46,42 +86,10 @@ export class RealtimeSession {
   }
 
   private onOpen(): void {
-    const b = this.tenant.business;
-    // A tenant may fully override the instructions (e.g. an info/Q&A line) and ship its own
-    // knowledge pack; otherwise use the default booking-receptionist script. A tenant may also
-    // restrict which tools are advertised (e.g. an info line that can only take_message).
-    const instructions = this.tenant.instructions
-      ? [this.tenant.instructions, this.tenant.knowledge].filter(Boolean).join("\n\n")
-      : systemInstructions(b.name, b.kind, b.hours, this.tenant.language);
-    const advertisedTools = this.tenant.tools?.length
-      ? tools.filter((t) => this.tenant.tools!.includes(t.name))
-      : tools;
-    this.send({
-      type: "session.update",
-      session: {
-        type: "realtime",
-        instructions,
-        output_modalities: ["audio"],
-        audio: {
-          input: {
-            format: { type: "audio/pcmu" }, // G.711 μ-law from Twilio
-            // Tuned for noisy phone lines: a higher threshold + longer trailing silence than
-            // the defaults means fewer false barge-ins, which otherwise clip/stutter the reply.
-            turn_detection: { type: "server_vad", threshold: 0.6, prefix_padding_ms: 300, silence_duration_ms: 700 },
-          },
-          output: {
-            format: { type: "audio/pcmu" }, // G.711 μ-law back to Twilio
-            voice: this.tenant.voice,
-          },
-        },
-        tools: advertisedTools,
-        tool_choice: "auto",
-      },
-    });
+    this.send(buildRealtimeSessionUpdate(this.tenant));
     this.ready = true;
     // Greet + AI disclosure as the first turn.
-    const disclosure = this.tenant.disclosure.replace("{business}", b.name);
-    this.send({ type: "response.create", response: { instructions: `Say exactly, warmly: "${disclosure}"` } });
+    this.send(buildGreetingResponse(this.tenant));
   }
 
   /** Append caller audio (base64 μ-law). */
