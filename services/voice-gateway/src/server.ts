@@ -5,7 +5,7 @@
 // Pack + connector. Run on an always-on host (Render/Fly/Railway/VM), NOT serverless.
 
 import http from "node:http";
-import { WebSocketServer, type WebSocket } from "ws";
+import OpenAIWebSocket, { WebSocketServer, type WebSocket } from "ws";
 import { config } from "./config";
 import { connectStreamTwiML, mediaFrame, clearFrame, sayHangupTwiML } from "./twilio";
 import { RealtimeSession } from "./realtime";
@@ -20,6 +20,24 @@ function readBody(req: http.IncomingMessage): Promise<string> {
     req.on("data", (c) => (body += c));
     req.on("end", () => resolve(body));
     req.on("error", () => resolve(""));
+  });
+}
+
+function probeRealtime(): Promise<Record<string, unknown>> {
+  if (!config.openaiApiKey) return Promise.resolve({ ok: false, stage: "config", error: "OPENAI_API_KEY not configured" });
+  return new Promise((resolve) => {
+    const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(config.realtimeModel)}`;
+    const ws = new OpenAIWebSocket(url, { headers: { Authorization: `Bearer ${config.openaiApiKey}` } });
+    const done = (result: Record<string, unknown>) => {
+      clearTimeout(timer);
+      try { ws.close(); } catch { /* ignore */ }
+      resolve({ model: config.realtimeModel, ...result });
+    };
+    const timer = setTimeout(() => done({ ok: false, stage: "timeout" }), 5000);
+    ws.on("open", () => done({ ok: true, stage: "open" }));
+    ws.on("unexpected-response", (_req, res) => done({ ok: false, stage: "unexpected-response", statusCode: res.statusCode, statusMessage: res.statusMessage }));
+    ws.on("error", (err) => done({ ok: false, stage: "error", message: err.message }));
+    ws.on("close", (code, reason) => done({ ok: false, stage: "close", code, reason: reason.toString() }));
   });
 }
 
@@ -47,6 +65,11 @@ const server = http.createServer(async (req, res) => {
       maxConcurrentCalls: config.safety.maxConcurrentCalls,
       maxCallSeconds: config.safety.maxCallSeconds,
     }, null, 2));
+    return;
+  }
+  if (url.pathname === "/runtime/realtime-probe") {
+    const result = await probeRealtime();
+    res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify(result, null, 2));
     return;
   }
   if (url.pathname === "/tenants") {
