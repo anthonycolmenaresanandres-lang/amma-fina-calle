@@ -36,6 +36,19 @@ const server = http.createServer(async (req, res) => {
       .end(JSON.stringify({ tenant: tenantId ?? "all", ...store.stats(tenantId) }, null, 2));
     return;
   }
+  if (url.pathname === "/runtime") {
+    res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({
+      publicHost: config.publicHost,
+      openaiApiKeyConfigured: Boolean(config.openaiApiKey),
+      realtimeModel: config.realtimeModel,
+      tenantsFileConfigured: Boolean(process.env.TENANTS_FILE),
+      tenantCount: allTenants().length,
+      linePaused: config.safety.linePaused,
+      maxConcurrentCalls: config.safety.maxConcurrentCalls,
+      maxCallSeconds: config.safety.maxCallSeconds,
+    }, null, 2));
+    return;
+  }
   if (url.pathname === "/tenants") {
     // Ops view — who's wired up, on which numbers, with which connector. No secrets.
     const list = allTenants().map((t) => ({
@@ -130,7 +143,8 @@ wss.on("connection", (twilioWs: WebSocket) => {
           const wrapUpAt = config.safety.maxCallSeconds - config.safety.wrapUpBufferSeconds;
           if (wrapUpAt > 0) wrapUpTimer = setTimeout(() => realtime?.promptWrapUp(), wrapUpAt * 1000);
         }
-        realtime = new RealtimeSession(tenant, call.callId, {
+        try {
+          realtime = new RealtimeSession(tenant, call.callId, {
           onAudio: (b64, itemId) => {
             if (!streamSid) return;
             // New assistant turn → mark when it began on the caller's media clock.
@@ -148,7 +162,11 @@ wss.on("connection", (twilioWs: WebSocket) => {
             // than leaving the caller in dead air.
             if (!ended) { console.warn(`[voice-gateway] realtime closed mid-call ${call?.callId} — ending gracefully.`); endCall(); }
           },
-        });
+          });
+        } catch (e) {
+          console.error(`[voice-gateway] realtime startup failed for call ${call.callId}:`, e);
+          endCall();
+        }
         break;
       }
       case "media":
