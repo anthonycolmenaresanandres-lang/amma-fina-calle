@@ -49,16 +49,18 @@ function parse(text: string, items: Item[]): Result {
   return { kind: "review", reason: "I’ll pass this to the Fina Calle team — they’ll handle it and follow up." };
 }
 
-const CHIPS = ["86 the Flan Latte", "change Mocha to $8", "bring back Cortado"];
+const DEFAULT_CHIPS = ["86 the Flan Latte", "change Mocha to $8", "bring back Cortado"];
 
 export default function AskBar({
   items,
   demo = false,
   restaurantId,
+  suggestedPrompts,
 }: {
   items: Item[];
   demo?: boolean;
   restaurantId?: string;
+  suggestedPrompts?: string[];
 }) {
   const router = useRouter();
   const [text, setText] = useState("");
@@ -68,6 +70,7 @@ export default function AskBar({
   const [pending, startTransition] = useTransition();
 
   const interactive = demo || Boolean(restaurantId);
+  const chips = suggestedPrompts?.length ? suggestedPrompts : DEFAULT_CHIPS;
 
   function analyze(value: string) {
     if (!value.trim()) return;
@@ -168,7 +171,7 @@ export default function AskBar({
 
       {!result && !done ? (
         <div className="mt-3 flex flex-wrap gap-2">
-          {CHIPS.map((c) =>
+          {chips.map((c) =>
             interactive ? (
               <button
                 key={c}

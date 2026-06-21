@@ -23,7 +23,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-10 text-[#f4f6f7] sm:px-8">
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_18%_80%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="relative mx-auto flex min-h-[60dvh] w-full max-w-4xl flex-col justify-center">
+      <div className="relative mx-auto flex min-h-[60dvh] w-full max-w-7xl flex-col justify-center">
         {children}
       </div>
     </main>
