@@ -24,13 +24,19 @@ function parseOpenDays(raw: string): number[] {
   return uniq.length ? uniq : [2, 3, 4, 5, 6];
 }
 
+function realtimeModel(): string {
+  const model = process.env.OPENAI_REALTIME_MODEL?.trim();
+  if (!model || model === "gpt-realtime") return "gpt-realtime-2";
+  return model;
+}
+
 /** Central config. Everything sensitive comes from env; nothing is committed. */
 export const config = {
   port: Number(process.env.PORT ?? 8080),
   publicHost: process.env.PUBLIC_HOST ?? "", // e.g. voice.finacalleos.com (for the wss Stream URL)
 
   openaiApiKey: process.env.OPENAI_API_KEY ?? "",
-  realtimeModel: process.env.OPENAI_REALTIME_MODEL ?? "gpt-realtime",
+  realtimeModel: realtimeModel(),
   voice: process.env.OPENAI_VOICE ?? "alloy",
   // Spoken language the agent answers in. OpenAI Realtime voices are not language-locked —
   // the timbre comes from `voice`, the language/accent from instructions — so we steer it
