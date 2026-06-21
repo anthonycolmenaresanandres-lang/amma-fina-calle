@@ -48,6 +48,7 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 ## Log
 
 - [2026-06-21] START: Live voice gateway call failure; caller reports tester rings then hangs up. Verified `/runtime` has OpenAI key configured and model `gpt-realtime-2`, and `/runtime/realtime-probe` opens successfully. NEXT: add non-secret session-level Realtime probe to detect whether production session payload or greeting response is rejected.
+- [2026-06-21] DONE: PR #141 opened with `/runtime/session-probe`; local `tenants.json` parse and `npm run typecheck` passed. Live `/twiml` routes tester to `colattao-info`; synthetic `/media` start still closes immediately with no audio. BLOCKED: needs Anthony approval to merge diagnostic PR into production before live session-probe can identify the exact Realtime error.
 
 - [2026-06-20 09:15:24] START: Voice gateway natural turn-taking pass; scope is Realtime/Twilio barge-in behavior only, after tester was switched to colattao-info. NEXT: add input noise reduction and confirmed-speech barge-in gating, then run service typecheck and open PR.
 - [2026-06-20 09:19:02] DONE: added Realtime near-field input noise reduction, stricter server_vad settings, assistant-speech-done bridge reset, and confirmed-sustained-audio barge-in gate. VERIFIED: services/voice-gateway npm run typecheck passed. NEXT: review PR and merge only on Anthony approval, then live-call test tester number.
