@@ -57,31 +57,129 @@ export type DashboardData = {
   audit: AuditEntry[];
 };
 
-// --- Coming up (the proactive Seasonal Autopilot) ----------------------------
+function uniquePrompts(prompts: string[]): string[] {
+  return Array.from(new Set(prompts.filter(Boolean))).slice(0, 4);
+}
 
-function ComingUp() {
+function getSuggestedPrompts(items: Array<MenuItem & { category: string }>): string[] {
+  const available = items.find((item) => item.is_available);
+  const unavailable = items.find((item) => !item.is_available);
+  const priced = items.find((item) => Number.isFinite(Number(item.price)) && Number(item.price) > 0);
+
+  return uniquePrompts([
+    available ? `86 ${available.name}` : "",
+    unavailable ? `bring back ${unavailable.name}` : "",
+    priced ? `change ${priced.name} to $8` : "",
+    "feature iced drinks this weekend",
+  ]);
+}
+
+function StatCard({
+  label,
+  value,
+  detail,
+  tone = "neutral",
+}: {
+  label: string;
+  value: string;
+  detail: string;
+  tone?: "neutral" | "gold" | "success" | "danger";
+}) {
+  const tones: Record<NonNullable<typeof tone>, string> = {
+    neutral: "border-white/[0.08] bg-white/[0.025]",
+    gold: "border-[#d8b36d]/22 bg-[#d8b36d]/8",
+    success: "border-[#7fd1a2]/24 bg-[#7fd1a2]/8",
+    danger: "border-[#ff7a66]/24 bg-[#8f3e2e]/12",
+  };
+
+  return (
+    <div className={cn("rounded-2xl border p-4", tones[tone])}>
+      <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#7f8a91]">
+        {label}
+      </p>
+      <p className="mt-2 text-2xl font-semibold text-[#f4f6f7]">{value}</p>
+      <p className="mt-1 text-xs leading-5 text-[#aeb7bd]">{detail}</p>
+    </div>
+  );
+}
+
+function CommandOverview({
+  restaurantId,
+  siteUrl,
+  totalItems,
+  liveItems,
+  missingPhotos,
+  unavailableItems,
+  livePromos,
+}: {
+  restaurantId: string;
+  siteUrl: string | null;
+  totalItems: number;
+  liveItems: number;
+  missingPhotos: number;
+  unavailableItems: number;
+  livePromos: number;
+}) {
+  return (
+    <Card>
+      <SectionHeading hint="live controls">Command status</SectionHeading>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <StatCard
+          label="Menu"
+          value={`${liveItems}/${totalItems}`}
+          detail="items currently visible to customers"
+          tone="success"
+        />
+        <StatCard
+          label="Photos"
+          value={String(missingPhotos)}
+          detail="items still missing customer-facing photos"
+          tone={missingPhotos > 0 ? "gold" : "success"}
+        />
+        <StatCard
+          label="86 list"
+          value={String(unavailableItems)}
+          detail="items hidden until brought back"
+          tone={unavailableItems > 0 ? "danger" : "neutral"}
+        />
+        <StatCard
+          label="Campaigns"
+          value={String(livePromos)}
+          detail="promos currently marked live"
+          tone={livePromos > 0 ? "gold" : "neutral"}
+        />
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <ButtonLink href={`/m/${restaurantId}`} variant="primary">
+          View live menu
+        </ButtonLink>
+        {siteUrl ? (
+          <ButtonLink href={siteUrl} variant="ghost">
+            Open public site
+          </ButtonLink>
+        ) : null}
+      </div>
+    </Card>
+  );
+}
+
+function SeasonalOpportunity({ prompt }: { prompt: string }) {
   return (
     <Card className="relative overflow-hidden border-[#7fd1a2]/20">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_88%_-30%,rgba(127,209,162,0.14),transparent_46%)]" />
       <div className="flex items-start justify-between gap-3">
         <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#9fe5bd]">
-          ✦ Coming up · Summer
+          Coming up - Summer
         </p>
         <StatusPill tone="gold">From Fina Calle</StatusPill>
       </div>
       <h2 className="mt-2 text-xl font-semibold text-[#f4f6f7]">Summer is here</h2>
       <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        Want me to feature your iced lineup, add a <span className="text-[#eef2f4]">Cold Brew 2×1
-        (weekdays)</span>, and refresh your cover photo? Approve once — I’ll handle the timing and
-        switch it back at the end of the season.
+        The fastest move is to push colder drinks and lighter food first. Use the Request Desk
+        above with a direct ask like <span className="text-[#eef2f4]">{prompt}</span>.
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button variant="primary">Approve all</Button>
-        <Button variant="ghost">Edit</Button>
-        <Button variant="subtle">Not now</Button>
-      </div>
       <p className="mt-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#7f8a91]">
-        Ready to publish · auto-reverts at season end
+        Owner confirms before anything goes live
       </p>
     </Card>
   );
@@ -286,9 +384,15 @@ export default function OwnerDashboard({
   const featured = [...allItems]
     .sort((a, b) => Number(b.is_available) - Number(a.is_available))
     .slice(0, 3);
+  const liveItems = allItems.filter((item) => item.is_available).length;
+  const unavailableItems = allItems.length - liveItems;
+  const missingPhotos = allItems.filter((item) => !item.photo_url).length;
+  const livePromos = data.promos.filter((promo) => promo.is_active).length;
+  const suggestedPrompts = getSuggestedPrompts(allItems);
+  const seasonalPrompt = suggestedPrompts[suggestedPrompts.length - 1] ?? "feature iced drinks this weekend";
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-5">
+    <div className="mx-auto w-full max-w-6xl space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center justify-between gap-4 px-1">
         <div className="flex flex-col gap-1.5">
@@ -326,16 +430,31 @@ export default function OwnerDashboard({
         </div>
       </header>
 
-      <AskBar
-        restaurantId={data.restaurantId}
-        items={allItems.map((it) => ({
-          name: it.name,
-          price: it.price,
-          is_available: it.is_available,
-        }))}
-        demo={readOnly}
-      />
-      <ComingUp />
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <aside className="space-y-5 lg:sticky lg:top-6">
+          <CommandOverview
+            restaurantId={data.restaurantId}
+            siteUrl={data.siteUrl}
+            totalItems={allItems.length}
+            liveItems={liveItems}
+            missingPhotos={missingPhotos}
+            unavailableItems={unavailableItems}
+            livePromos={livePromos}
+          />
+          <AskBar
+            restaurantId={data.restaurantId}
+            items={allItems.map((it) => ({
+              name: it.name,
+              price: it.price,
+              is_available: it.is_available,
+            }))}
+            demo={readOnly}
+            suggestedPrompts={suggestedPrompts}
+          />
+          <SeasonalOpportunity prompt={seasonalPrompt} />
+        </aside>
+
+        <div className="space-y-5">
 
       {/* Featured items — price + photo the customer sees */}
       <Card>
@@ -449,6 +568,9 @@ export default function OwnerDashboard({
           </ul>
         )}
       </Card>
+
+        </div>
+      </div>
 
       <p className="px-1 pb-2 text-center text-[0.62rem] uppercase tracking-[0.18em] text-[#7f8a91]/70">
         Fina Calle OS
