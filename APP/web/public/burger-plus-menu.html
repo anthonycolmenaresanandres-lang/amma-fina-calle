@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Burger+ · Carta Digital</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#111111" />
+  <meta property="og:title" content="Burger+ · Carta Digital" />
+  <meta property="og:description" content="Carta digital Burger+ — hamburguesas, perros y más. Vista previa Fina Calle." />
+  <meta property="og:image" content="/burger-plus-demo.png" />
+  <style>
+    :root{
+      --ink:#16140f; --ink-soft:#4a463d; --line:#cfcabd; --gold:#111;
+      --page:#0f0f0f; --card:#f7f5f0; --chip:#1c1c1c; --paper:#ffffff;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--page);color:#eee;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+    .shell{max-width:480px;margin:0 auto;min-height:100vh;background:var(--page)}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#000 0%,#111 78%,rgba(17,17,17,.92) 100%);
+      padding:22px 20px 12px;text-align:center;box-shadow:0 16px 30px -18px rgba(0,0,0,.8)}
+    .wordmark{font-family:Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:.04em;
+      font-size:38px;line-height:1;color:#fff;margin:0}
+    .wordmark .plus{color:#fff}
+    .eyebrow{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}
+    .eyebrow span{font-size:10px;letter-spacing:.34em;color:#cfcfcf;text-transform:uppercase}
+    .eyebrow i{height:1px;width:30px;background:linear-gradient(90deg,transparent,#888)}
+    .eyebrow i.r{background:linear-gradient(90deg,#888,transparent)}
+    .meta{margin:8px 0 0;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a}
+    .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 2px;scrollbar-width:none}
+    .chips::-webkit-scrollbar{display:none}
+    .chip{flex:0 0 auto;background:var(--chip);color:#f2f2f2;border:1px solid #333;border-radius:999px;
+      padding:7px 14px;font-size:12px;letter-spacing:.06em;text-decoration:none;white-space:nowrap}
+
+    /* Body */
+    main{padding:16px 14px 8px}
+    .hero{padding:6px 6px 14px;text-align:center}
+    .hero .k{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#9a9a9a;margin:0}
+    .hero h2{font-family:Georgia,serif;font-weight:700;font-size:22px;line-height:1.25;color:#fff;margin:8px 0 0}
+    .hero p{font-size:12.5px;color:#bdbdbd;margin:10px 0 0}
+
+    .card{background:var(--card);color:var(--ink);border-radius:20px;padding:18px 18px 16px;margin:14px 0;
+      box-shadow:0 14px 30px -18px rgba(0,0,0,.7)}
+    .card-h{text-align:center;margin-bottom:6px}
+    .card-h .k{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8a857a;margin:0}
+    .card-h h3{font-family:Georgia,serif;font-size:21px;letter-spacing:.03em;margin:2px 0 0;color:var(--ink)}
+    .rule{height:1px;width:64%;margin:8px auto 4px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+    .card-h .note{font-size:11px;font-style:italic;color:#7a756a;margin:6px 0 0}
+
+    ul.items{list-style:none;margin:12px 0 0;padding:0}
+    ul.items li{padding:9px 0;border-top:1px solid #e7e3d8}
+    ul.items li:first-child{border-top:0}
+    .row{display:flex;align-items:baseline;gap:8px}
+    .name{font-weight:700;font-size:15px;color:var(--ink)}
+    .dots{flex:1 1 auto;border-bottom:1px dotted #b9b4a6;transform:translateY(-4px)}
+    .price{flex:0 0 auto;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;color:#111}
+    .desc{font-size:12.5px;line-height:1.4;color:#6c675c;margin:3px 0 0}
+
+    /* CTA + footer */
+    .cta{display:block;margin:18px 6px 6px;background:#fff;color:#111;text-decoration:none;text-align:center;
+      border-radius:16px;padding:15px 16px;font-weight:800;letter-spacing:.04em}
+    .cta small{display:block;font-weight:600;letter-spacing:.02em;color:#444;margin-top:3px;font-size:11.5px}
+    footer{padding:18px 18px 30px;text-align:center;color:#8a8a8a}
+    footer .preview{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#777}
+    footer .draft{font-size:11px;color:#9a9a9a;margin:8px 0 0}
+    a.update{display:inline-block;margin-top:10px;font-size:11px;letter-spacing:.12em;color:#9a9a9a;
+      text-decoration:underline;text-underline-offset:3px}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <p class="wordmark">BURGER<span class="plus">+</span></p>
+      <div class="eyebrow"><i></i><span>Carta Digital</span><i class="r"></i></div>
+      <p class="meta">Cl 64 #45a-93, Itagüí · 310 535 8450</p>
+      <p class="meta">Premium Quality · Homemade · Horario por confirmar</p>
+      <nav class="chips" aria-label="Categorías">
+        <a class="chip" href="#hamburguesas">Hamburguesas</a>
+        <a class="chip" href="#perros">Perros</a>
+        <a class="chip" href="#adiciones">Adiciones</a>
+        <a class="chip" href="#bebidas">Bebidas</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="k">Hechas a mano</p>
+        <h2>Hamburguesas premium a la parrilla, perros y acompañamientos.</h2>
+        <p>Todas las hamburguesas y perros incluyen papas a la francesa.</p>
+      </section>
+
+      <section class="card" id="hamburguesas" style="scroll-margin-top:150px">
+        <div class="card-h"><p class="k">Carta</p><h3>Hamburguesas</h3><div class="rule"></div>
+          <p class="note">Incluyen papas a la francesa</p></div>
+        <ul class="items">
+          <li><div class="row"><span class="name">Clásica</span><span class="dots"></span><span class="price">$16.900</span></div>
+            <p class="desc">Carne de res a la parrilla, lechuga, tomate y salsa de la casa.</p></li>
+          <li><div class="row"><span class="name">Doble Carne</span><span class="dots"></span><span class="price">$24.900</span></div>
+            <p class="desc">Doble carne, doble queso y cebolla caramelizada.</p></li>
+          <li><div class="row"><span class="name">Costilla BBQ</span><span class="dots"></span><span class="price">$26.900</span></div>
+            <p class="desc">Costilla a la parrilla, salsa BBQ, queso cheddar y chicharrón.</p></li>
+        </ul>
+      </section>
+
+      <section class="card" id="perros" style="scroll-margin-top:150px">
+        <div class="card-h"><p class="k">Carta</p><h3>Perros</h3><div class="rule"></div>
+          <p class="note">Incluyen papas a la francesa</p></div>
+        <ul class="items">
+          <li><div class="row"><span class="name">Sencillo</span><span class="dots"></span><span class="price">$12.900</span></div>
+            <p class="desc">Salchicha, salsas de la casa y papitas.</p></li>
+          <li><div class="row"><span class="name">Especial</span><span class="dots"></span><span class="price">$14.900</span></div>
+            <p class="desc">Salchicha, tocineta, queso fundido y guacamole.</p></li>
+        </ul>
+      </section>
+
+      <section class="card" id="adiciones" style="scroll-margin-top:150px">
+        <div class="card-h"><p class="k">Carta</p><h3>Adiciones</h3><div class="rule"></div></div>
+        <ul class="items">
+          <li><div class="row"><span class="name">Papas a la Francesa</span><span class="dots"></span><span class="price">$8.900</span></div></li>
+          <li><div class="row"><span class="name">Queso Extra</span><span class="dots"></span><span class="price">$3.000</span></div></li>
+          <li><div class="row"><span class="name">Tocineta</span><span class="dots"></span><span class="price">$5.000</span></div></li>
+        </ul>
+      </section>
+
+      <section class="card" id="bebidas" style="scroll-margin-top:150px">
+        <div class="card-h"><p class="k">Carta</p><h3>Bebidas</h3><div class="rule"></div></div>
+        <ul class="items">
+          <li><div class="row"><span class="name">Gaseosa</span><span class="dots"></span><span class="price">$4.500</span></div></li>
+          <li><div class="row"><span class="name">Limonada de Coco</span><span class="dots"></span><span class="price">$6.900</span></div></li>
+          <li><div class="row"><span class="name">Malteada</span><span class="dots"></span><span class="price">$12.900</span></div></li>
+        </ul>
+      </section>
+
+      <a class="cta" href="/penalty-shootout">JUEGA Y GANA
+        <small>Anota tu penal y gana una hamburguesa</small></a>
+    </main>
+
+    <footer>
+      <p class="preview">Burger+ · vista previa Fina Calle</p>
+      <p class="draft">Carta de muestra — ítems y precios por confirmar con el negocio.</p>
+      <a class="update" href="#">¿Actualizar la carta?</a>
+    </footer>
+  </div>
+</body>
+</html>
