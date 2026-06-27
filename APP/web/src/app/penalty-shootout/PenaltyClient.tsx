@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Game } from "phaser";
 import { PENALTY_LEVELS } from "@/penalty/config";
-import { DEFAULT_PENALTY_SKIN, getPenaltySkin, PENALTY_SKINS } from "@/penalty/skin/skins";
+import { DEFAULT_PENALTY_SKIN, PENALTY_SKINS } from "@/penalty/skin/skins";
 import type { InputMode, PenaltyLevel, PenaltySkin } from "@/penalty/types";
 
 const toHex = (n: number): string => `#${n.toString(16).padStart(6, "0")}`;
@@ -13,29 +13,10 @@ const INPUT_MODES: { id: InputMode; label: string }[] = [
   { id: "swipe", label: "Swipe" },
 ];
 
-type PenaltyClientProps = {
-  defaultSkinId?: string;
-  eyebrow?: string;
-  title?: string;
-  subtitle?: string;
-  lockSkin?: boolean;
-  menuHref?: string;
-  menuLabel?: string;
-};
-
-export default function PenaltyClient({
-  defaultSkinId,
-  eyebrow,
-  title,
-  subtitle,
-  lockSkin = false,
-  menuHref,
-  menuLabel = "View menu",
-}: PenaltyClientProps = {}): React.JSX.Element {
-  const initialSkin = defaultSkinId ? getPenaltySkin(defaultSkinId) : DEFAULT_PENALTY_SKIN;
+export default function PenaltyClient(): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const gameRef = useRef<Game | null>(null);
-  const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(initialSkin);
+  const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(DEFAULT_PENALTY_SKIN);
   const [selectedInput, setSelectedInput] = useState<InputMode>("tap");
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);
@@ -96,40 +77,36 @@ export default function PenaltyClient({
       <main className="mx-auto flex min-h-dvh w-full max-w-[470px] flex-col bg-[#04130a] px-5 py-6 text-[#f4f6f7]">
         <section className="flex flex-1 flex-col justify-center">
           <p className="text-center text-xs uppercase tracking-[0.2em] text-[#d8b36d]">
-            {eyebrow ?? selectedSkin.brandName}
+            {selectedSkin.brandName}
           </p>
-          <h1 className="mt-3 text-center font-serif text-3xl text-[#f4f6f7]">
-            {title ?? selectedSkin.skinName}
-          </h1>
+          <h1 className="mt-3 text-center font-serif text-3xl text-[#f4f6f7]">{selectedSkin.skinName}</h1>
           <p className="mt-3 text-center text-sm leading-relaxed text-[#aeb7bd]">
-            {subtitle ?? "Five from the spot. Pick your keeper."}
+            Five from the spot. Pick your keeper.
           </p>
 
-          {lockSkin ? null : (
-            <div className="mt-6">
-              <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Skin</p>
-              <div className="mt-2 flex justify-center gap-2">
-                {PENALTY_SKINS.map((skin) => {
-                  const active = skin.id === selectedSkin.id;
-                  return (
-                    <button
-                      key={skin.id}
-                      type="button"
-                      onClick={() => setSelectedSkin(skin)}
-                      aria-pressed={active}
-                      className={
-                        active
-                          ? "rounded-full border border-[#d8b36d] bg-[#d8b36d] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#04130a]"
-                          : "rounded-full border border-[#d8b36d]/45 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4f6f7] transition hover:border-[#d8b36d]"
-                      }
-                    >
-                      {skin.displayName}
-                    </button>
-                  );
-                })}
-              </div>
+          <div className="mt-6">
+            <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Skin</p>
+            <div className="mt-2 flex justify-center gap-2">
+              {PENALTY_SKINS.map((skin) => {
+                const active = skin.id === selectedSkin.id;
+                return (
+                  <button
+                    key={skin.id}
+                    type="button"
+                    onClick={() => setSelectedSkin(skin)}
+                    aria-pressed={active}
+                    className={
+                      active
+                        ? "rounded-full border border-[#d8b36d] bg-[#d8b36d] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#04130a]"
+                        : "rounded-full border border-[#d8b36d]/45 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4f6f7] transition hover:border-[#d8b36d]"
+                    }
+                  >
+                    {skin.displayName}
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </div>
 
           <div className="mt-5">
             <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Controls</p>
@@ -171,15 +148,6 @@ export default function PenaltyClient({
               </button>
             ))}
           </div>
-
-          {menuHref ? (
-            <a
-              href={menuHref}
-              className="mt-5 block border border-[#d8b36d]/55 bg-[#d8b36d] px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.14em] text-[#04130a]"
-            >
-              {menuLabel}
-            </a>
-          ) : null}
         </section>
       </main>
     );
@@ -206,14 +174,6 @@ export default function PenaltyClient({
           >
             Replay
           </button>
-          {menuHref ? (
-            <a
-              href={menuHref}
-              className="border border-[#d8b36d]/50 px-3 py-1 text-xs uppercase tracking-[0.14em] text-[#f4f6f7]"
-            >
-              Menu
-            </a>
-          ) : null}
         </div>
       </div>
       <div

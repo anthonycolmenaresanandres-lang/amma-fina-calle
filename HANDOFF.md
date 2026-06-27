@@ -277,11 +277,3 @@ Durable architecture + multi-agent model live in `/CLAUDE.md` — read it first.
 **Guardrails:** never touch Client OS (`/m/[id]`,`/owner/[id]`,`/customers`)/Supabase/Stripe/POS/secrets/customer data. Game art: non-human mascots only, no FIFA/World-Cup/club/real-face branding, client approves before publish, primitive fallback/no-404. One concern per commit; build must pass.
 
 **Claude method:** view repo images via Read; build SVG previews (embed image base64 + draw goal frame/zones/keeper/ball at geometry %s) and SendUserFile; tune backgroundFit/kickerFit from actual image dims.
-
-- [2026-06-27 07:46:37] START: Codex check-in: same-day Colattao/Portugal-Colombia Penalty Shootout readiness, owner Instagram approval plan, promo-video coordination; corrected target to Stadium Ball Kicker worktree.
-
-- [2026-06-27 07:55:11] DONE: Prepared local Colattao match-day preset route /penalty-shootout/colattao; APP/web build passes; targeted lint passes for changed files; mobile CDP verified 390px no overflow, Colattao copy, menu CTA, and Phaser canvas mount after Street Keeper selection.
-
-- [2026-06-27 07:55:12] NEXT: Use /penalty-shootout/colattao for owner approval and Instagram manager link; production merge/deploy still requires Anthony approval.
-
-- [2026-06-27 07:55:12] BLOCK: Full APP/web lint is blocked by pre-existing unrelated src/app/conquest/ConquestClient.tsx no-explicit-any error; not part of this change.
