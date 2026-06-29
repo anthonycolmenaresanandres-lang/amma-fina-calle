@@ -35,7 +35,7 @@ export default function ColattaoCaseStudyPage() {
             </p>
             <div className="mt-7 flex flex-col gap-2 sm:flex-row">
               <a
-                href="https://colattao-cafe-rush.vercel.app"
+                href="https://colattao-cafe-rush.vercel.app/menu"
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8b36d]/38 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4d99c] transition hover:border-[#f4d99c]/70 hover:bg-[#d8b36d]/16"
               >
                 Public URL
@@ -61,7 +61,7 @@ export default function ColattaoCaseStudyPage() {
                   experience patterns.
                 </li>
                 <li>
-                  Public URL: https://colattao-cafe-rush.vercel.app
+                  Public URL: https://colattao-cafe-rush.vercel.app/menu
                 </li>
               </ul>
             </section>

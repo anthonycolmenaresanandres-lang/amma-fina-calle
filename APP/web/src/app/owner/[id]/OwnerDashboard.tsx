@@ -16,6 +16,8 @@ import {
 } from "@/components/ui";
 import AskBar from "./AskBar";
 
+const COLATTAO_MENU_URL = "https://colattao-cafe-rush.vercel.app/menu";
+
 export type ItemSize = { label: string; price: number | string };
 
 export type MenuItem = {
@@ -59,6 +61,10 @@ export type DashboardData = {
 
 function uniquePrompts(prompts: string[]): string[] {
   return Array.from(new Set(prompts.filter(Boolean))).slice(0, 4);
+}
+
+function publicMenuHref(restaurantId: string): string {
+  return restaurantId === "colattao" ? COLATTAO_MENU_URL : `/m/${restaurantId}`;
 }
 
 function getSuggestedPrompts(items: Array<MenuItem & { category: string }>): string[] {
@@ -150,7 +156,7 @@ function CommandOverview({
         />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <ButtonLink href={`/m/${restaurantId}`} variant="primary">
+        <ButtonLink href={publicMenuHref(restaurantId)} variant="primary">
           View live menu
         </ButtonLink>
         {siteUrl ? (
@@ -413,7 +419,7 @@ export default function OwnerDashboard({
           )}
         </div>
         <div className="flex items-center gap-2">
-          <ButtonLink href={`/m/${data.restaurantId}`} variant="ghost">
+          <ButtonLink href={publicMenuHref(data.restaurantId)} variant="ghost">
             View menu
           </ButtonLink>
           {readOnly ? (
