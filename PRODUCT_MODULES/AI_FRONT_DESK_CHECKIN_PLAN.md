@@ -1,10 +1,45 @@
-# AI Front-Desk Check-In — plan (v0, not yet built)
+# AI Front-Desk Check-In — plan (v0)
 
-> **Status: PLAN ONLY.** Nothing in this doc is wired up yet. First concrete client:
-> Virginia Beach Field House (`vbfh-info` tenant, `services/voice-gateway/`), whose
-> system of record is **DaySmart Recreation ("the Dash")**. The design generalizes to
-> any client running a rec-management / gym / studio platform with an API, the same
-> way the booking engine generalizes across Cal.com/Square/webhook.
+> **Status: rules pack + mock connector BUILT and passing (`services/voice-gateway/src/checkin/`,
+> `npm run simulate:checkin`); a phone-side interim shipped in the `vbfh-info` tenant
+> (take_message-based heads-up, no verification claimed); the real DaySmart wiring is
+> **blocked — confirmed we won't have Dash API access for a while**. Nothing below
+> Phase 1 can start until that unblocks; see "Interim, while there's no Dash API" below
+> for what's live today. First concrete client: Virginia Beach Field House (`vbfh-info`
+> tenant, `services/voice-gateway/`), whose system of record is **DaySmart Recreation
+> ("the Dash")**. The design generalizes to any client running a rec-management / gym /
+> studio platform with an API, the same way the booking engine generalizes across
+> Cal.com/Square/webhook.
+
+## Interim, while there's no Dash API (current reality — do this now)
+
+Two things ship today with **zero live risk** and no API access, both already done:
+
+1. **Deterministic core, built against fixtures, not wired live.** `src/checkin/types.ts`
+   (`CheckInConnector` contract + domain types), `src/checkin/rules.ts` (the pure,
+   unit-tested rules-pack evaluator — identity match, roster match, time window, waiver,
+   account hold, minor/guardian), and `src/checkin/mockConnector.ts` (deterministic
+   in-memory fixtures, idempotent commit) are all written and passing
+   (`npm run simulate:checkin` — 17/17 checks). This is genuinely the same code that
+   will run once a real connector exists; only the connector swaps, exactly like `mock`
+   → `calcom`/`square` for booking. **Deliberately NOT wired into `src/tools.ts` /
+   `src/orchestrator.ts` / the realtime engine yet** — those tool schemas are global
+   across every tenant today, so exposing a `verify_checkin`/`commit_checkin` tool
+   before there's a real connector behind it would let the model attempt check-ins
+   for every client, not just VBFH, against nothing.
+2. **Phone-side interim, live in `tenants.json` today.** The `vbfh-info` instructions
+   now have an explicit ARRIVAL / CHECK-IN clause: if a caller says they're arriving to
+   check in, the assistant states plainly it can't verify that by phone, takes a message
+   (name, callback number, sport/night/session) via the *existing* `take_message` tool
+   so the front desk has a heads-up, and tells them check-in happens in person. No new
+   tool, no new schema, no risk of a false "you're checked in" — this is pure message
+   relay, same as any other off-menu request the bot already handles.
+
+**When the API unblocks:** Phase 1 below is to write the `daysmart` connector
+implementing the *same* `CheckInConnector` interface already in `src/checkin/types.ts`
+against the real Dash API, point `connectorFor`-equivalent wiring at it, and only then
+add `verify_checkin`/`commit_checkin` to `tools.ts` for the `vbfh-info` tenant
+specifically. Nothing else in the rules pack changes.
 
 ## What "sign people in" means here (scoping the ask)
 
@@ -83,8 +118,8 @@ Caller/arrival → Voice/chat surface → Orchestrator → Rules layer (determin
                                        LLM proposes tool calls    Escalate to front-desk staff (notify + explain)
 ```
 
-- **`CheckInConnector` interface** (new, sibling to `BookingConnector` in
-  `src/adapter/types.ts`):
+- **`CheckInConnector` interface** — **built**, `src/checkin/types.ts` (sibling to
+  `BookingConnector` in `src/adapter/types.ts`, deliberately a separate module):
   ```ts
   interface CheckInConnector {
     readonly name: string;
@@ -94,11 +129,12 @@ Caller/arrival → Voice/chat surface → Orchestrator → Rules layer (determin
     checkIn(args: { participantId: string; sessionId: string; idempotencyKey: string }): Promise<CheckInResult>; // MUST be idempotent
   }
   ```
-  First implementation: a `daysmart` connector against the Dash API. Until Phase 0
-  confirms a write endpoint exists, ship a **`proposeConfirm`-style fallback**
-  identical in spirit to the booking engine's universal connector: the AI verifies
-  eligibility and stages a **pending check-in**, and pings front-desk staff to tap it
-  through the native kiosk/Dash UI — never invents a check-in the Dash doesn't record.
+  Implemented today by `src/checkin/mockConnector.ts` (deterministic fixtures, proven by
+  `npm run simulate:checkin`). Next real implementation: a `daysmart` connector against
+  the Dash API. Until a write endpoint is confirmed, ship a **`proposeConfirm`-style
+  fallback** identical in spirit to the booking engine's universal connector: the AI
+  verifies eligibility and stages a **pending check-in**, and pings front-desk staff to
+  tap it through the native kiosk/Dash UI — never invents a check-in the Dash doesn't record.
 
 - **New tools** (`src/tools.ts`, same function-calling contract as booking):
   - `find_participant` — read-only lookup by name/phone, always reads back an exact
@@ -109,8 +145,9 @@ Caller/arrival → Voice/chat surface → Orchestrator → Rules layer (determin
     `(participantId, sessionId)`; on retry/duplicate, returns "already checked in."
   - Reuses the existing `take_message` unchanged as the escalation vehicle.
 
-- **Rules pack — deterministic, versioned, code (not a prose instruction to the LLM)**,
-  every check evaluated in `verify_checkin`, ALL must pass to commit:
+- **Rules pack — deterministic, versioned, code (not a prose instruction to the LLM)** —
+  **built and unit-tested**, `src/checkin/rules.ts` (`evaluateEligibility`), every check
+  evaluated in `verify_checkin` once wired, ALL must pass to commit:
   1. **Identity match** — participant resolved to exactly one Dash record; no action on
      an ambiguous/multiple match (route to front desk).
   2. **Roster match** — participant is on the roster/registration for *this specific*
@@ -153,12 +190,13 @@ Caller/arrival → Voice/chat surface → Orchestrator → Rules layer (determin
 
 ## Rollout sequence
 
-1. **Phase 0 (Anthony/VBFH action):** get Dash API access; confirm kiosk-on status;
-   pick the channel. Nothing downstream can start without this.
-2. **Phase 1 (buildable once API access exists):** `CheckInConnector` + `daysmart`
-   connector (read-only: findParticipant, getTodaysSessions, getEligibility) + the
-   rules pack, unit-testable against recorded fixtures the way `npm run simulate`
-   proves the booking loop today.
+1. **Phase 0 (Anthony/VBFH action, currently blocking — no timeline):** get Dash API
+   access; confirm kiosk-on status; pick the channel. Nothing past Phase 1's mock stage
+   can start without this.
+2. **Phase 1a — done, no API needed:** `CheckInConnector` interface, rules pack, and a
+   mock connector, all unit-tested (`npm run simulate:checkin`). **Phase 1b — blocked
+   on Phase 0:** swap in a real `daysmart` connector (read-only: findParticipant,
+   getTodaysSessions, getEligibility) against the actual Dash API.
 3. **Phase 2:** wire `verify_checkin` into the phone line as a new capability
    ("can you check me in for tonight's 7:10 game") — read-only, pure Q&A, zero write
    risk, ships value immediately even with no write endpoint.
