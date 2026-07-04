@@ -106,6 +106,14 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
    across restarts on a single instance. To scale to multiple instances, apply
    `db/schema.sql` to Postgres and back the store with it (`psql "$DATABASE_URL" -f db/schema.sql`).
 
+## Roadmap — attendance check-in (not built yet)
+Plan for extending this engine so it can **sign already-registered people in** (attendance
+check-in for a league game/class, not new registration) against a client's own system —
+first case: VBFH's DaySmart "Dash." Same draft-first/idempotent/swappable-connector shape
+as booking, plus a deterministic rules pack that gates every check-in and a hard rule that
+anything the rules can't clear (or the AI can't verify with certainty) is escalated to a
+human at the front desk, never guessed. See `PRODUCT_MODULES/AI_FRONT_DESK_CHECKIN_PLAN.md`.
+
 ## Notes / before production
 - **Re-verify** OpenAI Realtime event names + audio formats and the Cal.com v2 endpoints
   against current docs (they evolve) — see the plan's re-verify note.
