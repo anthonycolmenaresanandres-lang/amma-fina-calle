@@ -28,6 +28,58 @@ body {
   box-sizing: border-box;
 }
 
+/* React Bits-style decorative effects (vendored, motion-safe).
+   Static fallbacks live in the reduced-motion block below. */
+.rb-shiny-text {
+  background: linear-gradient(
+    120deg,
+    #f1f4f5 38%,
+    #d8b36d 50%,
+    #f1f4f5 62%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rb-shine 6s linear infinite;
+}
+
+@keyframes rb-shine {
+  0% {
+    background-position: 160% 0;
+  }
+  100% {
+    background-position: -60% 0;
+  }
+}
+
+.rb-glow-pulse {
+  animation: rb-glow 8s ease-in-out infinite;
+}
+
+@keyframes rb-glow {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-shiny-text {
+    animation: none;
+    background: none;
+    color: inherit;
+  }
+  .rb-glow-pulse {
+    animation: none;
+  }
+}
+
 a {
   text-decoration: none;
 }
