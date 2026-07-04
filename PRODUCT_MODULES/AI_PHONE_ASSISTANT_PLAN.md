@@ -26,6 +26,14 @@ Two products on one engine:
    salons/barbers/spas, auto, clinics. Per-client variables = a **Knowledge Pack** +
    a **booking/POS connector**. Same Managerial-Factory model (frozen engine, swappable parts).
 
+> **Not to be confused with:** a separate, differently-scoped capability called **AI
+> Front-Desk *Check-In*** — attendance check-in for an already-registered person arriving
+> to a session (not new-account booking, not door/access control). It is planned and
+> partially built (deterministic rules-pack + mock connector, unit-tested) but **not wired
+> into any live client assistant**; real integration is blocked on the client roster
+> system's API access, with no committed timeline. Status: PLANNED / IN DEVELOPMENT — see
+> `PRODUCT_MODULES/AI_FRONT_DESK_CHECKIN_PLAN.md` for the full spec and current status.
+
 ## The core principle: draft-first, reversible, auditable
 **The architecture decision that matters is not "which voice sounds most human" — it's
 "which design minimizes irreversible errors."** So: the AI converses, explains the
