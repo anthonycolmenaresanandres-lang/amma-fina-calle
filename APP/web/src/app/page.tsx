@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Aurora from "@/components/reactbits/Aurora";
+import ShinyText from "@/components/reactbits/ShinyText";
 
 const companyNav = [
   { label: "Case Studies", href: "/case-studies" },
@@ -35,6 +37,7 @@ export default function Home() {
   return (
     <main className="relative isolate flex min-h-screen overflow-hidden bg-[#030405] text-[#f4f6f7]">
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_45%,rgba(180,188,194,0.16),transparent_31%),radial-gradient(circle_at_50%_78%,rgba(149,118,66,0.1),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_45%,#050607_100%)]" />
+      <Aurora className="absolute inset-0 -z-[25]" />
       <div className="absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.026)_1px,transparent_1px)] bg-[size:72px_72px]" />
       <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-[#dfe5e8]/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black to-transparent" />
@@ -62,7 +65,7 @@ export default function Home() {
         <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
           <div className="mb-5">
             <p className="text-xs uppercase tracking-[0.58em] text-[#f1f4f5] sm:text-sm">
-              FINA CALLE OS
+              <ShinyText>FINA CALLE OS</ShinyText>
             </p>
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.34em] text-[#aeb7bd]">
               by AMMA Ventures
@@ -74,7 +77,7 @@ export default function Home() {
             <div className="pointer-events-none absolute left-1/2 top-[42%] hidden h-[54%] w-px -translate-x-1/2 bg-gradient-to-b from-[#c9d0d5]/20 via-[#d8b36d]/14 to-transparent md:block" />
 
             <div className="relative mx-auto flex min-h-[46vh] w-full max-w-[min(92vw,39rem)] items-center justify-center md:min-h-[62vh] md:max-w-[min(54vw,43rem)]">
-              <div className="absolute inset-[10%] rounded-full bg-[#d9e1e5]/10 blur-3xl" />
+              <div className="rb-glow-pulse absolute inset-[10%] rounded-full bg-[#d9e1e5]/10 blur-3xl" />
               <img
                 src="/assets/fina-calle-os-logo.png"
                 alt="Fina Calle OS mechanical logo"
