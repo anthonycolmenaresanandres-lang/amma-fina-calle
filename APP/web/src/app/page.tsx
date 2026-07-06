@@ -8,9 +8,7 @@ const IG =
 export default function Home() {
   return (
     <main className="fc-page">
-      <div className="fc-bg">
-        <div className="fc-vign" />
-      </div>
+      <div className="fc-bg" />
       <Aurora className="fc-aurora" />
       <div className="fc-grain" />
 
@@ -20,17 +18,17 @@ export default function Home() {
           <b>
             <ShinyText>Fina Calle OS</ShinyText>
           </b>
-          <span>AMMA Ventures</span>
+          <span>AMMA Ventures · VB</span>
         </div>
         <div className="fc-links">
-          <Link href="/m/colattao" className="fc-navlink">
-            See a live menu
-          </Link>
-          <a href="#pricing" className="fc-navlink">
-            Pricing
+          <a href="#carta" className="fc-navlink">
+            La Carta
+          </a>
+          <a href="#ai-front-desk" className="fc-navlink">
+            AI Front Desk
           </a>
           <Link href="/contact" className="fc-navlink fc-navcta">
-            Talk to us
+            Hablemos
           </Link>
         </div>
       </nav>
@@ -40,42 +38,44 @@ export default function Home() {
         <section className="fc-hero">
           <div>
             <div className="fc-eyebrow fc-rise fc-d1">
-              <span className="fc-kick">Fina Calle OS · Virginia Beach</span>
+              <span className="fc-kick">
+                Menús para restaurantes · Virginia Beach
+              </span>
             </div>
             <h1 className="fc-h1">
               <span className="fc-mask fc-d2">
-                <span>Your menu,</span>
+                <span>La carta que</span>
               </span>
               <span className="fc-mask fc-d3">
                 <span>
-                  beautiful and <span className="fc-em">always current.</span>
+                  tu <span className="fc-sz">sazón</span> merece.
                 </span>
               </span>
             </h1>
-            <p className="fc-es fc-rise fc-d4">Su menú, bello y siempre al día.</p>
-            <p className="fc-sub fc-rise fc-d5">
-              We build you a clean menu customers scan with a QR — on a page
-              that&apos;s always up to date. You just ask for a change; we
-              handle the tech. No apps. No website to learn.
+            <p className="fc-en fc-rise fc-d4">
+              The menu your food deserves —{" "}
+              <b>clean, on every phone, and always current.</b> You handle the
+              flavor; we handle the tech.
             </p>
-            <div className="fc-cta-row fc-rise fc-d6">
+            <div className="fc-cta-row fc-rise fc-d5">
               <Link href="/m/colattao" className="fc-btn gold">
-                See a live menu <span className="fc-arw">→</span>
+                Ver un menú en vivo <span className="fc-arw">→</span>{" "}
+                <small>see a live menu</small>
               </Link>
               <Link href="/contact" className="fc-btn ghost">
-                Talk to us
+                Hablemos
               </Link>
             </div>
-            <div className="fc-trust fc-rise fc-d6">
-              <span>Live at Colattao</span>
+            <div className="fc-trust fc-rise fc-d5">
+              <span>En vivo en Colattao</span>
               <span className="fc-dot" />
-              <span>No setup fee</span>
+              <span>Sin costo de instalación</span>
               <span className="fc-dot" />
-              <span>Bilingüe · EN/ES</span>
+              <span>EN / ES</span>
             </div>
           </div>
 
-          <div className="fc-phwrap fc-rise fc-d5">
+          <div className="fc-phwrap fc-rise fc-d4">
             <div className="fc-phone">
               <div className="fc-screen">
                 <div className="fc-scrpad">
@@ -86,50 +86,51 @@ export default function Home() {
                     </div>
                     <span className="fc-mlive">
                       <i />
-                      Updated now
+                      al día
                     </span>
                   </div>
 
-                  <div className="fc-mcat">Espresso &amp; Coffee</div>
+                  <div className="fc-mcat">Café</div>
                   <div className="fc-mitem">
                     <span className="nm">Cappuccino</span>
-                    <span className="pr fc-num">$5.25</span>
+                    <span className="ld" />
+                    <span className="pr">5.25</span>
                   </div>
                   <div className="fc-mitem">
-                    <span className="nm">
-                      Churro Latte <small>house cinnamon</small>
-                    </span>
-                    <span className="pr fc-num upd">$8.00</span>
+                    <span className="nm">Churro Latte</span>
+                    <span className="ld" />
+                    <span className="pr">8.00</span>
                   </div>
                   <div className="fc-mitem">
                     <span className="nm">Cortadito</span>
-                    <span className="pr fc-num">$4.50</span>
+                    <span className="ld" />
+                    <span className="pr">4.50</span>
                   </div>
 
-                  <div className="fc-mcat">Kitchen</div>
+                  <div className="fc-mcat">Cocina</div>
                   <div className="fc-mitem">
-                    <span className="nm">
-                      Cubano <small>slow-roast pork</small>
-                    </span>
-                    <span className="pr fc-num">$12.00</span>
+                    <span className="nm">Cubano</span>
+                    <span className="ld" />
+                    <span className="pr">12.00</span>
                   </div>
                   <div className="fc-mitem">
                     <span className="nm">Arepa e&apos; Huevo</span>
-                    <span className="pr fc-num">$6.00</span>
+                    <span className="ld" />
+                    <span className="pr">6.00</span>
                   </div>
 
-                  <div className="fc-mcat">Pastries</div>
+                  <div className="fc-mcat">Dulce</div>
                   <div className="fc-mitem">
-                    <span className="nm">Chocolate Croissant</span>
-                    <span className="pr fc-num">$3.95</span>
+                    <span className="nm">Pastel de Guayaba</span>
+                    <span className="ld" />
+                    <span className="pr">3.95</span>
                   </div>
                 </div>
                 <div className="fc-mfoot">
                   <div className="fc-mqr" />
                   <div className="ft">
-                    <b>Scan to open</b>
-                    <br />
-                    the live menu on your phone
+                    <b>Escanea</b>
+                    <br />y ábrelo en tu celular
                   </div>
                 </div>
               </div>
@@ -138,15 +139,15 @@ export default function Home() {
         </section>
       </div>
 
-      {/* MANIFESTO */}
+      {/* MANIFESTO — founder voice */}
       <div className="fc-shell fc-ruletop">
         <section className="fc-manifesto fc-reveal">
-          <p>
-            Most owners&apos; menus are a{" "}
-            <span className="fc-em">PDF nobody can read</span> on a phone. Yours
-            won&apos;t be.
+          <p>Nosotros también tenemos un café.</p>
+          <p className="fc-en">
+            We built this for ourselves first — then for the block. It runs
+            Colattao every day.
           </p>
-          <p className="fc-mes">La comida es suya. Lo digital es nuestro.</p>
+          <div className="fc-sign">— Anthony · Colattao, Virginia Beach</div>
         </section>
       </div>
 
@@ -154,81 +155,184 @@ export default function Home() {
       <div className="fc-shell fc-ruletop">
         <section className="fc-sec">
           <div className="fc-eyerow fc-reveal">
-            <span className="fc-kick">How it works</span>
+            <span className="fc-kick">Así de fácil · how it works</span>
           </div>
-          <h2 className="fc-sh fc-reveal">Three steps. You never touch the tech.</h2>
+          <h2 className="fc-sh fc-reveal">
+            Tres pasos. Tú nunca tocas la tecnología.
+          </h2>
           <div className="fc-steps fc-reveal">
             <div className="fc-step">
-              <div className="no">01</div>
+              <div className="no">i.</div>
               <div>
-                <div className="stp-t">Send us your menu</div>
-                <div className="stp-b">
-                  A photo or a link — that&apos;s all we need to get started.
-                </div>
+                <div className="st">Mándanos tu menú</div>
+                <div className="sb">Una foto o un link. Con eso arrancamos.</div>
+                <div className="ses">Send us your menu — a photo or a link.</div>
               </div>
-              <div className="stp-es">Mándenos su menú.</div>
             </div>
             <div className="fc-step">
-              <div className="no">02</div>
+              <div className="no">ii.</div>
               <div>
-                <div className="stp-t">We build it — live in days</div>
-                <div className="stp-b">
-                  Your QR menu and public page, on the same system Colattao
-                  already runs on.
+                <div className="st">Lo montamos — listo en días</div>
+                <div className="sb">
+                  Tu menú QR y tu página, en el mismo sistema que ya corre
+                  Colattao.
                 </div>
+                <div className="ses">We build it, live in days.</div>
               </div>
-              <div className="stp-es">Lo montamos por usted.</div>
             </div>
             <div className="fc-step">
-              <div className="no">03</div>
+              <div className="no">iii.</div>
               <div>
-                <div className="stp-t">You just ask for changes</div>
-                <div className="stp-b">
-                  Text us to raise the empanada to $4 — done that day, and every
-                  change is recorded.
+                <div className="st">Tú pides, nosotros cambiamos</div>
+                <div className="sb">
+                  Súbele a la empanada a $4 — hecho el mismo día, y todo queda
+                  registrado.
                 </div>
+                <div className="ses">You just ask for changes.</div>
               </div>
-              <div className="stp-es">Usted pide, lo cambiamos.</div>
             </div>
           </div>
         </section>
       </div>
 
-      {/* PRICING */}
-      <div className="fc-shell fc-ruletop" id="pricing">
+      {/* LA CARTA — offerings as a menu */}
+      <div className="fc-shell fc-ruletop" id="carta">
         <section className="fc-sec">
-          <div className="fc-eyerow fc-reveal">
-            <span className="fc-kick">Pricing · no setup fee</span>
+          <div className="fc-cartahd fc-reveal">
+            <h2 className="fc-sh">
+              <span className="es">Nuestra carta · what we offer</span>La Carta.
+            </h2>
+            <span className="fc-kick" style={{ paddingBottom: "8px" }}>
+              Sin costo de instalación · cancela cuando quieras
+            </span>
           </div>
-          <h2 className="fc-sh fc-reveal">Two plans. Cancel anytime.</h2>
-          <div className="fc-pricewrap fc-reveal">
-            <div className="fc-plan">
-              <div className="fc-pn">Basic</div>
-              <div className="fc-amt fc-num">
-                $150<span> / mo</span>
-              </div>
-              <ul>
-                <li>Digital QR menu</li>
-                <li>Public menu page, always current</li>
-                <li>Done-for-you updates</li>
-                <li>Full change history</li>
-              </ul>
+
+          <div className="fc-carta fc-reveal">
+            <div className="fc-course">
+              Los Planes <span className="es">· the plans</span>
             </div>
-            <div className="fc-plan pro">
-              <div className="fc-pn">Pro</div>
-              <div className="fc-amt fc-num">
-                $200<span> / mo</span>
+
+            <div className="fc-item">
+              <div className="row">
+                <span className="nm">Básico</span>
+                <span className="ld" />
+                <span className="pr">
+                  $150<small>/mes</small>
+                </span>
               </div>
-              <ul>
-                <li>Everything in Basic</li>
-                <li>Your secure owner portal</li>
-                <li>A landing page for your restaurant</li>
-                <li>Brand &amp; photo organization</li>
-              </ul>
+              <div className="desc">
+                Menú QR · página siempre al día · cambios hechos por nosotros ·
+                historial completo.{" "}
+                <span className="es">
+                  Everything to look modern, done for you.
+                </span>
+              </div>
+            </div>
+
+            <div className="fc-item">
+              <div className="row">
+                <span className="nm">Pro</span>
+                <span className="ld" />
+                <span className="pr">
+                  $200<small>/mes</small>
+                </span>
+              </div>
+              <div className="desc">
+                Todo lo del Básico + tu portal de dueño · landing propia ·
+                organización de marca y fotos.{" "}
+                <span className="es">You edit from your own dashboard.</span>
+              </div>
+            </div>
+
+            <div className="fc-course">
+              Los Extras <span className="es">· add-ons</span>
+            </div>
+
+            <div className="fc-item">
+              <div className="row">
+                <span className="nm">
+                  El Juego <span className="flag">nuevo</span>
+                </span>
+                <span className="ld" />
+                <span className="pr">
+                  $500<small>/mes</small>
+                </span>
+              </div>
+              <div className="desc">
+                Un juego de arcade con la marca de tu restaurante — tus clientes
+                juegan mientras esperan y vuelven por el highscore.{" "}
+                <span className="es">
+                  A branded arcade game — engagement that brings them back.
+                </span>
+              </div>
+            </div>
+
+            <div className="fc-item">
+              <div className="row">
+                <span className="nm">
+                  AI Front Desk <span className="flag">nuevo</span>
+                </span>
+                <span className="ld" />
+                <span className="pr">
+                  <span className="from">desde · from</span>$299
+                  <small>/mes</small>
+                </span>
+              </div>
+              <div className="desc">
+                Un asistente de IA que contesta cada llamada, reserva mesas y
+                toma pedidos — 24/7, sin perder una sola.{" "}
+                <span className="es">
+                  Answers every call, books tables, takes orders — round the
+                  clock.
+                </span>
+              </div>
+              <div className="roi">
+                ↑ Recupera $3–18 mil/mes en llamadas perdidas.
+              </div>
             </div>
           </div>
-          <div className="fc-pricenote">
-            No setup fee · Cancel anytime · Sin costo de instalación
+          <div className="fc-cartanote">
+            Los extras se suman a tu plan · add-ons stack on top of your plan
+          </div>
+        </section>
+      </div>
+
+      {/* AI FRONT DESK SPOTLIGHT */}
+      <div className="fc-shell fc-ruletop" id="ai-front-desk">
+        <section className="fc-sec">
+          <div className="fc-spot fc-reveal">
+            <div className="fc-eyerow">
+              <span className="fc-kick">Nuevo · AI Front Desk</span>
+            </div>
+            <h3>Nunca pierdas otra llamada.</h3>
+            <p className="fc-en">
+              43% de las llamadas a restaurantes se quedan sin contestar. La
+              nuestra contesta el 100% — explica el menú, agenda y toma el
+              pedido mientras tú cocinas.{" "}
+              <span style={{ color: "var(--fc-dim)" }}>
+                Never miss another call. It answers, books, and takes orders
+                24/7.
+              </span>
+            </p>
+            <div className="fc-stats">
+              <div className="fc-stat">
+                <div className="big">100%</div>
+                <div className="lab">de las llamadas, contestadas</div>
+              </div>
+              <div className="fc-stat">
+                <div className="big">−87%</div>
+                <div className="lab">menos llamadas perdidas</div>
+              </div>
+              <div className="fc-stat">
+                <div className="big">$3–18k</div>
+                <div className="lab">recuperados al mes por local</div>
+              </div>
+            </div>
+            <div className="fc-cta-row" style={{ marginTop: "28px" }}>
+              <Link href="/contact" className="fc-btn gold">
+                Pídelo para tu restaurante <span className="fc-arw">→</span>
+              </Link>
+            </div>
           </div>
         </section>
       </div>
@@ -238,14 +342,14 @@ export default function Home() {
         <section className="fc-sec">
           <div className="fc-proof fc-reveal">
             <div>
-              <div className="pt">It&apos;s already live at Colattao.</div>
+              <div className="pt">Ya está en vivo en Colattao.</div>
               <div className="pb">
-                A real café here in Virginia Beach. Scan it and see exactly what
-                yours would look like.
+                Un café de verdad, aquí en Virginia Beach. Escanéalo y mira cómo
+                se vería el tuyo.
               </div>
             </div>
             <Link href="/m/colattao" className="fc-btn gold">
-              See the live menu <span className="fc-arw">→</span>
+              Ver el menú en vivo <span className="fc-arw">→</span>
             </Link>
           </div>
         </section>
@@ -255,18 +359,19 @@ export default function Home() {
       <div className="fc-shell fc-ruletop">
         <section className="fc-close fc-reveal">
           <div className="fc-eyerow" style={{ justifyContent: "center" }}>
-            <span className="fc-kick">Built in Virginia Beach</span>
+            <span className="fc-kick">Hecho en Virginia Beach</span>
           </div>
           <h2>
-            Real food deserves
-            <br />a real menu.
+            Tu comida ya es buena.
+            <br />
+            Que se vea igual.
           </h2>
-          <span className="fc-es">
-            Hagamos que su restaurante se vea tan bien como sabe.
+          <span className="fc-en">
+            Your food&apos;s already good — let&apos;s make it look just as good.
           </span>
-          <div className="fc-cta-row" style={{ justifyContent: "center" }}>
+          <div className="fc-cta-row">
             <Link href="/contact" className="fc-btn gold">
-              Talk to us <span className="fc-arw">→</span>
+              Hablemos <span className="fc-arw">→</span>
             </Link>
             <a
               href={IG}
@@ -277,6 +382,7 @@ export default function Home() {
               @fina_calle
             </a>
           </div>
+          <div className="fc-sign">— Anthony, fundador</div>
         </section>
       </div>
 
@@ -284,7 +390,7 @@ export default function Home() {
       <div className="fc-shell">
         <footer className="fc-foot">
           <div className="fc-frow">
-            <div className="fc-fbrand">
+            <div className="fc-fb">
               <b>Fina Calle OS</b>
               <span>AMMA Ventures · Virginia Beach</span>
             </div>
