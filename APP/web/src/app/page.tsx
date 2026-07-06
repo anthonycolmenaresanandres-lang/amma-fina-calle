@@ -214,33 +214,54 @@ export default function Home() {
 
             <div className="fc-item">
               <div className="row">
-                <span className="nm">Básico</span>
+                <span className="nm">Presence</span>
                 <span className="ld" />
                 <span className="pr">
-                  $150<small>/mes</small>
+                  $99<small>/mes</small>
                 </span>
               </div>
               <div className="desc">
-                Menú QR · página siempre al día · cambios hechos por nosotros ·
-                historial completo.{" "}
+                Tu menú digital, siempre en línea — lo cambiamos cuando nos
+                pidas. Sin costo de instalación.{" "}
                 <span className="es">
-                  Everything to look modern, done for you.
+                  Your menu online — we change it when you ask.
                 </span>
               </div>
             </div>
 
             <div className="fc-item">
               <div className="row">
-                <span className="nm">Pro</span>
+                <span className="nm">
+                  Fresh <span className="flag">popular</span>
+                </span>
                 <span className="ld" />
                 <span className="pr">
-                  $200<small>/mes</small>
+                  $249<small>/mes</small>
                 </span>
               </div>
               <div className="desc">
-                Todo lo del Básico + tu portal de dueño · landing propia ·
-                organización de marca y fotos.{" "}
-                <span className="es">You edit from your own dashboard.</span>
+                Todo lo de Presence + lo refrescamos 2× al mes por nuestra cuenta
+                — tú nunca lo tocas. Temporadas, fotos, reporte mensual.{" "}
+                <span className="es">
+                  We refresh it twice a month — you never lift a finger.
+                </span>
+              </div>
+            </div>
+
+            <div className="fc-item">
+              <div className="row">
+                <span className="nm">Hands-Off</span>
+                <span className="ld" />
+                <span className="pr">
+                  $499<small>/mes</small>
+                </span>
+              </div>
+              <div className="desc">
+                Todo lo de Fresh + tu sistema (Square/Clover) lo actualiza solo,
+                cambios el mismo día, y ayuda de marca.{" "}
+                <span className="es">
+                  Your POS syncs it live. You stop thinking about it.
+                </span>
               </div>
             </div>
 
@@ -255,14 +276,15 @@ export default function Home() {
                 </span>
                 <span className="ld" />
                 <span className="pr">
-                  $500<small>/mes</small>
+                  <span className="from">a la medida</span>$1,500
+                  <small> + $79/mes</small>
                 </span>
               </div>
               <div className="desc">
-                Un juego de arcade con la marca de tu restaurante — tus clientes
+                Un juego de arcade hecho a la medida con tu marca — tus clientes
                 juegan mientras esperan y vuelven por el highscore.{" "}
                 <span className="es">
-                  A branded arcade game — engagement that brings them back.
+                  A bespoke branded game — built for you, keeps them coming back.
                 </span>
               </div>
             </div>
@@ -274,7 +296,7 @@ export default function Home() {
                 </span>
                 <span className="ld" />
                 <span className="pr">
-                  <span className="from">desde · from</span>$299
+                  <span className="from">desde · from</span>$149
                   <small>/mes</small>
                 </span>
               </div>
@@ -344,8 +366,8 @@ export default function Home() {
             <div>
               <div className="pt">Ya está en vivo en Colattao.</div>
               <div className="pb">
-                Un café de verdad, aquí en Virginia Beach. Escanéalo y mira cómo
-                se vería el tuyo.
+                Un café de verdad, aquí en Virginia Beach — 1.300 escaneos en sus
+                primeras 2 semanas. Escanéalo y mira cómo se vería el tuyo.
               </div>
             </div>
             <Link href="/m/colattao" className="fc-btn gold">
