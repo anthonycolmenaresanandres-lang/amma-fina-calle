@@ -52,6 +52,19 @@
 | D11 | **Runway balance & source** | Current credit balance, whose account, monthly refresh, and an explicit per-clip credit budget — required BEFORE Runway is ever considered. | Blocks any Runway step |
 | D12 | **Instagram account plan** | Which account will eventually host this (existing Fina Calle vs new AnchorFrame handle)? Needed only for packaging specs, not for generation. | Not blocking |
 
+## 2b. Decisions log
+
+_Answered by Anthony, 2026-07-07 (in-session):_
+
+- **D1 Apparent age:** ~25–30 — established anchor look.
+- **D2 Rendering style:** hyper-realistic, but with the camera quality of early-2000s news channels — **full-on 2000s broadcast look, adapted to 9:16** (CCD-era softness, interlace/scanline texture, warm tungsten broadcast color, mild bloom). The retro texture is part of the brand look, not an accident.
+- **D3 References:** **Approved in principle** — Anthony will name the exact files. ⏳ PENDING: the file list (recommend 3–5: front, 3/4 left, 3/4 right, neutral expression, good light). No upload happens until the files are named.
+- **D4 Reference count/type:** pending with D3.
+- **D5 Wardrobe:** blazer, **no tie**.
+- **D6 Studio:** classic 2000s news desk — wood-and-blue anchor desk, warm tungsten lighting, soft city-skyline or map backdrop.
+- **D10 First proof / output target:** **generic mock first** (single 9:16 still, no likeness), son-likeness still only after the mock is approved. Execution still awaits Anthony's explicit "run it."
+- **Still pending:** D7 voice, D8 first story lane, D9 platform surface, D11 Runway balance/budget, D12 Instagram account plan — none block the generic mock.
+
 ## 3. Risk analysis
 
 **Child likeness & privacy (highest risk)**
@@ -104,19 +117,23 @@ Ask verbatim, one block, before any generation:
 > Both variants are ChatGPT web, single still, 9:16. Placeholders in `[brackets]`
 > must be filled from Anthony's answers before this is even eligible to run.
 
-**Variant A — Generic mock (Step 0, no likeness, safest):**
+**Variant A — Generic mock (Step 0, no likeness, safest) — FILLED from Decisions log, awaiting "run it":**
 
 ```
-DO NOT RUN — DRAFT
-Premium broadcast news studio still, vertical 9:16 full-frame.
-A [apparent-age]-year-old male news anchor (fictional person, not based on
-anyone real), confident warm smile, seated at a sleek anchor desk.
-Wardrobe: [approved wardrobe].
-Set: [approved studio style] — dark glass panels, soft champagne-gold accent
-lighting, shallow depth of field, large soft out-of-focus screen glow behind.
-Broadcast three-point lighting, crisp key light, 85mm portrait look,
-editorial color grade, ultra-clean composition with clear empty space in the
-lower third of the frame.
+DO NOT RUN — DRAFT (filled 2026-07-07, awaiting Anthony's explicit "run it")
+Early-2000s television news broadcast still, vertical 9:16 full-frame.
+A male news anchor in his late 20s (fictional person, not based on anyone
+real), confident warm on-camera expression, seated at a classic 2000s-era
+anchor desk: wood-and-blue news desk, warm tungsten studio lighting, soft
+out-of-focus city-skyline / world-map backdrop panel behind him.
+Wardrobe: tailored blazer over an open-collar shirt, no tie.
+Image quality: hyper-realistic subject, but captured with the look of an
+early-2000s broadcast studio camera — standard-definition CCD softness,
+subtle interlace/scanline texture, gentle bloom on the studio lights,
+warm slightly-oversaturated broadcast color grade of that era, adapted
+cleanly to the vertical 9:16 frame (no pillarboxing, no 4:3 bars).
+Composition: anchor centered, head-and-shoulders to mid-torso, clear empty
+space in the lower third of the frame.
 IMPORTANT: absolutely no text, no captions, no lower thirds, no tickers,
 no channel logos, no headlines, no dates, no watermarks anywhere in the image.
 Clean visual plate only.
@@ -125,15 +142,17 @@ Clean visual plate only.
 **Variant B — Son-likeness still (Step 1, only after references approved):**
 
 ```
-DO NOT RUN — DRAFT — requires approved reference photos attached
+DO NOT RUN — DRAFT — BLOCKED: reference file list not yet named (D3/D4)
 Using the attached reference photos, render the same person aged up to look
-[approved apparent age], in a [realistic / semi-realistic / stylized] style,
-preserving facial identity: face shape, eye shape and spacing, eyebrows,
-nose, mouth, hairline, skin tone.
-He is a premium news anchor: [approved wardrobe], confident warm on-camera
-expression, seated at a sleek anchor desk.
-Set: [approved studio style], champagne-gold accent lighting, shallow depth
-of field, broadcast three-point lighting, 85mm portrait look, vertical 9:16.
+in his late 20s (25–30), hyper-realistic, preserving facial identity: face
+shape, eye shape and spacing, eyebrows, nose, mouth, hairline, skin tone.
+He is a news anchor: tailored blazer over an open-collar shirt (no tie),
+confident warm on-camera expression, seated at a classic 2000s-era
+wood-and-blue anchor desk, warm tungsten lighting, soft skyline/map
+backdrop panel behind.
+Image quality: early-2000s broadcast studio camera look — SD CCD softness,
+subtle interlace/scanline texture, gentle bloom, warm era-correct broadcast
+color grade — adapted cleanly to vertical 9:16 (no pillarboxing).
 IMPORTANT: no text, no captions, no lower thirds, no logos, no headlines,
 no dates, no watermarks. Clean visual plate only.
 ```
