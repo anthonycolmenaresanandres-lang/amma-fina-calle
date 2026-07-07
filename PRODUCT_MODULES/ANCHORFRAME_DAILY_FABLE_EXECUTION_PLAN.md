@@ -164,6 +164,21 @@ no dates, no watermarks. Clean visual plate only.
 
 Prompt rules baked in: no real network branding, no baked-in text of any kind (the plate rule), no child's name or identifiers anywhere, codename "Anchor One" in all filenames/logs.
 
+## 6b. Codex execution brief — Step 0 generic mock (browser → ChatGPT)
+
+_Owner-approved 2026-07-07: Codex drives a Chrome browser into ChatGPT to generate this one still. Fable/Sonnet have no ChatGPT tool in-session. Runway stays out — Anthony will bring Claude back only if/when Runway final motion is needed._
+
+**Task:** Generate exactly **one** generic older-anchor mock still. Fictional anchor, **no likeness, no reference photos, no uploads.** This proves the studio/wardrobe/camera look before any child likeness step.
+
+**Steps for Codex:**
+1. Open Chrome to an **already-signed-in** ChatGPT session (an image-capable model). **Do not** handle logins, passwords, 2FA, payment, or CAPTCHA — if any of those appear, stop and hand back to Anthony.
+2. Paste the **Variant A** prompt (above). Explicitly request a **9:16 vertical** image.
+3. If the model returns 4:3 with bars or adds any text/logo, re-prompt once: "make it true 9:16 vertical, and remove all text/logos — clean plate only."
+4. Download the result. Save as `anchorOne_generic_mock_v1.png` (keep the codename; no real names).
+5. Return the file to Anthony / this session for QA against §7. Do **not** publish, post, or feed it anywhere else.
+
+**Hard limits for this run:** generic only (no son, no references), one image (iterate max 2–3 times if off-spec), no Runway, no publishing, plates only (zero baked-in text). If ChatGPT refuses or flags the request, stop and report — do not work around a refusal.
+
 ## 7. QA checklist (apply to every render, starting with the first still)
 
 - [ ] 9:16 vertical, full-bleed, no letterboxing.
