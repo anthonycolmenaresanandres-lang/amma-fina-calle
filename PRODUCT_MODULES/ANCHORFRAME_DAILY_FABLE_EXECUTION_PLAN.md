@@ -119,10 +119,13 @@ Ask verbatim, one block, before any generation:
 > Both variants are ChatGPT web, single still, 9:16. Placeholders in `[brackets]`
 > must be filled from Anthony's answers before this is even eligible to run.
 
-**Variant A — Generic mock (Step 0, no likeness, safest) — FILLED from Decisions log, awaiting "run it":**
+**Variant A — Generic mock (Step 0, no likeness, safest) — ✅ APPROVED TO RUN (Anthony, 2026-07-07):**
+
+> Released for ChatGPT web only. No likeness, no references, no Runway, no publish.
+> Fable/Sonnet have no ChatGPT tool in-session, so Anthony runs this in ChatGPT web
+> and returns the still here for QA against §7.
 
 ```
-DO NOT RUN — DRAFT (filled 2026-07-07, awaiting Anthony's explicit "run it")
 Early-2000s television news broadcast still, vertical 9:16 full-frame.
 A male news anchor in his late 20s (fictional person, not based on anyone
 real), confident warm on-camera expression, seated at a classic 2000s-era
