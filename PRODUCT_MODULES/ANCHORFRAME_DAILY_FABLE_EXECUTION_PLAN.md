@@ -147,7 +147,7 @@ Clean visual plate only.
 **Variant B — Son-likeness still (Step 1, only after references approved):**
 
 ```
-DO NOT RUN — DRAFT — BLOCKED: reference file list not yet named (D3/D4)
+✅ RELEASED (2026-07-07) — run in ChatGPT via Codex, references = the 5 cropped anchorOne_ref files ONLY
 Using the attached reference photos, render the same person aged up to look
 in his late 20s (25–30), hyper-realistic, preserving facial identity: face
 shape, eye shape and spacing, eyebrows, nose, mouth, hairline, skin tone.
@@ -179,7 +179,12 @@ _Owner-approved 2026-07-07: Codex drives a Chrome browser into ChatGPT to genera
 
 **Hard limits for this run:** generic only (no son, no references), one image (iterate max 2–3 times if off-spec), no Runway, no publishing, plates only (zero baked-in text). If ChatGPT refuses or flags the request, stop and report — do not work around a refusal.
 
-**Status (2026-07-07): Step 0 NOT yet run — blocked, correctly halted.** Codex verified PR #148 / the approved prompt, confirmed no image generated, no references uploaded, no Runway, no publish. Blocker: **Chrome automation unavailable** — Chrome + Codex Chrome extension are installed/enabled, but the **native-messaging host wiring is broken** (missing Windows registry key for `com.openai.codexextension`). Fix path: reinstall/repair the Codex Chrome plugin from the Codex plugin UI, then rerun Step 0. Target output unchanged: `anchorOne_generic_mock_v1.png`.
+**Status (2026-07-07): Step 0 ✅ COMPLETE.** Codex repaired the Chrome native-host wiring (fallback touched only the one approved registry key; manifest + allowed_origins verified; official bundled installer script was NOT run) and generated the generic mock in signed-in ChatGPT: `anchorOne_generic_mock_v1.png`, 941×1672 (~9:16). Codex visual QA: no bars, zero baked-in text/logos, blazer/no-tie, wood-and-blue studio, warm 2000s broadcast feel. No son photos, no reference uploads, no Runway, no publishing. Logged in `OPERATIONS/HANDOFF_LOG.md` (local). Pending: Claude QA of the actual file + Anthony's look-lock sign-off.
+
+**Released next (2026-07-07, per Anthony's "go until we have a video"):**
+- **Step 1 — son-likeness still** (ChatGPT via Codex): reference set = the **5 cropped, identifier-stripped files Claude delivered** (`anchorOne_ref1..ref5`), tool = ChatGPT only, per Anthony's earlier approval of these exact pictures. Prompt in §6 Variant B (unblocked).
+- **Step 2 — motion proof** (Gemini web, free): image-to-video from the approved likeness still. Silent plate, 5–8s, subtle anchor presence. No cost.
+- **Runway gate UNCHANGED:** Gen-4.5 final motion only when Anthony returns with credit balance/budget (D11). No newsroom automation, no publishing — the run stops when a satisfactory proof video exists.
 
 ## 7. QA checklist (apply to every render, starting with the first still)
 
