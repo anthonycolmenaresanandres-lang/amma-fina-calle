@@ -58,8 +58,8 @@ _Answered by Anthony, 2026-07-07 (in-session):_
 
 - **D1 Apparent age:** ~25–30 — established anchor look.
 - **D2 Rendering style:** hyper-realistic, but with the camera quality of early-2000s news channels — **full-on 2000s broadcast look, adapted to 9:16** (CCD-era softness, interlace/scanline texture, warm tungsten broadcast color, mild bloom). The retro texture is part of the brand look, not an accident.
-- **D3 References:** **Approved in principle** — Anthony will name the exact files. ⏳ PENDING: the file list (recommend 3–5: front, 3/4 left, 3/4 right, neutral expression, good light). No upload happens until the files are named.
-- **D4 Reference count/type:** pending with D3.
+- **D3 References:** **Received** (2026-07-07) — Anthony provided **5 photos**. Held in the **session scratchpad only** (`scratchpad/anchor_one_refs/`), **NOT committed to git** (privacy guardrail). Nothing uploaded to any AI tool. NOTE: scratchpad is ephemeral — durable storage needs Anthony's own Google Drive (offered, awaiting yes), never the repo.
+- **D4 Reference count/type:** 5 casual home snapshots. Framing audit: **1 strong frontal, eyes open** (usable); 1 frontal but eyes squeezed shut (laughing); 2 profile/¾ with eyes downcast; 1 back-of-head (no face). GAP: need cleaner neutral **straight-on + ¾-left + ¾-right, eyes open, even light, plain background**. All shots include home interior / national-team jersey / a wall worksheet with handwriting — **must crop to head-and-shoulders before any tool use** so no home/name/uniform identifiers travel with the reference.
 - **D5 Wardrobe:** blazer, **no tie**.
 - **D6 Studio:** classic 2000s news desk — wood-and-blue anchor desk, warm tungsten lighting, soft city-skyline or map backdrop.
 - **D10 First proof / output target:** **generic mock first** (single 9:16 still, no likeness), son-likeness still only after the mock is approved. Execution still awaits Anthony's explicit "run it."
