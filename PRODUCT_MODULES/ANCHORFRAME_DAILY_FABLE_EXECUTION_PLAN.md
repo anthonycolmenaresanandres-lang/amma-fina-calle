@@ -186,6 +186,8 @@ _Owner-approved 2026-07-07: Codex drives a Chrome browser into ChatGPT to genera
 - **Step 2 — motion proof** (Gemini web, free): image-to-video from the approved likeness still. Silent plate, 5–8s, subtle anchor presence. No cost.
 - **Runway gate UNCHANGED:** Gen-4.5 final motion only when Anthony returns with credit balance/budget (D11). No newsroom automation, no publishing — the run stops when a satisfactory proof video exists.
 
+**Status (2026-07-08): Step 2 motion proof — blocked at upload, correctly halted.** Codex opened signed-in Gemini (Crear video, 9:16 vertical) and attempted to upload only the approved **generic** still — a good, blessed re-ordering: motion gets proven on the generic mock (zero likeness) before any likeness motion. Chrome blocked the extension's file upload (`fileChooser.setFiles: Not allowed`). No prompt submitted, no generation, no cost. **Fix (manual, Anthony clicks it):** `chrome://extensions` → Codex extension → Details → enable **"Allow access to file URLs"** (per the Codex Chrome-extension upload docs), then rerun Step 2 with the same prompt/file. Logged in local `OPERATIONS/HANDOFF_LOG.md`.
+
 ## 7. QA checklist (apply to every render, starting with the first still)
 
 - [ ] 9:16 vertical, full-bleed, no letterboxing.
