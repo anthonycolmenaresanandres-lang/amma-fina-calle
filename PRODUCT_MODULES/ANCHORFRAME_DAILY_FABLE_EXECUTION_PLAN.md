@@ -179,6 +179,8 @@ _Owner-approved 2026-07-07: Codex drives a Chrome browser into ChatGPT to genera
 
 **Hard limits for this run:** generic only (no son, no references), one image (iterate max 2–3 times if off-spec), no Runway, no publishing, plates only (zero baked-in text). If ChatGPT refuses or flags the request, stop and report — do not work around a refusal.
 
+**Status (2026-07-07): Step 0 NOT yet run — blocked, correctly halted.** Codex verified PR #148 / the approved prompt, confirmed no image generated, no references uploaded, no Runway, no publish. Blocker: **Chrome automation unavailable** — Chrome + Codex Chrome extension are installed/enabled, but the **native-messaging host wiring is broken** (missing Windows registry key for `com.openai.codexextension`). Fix path: reinstall/repair the Codex Chrome plugin from the Codex plugin UI, then rerun Step 0. Target output unchanged: `anchorOne_generic_mock_v1.png`.
+
 ## 7. QA checklist (apply to every render, starting with the first still)
 
 - [ ] 9:16 vertical, full-bleed, no letterboxing.
