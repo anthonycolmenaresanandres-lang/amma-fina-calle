@@ -3,11 +3,11 @@
 > Text lock only. **Never** commit the underlying reference photos of the minor to this repo.
 > Codename only. This block deliberately does NOT catalogue a minor's biometrics.
 >
-> **Master keyframe (2026-07-08):** `anchorOne_likeness_v2.png` (local: `C:\Users\antho\OneDrive\Desktop\AnchorFrame\out\`).
-> Passed QA: adult read ~27–30 (v1 was rejected for reading teen), clean plate, locked wardrobe/set,
-> identity continuity from the v1 chain. Awaiting Anthony's final likeness sign-off. For future renders,
-> prefer attaching the master keyframe (an adult, fictional character image) over re-uploading the
-> minor's reference photos — the keyframe now carries the identity.
+> **Master keyframe (2026-07-08) — ✅ LIKENESS APPROVED by Anthony:** `anchorOne_likeness_v2.png`
+> (local: `C:\Users\antho\OneDrive\Desktop\AnchorFrame\out\`). Passed QA (adult read ~27–30; v1 was
+> rejected for reading teen), clean plate, locked wardrobe/set, identity continuity. This is now the
+> canonical Anchor One face. For ALL future renders and motion, attach THIS keyframe — do NOT
+> re-upload the minor's reference photos; the keyframe carries the identity from here on.
 
 Anchor One is a **fictional adult male television news anchor**, about 25–30 years old, created
 for a private family newsroom series with full parental/guardian consent. He is always rendered as
