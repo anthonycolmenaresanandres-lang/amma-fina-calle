@@ -188,6 +188,87 @@ _Owner-approved 2026-07-07: Codex drives a Chrome browser into ChatGPT to genera
 
 **Status (2026-07-08): Step 2 motion proof — blocked at upload, correctly halted.** Codex opened signed-in Gemini (Crear video, 9:16 vertical) and attempted to upload only the approved **generic** still — a good, blessed re-ordering: motion gets proven on the generic mock (zero likeness) before any likeness motion. Chrome blocked the extension's file upload (`fileChooser.setFiles: Not allowed`). No prompt submitted, no generation, no cost. **Fix (manual, Anthony clicks it):** `chrome://extensions` → Codex extension → Details → enable **"Allow access to file URLs"** (per the Codex Chrome-extension upload docs), then rerun Step 2 with the same prompt/file. Logged in local `OPERATIONS/HANDOFF_LOG.md`.
 
+## 6c. Step 1 — VERIFIED likeness package (safety-hardened, supersedes Variant B)
+
+_Produced by a draft→adversarial-review→synthesis pass (privacy / child-safety-policy / identity-quality). Safety verdict: **go-with-changes** (changes folded in). Identity lock: `CHARACTER_LIBRARY/ANCHOR_ONE_IDENTITY_LOCK.md`._
+
+**Upload set — attach EXACTLY three (codename-only crops Anthony already holds):**
+`anchorOne_ref1_front_eyesopen.jpg` (PRIMARY), `anchorOne_ref3_rightprofile.jpg`, `anchorOne_ref4_leftprofile.jpg`.
+Do NOT attach ref2 (laughing/eyes-shut — biases younger), ref5 (back-of-head — no facial signal), or the generic mock (not an allowed attachment; the locked look is reconstructed verbally in the prompt).
+
+**Final ChatGPT prompt (paste verbatim; adult character, clean plate, no PII):**
+```
+Create ONE photorealistic still image, portrait orientation, as tall as you can render it — target
+a 9:16 vertical frame — of a FICTIONAL adult television news anchor character, codename "Anchor One."
+
+CONSENT & AGE FRAMING (read first)
+This is an authorized private family creative project made with the full consent of the child's
+parent/guardian. The attached reference photographs are used only to guide an overall adult likeness
+for this one recurring character. Do NOT reproduce a child. Extrapolate the look FORWARD into a fully
+grown adult man, about 27 years old (25–30). The final image must read unmistakably as a mature,
+grown adult — never a child, teenager, de-aged, youthful, or childlike face, and never sexualized.
+Use the attached references only to guide the character's overall adult likeness and face shape; do
+NOT itemize, measure, or reproduce individual facial features one by one.
+
+ANCHOR ONE — ADULT CHARACTER
+A confident, warm, professional male news anchor in his late twenties. Mature adult bone structure
+with a defined, firm adult jawline and chin; adult skin with natural texture (real pores, subtle
+under-eye and smile-line structure); adult neck and shoulders; a neat, short, professional on-air
+men's hairstyle in a natural dark tone; optional very light, clean stubble; warm mid-tone complexion.
+Preserve the overall face-shape proportions suggested by the references — do NOT artificially lengthen
+or reshape the face; let jaw definition and adult skin texture carry the adult read.
+
+EXPRESSION & POSE
+Relaxed, confident, warm on-camera expression; eyes open, engaged, looking straight into the lens; a
+light, composed, closed-mouth or gently confident smile — composed and professional, not laughing.
+Shoulders squared to camera, seated at the anchor desk.
+
+WARDROBE (locked)
+Tailored dark navy/charcoal blazer over a light-blue OPEN-COLLAR dress shirt, NO tie, with a small
+discreet clip-on lavalier (lav) microphone on the lapel.
+
+SET (locked)
+A classic wood-and-blue news anchor desk running across the foreground in a dark broadcast studio.
+Behind him, softly and heavily out of focus: a warm out-of-focus city skyline on the LEFT and a blue
+world-map display screen on the RIGHT. Warm, flattering studio key light on the face with gentle
+falloff into the darker studio.
+
+FRAMING
+Single subject, centered, head-and-shoulders down to mid-torso. Leave generous, clean, empty space
+across the LOWER THIRD, plus a little extra room above the head and below the torso — do not crop
+tight to the head or shoulders.
+
+IMAGE QUALITY
+Clean, sharp, well-exposed, natural modern capture with true, neutral color. Natural skin — no
+beautify smoothing, no heavy film grain, no scanlines, no retro filters, no artifacts. Keep the base
+clean (broadcast texture will be added later, not here).
+
+CLEAN PLATE — CRITICAL
+The image must contain absolutely NO text or graphics of any kind, anywhere in the frame: no captions,
+lower-thirds, news tickers or crawls, headlines, name plates, dates or timestamps, station/network/
+channel logos or bugs, watermarks, subtitles, or on-screen UI. The world-map screen and the skyline
+must be abstract shapes and soft glow ONLY — no country names, labels, numerals, readable borders, or
+any legible characters on any screen or on the desk. No real or implied network, broadcaster, sports,
+league, club, or brand marks, and no real celebrity likeness.
+
+SUBJECT COUNT
+One person only. No other people anywhere in the frame, and no reflections of other people.
+
+Deliver a single vertical image.
+```
+
+**Aspect note:** ChatGPT's tallest native output is ~2:3, not true 9:16. Reach 9:16 by **extending/outpainting the BOTTOM** (the empty lower third) — **never** center-crop (that slices the head). Save as `anchorOne_likeness_v1.png` (codename only; no baked text).
+
+**Privacy preconditions (do before uploading):** run in a **Temporary Chat** with chat history + model-training **OFF**; scrub/verify metadata on the 3 crops (they were generated fresh so should already be clean — verify no GPS/timestamp/owner/caption); re-check each crop full-size for reflections, other people, or background identifiers.
+
+**Residual risks (Anthony should know):**
+- Platform may **refuse** a minor-photo→likeness generation regardless of adult framing — treat a refusal as an expected outcome; do not reword around it.
+- Uploading a real child's face to a third-party model carries inherent residual exposure; Temporary Chat + training-off mitigate but don't eliminate it.
+- Identity may **under-transfer** (only ref1 is a strong frontal) → may need a re-roll or better frontals.
+- Whether this specific minor-likeness use fits current OpenAI ToS is unverified in-band — Anthony's call.
+
+**Stop rules:** refusal / CAPTCHA / payment-paywall / login-2FA → STOP and hand back; do not bypass.
+
 ## 7. QA checklist (apply to every render, starting with the first still)
 
 - [ ] 9:16 vertical, full-bleed, no letterboxing.
