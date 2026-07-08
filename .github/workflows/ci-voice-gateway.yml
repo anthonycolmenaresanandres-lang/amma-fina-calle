@@ -1,0 +1,32 @@
+name: CI — voice-gateway
+on:
+  pull_request:
+    paths:
+      - "services/voice-gateway/**"
+      - ".github/workflows/ci-voice-gateway.yml"
+  push:
+    branches: [main]
+    paths:
+      - "services/voice-gateway/**"
+      - ".github/workflows/ci-voice-gateway.yml"
+
+concurrency:
+  group: ci-voice-gateway-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: services/voice-gateway
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: services/voice-gateway/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
