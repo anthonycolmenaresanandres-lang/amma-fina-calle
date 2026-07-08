@@ -5,7 +5,7 @@
 
 ## Canonical LOCAL folder (Anthony's Windows machine, user `antho`)
 ```
-C:\Users\antho\Desktop\AnchorFrame\
+C:\Users\antho\OneDrive\Desktop\AnchorFrame\
   refs\   -> the 5 cropped reference images
   docs\   -> handoff/prompt docs
   out\    -> ALL generated outputs
@@ -36,8 +36,8 @@ PR #148 — `PRODUCT_MODULES/ANCHORFRAME_DAILY_FABLE_EXECUTION_PLAN.md`.
 
 ```
 FILE LOCATIONS (exact — do not search):
-- References: C:\Users\antho\Desktop\AnchorFrame\refs\  (upload anchorOne_ref1/ref3/ref4 only)
-- Save outputs to: C:\Users\antho\Desktop\AnchorFrame\out\
+- References: C:\Users\antho\OneDrive\Desktop\AnchorFrame\refs\  (upload anchorOne_ref1/ref3/ref4 only)
+- Save outputs to: C:\Users\antho\OneDrive\Desktop\AnchorFrame\out\
 - Docs: Google Drive "AnchorFrame Daily — DOCS", or PR #148 in the repo.
 If a named file is not at its path, STOP and tell Anthony — do not search the disk or guess.
 ```
