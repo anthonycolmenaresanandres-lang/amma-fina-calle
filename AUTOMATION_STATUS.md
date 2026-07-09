@@ -3,9 +3,9 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-09 (merge wave 2 — "merge all")
+**Last updated:** 2026-07-09 (post-merge CI verified green)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
-**Caretaker model:** now pinned to **Opus 4.8** (runs `/model claude-opus-4-8` first thing each run).
+**Caretaker model:** pinned to **Opus 4.8** (runs `/model claude-opus-4-8` first thing each run).
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
 
 ---
@@ -18,14 +18,16 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 - Guardrails (always): never touch Client OS routes (`/m/[id]`, `/owner/[id]`, `/customers`),
   Supabase, Stripe, POS, secrets, customer data, or admin/access grants without explicit approval.
 
-## Build health (as of 2026-07-09)
+## Build health (as of 2026-07-09, post-merge verified)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI live on main: web (lint + next build), voice-gateway (typecheck) | web + voice-gateway ✅ on merges so far; Bandstand (`/band`) build run pending verification (short check-in armed) · Vercel preview Ready |
-| vbfh-media-engine | CI live on master (lint + 185 tests); Daily Run untouched | CI ✅ through #2; #1 (broadcast/IG) build run pending verification · Daily Run ✅ all week |
+| amma-fina-calle | CI live on main: web (lint + next build), voice-gateway (typecheck) | web ✅ (incl. Bandstand `/band`) · voice-gateway ✅ (incl. #142) · Vercel preview Ready |
+| vbfh-media-engine | CI live on master (lint + 185 tests); Daily Run untouched | CI ✅ (incl. #1 broadcast/IG) · Daily Run ✅ all week |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant since 2026-06-21, clean |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Dormant since 2026-06-23 |
+
+All default-branch builds are **green** after the full merge wave.
 
 ## Merged / closed on 2026-07-09 (Anthony authorized full merge)
 
@@ -35,7 +37,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 **Wave 2 ("merge all"):** amma #148 (AnchorFrame plan, docs), #36 (income assessment, docs),
 #17 (Colattanini campaign, docs), #115 (Bandstand `/band` route); vbfh #1 (broadcast cards +
-Instagram publisher). All squash-merged clean.
+Instagram publisher). All squash-merged clean; all post-merge CI green.
 
 > vbfh #1 note: merging did **not** arm Instagram — the publisher skips cleanly until you add
 > `BLOB_READ_WRITE_TOKEN` + `IG_BUSINESS_ID` + `IG_ACCESS_TOKEN` as repo Actions secrets and
@@ -81,15 +83,17 @@ _Say "clean the merged branches" / "clean all listed branches" and the caretaker
 
 ## Run log
 
+- **2026-07-09 — Post-merge CI verified (Opus 4.8 check-in):** Confirmed all default-branch builds
+  green after the merge wave — amma web build incl. Bandstand `/band` ✅, amma voice-gateway incl.
+  #142 ✅, vbfh CI incl. #1 broadcast/IG ✅. No regressions; no action needed.
 - **2026-07-09 — Merge wave 2 ("merge all") + Opus pin:** Merged amma #148, #36, #17, #115 and
   vbfh #1 (squash). Held amma #5 (Supabase admin grant + duplicate-0007 migration), #29 (protected
   route + Supabase, conflicts), #136 (needs real rebase) — flagged, not merged, per hard guardrails.
-  Recreated the caretaker Routine pinned to Opus 4.8. Armed a short check-in to confirm the Bandstand
-  and IG/broadcast builds land green (real product code on default branches).
+  Recreated the caretaker Routine pinned to Opus 4.8.
 - **2026-07-09 — Merge wave 1 (Anthony authorized):** Merged amma #149, #142, #100, #147 and vbfh
-  #3, #2. Closed amma #131, #24 with explanations. Verified post-merge CI green (amma web +
-  voice-gateway, vbfh master). Correction: the amma Vercel project exists and deploys fine (preview
-  Ready on #149) — it's just not visible to the connected Vercel integration.
+  #3, #2. Closed amma #131, #24 with explanations. Verified post-merge CI green. Correction: the amma
+  Vercel project exists and deploys fine (preview Ready on #149) — just not visible to the connected
+  Vercel integration.
 - **2026-07-08 — Setup run:** Surveyed all 4 repos + GitHub + Vercel. Added CI to amma (web +
   voice-gateway) and vbfh (lint + tests). Fixed lint errors. Triaged all 14 open PRs. Built
   branch-cleanup lists. Stood up the twice-daily caretaker with push + email summaries.
