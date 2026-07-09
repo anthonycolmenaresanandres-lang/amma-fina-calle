@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CircleCheck, Loader2, Send, Upload } from "lucide-react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -131,8 +132,8 @@ export default function CustomerRequestForm() {
 
     return (
       <section className="fc-panel px-5 py-8 text-center text-[#f4f6f7]">
-        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-lg text-[#9fe5bd]">
-          ✓
+        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd]">
+          <CircleCheck size={20} strokeWidth={1.75} aria-hidden />
         </span>
         <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#4f9dff]">
           Intake received
@@ -296,7 +297,8 @@ export default function CustomerRequestForm() {
       </div>
 
       <div className="mt-4">
-        <label htmlFor="request-files" className={labelClass}>
+        <label htmlFor="request-files" className={`${labelClass} flex items-center gap-1.5`}>
+          <Upload size={12} strokeWidth={2} aria-hidden className="text-[#4f9dff]" />
           Files or images
         </label>
         <input
@@ -340,11 +342,14 @@ export default function CustomerRequestForm() {
       >
         {status === "submitting" ? (
           <>
-            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0a0c0e]/30 border-t-[#0a0c0e]" />
+            <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
             Submitting request…
           </>
         ) : (
-          "Submit request"
+          <>
+            <Send size={15} strokeWidth={2} aria-hidden />
+            Submit request
+          </>
         )}
       </button>
 

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Contact, FileText, Image as ImageIcon, MessageSquareText, Paperclip } from "lucide-react";
 import { getChangeRequestById } from "@/data/requests";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -91,14 +92,18 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
 
         <div className="space-y-5">
           <Panel>
-            <SectionHeading tone="accent">Request</SectionHeading>
+            <SectionHeading tone="accent" icon={<MessageSquareText size={13} strokeWidth={1.75} aria-hidden />}>
+              Request
+            </SectionHeading>
             <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-[#c8d0d4]">
               {request.message || "No message provided."}
             </p>
           </Panel>
 
           <Panel>
-            <SectionHeading tone="accent">Contact</SectionHeading>
+            <SectionHeading tone="accent" icon={<Contact size={13} strokeWidth={1.75} aria-hidden />}>
+              Contact
+            </SectionHeading>
             <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
               <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
@@ -137,7 +142,11 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
           </Panel>
 
           <Panel>
-            <SectionHeading tone="accent" hint={`${request.attachments.length} total`}>
+            <SectionHeading
+              tone="accent"
+              icon={<Paperclip size={13} strokeWidth={1.75} aria-hidden />}
+              hint={`${request.attachments.length} total`}
+            >
               Attachments
             </SectionHeading>
             {request.attachments.length === 0 ? (
@@ -165,10 +174,12 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
                               className="h-full w-full object-cover"
                               loading="lazy"
                             />
+                          ) : file.contentType.includes("pdf") ? (
+                            <FileText size={20} strokeWidth={1.5} aria-hidden className="text-[#4f9dff]" />
+                          ) : file.contentType.startsWith("image/") ? (
+                            <ImageIcon size={20} strokeWidth={1.5} aria-hidden className="text-[#4f9dff]" />
                           ) : (
-                            <span className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#4f9dff]">
-                              {file.contentType.includes("pdf") ? "PDF" : "File"}
-                            </span>
+                            <FileText size={20} strokeWidth={1.5} aria-hidden className="text-[#4f9dff]" />
                           )}
                         </span>
                         <span className="min-w-0">

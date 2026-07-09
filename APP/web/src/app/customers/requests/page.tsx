@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronRight, Paperclip, TriangleAlert } from "lucide-react";
 import { getChangeRequests } from "@/data/requests";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -98,15 +99,18 @@ export default async function RequestInboxPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <StatusPill tone={priorityTone(request.priority)} dot={request.priority.toLowerCase() === "urgent"}>
+                  <StatusPill tone={priorityTone(request.priority)}>
+                    {request.priority.toLowerCase() === "urgent" ? (
+                      <TriangleAlert size={11} strokeWidth={2} aria-hidden />
+                    ) : null}
                     {request.priority || "Normal"}
                   </StatusPill>
-                  <span
+                  <ChevronRight
+                    size={16}
+                    strokeWidth={1.75}
                     aria-hidden
                     className="text-[#cfd6da]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[#4f9dff]"
-                  >
-                    &rarr;
-                  </span>
+                  />
                 </div>
               </div>
 
@@ -117,7 +121,7 @@ export default async function RequestInboxPage() {
                 </span>
                 {request.attachmentCount > 0 ? (
                   <span className="inline-flex items-center gap-1.5 text-[#bfdcff]">
-                    <span aria-hidden>◈</span>
+                    <Paperclip size={12} strokeWidth={1.75} aria-hidden />
                     {request.attachmentCount}{" "}
                     {request.attachmentCount === 1 ? "file" : "files"}
                   </span>

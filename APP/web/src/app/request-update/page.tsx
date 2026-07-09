@@ -1,3 +1,4 @@
+import { ClipboardCheck, Rocket, Send } from "lucide-react";
 import CustomerRequestForm from "@/components/CustomerRequestForm";
 import { Eyebrow, PageShell, TopBar } from "@/components/ui";
 
@@ -39,16 +40,19 @@ export default function RequestUpdatePage() {
               {[
                 {
                   num: "01",
+                  Icon: Send,
                   title: "You send the request",
                   body: "Tell us your business and what you want built. Takes two minutes.",
                 },
                 {
                   num: "02",
+                  Icon: ClipboardCheck,
                   title: "We review and scope it",
                   body: "We reply with a clear direction, the right package, and a fixed quote.",
                 },
                 {
                   num: "03",
+                  Icon: Rocket,
                   title: "Approve and we build",
                   body: "A deposit kicks off the build, and you review everything on mobile first.",
                 },
@@ -57,11 +61,16 @@ export default function RequestUpdatePage() {
                   key={step.num}
                   className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)] transition hover:border-[#4f9dff]/30"
                 >
-                  <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#4f9dff]/30 bg-gradient-to-br from-[#4f9dff]/20 to-[#0b0e11] text-xs font-semibold text-[#bfdcff]">
-                    {step.num}
+                  <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#4f9dff]/30 bg-gradient-to-br from-[#4f9dff]/20 to-[#0b0e11] text-[#bfdcff]">
+                    <step.Icon size={16} strokeWidth={1.75} aria-hidden />
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-[#eef2f4]">{step.title}</p>
+                    <p className="flex items-center gap-2 text-sm font-semibold text-[#eef2f4]">
+                      <span className="text-[0.62rem] font-semibold tracking-[0.1em] text-[#4f9dff]">
+                        {step.num}
+                      </span>
+                      {step.title}
+                    </p>
                     <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">{step.body}</p>
                   </div>
                 </li>

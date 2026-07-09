@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft, LogOut } from "lucide-react";
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
@@ -49,21 +50,25 @@ export function Card({
 export function SectionHeading({
   children,
   hint,
+  icon,
   tone = "gold",
 }: {
   children: ReactNode;
   hint?: ReactNode;
+  /** Optional leading icon (e.g. a Lucide glyph), inherits the heading color. */
+  icon?: ReactNode;
   /** Heading accent — "gold" (default, owner routes) or "accent" (sapphire). */
   tone?: "gold" | "accent";
 }) {
   return (
-    <div className="flex items-baseline justify-between gap-3">
+    <div className="flex items-center justify-between gap-3">
       <h2
         className={cn(
-          "text-[0.7rem] font-semibold uppercase tracking-[0.26em]",
+          "inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.26em]",
           tone === "accent" ? "text-[#4f9dff]" : "text-[#d8b36d]",
         )}
       >
+        {icon}
         {children}
       </h2>
       {hint ? <span className="text-[0.7rem] text-[#7f8a91]">{hint}</span> : null}
@@ -240,9 +245,12 @@ export function TopBar({
         href={backHref}
         className="group inline-flex items-center gap-2 transition hover:text-white"
       >
-        <span aria-hidden className="text-[#d8b36d] transition-transform group-hover:-translate-x-0.5">
-          &larr;
-        </span>
+        <ArrowLeft
+          size={15}
+          strokeWidth={1.75}
+          aria-hidden
+          className="text-[#4f9dff] transition-transform group-hover:-translate-x-0.5"
+        />
         {backLabel}
       </Link>
       {children ? (
@@ -257,8 +265,9 @@ export function SignOutButton() {
     <form action="/customers/signout" method="post">
       <button
         type="submit"
-        className="uppercase tracking-[0.28em] transition hover:text-white"
+        className="inline-flex items-center gap-1.5 uppercase tracking-[0.28em] transition hover:text-white"
       >
+        <LogOut size={13} strokeWidth={1.75} aria-hidden />
         Sign out
       </button>
     </form>

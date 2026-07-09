@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ExternalLink, IdCard, Inbox, PencilLine, Sparkles } from "lucide-react";
 import { getCustomers } from "@/data/customers";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -44,7 +45,11 @@ export default async function CustomersPage() {
   return (
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
-        <Link href="/customers/requests" className="transition hover:text-white">
+        <Link
+          href="/customers/requests"
+          className="inline-flex items-center gap-1.5 transition hover:text-white"
+        >
+          <Inbox size={13} strokeWidth={1.75} aria-hidden />
           Request Inbox
         </Link>
         <SignOutButton />
@@ -85,7 +90,10 @@ export default async function CustomersPage() {
                     </h2>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {customer.plan ? (
-                        <StatusPill tone="accent">{customer.plan}</StatusPill>
+                        <StatusPill tone="accent">
+                          <Sparkles size={11} strokeWidth={2} aria-hidden />
+                          {customer.plan}
+                        </StatusPill>
                       ) : null}
                       {customer.status ? (
                         <StatusPill tone={accountTone(customer.status)} dot>
@@ -104,20 +112,23 @@ export default async function CustomersPage() {
                 <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
                   <a
                     href={customer.siteUrl}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
                   >
+                    <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
                     Live Site
                   </a>
                   <Link
                     href={`/customers/${customer.id}`}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
                   >
+                    <IdCard size={14} strokeWidth={1.75} aria-hidden />
                     Account Page
                   </Link>
                   <Link
                     href={customer.requestUpdateUrl}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/22 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
                   >
+                    <PencilLine size={14} strokeWidth={1.75} aria-hidden />
                     Request Update
                   </Link>
                 </div>

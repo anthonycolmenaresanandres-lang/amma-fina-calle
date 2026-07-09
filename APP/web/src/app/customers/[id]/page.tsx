@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Contact, ExternalLink, PencilLine, StickyNote, Zap } from "lucide-react";
 import { getCustomerById } from "@/data/customers";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -80,25 +81,31 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
 
         <div className="space-y-5">
           <Panel>
-            <SectionHeading tone="accent">Account Actions</SectionHeading>
+            <SectionHeading tone="accent" icon={<Zap size={13} strokeWidth={2} aria-hidden />}>
+              Account Actions
+            </SectionHeading>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <a
                 href={customer.siteUrl}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
               >
+                <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
                 Live Site
               </a>
               <Link
                 href={customer.requestUpdateUrl}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
               >
+                <PencilLine size={14} strokeWidth={1.75} aria-hidden />
                 Request Update
               </Link>
             </div>
           </Panel>
 
           <Panel>
-            <SectionHeading tone="accent">Contact Information</SectionHeading>
+            <SectionHeading tone="accent" icon={<Contact size={13} strokeWidth={1.75} aria-hidden />}>
+              Contact Information
+            </SectionHeading>
             <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
               <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
@@ -135,7 +142,9 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
           </Panel>
 
           <Panel>
-            <SectionHeading tone="accent">Notes</SectionHeading>
+            <SectionHeading tone="accent" icon={<StickyNote size={13} strokeWidth={1.75} aria-hidden />}>
+              Notes
+            </SectionHeading>
             <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[#c8d0d4]">
               {customer.notes || "No notes recorded."}
             </p>

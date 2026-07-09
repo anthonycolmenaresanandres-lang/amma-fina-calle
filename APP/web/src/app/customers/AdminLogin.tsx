@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Loader2, Mail, ShieldCheck } from "lucide-react";
 import { Eyebrow } from "@/components/ui";
 import { requestAdminMagicLink, type AdminActionState } from "@/lib/admin/actions";
 
@@ -43,11 +44,14 @@ export default function AdminLogin() {
         >
           {pending ? (
             <>
-              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0a0c0e]/30 border-t-[#0a0c0e]" />
+              <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
               Sending link…
             </>
           ) : (
-            "Email me a sign-in link"
+            <>
+              <Mail size={15} strokeWidth={2} aria-hidden />
+              Email me a sign-in link
+            </>
           )}
         </button>
       </form>
@@ -64,7 +68,8 @@ export default function AdminLogin() {
         </p>
       ) : null}
 
-      <p className="mt-6 text-center text-[0.68rem] leading-5 text-[#7f8a91]">
+      <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-5 text-[#7f8a91]">
+        <ShieldCheck size={13} strokeWidth={1.75} aria-hidden className="text-[#4f9dff]/70" />
         Sign-in links expire after a short window and can only be used once.
       </p>
     </div>

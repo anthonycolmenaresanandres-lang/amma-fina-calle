@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ShieldX, Wrench } from "lucide-react";
 import type { AdminContext } from "@/lib/admin/auth";
 import { Eyebrow, Monogram, PageShell, Panel } from "@/components/ui";
 import AdminLogin from "./AdminLogin";
@@ -31,7 +32,12 @@ export default function AdminGate({ ctx }: { ctx: AdminContext }) {
     return (
       <Shell>
         <Panel className="w-full max-w-md text-center">
-          <Eyebrow className="justify-center">Customer accounts</Eyebrow>
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#4f9dff]/35 bg-[#4f9dff]/10 text-[#bfdcff]">
+            <Wrench size={18} strokeWidth={1.75} aria-hidden />
+          </span>
+          <div className="mt-4 flex justify-center">
+            <Eyebrow>Customer accounts</Eyebrow>
+          </div>
           <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
           <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
             Supabase isn&apos;t connected yet, so the admin registry is unavailable.
@@ -45,8 +51,8 @@ export default function AdminGate({ ctx }: { ctx: AdminContext }) {
     return (
       <Shell>
         <Panel className="w-full max-w-md text-center">
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-lg text-[#ffad9f]">
-            &times;
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f]">
+            <ShieldX size={18} strokeWidth={1.75} aria-hidden />
           </span>
           <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Not authorized</h1>
           <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
