@@ -107,6 +107,49 @@ a {
   background-attachment: fixed, fixed, fixed, scroll, scroll, fixed;
 }
 
+/* Warm variant — the diner-facing public menu keeps café gold (appetizing),
+   not the cool sapphire of the operator tools. Same grain/vignette apply. */
+.fc-bg-warm {
+  background-color: #060403;
+  background-image:
+    radial-gradient(circle at 50% 12%, rgba(216, 179, 109, 0.13), transparent 32%),
+    radial-gradient(circle at 84% 6%, rgba(216, 179, 109, 0.05), transparent 30%),
+    radial-gradient(circle at 12% 86%, rgba(216, 179, 109, 0.05), transparent 32%),
+    linear-gradient(150deg, #0a0806 0%, #13100b 48%, #070605 100%);
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+.fc-bg-warm ::selection {
+  background: rgba(216, 179, 109, 0.28);
+  color: #fff;
+}
+.fc-bg-warm a:focus-visible,
+.fc-bg-warm button:focus-visible,
+.fc-bg-warm [tabindex]:focus-visible {
+  outline: 2px solid rgba(216, 179, 109, 0.78);
+  outline-offset: 2px;
+}
+/* Warm panel: reuse .fc-panel but swap the specular top edge to gold. */
+.fc-panel-warm::before {
+  background: linear-gradient(90deg, transparent, rgba(216, 179, 109, 0.55), transparent);
+}
+
+/* Diagonal repeating "SAMPLE" watermark for demo/sample menus. Fixed over the
+   viewport, non-interactive (pointer-events:none), decorative (aria-hidden). */
+.fc-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.08;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Ctext x='10' y='120' font-family='Arial, Helvetica, sans-serif' font-size='40' font-weight='700' letter-spacing='10' fill='%23d8b36d' transform='rotate(-28 160 100)'%3ESAMPLE%3C/text%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fc-watermark {
+    background-attachment: fixed;
+  }
+}
+
 /* Layer 2 — fine film grain so large dark fields read as textured, not flat.
    Absolutely positioned; the shell gives content a higher stacking context. */
 .fc-grain {
