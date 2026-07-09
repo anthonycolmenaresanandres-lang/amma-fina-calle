@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Clock, ExternalLink, Sparkles } from "lucide-react";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getBrandAssets } from "@/lib/brand";
@@ -51,7 +52,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
 
   if (!isSupabaseConfigured) {
     return (
-      <main className="flex min-h-dvh items-center justify-center bg-[#030405] px-6 text-center text-[#aeb7bd]">
+      <main className="fc-bg-warm flex min-h-dvh items-center justify-center px-6 text-center text-[#aeb7bd]">
         <p className="max-w-sm text-sm leading-6">This menu isn&apos;t connected yet.</p>
       </main>
     );
@@ -67,9 +68,10 @@ export default async function PublicMenuPage({ params }: PageProps) {
   const brand = getBrandAssets(id);
 
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-10 text-[#f4f6f7] sm:px-8">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_14%,rgba(205,214,219,0.12),transparent_30%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="mx-auto w-full max-w-2xl">
+    <main className="fc-bg-warm relative isolate min-h-dvh overflow-hidden px-5 py-10 text-[#f4f6f7] sm:px-8">
+      <div className="fc-grain" aria-hidden />
+      <div className="fc-vignette" aria-hidden />
+      <div className="relative z-[1] mx-auto w-full max-w-2xl">
         <header className="text-center">
           {brand.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -79,9 +81,15 @@ export default async function PublicMenuPage({ params }: PageProps) {
               className="mx-auto mb-4 h-20 w-auto select-none drop-shadow-[0_18px_40px_rgba(0,0,0,0.6)]"
             />
           ) : (
-            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Menu</p>
+            <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.34em] text-[#d8b36d]">
+              <span aria-hidden className="h-px w-6 bg-gradient-to-r from-[#d8b36d]/80 to-transparent" />
+              Menu
+              <span aria-hidden className="h-px w-6 bg-gradient-to-l from-[#d8b36d]/80 to-transparent" />
+            </span>
           )}
-          <h1 className="mt-3 text-4xl font-semibold text-[#f4f6f7]">{data.restaurant.business_name}</h1>
+          <h1 className="fc-balance mt-3 text-4xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">
+            {data.restaurant.business_name}
+          </h1>
           {data.restaurant.site_url ? (
             <a
               href={data.restaurant.site_url}
@@ -89,7 +97,8 @@ export default async function PublicMenuPage({ params }: PageProps) {
               rel="noopener noreferrer"
               className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8b36d]/45 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#f4d99c] transition hover:bg-[#d8b36d]/20"
             >
-              Visit website ↗
+              <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
+              Visit website
             </a>
           ) : null}
         </header>
@@ -99,7 +108,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
           <img
             src={brand.menuHero}
             alt={`${data.restaurant.business_name} ambiance`}
-            className="mt-6 h-48 w-full rounded-[1.5rem] border border-[#cfd6da]/14 object-cover shadow-[0_30px_70px_-50px_rgba(0,0,0,0.8)] sm:h-60"
+            className="mt-6 h-48 w-full rounded-[1.5rem] border border-[#d8b36d]/16 object-cover shadow-[0_36px_80px_-52px_rgba(0,0,0,0.85)] ring-1 ring-white/[0.04] sm:h-60"
           />
         ) : null}
 
@@ -108,8 +117,9 @@ export default async function PublicMenuPage({ params }: PageProps) {
             {data.promos.map((promo, index) => (
               <p
                 key={index}
-                className="rounded-xl border border-[#d8b36d]/30 bg-[#d8b36d]/10 px-4 py-2 text-center text-sm text-[#f4d99c]"
+                className="flex items-center justify-center gap-2 rounded-xl border border-[#d8b36d]/30 bg-[#d8b36d]/10 px-4 py-2.5 text-center text-sm text-[#f4d99c]"
               >
+                <Sparkles size={13} strokeWidth={2} aria-hidden className="shrink-0" />
                 {promo.text}
               </p>
             ))}
@@ -119,13 +129,13 @@ export default async function PublicMenuPage({ params }: PageProps) {
         {data.categories.length > 1 ? (
           <nav
             aria-label="Menu sections"
-            className="sticky top-0 z-10 -mx-5 mt-8 flex gap-2 overflow-x-auto border-b border-[#cfd6da]/12 bg-[#030405]/85 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
+            className="sticky top-0 z-10 -mx-5 mt-8 flex gap-2 overflow-x-auto border-b border-[#d8b36d]/14 bg-[#060403]/85 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
           >
             {data.categories.map((category) => (
               <a
                 key={category.id}
                 href={`#cat-${slugify(category.name)}`}
-                className="shrink-0 rounded-full border border-[#cfd6da]/20 px-3 py-1 text-xs font-medium text-[#c8d0d4] transition hover:border-[#d8b36d]/50 hover:text-[#f4d99c]"
+                className="shrink-0 rounded-full border border-[#cfd6da]/20 px-3.5 py-1.5 text-xs font-medium text-[#c8d0d4] transition hover:border-[#d8b36d]/60 hover:bg-[#d8b36d]/10 hover:text-[#f4d99c]"
               >
                 {category.name}
               </a>
@@ -139,8 +149,9 @@ export default async function PublicMenuPage({ params }: PageProps) {
           ) : (
             data.categories.map((category) => (
               <section key={category.id} id={`cat-${slugify(category.name)}`} className="scroll-mt-20">
-                <h2 className="border-b border-[#cfd6da]/14 pb-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
+                <h2 className="flex items-center gap-3 pb-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
                   {category.name}
+                  <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-[#d8b36d]/35 to-transparent" />
                 </h2>
                 <ul className="mt-4 space-y-4">
                   {category.items.map((item) => (
@@ -151,7 +162,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
                           src={item.photo_url}
                           alt={item.name}
                           loading="lazy"
-                          className="h-16 w-16 shrink-0 rounded-xl border border-[#cfd6da]/14 object-cover sm:h-20 sm:w-20"
+                          className="h-16 w-16 shrink-0 rounded-xl border border-[#d8b36d]/14 object-cover ring-1 ring-white/[0.03] sm:h-20 sm:w-20"
                         />
                       ) : null}
                       <div className="min-w-0 flex-1">
@@ -160,7 +171,9 @@ export default async function PublicMenuPage({ params }: PageProps) {
                           <p className="mt-0.5 text-sm leading-5 text-[#aeb7bd]">{item.description}</p>
                         ) : null}
                       </div>
-                      <span className="shrink-0 font-semibold text-[#f4f6f7]">{formatPrice(item.price)}</span>
+                      <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
+                        {formatPrice(item.price)}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -170,8 +183,11 @@ export default async function PublicMenuPage({ params }: PageProps) {
         </div>
 
         {data.hours.length > 0 ? (
-          <section className="mt-10">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">Hours</h2>
+          <section className="fc-panel fc-panel-warm mt-10 p-5 sm:p-6">
+            <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
+              <Clock size={14} strokeWidth={1.75} aria-hidden />
+              Hours
+            </h2>
             <ul className="mt-3 space-y-1 text-sm text-[#c8d0d4]">
               {data.hours.map((h) => {
                 const isToday = h.day_of_week === new Date().getDay();
@@ -181,7 +197,9 @@ export default async function PublicMenuPage({ params }: PageProps) {
                     className={`flex justify-between rounded-lg px-2 py-1 ${isToday ? "bg-[#d8b36d]/10 font-semibold text-[#f4d99c]" : ""}`}
                   >
                     <span>{DAYS[h.day_of_week]}{isToday ? " · Today" : ""}</span>
-                    <span>{h.is_closed ? "Closed" : `${formatTime(h.open_time)} – ${formatTime(h.close_time)}`}</span>
+                    <span className="tabular-nums">
+                      {h.is_closed ? "Closed" : `${formatTime(h.open_time)} – ${formatTime(h.close_time)}`}
+                    </span>
                   </li>
                 );
               })}
@@ -189,7 +207,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
           </section>
         ) : null}
 
-        <footer className="mt-12 border-t border-[#cfd6da]/12 pt-5 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd6da]/35">
+        <footer className="mt-12 border-t border-[#d8b36d]/12 pt-5 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd6da]/35">
           Menu by Fina Calle
         </footer>
       </div>

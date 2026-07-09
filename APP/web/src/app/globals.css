@@ -107,6 +107,32 @@ a {
   background-attachment: fixed, fixed, fixed, scroll, scroll, fixed;
 }
 
+/* Warm variant — the diner-facing public menu keeps café gold (appetizing),
+   not the cool sapphire of the operator tools. Same grain/vignette apply. */
+.fc-bg-warm {
+  background-color: #060403;
+  background-image:
+    radial-gradient(circle at 50% 12%, rgba(216, 179, 109, 0.13), transparent 32%),
+    radial-gradient(circle at 84% 6%, rgba(216, 179, 109, 0.05), transparent 30%),
+    radial-gradient(circle at 12% 86%, rgba(216, 179, 109, 0.05), transparent 32%),
+    linear-gradient(150deg, #0a0806 0%, #13100b 48%, #070605 100%);
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+.fc-bg-warm ::selection {
+  background: rgba(216, 179, 109, 0.28);
+  color: #fff;
+}
+.fc-bg-warm a:focus-visible,
+.fc-bg-warm button:focus-visible,
+.fc-bg-warm [tabindex]:focus-visible {
+  outline: 2px solid rgba(216, 179, 109, 0.78);
+  outline-offset: 2px;
+}
+/* Warm panel: reuse .fc-panel but swap the specular top edge to gold. */
+.fc-panel-warm::before {
+  background: linear-gradient(90deg, transparent, rgba(216, 179, 109, 0.55), transparent);
+}
+
 /* Layer 2 — fine film grain so large dark fields read as textured, not flat.
    Absolutely positioned; the shell gives content a higher stacking context. */
 .fc-grain {
