@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CircleCheck, Loader2, Send, Upload } from "lucide-react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -29,7 +30,7 @@ const MAX_FILES = 10;
 const MAX_TOTAL_FILE_SIZE_BYTES = 4 * 1024 * 1024;
 
 const fieldClass =
-  "w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/18";
+  "w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20";
 
 const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]";
 
@@ -130,8 +131,11 @@ export default function CustomerRequestForm() {
     const emailed = result?.emailActive;
 
     return (
-      <section className="rounded-2xl border border-[#cfd6da]/18 bg-[#0f1418] px-5 py-7 text-center text-[#f4f6f7] shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#d8b36d]">
+      <section className="fc-panel px-5 py-8 text-center text-[#f4f6f7]">
+        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd]">
+          <CircleCheck size={20} strokeWidth={1.75} aria-hidden />
+        </span>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#4f9dff]">
           Intake received
         </p>
         <h2 className="mt-2 text-2xl font-semibold">
@@ -141,7 +145,7 @@ export default function CustomerRequestForm() {
         {result?.referenceId ? (
           <p className="mx-auto mt-3 text-sm text-[#c8d0d4]">
             Reference{" "}
-            <span className="font-mono font-semibold text-[#f4d99c]">
+            <span className="font-mono font-semibold text-[#bfdcff]">
               {result.referenceId}
             </span>
           </p>
@@ -156,17 +160,17 @@ export default function CustomerRequestForm() {
         {tracked ? (
           <ul className="mx-auto mt-5 inline-flex flex-col gap-2 text-left text-xs text-[#aeb7bd]">
             <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#d8b36d]" /> Request saved to the inbox
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> Request saved to the inbox
             </li>
             {filesStored > 0 ? (
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#d8b36d]" /> {filesStored}{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> {filesStored}{" "}
                 {filesStored === 1 ? "file" : "files"} stored
               </li>
             ) : null}
             {emailed ? (
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#d8b36d]" /> Team notified
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> Team notified
               </li>
             ) : null}
           </ul>
@@ -175,7 +179,7 @@ export default function CustomerRequestForm() {
         <button
           type="button"
           onClick={resetForm}
-          className="mx-auto mt-6 block rounded-full border border-[#cfd6da]/28 px-5 py-2 text-sm font-semibold text-[#eef2f4] transition hover:border-[#d8b36d]/70 hover:bg-[#d8b36d]/10"
+          className="mx-auto mt-6 block rounded-full border border-[#cfd6da]/28 px-5 py-2 text-sm font-semibold text-[#eef2f4] transition hover:border-[#4f9dff]/70 hover:bg-[#4f9dff]/10"
         >
           Submit another request
         </button>
@@ -293,7 +297,8 @@ export default function CustomerRequestForm() {
       </div>
 
       <div className="mt-4">
-        <label htmlFor="request-files" className={labelClass}>
+        <label htmlFor="request-files" className={`${labelClass} flex items-center gap-1.5`}>
+          <Upload size={12} strokeWidth={2} aria-hidden className="text-[#4f9dff]" />
           Files or images
         </label>
         <input
@@ -302,7 +307,7 @@ export default function CustomerRequestForm() {
           multiple
           accept="image/*,.pdf"
           onChange={onFilesChange}
-          className="block w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] file:mr-3 file:rounded-full file:border-0 file:bg-[#d8b36d] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
+          className="block w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] file:mr-3 file:rounded-full file:border-0 file:bg-[#4f9dff] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
         />
         <p className="mt-1.5 text-xs leading-5 text-[#8f9aa1]">
           Optional. Up to 10 files, 4MB total. Images and PDF — menus, logos, photos, or references.
@@ -333,9 +338,19 @@ export default function CustomerRequestForm() {
       <button
         type="submit"
         disabled={status === "submitting" || !isValid}
-        className="mt-6 w-full rounded-full bg-[#eef2f4] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#07090b] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#0a0c0e] shadow-[0_14px_36px_-14px_rgba(79,157,255,0.65)] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
       >
-        {status === "submitting" ? "Submitting request..." : "Submit request"}
+        {status === "submitting" ? (
+          <>
+            <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
+            Submitting request…
+          </>
+        ) : (
+          <>
+            <Send size={15} strokeWidth={2} aria-hidden />
+            Submit request
+          </>
+        )}
       </button>
 
       <p className="mt-3 text-center text-xs leading-5 text-[#8f9aa1]">

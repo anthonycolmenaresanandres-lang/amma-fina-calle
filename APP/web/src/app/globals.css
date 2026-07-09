@@ -83,3 +83,123 @@ body {
 a {
   text-decoration: none;
 }
+
+/* ============================================================================
+   Fina Calle OS — premium surface system
+   Centralizes the black + gold operations chrome that was copy-pasted across
+   every /customers screen into three reusable layers, plus small craft touches
+   (text selection, gold caret, balanced headings, a single focus ring).
+   Presentational only — no layout, routing, or data behavior changes.
+   ========================================================================== */
+
+/* Layer 1 — the page ground: café-gold spotlights over a graphite gradient,
+   with a faint engineering grid. Replaces four stacked background <div>s. */
+.fc-bg {
+  background-color: #070a0f;
+  background-image:
+    radial-gradient(circle at 50% 14%, rgba(79, 157, 255, 0.13), transparent 34%),
+    radial-gradient(circle at 84% 6%, rgba(207, 216, 224, 0.06), transparent 30%),
+    radial-gradient(circle at 10% 84%, rgba(79, 157, 255, 0.07), transparent 32%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(150deg, #04070c 0%, #0a1018 48%, #05080e 100%);
+  background-size: auto, auto, auto, 72px 72px, 72px 72px, auto;
+  background-attachment: fixed, fixed, fixed, scroll, scroll, fixed;
+}
+
+/* Layer 2 — fine film grain so large dark fields read as textured, not flat.
+   Absolutely positioned; the shell gives content a higher stacking context. */
+.fc-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Layer 3 — top light bloom + bottom vignette to seat the content on the page. */
+.fc-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(223, 229, 232, 0.08), transparent 18%),
+    linear-gradient(to top, #000 0%, transparent 22%);
+}
+
+/* Premium panel: hairline body + a single specular highlight along the top
+   edge and a soft inner top light, so cards feel milled rather than outlined. */
+.fc-panel {
+  position: relative;
+  isolation: isolate;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(207, 216, 224, 0.13);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 140px),
+    rgba(8, 11, 16, 0.82);
+  box-shadow:
+    0 40px 120px -60px rgba(0, 0, 0, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+.fc-panel::before {
+  content: "";
+  position: absolute;
+  inset-inline: 1.25rem;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 157, 255, 0.55), transparent);
+  opacity: 0.7;
+}
+
+/* Interactive panels (cards that are links): lift and warm the keyline on hover. */
+.fc-panel-link {
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+.fc-panel-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 157, 255, 0.45);
+  box-shadow:
+    0 52px 140px -60px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(79, 157, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Craft touches ---------------------------------------------------------- */
+.fc-bg ::selection {
+  background: rgba(79, 157, 255, 0.3);
+  color: #fff;
+}
+.fc-bg :where(input, textarea) {
+  caret-color: #4f9dff;
+}
+.fc-balance {
+  text-wrap: balance;
+}
+
+/* Customer surface re-tints the shared shine gradient from gold to sapphire
+   (the base .rb-shiny-text stays gold for other pages / the owner routes). */
+.fc-bg .rb-shiny-text {
+  background: linear-gradient(120deg, #eaf1ff 38%, #4f9dff 50%, #eaf1ff 62%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Honor reduced-motion for the panel lift and any decorative texture. */
+@media (prefers-reduced-motion: reduce) {
+  .fc-panel-link {
+    transition: none;
+  }
+  .fc-panel-link:hover {
+    transform: none;
+  }
+}

@@ -1,7 +1,19 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Contact, ExternalLink, PencilLine, StickyNote, Zap } from "lucide-react";
 import { getCustomerById } from "@/data/customers";
 import { getAdminContext } from "@/lib/admin/auth";
+import {
+  Eyebrow,
+  Monogram,
+  PageShell,
+  PageTitle,
+  Panel,
+  SectionHeading,
+  SignOutButton,
+  StatTile,
+  TopBar,
+} from "@/components/ui";
 import AdminGate from "../AdminGate";
 
 type CustomerPageProps = {
@@ -42,122 +54,103 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
   }
 
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_18%_80%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.024)_1px,transparent_1px)] bg-[size:68px_68px]" />
-      <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-[#dfe5e8]/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-44 bg-gradient-to-t from-black to-transparent" />
+    <PageShell>
+      <TopBar backHref="/customers" backLabel="Accounts">
+        <SignOutButton />
+      </TopBar>
 
-      <div className="mx-auto flex min-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col">
-        <header className="flex items-center justify-between gap-4 text-[0.68rem] uppercase tracking-[0.28em] text-[#cfd6da]/62">
-          <Link href="/customers" className="transition hover:text-white">
-            Back to Accounts
-          </Link>
-          <form action="/customers/signout" method="post">
-            <button type="submit" className="uppercase tracking-[0.28em] transition hover:text-white">
-              Sign out
-            </button>
-          </form>
-        </header>
-
-        <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start lg:py-14">
-          <div>
-            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
-              Customer Account
-            </p>
-            <h1 className="mt-5 text-4xl font-semibold tracking-normal text-[#f4f6f7] sm:text-5xl">
+      <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.74fr_1.26fr] lg:items-start lg:py-14">
+        <div className="lg:sticky lg:top-10">
+          <Eyebrow>Customer Account</Eyebrow>
+          <div className="mt-5 flex items-center gap-4">
+            <Monogram name={customer.businessName} className="h-14 w-14 rounded-2xl text-base" />
+            <PageTitle className="mt-0 text-3xl sm:text-4xl">
               {customer.businessName}
-            </h1>
-            <dl className="mt-6 grid gap-3 text-sm text-[#aeb7bd] sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4">
+            </PageTitle>
+          </div>
+          <dl className="mt-7 grid gap-3 text-sm text-[#aeb7bd] sm:grid-cols-3 lg:grid-cols-1">
+            <StatTile label="Plan">{customer.plan || "—"}</StatTile>
+            <StatTile label="Account Status" className="capitalize">
+              {formatStatus(customer.status) || "—"}
+            </StatTile>
+            <StatTile label="Billing Status" className="capitalize">
+              {formatStatus(customer.billingStatus) || "—"}
+            </StatTile>
+          </dl>
+        </div>
+
+        <div className="space-y-5">
+          <Panel>
+            <SectionHeading tone="accent" icon={<Zap size={13} strokeWidth={2} aria-hidden />}>
+              Account Actions
+            </SectionHeading>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <a
+                href={customer.siteUrl}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
+              >
+                <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
+                Live Site
+              </a>
+              <Link
+                href={customer.requestUpdateUrl}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
+              >
+                <PencilLine size={14} strokeWidth={1.75} aria-hidden />
+                Request Update
+              </Link>
+            </div>
+          </Panel>
+
+          <Panel>
+            <SectionHeading tone="accent" icon={<Contact size={13} strokeWidth={1.75} aria-hidden />}>
+              Contact Information
+            </SectionHeading>
+            <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
+              <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                  Plan
+                  Contact
                 </dt>
-                <dd className="mt-1 text-lg font-semibold text-[#eef2f4]">
-                  {customer.plan}
+                <dd className="mt-1 text-[#eef2f4]">{customer.contactName || "Not recorded"}</dd>
+              </div>
+              <div>
+                <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
+                  Email
+                </dt>
+                <dd className="mt-1 break-words text-[#eef2f4]">
+                  {customer.contactEmail ? (
+                    <a
+                      href={`mailto:${customer.contactEmail}`}
+                      className="text-[#bfdcff] transition hover:text-[#dbeaff]"
+                    >
+                      {customer.contactEmail}
+                    </a>
+                  ) : (
+                    "Not recorded"
+                  )}
                 </dd>
               </div>
-              <div className="rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4">
+              <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                  Account Status
+                  Phone
                 </dt>
-                <dd className="mt-1 text-lg font-semibold capitalize text-[#eef2f4]">
-                  {formatStatus(customer.status)}
-                </dd>
-              </div>
-              <div className="rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4">
-                <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                  Billing Status
-                </dt>
-                <dd className="mt-1 text-lg font-semibold capitalize text-[#eef2f4]">
-                  {formatStatus(customer.billingStatus)}
+                <dd className="mt-1 text-[#eef2f4]">
+                  {customer.businessPhone || "Not recorded"}
                 </dd>
               </div>
             </dl>
-          </div>
+          </Panel>
 
-          <div className="space-y-5">
-            <section className="rounded-[1.5rem] border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
-                Account Actions
-              </h2>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <a
-                  href={customer.siteUrl}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
-                >
-                  Live Site
-                </a>
-                <Link
-                  href={customer.requestUpdateUrl}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#d8b36d]/38 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4d99c] transition hover:border-[#f4d99c]/70 hover:bg-[#d8b36d]/16"
-                >
-                  Request Update
-                </Link>
-              </div>
-            </section>
-
-            <section className="rounded-[1.5rem] border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
-                Contact Information
-              </h2>
-              <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
-                <div>
-                  <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                    Contact
-                  </dt>
-                  <dd className="mt-1 text-[#eef2f4]">{customer.contactName}</dd>
-                </div>
-                <div>
-                  <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                    Email
-                  </dt>
-                  <dd className="mt-1 text-[#eef2f4]">
-                    {customer.contactEmail || "Not recorded"}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                    Phone
-                  </dt>
-                  <dd className="mt-1 text-[#eef2f4]">
-                    {customer.businessPhone || "Not recorded"}
-                  </dd>
-                </div>
-              </dl>
-            </section>
-
-            <section className="rounded-[1.5rem] border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
-                Notes
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-[#c8d0d4]">
-                {customer.notes}
-              </p>
-            </section>
-          </div>
-        </section>
-      </div>
-    </main>
+          <Panel>
+            <SectionHeading tone="accent" icon={<StickyNote size={13} strokeWidth={1.75} aria-hidden />}>
+              Notes
+            </SectionHeading>
+            <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[#c8d0d4]">
+              {customer.notes || "No notes recorded."}
+            </p>
+          </Panel>
+        </div>
+      </section>
+    </PageShell>
   );
 }
