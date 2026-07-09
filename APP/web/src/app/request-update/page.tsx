@@ -18,7 +18,7 @@ export default function RequestUpdatePage() {
       <>
         <section className="pt-6 sm:pt-8" aria-label="Fina Calle OS intake hero">
           <img
-            src="/assets/fina-calle-intake-hero.png"
+            src="/assets/fina-calle-intake-hero-sapphire.png"
             alt="Fina Calle OS Intake. Phase 1 Build Request. Tell us what your business needs."
             className="block h-auto w-full rounded-[1.75rem] border border-[#cfd6da]/14 bg-[#07090b] shadow-[0_34px_90px_-58px_rgba(255,255,255,0.55)]"
             loading="eager"

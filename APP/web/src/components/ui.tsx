@@ -363,10 +363,13 @@ export function Monogram({ name, className }: { name: string; className?: string
 export function StatTile({
   label,
   children,
+  icon,
   className,
 }: {
   label: ReactNode;
   children: ReactNode;
+  /** Optional leading glyph in the label row (inherits the muted label color). */
+  icon?: ReactNode;
   className?: string;
 }) {
   return (
@@ -376,7 +379,8 @@ export function StatTile({
         className,
       )}
     >
-      <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#cfd6da]/56">
+      <dt className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#cfd6da]/56">
+        {icon}
         {label}
       </dt>
       <dd className="mt-1.5 text-lg font-semibold text-[#eef2f4]">{children}</dd>
