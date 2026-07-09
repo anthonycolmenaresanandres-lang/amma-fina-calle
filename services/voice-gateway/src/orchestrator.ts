@@ -111,6 +111,7 @@ export async function finalizeCall(callId: string): Promise<void> {
   const tenant = getTenantById(call.tenantId) ?? getTenantByNumber(undefined);
   const summary = summarizeCall(callId);
   store.endCall(callId);
+  store.markHangupIfRecentBargeIn(callId); // flag a likely awkward-interruption hang-up
   store.audit("call", callId, "call.summary", undefined, summary);
   if (summary.outcome === "missed") {
     void notifyStaff(

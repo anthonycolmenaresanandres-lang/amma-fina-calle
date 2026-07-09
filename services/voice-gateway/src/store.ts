@@ -14,13 +14,30 @@ interface DB {
   posSync: Record<string, PosSyncAttempt>; // keyed by idempotencyKey
   messages: Message[];
   audit: AuditLog[];
+  turns: Record<string, CallTurnTelemetry>; // keyed by callId — SoundGate turn-quality KPIs
+}
+
+// Turn-quality telemetry per call (the SoundGate KPIs surfaced in /stats — see
+// SOUNDGATE.md). Additive + best-effort: recording never changes call behavior, and the
+// hot-path increments don't force a snapshot write (they ride the next persist()).
+interface CallTurnTelemetry {
+  callId: string;
+  tenantId: string;
+  speechStarts: number;         // caller speech detections (Realtime VAD speech_started)
+  bargeIns: number;             // interruptions honored (agent yielded the floor)
+  transientsSuppressed: number; // debounce HELD the floor (blip / one-word backchannel)
+  realtimeErrors: number;       // OpenAI Realtime error events (e.g. insufficient_quota)
+  lastErrorCode?: string;       // most recent Realtime error code/type
+  ttfaMsSamples: number[];      // user speech_stopped -> first agent audio (responsiveness)
+  lastBargeInAt?: number;       // for hang-up-after-interruption detection
+  hangupAfterInterruption: boolean;
 }
 
 export type Store = ReturnType<typeof createStore>;
 
 /** Build a store. Pass a snapshot path to make it durable (atomic write-through). */
 export function createStore(snapshotPath = "") {
-  const empty = (): DB => ({ calls: {}, drafts: {}, posSync: {}, messages: [], audit: [] });
+  const empty = (): DB => ({ calls: {}, drafts: {}, posSync: {}, messages: [], audit: [], turns: {} });
 
   function load(): DB {
     if (snapshotPath && existsSync(snapshotPath)) {
@@ -40,6 +57,16 @@ export function createStore(snapshotPath = "") {
       writeFileSync(tmp, JSON.stringify(db, null, 2));
       renameSync(tmp, snapshotPath);
     } catch { /* ignore — persistence is best-effort, never blocks a call */ }
+  }
+
+  function turnRec(callId: string, tenantId: string): CallTurnTelemetry {
+    let t = db.turns[callId];
+    if (!t) {
+      t = { callId, tenantId, speechStarts: 0, bargeIns: 0, transientsSuppressed: 0,
+        realtimeErrors: 0, ttfaMsSamples: [], hangupAfterInterruption: false };
+      db.turns[callId] = t;
+    }
+    return t;
   }
 
   return {
@@ -74,12 +101,34 @@ export function createStore(snapshotPath = "") {
     auditCount(): number { return db.audit.length; },
     bookingCount(): number { return Object.values(db.drafts).filter((d) => d.status === "committed").length; },
 
+    // --- SoundGate turn telemetry (hot-path increments skip persist; flushed by next persist) ---
+    recordSpeechStart(callId: string, tenantId = "default"): void { turnRec(callId, tenantId).speechStarts++; },
+    recordBargeIn(callId: string, tenantId = "default"): void {
+      const t = turnRec(callId, tenantId); t.bargeIns++; t.lastBargeInAt = Date.now();
+    },
+    recordTransientSuppressed(callId: string, tenantId = "default"): void { turnRec(callId, tenantId).transientsSuppressed++; },
+    recordRealtimeError(callId: string, tenantId = "default", code?: string): void {
+      const t = turnRec(callId, tenantId); t.realtimeErrors++; if (code) t.lastErrorCode = code; persist();
+    },
+    recordTtfa(callId: string, tenantId: string, ms: number): void {
+      if (ms > 0) turnRec(callId, tenantId).ttfaMsSamples.push(Math.round(ms));
+    },
+    /** Called on call end: if a barge-in happened within `windowMs`, flag a likely
+     *  awkward-interruption hang-up (an early-warning UX signal). */
+    markHangupIfRecentBargeIn(callId: string, windowMs = 4000): void {
+      const t = db.turns[callId];
+      if (t?.lastBargeInAt && Date.now() - t.lastBargeInAt <= windowMs) { t.hangupAfterInterruption = true; persist(); }
+    },
+    turnTelemetry(callId: string): CallTurnTelemetry | undefined { return db.turns[callId]; },
+
     /** Rollup for the ROI / call-analytics view (/stats, npm run report). Optionally
      *  scoped to a single tenant so each client sees only their own numbers. */
     stats(tenantId?: string): {
       calls: number; activeCalls: number; drafts: number;
       bookings: number; confirmedBookings: number; pendingBookings: number;
       messages: number; missedCalls: number; handledPct: number; conversionPct: number; syncErrors: number; audits: number;
+      speechStarts: number; bargeIns: number; transientsSuppressed: number; realtimeErrors: number;
+      hangupsAfterInterruption: number; ttfaAvgMs: number; ttfaP50Ms: number;
     } {
       const inScope = <T extends { tenantId: string }>(x: T): boolean => !tenantId || x.tenantId === tenantId;
       const calls = Object.values(db.calls).filter(inScope);
@@ -96,6 +145,11 @@ export function createStore(snapshotPath = "") {
       const missedCalls = calls.filter((c) => c.status === "ended"
         && !committed.some((d) => d.callId === c.callId)
         && !messages.some((m) => m.callId === c.callId)).length;
+      // Turn-quality (SoundGate) rollup.
+      const turns = Object.values(db.turns).filter(inScope);
+      const sumT = (f: (t: CallTurnTelemetry) => number): number => turns.reduce((n, t) => n + f(t), 0);
+      const ttfa = turns.flatMap((t) => t.ttfaMsSamples);
+      const ttfaSorted = [...ttfa].sort((a, b) => a - b);
       return {
         calls: calls.length,
         activeCalls: calls.filter((c) => c.status === "active").length,
@@ -109,6 +163,13 @@ export function createStore(snapshotPath = "") {
         conversionPct: calls.length ? Math.round((committed.length / calls.length) * 100) : 0,
         syncErrors,
         audits: db.audit.length,
+        speechStarts: sumT((t) => t.speechStarts),
+        bargeIns: sumT((t) => t.bargeIns),
+        transientsSuppressed: sumT((t) => t.transientsSuppressed),
+        realtimeErrors: sumT((t) => t.realtimeErrors),
+        hangupsAfterInterruption: turns.filter((t) => t.hangupAfterInterruption).length,
+        ttfaAvgMs: ttfa.length ? Math.round(ttfa.reduce((a, b) => a + b, 0) / ttfa.length) : 0,
+        ttfaP50Ms: ttfaSorted.length ? ttfaSorted[Math.floor((ttfaSorted.length - 1) / 2)]! : 0,
       };
     },
   };

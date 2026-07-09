@@ -43,6 +43,14 @@ export const config = {
   // here. English by default; set e.g. "Mandarin Chinese" for a Chinese-restaurant tenant.
   language: process.env.LANGUAGE ?? "English",
 
+  // SoundGate turn-taking referee (local, in-process — see soundgate.ts). bargeInMinMs is
+  // how long sustained speech must persist before the agent yields the floor, so transient
+  // noise / short backchannels don't kill its turn. 0 = instant (legacy); raise for noisy
+  // venues (cafés/restaurants). Concept: PRODUCT_MODULES/FINA_CALLE_SOUNDGATE_CONCEPT.md.
+  soundGate: {
+    bargeInMinMs: Number(process.env.BARGE_IN_MIN_MS ?? 150),
+  },
+
   // Booking connector: "mock" (default) | "calcom" | "square" | "webhook" | "proposeconfirm"
   connector: (process.env.BOOKING_CONNECTOR ?? "mock") as "mock" | "calcom" | "square" | "webhook" | "proposeconfirm",
   calcom: {
