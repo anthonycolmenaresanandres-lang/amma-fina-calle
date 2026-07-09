@@ -1,6 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
+import { Loader2, Mail, ShieldCheck } from "lucide-react";
+import { Eyebrow } from "@/components/ui";
 import { requestMagicLink, type ActionState } from "@/lib/owner/actions";
 
 const initialState: ActionState = { ok: false, message: "" };
@@ -18,16 +20,16 @@ export default function OwnerLogin({
   const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-2xl border border-[#cfd6da]/16 bg-[#07090b]/82 p-6 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] backdrop-blur sm:p-8">
-      <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Owner sign-in</p>
-      <h1 className="mt-4 text-3xl font-semibold text-[#f4f6f7]">{businessName}</h1>
+    <div className="fc-panel mx-auto w-full max-w-md p-6 sm:p-8">
+      <Eyebrow>Owner sign-in</Eyebrow>
+      <h1 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">{businessName}</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
         Enter the email on file for this restaurant. We&apos;ll send a one-time sign-in
         link — no password to remember.
       </p>
 
       {notice ? (
-        <p className="mt-4 rounded-xl border border-[#d8b36d]/30 bg-[#d8b36d]/10 px-3 py-2 text-sm font-medium leading-6 text-[#f4d99c]">
+        <p className="mt-4 rounded-xl border border-[#4f9dff]/30 bg-[#4f9dff]/10 px-3 py-2 text-sm font-medium leading-6 text-[#bfdcff]">
           {notice}
         </p>
       ) : null}
@@ -46,14 +48,24 @@ export default function OwnerLogin({
           required
           autoComplete="email"
           placeholder="you@email.com"
-          className="w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/18"
+          className="w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
         />
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-full bg-[#eef2f4] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#07090b] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#04121f] shadow-[0_14px_36px_-14px_rgba(79,157,255,0.65)] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
         >
-          {pending ? "Sending link..." : "Email me a sign-in link"}
+          {pending ? (
+            <>
+              <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
+              Sending link…
+            </>
+          ) : (
+            <>
+              <Mail size={15} strokeWidth={2} aria-hidden />
+              Email me a sign-in link
+            </>
+          )}
         </button>
       </form>
 
@@ -61,13 +73,18 @@ export default function OwnerLogin({
         <p
           className={`mt-4 rounded-xl border px-3 py-2 text-center text-sm font-medium ${
             state.ok
-              ? "border-[#d8b36d]/30 bg-[#d8b36d]/10 text-[#f4d99c]"
+              ? "border-[#4f9dff]/30 bg-[#4f9dff]/10 text-[#bfdcff]"
               : "border-[#ff7a66]/30 bg-[#8f3e2e]/16 text-[#ffad9f]"
           }`}
         >
           {state.message}
         </p>
       ) : null}
+
+      <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-5 text-[#7f8a91]">
+        <ShieldCheck size={13} strokeWidth={1.75} aria-hidden className="text-[#4f9dff]/70" />
+        One-time links expire shortly and only work once.
+      </p>
     </div>
   );
 }

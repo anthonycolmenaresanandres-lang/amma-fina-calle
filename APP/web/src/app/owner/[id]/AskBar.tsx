@@ -7,7 +7,8 @@ import {
   sendOwnerReview,
   triageOwnerRequest,
 } from "@/lib/owner/request-desk/actions";
-import { Card, Chip, buttonClass, cn } from "@/components/ui";
+import { Loader2, Send, Sparkles } from "lucide-react";
+import { Chip, Panel, buttonClass, cn } from "@/components/ui";
 
 /**
  * The AI Request Desk — the owner's primary surface. Type a change in plain
@@ -132,10 +133,11 @@ export default function AskBar({
   }
 
   return (
-    <Card className="relative overflow-hidden border-[#d8b36d]/18">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(216,179,109,0.16),transparent_44%)]" />
-      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#d8b36d]">
-        ✦ AI Request Desk
+    <Panel className="relative overflow-hidden border-[#4f9dff]/18">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(79,157,255,0.16),transparent_44%)]" />
+      <p className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#4f9dff]">
+        <Sparkles size={13} strokeWidth={2} aria-hidden />
+        AI Request Desk
       </p>
       <h2 className="mt-2 text-2xl font-semibold text-[#f4f6f7]">Ask for any change</h2>
       <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
@@ -148,9 +150,9 @@ export default function AskBar({
           e.preventDefault();
           if (interactive) analyze(text);
         }}
-        className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#d8b36d]/55 focus-within:ring-2 focus-within:ring-[#d8b36d]/20"
+        className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#4f9dff]/55 focus-within:ring-2 focus-within:ring-[#4f9dff]/20"
       >
-        <span aria-hidden className="text-sm text-[#d8b36d]/80">✦</span>
+        <Sparkles size={15} strokeWidth={1.75} aria-hidden className="shrink-0 text-[#4f9dff]/80" />
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -163,9 +165,13 @@ export default function AskBar({
           type="submit"
           disabled={!interactive || !text.trim() || pending}
           aria-label="Send"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#d8b36d] text-base font-semibold text-[#080a0c] shadow-[0_8px_20px_-8px_rgba(216,179,109,0.75)] transition hover:bg-[#e6c585] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f9dff] text-[#04121f] shadow-[0_8px_20px_-8px_rgba(79,157,255,0.75)] transition hover:bg-[#7ab8ff] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {pending ? "…" : "→"}
+          {pending ? (
+            <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
+          ) : (
+            <Send size={15} strokeWidth={2} aria-hidden />
+          )}
         </button>
       </form>
 
@@ -181,7 +187,7 @@ export default function AskBar({
                   setText(c);
                   analyze(c);
                 }}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-[#c8d0d4] transition hover:border-[#d8b36d]/50 hover:text-white disabled:opacity-50"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-[#c8d0d4] transition hover:border-[#4f9dff]/50 hover:text-white disabled:opacity-50"
               >
                 {c}
               </button>
@@ -193,9 +199,9 @@ export default function AskBar({
       ) : null}
 
       {result?.kind === "apply" ? (
-        <div className="mt-3 rounded-2xl border border-[#d8b36d]/30 bg-[#d8b36d]/8 px-4 py-3">
-          <p className="text-sm font-semibold text-[#f4d99c]">{result.title}</p>
-          <p className="mt-1 text-sm text-[#e7d6b4]/90">{result.detail}</p>
+        <div className="mt-3 rounded-2xl border border-[#4f9dff]/30 bg-[#4f9dff]/8 px-4 py-3">
+          <p className="text-sm font-semibold text-[#bfdcff]">{result.title}</p>
+          <p className="mt-1 text-sm text-[#cfe0f5]/90">{result.detail}</p>
           <div className="mt-3 flex gap-2">
             <button type="button" onClick={confirm} disabled={pending} className={buttonClass("primary")}>
               {pending ? "Applying…" : "Confirm change"}
@@ -229,6 +235,6 @@ export default function AskBar({
           </button>
         </div>
       ) : null}
-    </Card>
+    </Panel>
   );
 }

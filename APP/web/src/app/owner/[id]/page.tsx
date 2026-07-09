@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ShieldX, Wrench } from "lucide-react";
+import { Eyebrow, cn } from "@/components/ui";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
@@ -19,11 +21,23 @@ type PageProps = {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({
+  children,
+  center = false,
+}: {
+  children: React.ReactNode;
+  center?: boolean;
+}) {
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-10 text-[#f4f6f7] sm:px-8">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_18%_80%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="relative mx-auto flex min-h-[60dvh] w-full max-w-7xl flex-col justify-center">
+    <main className="fc-bg relative isolate flex min-h-dvh flex-col overflow-hidden px-5 py-10 text-[#f4f6f7] sm:px-8">
+      <div className="fc-grain" aria-hidden />
+      <div className="fc-vignette" aria-hidden />
+      <div
+        className={cn(
+          "relative z-[1] mx-auto flex min-h-[calc(100dvh-5rem)] w-full max-w-7xl flex-1 flex-col",
+          center && "justify-center",
+        )}
+      >
         {children}
       </div>
     </main>
@@ -32,8 +46,13 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 function SetupNotice() {
   return (
-    <div className="mx-auto w-full max-w-md rounded-2xl border border-[#cfd6da]/16 bg-[#07090b]/82 p-6 text-center">
-      <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Owner portal</p>
+    <div className="fc-panel mx-auto w-full max-w-md p-6 text-center">
+      <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#4f9dff]/35 bg-[#4f9dff]/10 text-[#bfdcff]">
+        <Wrench size={18} strokeWidth={1.75} aria-hidden />
+      </span>
+      <div className="mt-4 flex justify-center">
+        <Eyebrow>Owner portal</Eyebrow>
+      </div>
       <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
         Supabase isn&apos;t connected yet. Add the Supabase environment variables (see{" "}
@@ -78,7 +97,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (!isSupabaseConfigured) {
     return (
-      <Shell>
+      <Shell center>
         <SetupNotice />
       </Shell>
     );
@@ -91,7 +110,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (ctx.state === "anonymous") {
     return (
-      <Shell>
+      <Shell center>
         <OwnerLogin restaurantId={id} businessName={businessName} notice={notice} />
       </Shell>
     );
@@ -99,21 +118,28 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (ctx.state === "unauthorized") {
     return (
-      <Shell>
-        <div className="mx-auto w-full max-w-md rounded-2xl border border-[#ff7a66]/24 bg-[#07090b]/82 p-6 text-center">
-          <h1 className="text-2xl font-semibold text-[#f4f6f7]">Not authorized</h1>
+      <Shell center>
+        <div className="fc-panel mx-auto w-full max-w-md p-6 text-center">
+          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f]">
+            <ShieldX size={18} strokeWidth={1.75} aria-hidden />
+          </span>
+          <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Not authorized</h1>
           <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-            {ctx.email} isn&apos;t on the owner list for this restaurant.
+            <span className="text-[#eef2f4]">{ctx.email}</span> isn&apos;t on the owner
+            list for this restaurant.
           </p>
-          <form action={`/owner/${id}/signout`} method="post" className="mt-5">
+          <form action={`/owner/${id}/signout`} method="post" className="mt-6">
             <button
               type="submit"
-              className="rounded-full border border-[#cfd6da]/28 px-5 py-2 text-sm font-semibold text-[#eef2f4] transition hover:border-[#d8b36d]/70"
+              className="rounded-full border border-[#cfd6da]/28 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#4f9dff]/70 hover:bg-[#4f9dff]/10"
             >
               Sign out
             </button>
           </form>
-          <Link href="/" className="mt-4 inline-block text-xs uppercase tracking-[0.2em] text-[#cfd6da]/60">
+          <Link
+            href="/"
+            className="mt-5 inline-block text-[0.68rem] uppercase tracking-[0.24em] text-[#cfd6da]/60 transition hover:text-white"
+          >
             Back to Fina Calle OS
           </Link>
         </div>
@@ -125,7 +151,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   const supabase = await createServerSupabase();
   if (ctx.state !== "authorized" || !supabase) {
     return (
-      <Shell>
+      <Shell center>
         <SetupNotice />
       </Shell>
     );

@@ -78,7 +78,7 @@ export function SectionHeading({
 
 // --- Button ------------------------------------------------------------------
 
-export type ButtonVariant = "primary" | "gold" | "ghost" | "subtle" | "danger" | "success";
+export type ButtonVariant = "primary" | "gold" | "accent" | "ghost" | "subtle" | "danger" | "success";
 
 const BUTTON_BASE =
   "inline-flex items-center justify-center gap-2 rounded-full text-xs font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-45";
@@ -87,6 +87,8 @@ const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
   primary: "bg-[#eef2f4] px-5 py-2.5 text-[#07090b] hover:bg-white",
   gold:
     "bg-gradient-to-b from-[#e4c680] to-[#cfa457] px-5 py-2.5 text-[#0a0c0e] shadow-[0_10px_30px_-12px_rgba(216,179,109,0.6)] hover:from-[#eed093] hover:to-[#d8b36d]",
+  accent:
+    "bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-2.5 text-[#04121f] shadow-[0_10px_30px_-12px_rgba(79,157,255,0.6)] hover:from-[#7ab8ff] hover:to-[#4f9dff]",
   ghost:
     "border border-white/15 px-4 py-2 text-[#eef2f4] hover:border-[#d8b36d]/60 hover:text-white",
   subtle:

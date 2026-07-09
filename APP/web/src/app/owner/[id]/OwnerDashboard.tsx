@@ -1,5 +1,21 @@
 import type { ReactNode } from "react";
 import {
+  Check,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  Gauge,
+  History,
+  Image as ImageIcon,
+  LogOut,
+  Megaphone,
+  Paperclip,
+  Plus,
+  Star,
+  Upload,
+  UtensilsCrossed,
+} from "lucide-react";
+import {
   setItemAvailability,
   updateItemSizePrice,
   updateItemText,
@@ -8,8 +24,9 @@ import {
 import {
   Button,
   ButtonLink,
-  Card,
+  Eyebrow,
   Field,
+  Panel,
   SectionHeading,
   StatusPill,
   cn,
@@ -84,23 +101,26 @@ function StatCard({
   label,
   value,
   detail,
+  icon,
   tone = "neutral",
 }: {
   label: string;
   value: string;
   detail: string;
+  icon?: ReactNode;
   tone?: "neutral" | "gold" | "success" | "danger";
 }) {
   const tones: Record<NonNullable<typeof tone>, string> = {
     neutral: "border-white/[0.08] bg-white/[0.025]",
-    gold: "border-[#d8b36d]/22 bg-[#d8b36d]/8",
+    gold: "border-[#4f9dff]/22 bg-[#4f9dff]/8",
     success: "border-[#7fd1a2]/24 bg-[#7fd1a2]/8",
     danger: "border-[#ff7a66]/24 bg-[#8f3e2e]/12",
   };
 
   return (
     <div className={cn("rounded-2xl border p-4", tones[tone])}>
-      <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#7f8a91]">
+      <p className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#7f8a91]">
+        {icon}
         {label}
       </p>
       <p className="mt-2 text-2xl font-semibold text-[#f4f6f7]">{value}</p>
@@ -127,57 +147,69 @@ function CommandOverview({
   livePromos: number;
 }) {
   return (
-    <Card>
-      <SectionHeading hint="live controls">Command status</SectionHeading>
+    <Panel>
+      <SectionHeading
+        tone="accent"
+        icon={<Gauge size={13} strokeWidth={1.75} aria-hidden />}
+        hint="live controls"
+      >
+        Command status
+      </SectionHeading>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <StatCard
           label="Menu"
           value={`${liveItems}/${totalItems}`}
           detail="items currently visible to customers"
+          icon={<UtensilsCrossed size={12} strokeWidth={1.75} aria-hidden />}
           tone="success"
         />
         <StatCard
           label="Photos"
           value={String(missingPhotos)}
           detail="items still missing customer-facing photos"
+          icon={<ImageIcon size={12} strokeWidth={1.75} aria-hidden />}
           tone={missingPhotos > 0 ? "gold" : "success"}
         />
         <StatCard
           label="86 list"
           value={String(unavailableItems)}
           detail="items hidden until brought back"
+          icon={<EyeOff size={12} strokeWidth={1.75} aria-hidden />}
           tone={unavailableItems > 0 ? "danger" : "neutral"}
         />
         <StatCard
           label="Campaigns"
           value={String(livePromos)}
           detail="promos currently marked live"
+          icon={<Megaphone size={12} strokeWidth={1.75} aria-hidden />}
           tone={livePromos > 0 ? "gold" : "neutral"}
         />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <ButtonLink href={publicMenuHref(restaurantId)} variant="primary">
+        <ButtonLink href={publicMenuHref(restaurantId)} variant="accent">
+          <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
           View live menu
         </ButtonLink>
         {siteUrl ? (
           <ButtonLink href={siteUrl} variant="ghost">
+            <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
             Open public site
           </ButtonLink>
         ) : null}
       </div>
-    </Card>
+    </Panel>
   );
 }
 
 function SeasonalOpportunity({ prompt }: { prompt: string }) {
   return (
-    <Card className="relative overflow-hidden border-[#7fd1a2]/20">
+    <Panel className="relative overflow-hidden border-[#7fd1a2]/20">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_88%_-30%,rgba(127,209,162,0.14),transparent_46%)]" />
       <div className="flex items-start justify-between gap-3">
         <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#9fe5bd]">
           Coming up - Summer
         </p>
-        <StatusPill tone="gold">From Fina Calle</StatusPill>
+        <StatusPill tone="accent">From Fina Calle</StatusPill>
       </div>
       <h2 className="mt-2 text-xl font-semibold text-[#f4f6f7]">Summer is here</h2>
       <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
@@ -187,7 +219,7 @@ function SeasonalOpportunity({ prompt }: { prompt: string }) {
       <p className="mt-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#7f8a91]">
         Owner confirms before anything goes live
       </p>
-    </Card>
+    </Panel>
   );
 }
 
@@ -253,13 +285,23 @@ function FeaturedSlot({
                 type="submit"
                 disabled={readOnly}
                 className={cn(
-                  "shrink-0 rounded-full border px-2.5 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.12em] transition disabled:opacity-80",
+                  "inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[0.56rem] font-semibold uppercase tracking-[0.12em] transition disabled:opacity-80",
                   item.is_available
                     ? "border-[#ff7a66]/35 bg-[#8f3e2e]/14 text-[#ffad9f] hover:bg-[#8f3e2e]/24"
                     : "border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd] hover:bg-[#7fd1a2]/16",
                 )}
               >
-                {item.is_available ? "86" : "Bring back"}
+                {item.is_available ? (
+                  <>
+                    <EyeOff size={11} strokeWidth={2} aria-hidden />
+                    86
+                  </>
+                ) : (
+                  <>
+                    <Eye size={11} strokeWidth={2} aria-hidden />
+                    Bring back
+                  </>
+                )}
               </button>
             </Editable>
           </div>
@@ -288,6 +330,7 @@ function FeaturedSlot({
                     className="w-20"
                   />
                   <Button variant="subtle" type="submit" disabled={readOnly}>
+                    <Check size={13} strokeWidth={2} aria-hidden />
                     Save
                   </Button>
                 </Editable>
@@ -311,6 +354,7 @@ function FeaturedSlot({
                 className="w-24"
               />
               <Button variant="subtle" type="submit" disabled={readOnly}>
+                <Check size={13} strokeWidth={2} aria-hidden />
                 Save
               </Button>
             </Editable>
@@ -321,7 +365,8 @@ function FeaturedSlot({
       {readOnly ? (
         <div className="mt-3 flex items-center gap-2 border-t border-white/[0.05] pt-3">
           <Button variant="ghost" disabled>
-            ⬆ {item.photo_url ? "Replace photo" : "Add photo"}
+            <Upload size={13} strokeWidth={1.75} aria-hidden />
+            {item.photo_url ? "Replace photo" : "Add photo"}
           </Button>
           <span className="text-[0.66rem] text-[#7f8a91]">shows on your live menu</span>
         </div>
@@ -334,9 +379,10 @@ function FeaturedSlot({
             name="image"
             type="file"
             accept="image/jpeg,image/png,image/webp"
-            className="block max-w-[12rem] text-xs text-[#c8d0d4] file:mr-2 file:rounded-full file:border-0 file:bg-[#d8b36d] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
+            className="block max-w-[12rem] text-xs text-[#c8d0d4] file:mr-2 file:rounded-full file:border-0 file:bg-[#4f9dff] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#04121f]"
           />
           <Button variant="subtle" type="submit">
+            <Upload size={13} strokeWidth={1.75} aria-hidden />
             Upload
           </Button>
           <span className="text-[0.66rem] text-[#7f8a91]">shows on your live menu</span>
@@ -401,10 +447,8 @@ export default function OwnerDashboard({
     <div className="mx-auto w-full max-w-6xl space-y-5">
       {/* Header */}
       <header className="flex flex-wrap items-center justify-between gap-4 px-1">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-[0.56rem] uppercase tracking-[0.34em] text-[#d8b36d]/75">
-            Owner dashboard
-          </span>
+        <div className="flex flex-col gap-2">
+          <Eyebrow>Owner dashboard</Eyebrow>
           {data.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -420,15 +464,18 @@ export default function OwnerDashboard({
         </div>
         <div className="flex items-center gap-2">
           <ButtonLink href={publicMenuHref(data.restaurantId)} variant="ghost">
+            <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
             View menu
           </ButtonLink>
           {readOnly ? (
             <Button variant="subtle" disabled>
+              <LogOut size={14} strokeWidth={1.75} aria-hidden />
               Sign out
             </Button>
           ) : (
             <form action={`/owner/${data.restaurantId}/signout`} method="post">
               <Button variant="subtle" type="submit">
+                <LogOut size={14} strokeWidth={1.75} aria-hidden />
                 Sign out
               </Button>
             </form>
@@ -463,8 +510,14 @@ export default function OwnerDashboard({
         <div className="space-y-5">
 
       {/* Featured items — price + photo the customer sees */}
-      <Card>
-        <SectionHeading hint={`${allItems.length} on menu`}>Featured items</SectionHeading>
+      <Panel>
+        <SectionHeading
+          tone="accent"
+          icon={<Star size={13} strokeWidth={1.75} aria-hidden />}
+          hint={`${allItems.length} on menu`}
+        >
+          Featured items
+        </SectionHeading>
         <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
           Your key items — change the price or upload a photo and it updates your live menu right
           away. For anything else, just ask above.
@@ -510,11 +563,17 @@ export default function OwnerDashboard({
             </div>
           </details>
         ) : null}
-      </Card>
+      </Panel>
 
       {/* Campaigns */}
-      <Card>
-        <SectionHeading hint={`${data.promos.length} active`}>Campaigns</SectionHeading>
+      <Panel>
+        <SectionHeading
+          tone="accent"
+          icon={<Megaphone size={13} strokeWidth={1.75} aria-hidden />}
+          hint={`${data.promos.length} active`}
+        >
+          Campaigns
+        </SectionHeading>
         <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
           Promotions and seasonal pushes. Start one by asking above, or approve a “Coming up”
           proposal.
@@ -532,14 +591,16 @@ export default function OwnerDashboard({
             </div>
           ))}
           <Button variant="ghost" className="mt-1 w-full sm:w-auto" disabled={readOnly}>
-            + New campaign
+            <Plus size={14} strokeWidth={1.75} aria-hidden />
+            New campaign
           </Button>
         </div>
-      </Card>
+      </Panel>
 
       {/* Attach (bigger changes → review) */}
-      <Card className="border-dashed border-white/12 bg-white/[0.015]">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
+      <Panel className="border-dashed border-white/12 bg-white/[0.015]">
+        <p className="flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#4f9dff]">
+          <Paperclip size={12} strokeWidth={1.75} aria-hidden />
           Bigger change?
         </p>
         <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
@@ -547,13 +608,16 @@ export default function OwnerDashboard({
           from there.
         </p>
         <Button variant="ghost" className="mt-4" disabled={readOnly}>
-          ⬆ Attach a file
+          <Paperclip size={14} strokeWidth={1.75} aria-hidden />
+          Attach a file
         </Button>
-      </Card>
+      </Panel>
 
       {/* Recent activity */}
-      <Card>
-        <SectionHeading>Recent activity</SectionHeading>
+      <Panel>
+        <SectionHeading tone="accent" icon={<History size={13} strokeWidth={1.75} aria-hidden />}>
+          Recent activity
+        </SectionHeading>
         {data.audit.length === 0 ? (
           <p className="mt-4 text-sm text-[#aeb7bd]">No changes recorded yet.</p>
         ) : (
@@ -573,7 +637,7 @@ export default function OwnerDashboard({
             ))}
           </ul>
         )}
-      </Card>
+      </Panel>
 
         </div>
       </div>
