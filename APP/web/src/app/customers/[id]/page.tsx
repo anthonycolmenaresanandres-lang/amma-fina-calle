@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Contact, ExternalLink, PencilLine, StickyNote, Zap } from "lucide-react";
+import { Activity, Contact, CreditCard, ExternalLink, Package, PencilLine, StickyNote, Zap } from "lucide-react";
 import { getCustomerById } from "@/data/customers";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -69,11 +69,21 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
             </PageTitle>
           </div>
           <dl className="mt-7 grid gap-3 text-sm text-[#aeb7bd] sm:grid-cols-3 lg:grid-cols-1">
-            <StatTile label="Plan">{customer.plan || "—"}</StatTile>
-            <StatTile label="Account Status" className="capitalize">
+            <StatTile label="Plan" icon={<Package size={12} strokeWidth={1.75} aria-hidden />}>
+              {customer.plan || "—"}
+            </StatTile>
+            <StatTile
+              label="Account Status"
+              icon={<Activity size={12} strokeWidth={1.75} aria-hidden />}
+              className="capitalize"
+            >
               {formatStatus(customer.status) || "—"}
             </StatTile>
-            <StatTile label="Billing Status" className="capitalize">
+            <StatTile
+              label="Billing Status"
+              icon={<CreditCard size={12} strokeWidth={1.75} aria-hidden />}
+              className="capitalize"
+            >
               {formatStatus(customer.billingStatus) || "—"}
             </StatTile>
           </dl>

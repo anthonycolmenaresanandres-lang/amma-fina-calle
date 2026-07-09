@@ -184,6 +184,17 @@ a {
   text-wrap: balance;
 }
 
+/* Keyboard focus: a single visible sapphire ring on every interactive element
+   (buttons, links, role=button). Pointer clicks stay clean via :focus-visible;
+   the outline follows each element's border-radius, so pills read correctly. */
+.fc-bg a:focus-visible,
+.fc-bg button:focus-visible,
+.fc-bg [role="button"]:focus-visible,
+.fc-bg [tabindex]:focus-visible {
+  outline: 2px solid rgba(79, 157, 255, 0.75);
+  outline-offset: 2px;
+}
+
 /* Customer surface re-tints the shared shine gradient from gold to sapphire
    (the base .rb-shiny-text stays gold for other pages / the owner routes). */
 .fc-bg .rb-shiny-text {

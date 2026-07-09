@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Contact, FileText, Image as ImageIcon, MessageSquareText, Paperclip } from "lucide-react";
+import { CalendarClock, CircleDot, Contact, FileText, Flag, Image as ImageIcon, MessageSquareText, Paperclip } from "lucide-react";
 import { getChangeRequestById } from "@/data/requests";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -80,13 +80,26 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
           <Eyebrow>{request.requestType || "Change request"}</Eyebrow>
           <PageTitle>{request.businessName || "Unnamed business"}</PageTitle>
           <dl className="mt-7 grid gap-3 text-sm text-[#aeb7bd] sm:grid-cols-3 lg:grid-cols-1">
-            <StatTile label="Priority" className="capitalize">
+            <StatTile
+              label="Priority"
+              icon={<Flag size={12} strokeWidth={1.75} aria-hidden />}
+              className="capitalize"
+            >
               {request.priority || "Normal"}
             </StatTile>
-            <StatTile label="Status" className="capitalize">
+            <StatTile
+              label="Status"
+              icon={<CircleDot size={12} strokeWidth={1.75} aria-hidden />}
+              className="capitalize"
+            >
               {formatStatus(request.status) || "new"}
             </StatTile>
-            <StatTile label="Submitted">{formatDate(request.createdAt)}</StatTile>
+            <StatTile
+              label="Submitted"
+              icon={<CalendarClock size={12} strokeWidth={1.75} aria-hidden />}
+            >
+              {formatDate(request.createdAt)}
+            </StatTile>
           </dl>
         </div>
 
