@@ -17,3 +17,10 @@ Reusable modules planned for AMMA/Fina Calle:
 - AI Phone Assistant / Call-Center Bot (plan `AI_PHONE_ASSISTANT_PLAN.md`; 24/7 AI
   receptionist for reservations/orders/FAQ — sellable Fina Calle OS module + AMMA's
   own line; recommended setup: Retell/ElevenLabs + Twilio; inbound-first, disclosure on)
+- AI Front-Desk Check-In (R&D — plan `AI_FRONT_DESK_CHECKIN_PLAN.md`; lets an AI
+  assistant handle attendance check-in for an already-registered person arriving to a
+  league game/class/camp — not new-account registration, not building/door access;
+  deterministic rules-pack evaluator (identity/roster/time-window/waiver/hold/guardian
+  checks) built and unit-tested in `services/voice-gateway/src/checkin/`, but not wired
+  into any live phone/chat tool; real go-live is blocked on the client's booking-system
+  API access, which has no committed timeline — planned/in development only)

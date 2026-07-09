@@ -5,7 +5,7 @@
 > conversation starts with zero ramp-up. Hand a chat this file (or its GitHub link), then
 > paste the matching prompt. Keep it current; it's the canonical onboarding doc.
 >
-> Last updated: 2026-06-10.
+> Last updated: 2026-07-04.
 
 ---
 
@@ -49,7 +49,26 @@ The site is **finacalleos.com** (Next.js, repo root `APP/web`, auto-deploys from
   snapshot + Postgres scale-out schema, `Dockerfile` + `render.yaml`. Verified by a
   **keyless 43-check simulator** (`npm run simulate`). **Needs live keys to go live**
   (OpenAI Realtime, a Twilio number + `PUBLIC_HOST`, per-connector creds). Plan +
-  status: `PRODUCT_MODULES/AI_PHONE_ASSISTANT_PLAN.md`.
+  status: `PRODUCT_MODULES/AI_PHONE_ASSISTANT_PLAN.md`. The **`vbfh-info` tenant**
+  (Virginia Beach Field House phone assistant, tester number +1 757 666 0078) had its
+  knowledge pack fully refreshed (early July 2026) from beachfieldhouse.com,
+  Instagram/Facebook @beachfieldhouse, and partner camp sites — documented in
+  `services/voice-gateway/VBFH_KNOWLEDGE_SOURCES.md`. The engine itself remains
+  **v0/pilotable**, not in full production for a paying client.
+- **AI front-desk check-in** — plan + partial build:
+  `PRODUCT_MODULES/AI_FRONT_DESK_CHECKIN_PLAN.md`. Scope: attendance check-in for an
+  already-registered person arriving for tonight's session — **not** new-account
+  registration and **not** door/building access. A deterministic rules-pack evaluator
+  (identity, roster, time window, waiver, hold, guardian-for-minors — all plain code,
+  no AI judgment calls) + mock connector are **built and unit-tested**
+  (`services/voice-gateway/src/checkin/`, `npm run simulate:checkin`, 17/17 checks
+  passing), but **not wired into any live phone/chat tool yet**. Real integration
+  against DaySmart ("the Dash," VBFH's own system) is **blocked** — API access has no
+  committed timeline. Interim behavior live today: the `vbfh-info` tenant tells a
+  caller it can't verify/complete a check-in by phone, takes a message
+  (name/callback/session), and points them to the front desk in person — a message
+  relay, not a verified check-in. **Status: planned / in development — not live,
+  automated, or available.**
 - **Penalty Shootout** — `/penalty-shootout` — live, Colattao art-complete.
 - **Lead Arcade / Conquest** — `/lead-arcade` (internal pipeline-as-a-game; private) +
   `/conquest` (public demo). Now ships **real default leads per territory** (Hampton

@@ -25,6 +25,13 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
   booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
+- `src/checkin/*` — attendance check-in scaffolding (built + unit-tested, not wired into
+  live tools yet): `types.ts` (the `CheckInConnector` interface + domain types), `rules.ts`
+  (a deterministic rules-pack evaluator — identity match, roster match for the session, a
+  time window around the session's start/end, signed waiver on file, no account hold, and
+  an authorized guardian on file for minors; every check is plain code, no AI judgment
+  calls), and `mockConnector.ts` + `simulate.ts` (`npm run simulate:checkin`, 17/17 checks
+  passing). See the roadmap section below.
 
 ## Multi-tenant (one gateway, many businesses)
 One deployed gateway serves any number of clients; an inbound call is routed to a
@@ -105,6 +112,26 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
 5. Durability: `STORE_SNAPSHOT` (set to `/data/store.json` in `render.yaml`) keeps state
    across restarts on a single instance. To scale to multiple instances, apply
    `db/schema.sql` to Postgres and back the store with it (`psql "$DATABASE_URL" -f db/schema.sql`).
+
+## Roadmap — attendance check-in (rules pack + mock connector built, not wired live)
+Extending this engine so it can **sign already-registered people in** (attendance check-in
+for a league game/class, not new registration) against a client's own system — first case:
+VBFH's DaySmart "Dash." Same draft-first/idempotent/swappable-connector shape as booking,
+plus a deterministic rules pack that gates every check-in and a hard rule that anything the
+rules can't clear (or the AI can't verify with certainty) is escalated to a human at the
+front desk, never guessed.
+
+Status: the `CheckInConnector` interface, the deterministic rules pack, and a mock
+connector are built and unit-tested (`src/checkin/`, `npm run simulate:checkin`). They are
+**not yet wired** into the live phone/chat tools — no client's assistant can attempt a
+check-in today. A real connector against DaySmart is **blocked**: API access isn't
+available yet and there's no committed timeline, which is the current bottleneck for this
+capability going live. In the interim, the `vbfh-info` tenant's assistant handles a caller
+asking to check in by phone the same way it handles anything it can't complete: it says
+plainly it can't verify or complete a check-in by phone, takes a message (name, callback
+number, session) via `take_message` so front-desk staff gets a heads-up, and tells the
+caller to check in in person — a message relay, not a verified check-in. See
+`PRODUCT_MODULES/AI_FRONT_DESK_CHECKIN_PLAN.md` for full detail.
 
 ## Notes / before production
 - **Re-verify** OpenAI Realtime event names + audio formats and the Cal.com v2 endpoints
