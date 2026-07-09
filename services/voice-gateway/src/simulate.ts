@@ -219,6 +219,41 @@ async function main(): Promise<void> {
   check("snapshot reloads messages after a 'restart'", reloaded.messagesForCall(dc.callId).length === 1);
   check("reloaded store reports the persisted stats", reloaded.stats("groomer").calls === 1 && reloaded.stats("groomer").messages === 1);
 
+  // ---- Scenario 10: SoundGate barge-in debounce (hold the floor through transient noise) ----
+  console.log(`\n— Scenario 10: SoundGate turn-taking referee —`);
+  const { BargeInGate, bargeInDecision } = await import("./soundgate");
+  check("instant gate yields immediately (legacy minMs=0)", new BargeInGate({ bargeInMinMs: 0 }).onSpeechStarted(0).yieldNow === true);
+  const started = new BargeInGate({ bargeInMinMs: 150 }).onSpeechStarted(1000);
+  check("debounced gate does NOT yield instantly (waits 150ms)", started.yieldNow === false && started.delayMs === 150);
+  const transient = new BargeInGate({ bargeInMinMs: 150 });
+  transient.onSpeechStarted(1000); transient.onSpeechStopped(); // a blip that ended early
+  check("transient blip (<150ms) HOLDS the floor", transient.evaluate(1080) === "hold");
+  const sustained = new BargeInGate({ bargeInMinMs: 150 });
+  sustained.onSpeechStarted(1000); // speech that keeps going
+  check("sustained speech (>=150ms) YIELDS the floor", sustained.evaluate(1200) === "yield");
+  check("pure policy: 120ms holds, 200ms yields (minMs=150)",
+    bargeInDecision(120, { bargeInMinMs: 150 }) === "hold" && bargeInDecision(200, { bargeInMinMs: 150 }) === "yield");
+
+  // ---- Scenario 11: SoundGate turn telemetry rollup (/stats KPIs) ----
+  console.log(`\n— Scenario 11: SoundGate turn telemetry (/stats KPIs) —`);
+  const tCall = store.createCall("+15550004444", "groomer");
+  store.recordSpeechStart(tCall.callId, "groomer");
+  store.recordSpeechStart(tCall.callId, "groomer");
+  store.recordTransientSuppressed(tCall.callId, "groomer"); // a blip the debounce held
+  store.recordBargeIn(tCall.callId, "groomer");             // a real interruption honored
+  store.recordTtfa(tCall.callId, "groomer", 700);
+  store.recordTtfa(tCall.callId, "groomer", 900);
+  store.recordRealtimeError(tCall.callId, "groomer", "insufficient_quota");
+  const tel = store.turnTelemetry(tCall.callId);
+  check("telemetry records speech starts + barge-in + suppressed transient",
+    !!tel && tel.speechStarts === 2 && tel.bargeIns === 1 && tel.transientsSuppressed === 1);
+  check("telemetry captures the Realtime error code", tel?.lastErrorCode === "insufficient_quota" && tel?.realtimeErrors === 1);
+  store.markHangupIfRecentBargeIn(tCall.callId); // barge-in was just now → should flag
+  check("hang-up-after-interruption flags a recent barge-in", store.turnTelemetry(tCall.callId)?.hangupAfterInterruption === true);
+  const gTurn = store.stats("groomer");
+  check("/stats rolls up TTFA (avg 800, p50 700 from [700,900])", gTurn.ttfaAvgMs === 800 && gTurn.ttfaP50Ms === 700);
+  check("/stats rolls up barge-ins + realtime errors + hang-ups", gTurn.bargeIns === 1 && gTurn.realtimeErrors === 1 && gTurn.hangupsAfterInterruption === 1);
+
   console.log(`\n${failures === 0 ? "✅ ALL CHECKS PASSED" : `❌ ${failures} CHECK(S) FAILED`}`);
   process.exit(failures === 0 ? 0 : 1);
 }

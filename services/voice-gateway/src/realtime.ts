@@ -9,6 +9,8 @@ import WebSocket from "ws";
 import { config, requireOpenAI } from "./config";
 import { tools, systemInstructions } from "./tools";
 import { runTool } from "./orchestrator";
+import { BargeInGate } from "./soundgate";
+import { store } from "./store";
 import type { Tenant } from "./tenant";
 
 export interface RealtimeHooks {
@@ -66,11 +68,15 @@ export class RealtimeSession {
   private lastAssistantItem: string | null = null; // current assistant audio turn (for barge-in truncate)
   private truncatedItemId: string | null = null; // suppress audio still in flight after a truncate
   private closedByUs = false; // tell an intentional close() apart from an unexpected drop
+  private readonly gate: BargeInGate; // SoundGate barge-in referee (transient-noise debounce)
+  private bargeInTimer: ReturnType<typeof setTimeout> | null = null; // pending debounce check
+  private userTurnEndedAt = 0; // last caller speech_stopped — for time-to-first-audio (TTFA)
 
   constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
     this.tenant = tenant;
     this.callId = callId;
     this.hooks = hooks;
+    this.gate = new BargeInGate(tenant.soundGate);
     const url = `wss://api.openai.com/v1/realtime?model=${encodeURIComponent(config.realtimeModel)}`;
     this.ws = new WebSocket(url, {
       headers: { Authorization: `Bearer ${requireOpenAI()}` }, // GA: no beta header
@@ -118,6 +124,43 @@ export class RealtimeSession {
     this.lastAssistantItem = null;
   }
 
+  /** Caller speech began. SoundGate decides whether it's a real interruption: with a debounce
+   *  (soundGate.bargeInMinMs) we wait to confirm the speech is *sustained* before yielding, so a
+   *  transient clink/cough/blender-burst — or a one-word backchannel like "mm-hm" — doesn't kill
+   *  the agent's turn. bargeInMinMs=0 yields instantly (legacy behavior). */
+  private onSpeechStarted(): void {
+    store.recordSpeechStart(this.callId, this.tenant.id);
+    const { yieldNow, delayMs } = this.gate.onSpeechStarted(Date.now());
+    if (yieldNow) { this.yieldFloor(); return; }
+    if (this.bargeInTimer) clearTimeout(this.bargeInTimer);
+    this.bargeInTimer = setTimeout(() => {
+      this.bargeInTimer = null;
+      if (this.gate.evaluate(Date.now()) === "yield") this.yieldFloor();
+    }, delayMs);
+  }
+
+  /** Caller speech stopped before the debounce elapsed — a transient. Cancel the pending
+   *  barge-in so the agent keeps talking uninterrupted. */
+  private onSpeechStopped(): void {
+    if (this.bargeInTimer) {
+      clearTimeout(this.bargeInTimer);
+      this.bargeInTimer = null;
+      store.recordTransientSuppressed(this.callId, this.tenant.id);
+    }
+    this.gate.onSpeechStopped();
+    this.userTurnEndedAt = Date.now(); // start the TTFA clock for the agent's reply
+  }
+
+  /** Sustained speech confirmed → yield the floor. Delegates to the existing barge-in hook,
+   *  which flushes the audio queued at Twilio and truncates the model's memory to what the
+   *  caller actually heard, using the accurate Twilio media clock (see server.ts). */
+  private yieldFloor(): void {
+    if (this.bargeInTimer) { clearTimeout(this.bargeInTimer); this.bargeInTimer = null; }
+    store.recordBargeIn(this.callId, this.tenant.id);
+    this.gate.reset();
+    this.hooks.onUserSpeechStarted();
+  }
+
   private async onMessage(data: WebSocket.RawData): Promise<void> {
     let evt: { type?: string; [k: string]: unknown };
     try { evt = JSON.parse(data.toString()); } catch { return; }
@@ -128,6 +171,10 @@ export class RealtimeSession {
         if (itemId && itemId !== this.lastAssistantItem) {
           this.lastAssistantItem = itemId; // a new assistant turn has started
           this.truncatedItemId = null;
+          if (this.userTurnEndedAt) { // first audio since the caller stopped → record TTFA
+            store.recordTtfa(this.callId, this.tenant.id, Date.now() - this.userTurnEndedAt);
+            this.userTurnEndedAt = 0;
+          }
         }
         if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta, this.lastAssistantItem ?? undefined);
         break;
@@ -137,7 +184,10 @@ export class RealtimeSession {
         this.lastAssistantItem = null; // turn finished normally — nothing to truncate
         break;
       case "input_audio_buffer.speech_started":
-        this.hooks.onUserSpeechStarted();
+        this.onSpeechStarted();
+        break;
+      case "input_audio_buffer.speech_stopped":
+        this.onSpeechStopped();
         break;
       case "response.function_call_arguments.done": {
         const name = String(evt.name ?? "");
@@ -149,13 +199,22 @@ export class RealtimeSession {
         this.send({ type: "response.create" });
         break;
       }
-      case "error":
+      case "error": {
+        // Capture the Realtime failure (e.g. insufficient_quota) so a silent hang-up is
+        // visible in /stats instead of looking like a clean call.
+        const errObj = (evt.error ?? {}) as { code?: string; type?: string };
+        store.recordRealtimeError(this.callId, this.tenant.id, errObj.code ?? errObj.type);
         console.error("[realtime] server error", evt);
         break;
+      }
       default:
         break;
     }
   }
 
-  close(): void { this.closedByUs = true; try { this.ws.close(); } catch { /* ignore */ } }
+  close(): void {
+    this.closedByUs = true;
+    if (this.bargeInTimer) { clearTimeout(this.bargeInTimer); this.bargeInTimer = null; }
+    try { this.ws.close(); } catch { /* ignore */ }
+  }
 }

@@ -24,3 +24,8 @@ Reusable modules planned for AMMA/Fina Calle:
   checks) built and unit-tested in `services/voice-gateway/src/checkin/`, but not wired
   into any live phone/chat tool; real go-live is blocked on the client's booking-system
   API access, which has no committed timeline — planned/in development only)
+- Fina Calle SoundGate (R&D — concept `FINA_CALLE_SOUNDGATE_CONCEPT.md`; human turn-taking
+  layer for the phone assistant: listen/wait/ignore-noise/stop/ask-to-repeat. First slice
+  shipped in `services/voice-gateway` — the `bargeInMinMs` barge-in debounce over the
+  gateway's client-owned floor control; full noise-intelligence layer is a premium tier
+  for noisy venues, next voice bet after VBFH)

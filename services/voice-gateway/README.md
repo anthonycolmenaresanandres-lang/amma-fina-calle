@@ -59,6 +59,22 @@ See the `golden-dragon` entry in `tenants.example.json` for a ready Chinese-rest
 tenant (Mandarin, `shimmer` voice, reservation-style services, bilingual disclosure).
 Single-client deploys can do the same with env: `LANGUAGE="Mandarin Chinese"` +
 `OPENAI_VOICE=shimmer`.
+
+### Barge-in & SoundGate debounce (noisy venues)
+When the caller talks over the agent, the gateway flushes the audio queued at Twilio and
+truncates the model's memory to *what the caller actually heard* — using the accurate Twilio
+media clock (`truncate()` in `realtime.ts`, driven from `server.ts`), so it never "remembers"
+finishing a sentence that got cut off. On top of that, a local turn-taking referee
+(`soundgate.ts`) holds the floor through *transient* noise: it only yields to **sustained**
+speech, so a clink, cough, blender burst, or one-word backchannel ("mm-hm") doesn't kill the
+agent's turn. Per-tenant `soundGate.bargeInMinMs` (env `BARGE_IN_MIN_MS`, default `150`) is
+how long speech must persist before yielding; `0` = instant/legacy, raise for cafés/
+restaurants. It's the first, in-process slice of the fuller SoundGate concept
+(`PRODUCT_MODULES/FINA_CALLE_SOUNDGATE_CONCEPT.md`) — never an LLM round-trip, so it adds no
+latency. Server-side turn detection stays the gateway's tuned `server_vad` (threshold 0.6 /
+700 ms trailing silence), which already filters much line noise; the debounce is the finer
+transient filter on top. Re-verify Realtime event names/semantics against current docs
+before go-live (see file header).
 - **Routing path:** `/twiml` reads Twilio's `To` → resolves the tenant → embeds its id as
   a `<Stream><Parameter name="tenant">`; the Media Stream `start` event carries it back,
   so the `RealtimeSession` uses that business's pack + connector. A tenant with an empty
@@ -70,6 +86,11 @@ Single-client deploys can do the same with env: `LANGUAGE="Mandarin Chinese"` +
   conversionPct, handledPct, syncErrors, audits }`. The "answered + booked while you were
   closed" number that justifies the subscription; `handledPct` counts calls that ended in
   a booking **or** a captured message (not lost).
+- **Turn-quality KPIs** (same `/stats`, SoundGate — see `SOUNDGATE.md`): `{ speechStarts,
+  bargeIns, transientsSuppressed, realtimeErrors, hangupsAfterInterruption, ttfaAvgMs,
+  ttfaP50Ms }`. These make the turn-taking tunable: `ttfa*` = responsiveness (caller stop →
+  first agent audio), `transientsSuppressed` = blips the debounce held, `realtimeErrors`
+  surfaces a silent hang-up cause (e.g. `insufficient_quota`).
 - **`npm run report`** — the same rollup at the CLI (reads `STORE_SNAPSHOT` if set).
 - **`GET /tenants`** — ops listing of every wired-up business (id, numbers, connector,
   hours, services); no secrets. The caller's number (Twilio `From`) is carried into the
@@ -105,7 +126,8 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
    Railway / any VM work too. Expose HTTPS + WSS.
 2. Set env: `OPENAI_API_KEY`, `PUBLIC_HOST` (your public wss host, e.g.
    `voice.example.com`), and optionally a `TENANTS_FILE` (per-client packs) or the
-   single-tenant `BOOKING_CONNECTOR` + that connector's creds.
+   single-tenant `BOOKING_CONNECTOR` + that connector's creds. Language defaults to
+   English; override with `AGENT_LANGUAGE` / per-tenant `language` (see Language lock).
 3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`. (For
    multi-tenant, add each client's number to a tenant's `phoneNumbers`.)
 4. Call the number. The agent greets + discloses, then books into the connector.

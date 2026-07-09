@@ -17,6 +17,10 @@
 > disclosure stay on; inbound-only (outbound is TCPA-gated); no card-by-voice. Vendor
 > specifics below should still be **re-verified against current docs before go-live**.
 
+> **Turn-taking layer:** human floor control (semantic VAD + client-owned barge-in) is the
+> first slice of **SoundGate** — a premium turn-taking/noise-intelligence tier for noisy
+> venues. Concept + roadmap: `PRODUCT_MODULES/FINA_CALLE_SOUNDGATE_CONCEPT.md`.
+
 Two products on one engine:
 1. **AMMA's own AI phone assistant** (internal) — answers AMMA's line, qualifies, books demos.
 2. **AI Front-Desk + Booking Agent for clients** (sellable Fina Calle OS module) — a

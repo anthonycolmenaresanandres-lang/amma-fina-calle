@@ -28,6 +28,7 @@ export interface Tenant {
   instructions?: string; // full system-instruction override (e.g. an info/Q&A line instead of the booking flow)
   knowledge?: string; // knowledge pack appended to the override instructions (the facts the bot may use)
   tools?: string[]; // allow-list of tool names to advertise (default: all tools)
+  soundGate: typeof config.soundGate; // barge-in debounce referee (whole-object override)
 }
 
 /** Phone numbers compared as digits only (so "+1 (555) 000-1111" === "15550001111"). */
@@ -48,6 +49,7 @@ function defaultTenant(): Tenant {
     disclosure: config.disclosure,
     voice: config.voice,
     language: config.language,
+    soundGate: config.soundGate,
   };
 }
 
@@ -67,6 +69,7 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
     instructions: t.instructions ?? def.instructions,
     knowledge: t.knowledge ?? def.knowledge,
     tools: t.tools ?? def.tools,
+    soundGate: t.soundGate ?? def.soundGate,
   };
 }
 
