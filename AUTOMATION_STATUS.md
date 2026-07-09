@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-09 (#150 Marbel + #136 voice merged)
+**Last updated:** 2026-07-09 (#136 + #150 post-merge CI green)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
 **Caretaker model:** pinned to **Opus 4.8**. Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -28,7 +28,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main green through the merge wave; #136 voice + #150 migration just merged (post-merge CI check armed) |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — post-merge CI verified for #136 (voice-gateway ✅) and #150 (web ✅) |
 | vbfh-media-engine | CI on master (lint + 185 tests); Daily Run untouched | CI ✅ · Daily Run ✅ all week |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant since 2026-06-21, clean |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Dormant since 2026-06-23 |
@@ -73,11 +73,13 @@ Keep active: `automation/status` (this dashboard).
 
 ## Run log
 
+- **2026-07-09 — Post-merge CI verified (Opus 4.8 check-in):** main green after the #136 + #150
+  merges — voice-gateway typecheck ✅ (commit 344a2ec), web build ✅ (commit c1a369d). No action.
+  (Marbel access still pending Anthony running the SQL in Supabase.)
 - **2026-07-09 — #150 + #136 merged (Anthony approved):** Merged the Marbel `0009` admin migration
   (#150) and the voice SoundGate PR (#136). Before merging #136 did the requested cleanup: real
   `response.cancel` on barge-in (activeResponse tracking) + gated the barge-in stat to genuine
   interruptions; README updated; `tsc` + 48/48 simulate re-verified. Closed #5 (superseded by #150).
-  Access grant still requires Anthony to run the SQL in Supabase.
 - **2026-07-09 — #5 prepped as #150 + #136 rebased.** Recreated the admin migration at slot `0009`;
   rebased #136 onto main keeping main's GA realtime + tuned server_vad + language lock, porting the
   SoundGate debounce + telemetry; dropped semantic_vad-default / allowLanguageSwitch + branch cruft.
