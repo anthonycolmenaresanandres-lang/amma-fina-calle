@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
+import { getOwnerBillingSnapshot } from "@/lib/owner/billing";
 import { getBrandAssets } from "@/lib/brand";
 import OwnerLogin from "./OwnerLogin";
 import OwnerDashboard, {
@@ -21,9 +22,11 @@ type PageProps = {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-10 text-[#f4f6f7] sm:px-8">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_18%_80%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="relative mx-auto flex min-h-[60dvh] w-full max-w-4xl flex-col justify-center">
+    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-4 py-8 text-[#f4f6f7] sm:px-6 lg:px-8">
+      <div className="absolute inset-0 -z-30 bg-[linear-gradient(145deg,#020303_0%,#0b0f12_44%,#050607_100%)]" />
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_18%_8%,rgba(216,179,109,0.12),transparent_28%),radial-gradient(circle_at_84%_12%,rgba(127,209,162,0.08),transparent_24%)]" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:44px_44px] opacity-35" />
+      <div className="relative mx-auto flex min-h-[60dvh] w-full max-w-6xl flex-col justify-center">
         {children}
       </div>
     </main>
@@ -54,7 +57,7 @@ async function getPublicBusinessName(id: string): Promise<string | null> {
 
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
-  return { title: `Owner Portal — ${id} | Fina Calle OS` };
+  return { title: `Owner Portal | ${id} | Fina Calle OS` };
 }
 
 // Maps the non-sensitive `?auth=` hint from /auth/confirm into a friendly
@@ -63,7 +66,7 @@ function authNotice(reason: string | null): string | null {
   if (!reason) return null;
   switch (reason) {
     case "expired":
-      return "That sign-in link didn’t work — it may have expired or already been used. Enter your email below to get a fresh one.";
+      return "That sign-in link didn’t work. It may have expired or already been used. Enter your email below to get a fresh one.";
     case "unavailable":
       return "Sign-in is briefly unavailable. Please try again in a moment.";
     default:
@@ -131,7 +134,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const [restaurantRes, categoriesRes, itemsRes, promosRes, auditRes] = await Promise.all([
+  const [restaurantRes, categoriesRes, itemsRes, promosRes, auditRes, billing] = await Promise.all([
     supabase.from("restaurants").select("id, business_name, site_url").eq("id", id).maybeSingle(),
     supabase.from("menu_categories").select("id, name, sort_order").eq("restaurant_id", id).order("sort_order"),
     supabase
@@ -146,6 +149,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
       .eq("restaurant_id", id)
       .order("created_at", { ascending: false })
       .limit(12),
+    getOwnerBillingSnapshot({ restaurantId: id, ownerEmail: ctx.email }),
   ]);
 
   type ItemRow = {
@@ -188,6 +192,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     categories,
     promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
+    billing,
   };
 
   return (

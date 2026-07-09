@@ -61,7 +61,7 @@ export default function CaseStudiesPage() {
                   Read Shell
                 </Link>
                 <a
-                  href="https://colattao-cafe-rush.vercel.app"
+                  href="https://colattao-cafe-rush.vercel.app/menu"
                   className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#cfd6da]/24 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#cfd6da] transition hover:border-[#f0f3f4]/60 hover:text-white"
                 >
                   Public Site

@@ -5,6 +5,7 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { applyOwnerChange, applyOwnerSizePrice } from "@/lib/owner/rail";
 import { sendChangeRequestEmail } from "@/lib/requests/intake";
+import { polishReviewWithAi } from "./ai";
 import { readOwnerMenu } from "./menu";
 import { triageRequest } from "./triage";
 
@@ -80,7 +81,8 @@ export async function triageOwnerRequest(
         },
       };
     }
-    return { phase: "review", text, reason: result.review.reason };
+    const review = await polishReviewWithAi({ text, snapshot, fallback: result.review });
+    return { phase: "review", text, reason: review.reason };
   } catch (error) {
     return { phase: "error", message: error instanceof Error ? error.message : "Something went wrong." };
   }
@@ -109,13 +111,13 @@ export async function confirmOwnerRequest(
     if (result.decision !== "apply") {
       return {
         phase: "error",
-        message: "This can’t be applied automatically anymore — send it to the AMMA team instead.",
+        message: "This can’t be applied automatically anymore. Send it to the AMMA team instead.",
       };
     }
 
     const p = result.proposal;
     if (p.sizeLabel) {
-      // One size's price inside the jsonb array → dedicated audited rail.
+      // One size's price inside the jsonb array uses a dedicated audited rail.
       await applyOwnerSizePrice({
         restaurantId,
         rowId: p.rowId,
@@ -158,13 +160,14 @@ export async function sendOwnerReview(
 
     const snapshot = await readOwnerMenu(supabase, restaurantId);
     const result = triageRequest(text, snapshot);
-    const review =
+    const baseReview =
       result.decision === "review"
         ? result.review
         : { reason: "Owner change request.", requestType: "Question for AMMA" as const, priority: "Normal" as const };
+    const review = await polishReviewWithAi({ text, snapshot, fallback: baseReview });
 
     const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}`;
-    const message = `[AI Request Desk] ${review.reason}\n\nOwner typed: "${text}"`;
+    const message = `[Request Desk] ${review.reason}\n\nOwner typed: "${text}"`;
     const sourcePage = `/owner/${restaurantId}`;
 
     const { error } = await supabase.rpc("submit_change_request", {

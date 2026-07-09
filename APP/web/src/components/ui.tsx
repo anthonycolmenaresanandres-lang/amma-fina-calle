@@ -33,8 +33,8 @@ export function Card({
   return (
     <As
       className={cn(
-        "rounded-3xl border border-white/[0.08] bg-[#07090b]/80 p-5 sm:p-6",
-        "shadow-[0_40px_120px_-60px_rgba(0,0,0,0.9)] ring-1 ring-white/[0.02] backdrop-blur",
+        "rounded-lg border border-white/[0.08] bg-[#07090b]/85 p-5 sm:p-6",
+        "shadow-[0_34px_90px_-68px_rgba(0,0,0,0.95)] ring-1 ring-white/[0.025] backdrop-blur",
         className,
       )}
     >
@@ -67,7 +67,7 @@ export function SectionHeading({
 export type ButtonVariant = "primary" | "ghost" | "subtle" | "danger" | "success";
 
 const BUTTON_BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full text-xs font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-45";
+  "inline-flex items-center justify-center gap-2 rounded-md text-xs font-semibold uppercase tracking-[0.12em] transition disabled:cursor-not-allowed disabled:opacity-45";
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
   primary: "bg-[#eef2f4] px-5 py-2.5 text-[#07090b] hover:bg-white",
@@ -104,7 +104,7 @@ export function ButtonLink({
 // --- Field -------------------------------------------------------------------
 
 export const fieldClass =
-  "w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/20 disabled:opacity-60";
+  "w-full rounded-md border border-white/12 bg-[#0e1316] px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/20 disabled:opacity-60";
 
 export function Field({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={cn(fieldClass, className)} {...props} />;

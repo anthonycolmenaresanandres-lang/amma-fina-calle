@@ -1,0 +1,3 @@
+src/app/coaches/**
+src/lib/coaches/**
+supabase/migrations/0010_coach_ops_demo.sql

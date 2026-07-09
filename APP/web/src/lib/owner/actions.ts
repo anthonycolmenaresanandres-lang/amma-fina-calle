@@ -10,6 +10,11 @@ import { applyOwnerChange, applyOwnerSizePrice } from "./rail";
 
 export type ActionState = { ok: boolean; message: string };
 
+const MAX_ITEM_NAME_LENGTH = 80;
+const MAX_ITEM_DESCRIPTION_LENGTH = 500;
+const MAX_PROMO_TEXT_LENGTH = 160;
+const MAX_MENU_PRICE = 9999;
+
 // --- Magic-link request (no enumeration) ------------------------------------
 
 export async function requestMagicLink(
@@ -77,6 +82,17 @@ function revalidateOwner(restaurantId: string) {
   revalidatePath(`/m/${restaurantId}`);
 }
 
+function validateMenuPrice(raw: string): void {
+  if (!/^\d+(\.\d{1,2})?$/.test(raw)) {
+    throw new Error("Price must use dollars and optional cents.");
+  }
+
+  const num = Number(raw);
+  if (!Number.isFinite(num) || num < 0 || num > MAX_MENU_PRICE) {
+    throw new Error(`Price must be between 0 and ${MAX_MENU_PRICE}.`);
+  }
+}
+
 export async function updateItemText(
   restaurantId: string,
   itemId: string,
@@ -86,9 +102,16 @@ export async function updateItemText(
   await assertOwner(restaurantId);
   const raw = String(formData.get("value") ?? "").trim();
 
+  if (field === "name" && (raw.length < 1 || raw.length > MAX_ITEM_NAME_LENGTH)) {
+    throw new Error(`Item name must be 1-${MAX_ITEM_NAME_LENGTH} characters.`);
+  }
+
+  if (field === "description" && raw.length > MAX_ITEM_DESCRIPTION_LENGTH) {
+    throw new Error(`Description must be ${MAX_ITEM_DESCRIPTION_LENGTH} characters or less.`);
+  }
+
   if (field === "price") {
-    const num = Number(raw);
-    if (!Number.isFinite(num) || num < 0) throw new Error("Price must be a positive number.");
+    validateMenuPrice(raw);
   }
 
   await applyOwnerChange({
@@ -110,8 +133,10 @@ export async function updateItemSizePrice(
 ): Promise<void> {
   await assertOwner(restaurantId);
   const raw = String(formData.get("value") ?? "").trim();
-  const num = Number(raw);
-  if (!Number.isFinite(num) || num < 0) throw new Error("Price must be a positive number.");
+  if (sizeLabel.trim().length < 1 || sizeLabel.trim().length > 60) {
+    throw new Error("Size label is not valid.");
+  }
+  validateMenuPrice(raw);
 
   await applyOwnerSizePrice({
     restaurantId,
@@ -146,6 +171,10 @@ export async function updatePromoText(
 ): Promise<void> {
   await assertOwner(restaurantId);
   const raw = String(formData.get("value") ?? "").trim();
+  if (raw.length < 1 || raw.length > MAX_PROMO_TEXT_LENGTH) {
+    throw new Error(`Promo text must be 1-${MAX_PROMO_TEXT_LENGTH} characters.`);
+  }
+
   await applyOwnerChange({
     restaurantId,
     table: "promos",

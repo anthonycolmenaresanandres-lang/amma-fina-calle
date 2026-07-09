@@ -2,7 +2,7 @@ import "server-only";
 import { EDITABLE_FIELDS } from "@/lib/owner/rail";
 
 /**
- * Deterministic triage for the AI Request Desk (Phase 0 — NO model, NO OpenAI).
+ * Deterministic triage for the owner Request Desk.
  *
  * Given an owner's free-text request and a snapshot of their own menu, decide:
  *   - "apply": a confident, single-field edit on an existing row whose
@@ -18,11 +18,11 @@ import { EDITABLE_FIELDS } from "@/lib/owner/rail";
  *
  * Supported L2 (apply) patterns, all on the existing allowlist:
  *   - menu item price        "change the Mocha to $8", "set latte price to 5.50"
- *   - menu item availability "86 the Flan Latte", "we're out of churro latte",
+ *   - menu item availability "mark the latte unavailable", "we're out of churro latte",
  *                            "mark the latte available again"
  *   - menu item name         "rename the Mocha to Mocha Clásico"
  *   - menu item description  "set the latte description to Smooth and bright"
- *   - menu category name     "rename the Espresso category to Coffee"
+ *   - menu category name     "rename the main category to Drinks"
  *   - promo text / on-off    "change the promo to 2x1 Tuesdays", "turn off the promo"
  *   - hours open/close/closed"Sunday open at 8:00 am", "mark Monday closed"
  */
@@ -150,7 +150,7 @@ function applyResult(
   // Defense in depth: never propose a field outside the rail's allowlist.
   if (!isEditable(table, field)) {
     return review(
-      "That edit isn’t available automatically. Sent to the AMMA team.",
+      "That edit is not available automatically. Sent to the AMMA team.",
       "Operational support",
       "Normal",
     );
@@ -314,7 +314,7 @@ const PHOTO_WORDS = ["photo", "picture", "image", "logo", "headshot", "upload a 
 
 const PRICE_SIGNAL = /(\$|\bprice\b|\bcost\b|\bcharge\b|\bdollars?\b|\bbucks?\b|\bto\b|\bnow\b)/;
 
-// Common spoken size words → matched against an item's real size labels by the
+// Common spoken size words matched against an item's real size labels by the
 // label's lead word. Single letters (s/m/l) are deliberately excluded: the
 // tokenizer can emit a stray "s" from possessives ("latte's"), which would
 // otherwise false-match "Small".
@@ -370,11 +370,11 @@ function trySizePrice(raw: string, lower: string, snap: MenuSnapshot): TriageRes
   const r = resolveByName(raw, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one item matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   const item = r.row;
   const sizes = item.sizes ?? [];
-  if (sizes.length === 0) return null; // single-price item → tryPrice handles it
+  if (sizes.length === 0) return null; // single-price item uses tryPrice.
 
   const textTokens = tokenize(raw);
   const matched = sizes.filter((s) => sizeMentioned(s.label, textTokens));
@@ -384,14 +384,14 @@ function trySizePrice(raw: string, lower: string, snap: MenuSnapshot): TriageRes
   }
   if (matched.length > 1) {
     const which = matched.map((s) => s.label).join(", ");
-    return review(`“${item.name}” matched more than one size (${which}) — name just one.`, "Question for AMMA", "Normal");
+    return review(`${item.name} matched more than one size (${which}). Name just one.`, "Question for AMMA", "Normal");
   }
   if (sizes.length === 1) {
     return sizePriceProposal(item, sizes[0], price);
   }
   const labels = sizes.map((s) => s.label).join(" or ");
   return review(
-    `“${item.name}” has ${labels} prices — say which one (e.g. “change the large ${item.name} to ${formatMoney(price)}”).`,
+    `${item.name} has ${labels} prices. Say which one, for example change the large ${item.name} to ${formatMoney(price)}.`,
     "Question for AMMA",
     "Normal",
   );
@@ -406,12 +406,12 @@ function tryPrice(raw: string, lower: string, snap: MenuSnapshot): TriageResult 
   const r = resolveByName(raw, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one item matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   // Sized items are owned by trySizePrice; never edit their unused base price.
   if ((r.row.sizes?.length ?? 0) > 0) {
     const labels = r.row.sizes.map((s) => s.label).join(" or ");
-    return review(`“${r.row.name}” has ${labels} prices — say which one to change.`, "Question for AMMA", "Normal");
+    return review(`${r.row.name} has ${labels} prices. Say which one to change.`, "Question for AMMA", "Normal");
   }
   return applyResult(
     "menu_items", "price", r.row.id,
@@ -421,7 +421,7 @@ function tryPrice(raw: string, lower: string, snap: MenuSnapshot): TriageResult 
 }
 
 const AVAIL_OUT = [
-  "86 ", "86s", "sold out", "out of stock", "out of", "we re out", "were out",
+  "sold out", "out of stock", "out of", "we re out", "were out",
   "ran out", "run out", "unavailable", "not available", "mark unavailable",
   "make unavailable", "hide ", "stop selling", "temporarily",
 ];
@@ -438,7 +438,7 @@ function tryAvailability(raw: string, lower: string, snap: MenuSnapshot): Triage
   const r = resolveByName(raw, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one item matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   return applyResult(
     "menu_items", "is_available", r.row.id,
@@ -457,10 +457,10 @@ function tryRenameItem(raw: string, lower: string, snap: MenuSnapshot): TriageRe
   const r = resolveByName(subject, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one item matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   const newName = valueAfterMarker(raw, ["to", "call it"]);
-  if (!newName) return review("Tell me the new name (e.g. “rename Mocha to Mocha Clásico”).", "Question for AMMA", "Normal");
+  if (!newName) return review("Tell me the new name, for example rename item one to the new name.", "Question for AMMA", "Normal");
   return applyResult("menu_items", "name", r.row.id, r.row.name, "name", r.row.name, newName, newName);
 }
 
@@ -470,14 +470,14 @@ function tryItemDescription(raw: string, lower: string, snap: MenuSnapshot): Tri
   const r = resolveByName(subject, snap.items);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one item matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one item matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   const newText = valueAfterMarker(raw, ["to", "as"]);
   if (!newText) return review("Tell me the new description text.", "Question for AMMA", "Normal");
   return applyResult(
     "menu_items", "description", r.row.id,
     r.row.name, "description",
-    r.row.description ?? "—", newText, newText,
+    r.row.description ?? "None", newText, newText,
   );
 }
 
@@ -488,7 +488,7 @@ function tryCategoryRename(raw: string, lower: string, snap: MenuSnapshot): Tria
   const r = resolveByName(subject, snap.categories);
   if (r.kind === "none") return null;
   if (r.kind === "ambiguous") {
-    return review("More than one category matches that name — tell the AMMA team which one.", "Question for AMMA", "Normal");
+    return review("More than one category matches that name. Tell the AMMA team which one.", "Question for AMMA", "Normal");
   }
   const newName = valueAfterMarker(raw, ["to"]);
   if (!newName) return review("Tell me the new category name.", "Question for AMMA", "Normal");
@@ -498,10 +498,10 @@ function tryCategoryRename(raw: string, lower: string, snap: MenuSnapshot): Tria
 function tryPromo(raw: string, lower: string, snap: MenuSnapshot): TriageResult | null {
   if (!/\b(promo|promotion|special|deal|banner)\b/.test(lower)) return null;
   if (snap.promos.length === 0) {
-    return review("There’s no promo to change yet — the AMMA team can add one.", "Menu/content update", "Normal");
+    return review("There is no promo to change yet. The AMMA team can add one.", "Menu/content update", "Normal");
   }
   if (snap.promos.length > 1) {
-    return review("You have more than one promo — tell the AMMA team which to change.", "Question for AMMA", "Normal");
+    return review("You have more than one promo. Tell the AMMA team which to change.", "Question for AMMA", "Normal");
   }
   const promo = snap.promos[0];
   const turnOff = /\b(turn off|disable|deactivate|pause|stop|hide)\b/.test(lower);
@@ -549,10 +549,10 @@ function tryHours(raw: string, lower: string, snap: MenuSnapshot): TriageResult 
     return review(`Tell me the time (e.g. “${DAY_LABELS[day]} opens at 8:00 am”).`, "Question for AMMA", "Normal");
   }
   if (wantsClose && !wantsOpen && time) {
-    return applyResult("hours", "close_time", row.id, label, "closing time", row.closeTime ?? "—", time, time);
+    return applyResult("hours", "close_time", row.id, label, "closing time", row.closeTime ?? "None", time, time);
   }
   if (wantsOpen && !wantsClose && time) {
-    return applyResult("hours", "open_time", row.id, label, "opening time", row.openTime ?? "—", time, time);
+    return applyResult("hours", "open_time", row.id, label, "opening time", row.openTime ?? "None", time, time);
   }
   return review("Tell me whether to change the opening or the closing time.", "Question for AMMA", "Normal");
 }
@@ -568,19 +568,19 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
 
   // 1. Escalations — always win.
   if (matchesAny(lower, BILLING_WORDS)) {
-    return review("This looks like a billing or payment issue — sending it to the AMMA team as urgent.", "Operational support", "Urgent");
+    return review("This looks like a billing or payment issue. Sending it to the AMMA team as urgent.", "Operational support", "Urgent");
   }
   if (matchesAny(lower, AUTH_WORDS)) {
-    return review("This looks like a sign-in or account issue — sending it to the AMMA team as urgent.", "Operational support", "Urgent");
+    return review("This looks like a sign in or account issue. Sending it to the AMMA team as urgent.", "Operational support", "Urgent");
   }
   if (matchesAny(lower, OUTAGE_WORDS)) {
-    return review("This looks like an outage or something broken — escalating to the AMMA team as urgent.", "Operational support", "Urgent");
+    return review("This looks like an outage or something broken. Escalating to the AMMA team as urgent.", "Operational support", "Urgent");
   }
 
   // 2. Structural changes the rail can't do (insert/delete) — review.
   if (matchesAny(lower, REMOVE_WORDS)) {
     return review(
-      "Removing or deleting an item needs the AMMA team in this version. To temporarily stop selling something, say “86 the …” or “we’re out of …”.",
+      "Removing or deleting an item needs the AMMA team in this version. To temporarily stop selling something, say mark the item unavailable.",
       "Menu/content update",
       "Normal",
     );

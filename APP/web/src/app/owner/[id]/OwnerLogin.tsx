@@ -23,7 +23,7 @@ export default function OwnerLogin({
       <h1 className="mt-4 text-3xl font-semibold text-[#f4f6f7]">{businessName}</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
         Enter the email on file for this restaurant. We&apos;ll send a one-time sign-in
-        link — no password to remember.
+        link. No password to remember.
       </p>
 
       {notice ? (

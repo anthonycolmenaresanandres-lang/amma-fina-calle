@@ -205,3 +205,19 @@ Run Section 0 strategy intake with the first client (CLIENT_INTAKE/CLIENT_WEBSIT
 - [2026-06-03] NEXT: run strategy intake (Section 0) with first client before starting any design or build
 
 - [2026-06-03 08:04:54] START: Handoff session started
+
+- [2026-06-07 13:44:58] START: Handoff session started
+
+- [2026-06-12 07:24:19] START: Create Colattao Community Market site-specific launch package docs only
+
+- [2026-06-12 07:30:35] DONE: created Colattao Community Market launch package under CLIENTS/Colattao/farmers-market-launch with landlord packet, site plan, tenant package, permit scripts, layout plan, revenue model, software spec, evidence log, risk register, and site map
+
+- [2026-06-12 07:30:36] NEXT: Anthony sends 00_landlord_approval_packet.md and 02_landlord_permission_request.md to the property manager before public announcement or vendor recruiting
+
+- [2026-06-12 08:20:38] DONE: revised Colattao Community Market package: yellow parking-space patch is now proposed closed vendor-table bazaar zone; cooked/prepared food stays inside approved tenants or separately approved food trucks; long-term vision points toward coffee fest/coffee expo
+
+- [2026-06-12 08:20:38] NEXT: Anthony should review revised 00_landlord_approval_packet.md before sending property manager the bazaar/parking-space closure version
+
+- [2026-06-12 10:36:34] DONE: added satellite site plan generation prompt for Google satellite screenshot workflow under CLIENTS/Colattao/farmers-market-launch/14_satellite_site_plan_prompt.md
+
+- [2026-06-12 10:36:34] NEXT: Anthony captures Google satellite screenshots of Colattao yellow parking-space patch and uses 14_satellite_site_plan_prompt.md to generate landlord-review overlay

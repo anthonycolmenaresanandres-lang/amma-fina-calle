@@ -33,6 +33,41 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 If these variables are missing, `/customers` fails closed by redirecting to `/`. Public routes remain public.
 
+## Owner Billing
+
+The `/owner/[id]` dashboard shows live balance and opens Stripe-hosted payment flows when these server-side variables are set:
+
+```bash
+STRIPE_SECRET_KEY=sk_live_or_test
+STRIPE_WEBHOOK_SECRET=whsec_from_stripe_endpoint
+STRIPE_FINACALLE_OS_PRICE_ID=price_monthly_plan
+STRIPE_COLATTAO_CUSTOMER_ID=cus_colattao
+COLATTAO_BILLING_EMAIL=owner@example.com
+SUPABASE_SERVICE_ROLE_KEY=service-role-key
+```
+
+Restaurant-specific keys use the restaurant id uppercased, for example `STRIPE_COLATTAO_CUSTOMER_ID` for `/owner/colattao`. Payments stay on Stripe-hosted Checkout, invoice, or Customer Portal pages; the app never collects card or bank details.
+
+Run `supabase/migrations/0007_owner_billing_webhooks.sql` before enabling the Stripe webhook. The webhook endpoint is:
+
+```bash
+POST /api/stripe/webhook
+```
+
+Configure these Stripe events at minimum: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.finalized`, `invoice.updated`, `invoice.paid`, `invoice.payment_succeeded`, and `invoice.payment_failed`. The route verifies Stripe signatures, records each Stripe event once, and updates local billing state through one Supabase RPC.
+
+## Owner Request AI
+
+The `/owner/[id]` Request Desk uses the safe deterministic edit rail first. If `OPENAI_API_KEY` is present, review replies are polished with the OpenAI API before they are shown or sent to the team.
+
+```bash
+OPENAI_API_KEY=sk...
+OWNER_REQUEST_AI_MODEL=gpt-4o-mini
+OPENAI_BASE_URL=https://api.openai.com/v1
+```
+
+`OWNER_REQUEST_AI_MODEL` and `OPENAI_BASE_URL` are optional. If the key is missing or the API call fails, the Request Desk keeps working with the deterministic fallback.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
