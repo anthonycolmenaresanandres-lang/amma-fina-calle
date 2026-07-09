@@ -6,7 +6,7 @@ import type { EngineConfig } from "@/conquest/types";
 
 export default function ConquestClient(): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<{ destroy: (removeCanvas: boolean) => void } | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<EngineConfig | null>(null);
   const [replayKey, setReplayKey] = useState(0);
 
