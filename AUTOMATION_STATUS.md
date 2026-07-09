@@ -3,8 +3,8 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-08 (initial setup run)
-**Autonomy level:** fix + push + draft PRs allowed; **merging is always Anthony's call**.
+**Last updated:** 2026-07-09 (merge wave, Anthony-authorized)
+**Autonomy level:** fix + push + draft PRs allowed; merges on Anthony's go-ahead (given 2026-07-09 for the merge-ready set).
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
 
 ---
@@ -17,50 +17,55 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 - Guardrails (always): never merge without approval; never touch Client OS routes
   (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase, Stripe, POS, secrets, or customer data.
 
-## Build health (as of 2026-07-08)
+## Build health (as of 2026-07-09)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | **NEW** CI added: web (lint + next build), voice-gateway (typecheck) | Local: build ✅ lint ✅ typecheck ✅ |
-| vbfh-media-engine | **NEW** CI added (lint + vitest); existing Daily Run | Daily Run ✅ passing all week · tests 185/185 ✅ · lint ✅ |
+| amma-fina-calle | CI **live on main**: web (lint + next build), voice-gateway (typecheck) | Post-merge main runs: web ✅ voice-gateway ✅ · Vercel preview deployed Ready |
+| vbfh-media-engine | CI **live on master** (lint + 185 vitest tests); Daily Run untouched | Post-merge master CI ✅ · Daily Run ✅ passing all week |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant since 2026-06-21, clean |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Dormant since 2026-06-23 |
 
-Lint note: the new `react-hooks/set-state-in-effect` rule was downgraded to a warning in
-both Next.js apps — it flags the intentional SSR-safe localStorage hydration pattern.
-vbfh PR #1 contains the proper `useSyncExternalStore` refactor; when it merges, the
-override can be removed there.
+Lint note: `react-hooks/set-state-in-effect` is a warning in both Next.js apps — it flags
+the intentional SSR-safe localStorage hydration pattern. vbfh PR #1 contains the proper
+`useSyncExternalStore` refactor; when it merges, the override can be removed there.
 
-## PR triage — amma-fina-calle (12 open)
+## Merged / closed on 2026-07-09 (Anthony authorized "merge all that needs merging")
 
-**Awaiting Anthony's decision — recommendations, nothing closed or merged automatically.**
+| PR | Outcome |
+|---|---|
+| amma #149 (CI + dashboard) | ✅ MERGED — CI green on first main runs |
+| amma #142 (voice stream-failure fallback) | ✅ MERGED — Render auto-deploys voice-gateway |
+| amma #100 (public /news section) | ✅ MERGED — set `NEWS_FEED_URL` in Vercel when ready (optional) |
+| amma #147 (VBFH knowledge sweep + check-in prototype rider) | ✅ MERGED — run its post-merge phone verify when convenient |
+| amma #131 (VBFH facts, subset of #147) | 🗑 CLOSED with explanation |
+| amma #24 (scoreBug/ledBanner, superseded by ad-zone model) | 🗑 CLOSED with explanation |
+| vbfh #3 (CI workflow) | ✅ MERGED — CI green on master |
+| vbfh #2 (facility profile + endpoint) | ✅ MERGED — eyeball the seeded facility facts when convenient |
+
+## PR triage — amma-fina-calle (6 still open)
 
 | PR | What | Verdict |
 |---|---|---|
-| #142 | voice: TwiML stream-failure fallback (+4 lines) | ✅ **MERGE-READY** — cleanest candidate; mitigates silent hang-ups |
-| #100 | Public /news section (all new files) | ✅ **MERGE-READY** — clean, guardrail-safe; `NEWS_FEED_URL` env optional |
-| #147 | VBFH League Assistant knowledge sweep | ✅ **MERGE-READY** (un-draft) — supersedes #131; note it also carries an unannounced check-in prototype (`src/checkin/*`) |
-| #131 | VBFH facility facts (1 line) | 🗑 **CLOSE when #147 merges** (strict subset of #147; don't merge both) |
-| #24 | Stadium scoreBug/ledBanner look | 🗑 **CLOSE** — explicitly superseded by the behind-goal ad-zone model (CLAUDE.md); conflicts with main |
-| #136 | Voice human-feel + SoundGate | 🔧 **NEEDS-REBASE** — conflicts in 5 files after hotfixes #137–#141; re-run simulate suite after |
+| #136 | Voice human-feel + SoundGate | 🔧 **NEEDS-REBASE** — conflicts in 5 files after hotfixes #137–#141; semantic conflicts with main's newer realtime direction, so left for a dedicated pass; re-run the 48-check simulate suite after |
 | #148 | AnchorFrame Daily plan (docs) | 🧭 **YOUR DECISION** — plan needs your answers to its D1–D12 questions |
-| #115 | Bandstand /band music toy | 🧭 **YOUR DECISION** — parked product bet, still conflict-free; QA it or park/close |
+| #115 | Bandstand /band music toy | 🧭 **YOUR DECISION** — parked product bet, conflict-free; QA it or park/close |
 | #36 | Workspace review + income assessment (docs) | 🧭 **YOUR DECISION** — merge as dated snapshot or close as consumed |
 | #17 | Colattanini campaign docs | 🧭 **YOUR DECISION** — roster predates shipped Colattao characters; refresh or close |
 | #29 | AI Request Desk Phase 0 | ⚠️ **YOUR DECISION** — touches protected `/owner/[id]` + Supabase RPCs; conflicts with main; adopt→rebase or close |
-| #5 | Marbel admin migration | ⚠️ **YOUR DECISION** — grants full admin to a third person; migration slot 0007 now taken → would need recreating as 0009 |
 
-## PR triage — vbfh-media-engine (2 open)
+Plus: **#5** (Marbel admin migration) — ⚠️ access-control grant only you can authorize; if yes it must be recreated as migration 0009 on a fresh branch.
+
+## PR triage — vbfh-media-engine (1 still open)
 
 | PR | What | Verdict |
 |---|---|---|
-| #2 | Facility profile + endpoint (additive, Phase 0) | ✅ **MERGE-READY** — clean; just eyeball the seeded facility facts |
-| #1 | Broadcast cards + Instagram auto-publish | ⚠️ **YOUR DECISION** — code-complete and credential-safe, but merging arms auto-posting to Instagram on the daily cron once secrets are added; also carries the player-components lint refactor |
+| #1 | Broadcast cards + Instagram auto-publish | ⚠️ **YOUR DECISION** — code-complete and credential-safe, but merging arms auto-posting to Instagram on the daily cron once secrets are added |
 
 ## Branch cleanup — awaiting one-click approval
 
-**amma-fina-calle** (87 remote branches):
-- **21 provably merged into main — safe to delete now:**
+**amma-fina-calle** (~90 remote branches):
+- **Provably merged into main — safe to delete now** (21 from setup survey, plus the four merged today: `claude/build-automation-management-sh68i3`, `voice/twiml-stream-fallback`, `claude/news-page`, `claude/explanation-utilization-planning-rxu4vr`):
   `claude/vbfh-broadcast-instagram-e6p75v`, `codex/colattao-owner-polish`, `docs/voice-personalities-runbook`,
   `feat/call-timing-warm-bookends`, `feat/colattao-info-line`, `feat/vbfh-info-line`,
   `feat/voice-gateway-realtime-ga`, `feat/voice-quality-tuning`, `fix/render-blueprint-paths`,
@@ -75,6 +80,8 @@ override can be removed there.
   `fix/auth-confirm-verify-types`, `fix/owner-login-token-hash`, `claude/burger-plus-menu`,
   `claude/burger-plus-public`.
 
+**vbfh-media-engine**: `claude/build-automation-management-sh68i3` and `feat/facility-info` merged today — safe to delete.
+
 **EscapeTheBomb-DC** (28 non-main branches): all `codex/look-pass-*`, `codex/gate2-*`,
 `codex/scene-cleanup-*` exploration branches plus the `phase2`–`phase7` ladder. None merged by
 commit; review tags exist for some passes. Recommend deleting the `codex/*` set and keeping the
@@ -84,9 +91,14 @@ _Say "clean the merged branches" / "clean all listed branches" and the caretaker
 
 ## Run log
 
+- **2026-07-09 — Merge wave (Anthony authorized):** Merged amma #149, #142, #100, #147 and
+  vbfh #3, #2 (squash). Closed amma #131 (subset of #147) and #24 (superseded by ad-zone
+  model) with explanatory comments. Verified post-merge CI green on amma main (web +
+  voice-gateway) and vbfh master. Held for explicit approval: #5 (admin grant), #29
+  (protected route), vbfh #1 (arms Instagram posting), #136 (semantic rebase). Correction
+  from setup run: the amma Vercel project exists and deploys fine (preview Ready on #149) —
+  it's just not visible to the connected Vercel integration.
 - **2026-07-08 — Setup run:** Surveyed all 4 repos + GitHub + Vercel. Added CI to amma
   (web + voice-gateway) and vbfh (lint + tests). Fixed lint errors (rule downgrade + typed
   `gameRef` in ConquestClient). Triaged all 14 open PRs. Built branch-cleanup lists.
   Stood up twice-daily caretaker routine with push + email summaries.
-  Note: the connected Vercel account has **no projects** — deploys must live under a
-  different Vercel login, so deploy status can't be watched from here yet.
