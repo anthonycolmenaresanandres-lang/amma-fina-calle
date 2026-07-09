@@ -71,6 +71,7 @@ export class RealtimeSession {
   private readonly gate: BargeInGate; // SoundGate barge-in referee (transient-noise debounce)
   private bargeInTimer: ReturnType<typeof setTimeout> | null = null; // pending debounce check
   private userTurnEndedAt = 0; // last caller speech_stopped — for time-to-first-audio (TTFA)
+  private activeResponse = false; // a model response is generating (for barge-in cancel + true-interruption stats)
 
   constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
     this.tenant = tenant;
@@ -151,14 +152,21 @@ export class RealtimeSession {
     this.userTurnEndedAt = Date.now(); // start the TTFA clock for the agent's reply
   }
 
-  /** Sustained speech confirmed → yield the floor. Delegates to the existing barge-in hook,
-   *  which flushes the audio queued at Twilio and truncates the model's memory to what the
-   *  caller actually heard, using the accurate Twilio media clock (see server.ts). */
+  /** Sustained speech confirmed → yield the floor. If the agent is mid-turn this is a real
+   *  barge-in: stop the model generating (`response.cancel`), count it, and flush the audio
+   *  queued at Twilio + truncate the model's memory to what the caller actually heard (via the
+   *  hook, using the accurate Twilio media clock — see server.ts). If the agent is NOT currently
+   *  speaking this is ordinary turn-taking, so we neither cancel nor count an interruption. */
   private yieldFloor(): void {
     if (this.bargeInTimer) { clearTimeout(this.bargeInTimer); this.bargeInTimer = null; }
-    store.recordBargeIn(this.callId, this.tenant.id);
     this.gate.reset();
-    this.hooks.onUserSpeechStarted();
+    if (this.activeResponse) {
+      // Genuine interruption — the caller talked over an in-progress agent turn.
+      store.recordBargeIn(this.callId, this.tenant.id);
+      this.send({ type: "response.cancel" }); // stop generating the rest of this turn
+      this.activeResponse = false;
+    }
+    this.hooks.onUserSpeechStarted(); // flush Twilio-queued audio + truncate memory (no-op if idle)
   }
 
   private async onMessage(data: WebSocket.RawData): Promise<void> {
@@ -179,9 +187,13 @@ export class RealtimeSession {
         if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta, this.lastAssistantItem ?? undefined);
         break;
       }
+      case "response.created":
+        this.activeResponse = true; // a turn is now generating (barge-in may cancel it)
+        break;
       case "response.output_audio.done":
       case "response.done":
         this.lastAssistantItem = null; // turn finished normally — nothing to truncate
+        this.activeResponse = false;
         break;
       case "input_audio_buffer.speech_started":
         this.onSpeechStarted();

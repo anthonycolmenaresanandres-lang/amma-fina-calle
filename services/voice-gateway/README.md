@@ -61,10 +61,13 @@ Single-client deploys can do the same with env: `LANGUAGE="Mandarin Chinese"` +
 `OPENAI_VOICE=shimmer`.
 
 ### Barge-in & SoundGate debounce (noisy venues)
-When the caller talks over the agent, the gateway flushes the audio queued at Twilio and
+When the caller talks over an in-progress agent turn, the gateway flushes the audio queued at
+Twilio, `response.cancel`s the model (stops it generating the rest of that turn), and
 truncates the model's memory to *what the caller actually heard* — using the accurate Twilio
 media clock (`truncate()` in `realtime.ts`, driven from `server.ts`), so it never "remembers"
-finishing a sentence that got cut off. On top of that, a local turn-taking referee
+finishing a sentence that got cut off. (Only a turn the agent was actually speaking counts as
+a barge-in — ordinary back-and-forth turn-taking doesn't cancel anything or inflate the
+interruption stats.) On top of that, a local turn-taking referee
 (`soundgate.ts`) holds the floor through *transient* noise: it only yields to **sustained**
 speech, so a clink, cough, blender burst, or one-word backchannel ("mm-hm") doesn't kill the
 agent's turn. Per-tenant `soundGate.bargeInMinMs` (env `BARGE_IN_MIN_MS`, default `150`) is
