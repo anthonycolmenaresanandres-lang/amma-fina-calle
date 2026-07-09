@@ -63,6 +63,10 @@ Architecture: engine/input/skin split → color skins → asset renderer → ass
   Shell on the Stadium skin; campaign-on-Stadium-Shell binding. Ball/kicker/keeper/backdrop art
   for Colattao are DONE (PRs #37–#43).
 
+## Communication rule (owner preference, always)
+- End every response with an explicit **ACTION NEEDED** block: who does what, the exact
+  steps/click-path or exact text to paste, and what to send back. No burying actions in prose.
+
 ## Hard guardrails (always)
 - Never touch Client OS routes (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase, Stripe, POS,
   secrets, or customer data.
