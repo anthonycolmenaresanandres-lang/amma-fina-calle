@@ -56,7 +56,7 @@ export default function AdminGate({ ctx }: { ctx: AdminContext }) {
           <form action="/customers/signout" method="post" className="mt-6">
             <button
               type="submit"
-              className="rounded-full border border-[#cfd6da]/28 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#d8b36d]/70 hover:bg-[#d8b36d]/10"
+              className="rounded-full border border-[#cfd6da]/28 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#4f9dff]/70 hover:bg-[#4f9dff]/10"
             >
               Sign out
             </button>

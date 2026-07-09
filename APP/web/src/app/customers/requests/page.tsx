@@ -39,7 +39,7 @@ function formatDate(value: string) {
 }
 
 function priorityTone(priority: string): PillTone {
-  return priority.toLowerCase() === "urgent" ? "gold" : "neutral";
+  return priority.toLowerCase() === "urgent" ? "accent" : "neutral";
 }
 
 export default async function RequestInboxPage() {
@@ -103,7 +103,7 @@ export default async function RequestInboxPage() {
                   </StatusPill>
                   <span
                     aria-hidden
-                    className="text-[#cfd6da]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[#d8b36d]"
+                    className="text-[#cfd6da]/40 transition-transform group-hover:translate-x-0.5 group-hover:text-[#4f9dff]"
                   >
                     &rarr;
                   </span>
@@ -116,7 +116,7 @@ export default async function RequestInboxPage() {
                   {formatStatus(request.status) || "new"}
                 </span>
                 {request.attachmentCount > 0 ? (
-                  <span className="inline-flex items-center gap-1.5 text-[#f4d99c]">
+                  <span className="inline-flex items-center gap-1.5 text-[#bfdcff]">
                     <span aria-hidden>◈</span>
                     {request.attachmentCount}{" "}
                     {request.attachmentCount === 1 ? "file" : "files"}

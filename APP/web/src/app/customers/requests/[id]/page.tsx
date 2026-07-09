@@ -91,14 +91,14 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
 
         <div className="space-y-5">
           <Panel>
-            <SectionHeading>Request</SectionHeading>
+            <SectionHeading tone="accent">Request</SectionHeading>
             <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-[#c8d0d4]">
               {request.message || "No message provided."}
             </p>
           </Panel>
 
           <Panel>
-            <SectionHeading>Contact</SectionHeading>
+            <SectionHeading tone="accent">Contact</SectionHeading>
             <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
               <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
@@ -116,7 +116,7 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
                   {contactIsEmail ? (
                     <a
                       href={`mailto:${request.contactInfo}`}
-                      className="text-[#f4d99c] transition hover:text-[#f8e7bc]"
+                      className="text-[#bfdcff] transition hover:text-[#dbeaff]"
                     >
                       {request.contactInfo}
                     </a>
@@ -137,7 +137,7 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
           </Panel>
 
           <Panel>
-            <SectionHeading hint={`${request.attachments.length} total`}>
+            <SectionHeading tone="accent" hint={`${request.attachments.length} total`}>
               Attachments
             </SectionHeading>
             {request.attachments.length === 0 ? (
@@ -154,7 +154,7 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
                         href={file.url || undefined}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-3 transition hover:border-[#d8b36d]/45 hover:bg-[#0d1115]/80"
+                        className="flex items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-3 transition hover:border-[#4f9dff]/45 hover:bg-[#0d1115]/80"
                       >
                         <span className="flex h-14 w-14 flex-none items-center justify-center overflow-hidden rounded-xl border border-[#cfd6da]/12 bg-[#040506]">
                           {isImage && file.url ? (
@@ -166,7 +166,7 @@ export default async function RequestDetailPage({ params }: RequestPageProps) {
                               loading="lazy"
                             />
                           ) : (
-                            <span className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#d8b36d]">
+                            <span className="text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-[#4f9dff]">
                               {file.contentType.includes("pdf") ? "PDF" : "File"}
                             </span>
                           )}

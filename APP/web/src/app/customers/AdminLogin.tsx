@@ -34,12 +34,12 @@ export default function AdminLogin() {
           required
           autoComplete="email"
           placeholder="you@email.com"
-          className="w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/20"
+          className="w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
         />
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#e4c680] to-[#cfa457] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#0a0c0e] shadow-[0_14px_36px_-14px_rgba(216,179,109,0.65)] transition hover:from-[#eed093] hover:to-[#d8b36d] disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#0a0c0e] shadow-[0_14px_36px_-14px_rgba(79,157,255,0.65)] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
         >
           {pending ? (
             <>
@@ -56,7 +56,7 @@ export default function AdminLogin() {
         <p
           className={`mt-4 rounded-xl border px-3 py-2.5 text-center text-sm font-medium ${
             state.ok
-              ? "border-[#d8b36d]/30 bg-[#d8b36d]/10 text-[#f4d99c]"
+              ? "border-[#4f9dff]/30 bg-[#4f9dff]/10 text-[#bfdcff]"
               : "border-[#ff7a66]/30 bg-[#8f3e2e]/16 text-[#ffad9f]"
           }`}
         >

@@ -55,9 +55,9 @@ export default function RequestUpdatePage() {
               ].map((step) => (
                 <li
                   key={step.num}
-                  className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)] transition hover:border-[#d8b36d]/30"
+                  className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)] transition hover:border-[#4f9dff]/30"
                 >
-                  <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#d8b36d]/30 bg-gradient-to-br from-[#d8b36d]/20 to-[#0b0e11] text-xs font-semibold text-[#f4d99c]">
+                  <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#4f9dff]/30 bg-gradient-to-br from-[#4f9dff]/20 to-[#0b0e11] text-xs font-semibold text-[#bfdcff]">
                     {step.num}
                   </span>
                   <div>

@@ -85,7 +85,7 @@ export default async function CustomersPage() {
                     </h2>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {customer.plan ? (
-                        <StatusPill tone="gold">{customer.plan}</StatusPill>
+                        <StatusPill tone="accent">{customer.plan}</StatusPill>
                       ) : null}
                       {customer.status ? (
                         <StatusPill tone={accountTone(customer.status)} dot>
@@ -110,7 +110,7 @@ export default async function CustomersPage() {
                   </a>
                   <Link
                     href={`/customers/${customer.id}`}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8b36d]/38 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4d99c] transition hover:border-[#f4d99c]/70 hover:bg-[#d8b36d]/16"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
                   >
                     Account Page
                   </Link>

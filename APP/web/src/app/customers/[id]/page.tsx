@@ -80,7 +80,7 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
 
         <div className="space-y-5">
           <Panel>
-            <SectionHeading>Account Actions</SectionHeading>
+            <SectionHeading tone="accent">Account Actions</SectionHeading>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <a
                 href={customer.siteUrl}
@@ -90,7 +90,7 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
               </a>
               <Link
                 href={customer.requestUpdateUrl}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#d8b36d]/38 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#f4d99c] transition hover:border-[#f4d99c]/70 hover:bg-[#d8b36d]/16"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"
               >
                 Request Update
               </Link>
@@ -98,7 +98,7 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
           </Panel>
 
           <Panel>
-            <SectionHeading>Contact Information</SectionHeading>
+            <SectionHeading tone="accent">Contact Information</SectionHeading>
             <dl className="mt-5 grid gap-4 text-sm text-[#aeb7bd] sm:grid-cols-3">
               <div>
                 <dt className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
@@ -114,7 +114,7 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
                   {customer.contactEmail ? (
                     <a
                       href={`mailto:${customer.contactEmail}`}
-                      className="text-[#f4d99c] transition hover:text-[#f8e7bc]"
+                      className="text-[#bfdcff] transition hover:text-[#dbeaff]"
                     >
                       {customer.contactEmail}
                     </a>
@@ -135,7 +135,7 @@ export default async function CustomerAccountPage({ params }: CustomerPageProps)
           </Panel>
 
           <Panel>
-            <SectionHeading>Notes</SectionHeading>
+            <SectionHeading tone="accent">Notes</SectionHeading>
             <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-[#c8d0d4]">
               {customer.notes || "No notes recorded."}
             </p>

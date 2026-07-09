@@ -49,13 +49,21 @@ export function Card({
 export function SectionHeading({
   children,
   hint,
+  tone = "gold",
 }: {
   children: ReactNode;
   hint?: ReactNode;
+  /** Heading accent — "gold" (default, owner routes) or "accent" (sapphire). */
+  tone?: "gold" | "accent";
 }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <h2 className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#d8b36d]">
+      <h2
+        className={cn(
+          "text-[0.7rem] font-semibold uppercase tracking-[0.26em]",
+          tone === "accent" ? "text-[#4f9dff]" : "text-[#d8b36d]",
+        )}
+      >
         {children}
       </h2>
       {hint ? <span className="text-[0.7rem] text-[#7f8a91]">{hint}</span> : null}
@@ -115,13 +123,14 @@ export function Field({ className, ...props }: InputHTMLAttributes<HTMLInputElem
 
 // --- Status pill -------------------------------------------------------------
 
-export type PillTone = "success" | "danger" | "neutral" | "gold";
+export type PillTone = "success" | "danger" | "neutral" | "gold" | "accent";
 
 const PILL_TONES: Record<PillTone, string> = {
   success: "border-[#7fd1a2]/30 bg-[#7fd1a2]/10 text-[#9fe5bd]",
   danger: "border-[#ff7a66]/30 bg-[#8f3e2e]/16 text-[#ffad9f]",
   neutral: "border-white/12 bg-white/[0.03] text-[#aeb7bd]",
   gold: "border-[#d8b36d]/30 bg-[#d8b36d]/10 text-[#f4d99c]",
+  accent: "border-[#4f9dff]/35 bg-[#4f9dff]/12 text-[#bfdcff]",
 };
 
 export function StatusPill({
@@ -151,6 +160,7 @@ const DOT_TONES: Record<PillTone, string> = {
   danger: "bg-[#ff7a66]",
   neutral: "bg-[#aeb7bd]",
   gold: "bg-[#d8b36d]",
+  accent: "bg-[#4f9dff]",
 };
 
 export function StatusDot({ tone = "neutral", className }: { tone?: PillTone; className?: string }) {
@@ -261,11 +271,11 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.34em] text-[#d8b36d]",
+        "inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.34em] text-[#4f9dff]",
         className,
       )}
     >
-      <span aria-hidden className="h-px w-6 bg-gradient-to-r from-[#d8b36d]/80 to-transparent" />
+      <span aria-hidden className="h-px w-6 bg-gradient-to-r from-[#4f9dff]/80 to-transparent" />
       {children}
     </span>
   );
@@ -328,8 +338,8 @@ export function Monogram({ name, className }: { name: string; className?: string
     <span
       aria-hidden
       className={cn(
-        "inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl border border-[#d8b36d]/30",
-        "bg-gradient-to-br from-[#d8b36d]/20 to-[#0b0e11] text-sm font-semibold tracking-[0.06em] text-[#f4d99c]",
+        "inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl border border-[#4f9dff]/35",
+        "bg-gradient-to-br from-[#4f9dff]/22 to-[#0b1220] text-sm font-semibold tracking-[0.06em] text-[#bfdcff]",
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
         className,
       )}
@@ -353,7 +363,7 @@ export function StatTile({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 transition hover:border-[#d8b36d]/25",
+        "rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 transition hover:border-[#4f9dff]/25",
         className,
       )}
     >
