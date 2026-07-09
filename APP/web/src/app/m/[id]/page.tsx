@@ -71,6 +71,8 @@ export default async function PublicMenuPage({ params }: PageProps) {
     <main className="fc-bg-warm relative isolate min-h-dvh overflow-hidden px-5 py-10 text-[#f4f6f7] sm:px-8">
       <div className="fc-grain" aria-hidden />
       <div className="fc-vignette" aria-hidden />
+      <div className="fc-watermark" aria-hidden />
+      <span className="sr-only">Sample menu</span>
       <div className="relative z-[1] mx-auto w-full max-w-2xl">
         <header className="text-center">
           {brand.logo ? (

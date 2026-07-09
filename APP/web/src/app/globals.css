@@ -133,6 +133,23 @@ a {
   background: linear-gradient(90deg, transparent, rgba(216, 179, 109, 0.55), transparent);
 }
 
+/* Diagonal repeating "SAMPLE" watermark for demo/sample menus. Fixed over the
+   viewport, non-interactive (pointer-events:none), decorative (aria-hidden). */
+.fc-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.08;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Ctext x='10' y='120' font-family='Arial, Helvetica, sans-serif' font-size='40' font-weight='700' letter-spacing='10' fill='%23d8b36d' transform='rotate(-28 160 100)'%3ESAMPLE%3C/text%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fc-watermark {
+    background-attachment: fixed;
+  }
+}
+
 /* Layer 2 — fine film grain so large dark fields read as textured, not flat.
    Absolutely positioned; the shell gives content a higher stacking context. */
 .fc-grain {
