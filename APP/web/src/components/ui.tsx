@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
@@ -64,13 +65,15 @@ export function SectionHeading({
 
 // --- Button ------------------------------------------------------------------
 
-export type ButtonVariant = "primary" | "ghost" | "subtle" | "danger" | "success";
+export type ButtonVariant = "primary" | "gold" | "ghost" | "subtle" | "danger" | "success";
 
 const BUTTON_BASE =
   "inline-flex items-center justify-center gap-2 rounded-full text-xs font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-45";
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
   primary: "bg-[#eef2f4] px-5 py-2.5 text-[#07090b] hover:bg-white",
+  gold:
+    "bg-gradient-to-b from-[#e4c680] to-[#cfa457] px-5 py-2.5 text-[#0a0c0e] shadow-[0_10px_30px_-12px_rgba(216,179,109,0.6)] hover:from-[#eed093] hover:to-[#d8b36d]",
   ghost:
     "border border-white/15 px-4 py-2 text-[#eef2f4] hover:border-[#d8b36d]/60 hover:text-white",
   subtle:
@@ -121,16 +124,45 @@ const PILL_TONES: Record<PillTone, string> = {
   gold: "border-[#d8b36d]/30 bg-[#d8b36d]/10 text-[#f4d99c]",
 };
 
-export function StatusPill({ tone = "neutral", children }: { tone?: PillTone; children: ReactNode }) {
+export function StatusPill({
+  tone = "neutral",
+  dot = false,
+  children,
+}: {
+  tone?: PillTone;
+  dot?: boolean;
+  children: ReactNode;
+}) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.14em]",
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.14em]",
         PILL_TONES[tone],
       )}
     >
+      {dot ? <StatusDot tone={tone} /> : null}
       {children}
     </span>
+  );
+}
+
+const DOT_TONES: Record<PillTone, string> = {
+  success: "bg-[#7fd1a2]",
+  danger: "bg-[#ff7a66]",
+  neutral: "bg-[#aeb7bd]",
+  gold: "bg-[#d8b36d]",
+};
+
+export function StatusDot({ tone = "neutral", className }: { tone?: PillTone; className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "inline-block h-1.5 w-1.5 flex-none rounded-full shadow-[0_0_10px_-1px_currentColor]",
+        DOT_TONES[tone],
+        className,
+      )}
+    />
   );
 }
 
@@ -146,5 +178,189 @@ export function Chip({ children, className }: { children: ReactNode; className?:
     >
       {children}
     </span>
+  );
+}
+
+// --- Page shell --------------------------------------------------------------
+// The black + gold operations ground (spotlights + grain + vignette) plus the
+// centered column, in one place. Replaces the four stacked background <div>s
+// that were hand-copied onto every /customers screen.
+
+export function PageShell({
+  children,
+  width = "6xl",
+  className,
+}: {
+  children: ReactNode;
+  width?: "md" | "4xl" | "6xl";
+  className?: string;
+}) {
+  const widths = { md: "max-w-md", "4xl": "max-w-4xl", "6xl": "max-w-6xl" } as const;
+  return (
+    <main className="fc-bg relative isolate flex min-h-dvh flex-col overflow-hidden px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
+      <div className="fc-grain" aria-hidden />
+      <div className="fc-vignette" aria-hidden />
+      <div
+        className={cn(
+          "relative z-[1] mx-auto flex min-h-[calc(100dvh-2.5rem)] w-full flex-1 flex-col",
+          widths[width],
+          className,
+        )}
+      >
+        {children}
+      </div>
+    </main>
+  );
+}
+
+// --- Top bar (back link + right-side actions) --------------------------------
+
+export function TopBar({
+  backHref,
+  backLabel,
+  children,
+}: {
+  backHref: string;
+  backLabel: string;
+  children?: ReactNode;
+}) {
+  return (
+    <header className="flex items-center justify-between gap-4 text-[0.68rem] uppercase tracking-[0.28em] text-[#cfd6da]/62">
+      <Link
+        href={backHref}
+        className="group inline-flex items-center gap-2 transition hover:text-white"
+      >
+        <span aria-hidden className="text-[#d8b36d] transition-transform group-hover:-translate-x-0.5">
+          &larr;
+        </span>
+        {backLabel}
+      </Link>
+      {children ? (
+        <nav className="flex items-center gap-4 tracking-[0.28em]">{children}</nav>
+      ) : null}
+    </header>
+  );
+}
+
+export function SignOutButton() {
+  return (
+    <form action="/customers/signout" method="post">
+      <button
+        type="submit"
+        className="uppercase tracking-[0.28em] transition hover:text-white"
+      >
+        Sign out
+      </button>
+    </form>
+  );
+}
+
+// --- Display typography -------------------------------------------------------
+
+export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.34em] text-[#d8b36d]",
+        className,
+      )}
+    >
+      <span aria-hidden className="h-px w-6 bg-gradient-to-r from-[#d8b36d]/80 to-transparent" />
+      {children}
+    </span>
+  );
+}
+
+export function PageTitle({
+  children,
+  shine = false,
+  className,
+}: {
+  children: ReactNode;
+  shine?: boolean;
+  className?: string;
+}) {
+  return (
+    <h1
+      className={cn(
+        "fc-balance mt-5 text-4xl font-semibold tracking-[-0.02em] text-[#f4f6f7] sm:text-5xl",
+        className,
+      )}
+    >
+      {shine ? <span className="rb-shiny-text">{children}</span> : children}
+    </h1>
+  );
+}
+
+export function Lede({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <p className={cn("mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg", className)}>
+      {children}
+    </p>
+  );
+}
+
+// --- Premium panel (milled card with specular top edge) ----------------------
+
+export function Panel({
+  className,
+  children,
+  as: As = "section",
+}: {
+  className?: string;
+  children: ReactNode;
+  as?: "section" | "div" | "article";
+}) {
+  return <As className={cn("fc-panel p-5 sm:p-6", className)}>{children}</As>;
+}
+
+// --- Monogram (business initials avatar) -------------------------------------
+
+function initialsOf(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "•";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+export function Monogram({ name, className }: { name: string; className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl border border-[#d8b36d]/30",
+        "bg-gradient-to-br from-[#d8b36d]/20 to-[#0b0e11] text-sm font-semibold tracking-[0.06em] text-[#f4d99c]",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
+        className,
+      )}
+    >
+      {initialsOf(name)}
+    </span>
+  );
+}
+
+// --- Stat tile (metric in a dl) ----------------------------------------------
+
+export function StatTile({
+  label,
+  children,
+  className,
+}: {
+  label: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 transition hover:border-[#d8b36d]/25",
+        className,
+      )}
+    >
+      <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#cfd6da]/56">
+        {label}
+      </dt>
+      <dd className="mt-1.5 text-lg font-semibold text-[#eef2f4]">{children}</dd>
+    </div>
   );
 }

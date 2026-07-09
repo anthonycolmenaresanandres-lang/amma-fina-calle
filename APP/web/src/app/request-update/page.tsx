@@ -1,5 +1,5 @@
-import Link from "next/link";
 import CustomerRequestForm from "@/components/CustomerRequestForm";
+import { Eyebrow, PageShell, TopBar } from "@/components/ui";
 
 export const metadata = {
   title: "Fina Calle OS Intake | AMMA Ventures",
@@ -9,20 +9,12 @@ export const metadata = {
 
 export default function RequestUpdatePage() {
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.14),transparent_28%),radial-gradient(circle_at_15%_78%,rgba(216,179,109,0.08),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.032)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.024)_1px,transparent_1px)] bg-[size:68px_68px]" />
-      <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-[#dfe5e8]/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-44 bg-gradient-to-t from-black to-transparent" />
+    <PageShell>
+      <TopBar backHref="/" backLabel="Fina Calle OS">
+        <span className="hidden text-[#cfd6da]/62 sm:inline">Phase 1 Intake</span>
+      </TopBar>
 
-      <div className="mx-auto flex min-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col">
-        <header className="flex items-center justify-between gap-4 text-[0.68rem] uppercase tracking-[0.28em] text-[#cfd6da]/62">
-          <Link href="/" className="transition hover:text-white">
-            Back to Fina Calle OS
-          </Link>
-          <span className="hidden sm:inline">Phase 1 Intake</span>
-        </header>
-
+      <>
         <section className="pt-6 sm:pt-8" aria-label="Fina Calle OS intake hero">
           <img
             src="/assets/fina-calle-intake-hero.png"
@@ -34,10 +26,8 @@ export default function RequestUpdatePage() {
 
         <div className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:py-10">
           <section className="flex flex-col items-start">
-            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
-              Request a Build
-            </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-normal text-[#f4f6f7] sm:text-4xl">
+            <Eyebrow>Request a Build</Eyebrow>
+            <h2 className="fc-balance mt-4 text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7] sm:text-4xl">
               Tell us what your business needs.
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
@@ -65,9 +55,11 @@ export default function RequestUpdatePage() {
               ].map((step) => (
                 <li
                   key={step.num}
-                  className="flex gap-4 rounded-2xl border border-[#cfd6da]/14 bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)]"
+                  className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-[#090c0f]/72 p-4 shadow-[0_24px_70px_-48px_rgba(255,255,255,0.42)] transition hover:border-[#d8b36d]/30"
                 >
-                  <span className="text-sm font-semibold text-[#d8b36d]">{step.num}</span>
+                  <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#d8b36d]/30 bg-gradient-to-br from-[#d8b36d]/20 to-[#0b0e11] text-xs font-semibold text-[#f4d99c]">
+                    {step.num}
+                  </span>
                   <div>
                     <p className="text-sm font-semibold text-[#eef2f4]">{step.title}</p>
                     <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">{step.body}</p>
@@ -89,7 +81,7 @@ export default function RequestUpdatePage() {
             <CustomerRequestForm />
           </section>
         </div>
-      </div>
-    </main>
+      </>
+    </PageShell>
   );
 }

@@ -330,3 +330,5 @@ salvaged later) · PR #17 (Colattanini docs-only manual MVP). Client-OS PRs #29/
 
 **Known minor:** Colattao keeper lower-body green `0x14332A` ≈ grass `0x14331A` (legs can blend);
 one-line kit tweak if wanted. Ad image is 1080px long edge (spec rec ≥1600) — fine at display size.
+
+- [2026-07-09 16:08:27] DONE: Premium UI refresh of the /customers OS surface (login, registry, account, request inbox, request detail) + /request-update intake. Added a centralized black+gold surface system (.fc-bg/.fc-grain/.fc-vignette/.fc-panel) in globals.css and new server-safe kit primitives in ui.tsx (PageShell, TopBar, Eyebrow, PageTitle, Lede, Panel, Monogram, StatTile, StatusDot, gold button, optional pill dot). All kit changes additive — owner routes untouched. Verified: tsc + eslint clean, dev server 200 on all pages, screenshotted desktop+mobile.

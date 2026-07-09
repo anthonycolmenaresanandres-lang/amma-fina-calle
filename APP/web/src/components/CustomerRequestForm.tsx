@@ -29,7 +29,7 @@ const MAX_FILES = 10;
 const MAX_TOTAL_FILE_SIZE_BYTES = 4 * 1024 * 1024;
 
 const fieldClass =
-  "w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/18";
+  "w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#d8b36d]/70 focus:ring-2 focus:ring-[#d8b36d]/20";
 
 const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]";
 
@@ -130,8 +130,11 @@ export default function CustomerRequestForm() {
     const emailed = result?.emailActive;
 
     return (
-      <section className="rounded-2xl border border-[#cfd6da]/18 bg-[#0f1418] px-5 py-7 text-center text-[#f4f6f7] shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#d8b36d]">
+      <section className="fc-panel px-5 py-8 text-center text-[#f4f6f7]">
+        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-lg text-[#9fe5bd]">
+          ✓
+        </span>
+        <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#d8b36d]">
           Intake received
         </p>
         <h2 className="mt-2 text-2xl font-semibold">
@@ -333,9 +336,16 @@ export default function CustomerRequestForm() {
       <button
         type="submit"
         disabled={status === "submitting" || !isValid}
-        className="mt-6 w-full rounded-full bg-[#eef2f4] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#07090b] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#e4c680] to-[#cfa457] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#0a0c0e] shadow-[0_14px_36px_-14px_rgba(216,179,109,0.65)] transition hover:from-[#eed093] hover:to-[#d8b36d] disabled:cursor-not-allowed disabled:opacity-45"
       >
-        {status === "submitting" ? "Submitting request..." : "Submit request"}
+        {status === "submitting" ? (
+          <>
+            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0a0c0e]/30 border-t-[#0a0c0e]" />
+            Submitting request…
+          </>
+        ) : (
+          "Submit request"
+        )}
       </button>
 
       <p className="mt-3 text-center text-xs leading-5 text-[#8f9aa1]">
