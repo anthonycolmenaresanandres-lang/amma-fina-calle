@@ -33,9 +33,11 @@ in the restaurant**, so changing it — or migrating Colattao's menu in-house to
    capture full-page screenshots (mobile + desktop) and extract palette,
    typography, layout, components, and any playful/game motifs. **This is the
    reference to emulate** — you are not moving this menu.
-2. Apply that look to the generic `APP/web/src/app/m/[id]/page.tsx` **as a
-   per-brand theme** (do NOT hardcode Colattao — the menu serves every *new*
-   restaurant by id; Colattao itself keeps its external Café Rush menu).
+2. Apply that look to the generic `APP/web/src/app/m/[id]/page.tsx` as **one
+   shared warm template** (Phase 1 / Option A — see §7.4), serving every *new*
+   restaurant by id. Route colors through CSS variables (warm defaults) so the
+   later per-brand theming (Phase 2 / Option B) is a clean drop-in. Colattao
+   itself keeps its external Café Rush menu — don't hardcode Colattao here.
 3. Reuse the CSS system + kit primitives documented in §3–§4. Add warm
    café tokens; keep the operator surfaces (sapphire) untouched.
 4. Keep the `SAMPLE` watermark for sample menus; gate it per `live` flag (§6).
@@ -186,16 +188,19 @@ allowlist so paying clients drop it:
 3. **Watermark — CONFIRMED.** `SAMPLE` shows on sample menus; it **drops when a
    client goes live** (per the `live` flag in §6). (Note: Colattao itself is NOT
    served by `/m/[id]` — it links out — so this only governs new-client menus.)
-4. **Per-brand theming scope — PENDING owner.** Plain-language framing:
-   - Option A — **one shared look** (simplest): every new client's `/m/[id]` uses
-     the same warm café template; only their logo/hero/name/items differ. Fast,
-     less code, uniform house style.
-   - Option B — **per-brand themes** (more work, more flexible): each restaurant
-     gets its own accent color / ground / (optional) font via a small theme keyed
-     by id (the §3 CSS-variable refactor), so a taquería looks red-green, a juice
-     bar citrus, a café espresso — bespoke with zero per-menu code.
-   - **Recommendation:** ship Option A now (one strong warm template echoing the
-     game), add Option B when a non-café client's brand clashes with warm gold.
+4. **Per-brand theming scope — RESOLVED: start A, then B (phased).**
+   - **Phase 1 (build now) — Option A, one shared warm look:** a single strong
+     warm café template for every new client's `/m/[id]`, echoing the Penalty
+     Shootout game energy (§7.2). Only logo/hero/name/items differ per client.
+     Do NOT build the theming machinery yet.
+   - **Phase 2 (roadmap, build later) — Option B, per-brand themes:** when a
+     non-café client's brand clashes with warm gold, add a small theme keyed by
+     restaurant id (the §3 CSS-variable refactor: `--brand-accent`/`--brand-ground`/
+     etc.) so each menu auto-matches its brand with zero per-menu code.
+   - **Design Phase 1 so Phase 2 is a clean drop-in:** even while hardcoding the
+     warm palette now, route accent/ground/edge/cream through CSS variables (with
+     the warm values as defaults) so Phase 2 only has to supply per-id variable
+     overrides — no template rewrite.
 
 ---
 
