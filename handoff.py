@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import sys
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
 
 HANDOFF = Path("HANDOFF.md")
+SLACK_NOTIFY = Path(__file__).resolve().parent / "OPERATIONS" / "notify_slack.py"
 
 
 def timestamp() -> str:
@@ -21,6 +23,20 @@ def show() -> None:
     print(HANDOFF.read_text(encoding="utf-8"))
 
 
+def notify_slack() -> None:
+    if not SLACK_NOTIFY.exists():
+        return
+    try:
+        subprocess.Popen(
+            [sys.executable, str(SLACK_NOTIFY)],
+            cwd=SLACK_NOTIFY.parent.parent,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
 def main() -> int:
     if not HANDOFF.exists():
         print("HANDOFF.md is missing.", file=sys.stderr)
@@ -33,6 +49,7 @@ def main() -> int:
         append_log("START", message or "Handoff session started")
     elif command == "done":
         append_log("DONE", message)
+        notify_slack()
     elif command == "next":
         append_log("NEXT", message)
     elif command == "block":

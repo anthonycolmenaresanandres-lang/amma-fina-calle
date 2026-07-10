@@ -21,8 +21,8 @@ C:\dev\amma\
 > **Claude decides. Codex executes. Clone watches. Anthony approves irreversible actions.**
 
 - **One clone per repo.** Never re-clone elsewhere. Operate with `git -C C:\dev\amma\amma-fina-calle ...`.
-- **Parallel work uses worktrees, under the hub only:**
-  `git -C C:\dev\amma\amma-fina-calle worktree add worktrees\<task> <branch>`.
+- **Parallel work uses sibling worktrees under the hub only:**
+  `git -C C:\dev\amma\amma-fina-calle worktree add C:\dev\amma\worktrees\<task> <branch>`.
   Never create a worktree on the Desktop, in the home folder, or under OneDrive.
 - **Branches, not folders.** Feature work = a branch (+ optional worktree under `worktrees\`). When it merges, delete the branch and `worktree remove` it.
 - **Every session logs IN/OUT** in `OPERATIONS/HANDOFF_LOG.md` (what you touched, result, anything flagged).

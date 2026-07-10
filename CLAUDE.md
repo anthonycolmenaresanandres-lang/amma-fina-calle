@@ -13,6 +13,6 @@ Read in order:
 4. `OPERATIONS/HANDOFF_LOG.md` — log IN/OUT every session
 5. `OPERATIONS/CODEX_QUEUE.md` — hand coding specs to Codex here
 
-Parallel work → a worktree under `C:\dev\amma\amma-fina-calle\worktrees\<task>`, never elsewhere.
+Parallel work → a sibling worktree under `C:\dev\amma\worktrees\<task>`, never elsewhere.
 
 Guardrails: never handle secrets, grant access, publish/send, or ship to `main` — prep those and hand Anthony exact steps.
