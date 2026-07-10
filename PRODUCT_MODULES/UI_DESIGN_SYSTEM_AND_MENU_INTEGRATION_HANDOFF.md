@@ -167,17 +167,35 @@ allowlist so paying clients drop it:
 
 ---
 
-## 7. Open questions for the owner (get answers before/within the PR)
+## 7. Owner decisions (2026-07)
 1. ~~In-house vs link-out~~ **RESOLVED: keep linking out** — the in-store physical
    QR points to the Café Rush URL and must not change. Café Rush is the design
    reference only; `/m/[id]` is the generic template for new clients.
-2. **How much "game" energy** in the menu — subtle warmth (recommended: rounded
-   cards, café motifs, a small mascot/latte-art accent) vs. overt cartoon? A menu
-   must stay legible/appetizing; don't let playful overwhelm scannability.
-3. **Watermark:** confirm Colattao = live (no `SAMPLE`); everything else stays
-   sampled.
-4. **Per-brand theming scope:** just Colattao now, or build the full brand-theme
-   registry (§3 refactor) so future clients auto-theme.
+2. **Game energy — RESOLVED: use the actual Penalty Shootout game as the
+   reference.** It's in THIS repo and attached to the Vercel site:
+   - Route: `/penalty-shootout` (`APP/web/src/app/penalty-shootout/`), engine +
+     skins under `APP/web/src/penalty/**`, Colattao **"Café Shootout"** skin in
+     `APP/web/src/penalty/skin/skins.ts`, art in
+     `APP/web/public/assets/colattao/penalty/**`.
+   - Its visual language: warm café-stadium, cartoon crowd, cream signs, green
+     pitch, caramel/gold, chunky friendly rounded shapes, playful energy.
+   - Borrow that ENERGY into the menu tastefully — rounded friendly cards, warm
+     café-stadium palette, a small mascot/ball/coffee motif — **but the menu must
+     stay legible and appetizing**; do not let cartoon overwhelm scannability.
+     Play the game first, screenshot it, then echo its feel.
+3. **Watermark — CONFIRMED.** `SAMPLE` shows on sample menus; it **drops when a
+   client goes live** (per the `live` flag in §6). (Note: Colattao itself is NOT
+   served by `/m/[id]` — it links out — so this only governs new-client menus.)
+4. **Per-brand theming scope — PENDING owner.** Plain-language framing:
+   - Option A — **one shared look** (simplest): every new client's `/m/[id]` uses
+     the same warm café template; only their logo/hero/name/items differ. Fast,
+     less code, uniform house style.
+   - Option B — **per-brand themes** (more work, more flexible): each restaurant
+     gets its own accent color / ground / (optional) font via a small theme keyed
+     by id (the §3 CSS-variable refactor), so a taquería looks red-green, a juice
+     bar citrus, a café espresso — bespoke with zero per-menu code.
+   - **Recommendation:** ship Option A now (one strong warm template echoing the
+     game), add Option B when a non-café client's brand clashes with warm gold.
 
 ---
 
