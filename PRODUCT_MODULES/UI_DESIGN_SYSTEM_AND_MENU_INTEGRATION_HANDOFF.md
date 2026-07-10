@@ -14,16 +14,31 @@ below.
 
 ---
 
+## ⛔ CRITICAL CONSTRAINT — do not change the QR URL (owner directive, 2026-07)
+Colattao's **physical in-store QR code** points to
+`https://colattao-cafe-rush.vercel.app/menu`. That URL is **printed on signage
+in the restaurant**, so changing it — or migrating Colattao's menu in-house to
+`/m/colattao` — would force the owner to **reprint the physical QR**. Therefore:
+- **Keep `publicMenuHref("colattao")` linking OUT** to the Café Rush menu. Do
+  **not** move Colattao onto `/m/[id]`.
+- The live **Café Rush menu is the DESIGN REFERENCE**, not something to relocate.
+  Any actual Colattao menu redesign happens **inside the Café Rush app, at the
+  same URL** (separate deployment/repo).
+- `/m/[id]` stays the **generic template for *new* clients** — the goal is to make
+  it look as good as Colattao's real Café Rush menu, so future restaurants get
+  that quality out of the box.
+
 ## 0. TL;DR task
 1. Open `https://colattao-cafe-rush.vercel.app/menu` **and** the game screen;
    capture full-page screenshots (mobile + desktop) and extract palette,
-   typography, layout, components, and any playful/game motifs.
-2. Bring that look into `APP/web/src/app/m/[id]/page.tsx` **as a per-brand
-   theme** (do NOT hardcode Colattao into the shared template — the menu serves
-   every restaurant by id).
+   typography, layout, components, and any playful/game motifs. **This is the
+   reference to emulate** — you are not moving this menu.
+2. Apply that look to the generic `APP/web/src/app/m/[id]/page.tsx` **as a
+   per-brand theme** (do NOT hardcode Colattao — the menu serves every *new*
+   restaurant by id; Colattao itself keeps its external Café Rush menu).
 3. Reuse the CSS system + kit primitives documented in §3–§4. Add warm
-   Colattao tokens; keep the operator surfaces (sapphire) untouched.
-4. Gate the `SAMPLE` watermark so live clients don't show it (§6).
+   café tokens; keep the operator surfaces (sapphire) untouched.
+4. Keep the `SAMPLE` watermark for sample menus; gate it per `live` flag (§6).
 5. Verify (tsc + eslint + screenshots), open a **draft PR**, keep changes
    presentation-only.
 
@@ -63,10 +78,10 @@ is already here:
   - cream `#f4e6cc` (text/goal frame) · net/tan `#d8c3a3`
   - **caramel/amber accent `#d8a24c`** · keeper caramel `#c98a3c` · deep brown `#6b3f17`
   - game accents: mint `#8fe6a8` · coral `#ff8a6b` · yellow `#f4d35e`
-- `publicMenuHref()` in `OwnerDashboard.tsx` currently sends Colattao to the
-  **external** `https://colattao-cafe-rush.vercel.app/menu`. **Decision needed
-  from owner (see §7):** bring that menu in-house under `/m/colattao` or keep
-  linking out.
+- `publicMenuHref()` in `OwnerDashboard.tsx` sends Colattao to the **external**
+  `https://colattao-cafe-rush.vercel.app/menu`. **DECIDED: keep linking out** —
+  the in-store physical QR points there and must not change (see ⛔ constraint
+  above). Do not migrate Colattao to `/m/colattao`.
 
 ---
 
@@ -153,8 +168,9 @@ allowlist so paying clients drop it:
 ---
 
 ## 7. Open questions for the owner (get answers before/within the PR)
-1. **In-house vs link-out:** replace the external `colattao-cafe-rush.vercel.app/menu`
-   with an in-repo `/m/colattao`, or keep linking out? (`publicMenuHref` decides.)
+1. ~~In-house vs link-out~~ **RESOLVED: keep linking out** — the in-store physical
+   QR points to the Café Rush URL and must not change. Café Rush is the design
+   reference only; `/m/[id]` is the generic template for new clients.
 2. **How much "game" energy** in the menu — subtle warmth (recommended: rounded
    cards, café motifs, a small mascot/latte-art accent) vs. overt cartoon? A menu
    must stay legible/appetizing; don't let playful overwhelm scannability.
