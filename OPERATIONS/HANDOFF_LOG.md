@@ -201,3 +201,11 @@ State now:
 - Current internal routing is one BCC recipient, `anthonycolmenaresanandres@gmail.com`; additional internal addresses are not configured or assumed.
 Next / handoff to: Anthony -> name any additional internal inbox(es) that should receive customer information; Codex -> add them only after exact recipients are confirmed.
 Blocked on Anthony: exact additional internal recipient addresses, if more than the currently verified Anthony inbox is desired.
+
+### [CHECK-IN] Codex - 2026-07-17 10:30 - customer portal activation audit
+Picking up: Verify that the Colattao owner/customer portal is actually ready across sign-in, change requests, billing, Stripe recurring state, and Zelle reporting.
+State I see:
+- Hosted Supabase migrations `0010` through `0013` are applied and the Colattao billing schedule is seeded.
+- The full portal implementation is committed on clean branch `codex/owner-billing`; production remains the human-approved `main` branch.
+- Anthony asked to make sure the portal is set, but has not yet approved a Fina Calle production merge or deployment.
+- Verification will stop at the first broken boundary and will not send a magic link, create a payment, submit a Zelle notice, deploy, merge, or push without the required evidence or approval.
