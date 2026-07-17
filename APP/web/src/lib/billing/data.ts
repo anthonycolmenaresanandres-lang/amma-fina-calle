@@ -10,6 +10,10 @@ type BillingSummaryRow = {
   plan: string | null;
   billing_status: string | null;
   recurring_enabled: boolean | null;
+  amount_cents: number | null;
+  currency: string | null;
+  billing_interval: string | null;
+  billing_interval_count: number | null;
   latest_invoice_status: string | null;
   last_payment_at: string | null;
   current_period_end: string | null;
@@ -21,6 +25,10 @@ function fallbackSummary(plan: string | null, billingStatus: string | null): Bil
     plan: plan || "AMMA service",
     status: normalizeBillingStatus(billingStatus),
     recurringEnabled: false,
+    amountCents: null,
+    currency: null,
+    billingInterval: null,
+    billingIntervalCount: null,
     latestInvoiceStatus: null,
     lastPaymentAt: null,
     currentPeriodEnd: null,
@@ -50,6 +58,10 @@ export async function getOwnerBillingSummary(
     plan: row.plan || fallback.plan,
     status: normalizeBillingStatus(row.billing_status),
     recurringEnabled: Boolean(row.recurring_enabled),
+    amountCents: row.amount_cents,
+    currency: row.currency,
+    billingInterval: row.billing_interval,
+    billingIntervalCount: row.billing_interval_count,
     latestInvoiceStatus: row.latest_invoice_status,
     lastPaymentAt: row.last_payment_at,
     currentPeriodEnd: row.current_period_end,

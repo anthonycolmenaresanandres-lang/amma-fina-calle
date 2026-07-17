@@ -90,6 +90,8 @@ async function syncSubscription(
   const recurringEnabled = !["canceled", "incomplete_expired", "unpaid"].includes(
     subscription.status,
   );
+  const primaryPrice = subscription.items.data[0]?.price;
+  const recurring = primaryPrice?.recurring;
   const { error } = await admin.from("restaurant_billing").upsert(
     {
       restaurant_id: restaurantId,
@@ -97,6 +99,10 @@ async function syncSubscription(
       stripe_subscription_id: subscription.id,
       subscription_status: subscription.status,
       recurring_enabled: recurringEnabled,
+      amount_cents: primaryPrice?.unit_amount ?? null,
+      currency: primaryPrice?.currency ?? null,
+      billing_interval: recurring?.interval ?? null,
+      billing_interval_count: recurring?.interval_count ?? null,
       current_period_end: isoFromUnix(periodEnd),
       next_payment_at: recurringEnabled ? isoFromUnix(periodEnd) : null,
       updated_at: new Date().toISOString(),

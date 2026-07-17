@@ -84,6 +84,17 @@ function invoiceLabel(value: string | null): string {
   return value.replaceAll("_", " ");
 }
 
+function formatRecurringAmount(billing: BillingSummary): string {
+  if (billing.amountCents === null || !billing.currency) return "Amount pending";
+  const amount = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: billing.currency.toUpperCase(),
+  }).format(billing.amountCents / 100);
+  if (!billing.billingInterval) return amount;
+  const count = billing.billingIntervalCount ?? 1;
+  return `${amount} / ${count === 1 ? billing.billingInterval : `${count} ${billing.billingInterval}s`}`;
+}
+
 export default function BillingCard({
   restaurantId,
   billing,
@@ -139,7 +150,7 @@ export default function BillingCard({
             Recurring
           </dt>
           <dd className="mt-1.5 text-sm font-medium text-[#eef2f4]">
-            {billing.recurringEnabled ? "On" : "Off"}
+            {billing.recurringEnabled ? formatRecurringAmount(billing) : "Off"}
           </dd>
         </div>
         <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">

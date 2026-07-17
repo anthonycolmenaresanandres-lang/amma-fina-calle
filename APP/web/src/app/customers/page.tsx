@@ -1,5 +1,14 @@
 import Link from "next/link";
-import { ExternalLink, IdCard, Inbox, PencilLine, Sparkles } from "lucide-react";
+import {
+  CalendarDays,
+  ExternalLink,
+  IdCard,
+  Inbox,
+  PencilLine,
+  Sparkles,
+  Users,
+  WalletCards,
+} from "lucide-react";
 import { getCustomers } from "@/data/customers";
 import { getAdminContext } from "@/lib/admin/auth";
 import {
@@ -17,6 +26,31 @@ import AdminGate from "./AdminGate";
 
 function formatStatus(value: string) {
   return value.replace(/_/g, " ");
+}
+
+function formatMoney(amountCents: number | null, currency: string | null) {
+  if (amountCents === null || !currency) return "Not set";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(amountCents / 100);
+}
+
+function formatDate(value: string | null) {
+  if (!value) return "Not scheduled";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Not scheduled";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}
+
+function intervalLabel(interval: string | null, count: number | null) {
+  if (!interval) return "Billing interval pending";
+  const intervalCount = count ?? 1;
+  return intervalCount === 1 ? `per ${interval}` : `every ${intervalCount} ${interval}s`;
 }
 
 // Quiet semantic tone for account/billing states — green healthy, coral trouble.
@@ -46,6 +80,13 @@ export default async function CustomersPage() {
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
         <Link
+          href="/customers/team"
+          className="inline-flex items-center gap-1.5 transition hover:text-white"
+        >
+          <Users size={13} strokeWidth={1.75} aria-hidden />
+          Team Access
+        </Link>
+        <Link
           href="/customers/requests"
           className="inline-flex items-center gap-1.5 transition hover:text-white"
         >
@@ -59,7 +100,7 @@ export default async function CustomersPage() {
         <div className="lg:sticky lg:top-10">
           <Eyebrow>Fina Calle OS</Eyebrow>
           <PageTitle>Customer Accounts</PageTitle>
-          <Lede>Manual operations view — not a secure admin portal yet.</Lede>
+          <Lede>Private client ledger for accounts, recurring revenue, and owner access.</Lede>
           <p className="mt-6 text-[0.7rem] uppercase tracking-[0.24em] text-[#cfd6da]/56">
             {customers.length} {customers.length === 1 ? "account" : "accounts"} on file
           </p>
@@ -88,6 +129,11 @@ export default async function CustomersPage() {
                     <h2 className="truncate text-2xl font-semibold text-[#f4f6f7]">
                       {customer.businessName}
                     </h2>
+                    <p className="mt-1 break-words text-sm text-[#8f9aa1]">
+                      {customer.contactName || "Contact not recorded"}
+                      {customer.contactEmail ? ` · ${customer.contactEmail}` : ""}
+                      <span className="ml-2 text-[#667178]">#{customer.id}</span>
+                    </p>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {customer.plan ? (
                         <StatusPill tone="accent">
@@ -106,17 +152,51 @@ export default async function CustomersPage() {
                         </StatusPill>
                       ) : null}
                     </div>
+                    <dl className="mt-4 grid gap-2 sm:grid-cols-3">
+                      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                        <dt className="flex items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-[#7f8a91]">
+                          <WalletCards size={11} aria-hidden /> Recurring amount
+                        </dt>
+                        <dd className="mt-1 text-sm font-semibold text-[#eef2f4]">
+                          {formatMoney(customer.amountCents, customer.currency)}
+                        </dd>
+                        <dd className="mt-0.5 text-xs text-[#7f8a91]">
+                          {intervalLabel(customer.billingInterval, customer.billingIntervalCount)}
+                        </dd>
+                      </div>
+                      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                        <dt className="text-[0.62rem] uppercase tracking-[0.16em] text-[#7f8a91]">
+                          Payment
+                        </dt>
+                        <dd className="mt-1 text-sm font-semibold capitalize text-[#eef2f4]">
+                          {formatStatus(customer.latestInvoiceStatus || customer.billingStatus) || "Not started"}
+                        </dd>
+                        <dd className="mt-0.5 text-xs text-[#7f8a91]">
+                          Recurring {customer.recurringEnabled ? "on" : "off"}
+                        </dd>
+                      </div>
+                      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+                        <dt className="flex items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-[#7f8a91]">
+                          <CalendarDays size={11} aria-hidden /> Next payment
+                        </dt>
+                        <dd className="mt-1 text-sm font-semibold text-[#eef2f4]">
+                          {formatDate(customer.nextPaymentAt)}
+                        </dd>
+                      </div>
+                    </dl>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
-                  <a
-                    href={customer.siteUrl}
-                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
-                  >
-                    <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-                    Live Site
-                  </a>
+                  {customer.siteUrl ? (
+                    <a
+                      href={customer.siteUrl}
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
+                    >
+                      <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
+                      Live Site
+                    </a>
+                  ) : null}
                   <Link
                     href={`/customers/${customer.id}`}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#4f9dff]/38 bg-[#4f9dff]/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#bfdcff] transition hover:border-[#bfdcff]/70 hover:bg-[#4f9dff]/16"

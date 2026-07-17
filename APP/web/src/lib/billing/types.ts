@@ -14,6 +14,10 @@ export type BillingSummary = {
   plan: string;
   status: BillingStatus;
   recurringEnabled: boolean;
+  amountCents: number | null;
+  currency: string | null;
+  billingInterval: string | null;
+  billingIntervalCount: number | null;
   latestInvoiceStatus: string | null;
   lastPaymentAt: string | null;
   currentPeriodEnd: string | null;

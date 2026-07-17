@@ -12,6 +12,12 @@ create table if not exists public.restaurant_billing (
       'past_due', 'canceled', 'unpaid', 'paused', 'processing'
     )),
   recurring_enabled      boolean not null default false,
+  amount_cents           bigint check (amount_cents is null or amount_cents >= 0),
+  currency               text,
+  billing_interval       text,
+  billing_interval_count integer check (
+    billing_interval_count is null or billing_interval_count > 0
+  ),
   latest_invoice_status  text,
   last_payment_at        timestamptz,
   current_period_end     timestamptz,
@@ -37,6 +43,10 @@ returns table (
   plan                  text,
   billing_status        text,
   recurring_enabled     boolean,
+  amount_cents          bigint,
+  currency              text,
+  billing_interval      text,
+  billing_interval_count integer,
   latest_invoice_status text,
   last_payment_at       timestamptz,
   current_period_end    timestamptz,
@@ -55,6 +65,10 @@ as $$
       'not_started'
     ),
     coalesce(b.recurring_enabled, false),
+    b.amount_cents,
+    b.currency,
+    b.billing_interval,
+    b.billing_interval_count,
     b.latest_invoice_status,
     b.last_payment_at,
     b.current_period_end,

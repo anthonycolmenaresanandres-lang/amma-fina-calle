@@ -18,6 +18,30 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-17 07:09 - client ledger and team access
+Did:
+- Upgraded `/customers` into a private client ledger showing business/contact identity, client ID, plan, recurring amount/interval, payment and invoice state, and next payment.
+- Upgraded `/customers/[id]` with recurring billing detail, owner portal route, and authorized restaurant-owner emails.
+- Added `/customers/team` with an active roster, owner-only employee authorization/reactivation/deactivation controls, and a four-step new-hire sign-in guide.
+- Extended prepared migration 0010 and Stripe synchronization with amount, currency, interval, and interval count.
+- Added unapplied migration `0011_client_ledger_and_team_access.sql`; all financial/roster RPCs require an active authenticated AMMA admin, and team mutations additionally require the owner-manager flag.
+- Enabled first-time Supabase Auth creation only after the exact email passes the admin allowlist check.
+State now:
+- Branch: `codex/owner-billing`; no live employee added, email sent, access changed, secret entered, migration applied, deployment made, push performed, or production merge made.
+- Targeted ESLint passed; `tsc --noEmit` passed; full Next.js production build passed and includes `/customers/team`.
+- Browser checks passed for `/customers`, `/customers/team`, and `/`: meaningful fail-closed setup state, correct titles, no framework overlay, and no console errors. Authenticated records remain untestable locally until Supabase and migrations 0010/0011 are deliberately activated.
+Next / handoff to: Anthony -> review the ledger/team design, verify production migration state, apply 0010 then 0011 manually, configure Stripe test values, and deploy only after approval.
+Blocked on Anthony: migration verification/application, Supabase/Stripe configuration, live employee authorization, deployment, push, and merge.
+
+### [CHECK-IN] Codex - 2026-07-17 05:59 - client ledger and team access
+Picking up: Turn the existing admin-gated customer registry into the client ledger and prepare safe onboarding for future AMMA employees.
+State I see:
+- `/customers` already uses server-side Supabase admin authorization and migration 0004 already restricts the registry RPCs.
+- Client records show plan and coarse billing status but not the Stripe amount, interval, invoice state, renewal date, or owner-access emails.
+- Admin magic links use `shouldCreateUser: false`, so a newly allowlisted employee cannot create their first Supabase Auth user.
+- Prepared migration 0010 is not applied; production migration state is unknown.
+- Anthony authorized local Codex work only. No live access, invite, migration, deploy, push, merge, or production action is authorized.
+
 ### [CHECK-OUT] Codex - 2026-07-17 05:46 - owner billing and mobile sign-in
 Did:
 - Repaired the owner sign-in layout for narrow mobile viewports.

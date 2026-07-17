@@ -43,7 +43,9 @@ export async function requestAdminMagicLink(
   await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: false,
+      // The allowlist check runs first. This permits a newly authorized AMMA
+      // employee to create their Supabase Auth user on first sign-in.
+      shouldCreateUser: true,
       // Destination after the link is verified; the Magic Link email template
       // wraps this as `next` on /auth/confirm (token-hash flow). See
       // src/app/auth/confirm/route.ts.

@@ -5,7 +5,7 @@ export type AdminContext =
   | { state: "unconfigured" }
   | { state: "anonymous" }
   | { state: "unauthorized"; email: string }
-  | { state: "authorized"; email: string };
+  | { state: "authorized"; email: string; canManageTeam: boolean };
 
 /**
  * Resolves whether the current visitor is a Fina Calle admin (global, not
@@ -27,7 +27,14 @@ export async function getAdminContext(): Promise<AdminContext> {
     p_email: user.email,
   });
 
-  return isAdmin
-    ? { state: "authorized", email: user.email }
-    : { state: "unauthorized", email: user.email };
+  if (!isAdmin) return { state: "unauthorized", email: user.email };
+
+  const { data: canManageTeam } = await supabase.rpc(
+    "can_current_user_manage_team",
+  );
+  return {
+    state: "authorized",
+    email: user.email,
+    canManageTeam: Boolean(canManageTeam),
+  };
 }
