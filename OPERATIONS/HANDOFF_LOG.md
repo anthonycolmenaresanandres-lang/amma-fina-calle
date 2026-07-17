@@ -158,3 +158,27 @@ State now:
 - Codex should read the queue and this log from the canonical clone before coding.
 Next / handoff to: Claude → reissue only validated tasks in the canonical queue; Codex → wait for the first actionable item.
 Blocked on Anthony: set `SLACK_WEBHOOK_URL` in the Windows user environment and visually confirm one `ops feed online` test; Slack connector sends remain human-gated.
+
+### [CHECK-IN] Codex - 2026-07-17 08:56 - owner requests and Colattao intake email
+Picking up: Verify that authenticated owner change requests create an actionable record and that the live Colattao-facing intake routes the intended operational emails.
+State I see:
+- Anthony confirmed the Supabase dashboard is authenticated and authorized configuring the required Vercel secrets without exposing them.
+- Branch is `codex/owner-billing`; prepared migrations `0010` through `0013` remain unverified against the hosted database.
+- Both owner and public intake paths call the shared Resend helper, but recipient configuration and live deployment state still require evidence before any test send.
+- No customer email will be sent during verification unless the exact recipient and message are first confirmed safe.
+
+### [CHECK-OUT] Codex - 2026-07-17 09:10 - owner requests and Colattao intake email
+Did:
+- Verified hosted migration state, then applied prepared migrations `0010`, `0011`, `0012`, and `0013` sequentially through the authenticated Supabase SQL editor.
+- Re-queried the database: all four migration markers are present, and Colattao is seeded at `$149.00` monthly with `2026-07-20` as the scheduled first charge.
+- Exercised `submit_change_request` under the `anon` database role for restaurant `colattao`, asserted the new request row existed, removed the test row in the same transaction, and confirmed zero test residue.
+- Tested the real Colattao Rush production guest-note endpoint. It correctly rejected a malformed request without sending, then exposed a real Resend HTTP 403 on the valid delivery test instead of reporting success.
+- Read production logs and confirmed the cause: Resend rejected the testing sender for `colattao@hotmail.com`; `finacalleos.com` is already verified in Resend.
+- Replaced the Colattao Rush production `FROM_EMAIL` configuration with `notifications@finacalleos.com` without exposing any secret value.
+State now:
+- Database and owner request persistence rails are active and verified; the reversible verification record was cleaned up.
+- Colattao Rush email routing remains `colattao@hotmail.com` as visible recipient plus the configured internal AMMA BCC.
+- The sender fix is stored in Vercel but does not affect the existing production artifact until a production redeploy.
+- The Colattao Rush checkout has pre-existing overlapping uncommitted work, so it was inspected read-only and no files there were edited.
+Next / handoff to: Anthony -> explicitly approve redeploying the existing Colattao Rush production artifact; Codex -> redeploy, rerun the labeled guest-note test, and verify a 200 response plus clean production logs.
+Blocked on Anthony: explicit production redeploy approval. No merge or push is required for this sender-only repair.
