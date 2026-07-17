@@ -268,3 +268,21 @@ State now:
 - No existing owner password was changed. Future owner provisioning must use a unique temporary password and set the protected reset-required app-metadata flag.
 Next / handoff to: Anthony -> approve a production merge/deployment only after confirming the server-side Supabase service-role variable is present; Codex -> deploy and verify one explicitly approved test owner through the full first-login reset flow.
 Blocked on Anthony: production deployment approval and permission to provision/reset one named test owner. Never send or record the test owner’s private final password.
+
+### [CHECK-IN] Codex - 2026-07-17 - Stripe and Zelle final-input email
+Picking up: Ground the final Stripe/Zelle activation requirements in the live owner-portal implementation and current official provider guidance, then email the no-secrets checklist to Anthony and Marbel.
+State I see:
+- The portal expects Stripe subscription Checkout, Customer Portal, seven signed webhook event types, and a manual Bank of America Zelle reconciliation lane.
+- The remaining inputs are business/billing identity, Stripe live configuration entered directly in Vercel, and the exact verified Bank of America Zelle recipient display values.
+- Marbel's canonical AMMA email is `marbeljsiado@gmail.com`. No API secret, bank credential, PIN, account number, or private password will be requested or sent by email.
+
+### [CHECK-OUT] Codex - 2026-07-17 - Stripe and Zelle final-input email
+Did:
+- Verified the exact application variables, production webhook route, handled Stripe events, Zelle display fields, and manual bank-verification behavior from the canonical implementation and billing setup.
+- Cross-checked current official Stripe guidance for account activation, API keys, subscription webhooks, Customer Portal, payment methods, and payouts; cross-checked Bank of America and Zelle business-enrollment guidance.
+- Created `STRIPE_ZELLE_FINAL_ACTIVATION_CHECKLIST.md` as a no-secrets operating attachment covering Anthony inputs, Marbel preparation duties, exact Vercel variable names, acceptance tests, and official references.
+- Sent one email to Anthony and Marbel with the checklist attached. Gmail confirmed the Sent message has both intended recipients and the attachment; no credentials or secrets were included.
+State now:
+- Research and email delivery are complete. No Stripe setting, Zelle enrollment, bank access, Vercel value, customer, subscription, payment, merge, or deployment was changed.
+Next / handoff to: Anthony -> provide the non-secret Colattao billing identity and verified Bank of America Zelle display facts, then explicitly authorize an authenticated Stripe/Vercel configuration session; Marbel -> complete the non-secret client-ledger and test-preparation items.
+Blocked on Anthony: exact Colattao billing contact/invoice email/store count, confirmed live recurring Price, confirmed Stripe payout bank, exact Bank of America Zelle recipient name and enrolled handle, billing-manager designation, and approval for test-mode activation.
