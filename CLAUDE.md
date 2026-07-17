@@ -16,3 +16,20 @@ Read in order:
 Parallel work → a sibling worktree under `C:\dev\amma\worktrees\<task>`, never elsewhere.
 
 Guardrails: never handle secrets, grant access, publish/send, or ship to `main` — prep those and hand Anthony exact steps.
+
+## Communication rule (owner preference, always)
+- End every response with an explicit **ACTION NEEDED** block: who does what, the exact
+  steps/click-path or exact text to paste, and what to send back. No burying actions in prose.
+
+## Hard guardrails (always)
+- **Stable QR URLs — never change a menu URL that a physical QR points to.** Colattao's in-store
+  QR code points to `https://colattao-cafe-rush.vercel.app/menu`; that URL is printed on physical
+  signage, so changing it (or migrating Colattao's menu in-house to `/m/colattao`) would force a
+  reprint. Keep `publicMenuHref("colattao")` linking OUT to the Café Rush menu; any Colattao menu
+  redesign happens IN that app at the same URL. `/m/[id]` stays the generic template for new clients.
+- Never touch Client OS routes (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase, Stripe, POS,
+  secrets, or customer data.
+- Game art: **non-human mascots only**, no FIFA/World Cup/club/real-face branding, client approves
+  assets before publish. Asset skins must keep primitive fallback (no broken/404 visuals).
+  **Logos are approved overlays only — never AI-generated** (use the client's real approved logo file).
+- This environment is ephemeral — commit/push anything worth keeping.
