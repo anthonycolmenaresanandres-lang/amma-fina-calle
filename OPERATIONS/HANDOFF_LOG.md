@@ -329,3 +329,19 @@ State now:
 - The current live owner portal remains `https://finacalleos.com/owner/colattao`; no live Stripe customer, subscription, charge, Zelle transfer, or customer email was created.
 Next / handoff to: Anthony -> create/approve a new Supabase secret key and provide Stripe's live secret plus webhook signing secret directly through Vercel's encrypted environment-variable UI; Codex -> verify key names only, commit, publish, and run the production smoke test.
 Blocked on Anthony: secure provider-side entry of the three missing encrypted variables. The exposed legacy Supabase credential must not be reused.
+
+### [CHECK-IN] Codex - 2026-07-17 - secure connected-key recovery
+Picking up: Use Anthony's authenticated provider connections to recover the missing Supabase and Stripe credentials and store them only as encrypted Vercel Production variables without printing or saving plaintext locally.
+State I see:
+- Stripe and Supabase are authenticated in Chrome; Vercel CLI is authenticated and linked to `amma-fina-calle`.
+- Vercel Marketplace reports no connected resources, so there is no automatic provider-to-Vercel secret synchronization.
+
+### [CHECK-OUT] Codex - 2026-07-17 - provider credential-panel browser stop
+Did:
+- Verified Vercel Production variable names through metadata-only output; `SUPABASE_SECRET_KEY`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` remain absent.
+- Verified the live Stripe account and Colattao USD 149 monthly Price from the authenticated dashboard without exposing a credential.
+- Confirmed Chrome is running and the ChatGPT Chrome Extension plus native host are installed, enabled, and correctly registered.
+State now:
+- No credential was printed, stored locally, committed, emailed, or transferred. The provider credential panels stalled and the Chrome control connection stopped responding before any secret could be copied.
+Next / handoff to: Anthony -> approve opening a fresh Chrome window for the selected authenticated profile; Codex -> retry once, transfer the three credentials directly into encrypted Vercel Production variables, and verify names only.
+Blocked on Anthony: permission to open the fresh Chrome window required by the browser recovery procedure.
