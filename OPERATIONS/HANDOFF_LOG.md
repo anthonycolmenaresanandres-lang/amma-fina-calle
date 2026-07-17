@@ -209,3 +209,17 @@ State I see:
 - The full portal implementation is committed on clean branch `codex/owner-billing`; production remains the human-approved `main` branch.
 - Anthony asked to make sure the portal is set, but has not yet approved a Fina Calle production merge or deployment.
 - Verification will stop at the first broken boundary and will not send a magic link, create a payment, submit a Zelle notice, deploy, merge, or push without the required evidence or approval.
+
+### [CHECK-OUT] Codex - 2026-07-17 10:47 - customer portal activation audit
+Did:
+- Verified the first broken boundary: `finacalleos.com/owner/colattao` serves production commit `9f62f16`, while the completed billing/Zelle/client-ledger portal exists only on `codex/owner-billing`.
+- Merged current `origin/main` into `codex/owner-billing`; the only conflict was documentation-only `CLAUDE.md`, resolved by preserving both the data-center rules and the newer stable-QR/menu guardrails.
+- Passed targeted portal ESLint, `tsc --noEmit`, and the full Next.js production build after the merge.
+- Created the correct protected preview `https://amma-fina-calle-fkcdls9i0.vercel.app/owner/colattao`; it renders the Supabase-backed Colattao owner sign-in.
+- Audited the Vercel project environment surface without exposing values. Production project variables visibly include only traffic/Instagram configuration; Stripe, webhook, service-role, request-email, and Zelle activation keys are not visibly project-scoped.
+- Accidentally created an isolated Vercel project named `web` by deploying from `APP/web`; immediately corrected the deployment path to the canonical root link, removed the local stray link, and did not attach the isolated project to `finacalleos.com`.
+State now:
+- Feature branch is clean, current with `main`, build-verified, and previewed. Fina Calle production is unchanged.
+- Authenticated portal, Checkout, Customer Portal, webhook, and Zelle end-to-end tests are correctly paused because production does not yet contain the feature and required activation configuration is incomplete or unverified.
+Next / handoff to: Anthony -> approve the Fina Calle production portal deployment and one owner magic-link test; provide the exact Bank of America Zelle recipient name and enrolled email/mobile if Zelle should be activated.
+Blocked on Anthony: Fina Calle production deploy approval, owner magic-link send approval, exact Zelle recipient facts, and approval to delete the isolated unused Vercel `web` project.
