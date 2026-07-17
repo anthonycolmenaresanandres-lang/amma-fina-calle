@@ -107,6 +107,11 @@ export default function BillingCard({
   readOnly?: boolean;
 }) {
   const presentation = STATUS_COPY[billing.status];
+  const scheduledPlan =
+    billing.status === "not_started" &&
+    billing.amountCents !== null &&
+    Boolean(billing.currency) &&
+    Boolean(billing.scheduledFirstChargeOn);
   const needsCheckout = [
     "not_started",
     "canceled",
@@ -136,7 +141,11 @@ export default function BillingCard({
       <div className="mt-4 flex min-w-0 flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="break-words text-lg font-semibold text-[#f4f6f7]">{billing.plan}</p>
-          <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">{presentation.detail}</p>
+          <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">
+            {scheduledPlan
+              ? "Your first charge is confirmed after secure billing enrollment."
+              : presentation.detail}
+          </p>
         </div>
         <StatusPill tone={presentation.tone} dot>
           {presentation.label}
@@ -150,16 +159,24 @@ export default function BillingCard({
             Recurring
           </dt>
           <dd className="mt-1.5 text-sm font-medium text-[#eef2f4]">
-            {billing.recurringEnabled ? formatRecurringAmount(billing) : "Off"}
+            {billing.recurringEnabled
+              ? formatRecurringAmount(billing)
+              : scheduledPlan
+                ? `${formatRecurringAmount(billing)} planned`
+                : "Off"}
           </dd>
         </div>
         <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
           <dt className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
             <CalendarDays size={11} strokeWidth={1.75} aria-hidden />
-            Next payment
+            {scheduledPlan ? "First charge" : "Next payment"}
           </dt>
           <dd className="mt-1.5 break-words text-sm font-medium text-[#eef2f4]">
-            {formatDate(billing.nextPaymentAt || billing.currentPeriodEnd)}
+            {formatDate(
+              scheduledPlan
+                ? billing.scheduledFirstChargeOn
+                : billing.nextPaymentAt || billing.currentPeriodEnd,
+            )}
           </dd>
         </div>
         <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:col-span-2">

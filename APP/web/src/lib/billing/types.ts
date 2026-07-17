@@ -22,6 +22,7 @@ export type BillingSummary = {
   lastPaymentAt: string | null;
   currentPeriodEnd: string | null;
   nextPaymentAt: string | null;
+  scheduledFirstChargeOn: string | null;
   actionsEnabled: boolean;
 };
 

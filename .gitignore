@@ -8,3 +8,4 @@ _local_secrets/
 .claude/
 CLONE_CONTROL/
 .DS_Store
+.vercel

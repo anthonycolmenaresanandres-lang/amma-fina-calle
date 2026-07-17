@@ -18,6 +18,7 @@ type BillingSummaryRow = {
   last_payment_at: string | null;
   current_period_end: string | null;
   next_payment_at: string | null;
+  scheduled_first_charge_on: string | null;
 };
 
 function fallbackSummary(plan: string | null, billingStatus: string | null): BillingSummary {
@@ -33,6 +34,7 @@ function fallbackSummary(plan: string | null, billingStatus: string | null): Bil
     lastPaymentAt: null,
     currentPeriodEnd: null,
     nextPaymentAt: null,
+    scheduledFirstChargeOn: null,
     actionsEnabled: isBillingRuntimeConfigured(),
   };
 }
@@ -66,6 +68,7 @@ export async function getOwnerBillingSummary(
     lastPaymentAt: row.last_payment_at,
     currentPeriodEnd: row.current_period_end,
     nextPaymentAt: row.next_payment_at,
+    scheduledFirstChargeOn: row.scheduled_first_charge_on,
     actionsEnabled: isBillingRuntimeConfigured(),
   };
 }

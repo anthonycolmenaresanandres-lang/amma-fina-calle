@@ -7,6 +7,21 @@ The prepared owner portal supports two deliberately separate payment rails:
 
 The application never connects to Mercury or Bank of America credentials and never treats an owner report as proof of payment.
 
+## Current Colattao billing policy - 2026-07-17
+
+- Price: USD 149 per store, billed monthly.
+- Current footprint: one store, with a second store expected later.
+- First charge is confirmed for 2026-07-20 and is displayed separately in the owner portal; the Stripe customer and subscription remain pending the exact billing contact.
+- Checkout will not charge before that date. It uses Stripe's fixed trial end while the date is at least 48 hours away; inside Stripe's required 48-hour window, enrollment fails closed for AMMA to complete manually.
+- Cancellation takes effect at the end of the current paid billing period.
+- Live Stripe product: `prod_UtyehInjHwhIV8`.
+- Live recurring price: `price_1TuAgoKCddGPSxQC2oVxknqc`.
+- Test Stripe product: `prod_UtyVNsyc9d3D8L`.
+- Test recurring price: `price_1TuAYUKCddGPSxQCUFoEAARC`.
+- Live cards, Apple Pay, Link, Cash App Pay, and Google Pay are enabled; `finacalleos.com` is registered and verified as a payment-method domain.
+- Test ACH Direct Debit is enabled and supports recurring payments. Do not enable live ACH until the signed webhook is deployed and verified because settlement is asynchronous.
+- The live Customer Portal already allows payment-method updates, invoice history, and end-of-period cancellation.
+
 ## Architecture
 
 1. Restaurant owner signs into /owner/[id].
@@ -27,16 +42,14 @@ Do not paste credentials into source files, chat, tickets, or this document.
 1. Confirm the applied Supabase migration state. Migration 0009 must be
    accounted for before assigning or applying 0010.
 2. Review migrations `0010_owner_billing_subscriptions.sql`, `0011_client_ledger_and_team_access.sql`, and `0012_zelle_payment_notices.sql`.
-3. Apply those migrations manually and in numeric order. Do not skip or reorder them.
-4. In Stripe test mode, create the AMMA recurring product and recurring price.
-   Anthony must choose the amount, frequency, trial policy, and cancellation
-   policy; the application does not assume them.
-5. Configure Stripe Customer Portal to allow payment-method updates and invoice
-   history. Enable subscription cancellation only if it matches Anthony's
-   chosen policy.
-6. Enable the desired Stripe payment methods. Cards are the baseline. Enable US
-   ACH Direct Debit only if AMMA accepts its asynchronous settlement and return
-   behavior.
+3. Review `0013_colattao_billing_schedule.sql`, then apply migrations 0010 through 0013 manually and in numeric order. Do not skip or reorder them.
+4. Use the prepared Colattao test price above for the test-mode matrix. Use the
+   prepared live price only after the remaining production gates pass.
+5. Keep Stripe Customer Portal configured for payment-method updates, invoice
+   history, and cancellation at the end of the paid billing period.
+6. Keep cards and compatible wallets enabled. Enable live US ACH Direct Debit
+   only after the signed webhook is deployed and verified because ACH settlement
+   and returns are asynchronous.
 7. Add the following server values directly in Vercel:
    - STRIPE_SECRET_KEY
    - STRIPE_WEBHOOK_SECRET

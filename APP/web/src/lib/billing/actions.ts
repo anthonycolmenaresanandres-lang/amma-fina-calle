@@ -9,6 +9,14 @@ import {
   getStripe,
 } from "@/lib/stripe/server";
 
+const STRIPE_MINIMUM_TRIAL_SECONDS = 48 * 60 * 60;
+
+function trialEndForDate(value: unknown): number | null {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const epochSeconds = Math.floor(Date.parse(`${value}T12:00:00Z`) / 1000);
+  return Number.isFinite(epochSeconds) ? epochSeconds : null;
+}
+
 function ownerPath(restaurantId: string, notice?: string): string {
   const base = "/owner/" + encodeURIComponent(restaurantId);
   return notice ? base + "?billing=" + encodeURIComponent(notice) : base;
@@ -39,7 +47,9 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
 
     const { data: billing, error: billingError } = await admin
       .from("restaurant_billing")
-      .select("stripe_customer_id, stripe_subscription_id, subscription_status")
+      .select(
+        "stripe_customer_id, stripe_subscription_id, subscription_status, scheduled_first_charge_on",
+      )
       .eq("restaurant_id", restaurantId)
       .maybeSingle();
     if (billingError) throw billingError;
@@ -78,13 +88,33 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
       });
       checkoutUrl = session.url;
     } else {
+      const trialEnd = trialEndForDate(billing?.scheduled_first_charge_on);
+      const now = Math.floor(Date.now() / 1000);
+      if (
+        trialEnd !== null &&
+        trialEnd > now &&
+        trialEnd - now < STRIPE_MINIMUM_TRIAL_SECONDS
+      ) {
+        throw new Error("Scheduled first charge is inside Stripe's trial window.");
+      }
+
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         customer: customerId,
         client_reference_id: restaurantId,
         line_items: [{ price: priceId, quantity: 1 }],
         metadata: { restaurant_id: restaurantId },
-        subscription_data: { metadata: { restaurant_id: restaurantId } },
+        subscription_data: {
+          metadata: { restaurant_id: restaurantId },
+          ...(trialEnd !== null && trialEnd > now
+            ? {
+                trial_end: trialEnd,
+                trial_settings: {
+                  end_behavior: { missing_payment_method: "cancel" as const },
+                },
+              }
+            : {}),
+        },
         success_url: appUrl + ownerPath(restaurantId, "success"),
         cancel_url: appUrl + ownerPath(restaurantId, "canceled"),
       });
