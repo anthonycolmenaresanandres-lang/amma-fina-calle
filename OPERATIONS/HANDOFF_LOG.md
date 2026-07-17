@@ -231,3 +231,19 @@ State I see:
 - `codex/owner-billing` is clean and contains the completed owner billing, Zelle, client-ledger, request-desk, and hosted-migration work; `origin/main` remains the older production baseline.
 - The current owner login calls Supabase `signInWithOtp` and tells owners no password is required.
 - Password values will not be requested, stored, printed, or committed. Initial password enrollment must use a secure owner-controlled entry surface.
+
+### [CHECK-OUT] Codex - 2026-07-17 - password owner access and approved production release
+Did:
+- Replaced the Colattao owner login UI with persistent email/password access backed by Supabase `signInWithPassword`; successful authentication is re-authorized against the requested restaurant before redirecting.
+- Preserved the completed request desk, recurring billing, Zelle reporting, client ledger, team access, and hosted migrations.
+- Passed targeted ESLint, `tsc --noEmit`, the full local Next.js production build, a protected-preview build, and browser verification of the password form with no error overlay or console errors.
+- Merged the release to `main` at `620f00c` and pushed with Anthony's explicit production approval.
+- Diagnosed the first production attempt: `/news` static generation waited indefinitely on `NEWS_FEED_URL`. Added a five-second abort ceiling in `src/lib/news/feed.ts`, committed `3aa5d63`, and republished.
+- Verified production deployment `dpl_A9NVELiZBCG1tSPDsEEq1D35RBVn` is READY and aliased to `finacalleos.com`; the live `/owner/colattao` page renders email/password sign-in with no browser error overlay or console errors.
+- Confirmed the allowlisted Anthony Supabase Auth user exists. No password was read, generated, changed, or submitted.
+State now:
+- The latest portal is live at `https://finacalleos.com/owner/colattao` on `main` commit `3aa5d63`.
+- Daily access is password-based and the session persists until sign-out; magic-link access is no longer the owner login UI.
+- Initial password enrollment remains a one-time secure owner action. Stripe/Zelle end-to-end payment activation remains unverified until the required production account configuration is present.
+Next / handoff to: Anthony -> choose and enter the initial password through a secure Supabase admin/authenticated setup action; Codex -> verify the authenticated dashboard without receiving or exposing the password.
+Blocked on Anthony: the user-chosen initial password action and exact Bank of America Zelle recipient facts. No code, merge, migration, or deployment blocker remains.
