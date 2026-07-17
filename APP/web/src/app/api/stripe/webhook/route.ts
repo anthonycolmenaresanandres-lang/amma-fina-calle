@@ -140,7 +140,9 @@ async function syncInvoice(
       subscription_status: status,
       recurring_enabled: true,
       latest_invoice_status: invoice.status || (paid ? "paid" : "open"),
-      last_payment_at: paid ? new Date().toISOString() : undefined,
+      last_payment_at: paid
+        ? isoFromUnix(invoice.status_transitions?.paid_at ?? invoice.created)
+        : undefined,
       next_payment_at: isoFromUnix(invoice.next_payment_attempt || invoice.period_end),
       updated_at: new Date().toISOString(),
     },

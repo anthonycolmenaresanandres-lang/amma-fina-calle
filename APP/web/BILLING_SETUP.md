@@ -1,8 +1,11 @@
 # Owner billing activation
 
-The code path is prepared for Stripe-hosted recurring billing. It stores only
-Stripe identifiers and safe status fields. Card and bank-account details remain
-inside Stripe.
+The prepared owner portal supports two deliberately separate payment rails:
+
+- Stripe is the authoritative recurring-billing rail. Card and bank details stay inside Stripe.
+- Zelle is a manual Bank of America rail. An owner can report a payment, but the report stays `reported` until the AMMA billing manager matches the deposit and marks it `verified` or `rejected`.
+
+The application never connects to Mercury or Bank of America credentials and never treats an owner report as proof of payment.
 
 ## Architecture
 
@@ -13,8 +16,9 @@ inside Stripe.
 4. Stripe sends signed events to /api/stripe/webhook.
 5. The webhook updates the private restaurant_billing table and the safe status
    shown in the owner portal.
-6. Stripe payouts settle to Mercury. Bank of America stays outside the app as
-   the reserve/continuity account.
+6. Stripe payouts settle to Mercury after Anthony configures that relationship directly in Stripe.
+7. A restaurant owner may instead send Zelle to the server-configured Bank of America recipient, then report the amount in the portal.
+8. `/customers/payments` shows the private AMMA reconciliation queue. Only a billing manager can verify or reject a report.
 
 ## Human-only activation order
 
@@ -22,8 +26,8 @@ Do not paste credentials into source files, chat, tickets, or this document.
 
 1. Confirm the applied Supabase migration state. Migration 0009 must be
    accounted for before assigning or applying 0010.
-2. Review supabase/migrations/0010_owner_billing_subscriptions.sql.
-3. Apply migration 0010_owner_billing_subscriptions.sql manually in Supabase.
+2. Review migrations `0010_owner_billing_subscriptions.sql`, `0011_client_ledger_and_team_access.sql`, and `0012_zelle_payment_notices.sql`.
+3. Apply those migrations manually and in numeric order. Do not skip or reorder them.
 4. In Stripe test mode, create the AMMA recurring product and recurring price.
    Anthony must choose the amount, frequency, trial policy, and cancellation
    policy; the application does not assume them.
@@ -39,9 +43,10 @@ Do not paste credentials into source files, chat, tickets, or this document.
    - STRIPE_RECURRING_PRICE_ID
    - SUPABASE_SERVICE_ROLE_KEY
    - NEXT_PUBLIC_APP_URL
-8. Create the Stripe webhook endpoint:
+8. Set `NEXT_PUBLIC_APP_URL` to the canonical HTTPS application origin. Production billing rejects HTTP callback origins.
+9. Create the Stripe webhook endpoint:
    https://<production-domain>/api/stripe/webhook
-9. Subscribe only to:
+10. Subscribe only to:
    - checkout.session.completed
    - customer.subscription.created
    - customer.subscription.updated
@@ -49,12 +54,26 @@ Do not paste credentials into source files, chat, tickets, or this document.
    - invoice.paid
    - invoice.payment_failed
    - invoice.payment_action_required
-10. Run the complete test-mode matrix before any live-mode switch.
+11. Run the complete test-mode matrix before any live-mode switch.
+
+## Zelle activation
+
+Mercury is not Zelle-compatible. Use only an eligible Bank of America business account that Anthony has enrolled directly with Bank of America.
+
+1. In Bank of America, confirm the exact enrolled business recipient name and enrolled email or mobile number.
+2. Optionally create the official Bank of America Zelle QR code. Store the image at an AMMA-controlled HTTPS URL; do not generate a QR code from unverified text.
+3. Add these server values directly in Vercel:
+   - ZELLE_RECIPIENT_NAME
+   - ZELLE_RECIPIENT_HANDLE
+   - ZELLE_QR_IMAGE_URL (optional HTTPS image)
+4. Test with a small management-approved amount. Confirm the recipient name in the bank application before sending.
+5. In `/customers/payments`, match amount, timing, sender, recipient, and bank confirmation. Verify only after the deposit is visible in Bank of America. Reject mismatches and contact the owner outside the payment form.
+6. Record the verified payment in the accounting system. A verified Zelle notice does not alter Stripe subscription state or fabricate a Stripe invoice.
 
 ## Bank setup
 
 - Set Mercury as Stripe's default USD payout account.
-- Keep Bank of America as a reserve and business-continuity account.
+- Keep Bank of America as the Zelle receiving and reserve/business-continuity account if Anthony approves that operating policy.
 - Do not add Mercury or Bank of America credentials to the application.
 - Use a management-approved weekly or monthly transfer from Mercury to Bank of
   America after Stripe settlement.
@@ -74,6 +93,11 @@ Do not paste credentials into source files, chat, tickets, or this document.
 - Failed payment changes the portal to Payment due.
 - ACH can show Processing before final success or failure.
 - No Stripe customer, subscription, card, or bank identifiers render in the UI.
+- A Zelle report remains `reported` until a billing manager reviews the actual bank deposit.
+- A non-billing employee can view the payment inbox but cannot verify or reject reports.
+- Zelle verification never changes Stripe subscription or invoice state.
+- Zelle recipient instructions render only inside an authorized restaurant-owner session.
+- More than five reports from one owner/account inside ten minutes are rejected by the database.
 
 ## Approval boundary
 

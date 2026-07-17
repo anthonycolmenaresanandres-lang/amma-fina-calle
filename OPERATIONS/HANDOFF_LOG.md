@@ -18,6 +18,33 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-07-17 06:25 - Stripe, Zelle, and SOP completion
+Picking up: Finish the owner billing portal with Stripe plus a safe manual Zelle reporting/reconciliation lane, then publish the operating SOP manual to Drive Documents.
+State I see:
+- Stripe Checkout, Customer Portal, signed webhook processing, the client ledger, and team access are prepared locally on `codex/owner-billing`.
+- Migrations 0010 and 0011 remain unapplied; production migration state and live Stripe configuration are unknown.
+- Mercury does not support Zelle. Eligible Bank of America business accounts can use Zelle, but there is no approved public settlement API in scope; owner reports must remain unverified until AMMA reviews them.
+- Agent-browser 0.32.1 and its Chrome runtime passed the offline doctor; the agent-browser, security-best-practices, and security-threat-model skills are installed.
+- A Drive root folder named `Documents` was created for the requested SOP deliverables; existing Drive files remain untouched.
+- Anthony authorized local implementation, runner/skill installation, and Drive document creation only. No credential, bank access, live payment configuration, migration, deployment, push, merge, or production action is authorized.
+
+### [CHECK-OUT] Codex - 2026-07-17 07:00 - Stripe, Zelle, and SOP completion
+Did:
+- Added authenticated owner Zelle instructions, payment reporting, recent status history, and a private `/customers/payments` reconciliation inbox.
+- Added billing-manager-only Verify/Reject authorization, database-side owner reauthorization, amount/note limits, a five-reports-per-ten-minutes throttle, private tables, and unapplied migration `0012_zelle_payment_notices.sql`.
+- Kept Stripe authoritative for recurring billing, hardened production callback URLs to HTTPS, and now records Stripe's invoice-paid timestamp rather than webhook receipt time.
+- Corrected `APP/web/BILLING_SETUP.md` for Stripe-to-Mercury and manual Bank of America Zelle; no bank credential or automatic Zelle settlement is represented.
+- Installed agent-browser 0.32.1 plus its Chrome runtime and the agent-browser, security-best-practices, and security-threat-model skills; offline doctor passed 5/5.
+- Created and visually verified the 14-page, 17-SOP native Google Doc `AMMA Ventures / Fina Calle — Company Operating SOP Manual` inside Drive `Documents`: https://docs.google.com/document/d/1g4AzEymrRZANYqMcfXjm-S1JTp0iklhDPQhN1DGF5OI/edit
+State now:
+- Targeted ESLint passed; `tsc --noEmit` passed; the full Next.js production build passed and includes `/customers/payments`.
+- Agent-browser verified `/owner/colattao` and `/customers/payments` at 390 px: meaningful fail-closed setup states, no payment-data exposure, no horizontal overflow, and no browser errors.
+- Native Google Docs readback confirmed 22 top-level headings, 23 subheadings, 151 real list items, three tables, and Arial throughout; native PDF export and all 14 rendered pages passed visual QA.
+- `npm audit --omit=dev` still reports two moderate PostCSS advisories nested under Next.js; the offered force fix is a breaking downgrade to Next 9 and was not applied.
+- Branch remains `codex/owner-billing`; no secret entered, bank account accessed, migration applied, live payment configured, deployment made, push performed, or production merge made.
+Next / handoff to: Anthony -> review the owner payment UI and SOP manual; verify production migration state; apply 0010, 0011, then 0012 manually; configure Stripe test values and the verified Bank of America Zelle display values; approve a test deployment when ready.
+Blocked on Anthony: bank-side Zelle enrollment/recipient confirmation, migration verification/application, Stripe/Zelle server configuration, live payment testing, deployment, push, and merge.
+
 ### [CHECK-OUT] Codex - 2026-07-17 07:09 - client ledger and team access
 Did:
 - Upgraded `/customers` into a private client ledger showing business/contact identity, client ID, plan, recurring amount/interval, payment and invoice state, and next payment.

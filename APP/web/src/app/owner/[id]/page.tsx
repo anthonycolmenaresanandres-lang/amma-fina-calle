@@ -10,6 +10,10 @@ import {
   getBillingNotice,
   getOwnerBillingSummary,
 } from "@/lib/billing/data";
+import {
+  getOwnerPaymentNotices,
+  getZelleInstructions,
+} from "@/lib/zelle/data";
 import OwnerLogin from "./OwnerLogin";
 import OwnerDashboard, {
   type AuditEntry,
@@ -59,9 +63,8 @@ function SetupNotice() {
       </div>
       <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Supabase isn&apos;t connected yet. Add the Supabase environment variables (see{" "}
-        <span className="text-[#eef2f4]">APP/web/SUPABASE_SETUP.md</span>) to enable owner
-        sign-in and menu editing.
+        Secure owner access is being connected. Contact AMMA if you need a menu or
+        billing change before sign-in is available.
       </p>
     </div>
   );
@@ -208,6 +211,10 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     restaurant?.plan ?? null,
     restaurant?.billing_status ?? null,
   );
+  const [paymentNotices, zelleInstructions] = await Promise.all([
+    getOwnerPaymentNotices(id),
+    Promise.resolve(getZelleInstructions()),
+  ]);
   const categories: MenuCategory[] = ((categoriesRes.data as { id: string; name: string }[] | null) ?? []).map(
     (cat) => ({
       id: cat.id,
@@ -237,6 +244,8 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
     billing,
     billingNotice,
+    paymentNotices,
+    zelleInstructions,
   };
 
   return (

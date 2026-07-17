@@ -5,6 +5,7 @@ import {
   IdCard,
   Inbox,
   PencilLine,
+  ReceiptText,
   Sparkles,
   Users,
   WalletCards,
@@ -79,6 +80,13 @@ export default async function CustomersPage() {
   return (
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
+        <Link
+          href="/customers/payments"
+          className="inline-flex items-center gap-1.5 transition hover:text-white"
+        >
+          <ReceiptText size={13} strokeWidth={1.75} aria-hidden />
+          Payments
+        </Link>
         <Link
           href="/customers/team"
           className="inline-flex items-center gap-1.5 transition hover:text-white"

@@ -33,15 +33,24 @@ export function getRecurringPriceId(): string {
 
 export function getBillingAppUrl(): string {
   const raw = requiredEnv("NEXT_PUBLIC_APP_URL");
-  const url = new URL(raw);
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    throw new BillingConfigurationError();
+  }
   if (url.protocol !== "https:" && url.protocol !== "http:") {
+    throw new BillingConfigurationError();
+  }
+  if (url.username || url.password) throw new BillingConfigurationError();
+  if (process.env.NODE_ENV === "production" && url.protocol !== "https:") {
     throw new BillingConfigurationError();
   }
   return url.origin;
 }
 
 export function isBillingRuntimeConfigured(): boolean {
-  return Boolean(
+  const requiredValuesPresent = Boolean(
     process.env.STRIPE_SECRET_KEY?.trim() &&
       process.env.STRIPE_WEBHOOK_SECRET?.trim() &&
       process.env.STRIPE_RECURRING_PRICE_ID?.trim() &&
@@ -49,4 +58,11 @@ export function isBillingRuntimeConfigured(): boolean {
       process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
       process.env.NEXT_PUBLIC_APP_URL?.trim(),
   );
+  if (!requiredValuesPresent) return false;
+  try {
+    getBillingAppUrl();
+    return true;
+  } catch {
+    return false;
+  }
 }
