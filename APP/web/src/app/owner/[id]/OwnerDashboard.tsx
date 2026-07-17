@@ -31,7 +31,9 @@ import {
   StatusPill,
   cn,
 } from "@/components/ui";
+import type { BillingSummary } from "@/lib/billing/types";
 import AskBar from "./AskBar";
+import BillingCard from "./BillingCard";
 
 const COLATTAO_MENU_URL = "https://colattao-cafe-rush.vercel.app/menu";
 
@@ -74,6 +76,8 @@ export type DashboardData = {
   categories: MenuCategory[];
   promos: Promo[];
   audit: AuditEntry[];
+  billing?: BillingSummary;
+  billingNotice?: string | null;
 };
 
 function uniquePrompts(prompts: string[]): string[] {
@@ -494,6 +498,14 @@ export default function OwnerDashboard({
             unavailableItems={unavailableItems}
             livePromos={livePromos}
           />
+          {data.billing ? (
+            <BillingCard
+              restaurantId={data.restaurantId}
+              billing={data.billing}
+              notice={data.billingNotice}
+              readOnly={readOnly}
+            />
+          ) : null}
           <AskBar
             restaurantId={data.restaurantId}
             items={allItems.map((it) => ({

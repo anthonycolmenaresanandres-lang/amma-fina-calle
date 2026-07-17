@@ -6,6 +6,10 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { getBrandAssets } from "@/lib/brand";
+import {
+  getBillingNotice,
+  getOwnerBillingSummary,
+} from "@/lib/billing/data";
 import OwnerLogin from "./OwnerLogin";
 import OwnerDashboard, {
   type AuditEntry,
@@ -29,12 +33,12 @@ function Shell({
   center?: boolean;
 }) {
   return (
-    <main className="fc-bg relative isolate flex min-h-dvh flex-col overflow-hidden px-5 py-10 text-[#f4f6f7] sm:px-8">
+    <main className="fc-bg relative isolate flex min-h-dvh min-w-0 flex-col overflow-x-clip px-4 py-8 text-[#f4f6f7] sm:px-8 sm:py-10">
       <div className="fc-grain" aria-hidden />
       <div className="fc-vignette" aria-hidden />
       <div
         className={cn(
-          "relative z-[1] mx-auto flex min-h-[calc(100dvh-5rem)] w-full max-w-7xl flex-1 flex-col",
+          "relative z-[1] mx-auto flex min-h-[calc(100dvh-5rem)] min-w-0 w-full max-w-7xl flex-1 flex-col",
           center && "justify-center",
         )}
       >
@@ -94,6 +98,9 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const sp = searchParams ? await searchParams : {};
   const notice = authNotice(typeof sp.auth === "string" ? sp.auth : null);
+  const billingNotice = getBillingNotice(
+    typeof sp.billing === "string" ? sp.billing : null,
+  );
 
   if (!isSupabaseConfigured) {
     return (
@@ -158,7 +165,11 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   }
 
   const [restaurantRes, categoriesRes, itemsRes, promosRes, auditRes] = await Promise.all([
-    supabase.from("restaurants").select("id, business_name, site_url").eq("id", id).maybeSingle(),
+    supabase
+      .from("restaurants")
+      .select("id, business_name, site_url, plan, billing_status")
+      .eq("id", id)
+      .maybeSingle(),
     supabase.from("menu_categories").select("id, name, sort_order").eq("restaurant_id", id).order("sort_order"),
     supabase
       .from("menu_items")
@@ -186,6 +197,17 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   };
 
   const items = (itemsRes.data as ItemRow[] | null) ?? [];
+  const restaurant = restaurantRes.data as {
+    business_name?: string;
+    site_url?: string | null;
+    plan?: string | null;
+    billing_status?: string | null;
+  } | null;
+  const billing = await getOwnerBillingSummary(
+    id,
+    restaurant?.plan ?? null,
+    restaurant?.billing_status ?? null,
+  );
   const categories: MenuCategory[] = ((categoriesRes.data as { id: string; name: string }[] | null) ?? []).map(
     (cat) => ({
       id: cat.id,
@@ -206,14 +228,15 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   const data: DashboardData = {
     restaurantId: id,
-    businessName:
-      (restaurantRes.data as { business_name?: string } | null)?.business_name ?? businessName,
-    siteUrl: (restaurantRes.data as { site_url?: string } | null)?.site_url ?? null,
+    businessName: restaurant?.business_name ?? businessName,
+    siteUrl: restaurant?.site_url ?? null,
     email: ctx.email,
     logo: getBrandAssets(id).logo ?? null,
     categories,
     promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
+    billing,
+    billingNotice,
   };
 
   return (
