@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import sys
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
 
 HANDOFF = Path(__file__).with_name("HANDOFF.md")
+SLACK_NOTIFY = Path(__file__).resolve().parents[2] / "OPERATIONS" / "notify_slack.py"
 SECTIONS = {
     "start": "STARTED",
     "done": "DONE",
@@ -43,6 +45,20 @@ def append_to_section(section: str, text: str) -> None:
     HANDOFF.write_text(content, encoding="utf-8")
 
 
+def notify_slack() -> None:
+    if not SLACK_NOTIFY.exists():
+        return
+    try:
+        subprocess.Popen(
+            [sys.executable, str(SLACK_NOTIFY)],
+            cwd=SLACK_NOTIFY.parent.parent,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
 def main() -> int:
     ensure_file()
     command = sys.argv[1] if len(sys.argv) > 1 else "show"
@@ -59,6 +75,8 @@ def main() -> int:
             print(f"Missing message for {command}", file=sys.stderr)
             return 2
         append_to_section(SECTIONS[command], message)
+        if command == "done":
+            notify_slack()
         return 0
 
     print(f"Unknown command: {command}", file=sys.stderr)

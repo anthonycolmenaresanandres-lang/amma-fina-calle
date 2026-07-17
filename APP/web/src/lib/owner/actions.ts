@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { MENU_IMAGE_BUCKET } from "@/lib/supabase/config";
 import { uploadImage } from "@/lib/storage/uploadImage";
@@ -61,6 +62,48 @@ export async function requestMagicLink(
   });
 
   return neutral;
+}
+
+export async function signInOwnerWithPassword(
+  restaurantId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const email = String(formData.get("email") ?? "")
+    .trim()
+    .toLowerCase();
+  const password = String(formData.get("password") ?? "");
+
+  if (!email || !email.includes("@") || email.length > 300) {
+    return { ok: false, message: "Enter a valid email address." };
+  }
+  if (password.length < 8 || password.length > 200) {
+    return { ok: false, message: "Enter your password (at least 8 characters)." };
+  }
+
+  const supabase = await createServerSupabase();
+  if (!supabase) {
+    return { ok: false, message: "Owner sign-in is not configured yet." };
+  }
+
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (signInError) {
+    return { ok: false, message: "Email or password is incorrect." };
+  }
+
+  const { data: allowed, error: authorizationError } = await supabase.rpc(
+    "is_owner_email",
+    { p_restaurant_id: restaurantId },
+  );
+  if (authorizationError || !allowed) {
+    await supabase.auth.signOut();
+    return { ok: false, message: "Email or password is incorrect." };
+  }
+
+  redirect(`/owner/${encodeURIComponent(restaurantId)}`);
 }
 
 // --- Structured content edits (all flow through the audited rail) -----------
