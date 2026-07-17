@@ -361,3 +361,20 @@ State now:
 - The new GitHub Connect record is valid and may help GitHub/Vercel automation for `colattao-cafe-rush`, but it does not unblock the owner-portal billing release and should not be copied to `amma-fina-calle` as a Supabase connection.
 Next / handoff to: Codex -> resume secure provider-key transfer only after the authenticated Supabase and Stripe credential panels are available through browser control.
 Blocked on Anthony: no new decision for this classification; the prior fresh-Chrome-window recovery permission remains the only key-transfer blocker.
+
+### [CHECK-IN] Codex - 2026-07-17 - fresh Chrome secure-key transfer
+Picking up: Use Anthony's approved fresh Chrome session to transfer the missing provider credentials directly into encrypted Vercel Production variables without revealing or persisting plaintext.
+State I see:
+- The authenticated Supabase project exposes one masked modern secret key with a copy control.
+- The canonical `amma-fina-calle` Vercel project is linked and still requires the server-side Supabase key plus Stripe live secret and webhook signing secret.
+
+### [CHECK-OUT] Codex - 2026-07-17 - Supabase key secured; Stripe challenge handoff
+Did:
+- Copied the masked modern Supabase secret without revealing it and piped it directly from the Windows clipboard into Vercel as the encrypted sensitive Production variable `SUPABASE_SECRET_KEY`.
+- Cleared the clipboard after the transfer and verified through metadata-only output that `SUPABASE_SECRET_KEY` is present; no secret value was printed, written to disk, committed, or emailed.
+- Opened the authenticated Stripe live API-key page in the fresh Chrome window. Stripe presented an hCaptcha security challenge before exposing the key controls; automation did not attempt to solve or bypass it.
+State now:
+- `SUPABASE_SECRET_KEY` is present in Vercel Production. `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` remain missing.
+- No Stripe customer, subscription, charge, webhook endpoint, Zelle transfer, deployment, merge, or production publish was created.
+Next / handoff to: Anthony -> complete Stripe's visible security challenge in the open Chrome tab and tell Codex `done`; Codex -> copy the masked live key, inspect the existing webhook endpoint, store both missing Stripe variables as sensitive Production values, verify names only, and resume the approved publish gate.
+Blocked on Anthony: one manual Stripe hCaptcha completion; no credential needs to be pasted into chat.
