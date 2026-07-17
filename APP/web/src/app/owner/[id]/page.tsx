@@ -15,6 +15,7 @@ import {
   getZelleInstructions,
 } from "@/lib/zelle/data";
 import OwnerLogin from "./OwnerLogin";
+import RequiredPasswordReset from "./RequiredPasswordReset";
 import OwnerDashboard, {
   type AuditEntry,
   type DashboardData,
@@ -153,6 +154,18 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
             Back to Fina Calle OS
           </Link>
         </div>
+      </Shell>
+    );
+  }
+
+  if (ctx.state === "password_reset_required") {
+    return (
+      <Shell center>
+        <RequiredPasswordReset
+          restaurantId={id}
+          businessName={businessName}
+          email={ctx.email}
+        />
       </Shell>
     );
   }

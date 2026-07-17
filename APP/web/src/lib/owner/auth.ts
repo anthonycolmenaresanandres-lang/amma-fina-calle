@@ -5,7 +5,10 @@ export type OwnerContext =
   | { state: "unconfigured" }
   | { state: "anonymous" }
   | { state: "unauthorized"; email: string }
+  | { state: "password_reset_required"; email: string }
   | { state: "authorized"; email: string };
+
+export const OWNER_PASSWORD_RESET_REQUIRED = "owner_password_reset_required";
 
 /**
  * Resolves whether the current visitor may manage a given restaurant.
@@ -29,7 +32,9 @@ export async function getOwnerContext(restaurantId: string): Promise<OwnerContex
     p_email: user.email,
   });
 
-  return allowed
-    ? { state: "authorized", email: user.email }
-    : { state: "unauthorized", email: user.email };
+  if (!allowed) return { state: "unauthorized", email: user.email };
+
+  return user.app_metadata?.[OWNER_PASSWORD_RESET_REQUIRED] === true
+    ? { state: "password_reset_required", email: user.email }
+    : { state: "authorized", email: user.email };
 }

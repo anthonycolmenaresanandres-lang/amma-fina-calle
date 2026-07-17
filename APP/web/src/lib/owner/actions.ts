@@ -4,9 +4,13 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { MENU_IMAGE_BUCKET } from "@/lib/supabase/config";
 import { uploadImage } from "@/lib/storage/uploadImage";
-import { getOwnerContext } from "./auth";
+import {
+  getOwnerContext,
+  OWNER_PASSWORD_RESET_REQUIRED,
+} from "./auth";
 import { applyOwnerChange, applyOwnerSizePrice } from "./rail";
 
 export type ActionState = { ok: boolean; message: string };
@@ -103,6 +107,91 @@ export async function signInOwnerWithPassword(
     return { ok: false, message: "Email or password is incorrect." };
   }
 
+  redirect(`/owner/${encodeURIComponent(restaurantId)}`);
+}
+
+const COMMON_OWNER_PASSWORDS = new Set([
+  "1234",
+  "12345678",
+  "123456789",
+  "password",
+  "password1",
+  "qwerty123",
+  "letmein123",
+]);
+
+export async function completeRequiredPasswordReset(
+  restaurantId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const context = await getOwnerContext(restaurantId);
+  if (context.state !== "password_reset_required") {
+    return { ok: false, message: "This password setup session is no longer active." };
+  }
+
+  const password = String(formData.get("password") ?? "");
+  const confirmation = String(formData.get("confirmation") ?? "");
+  const normalized = password.toLowerCase();
+  const emailName = context.email.split("@", 1)[0]?.toLowerCase() ?? "";
+
+  if (password.length < 12 || password.length > 128) {
+    return { ok: false, message: "Choose a password between 12 and 128 characters." };
+  }
+  if (password !== confirmation) {
+    return { ok: false, message: "The two passwords do not match." };
+  }
+  if (
+    COMMON_OWNER_PASSWORDS.has(normalized) ||
+    (/^(.)\1+$/.test(password) && password.length >= 4) ||
+    (emailName.length >= 4 && normalized.includes(emailName))
+  ) {
+    return { ok: false, message: "Choose a password that is harder to guess." };
+  }
+
+  const supabase = await createServerSupabase();
+  if (!supabase) {
+    return { ok: false, message: "Owner password setup is not configured yet." };
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (
+    !user?.email ||
+    user.email.toLowerCase() !== context.email.toLowerCase() ||
+    user.app_metadata?.[OWNER_PASSWORD_RESET_REQUIRED] !== true
+  ) {
+    return { ok: false, message: "This password setup session is no longer active." };
+  }
+
+  let admin: ReturnType<typeof getSupabaseAdmin>;
+  try {
+    admin = getSupabaseAdmin();
+  } catch {
+    return { ok: false, message: "Password setup is temporarily unavailable. Contact AMMA." };
+  }
+
+  const { error: passwordError } = await supabase.auth.updateUser({ password });
+  if (passwordError) {
+    return { ok: false, message: "That password could not be saved. Choose another and retry." };
+  }
+
+  const { error: metadataError } = await admin.auth.admin.updateUserById(user.id, {
+    app_metadata: {
+      ...user.app_metadata,
+      [OWNER_PASSWORD_RESET_REQUIRED]: false,
+      owner_password_reset_completed_at: new Date().toISOString(),
+    },
+  });
+  if (metadataError) {
+    return {
+      ok: false,
+      message: "Your password changed, but setup could not finish. Sign in again and retry.",
+    };
+  }
+
+  await supabase.auth.refreshSession();
   redirect(`/owner/${encodeURIComponent(restaurantId)}`);
 }
 

@@ -247,3 +247,24 @@ State now:
 - Initial password enrollment remains a one-time secure owner action. Stripe/Zelle end-to-end payment activation remains unverified until the required production account configuration is present.
 Next / handoff to: Anthony -> choose and enter the initial password through a secure Supabase admin/authenticated setup action; Codex -> verify the authenticated dashboard without receiving or exposing the password.
 Blocked on Anthony: the user-chosen initial password action and exact Bank of America Zelle recipient facts. No code, merge, migration, or deployment blocker remains.
+
+### [CHECK-IN] Codex - 2026-07-17 - owner first-login password reset and utilization email
+Picking up: Add a secure mandatory first-login password reset for newly provisioned owner accounts, then prepare the reusable owner-portal utilization email and send Anthony the operating summary.
+State I see:
+- Production currently supports persistent email/password owner sign-in and authorizes access per restaurant.
+- A shared `1234` password is incompatible with the existing eight-character minimum and would expose every owner account; no shared password will be created, stored, printed, or emailed.
+- The safe implementation is a one-time temporary credential marked in Supabase user metadata; the authenticated owner remains blocked from portal data and actions until they set a private password.
+- Branch `codex/owner-first-login-reset` is isolated from `origin/main`. This task does not include a production merge or deployment approval.
+
+### [CHECK-OUT] Codex - 2026-07-17 - owner first-login password reset and utilization email
+Did:
+- Added an authorization-grade `app_metadata.owner_password_reset_required` gate to owner context resolution; flagged owners can authenticate but cannot load dashboard data or run any owner, billing, Zelle, or request-desk action.
+- Added a first-sign-in password screen with confirmation, a 12–128 character policy, common-password rejection, and fail-closed server-side completion. Supabase changes the password; the service-role client clears the protected app-metadata flag only after the change succeeds.
+- Added `OPERATIONS/OWNER_PORTAL_ACCESS_SOP.md` and the reusable `OPERATIONS/templates/OWNER_PORTAL_UTILIZATION_EMAIL.md`; neither template contains a password.
+- Passed targeted ESLint, `npx.cmd tsc --noEmit`, `git diff --check`, and the full Next.js production build.
+- Created a customer-utilization Gmail draft addressed only to Anthony for review and sent Anthony the internal operating summary with the reusable template attached. No customer email was sent.
+State now:
+- Branch `codex/owner-first-login-reset` contains the verified implementation; production remains unchanged.
+- No existing owner password was changed. Future owner provisioning must use a unique temporary password and set the protected reset-required app-metadata flag.
+Next / handoff to: Anthony -> approve a production merge/deployment only after confirming the server-side Supabase service-role variable is present; Codex -> deploy and verify one explicitly approved test owner through the full first-login reset flow.
+Blocked on Anthony: production deployment approval and permission to provision/reset one named test owner. Never send or record the test owner’s private final password.
