@@ -345,3 +345,19 @@ State now:
 - No credential was printed, stored locally, committed, emailed, or transferred. The provider credential panels stalled and the Chrome control connection stopped responding before any secret could be copied.
 Next / handoff to: Anthony -> approve opening a fresh Chrome window for the selected authenticated profile; Codex -> retry once, transfer the three credentials directly into encrypted Vercel Production variables, and verify names only.
 Blocked on Anthony: permission to open the fresh Chrome window required by the browser recovery procedure.
+
+### [CHECK-IN] Codex - 2026-07-17 - identify new Vercel connection
+Picking up: Inspect Anthony's Vercel Connect screenshot and verify live project/environment metadata to determine whether the new connection supplies the missing Supabase credentials.
+State I see:
+- Screenshot shows a GitHub-backed Connect record named `colattao-cafe-rush` assigned to the Vercel project of the same name across Production, Preview, and Development.
+- Canonical owner-portal production remains the separate Vercel project `amma-fina-calle`.
+
+### [CHECK-OUT] Codex - 2026-07-17 - connection classified
+Did:
+- Confirmed both Vercel projects exist: `amma-fina-calle` and `colattao-cafe-rush`.
+- Verified environment-variable names only. `colattao-cafe-rush` has Blob and Resend configuration but no Supabase or Stripe credentials.
+- Reverified `amma-fina-calle` has public Supabase URL/anon configuration but still lacks `SUPABASE_SECRET_KEY`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET`.
+State now:
+- The new GitHub Connect record is valid and may help GitHub/Vercel automation for `colattao-cafe-rush`, but it does not unblock the owner-portal billing release and should not be copied to `amma-fina-calle` as a Supabase connection.
+Next / handoff to: Codex -> resume secure provider-key transfer only after the authenticated Supabase and Stripe credential panels are available through browser control.
+Blocked on Anthony: no new decision for this classification; the prior fresh-Chrome-window recovery permission remains the only key-transfer blocker.
