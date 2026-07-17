@@ -11,6 +11,50 @@ import {
 
 const STRIPE_MINIMUM_TRIAL_SECONDS = 48 * 60 * 60;
 
+type RestaurantBillingProfile = {
+  business_name: string;
+  billing_name: string | null;
+  contact_name: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
+  billing_address_line1: string | null;
+  billing_address_city: string | null;
+  billing_address_state: string | null;
+  billing_address_postal_code: string | null;
+  billing_address_country: string | null;
+};
+
+function stripeCustomerProfile(
+  restaurantId: string,
+  restaurant: RestaurantBillingProfile,
+) {
+  const email = restaurant.contact_email?.trim().toLowerCase() ?? "";
+  const address = {
+    line1: restaurant.billing_address_line1?.trim() ?? "",
+    city: restaurant.billing_address_city?.trim() ?? "",
+    state: restaurant.billing_address_state?.trim() ?? "",
+    postal_code: restaurant.billing_address_postal_code?.trim() ?? "",
+    country: restaurant.billing_address_country?.trim().toUpperCase() ?? "",
+  };
+  if (
+    !(restaurant.billing_name?.trim() || restaurant.business_name.trim()) ||
+    !email.includes("@") ||
+    Object.values(address).some((value) => !value)
+  ) {
+    throw new Error("Restaurant billing identity is incomplete.");
+  }
+  return {
+    name: restaurant.billing_name?.trim() || restaurant.business_name.trim(),
+    email,
+    phone: restaurant.contact_phone?.trim() || undefined,
+    address,
+    metadata: {
+      restaurant_id: restaurantId,
+      billing_contact: restaurant.contact_name?.trim() || "Owner",
+    },
+  };
+}
+
 function trialEndForDate(value: unknown): number | null {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
   const epochSeconds = Math.floor(Date.parse(`${value}T12:00:00Z`) / 1000);
@@ -29,7 +73,7 @@ async function requireOwner(restaurantId: string) {
 }
 
 export async function startRecurringBilling(restaurantId: string): Promise<void> {
-  const owner = await requireOwner(restaurantId);
+  await requireOwner(restaurantId);
   let checkoutUrl: string | null = null;
 
   try {
@@ -40,10 +84,16 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
 
     const { data: restaurant, error: restaurantError } = await admin
       .from("restaurants")
-      .select("business_name")
+      .select(
+        "business_name, billing_name, contact_name, contact_email, contact_phone, billing_address_line1, billing_address_city, billing_address_state, billing_address_postal_code, billing_address_country",
+      )
       .eq("id", restaurantId)
       .maybeSingle();
     if (restaurantError || !restaurant) throw new Error("Restaurant unavailable.");
+    const customerProfile = stripeCustomerProfile(
+      restaurantId,
+      restaurant as RestaurantBillingProfile,
+    );
 
     const { data: billing, error: billingError } = await admin
       .from("restaurant_billing")
@@ -57,11 +107,7 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
     let customerId = billing?.stripe_customer_id as string | undefined;
     if (!customerId) {
       const customer = await stripe.customers.create(
-        {
-          email: owner.email,
-          name: String(restaurant.business_name),
-          metadata: { restaurant_id: restaurantId },
-        },
+        customerProfile,
         { idempotencyKey: "amma-owner-customer-" + restaurantId },
       );
       customerId = customer.id;
@@ -77,6 +123,8 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
         { onConflict: "restaurant_id" },
       );
       if (upsertError) throw upsertError;
+    } else {
+      await stripe.customers.update(customerId, customerProfile);
     }
 
     const terminalStatuses = new Set(["canceled", "incomplete_expired", "unpaid"]);

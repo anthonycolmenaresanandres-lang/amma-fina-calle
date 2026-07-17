@@ -11,8 +11,12 @@ The application never connects to Mercury or Bank of America credentials and nev
 
 - Price: USD 149 per store, billed monthly.
 - Current footprint: one store, with a second store expected later.
-- First charge is confirmed for 2026-07-20 and is displayed separately in the owner portal; the Stripe customer and subscription remain pending the exact billing contact.
+- Verified billing customer: `colattao coffee house`; Yurika Torres;
+  `colattao@hotmail.com`; 757-761-9757; 1115 Independence Boulevard,
+  Virginia Beach, VA 23455.
+- First charge is confirmed for 2026-07-20 and is displayed separately in the owner portal; the Stripe customer and subscription remain pending approved activation.
 - Checkout will not charge before that date. It uses Stripe's fixed trial end while the date is at least 48 hours away; inside Stripe's required 48-hour window, enrollment fails closed for AMMA to complete manually.
+- The prepared Checkout must be started before 2026-07-18 08:00 America/New_York to preserve the July 20 trial end. If that window is missed, stop and use an approved manual Stripe setup or approve a new first-charge date; never charge immediately as a fallback.
 - Cancellation takes effect at the end of the current paid billing period.
 - Live Stripe product: `prod_UtyehInjHwhIV8`.
 - Live recurring price: `price_1TuAgoKCddGPSxQC2oVxknqc`.
@@ -21,6 +25,7 @@ The application never connects to Mercury or Bank of America credentials and nev
 - Live cards, Apple Pay, Link, Cash App Pay, and Google Pay are enabled; `finacalleos.com` is registered and verified as a payment-method domain.
 - Test ACH Direct Debit is enabled and supports recurring payments. Do not enable live ACH until the signed webhook is deployed and verified because settlement is asynchronous.
 - The live Customer Portal already allows payment-method updates, invoice history, and end-of-period cancellation.
+- Anthony selected Mercury as the Stripe USD payout bank.
 
 ## Architecture
 
@@ -42,7 +47,8 @@ Do not paste credentials into source files, chat, tickets, or this document.
 1. Confirm the applied Supabase migration state. Migration 0009 must be
    accounted for before assigning or applying 0010.
 2. Review migrations `0010_owner_billing_subscriptions.sql`, `0011_client_ledger_and_team_access.sql`, and `0012_zelle_payment_notices.sql`.
-3. Review `0013_colattao_billing_schedule.sql`, then apply migrations 0010 through 0013 manually and in numeric order. Do not skip or reorder them.
+3. Confirm migrations 0010 through 0013 are already present, review
+   `0014_colattao_billing_identity_and_managers.sql`, then apply 0014 manually.
 4. Use the prepared Colattao test price above for the test-mode matrix. Use the
    prepared live price only after the remaining production gates pass.
 5. Keep Stripe Customer Portal configured for payment-method updates, invoice
@@ -72,6 +78,17 @@ Do not paste credentials into source files, chat, tickets, or this document.
 ## Zelle activation
 
 Mercury is not Zelle-compatible. Use only an eligible Bank of America business account that Anthony has enrolled directly with Bank of America.
+
+Verified display values:
+
+- Recipient name: `Amma ventures llc`
+- Enrolled email: `ammaventuresvb@gmail.com`
+- Authorized billing managers: Anthony and Marbel
+
+The database permission lets both managers verify or reject Zelle reports inside
+Fina Calle OS. Stripe Dashboard access is separate: Anthony must invite Marbel
+as an individual Stripe team member with the minimum billing role required;
+never share Anthony's Stripe login.
 
 1. In Bank of America, confirm the exact enrolled business recipient name and enrolled email or mobile number.
 2. Optionally create the official Bank of America Zelle QR code. Store the image at an AMMA-controlled HTTPS URL; do not generate a QR code from unverified text.
@@ -118,3 +135,9 @@ Code preparation and local testing may be completed on the feature branch.
 Applying the migration, entering credentials, configuring bank access, enabling
 live Stripe mode, deploying, pushing, or merging requires Anthony's explicit
 approval at that step.
+
+As of 2026-07-17, the linked Vercel project returns no project environment
+variables for production, preview, or development. Do not redeploy until every
+required Supabase, application URL, Stripe, and Zelle variable in `.env.example`
+has been restored directly in Vercel and verified by name without exposing its
+value.

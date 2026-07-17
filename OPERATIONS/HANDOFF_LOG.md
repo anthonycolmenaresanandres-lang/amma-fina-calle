@@ -286,3 +286,26 @@ State now:
 - Research and email delivery are complete. No Stripe setting, Zelle enrollment, bank access, Vercel value, customer, subscription, payment, merge, or deployment was changed.
 Next / handoff to: Anthony -> provide the non-secret Colattao billing identity and verified Bank of America Zelle display facts, then explicitly authorize an authenticated Stripe/Vercel configuration session; Marbel -> complete the non-secret client-ledger and test-preparation items.
 Blocked on Anthony: exact Colattao billing contact/invoice email/store count, confirmed live recurring Price, confirmed Stripe payout bank, exact Bank of America Zelle recipient name and enrolled handle, billing-manager designation, and approval for test-mode activation.
+
+### [CHECK-IN] Codex - 2026-07-17 - Colattao payment activation approval preparation
+Picking up: Convert Anthony's confirmed Colattao billing identity, Mercury payout decision, Bank of America Zelle recipient, and Anthony/Marbel billing-manager authority into a verified approval-ready implementation package.
+State I see:
+- Confirmed billing customer: Colattao Coffee House, Yurika Torres, `colattao@hotmail.com`, 757-761-9757, 1115 Independence Boulevard, Virginia Beach, VA 23455.
+- Confirmed Zelle display recipient: AMMA Ventures LLC at `ammaventuresvb@gmail.com`; Stripe payouts should settle to Mercury.
+- Anthony and Marbel are authorized billing managers. Hosted migrations 0010 through 0013 were previously verified as applied; the next unused migration is 0014.
+- The linked Vercel project currently returns zero project environment-variable records in production, preview, and development. No redeploy is safe until the required Supabase, Stripe, application URL, and Zelle variables are restored.
+- Work stays on `codex/owner-first-login-reset`; no hosted migration, Vercel setting, Stripe customer/subscription, bank setting, payment, push, merge, or deployment is authorized in this preparation pass.
+
+### [CHECK-OUT] Codex - 2026-07-17 - Colattao payment activation approval preparation
+Did:
+- Prepared unused migration `0014_colattao_billing_identity_and_managers.sql` to store the exact supplied billing name/contact/address and grant both Anthony and Marbel in-app billing-review authority.
+- Corrected Stripe Customer creation and refresh to use Colattao's verified billing identity instead of the AMMA employee who signs into the owner portal; incomplete billing identity now fails closed.
+- Added a tracked no-secret `.env.example` covering the exact Supabase, application URL, Stripe, and Zelle variable names required before redeployment.
+- Updated the billing runbook with Mercury payouts, the exact `Amma ventures llc` Zelle recipient at `ammaventuresvb@gmail.com`, the distinction between in-app billing authority and Stripe team access, and the empty Vercel environment-variable stop condition.
+- Created the approval packet in the task outputs with exact approval language and the July 18, 08:00 EDT cutoff for creating the July 20 trial end through the prepared Checkout path.
+- Passed targeted ESLint, `tsc --noEmit`, `git diff --check`, environment-template tracking verification, and the full Next.js production build.
+State now:
+- The implementation is approval-ready on `codex/owner-first-login-reset`; production and all external payment systems remain unchanged.
+- Vercel configuration restoration is mandatory before any redeploy. Stripe live product/Price, Mercury payout setup, webhook, and Customer Portal settings still require authenticated dashboard verification.
+Next / handoff to: Anthony -> use the exact approval statement in the packet if he authorizes migration 0014, secure Vercel configuration restoration, webhook setup, merge/deploy, and test-mode verification; Codex -> execute those steps and stop before live subscription creation or money movement.
+Blocked on Anthony: controlled activation approval. Timing warning: approve early enough to complete Checkout before 2026-07-18 08:00 EDT, or authorize a manual Stripe setup/new first-charge date.
