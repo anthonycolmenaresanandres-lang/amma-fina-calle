@@ -223,3 +223,11 @@ State now:
 - Authenticated portal, Checkout, Customer Portal, webhook, and Zelle end-to-end tests are correctly paused because production does not yet contain the feature and required activation configuration is incomplete or unverified.
 Next / handoff to: Anthony -> approve the Fina Calle production portal deployment and one owner magic-link test; provide the exact Bank of America Zelle recipient name and enrolled email/mobile if Zelle should be activated.
 Blocked on Anthony: Fina Calle production deploy approval, owner magic-link send approval, exact Zelle recipient facts, and approval to delete the isolated unused Vercel `web` project.
+
+### [CHECK-IN] Codex - 2026-07-17 - password owner access and approved production release
+Picking up: Replace recurring owner magic-link access with email/password sign-in, preserve the completed portal, then merge and deploy the latest validated product.
+State I see:
+- Anthony explicitly approved merging and deploying the latest portal product.
+- `codex/owner-billing` is clean and contains the completed owner billing, Zelle, client-ledger, request-desk, and hosted-migration work; `origin/main` remains the older production baseline.
+- The current owner login calls Supabase `signInWithOtp` and tells owners no password is required.
+- Password values will not be requested, stored, printed, or committed. Initial password enrollment must use a secure owner-controlled entry surface.
