@@ -182,3 +182,22 @@ State now:
 - The Colattao Rush checkout has pre-existing overlapping uncommitted work, so it was inspected read-only and no files there were edited.
 Next / handoff to: Anthony -> explicitly approve redeploying the existing Colattao Rush production artifact; Codex -> redeploy, rerun the labeled guest-note test, and verify a 200 response plus clean production logs.
 Blocked on Anthony: explicit production redeploy approval. No merge or push is required for this sender-only repair.
+
+### [CHECK-IN] Codex - 2026-07-17 10:15 - approved Colattao email redeploy
+Picking up: Redeploy the existing Colattao Rush production artifact with the verified-domain sender, then prove the real Guest Notes delivery path.
+State I see:
+- Anthony explicitly approved the Colattao production redeploy and confirmed `colattao@hotmail.com` plus AMMA internal notification recipients are the intended destinations.
+- The production `FROM_EMAIL` is already configured as `notifications@finacalleos.com`, and `finacalleos.com` is verified in Resend.
+- The Colattao Rush checkout contains unrelated overlapping uncommitted work, so this activation will reuse the existing production artifact without a merge, push, or local-file deployment.
+
+### [CHECK-OUT] Codex - 2026-07-17 10:24 - approved Colattao email redeploy
+Did:
+- Redeployed the existing Colattao Rush production artifact `dpl_7ac5ZVEtrTjiPpjA79F5wG9ZnA3S` without using the dirty local checkout, merging, or pushing code.
+- Verified the new production deployment `https://colattao-cafe-rush-2c4ok59yt.vercel.app` completed and was aliased to `https://colattao-cafe-rush.vercel.app`; live `/menu` returned HTTP 200.
+- Submitted one clearly labeled production Guest Note; `/api/owner-requests` returned HTTP 200 with `{ "ok": true }`.
+- Verified Resend event `bb02949a-6c70-4f3d-abec-601b911b99de`: sender `notifications@finacalleos.com`, visible recipient `colattao@hotmail.com`, BCC `anthonycolmenaresanandres@gmail.com`, and both recipient events are `delivered`.
+State now:
+- The live Colattao Guest Notes intake is operational and no longer blocked by Resend testing-mode restrictions.
+- Current internal routing is one BCC recipient, `anthonycolmenaresanandres@gmail.com`; additional internal addresses are not configured or assumed.
+Next / handoff to: Anthony -> name any additional internal inbox(es) that should receive customer information; Codex -> add them only after exact recipients are confirmed.
+Blocked on Anthony: exact additional internal recipient addresses, if more than the currently verified Anthony inbox is desired.
