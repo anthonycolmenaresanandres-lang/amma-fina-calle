@@ -34,6 +34,7 @@ export interface NewsFeed {
 }
 
 const REVALIDATE_SECONDS = 300;
+const FETCH_TIMEOUT_MS = 5_000;
 
 function isStory(value: unknown): value is NewsFeedStory {
   if (typeof value !== "object" || value === null) return false;
@@ -55,7 +56,10 @@ export async function getNewsFeed(): Promise<NewsFeed | null> {
   const url = process.env.NEWS_FEED_URL;
   if (!url) return null;
   try {
-    const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS } });
+    const res = await fetch(url, {
+      next: { revalidate: REVALIDATE_SECONDS },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
     if (!res.ok) return null;
     const data = (await res.json()) as Partial<NewsFeed>;
     if (!Array.isArray(data.stories)) return null;
