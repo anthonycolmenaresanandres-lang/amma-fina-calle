@@ -50,11 +50,14 @@ export function getBillingAppUrl(): string {
 }
 
 export function isBillingRuntimeConfigured(): boolean {
+  const supabaseServerKey =
+    process.env.SUPABASE_SECRET_KEY?.trim() ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   const requiredValuesPresent = Boolean(
     process.env.STRIPE_SECRET_KEY?.trim() &&
       process.env.STRIPE_WEBHOOK_SECRET?.trim() &&
       process.env.STRIPE_RECURRING_PRICE_ID?.trim() &&
-      process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() &&
+      supabaseServerKey &&
       process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
       process.env.NEXT_PUBLIC_APP_URL?.trim(),
   );

@@ -60,7 +60,7 @@ Do not paste credentials into source files, chat, tickets, or this document.
    - STRIPE_SECRET_KEY
    - STRIPE_WEBHOOK_SECRET
    - STRIPE_RECURRING_PRICE_ID
-   - SUPABASE_SERVICE_ROLE_KEY
+   - SUPABASE_SECRET_KEY (preferred) or SUPABASE_SERVICE_ROLE_KEY (legacy fallback)
    - NEXT_PUBLIC_APP_URL
 8. Set `NEXT_PUBLIC_APP_URL` to the canonical HTTPS application origin. Production billing rejects HTTP callback origins.
 9. Create the Stripe webhook endpoint:

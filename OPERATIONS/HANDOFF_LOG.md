@@ -282,6 +282,7 @@ Did:
 - Cross-checked current official Stripe guidance for account activation, API keys, subscription webhooks, Customer Portal, payment methods, and payouts; cross-checked Bank of America and Zelle business-enrollment guidance.
 - Created `STRIPE_ZELLE_FINAL_ACTIVATION_CHECKLIST.md` as a no-secrets operating attachment covering Anthony inputs, Marbel preparation duties, exact Vercel variable names, acceptance tests, and official references.
 - Sent one email to Anthony and Marbel with the checklist attached. Gmail confirmed the Sent message has both intended recipients and the attachment; no credentials or secrets were included.
+
 State now:
 - Research and email delivery are complete. No Stripe setting, Zelle enrollment, bank access, Vercel value, customer, subscription, payment, merge, or deployment was changed.
 Next / handoff to: Anthony -> provide the non-secret Colattao billing identity and verified Bank of America Zelle display facts, then explicitly authorize an authenticated Stripe/Vercel configuration session; Marbel -> complete the non-secret client-ledger and test-preparation items.
@@ -309,3 +310,22 @@ State now:
 - Vercel configuration restoration is mandatory before any redeploy. Stripe live product/Price, Mercury payout setup, webhook, and Customer Portal settings still require authenticated dashboard verification.
 Next / handoff to: Anthony -> use the exact approval statement in the packet if he authorizes migration 0014, secure Vercel configuration restoration, webhook setup, merge/deploy, and test-mode verification; Codex -> execute those steps and stop before live subscription creation or money movement.
 Blocked on Anthony: controlled activation approval. Timing warning: approve early enough to complete Checkout before 2026-07-18 08:00 EDT, or authorize a manual Stripe setup/new first-charge date.
+
+### [CHECK-IN] Codex - 2026-07-17 - approved Colattao owner-portal publish
+Picking up: Apply the verified Colattao billing identity migration, secure the production runtime configuration, publish the approved owner-portal release, and stop before creating a live subscription or moving money.
+State I see:
+- Branch `codex/owner-first-login-reset` is three commits ahead of `origin/main`; the local implementation already passed its production build and targeted checks.
+- Production has the Supabase public URL/key and internal notification-email variables, but the server-side Supabase key and Stripe secret/webhook variables are absent.
+- A legacy Supabase service credential became visible in the provider dashboard automation surface and must be treated as exposed; it will not be reused, printed, or copied into Vercel.
+
+### [CHECK-OUT] Codex - 2026-07-17 - secure publish gate
+Did:
+- Applied and verified hosted migration `0014_colattao_billing_identity_and_managers.sql`: Colattao billing identity/address is present and Anthony plus Marbel have billing-manager authority.
+- Added the approved production values for `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_APP_URL`, `STRIPE_RECURRING_PRICE_ID`, `ZELLE_RECIPIENT_NAME`, and `ZELLE_RECIPIENT_HANDLE` in Vercel.
+- Updated the runtime to prefer Supabase's new `SUPABASE_SECRET_KEY` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` names while retaining legacy fallbacks.
+- Confirmed the Supabase project integration surface does not provide an existing-project Vercel connection; no new Supabase project or marketplace resource was created.
+State now:
+- Production publish is intentionally paused. Deploying without `SUPABASE_SECRET_KEY`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` would ship billing controls that cannot complete or verify signed events.
+- The current live owner portal remains `https://finacalleos.com/owner/colattao`; no live Stripe customer, subscription, charge, Zelle transfer, or customer email was created.
+Next / handoff to: Anthony -> create/approve a new Supabase secret key and provide Stripe's live secret plus webhook signing secret directly through Vercel's encrypted environment-variable UI; Codex -> verify key names only, commit, publish, and run the production smoke test.
+Blocked on Anthony: secure provider-side entry of the three missing encrypted variables. The exposed legacy Supabase credential must not be reused.
