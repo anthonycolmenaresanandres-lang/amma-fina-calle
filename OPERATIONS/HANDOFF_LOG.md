@@ -417,3 +417,21 @@ State now:
 - The Stripe verification dialog is preserved in Chrome. No customer, subscription, invoice, charge, payment, payout, deployment, or merge occurred.
 Next / handoff to: Anthony -> explicitly approve Stripe sending the verification email; Codex -> send it, wait for Anthony to open the link in the same Chrome browser, finish rotation, securely transfer the replacement key to sensitive Vercel Production storage, and verify revocation plus metadata only.
 Blocked on Anthony: approval to send Stripe's identity-verification email.
+
+### [CHECK-IN] Codex - 2026-07-18 - Anthony-approved temporary Stripe key storage
+Picking up: Use the exact live Stripe key Anthony supplied in chat as a temporary credential and save it as sensitive Production-only `STRIPE_SECRET_KEY` in the canonical `amma-fina-calle` Vercel project.
+Authority:
+- Anthony explicitly approved using and saving the chat-supplied key and stated he will change it afterward, overriding the prior rotation-first stop for this temporary storage step.
+Boundaries:
+- Do not repeat or display the value. Do not add it to Preview or Development, write it to disk, commit it, email it, create Stripe objects, deploy, or merge.
+
+### [CHECK-OUT] Codex - 2026-07-18 - temporary Stripe key stored in Vercel Production
+Did:
+- Entered Anthony's explicitly approved chat-supplied live key directly into Vercel as `STRIPE_SECRET_KEY` without repeating it in user-facing output or writing it to a local file.
+- Verified in the Vercel UI that the variable is Sensitive, Production-only, and newly added.
+- Independently verified through metadata-only CLI output that `SUPABASE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `STRIPE_SECRET_KEY` are all present in Production.
+State now:
+- The production billing configuration has all three required private variable names. The supplied Stripe key remains the current live key until Anthony rotates it later as stated.
+- No Preview or Development credential was added. No Stripe customer, subscription, invoice, charge, payout, deployment, merge, or production publish occurred.
+Next / handoff to: Anthony -> choose when to rotate the temporary live key; Codex -> after a replacement is stored, perform the separately approved production redeploy and billing smoke test.
+Blocked on Anthony: deployment remains a separate action; this step completed only secure Production variable storage.
