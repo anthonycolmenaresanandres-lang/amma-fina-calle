@@ -18,6 +18,27 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 07:36 EDT - small-model skill selector
+Did:
+- Created `select-skill`, a deterministic selector that discovers installed project, global, and plugin skills; ranks them with explicit tie-breaks; returns confidence and alternates; and reports approval-risk flags independently.
+- Installed identical project and global copies for Claude Code and Codex, and updated both routing instruction files so Haiku-class and other small models use the selector when routing is unclear.
+- Added a standard-library-only helper and 12 fixture tests, including Anthony's exact small-model use case.
+State now:
+- All four installed copies pass the skill validator and match byte-for-byte; the 12-test suite and representative Word, Excel, UI, Vercel, GitHub CI, plugin, video/game, and unmatched-request matrix pass.
+- No application/runtime code, customer data, access, secrets, payment configuration, or production surface changed.
+Next / handoff to: Claude and Codex -> use `select-skill` for unclear, multi-domain, or small-model routing; Anthony -> approve push and PR only if this local branch should be published.
+Blocked on Anthony: Push/open-PR authorization only; no merge or deployment is prepared or authorized.
+
+### [CHECK-IN] Codex - 2026-07-18 07:24 EDT - small-model skill selector
+Picking up: Build a deterministic shared skill selector that remains reliable for Claude Haiku-class and smaller Codex models.
+State I see:
+- The existing global `skill-router` is a short static map intended for broad ambiguous requests but has no scoring, confidence threshold, catalog discovery, or machine-checkable output.
+- The published AMMA repo has 17 shared project skill entrypoints plus additional global Claude/Codex skills, so a static map will drift.
+Plan:
+- Add one compact selection contract plus a standard-library catalog/scoring helper; install identical project and global copies for Claude and Codex; route both agent instruction files through it; validate with representative fixtures.
+Boundaries:
+- Isolated branch and local commit only. Do not push, open a PR, merge, deploy, alter application code, install a paid service, or change access.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:11 EDT - video and game visual toolkit published
 Did:
 - Received Anthony's explicit approval to push, open the PR, and publish the prepared toolkit.

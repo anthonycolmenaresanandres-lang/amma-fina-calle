@@ -17,6 +17,12 @@ Parallel work → a sibling worktree under `C:\dev\amma\worktrees\<task>`, never
 
 Guardrails: never handle secrets, grant access, publish/send, or ship to `main` — prep those and hand Anthony exact steps.
 
+## Required skill selection
+1. If the user names a skill, use that skill and read its complete `SKILL.md` before acting.
+2. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.claude/skills/select-skill/SKILL.md` and run its deterministic selector.
+3. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
+4. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
+
 ## Communication rule (owner preference, always)
 - End every response with an explicit **ACTION NEEDED** block: who does what, the exact
   steps/click-path or exact text to paste, and what to send back. No burying actions in prose.

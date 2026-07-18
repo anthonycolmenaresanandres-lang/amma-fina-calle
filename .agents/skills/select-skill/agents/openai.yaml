@@ -1,0 +1,4 @@
+interface:
+  display_name: "Small-Model Skill Selector"
+  short_description: "Deterministically choose the right installed skill"
+  default_prompt: "Use $select-skill to rank the installed skills for this request and choose the safest primary workflow."
