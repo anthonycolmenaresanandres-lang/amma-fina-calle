@@ -18,6 +18,29 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 - free visual design toolkit
+Did:
+- Researched official sources and selected Anthropic `frontend-design`, Vercel `web-design-guidelines`, Figma, browser comparison, and Chrome DevTools Lighthouse as the smallest useful free stack.
+- Installed both skills project-local and globally for Claude Code and Codex; the installer reported no security alerts and all four project copies passed the skill validator.
+- Installed and authorized the Figma Codex plugin for design-frame grounding.
+- Added mandatory pre-build direction and post-build review routes to `AGENTS.md` and `CLAUDE.md`, including Anthony's no-container-soup preference and semantic-outline exceptions.
+- Added `OPERATIONS/VISUAL_TOOLKIT.md`, tracked Claude's skill-only directory safely, and locked upstream skill sources/hashes in `skills-lock.json`.
+- Trialed Lighthouse as an app dependency, rejected it after it added 532 packages and reported 19 moderate advisories, then removed it completely with no package or lockfile diff. The approved path is Chrome DevTools Lighthouse.
+State:
+- Branch: `codex/free-visual-toolkit-20260718`.
+- No application UI, runtime dependency, customer data, secret, access, production branch, or deployment changed.
+Next / handoff to: Anthony -> approve a push/PR if this shared visual workflow should enter `main`; Codex -> push only after approval.
+Blocked on Anthony: production repository adoption requires push/PR/merge approval.
+
+### [CHECK-IN] Codex - 2026-07-18 - free visual design toolkit
+Picking up: Research and integrate a no-subscription visual-design workflow that improves both Claude and Codex output without changing production UI.
+Authority:
+- Anthony explicitly requested research, selection, and integration of the best useful free visual tools and skills for both agents.
+Scope:
+- Install only reviewed official/open-source skills, add a reproducible local quality audit, and route both agents through the same AMMA visual rules.
+Boundaries:
+- Isolated branch and local verification only. Do not merge, push, deploy, expose secrets, or add paid services.
+
 ### [CHECK-IN] Codex - 2026-07-17 08:31 - Colattao July 20 portal activation
 Picking up: Apply the approved billing migrations, prepare a non-production deployment, and make the Colattao owner portal reflect the confirmed first charge on 2026-07-20.
 State I see:
