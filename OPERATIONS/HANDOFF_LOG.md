@@ -18,6 +18,17 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 07:11 EDT - video and game visual toolkit published
+Did:
+- Received Anthony's explicit approval to push, open the PR, and publish the prepared toolkit.
+- Pushed `codex/free-video-game-visuals-20260718`, opened ready PR #158, waited for both Vercel checks to pass, and merged it to `main`.
+- Verified production merge commit `e92500f`, Vercel deployment `https://amma-fina-calle-b864unujg.vercel.app`, and `https://finacalleos.com` return successful production status.
+State now:
+- The shared free video/game workflow is published on `main`; FFmpeg, Pixelorama, and the global Claude/Codex skill installations remain available on this workstation.
+- No application source, package dependency, customer data, secret, access, payment configuration, or customer communication changed.
+Next / handoff to: Claude and Codex -> use `amma-video-game-visuals` for future video, sprite, motion, and Phaser visual work.
+Blocked on Anthony: none.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:03 EDT - free video and game visual toolkit
 Did:
 - Merged explicitly approved PR #157 and verified Vercel marked production commit `6888aa1` successful.
