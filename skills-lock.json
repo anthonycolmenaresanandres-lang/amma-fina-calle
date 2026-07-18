@@ -1,11 +1,95 @@
 {
   "version": 1,
   "skills": {
+    "animations": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/animations/SKILL.md",
+      "computedHash": "342f4448eed4b25a890793b7f14cad8b3393a16a915cf967edbcd6d2fd9d20d7"
+    },
+    "filters-and-postfx": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/filters-and-postfx/SKILL.md",
+      "computedHash": "202a8e2f75c501d2799d16b606cf6afbcf15aa27cb1a8ad5e50705b03fa28390"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
       "skillPath": "skills/frontend-design/SKILL.md",
       "computedHash": "93f53fd1c0352d3d7ec17b8f73d7351bf76f4821e55d123c9d2abc2c53ba48e4"
+    },
+    "loading-assets": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/loading-assets/SKILL.md",
+      "computedHash": "ad170c148ff69639aa3307879f6c392ee55f45beadbae30f724f478abf98a951"
+    },
+    "mediabunny": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/mediabunny/SKILL.md",
+      "computedHash": "f7592ee2c36238f5ee792e41f888d7751f74df1c0ed4207d3e500b6b5758c95f"
+    },
+    "particles": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/particles/SKILL.md",
+      "computedHash": "7bbe8f927750a78b89e39c4b8612862f974ff09a428cb33942ab8e6b6487a5d9"
+    },
+    "remotion-captions": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-captions/SKILL.md",
+      "computedHash": "beb07667f4f105f2b4838f0a848679d9910a369862fe7a7a994711aeca8eb367"
+    },
+    "remotion-create": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-create/SKILL.md",
+      "computedHash": "4b3c68ca9a1b5ea92f1bf939b572169333aeaa9effe344ffccb7eb86ff1fa767"
+    },
+    "remotion-interactivity": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-interactivity/SKILL.md",
+      "computedHash": "07a64166dccb86ace4fdb5ecd681e7d70e2d8167a3bd6ec59d9d3de643e8178d"
+    },
+    "remotion-markup": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-markup/SKILL.md",
+      "computedHash": "27296fef6fec8c20cdf3ce338f29099f32ffdcd0c84c437dd7cd8966b4d12063"
+    },
+    "remotion-render": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-render/SKILL.md",
+      "computedHash": "559aa7436f00c2efe3029d31663466db4ab6a0f936f1c6553ed82ec05745fc86"
+    },
+    "render-textures": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/render-textures/SKILL.md",
+      "computedHash": "3a9d0008ba5a75c1e4f6d455ba578d640cd612d4dd64e9bc566cddec1711d3ab"
+    },
+    "scale-and-responsive": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/scale-and-responsive/SKILL.md",
+      "computedHash": "a6d70e6e8191a7038f15ade6ac7dc9cb2c33bde8c64a3e82ae54cc84a640fa58"
+    },
+    "sprites-and-images": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/sprites-and-images/SKILL.md",
+      "computedHash": "0b481bd5b02c2e997a4207ba83046770a72db599b92c22353a9bbdbad77d1cfb"
+    },
+    "v4-new-features": {
+      "source": "phaserjs/phaser",
+      "sourceType": "github",
+      "skillPath": "skills/v4-new-features/SKILL.md",
+      "computedHash": "cf435ba5df67acfaa55b346e0922357a0df47e232084a3b2e2a09e8fcfc60b5b"
     },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",

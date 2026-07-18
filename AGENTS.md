@@ -22,3 +22,11 @@ Guardrails: never handle secrets, grant access, publish/send, purchase, or ship 
 5. Run targeted ESLint and the production build. Use Chrome DevTools Lighthouse when a measurable accessibility/performance check is useful; do not add Lighthouse to application dependencies.
 
 Full rationale and tool map: `OPERATIONS/VISUAL_TOOLKIT.md`.
+
+## Required video and game visual workflow
+1. Before video, motion, sprite, effect, or game-skin work, read `.agents/skills/amma-video-game-visuals/SKILL.md` and the real brand/reference source.
+2. Route deterministic video through Remotion and FFmpeg; route 2D game art through Pixelorama and runtime visuals through the existing Phaser 4 stack.
+3. Preserve stable QR routes, approved real logos, mobile performance, and the game's primitive fallback. Never generate real faces, league/event/club marks, or client logos.
+4. Verify rendered streams/key frames or both fallback and enhanced game paths. Stop before cloud upload, paid generation, customer send, publish, or deploy without Anthony's explicit approval.
+
+Full route and installed versions: `OPERATIONS/VIDEO_GAME_VISUAL_TOOLKIT.md`.

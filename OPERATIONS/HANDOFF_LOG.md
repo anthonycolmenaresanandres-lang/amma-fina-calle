@@ -18,6 +18,29 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 07:03 EDT - free video and game visual toolkit
+Did:
+- Merged explicitly approved PR #157 and verified Vercel marked production commit `6888aa1` successful.
+- Installed FFmpeg 8.1.2 and Pixelorama 1.1.10 through verified winget packages; a one-second H.264 render/probe smoke test passed.
+- Installed six direct official Remotion and eight official Phaser 4 visual skills project-locally and globally for Claude Code and Codex.
+- Added the shared `amma-video-game-visuals` routing skill, required agent rules, locked upstream sources, and `OPERATIONS/VIDEO_GAME_VISUAL_TOOLKIT.md`.
+- Rejected the high-risk-rated Remotion docs skill and the router that bundled it, excluded the unnecessary SaaS skill, and kept local diffusion-video stacks off this non-CUDA workstation.
+State now:
+- All 18 project skill entrypoints validate under UTF-8; Claude and Codex copies match; no application package, UI, runtime source, customer data, secret, access, or payment configuration changed.
+- Branch `codex/free-video-game-visuals-20260718` is local-only. No push, PR, merge, deployment, external upload, paid generation, or customer send was performed for this new toolkit.
+Next / handoff to: Anthony -> approve push/PR if this shared video/game workflow should enter `main`; Claude and Codex -> use the global skill immediately on future local work.
+Blocked on Anthony: repository publication and production adoption require separate approval.
+
+### [CHECK-IN] Codex - 2026-07-18 06:53 EDT - free video and game visual toolkit
+Picking up: Extend the approved shared visual workflow with current no-subscription video generation and game-visual tooling for both Claude and Codex.
+State I see:
+- PR #157 was explicitly approved, merged as `6888aa1`, and its Vercel production deployment reports success.
+- The app already uses Phaser 4.1.0 and has a reusable game-customization protocol; no runtime game dependency upgrade is needed.
+- This PC has Intel HD Graphics 620 and no CUDA GPU, FFmpeg, Pixelorama, Blender, Godot, or Krita, so local diffusion-video stacks are not viable.
+Boundaries:
+- Work only in `codex/free-video-game-visuals-20260718`; install reviewed free tools and skills, document the shared route, and validate locally.
+- Do not push, open a PR, merge, deploy, spend money, upload customer assets, or use cloud generation without Anthony's separate approval.
+
 ### [CHECK-OUT] Codex - 2026-07-18 - visual toolkit branch published for review
 Did:
 - Received Anthony's explicit approval to push the prepared visual-toolkit branch and open a pull request.
