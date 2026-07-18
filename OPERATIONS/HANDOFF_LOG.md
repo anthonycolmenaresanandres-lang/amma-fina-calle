@@ -18,6 +18,29 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
+Did:
+- Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.
+- Added installed-skill verification, evidence-source/KPI/finish-line output, independent approval flags, and a non-PII local outcome log whose reports cannot self-modify routing.
+- Updated `select-skill`, project/global Claude and Codex routing instructions, and the active `amma-morning-command` heartbeat to use the new intelligence and learning contract.
+- Left the two unrelated paused newsroom email automations unchanged.
+State now:
+- Both project/global Claude and Codex copies validate and match; 12 AMMA-router tests, 15 generic-selector tests, the real seven-scenario business matrix, and the exact user request pass.
+- No app/runtime code, customer data, secret, payment setting, access, message, merge, or deployment changed.
+Next / handoff to: Anthony -> review the PR after Codex pushes it; AMMA Operating Rhythm -> record only verified non-PII outcomes at closeout and surface review recommendations without applying them.
+Blocked on Anthony: Merge and production adoption remain separate approvals.
+
+### [CHECK-IN] Codex - 2026-07-18 07:48 EDT - AMMA business intelligence routing
+Picking up: Extend the approved small-model selector with an AMMA-specific business router and an auditable outcome-learning loop, then push the branch and open a PR.
+State I see:
+- The generic selector routes onboarding, payments, and KPI review, but returns low confidence for the active Morning Command and local lead-generation work.
+- The active `amma-morning-command` heartbeat runs at 08:30, 10:30, and 17:30 ET; two legacy newsroom email automations are paused.
+- AMMA's canonical operating model defines four Anthony roles and the Acquire -> Build -> Activate -> Monetize -> Expand factory loop; verified outcomes, founder time, ROI instrumentation, and approval boundaries are required.
+Plan:
+- Add a deterministic AMMA workflow/role/capability map, installed-skill verification, evidence requirements, approval flags, and local outcome feedback that never self-modifies routing without review.
+Boundaries:
+- Anthony approved push and PR. Do not merge, deploy, send, spend, alter access, expose secrets, or record customer PII.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:36 EDT - small-model skill selector
 Did:
 - Created `select-skill`, a deterministic selector that discovers installed project, global, and plugin skills; ranks them with explicit tie-breaks; returns confidence and alternates; and reports approval-risk flags independently.

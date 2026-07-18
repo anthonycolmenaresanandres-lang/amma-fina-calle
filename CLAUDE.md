@@ -19,9 +19,10 @@ Guardrails: never handle secrets, grant access, publish/send, or ship to `main` 
 
 ## Required skill selection
 1. If the user names a skill, use that skill and read its complete `SKILL.md` before acting.
-2. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.claude/skills/select-skill/SKILL.md` and run its deterministic selector.
-3. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
-4. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
+2. For AMMA management, Morning Command, Revenue Power Hour, Daily Closeout, leads, onboarding, delivery, billing review, KPIs, bottlenecks, or business automation, read `.claude/skills/amma-business-intelligence/SKILL.md` and run its deterministic business router.
+3. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.claude/skills/select-skill/SKILL.md` and run its deterministic selector.
+4. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
+5. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
 
 ## Communication rule (owner preference, always)
 - End every response with an explicit **ACTION NEEDED** block: who does what, the exact

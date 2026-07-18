@@ -1,0 +1,4 @@
+interface:
+  display_name: "AMMA Business Intelligence"
+  short_description: "Route AMMA work and learn from outcomes"
+  default_prompt: "Use $amma-business-intelligence to identify the current AMMA bottleneck, select the right operating role and skill, and produce an evidence-backed action block."

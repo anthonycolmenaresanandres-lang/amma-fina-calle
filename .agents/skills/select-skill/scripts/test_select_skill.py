@@ -21,6 +21,7 @@ SKILLS = {
     "github": "Manage GitHub repositories and pull requests.",
     "gh-fix-ci": "Diagnose and fix failing GitHub pull request CI checks.",
     "select-skill": "Deterministically select installed skills for Haiku-class and small less-capable models.",
+    "amma-business-intelligence": "Route AMMA business work, automations, operating roles, and verified outcome learning.",
 }
 
 
@@ -98,6 +99,19 @@ class SelectorTests(unittest.TestCase):
         result = self.result("I need skill selection for a less capable Haiku model")
         self.assertEqual(result["primary"], "select-skill")
         self.assertEqual(result["confidence"], "high")
+
+    def test_amma_morning_command_routes_to_business_intelligence(self):
+        result = self.result("Run the AMMA Ventures morning command")
+        self.assertEqual(result["primary"], "amma-business-intelligence")
+        self.assertEqual(result["confidence"], "high")
+
+    def test_restaurant_leads_route_to_business_intelligence(self):
+        result = self.result("Find qualified restaurant leads near Virginia Beach")
+        self.assertEqual(result["primary"], "amma-business-intelligence")
+
+    def test_learning_automation_routes_to_business_intelligence(self):
+        result = self.result("Improve our business automation so it is always learning")
+        self.assertEqual(result["primary"], "amma-business-intelligence")
 
 
 if __name__ == "__main__":
