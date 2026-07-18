@@ -24,10 +24,12 @@ Did:
 - Added installed-skill verification, evidence-source/KPI/finish-line output, independent approval flags, and a non-PII local outcome log whose reports cannot self-modify routing.
 - Updated `select-skill`, project/global Claude and Codex routing instructions, and the active `amma-morning-command` heartbeat to use the new intelligence and learning contract.
 - Left the two unrelated paused newsroom email automations unchanged.
+- Pushed commits `8672c20` and `1d3d248`, opened ready PR #160, and verified both Vercel checks passed; did not merge.
 State now:
 - Both project/global Claude and Codex copies validate and match; 12 AMMA-router tests, 15 generic-selector tests, the real seven-scenario business matrix, and the exact user request pass.
-- No app/runtime code, customer data, secret, payment setting, access, message, merge, or deployment changed.
-Next / handoff to: Anthony -> review the PR after Codex pushes it; AMMA Operating Rhythm -> record only verified non-PII outcomes at closeout and surface review recommendations without applying them.
+- PR #160 is open at `https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/160`; its preview deployment completed successfully.
+- No app/runtime code, customer data, secret, payment setting, access, message, merge, or production deployment changed.
+Next / handoff to: Anthony -> review PR #160 and separately approve or decline merge; AMMA Operating Rhythm -> record only verified non-PII outcomes at closeout and surface review recommendations without applying them.
 Blocked on Anthony: Merge and production adoption remain separate approvals.
 
 ### [CHECK-IN] Codex - 2026-07-18 07:48 EDT - AMMA business intelligence routing
