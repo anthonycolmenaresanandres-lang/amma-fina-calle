@@ -378,3 +378,24 @@ State now:
 - No Stripe customer, subscription, charge, webhook endpoint, Zelle transfer, deployment, merge, or production publish was created.
 Next / handoff to: Anthony -> complete Stripe's visible security challenge in the open Chrome tab and tell Codex `done`; Codex -> copy the masked live key, inspect the existing webhook endpoint, store both missing Stripe variables as sensitive Production values, verify names only, and resume the approved publish gate.
 Blocked on Anthony: one manual Stripe hCaptcha completion; no credential needs to be pasted into chat.
+
+### [CHECK-IN] Codex - 2026-07-18 - production Stripe webhook setup
+Picking up: Configure the live Stripe webhook for the deployed owner portal through Anthony's authenticated Chrome session and store its signing secret only as an encrypted Vercel Production variable.
+State I see:
+- Anthony pasted a live Stripe secret into chat. It is treated as exposed and will not be used, printed, saved, or transferred; rotating it requires a separate explicit approval because it changes account credentials.
+- The authenticated live Stripe account is Amma Ventures LLC (Mercury), and the production route expects `https://finacalleos.com/api/stripe/webhook` with seven handled event types.
+- `SUPABASE_SECRET_KEY` is present in Vercel Production; `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` remain missing.
+Boundaries:
+- Configure or verify the webhook and secure its signing secret. Do not create a customer, subscription, invoice, charge, payment, or transfer. Do not deploy or merge in this pass.
+
+### [CHECK-OUT] Codex - 2026-07-18 - production Stripe webhook created
+Did:
+- Created active live Stripe destination `Fina Calle Owner Portal Production` for `https://finacalleos.com/api/stripe/webhook` in the Amma Ventures LLC (Mercury) account.
+- Scoped it to the seven events handled by the production route: `checkout.session.completed`; subscription created, updated, and deleted; invoice paid, payment failed, and payment action required.
+- Copied the new signing secret through Chrome's protected clipboard directly into Vercel as sensitive Production variable `STRIPE_WEBHOOK_SECRET`; verified the variable name, Sensitive type, Production scope, and added state without displaying its value.
+- Verified the live route responds to an unsigned POST with HTTP 400 and metadata-only output shows `SUPABASE_SECRET_KEY` plus `STRIPE_WEBHOOK_SECRET` present.
+State now:
+- `STRIPE_SECRET_KEY` remains missing. The key Anthony pasted into chat is exposed and was not used or stored.
+- No customer, subscription, invoice, charge, payment, transfer, deployment, or merge occurred.
+Next / handoff to: Anthony -> explicitly approve rotation of the exposed live Stripe API key; Codex -> create a replacement in the authenticated Stripe dashboard, transfer it directly to sensitive Vercel Production storage, revoke the exposed key, then resume the approved publish verification.
+Blocked on Anthony: credential rotation changes Stripe account access and requires explicit approval.
