@@ -1,0 +1,4 @@
+interface:
+  display_name: "AMMA Video + Game Visuals"
+  short_description: "Route free video and Phaser visual production"
+  default_prompt: "Use $amma-video-game-visuals to plan and produce a brand-grounded video or game visual with the approved free AMMA stack."
