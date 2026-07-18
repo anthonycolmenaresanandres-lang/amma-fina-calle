@@ -5,7 +5,9 @@
 .env.*
 !.env.example
 _local_secrets/
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
 CLONE_CONTROL/
 .DS_Store
 .vercel
