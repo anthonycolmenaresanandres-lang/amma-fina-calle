@@ -18,6 +18,22 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-07-18 08:47 EDT - approved owner-app branch publication
+Picking up: Publish the completed installable owner-portal branch and open a GitHub pull request for review.
+Authority:
+- Anthony selected option 2 and explicitly approved pushing commit `f2d7605` and opening its PR.
+Boundaries:
+- Publish only `codex/owner-portal-app-20260718`. Do not merge, deploy, change production, contact a customer, change access, or perform a payment action.
+
+### [CHECK-OUT] Codex - 2026-07-18 08:47 EDT - owner-app branch ready for remote review
+Did:
+- Reconfirmed the branch contains only the installable owner-portal implementation, its self-test, runbook, optimization register, queue result, and this handoff update.
+- Preserved the verified no-service-worker and private owner-page caching boundaries.
+State now:
+- The branch is ready to push and open as a draft pull request against `main`.
+Next / handoff to: GitHub review and preview checks; Anthony retains the separate merge and production approval gate.
+Blocked on Anthony: merge and production publication are intentionally not authorized by this step.
+
 ### [CHECK-IN] Codex - 2026-07-18 08:26 EDT - owner portal installable app and optimization register
 Picking up: Publish the approved ethical-sales branch as a PR, then organize AMMA optimization work and make the existing owner portal installable as a tenant-scoped browser app.
 State I see:
