@@ -36,7 +36,7 @@ function PasswordField({
           name={name}
           type={visible ? "text" : "password"}
           required
-          minLength={12}
+          minLength={8}
           maxLength={128}
           autoComplete={autoComplete}
           className="min-w-0 w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 pr-12 text-sm text-[#f4f6f7] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
@@ -91,7 +91,7 @@ export default function RequiredPasswordReset({
           autoComplete="new-password"
         />
         <p className="text-xs leading-5 text-[#7f8a91]">
-          Use at least 12 characters. Avoid names, repeated characters, and common passwords.
+          Use at least 8 characters. Avoid names, repeated characters, and common passwords.
         </p>
         <button
           type="submit"

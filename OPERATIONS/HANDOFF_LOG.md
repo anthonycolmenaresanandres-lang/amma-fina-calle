@@ -458,3 +458,26 @@ State now:
 - The latest approved application release is live. No Checkout was completed and no payment method, paid subscription, charge, invoice, transfer, payout, or customer email was created.
 Next / handoff to: Anthony -> explicitly approve provisioning `colattao@hotmail.com` with the temporary first-login credential and forced-reset metadata; Codex -> provision only that owner, verify login/reset and portal billing state, then stop before paid Checkout completion.
 Blocked on Anthony: owner-account provisioning/reset changes live access and was not included in the merge/deploy/verification approval.
+
+### [CHECK-IN] Codex - 2026-07-18 05:16 EDT - approved Colattao owner provisioning and password-policy preparation
+Picking up: Provision only `colattao@hotmail.com` with a unique 16-character temporary credential, require first-login reset, verify the reset gate and owner portal without completing paid Checkout, and save the proven repeatable onboarding SOP.
+Authority:
+- Anthony explicitly approved the unique temporary credential, forced reset, portal verification, no password storage in documents, and a hard stop before paid Checkout.
+- Anthony asked whether the permanent-password requirement can be reduced; Codex will prepare an isolated 12-to-8-character policy change but will not merge or deploy it without separate production approval.
+Boundaries:
+- Never print or place the temporary credential in source, logs, documents, email, or chat. Do not submit the owner’s private final password. Do not complete Checkout, attach a payment method, create a paid subscription, charge, invoice, transfer, or payout.
+
+### [CHECK-OUT] Codex - 2026-07-18 05:31 EDT - Colattao owner provisioned; private reset and policy deploy pending
+Did:
+- Added `colattao@hotmail.com` to live `owner_emails` for restaurant `colattao` with role `owner`; readback shows the intended restaurant, email, and role while preserving Anthony’s existing access.
+- Created and confirmed the matching Supabase Auth user with a unique generated 16-character temporary credential that was never printed or stored in documents, source, logs, email, or chat.
+- Applied and read back `owner_password_reset_required: true` for only that Auth user.
+- Signed in once through `https://finacalleos.com/owner/colattao`; verified the first-sign-in reset screen appears with no menu, billing, Zelle, request, or Checkout controls exposed. Did not enter or submit a private replacement password.
+- Expanded `OPERATIONS/OWNER_PORTAL_ACCESS_SOP.md` with the proven intake, assignment, Auth, readiness, first-login, billing, evidence, and stop sequence.
+- Added the same repeatable onboarding SOP to the existing Drive document `AMMA Ventures / Fina Calle — Company Operating SOP Manual` and verified the native heading plus final stop condition by connector readback.
+- Prepared the requested permanent-password minimum change from 12 to 8 characters on isolated branch `codex/owner-password-policy-8`; targeted ESLint, `tsc --noEmit`, and the full Next.js production build pass.
+State now:
+- Colattao is provisioned and stopped safely at the mandatory private-password reset. No paid Checkout, payment method, subscription, charge, invoice, transfer, payout, or customer email occurred.
+- The 8-character permanent-password policy is validated locally but is not merged or deployed; production still requires 12 characters until Anthony separately approves release.
+Next / handoff to: Colattao owner -> choose the private password in the preserved reset session; Anthony -> approve merging and deploying `codex/owner-password-policy-8` if the 8-character policy should become live; Codex -> after owner reset, verify dashboard isolation and billing state, stopping before paid Checkout.
+Blocked on Anthony / owner: private password completion belongs to the owner; production merge/deploy of the reduced password minimum requires explicit approval.
