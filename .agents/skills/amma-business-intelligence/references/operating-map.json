@@ -21,9 +21,9 @@
     "revenue_power_hour": {
       "role": "Revenue Producer",
       "factory_stage": "acquire",
-      "triggers": ["revenue power hour", "restaurant leads", "qualified leads", "lead research", "find leads", "prospect outreach", "sales pipeline", "book demos"],
-      "keywords": ["lead", "leads", "prospect", "sales", "demo", "outreach", "restaurant"],
-      "skills": ["sales-company-research", "prioritize-accounts", "enrich-company-and-contact-data"],
+      "triggers": ["revenue power hour", "restaurant leads", "qualified leads", "lead research", "find leads", "prospect outreach", "sales pipeline", "book demos", "sales materials", "sales pitch", "sales conversion", "objection handling"],
+      "keywords": ["lead", "leads", "prospect", "sales", "demo", "outreach", "restaurant", "pitch", "flyer", "conversion", "objection"],
+      "skills": ["sales-company-research", "amma-sales-conversion", "prioritize-accounts", "enrich-company-and-contact-data"],
       "evidence_sources": ["grounded lead tracker", "verified company sources", "canonical Fina Calle sales package", "current feature-status evidence"],
       "kpi": "verified prospects advanced to a dated next action",
       "finish_minutes": 60

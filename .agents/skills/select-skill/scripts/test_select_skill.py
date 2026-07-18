@@ -22,6 +22,7 @@ SKILLS = {
     "gh-fix-ci": "Diagnose and fix failing GitHub pull request CI checks.",
     "select-skill": "Deterministically select installed skills for Haiku-class and small less-capable models.",
     "amma-business-intelligence": "Route AMMA business work, automations, operating roles, and verified outcome learning.",
+    "amma-sales-conversion": "Improve restaurant sales materials and conversion with verified evidence and ethical behavioral design.",
 }
 
 
@@ -112,6 +113,11 @@ class SelectorTests(unittest.TestCase):
     def test_learning_automation_routes_to_business_intelligence(self):
         result = self.result("Improve our business automation so it is always learning")
         self.assertEqual(result["primary"], "amma-business-intelligence")
+
+    def test_restaurant_sales_material_routes_to_conversion_skill(self):
+        result = self.result("Improve our restaurant owner sales pitch and objection handling")
+        self.assertEqual(result["primary"], "amma-sales-conversion")
+        self.assertIn(result["confidence"], {"high", "medium"})
 
 
 if __name__ == "__main__":
