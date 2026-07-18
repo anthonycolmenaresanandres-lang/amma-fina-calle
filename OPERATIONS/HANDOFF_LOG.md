@@ -399,3 +399,21 @@ State now:
 - No customer, subscription, invoice, charge, payment, transfer, deployment, or merge occurred.
 Next / handoff to: Anthony -> explicitly approve rotation of the exposed live Stripe API key; Codex -> create a replacement in the authenticated Stripe dashboard, transfer it directly to sensitive Vercel Production storage, revoke the exposed key, then resume the approved publish verification.
 Blocked on Anthony: credential rotation changes Stripe account access and requires explicit approval.
+
+### [CHECK-IN] Codex - 2026-07-18 - approved Stripe live-key rotation
+Picking up: Rotate and revoke the exposed live Stripe secret under Anthony's explicit approval, transfer the replacement directly into sensitive Vercel Production storage, and verify metadata only.
+State I see:
+- Active production webhook and `STRIPE_WEBHOOK_SECRET` are configured.
+- `STRIPE_SECRET_KEY` is still missing from Vercel Production; the exposed key will not be reused or displayed.
+Boundaries:
+- Rotate only the exposed live standard secret key. Do not change the publishable key, restricted key, products, prices, customers, subscriptions, invoices, charges, payouts, or bank settings. Do not deploy or merge until the credential rotation is verified.
+
+### [CHECK-OUT] Codex - 2026-07-18 - Stripe rotation waiting on identity verification
+Did:
+- Opened the exact exposed live standard secret-key row, chose `Rotate key`, and selected immediate expiration so the old key will be revoked as soon as Stripe completes the approved rotation.
+- Stripe stopped before changing either key and requires an email verification link to Anthony's Stripe account email on the same Chrome device.
+State now:
+- No verification email was sent because sending it is a separate external-message action requiring confirmation. The exposed key remains active; no replacement key exists yet and `STRIPE_SECRET_KEY` remains missing in Vercel Production.
+- The Stripe verification dialog is preserved in Chrome. No customer, subscription, invoice, charge, payment, payout, deployment, or merge occurred.
+Next / handoff to: Anthony -> explicitly approve Stripe sending the verification email; Codex -> send it, wait for Anthony to open the link in the same Chrome browser, finish rotation, securely transfer the replacement key to sensitive Vercel Production storage, and verify revocation plus metadata only.
+Blocked on Anthony: approval to send Stripe's identity-verification email.
