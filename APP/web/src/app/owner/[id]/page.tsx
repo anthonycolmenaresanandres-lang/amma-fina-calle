@@ -1,3 +1,4 @@
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShieldX, Wrench } from "lucide-react";
@@ -5,6 +6,7 @@ import { Eyebrow, cn } from "@/components/ui";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
+import { isSafeRestaurantId, ownerAppPath } from "@/lib/owner/app-manifest";
 import { getBrandAssets } from "@/lib/brand";
 import {
   getBillingNotice,
@@ -79,9 +81,41 @@ async function getPublicBusinessName(id: string): Promise<string | null> {
   return restaurant?.business_name ?? null;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  return { title: `Owner Portal — ${id} | Fina Calle OS` };
+  if (!isSafeRestaurantId(id)) {
+    return { title: "Owner Portal | Fina Calle OS" };
+  }
+  const appPath = ownerAppPath(id);
+  return {
+    title: `Owner Portal — ${id} | Fina Calle OS`,
+    description:
+      "Secure restaurant-owner access for menu updates, requests, and billing status.",
+    manifest: `${appPath}/manifest.webmanifest`,
+    icons: {
+      icon: [
+        {
+          url: `${appPath}/app-icon/192`,
+          sizes: "192x192",
+          type: "image/png",
+        },
+      ],
+      apple: [
+        {
+          url: `${appPath}/app-icon/192`,
+          sizes: "192x192",
+          type: "image/png",
+        },
+      ],
+    },
+  };
+}
+
+export function generateViewport(): Viewport {
+  return {
+    colorScheme: "dark",
+    themeColor: "#4f9dff",
+  };
 }
 
 // Maps the non-sensitive `?auth=` hint from /auth/confirm into a friendly
