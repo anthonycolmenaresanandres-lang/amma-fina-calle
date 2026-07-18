@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "company": "AMMA Ventures LLC / Fina Calle",
+  "roles": [
+    "CEO/Strategist",
+    "Revenue Producer",
+    "Delivery Owner",
+    "Finance/Admin"
+  ],
+  "workflows": {
+    "morning_command": {
+      "role": "CEO/Strategist",
+      "factory_stage": "operate",
+      "triggers": ["morning command", "first work block", "today bottleneck", "today's bottleneck", "chief of staff brief"],
+      "keywords": ["morning", "command", "bottleneck", "calendar", "inbox"],
+      "skills": ["gather-business-context", "kpi-reporting"],
+      "evidence_sources": ["OPERATIONS/HANDOFF_LOG.md", "OPERATIONS/CODEX_QUEUE.md", "live-product status", "connected Gmail", "today's connected calendar", "verified outcome log"],
+      "kpi": "one verified bottleneck converted into one completed 90-minute outcome",
+      "finish_minutes": 90
+    },
+    "revenue_power_hour": {
+      "role": "Revenue Producer",
+      "factory_stage": "acquire",
+      "triggers": ["revenue power hour", "restaurant leads", "qualified leads", "lead research", "find leads", "prospect outreach", "sales pipeline", "book demos"],
+      "keywords": ["lead", "leads", "prospect", "sales", "demo", "outreach", "restaurant"],
+      "skills": ["sales-company-research", "prioritize-accounts", "enrich-company-and-contact-data"],
+      "evidence_sources": ["grounded lead tracker", "verified company sources", "canonical Fina Calle sales package", "current feature-status evidence"],
+      "kpi": "verified prospects advanced to a dated next action",
+      "finish_minutes": 60
+    },
+    "client_onboarding": {
+      "role": "Delivery Owner",
+      "factory_stage": "activate",
+      "triggers": ["onboard client", "onboard a new client", "new restaurant client", "new cafe client", "client intake", "owner portal setup"],
+      "keywords": ["onboard", "client", "intake", "restaurant", "cafe", "tenant", "portal"],
+      "skills": ["fina-calle-client-onboarding", "web-studio"],
+      "evidence_sources": ["CLIENT_INTAKE/CLIENT_WEBSITE_INTAKE_CHECKLIST.md", "approved client facts and assets", "current tenant registry", "current billing status"],
+      "kpi": "onboarding gates completed without an unknown being represented as approved",
+      "finish_minutes": 90
+    },
+    "delivery_build": {
+      "role": "Delivery Owner",
+      "factory_stage": "build",
+      "triggers": ["build client website", "deliver website", "menu build", "owner portal", "client change request", "product delivery"],
+      "keywords": ["build", "deliver", "website", "menu", "portal", "request", "client"],
+      "skills": ["web-studio", "fina-calle-client-onboarding", "agent-browser-verify"],
+      "evidence_sources": ["OPERATIONS/CODEX_QUEUE.md", "approved intake", "current application state", "browser verification"],
+      "kpi": "one approved client deliverable passes its targeted verification gate",
+      "finish_minutes": 90
+    },
+    "campaign_activation": {
+      "role": "Delivery Owner",
+      "factory_stage": "activate",
+      "triggers": ["launch campaign", "qr campaign", "promotional campaign", "seasonal campaign", "activate client"],
+      "keywords": ["campaign", "launch", "activate", "qr", "promotion", "seasonal"],
+      "skills": ["campaign-launch-system", "amma-video-game-visuals"],
+      "evidence_sources": ["approved campaign brief", "approved client assets", "stable QR routes", "live feature verification"],
+      "kpi": "approved campaign assets ready with every route and claim verified",
+      "finish_minutes": 90
+    },
+    "finance_review": {
+      "role": "Finance/Admin",
+      "factory_stage": "monetize",
+      "triggers": ["reconcile stripe", "reconcile zelle", "payment status", "overdue clients", "billing review", "invoice review", "cash collected", "stripe subscription", "subscription checkout", "payment integration"],
+      "keywords": ["stripe", "zelle", "payment", "billing", "invoice", "cash", "overdue", "reconcile", "subscription", "checkout"],
+      "skills": ["product-business-analysis", "payments", "kpi-reporting"],
+      "evidence_sources": ["client ledger", "verified Stripe records", "verified Zelle reconciliation records", "current subscription status"],
+      "kpi": "verified cash and receivables status with every unknown explicitly identified",
+      "finish_minutes": 60
+    },
+    "executive_review": {
+      "role": "CEO/Strategist",
+      "factory_stage": "expand",
+      "triggers": ["daily closeout", "weekly business review", "review kpis", "business bottleneck", "company scorecard", "tomorrow's role"],
+      "keywords": ["closeout", "review", "kpi", "kpis", "scorecard", "bottleneck", "weekly"],
+      "skills": ["kpi-reporting", "product-business-analysis", "design-kpis"],
+      "evidence_sources": ["verified outcome log", "lead tracker", "client ledger", "delivery status", "cash records"],
+      "kpi": "single constraint identified from verified operating metrics",
+      "finish_minutes": 30
+    },
+    "strategy_research": {
+      "role": "CEO/Strategist",
+      "factory_stage": "expand",
+      "triggers": ["market research", "competitive research", "business strategy", "new market", "market size", "business case"],
+      "keywords": ["market", "strategy", "competitor", "research", "opportunity", "business"],
+      "skills": ["gather-business-context", "market-sizing", "build-competitive-brief"],
+      "evidence_sources": ["BUSINESS/AMMA_VENTURES_BUSINESS_PLAN.md", "current internal operating data", "current primary external sources"],
+      "kpi": "one decision supported by dated evidence, assumptions, and uncertainty",
+      "finish_minutes": 90
+    },
+    "automation_improvement": {
+      "role": "CEO/Strategist",
+      "factory_stage": "operate",
+      "triggers": ["business intelligence", "skill finding", "always learning", "improve automation", "business automation", "automation intelligence"],
+      "keywords": ["automation", "intelligence", "learning", "skill", "workflow", "improve"],
+      "skills": ["codex-workflow-builder", "select-skill", "design-kpis"],
+      "evidence_sources": ["active automation definitions", "installed skill catalog", "verified outcome log", "OPERATIONS/HANDOFF_LOG.md"],
+      "kpi": "automation decisions improve from verified outcomes without silent rule changes",
+      "finish_minutes": 90
+    }
+  }
+}

@@ -18,6 +18,52 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
+Did:
+- Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.
+- Added installed-skill verification, evidence-source/KPI/finish-line output, independent approval flags, and a non-PII local outcome log whose reports cannot self-modify routing.
+- Updated `select-skill`, project/global Claude and Codex routing instructions, and the active `amma-morning-command` heartbeat to use the new intelligence and learning contract.
+- Left the two unrelated paused newsroom email automations unchanged.
+- Pushed commits `8672c20` and `1d3d248`, opened ready PR #160, and verified both Vercel checks passed; did not merge.
+State now:
+- Both project/global Claude and Codex copies validate and match; 12 AMMA-router tests, 15 generic-selector tests, the real seven-scenario business matrix, and the exact user request pass.
+- PR #160 is open at `https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/160`; its preview deployment completed successfully.
+- No app/runtime code, customer data, secret, payment setting, access, message, merge, or production deployment changed.
+Next / handoff to: Anthony -> review PR #160 and separately approve or decline merge; AMMA Operating Rhythm -> record only verified non-PII outcomes at closeout and surface review recommendations without applying them.
+Blocked on Anthony: Merge and production adoption remain separate approvals.
+
+### [CHECK-IN] Codex - 2026-07-18 07:48 EDT - AMMA business intelligence routing
+Picking up: Extend the approved small-model selector with an AMMA-specific business router and an auditable outcome-learning loop, then push the branch and open a PR.
+State I see:
+- The generic selector routes onboarding, payments, and KPI review, but returns low confidence for the active Morning Command and local lead-generation work.
+- The active `amma-morning-command` heartbeat runs at 08:30, 10:30, and 17:30 ET; two legacy newsroom email automations are paused.
+- AMMA's canonical operating model defines four Anthony roles and the Acquire -> Build -> Activate -> Monetize -> Expand factory loop; verified outcomes, founder time, ROI instrumentation, and approval boundaries are required.
+Plan:
+- Add a deterministic AMMA workflow/role/capability map, installed-skill verification, evidence requirements, approval flags, and local outcome feedback that never self-modifies routing without review.
+Boundaries:
+- Anthony approved push and PR. Do not merge, deploy, send, spend, alter access, expose secrets, or record customer PII.
+
+### [CHECK-OUT] Codex - 2026-07-18 07:36 EDT - small-model skill selector
+Did:
+- Created `select-skill`, a deterministic selector that discovers installed project, global, and plugin skills; ranks them with explicit tie-breaks; returns confidence and alternates; and reports approval-risk flags independently.
+- Installed identical project and global copies for Claude Code and Codex, and updated both routing instruction files so Haiku-class and other small models use the selector when routing is unclear.
+- Added a standard-library-only helper and 12 fixture tests, including Anthony's exact small-model use case.
+State now:
+- All four installed copies pass the skill validator and match byte-for-byte; the 12-test suite and representative Word, Excel, UI, Vercel, GitHub CI, plugin, video/game, and unmatched-request matrix pass.
+- No application/runtime code, customer data, access, secrets, payment configuration, or production surface changed.
+Next / handoff to: Claude and Codex -> use `select-skill` for unclear, multi-domain, or small-model routing; Anthony -> approve push and PR only if this local branch should be published.
+Blocked on Anthony: Push/open-PR authorization only; no merge or deployment is prepared or authorized.
+
+### [CHECK-IN] Codex - 2026-07-18 07:24 EDT - small-model skill selector
+Picking up: Build a deterministic shared skill selector that remains reliable for Claude Haiku-class and smaller Codex models.
+State I see:
+- The existing global `skill-router` is a short static map intended for broad ambiguous requests but has no scoring, confidence threshold, catalog discovery, or machine-checkable output.
+- The published AMMA repo has 17 shared project skill entrypoints plus additional global Claude/Codex skills, so a static map will drift.
+Plan:
+- Add one compact selection contract plus a standard-library catalog/scoring helper; install identical project and global copies for Claude and Codex; route both agent instruction files through it; validate with representative fixtures.
+Boundaries:
+- Isolated branch and local commit only. Do not push, open a PR, merge, deploy, alter application code, install a paid service, or change access.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:11 EDT - video and game visual toolkit published
 Did:
 - Received Anthony's explicit approval to push, open the PR, and publish the prepared toolkit.
