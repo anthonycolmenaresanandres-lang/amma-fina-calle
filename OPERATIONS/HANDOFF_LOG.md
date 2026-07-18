@@ -488,3 +488,17 @@ Authority:
 - Anthony explicitly approved the policy change, documentation update, merge, commit, and production deployment.
 Boundaries:
 - Keep the first-login reset wall. Do not store any owner-selected private password. Do not complete Checkout, attach a payment method, create a paid subscription, charge, invoice, transfer, or payout.
+
+### [CHECK-OUT] Codex - 2026-07-18 05:49 EDT - four-character owner policy published and verified
+Did:
+- Changed owner sign-in and mandatory first-login reset validation from eight to four characters while preserving the common-password check for the owner's private replacement password.
+- Set Colattao's one-time temporary credential to the approved `1234` standard, preserved `owner_password_reset_required: true`, and verified both facts with a scoped readback without retaining credential buffers.
+- Updated `OPERATIONS/OWNER_PORTAL_ACCESS_SOP.md` and the Drive document `AMMA Ventures / Fina Calle — Company Operating SOP Manual`; readback confirms the temporary standard and 4-128 private-password policy, with the prior 16-character and 8-128 instructions removed.
+- Passed targeted ESLint, `tsc --noEmit`, and the full Next.js production build.
+- Fast-forwarded the approved branch to `main` and pushed production commit `b4c65e9`. Vercel deployment `dpl_TRxC6yt6fmzVZDb3H4oLRzkV4nG1` is Ready and aliased to `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app`.
+- Verified the live Colattao reset wall displays the four-character minimum and exposes no Checkout, billing, Zelle, menu, or request controls.
+State now:
+- Colattao remains stopped at mandatory private-password creation. `1234` is temporary-only and the owner must choose a private 4-128 character password before portal access opens.
+- No paid Checkout, payment method, subscription, charge, invoice, transfer, payout, or customer email occurred.
+Next / handoff to: Colattao owner -> use the preserved reset screen to create the private password; Codex -> verify tenant isolation and billing status afterward, stopping before paid Checkout unless Anthony separately approves it.
+Blocked on owner: final private-password entry belongs to the owner and is intentionally not performed or stored by AMMA.
