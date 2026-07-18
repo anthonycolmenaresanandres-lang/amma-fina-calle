@@ -445,3 +445,16 @@ State I see:
 - Colattao billing migrations through `0014` are already applied, the production Stripe webhook exists, and all required private Production variable names are present.
 Boundaries:
 - Merge and publish only the reviewed 10-commit release. Do not complete Checkout, attach a payment method, create a paid subscription, charge, invoice, transfer, payout, or send customer email.
+
+### [CHECK-OUT] Codex - 2026-07-18 05:09 EDT - owner portal published; owner account provisioning blocked
+Did:
+- Passed targeted ESLint, `tsc --noEmit`, and the full Next.js production build before release.
+- Fast-forwarded the validated owner/password-reset and Colattao billing activation release to `main` and pushed approved production commit `cf49b96` through the repository's `ALLOW_MAIN_PUSH=1` guard.
+- Verified Vercel deployment `dpl_3bFGWq4jtC73uVC5mU52MyHLVtxi` is Ready and aliased to `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app`.
+- Verified `GET /owner/colattao` and `GET /` return HTTP 200; the production owner page renders the Colattao email/password form. An unsigned `POST /api/stripe/webhook` correctly returns HTTP 400, and the deployment has no runtime error logs.
+- Reverified Stripe destination `we_1TuTiEKCddGPSxQCBkOTSP4j` is Active for the production URL, listens to 7 events, and reports 0% error rate; no signing secret was revealed.
+- Stopped at the first broken owner-flow boundary: Supabase Authentication has no user for `colattao@hotmail.com`, so authenticated password-reset, owner billing-card, Customer Portal, and non-completing Checkout-session verification cannot proceed yet.
+State now:
+- The latest approved application release is live. No Checkout was completed and no payment method, paid subscription, charge, invoice, transfer, payout, or customer email was created.
+Next / handoff to: Anthony -> explicitly approve provisioning `colattao@hotmail.com` with the temporary first-login credential and forced-reset metadata; Codex -> provision only that owner, verify login/reset and portal billing state, then stop before paid Checkout completion.
+Blocked on Anthony: owner-account provisioning/reset changes live access and was not included in the merge/deploy/verification approval.
