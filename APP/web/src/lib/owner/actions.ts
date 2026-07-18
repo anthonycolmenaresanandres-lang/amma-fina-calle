@@ -81,8 +81,8 @@ export async function signInOwnerWithPassword(
   if (!email || !email.includes("@") || email.length > 300) {
     return { ok: false, message: "Enter a valid email address." };
   }
-  if (password.length < 8 || password.length > 200) {
-    return { ok: false, message: "Enter your password (at least 8 characters)." };
+  if (password.length < 4 || password.length > 200) {
+    return { ok: false, message: "Enter your password (at least 4 characters)." };
   }
 
   const supabase = await createServerSupabase();
@@ -135,8 +135,8 @@ export async function completeRequiredPasswordReset(
   const normalized = password.toLowerCase();
   const emailName = context.email.split("@", 1)[0]?.toLowerCase() ?? "";
 
-  if (password.length < 8 || password.length > 128) {
-    return { ok: false, message: "Choose a password between 8 and 128 characters." };
+  if (password.length < 4 || password.length > 128) {
+    return { ok: false, message: "Choose a password between 4 and 128 characters." };
   }
   if (password !== confirmation) {
     return { ok: false, message: "The two passwords do not match." };

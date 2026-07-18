@@ -66,7 +66,7 @@ export default function OwnerLogin({
             name="password"
             type={showPassword ? "text" : "password"}
             required
-            minLength={8}
+            minLength={4}
             maxLength={200}
             autoComplete="current-password"
             placeholder="Your password"

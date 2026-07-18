@@ -2,8 +2,8 @@
 
 ## Standard
 
-- Never use `1234`, a shared password, or a reusable client password.
-- Generate a unique temporary password of at least 16 characters for each owner account.
+- Use `1234` as the standard one-time temporary password for a newly provisioned owner account.
+- Require immediate replacement before exposing any portal data or actions; never use `1234` as the owner's private password.
 - Mark every newly provisioned Supabase Auth user with app metadata:
 
 ```json
@@ -16,7 +16,7 @@
 - Send the utilization email without the temporary password.
 - Deliver the temporary password separately by a verified phone call, text, or another agreed channel.
 - On first sign-in, the portal must show the password-reset screen and withhold dashboard data and actions.
-- The owner selects a private password of 8–128 characters. AMMA does not request or record it.
+- The owner selects a private password of 4–128 characters. AMMA does not request or record it.
 
 ## Activation checklist
 
@@ -34,7 +34,7 @@
 
 ### 3. Authentication provisioning
 
-1. Generate a unique 16-character temporary password. Never reuse it or place it in chat, email, source control, tickets, documents, logs, or the client ledger.
+1. Set the standard one-time temporary password to `1234`. Never place an owner-selected private password in chat, email, source control, tickets, documents, logs, or the client ledger.
 2. Create or update the Supabase Auth user server-side and confirm the exact email.
 3. Set `owner_password_reset_required: true` in `app_metadata`.
 4. Read the user and metadata back; PASS requires the exact email, confirmed user state, and reset flag `true`.
@@ -49,7 +49,7 @@
 
 1. Sign in once with the temporary credential through the exact customer URL.
 2. PASS requires the first-sign-in reset screen to appear while menu, billing, Zelle, change-request, and Checkout controls remain unavailable.
-3. Do not enter the owner’s private replacement password. Deliver the temporary credential separately through a verified channel and have the owner choose the final 8–128 character password.
+3. Do not enter the owner’s private replacement password. Deliver the temporary credential separately through a verified channel and have the owner choose the final 4–128 character password.
 4. After the owner completes the reset, verify the dashboard opens, the reset flag is false, and the client sees only their restaurant.
 
 ### 6. Billing and handoff
@@ -61,4 +61,4 @@
 
 ## Stop conditions
 
-Stop if the identity, email, restaurant assignment, allowlist, Auth user, reset metadata, server-side configuration, plan, price, charge date, or approval is uncertain. Stop at the first failed readback. Never send a credential to an unverified recipient, weaken access for convenience, or continue into payment after an authentication failure.
+Stop if the identity, email, restaurant assignment, allowlist, Auth user, reset metadata, server-side configuration, plan, price, charge date, or approval is uncertain. Stop at the first failed readback. Never send a credential to an unverified recipient, bypass the mandatory reset wall, or continue into payment after an authentication failure.

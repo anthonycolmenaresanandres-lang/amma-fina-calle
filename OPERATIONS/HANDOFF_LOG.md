@@ -481,3 +481,10 @@ State now:
 - The 8-character permanent-password policy is validated locally but is not merged or deployed; production still requires 12 characters until Anthony separately approves release.
 Next / handoff to: Colattao owner -> choose the private password in the preserved reset session; Anthony -> approve merging and deploying `codex/owner-password-policy-8` if the 8-character policy should become live; Codex -> after owner reset, verify dashboard isolation and billing state, stopping before paid Checkout.
 Blocked on Anthony / owner: private password completion belongs to the owner; production merge/deploy of the reduced password minimum requires explicit approval.
+
+### [CHECK-IN] Codex - 2026-07-18 05:39 EDT - approved four-character owner policy release
+Picking up: Replace the prepared eight-character owner-password minimum with four characters, standardize new-owner temporary access to `1234` with mandatory immediate reset, update the repository and Drive SOPs, merge to `main`, deploy, and verify production.
+Authority:
+- Anthony explicitly approved the policy change, documentation update, merge, commit, and production deployment.
+Boundaries:
+- Keep the first-login reset wall. Do not store any owner-selected private password. Do not complete Checkout, attach a payment method, create a paid subscription, charge, invoice, transfer, or payout.
