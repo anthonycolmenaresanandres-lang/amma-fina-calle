@@ -435,3 +435,13 @@ State now:
 - No Preview or Development credential was added. No Stripe customer, subscription, invoice, charge, payout, deployment, merge, or production publish occurred.
 Next / handoff to: Anthony -> choose when to rotate the temporary live key; Codex -> after a replacement is stored, perform the separately approved production redeploy and billing smoke test.
 Blocked on Anthony: deployment remains a separate action; this step completed only secure Production variable storage.
+
+### [CHECK-IN] Codex - 2026-07-18 05:01 EDT - approved owner-portal production release
+Picking up: Merge the validated 10-commit owner first-login and Colattao billing activation release to `main`, publish it to the canonical `amma-fina-calle` Vercel production project, and verify the owner/login/billing/webhook story without completing paid Checkout.
+Authority:
+- Anthony explicitly approved: `Approve merge, production redeploy, and verification—stop before completing Colattao’s paid Checkout`.
+State I see:
+- Clean branch `codex/owner-first-login-reset` is 10 commits ahead and 0 behind `origin/main`; GitHub CLI is authenticated.
+- Colattao billing migrations through `0014` are already applied, the production Stripe webhook exists, and all required private Production variable names are present.
+Boundaries:
+- Merge and publish only the reviewed 10-commit release. Do not complete Checkout, attach a payment method, create a paid subscription, charge, invoice, transfer, payout, or send customer email.
