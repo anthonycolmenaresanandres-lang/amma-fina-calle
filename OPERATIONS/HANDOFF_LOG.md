@@ -698,3 +698,18 @@ State now:
 - PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
 Next / handoff to: Anthony -> review the simplified mobile capture and PR #164; Codex -> revise if requested or merge only after explicit production approval.
 Blocked: production merge remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - premium mobile sequential-art treatment
+Picking up: Present each simplified mobile landing section as a cool graphic-novel page without novelty-comic styling.
+State I see:
+- PR #164 is open, mergeable, and green at head `5b35e1e`; production remains unchanged at `44cb3c1`.
+- The 390 px layout is already centered and reduced to essential headlines, actions, imagery, and terse lists.
+Design lock:
+- Reuse the existing Ink, Porcelain, Paper, Gold, and Sapphire palette; keep Bodoni as the art voice, Geist for interface text, and mono only for meaningful 01-06 sequencing.
+- Treat the six sections as a splash page, proof crop, four-panel system page, storyboard process page, three-panel control page, and final splash.
+- Create the graphic-novel character with thick ink gutters, controlled crops, subtle halftone/registration texture, asymmetric frames, and restrained page marks—not speech bubbles, novelty fonts, or sound effects.
+Boundaries:
+- Mobile-only visual treatment; preserve the simplified copy, desktop composition, exact destinations, `/conquest`, owner/customer/menu routes, authentication, APIs, billing, data, games, and production.
+- Verify locally and on PR #164; do not merge or publish production without Anthony's explicit approval.
+Next:
+- Add semantic page sequencing, implement the six distinct mobile compositions, then run visual, accessibility, lint, build, and preview verification.

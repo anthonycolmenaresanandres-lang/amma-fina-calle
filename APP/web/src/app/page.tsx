@@ -118,6 +118,7 @@ export default function Home() {
 
       <section
         id="main-content"
+        data-page="01"
         className={styles.hero}
         aria-labelledby="hero-heading"
         tabIndex={-1}
@@ -207,7 +208,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="work" className={styles.proof} aria-labelledby="proof-heading">
+      <section
+        id="work"
+        data-page="02"
+        className={styles.proof}
+        aria-labelledby="proof-heading"
+      >
         <div className={styles.sectionShell}>
           <div className={styles.proofIntro}>
             <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
@@ -276,7 +282,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="systems" className={styles.systems} aria-labelledby="systems-heading">
+      <section
+        id="systems"
+        data-page="03"
+        className={styles.systems}
+        aria-labelledby="systems-heading"
+      >
         <div className={styles.sectionShellNarrow}>
           <div className={styles.sectionHeadingRow}>
             <div>
@@ -333,7 +344,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="process" className={styles.process} aria-labelledby="process-heading">
+      <section
+        id="process"
+        data-page="04"
+        className={styles.process}
+        aria-labelledby="process-heading"
+      >
         <div className={styles.sectionShellNarrow}>
           <div className={styles.processIntro}>
             <p className={styles.eyebrowDark}>A disciplined build sequence</p>
@@ -361,7 +377,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.control} aria-labelledby="control-heading">
+      <section
+        data-page="05"
+        className={styles.control}
+        aria-labelledby="control-heading"
+      >
         <div className={styles.controlGrid}>
           <div className={styles.controlIntro}>
             <p className={styles.eyebrow}>Calm by design</p>
@@ -391,7 +411,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.close} aria-labelledby="close-heading">
+      <section
+        data-page="06"
+        className={styles.close}
+        aria-labelledby="close-heading"
+      >
         <div className={styles.closeGlow} aria-hidden="true" />
         <p className={styles.eyebrow}>Your next operating layer</p>
         <h2 id="close-heading">
