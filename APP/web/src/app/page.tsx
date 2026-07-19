@@ -1,142 +1,402 @@
+import Image from "next/image";
 import Link from "next/link";
-import Aurora from "@/components/reactbits/Aurora";
-import ShinyText from "@/components/reactbits/ShinyText";
+import { Bodoni_Moda } from "next/font/google";
+import styles from "./page.module.css";
+
+const display = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-fc-display",
+});
 
 const companyNav = [
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Systems", href: "/systems" },
-  { label: "R&D", href: "/rd" },
+  { label: "Work", href: "#work" },
+  { label: "Systems", href: "#systems" },
+  { label: "Process", href: "#process" },
   { label: "Contact", href: "/contact" },
 ];
 
-const landingLinks = [
+const systems = [
   {
-    label: "Case Studies",
-    href: "/case-studies",
-    position:
-      "md:left-0 md:top-[46%] md:w-[clamp(13rem,20vw,18rem)]",
-    line: "md:-right-16 md:top-1/2 md:h-px md:w-14",
+    code: "S-01",
+    name: "Digital storefronts",
+    body: "A premium public presence that makes the offer clear, earns trust, and gives every visitor one useful next step.",
+    detail: "Identity · proof · conversion",
   },
   {
-    label: "Play Conquest Demo",
+    code: "S-02",
+    name: "QR menu experiences",
+    body: "Fast, branded menu journeys designed for the phone already in your customer’s hand.",
+    detail: "Menu · discovery · updates",
+  },
+  {
+    code: "S-03",
+    name: "Branded engagement",
+    body: "Optional game and campaign layers that turn a routine visit into something customers remember.",
+    detail: "Play · campaigns · return visits",
     href: "/conquest",
-    position:
-      "md:right-0 md:top-[46%] md:w-[clamp(13rem,20vw,18rem)]",
-    line: "md:-left-16 md:top-1/2 md:h-px md:w-14",
   },
   {
-    label: "Request a Build",
-    href: "/request-update",
-    position:
-      "md:bottom-[3%] md:left-1/2 md:w-[clamp(13rem,22vw,19rem)] md:-translate-x-1/2",
-    line: "md:-top-14 md:left-1/2 md:h-12 md:w-px md:-translate-x-1/2",
+    code: "S-04",
+    name: "Owner operations",
+    body: "Structured request and owner tools that keep approvals, updates, and business control close to the people responsible.",
+    detail: "Control · review · support",
+  },
+];
+
+const process = [
+  {
+    step: "01",
+    title: "Read the business",
+    body: "We start with the customer, the bottleneck, and the action the business needs people to take.",
+  },
+  {
+    step: "02",
+    title: "Shape the system",
+    body: "Identity, content, interface, and modules are designed as one coherent operating experience.",
+  },
+  {
+    step: "03",
+    title: "Approve the truth",
+    body: "You review the visual direction and every public-facing business claim before production.",
+  },
+  {
+    step: "04",
+    title: "Build and verify",
+    body: "We implement, test the real customer journey, and prepare the launch with clear ownership.",
+  },
+];
+
+const controls = [
+  {
+    title: "Human approval",
+    body: "Nothing factual ships on assumption. Your review is part of the system.",
+  },
+  {
+    title: "Owner control",
+    body: "The business stays understandable and manageable after the launch moment.",
+  },
+  {
+    title: "POS separation",
+    body: "Fina Calle billing and owner tools stay separate from your point-of-sale system.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="relative isolate flex min-h-screen overflow-hidden bg-[#030405] text-[#f4f6f7]">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_45%,rgba(180,188,194,0.16),transparent_31%),radial-gradient(circle_at_50%_78%,rgba(149,118,66,0.1),transparent_26%),linear-gradient(145deg,#020303_0%,#0d1012_45%,#050607_100%)]" />
-      <Aurora className="absolute inset-0 -z-[25]" />
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.026)_1px,transparent_1px)] bg-[size:72px_72px]" />
-      <div className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-[#dfe5e8]/10 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black to-transparent" />
+    <main className={`${styles.page} ${display.variable}`}>
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <Link href="/" className={styles.brand} aria-label="Fina Calle OS home">
+            <span className={styles.brandSignal} aria-hidden="true" />
+            <span>
+              <strong>Fina Calle OS</strong>
+              <small>by AMMA Ventures</small>
+            </span>
+          </Link>
 
-      <section className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
-        <header className="flex items-center justify-between text-[0.66rem] uppercase tracking-[0.32em] text-[#cfd6da]/58">
-          <span>AMMA Ventures</span>
-          <nav
-            aria-label="Company sections"
-            className="hidden items-center gap-4 tracking-[0.22em] sm:flex"
-          >
+          <nav className={styles.nav} aria-label="Main navigation">
             {companyNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="transition hover:text-[#f4f6f7]"
-              >
+              <Link key={item.href} href={item.href}>
                 {item.label}
               </Link>
             ))}
           </nav>
-          <span className="sm:hidden">Virginia Beach</span>
-        </header>
 
-        <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
-          <div className="mb-5">
-            <p className="text-xs uppercase tracking-[0.58em] text-[#f1f4f5] sm:text-sm">
-              <ShinyText>FINA CALLE OS</ShinyText>
+          <Link href="/request-update" className={styles.headerCta}>
+            Start a build
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+      </header>
+
+      <section className={styles.hero} aria-labelledby="hero-heading">
+        <div className={styles.heroAtmosphere} aria-hidden="true" />
+        <div className={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <span /> Virginia Beach · Digital systems for local business
             </p>
-            <p className="mt-3 text-[0.68rem] uppercase tracking-[0.34em] text-[#aeb7bd]">
-              by AMMA Ventures
+            <h1 id="hero-heading" className={styles.heroTitle}>
+              A sharper digital presence.
+              <em>A calmer business behind it.</em>
+            </h1>
+            <p className={styles.heroBody}>
+              Fina Calle builds premium storefronts, branded customer
+              experiences, and owner tools as one connected system for
+              ambitious local businesses.
             </p>
-          </div>
 
-          <div className="relative w-full max-w-6xl">
-            <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-px w-[82%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#c9d0d5]/24 to-transparent md:block" />
-            <div className="pointer-events-none absolute left-1/2 top-[42%] hidden h-[54%] w-px -translate-x-1/2 bg-gradient-to-b from-[#c9d0d5]/20 via-[#d8b36d]/14 to-transparent md:block" />
-
-            <div className="relative mx-auto flex min-h-[46vh] w-full max-w-[min(92vw,39rem)] items-center justify-center md:min-h-[62vh] md:max-w-[min(54vw,43rem)]">
-              <div className="rb-glow-pulse absolute inset-[10%] rounded-full bg-[#d9e1e5]/10 blur-3xl" />
-              <img
-                src="/assets/fina-calle-os-logo.png"
-                alt="Fina Calle OS mechanical logo"
-                className="relative z-10 block h-auto w-full select-none drop-shadow-[0_34px_70px_rgba(0,0,0,0.7)]"
-                loading="eager"
-              />
+            <div className={styles.heroActions}>
+              <Link href="/request-update" className={styles.primaryAction}>
+                Plan your build <span aria-hidden="true">↗</span>
+              </Link>
+              <Link href="#work" className={styles.secondaryAction}>
+                See verified work <span aria-hidden="true">↓</span>
+              </Link>
             </div>
 
-            <nav
-              aria-label="Primary landing links"
-              className="mt-7 grid gap-3 sm:grid-cols-3 md:pointer-events-none md:absolute md:inset-0 md:mt-0 md:block"
-            >
-              {landingLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`group relative inline-flex min-h-12 items-center justify-center rounded-full border border-[#cfd6da]/34 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#eef2f4] shadow-[0_18px_44px_-28px_rgba(255,255,255,0.34)] backdrop-blur transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88 md:pointer-events-auto md:absolute ${link.position}`}
-                >
-                  <span
-                    className={`pointer-events-none absolute hidden bg-gradient-to-r from-transparent via-[#d8b36d]/50 to-transparent md:block ${link.line}`}
-                  />
-                  <span className="mr-3 h-1.5 w-1.5 rounded-full bg-[#d8b36d] shadow-[0_0_16px_rgba(216,179,109,0.72)]" />
-                  {link.label}
-                </a>
-              ))}
-            </nav>
+            <p className={styles.assurance}>
+              <span>Human-approved</span>
+              <span>Modular by design</span>
+              <span>Separate from your POS</span>
+            </p>
           </div>
 
-          <p className="mt-8 max-w-2xl text-balance text-sm leading-6 text-[#c8d0d4] sm:text-base">
-            Digital storefronts, branded experiences, and interactive systems
-            for local business.
-          </p>
+          <div className={styles.instrumentWrap}>
+            <div className={styles.instrument}>
+              <div className={styles.instrumentTicks} aria-hidden="true" />
+              <div className={styles.instrumentOrbit} aria-hidden="true">
+                <span />
+              </div>
+              <div className={styles.instrumentGlow} aria-hidden="true" />
+              <Image
+                src="/assets/fina-calle-os-logo.png"
+                alt="Fina Calle OS mechanical identity"
+                width={1536}
+                height={1536}
+                className={styles.instrumentLogo}
+                loading="eager"
+                sizes="(max-width: 900px) 82vw, 44vw"
+              />
+
+              <div className={`${styles.coreLabel} ${styles.coreLabelOne}`}>
+                <small>Customer layer</small>
+                <strong>Storefront</strong>
+              </div>
+              <div className={`${styles.coreLabel} ${styles.coreLabelTwo}`}>
+                <small>Brand layer</small>
+                <strong>Experience</strong>
+              </div>
+              <div className={`${styles.coreLabel} ${styles.coreLabelThree}`}>
+                <small>Owner layer</small>
+                <strong>Operations</strong>
+              </div>
+            </div>
+
+            <div className={styles.coreStatus}>
+              <span className={styles.liveSignal} aria-hidden="true" />
+              <p>
+                <small>Operating principle</small>
+                <strong>One engine. Swappable parts.</strong>
+              </p>
+              <span className={styles.statusCode}>FC / 001</span>
+            </div>
+          </div>
         </div>
 
-        <footer className="mx-auto w-full max-w-3xl pb-1 text-center">
-          <div className="relative overflow-hidden rounded-[2rem] border border-[#cfd6da]/22 bg-[#050607]/78 px-5 py-6 shadow-[0_24px_70px_-46px_rgba(255,255,255,0.42)] backdrop-blur sm:px-8">
-            <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#d8b36d]/70 to-transparent" />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(216,179,109,0.12),transparent_38%)]" />
-            <p className="relative text-[0.62rem] font-semibold uppercase tracking-[0.34em] text-[#d8b36d]/86">
-              Built in Virginia Beach
-            </p>
-            <p className="relative mt-3 text-balance text-lg font-semibold leading-tight text-[#f4f6f7] sm:text-2xl">
-              Still scrolling? Good. The strategy worked.
-            </p>
-            <p className="relative mx-auto mt-3 max-w-xl text-balance text-sm leading-6 text-[#c8d0d4] sm:text-base">
-              Now follow Fina Calle before this footer starts charging rent.
-            </p>
-            <a
-              href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative mt-5 inline-flex min-h-12 items-center justify-center rounded-full border border-[#d8b36d]/70 bg-[#f4f6f7] px-6 text-xs font-black uppercase tracking-[0.18em] text-[#050607] shadow-[0_18px_46px_-28px_rgba(216,179,109,0.95)] transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d8b36d]"
-              aria-label="Open Fina Calle on Instagram"
-            >
-              @fina_calle
-            </a>
-          </div>
-        </footer>
+        <div className={styles.heroFoot} aria-label="Fina Calle principles">
+          <span>Local-business systems</span>
+          <span>Built in Virginia Beach</span>
+          <span>Design first · approval always</span>
+        </div>
       </section>
+
+      <section id="work" className={styles.proof} aria-labelledby="proof-heading">
+        <div className={styles.sectionShell}>
+          <div className={styles.proofIntro}>
+            <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
+            <h2 id="proof-heading" className={styles.sectionTitleDark}>
+              One neighborhood brand.
+              <em>Three connected digital moments.</em>
+            </h2>
+            <p className={styles.proofBody}>
+              Colattao is the working reference for the Fina Calle approach: a
+              customer-facing QR menu, a branded game layer, and owner tools
+              designed as parts of the same system.
+            </p>
+
+            <div className={styles.proofLinks}>
+              <Link href="/case-studies/colattao" className={styles.darkAction}>
+                Explore the case study <span aria-hidden="true">↗</span>
+              </Link>
+              <a
+                href="https://colattao-cafe-rush.vercel.app/menu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.textLinkDark}
+              >
+                Visit the public menu <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <div className={styles.proofVisual}>
+            <div className={styles.proofImageWrap}>
+              <Image
+                src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
+                alt="Coffee and pastry presentation used in the Colattao digital menu"
+                fill
+                className={styles.proofImage}
+                sizes="(max-width: 900px) 92vw, 43vw"
+              />
+              <div className={styles.proofStamp}>
+                <span>Flagship</span>
+                <strong>Colattao</strong>
+                <small>Virginia Beach</small>
+              </div>
+            </div>
+
+            <dl className={styles.proofFacts}>
+              <div>
+                <dt>Customer</dt>
+                <dd>QR menu</dd>
+              </div>
+              <div>
+                <dt>Engagement</dt>
+                <dd>Branded play</dd>
+              </div>
+              <div>
+                <dt>Owner</dt>
+                <dd>Operating tools</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section id="systems" className={styles.systems} aria-labelledby="systems-heading">
+        <div className={styles.sectionShellNarrow}>
+          <div className={styles.sectionHeadingRow}>
+            <div>
+              <p className={styles.eyebrow}>The operating system</p>
+              <h2 id="systems-heading" className={styles.sectionTitle}>
+                Start with what moves the business.
+                <em>Add only what earns its place.</em>
+              </h2>
+            </div>
+            <p>
+              A frozen engine with swappable parts keeps each build distinctive
+              without rebuilding the company from zero.
+            </p>
+          </div>
+
+          <div className={styles.systemRows}>
+            {systems.map((system) => {
+              const content = (
+                <>
+                  <span className={styles.systemCode}>{system.code}</span>
+                  <h3>{system.name}</h3>
+                  <p>{system.body}</p>
+                  <span className={styles.systemDetail}>{system.detail}</span>
+                  {system.href ? (
+                    <span className={styles.systemArrow} aria-hidden="true">↗</span>
+                  ) : null}
+                </>
+              );
+
+              return system.href ? (
+                <Link key={system.code} href={system.href} className={styles.systemRow}>
+                  {content}
+                </Link>
+              ) : (
+                <article key={system.code} className={styles.systemRow}>
+                  {content}
+                </article>
+              );
+            })}
+          </div>
+
+          <div className={styles.researchNote}>
+            <span>Research bench</span>
+            <p>
+              New AI and operations concepts stay clearly labeled until they
+              are tested, verified, and ready for a real business.
+            </p>
+            <Link href="/rd">View R&amp;D ↗</Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className={styles.process} aria-labelledby="process-heading">
+        <div className={styles.sectionShellNarrow}>
+          <div className={styles.processIntro}>
+            <p className={styles.eyebrowDark}>A disciplined build sequence</p>
+            <h2 id="process-heading" className={styles.sectionTitleDark}>
+              Intricate where it matters.
+              <em>Calm where you operate it.</em>
+            </h2>
+          </div>
+
+          <ol className={styles.processList}>
+            {process.map((item) => (
+              <li key={item.step}>
+                <span>{item.step}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className={styles.control} aria-labelledby="control-heading">
+        <div className={styles.controlGrid}>
+          <div className={styles.controlIntro}>
+            <p className={styles.eyebrow}>Calm by design</p>
+            <h2 id="control-heading" className={styles.sectionTitle}>
+              Powerful systems should make the owner feel
+              <em>more in control, not less.</em>
+            </h2>
+          </div>
+
+          <div className={styles.controlList}>
+            {controls.map((item) => (
+              <article key={item.title}>
+                <span aria-hidden="true">✓</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.close} aria-labelledby="close-heading">
+        <div className={styles.closeGlow} aria-hidden="true" />
+        <p className={styles.eyebrow}>Your next operating layer</p>
+        <h2 id="close-heading">
+          Ready for something that feels
+          <em>built, not bought?</em>
+        </h2>
+        <p className={styles.closeBody}>
+          Tell us the business, the bottleneck, and the outcome. We’ll reply
+          with a clear direction, the right package, and a fixed quote.
+        </p>
+        <div className={styles.closeActions}>
+          <Link href="/request-update" className={styles.primaryActionLight}>
+            Plan my build <span aria-hidden="true">↗</span>
+          </Link>
+          <Link href="/contact" className={styles.secondaryAction}>
+            Contact AMMA Ventures
+          </Link>
+        </div>
+      </section>
+
+      <footer className={styles.footer}>
+        <div>
+          <p>Still scrolling? Good. The strategy worked.</p>
+          <a
+            href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Fina Calle on Instagram"
+          >
+            @fina_calle ↗
+          </a>
+        </div>
+        <div className={styles.footerMeta}>
+          <span>AMMA Ventures LLC DBA Fina Calle</span>
+          <span>Virginia Beach, Virginia</span>
+          <span>© 2026</span>
+        </div>
+      </footer>
     </main>
   );
 }

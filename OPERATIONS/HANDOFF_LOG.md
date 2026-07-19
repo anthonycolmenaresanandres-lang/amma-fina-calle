@@ -615,3 +615,41 @@ State now:
 - No paid Checkout, payment method, subscription, charge, invoice, transfer, payout, or customer email occurred.
 Next / handoff to: Colattao owner -> use the preserved reset screen to create the private password; Codex -> verify tenant isolation and billing status afterward, stopping before paid Checkout unless Anthony separately approves it.
 Blocked on owner: final private-password entry belongs to the owner and is intentionally not performed or stored by AMMA.
+
+### [CHECK-IN] Codex - 2026-07-19 - premium public landing-page redesign
+Picking up: Redesign only the public Fina Calle root landing page around Anthony's approved direction: expensive, intricate, innovative, calm, secure, and edgy without becoming scary.
+State I see:
+- Canonical `origin/main` is `422352b`; the existing `codex/ui-debox-20260718` branch remains separate and untouched.
+- Work is isolated in `C:\Dev\amma\worktrees\landing-premium-20260719` on `codex/landing-premium-20260719`.
+- The live homepage is healthy but prioritizes a central logo portal over a plain offer, verified proof, and a focused conversion path.
+Boundaries:
+- Public root page, root metadata, one social-preview asset, and operations records only.
+- Preserve `/conquest`, owner/customer/menu routes, billing, authentication, APIs, data, secrets, and production.
+- Local verification, push, and review PR are authorized; stop before merge, deploy, or publish.
+Next:
+- Implement the proof-led editorial homepage, run targeted lint and one production build, then open a review PR.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium public landing-page redesign ready for review
+Did:
+- Rebuilt the public root page into a proof-led editorial experience with a plain business outcome, focused build CTA, precision-core Fina Calle identity, Colattao proof, modular systems, the real four-step approval process, owner-control principles, and the preserved `@fina_calle` footer.
+- Added isolated responsive/reduced-motion styling in `APP/web/src/app/page.module.css`; protected owner, customer, menu, API, billing, authentication, data, and game surfaces were not changed.
+- Generated one bespoke social-share card with exact text, saved it as `APP/web/public/og.png`, and added canonical Open Graph and X metadata.
+- Passed targeted ESLint for the root page and layout, the full Next.js production build (25 static pages), local HTTP 200 checks for `/` and `/og.png`, content checks for headline, proof, primary CTA, and OG metadata, plus the GitHub `web` and Vercel preview checks.
+- Committed implementation as `9423794`, pushed `codex/landing-premium-20260719`, and opened PR #163: https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/163
+State now:
+- Review PR is open and its automatic Vercel preview is green. No merge, production deployment, Sites hosting, or production publish occurred.
+- The separate `codex/ui-debox-20260718` branch remains untouched.
+Next / handoff to: Anthony -> review PR #163 and explicitly approve or reject the production merge; Codex -> merge/deploy only after that approval.
+Blocked: production remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - Anthony-approved landing production release
+Picking up: Merge PR #163 and verify the approved Fina Calle public landing redesign on `finacalleos.com`.
+Authority:
+- Anthony explicitly said `go for it i want to see it live`, approving the merge and production release.
+State I see:
+- PR #163 is open, MERGEABLE/CLEAN into `main`, with head `813bb3e` before this release-log update.
+- GitHub `web`, Vercel, and Vercel Preview Comments checks are green; the landing worktree is clean.
+Boundaries:
+- Merge only PR #163, wait for its exact production deployment, and verify the public root, OG image/metadata, and representative protected routes read-only.
+- No new product code, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work.
+- Stop at the first merge, deployment, alias, live-content, protected-route, or runtime-log divergence.
