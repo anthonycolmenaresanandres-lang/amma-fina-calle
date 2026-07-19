@@ -771,3 +771,18 @@ Boundaries:
 - Commit this release check-in, merge only PR #164, identify its exact squash commit, and verify the corresponding Vercel production deployment, public root, and representative protected routes read-only.
 - No new product code, visual edits, secrets, access, data, billing, migrations, email, purchases, or unrelated work.
 - Stop at the first head, check, mergeability, deployment, alias, live-content, protected-route, or runtime-log divergence.
+
+### [CHECK-OUT] Codex - 2026-07-19 - mobile sequential-art production release verified
+Did:
+- Squash-merged PR #164 under GitHub's exact-head lock after the release check-in's GitHub `web`, Vercel, and Vercel Preview Comments checks passed.
+- Confirmed the resulting `main` commit is `d13642bace53c62843d566b32e75213474480cbf` and its exact Vercel production deployment `dpl_CWhCCin6H7LLakjei6cscasojhRj` reached Ready.
+- Confirmed `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` resolve to that exact production deployment.
+- Verified the live root returns HTTP 200 and contains the approved `01`-`06` sequence, short mobile headline, canonical URL, build CTA, and exact Instagram destination.
+- Verified a real 390 x 844 production-browser render with no horizontal overflow, all visible links at least 44 px tall, the expected heading hierarchy, and no page errors.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all return HTTP 200. The exact deployment's error-level runtime log query returned no entries.
+State now:
+- The approved higher-contrast mobile sequential-art landing page is live at `https://finacalleos.com/`.
+- The browser console contains only the existing non-blocking Vercel Web Analytics-not-enabled notice; no product remediation was required.
+- This post-merge closeout is recorded on the release-log branch only so verification logging does not trigger another production deployment.
+Next / handoff to: Anthony -> review the live mobile page; Codex -> make any future refinement through a new review PR.
+Blocked: none.
