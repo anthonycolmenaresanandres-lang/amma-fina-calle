@@ -667,3 +667,18 @@ State now:
 - No secrets, access, data, billing, migrations, email, purchases, or protected-route behavior were changed.
 Next / handoff to: Anthony -> review the live page; Codex -> make any requested refinements through a new review PR.
 Blocked: none.
+
+### [CHECK-IN] Codex - 2026-07-19 - mobile landing simplification
+Picking up: Simplify the Fina Calle public landing page specifically for phones with substantially fewer words and a centered, calm composition.
+State I see:
+- Production `main` is `44cb3c1`; the premium landing page is live and verified.
+- PR #164 is open from `codex/landing-release-log-20260719`, contains only the release closeout, and is the clean review surface for this follow-up.
+Design plan:
+- Keep the mechanical Fina Calle identity as the one signature visual.
+- Give each phone section one short headline and only its primary action, image, or terse list.
+- Hide supporting paragraphs, system codes/details, proof facts, secondary links, research copy, and footer metadata at the mobile breakpoint; center the remaining composition.
+Boundaries:
+- Preserve desktop content, exact destinations including `@fina_calle`, and all `/conquest`, owner, customer, menu, authentication, API, billing, data, and game behavior.
+- Verify locally and on the PR preview; do not merge or publish production without Anthony's approval.
+Next:
+- Implement the mobile-only copy and layout pass, then run targeted lint, build, guideline review, and desktop/mobile preview verification.

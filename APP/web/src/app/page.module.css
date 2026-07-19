@@ -23,6 +23,34 @@
   outline-offset: 5px;
 }
 
+.page :where(a, button) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(200, 170, 114, 0.18);
+}
+
+.mobileCopy {
+  display: none;
+}
+
+.skipLink {
+  position: fixed;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--fc-porcelain);
+  color: var(--fc-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transform: translateY(-180%);
+  transition: transform 160ms ease;
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+}
+
 .header {
   position: absolute;
   inset: 0 0 auto;
@@ -1145,27 +1173,120 @@ a.systemRow:hover {
 }
 
 @media (max-width: 680px) {
-  .headerCta {
-    min-height: 2.45rem;
-    padding-inline: 0.9rem;
+  .desktopCopy {
+    display: none;
   }
 
-  .headerCta span {
+  .mobileCopy {
+    display: inline;
+  }
+
+  .heroTitle > .mobileCopy,
+  .sectionTitle > .mobileCopy,
+  .sectionTitleDark > .mobileCopy,
+  .close h2 > .mobileCopy {
+    display: block;
+  }
+
+  .heroTitle,
+  .sectionTitle,
+  .sectionTitleDark,
+  .close h2 {
+    text-wrap: balance;
+  }
+
+  .header {
+    padding: calc(0.9rem + env(safe-area-inset-top)) 1rem 0.9rem;
+  }
+
+  .header::after {
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .brand {
+    gap: 0.55rem;
+  }
+
+  .brand strong {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .headerCta {
+    min-height: 2.45rem;
+    padding-inline: 1rem;
+  }
+
+  .headerCta > span:last-child {
     display: none;
   }
 
   .hero {
-    padding-top: 7.6rem;
+    padding: calc(6.8rem + env(safe-area-inset-top)) 1rem 3.75rem;
+    scroll-margin-top: 1rem;
+    text-align: center;
   }
 
-  .heroBody {
-    font-size: 0.96rem;
+  .heroGrid {
+    gap: 1.5rem;
+  }
+
+  .heroCopy {
+    display: flex;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .eyebrow,
+  .eyebrowDark,
+  .heroBody,
+  .assurance,
+  .heroFoot,
+  .coreStatus,
+  .proofBody,
+  .textLinkDark,
+  .proofStamp,
+  .proofFacts,
+  .sectionHeadingRow > p,
+  .systemCode,
+  .systemRow p,
+  .systemDetail,
+  .systemArrow,
+  .researchNote,
+  .processList p,
+  .controlList p,
+  .closeBody,
+  .heroActions .secondaryAction,
+  .closeActions .secondaryAction,
+  .footer .footerMeta {
+    display: none;
+  }
+
+  .heroTitle {
+    max-width: 8.5ch;
+    margin-inline: auto;
+    font-size: clamp(3.25rem, 16vw, 4.35rem);
+    line-height: 0.88;
+  }
+
+  .heroTitle em {
+    margin-top: 0.16em;
+    font-size: 0.72em;
   }
 
   .heroActions,
   .closeActions {
+    width: min(100%, 19rem);
     align-items: stretch;
     flex-direction: column;
+    margin: 1.8rem auto 0;
   }
 
   .primaryAction,
@@ -1175,79 +1296,148 @@ a.systemRow:hover {
   }
 
   .instrumentWrap {
-    width: calc(100% + 1.5rem);
-    margin-left: -0.75rem;
+    width: min(82vw, 22rem);
+    margin: 1.5rem auto 0;
   }
 
   .coreLabel {
     display: none;
   }
 
-  .coreStatus {
-    right: 5%;
-    left: 5%;
+  .instrumentLogo {
+    width: 82%;
   }
 
-  .heroFoot {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.55rem;
+  .proof,
+  .systems,
+  .process,
+  .control {
+    padding: 5rem 1.1rem;
   }
 
   .sectionTitle,
   .sectionTitleDark {
-    font-size: clamp(3rem, 14vw, 4.7rem);
+    max-width: 9.5ch;
+    margin: 0 auto;
+    font-size: clamp(2.9rem, 14vw, 4rem);
+    line-height: 0.92;
+  }
+
+  .proofIntro,
+  .sectionHeadingRow,
+  .processIntro,
+  .controlIntro {
+    text-align: center;
+  }
+
+  .proof .sectionShell,
+  .process .sectionShellNarrow,
+  .controlGrid {
+    gap: 2.75rem;
+  }
+
+  .proofLinks {
+    justify-content: center;
+    margin-top: 1.8rem;
   }
 
   .proofImageWrap {
-    min-height: 29rem;
+    min-height: 25rem;
   }
 
-  .proofFacts {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    margin: -1.25rem 0 0 1rem;
+  .sectionHeadingRow {
+    display: block;
   }
 
-  .proofFacts div + div {
-    padding-left: 0.65rem;
+  .systemRows {
+    margin-top: 2.6rem;
   }
 
   .systemRow {
-    grid-template-columns: 3rem 1fr;
-    gap: 0.65rem 1rem;
-    padding: 1.6rem 0;
+    display: flex;
+    min-height: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 1.35rem 0;
+    text-align: center;
   }
 
   .systemRow h3 {
-    font-size: 1.8rem;
+    font-size: 1.65rem;
   }
 
-  .systemRow p {
-    grid-column: 2;
-  }
-
-  .researchNote {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+  a.systemRow h3 {
+    color: var(--fc-gold);
   }
 
   .processList li {
-    grid-template-columns: 2.6rem 1fr;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.4rem 0;
+    text-align: center;
+  }
+
+  .processList h3 {
+    font-size: 1.7rem;
+  }
+
+  .controlGrid {
+    text-align: center;
+  }
+
+  .controlIntro .sectionTitle {
+    max-width: 8ch;
+  }
+
+  .controlList article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 1.25rem 0;
+    text-align: center;
+  }
+
+  .controlList h3 {
+    font-size: 1rem;
+  }
+
+  .close {
+    min-height: auto;
+    padding: 6rem 1.1rem;
   }
 
   .close::before {
     inset: 16% -40%;
   }
 
-  .footer > div,
-  .footerMeta {
-    align-items: flex-start;
+  .close h2 {
+    max-width: 8ch;
+    margin: 0 auto;
+    font-size: clamp(3.25rem, 16vw, 4.5rem);
+    line-height: 0.88;
+  }
+
+  .footer {
+    padding: 2.6rem 1.1rem calc(2.6rem + env(safe-area-inset-bottom));
+    text-align: center;
+  }
+
+  .footer > div {
+    align-items: center;
     flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
+    gap: 1.15rem;
+  }
+
+  .footer > div:first-child {
+    padding-bottom: 0;
+  }
+
+  .footer p {
+    font-size: 1.55rem;
   }
 }
 
