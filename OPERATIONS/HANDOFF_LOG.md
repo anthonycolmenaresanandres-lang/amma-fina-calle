@@ -641,3 +641,15 @@ State now:
 - The separate `codex/ui-debox-20260718` branch remains untouched.
 Next / handoff to: Anthony -> review PR #163 and explicitly approve or reject the production merge; Codex -> merge/deploy only after that approval.
 Blocked: production remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - Anthony-approved landing production release
+Picking up: Merge PR #163 and verify the approved Fina Calle public landing redesign on `finacalleos.com`.
+Authority:
+- Anthony explicitly said `go for it i want to see it live`, approving the merge and production release.
+State I see:
+- PR #163 is open, MERGEABLE/CLEAN into `main`, with head `813bb3e` before this release-log update.
+- GitHub `web`, Vercel, and Vercel Preview Comments checks are green; the landing worktree is clean.
+Boundaries:
+- Merge only PR #163, wait for its exact production deployment, and verify the public root, OG image/metadata, and representative protected routes read-only.
+- No new product code, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work.
+- Stop at the first merge, deployment, alias, live-content, protected-route, or runtime-log divergence.
