@@ -113,9 +113,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** At phone width, every section is centered and reduced to a short headline, primary action, image, or terse list; supporting paragraphs, codes, facts, secondary links, and metadata are removed from the mobile flow; desktop content remains intact; accessibility, targeted lint, production build, and responsive preview checks pass.
 **STOP:** Stop before production merge or if the change alters desktop hierarchy, protected routes, link destinations, or verified business claims.
 
-## [ ] 7 - Present each mobile section as a premium graphic-novel page
+## [x] 7 - Present each mobile section as a premium graphic-novel page
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** MEDIUM
 **Authority:** Anthony explicitly requested on 2026-07-19 that each mobile section read like a cool comic-book page while avoiding a lame or novelty-comic result.
 **Branch base:** Continue `codex/landing-release-log-20260719` from verified PR #164 head `5b35e1e`; production remains `44cb3c1`.

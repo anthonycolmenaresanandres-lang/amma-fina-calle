@@ -713,3 +713,19 @@ Boundaries:
 - Verify locally and on PR #164; do not merge or publish production without Anthony's explicit approval.
 Next:
 - Add semantic page sequencing, implement the six distinct mobile compositions, then run visual, accessibility, lint, build, and preview verification.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium mobile sequential art ready for review
+Did:
+- Added a meaningful `01`-`06` sequence to the six mobile landing sections without adding visible copy or changing desktop presentation.
+- Built distinct phone compositions: full-height opening and closing splash pages, a halftone proof crop with an offset gold ink frame, a rotated four-panel systems grid, a `1-2-1` storyboard process page, and three clipped control panels.
+- Used thick ink gutters, angular gold folio tabs, subtle registration/halftone texture, and restrained Sapphire/Gold offsets; added no speech bubbles, novelty fonts, sound effects, new claims, or new assets.
+- Preserved the centered short-form hierarchy, exact CTA and Instagram destinations, `/conquest`, owner/customer/menu routes, authentication, APIs, billing, data, games, and all protected behavior.
+Verification:
+- Real-browser renders passed at 390 x 844, 320 x 720, and 1440 x 1000 with zero page errors; the accessibility tree retains the same heading hierarchy and interactive actions while folio/texture elements remain decorative.
+- The current Vercel Web Interface Guidelines audit found no blocking issue; targeted ESLint, TypeScript, and the complete 25-static-page production build passed.
+- Implementation commit `2d42628` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass.
+- Vercel preview `dpl_Ap1mJmFvLwwW5HTzBXt7uUR1Hm3A` is Ready, authenticated retrieval contains the deployed `data-page="01"` through `data-page="06"` sequence, and its error-level runtime log query returned no entries.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the graphic-novel mobile capture and PR #164; Codex -> refine if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
