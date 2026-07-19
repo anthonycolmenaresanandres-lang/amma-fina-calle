@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Bodoni_Moda } from "next/font/google";
+import { LandingMotion } from "./LandingMotion";
 import styles from "./page.module.css";
 
 const display = Bodoni_Moda({
@@ -86,7 +87,8 @@ const controls = [
 
 export default function Home() {
   return (
-    <main className={`${styles.page} ${display.variable}`}>
+    <main className={`${styles.page} ${display.variable}`} data-motion-root>
+      <LandingMotion />
       <Link href="#main-content" className={styles.skipLink}>
         Skip to content
       </Link>
@@ -124,8 +126,9 @@ export default function Home() {
         tabIndex={-1}
       >
         <div className={styles.heroAtmosphere} aria-hidden="true" />
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.heroGrid}>
-          <div className={styles.heroCopy}>
+          <div className={styles.heroCopy} data-motion-reveal="copy">
             <p className={styles.eyebrow}>
               <span /> Virginia Beach · Digital systems for local business
             </p>
@@ -159,7 +162,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.instrumentWrap}>
+          <div className={styles.instrumentWrap} data-motion-reveal="art">
             <div className={styles.instrument}>
               <div className={styles.instrumentTicks} aria-hidden="true" />
               <div className={styles.instrumentOrbit} aria-hidden="true">
@@ -214,8 +217,9 @@ export default function Home() {
         className={styles.proof}
         aria-labelledby="proof-heading"
       >
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionShell}>
-          <div className={styles.proofIntro}>
+          <div className={styles.proofIntro} data-motion-reveal="copy">
             <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
             <h2 id="proof-heading" className={styles.sectionTitleDark}>
               <span className={styles.desktopCopy}>One neighborhood brand.</span>
@@ -248,7 +252,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={styles.proofVisual}>
+          <div className={styles.proofVisual} data-motion-reveal="panel">
             <div className={styles.proofImageWrap}>
               <Image
                 src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
@@ -288,8 +292,9 @@ export default function Home() {
         className={styles.systems}
         aria-labelledby="systems-heading"
       >
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionShellNarrow}>
-          <div className={styles.sectionHeadingRow}>
+          <div className={styles.sectionHeadingRow} data-motion-reveal="copy">
             <div>
               <p className={styles.eyebrow}>The operating system</p>
               <h2 id="systems-heading" className={styles.sectionTitle}>
@@ -322,11 +327,20 @@ export default function Home() {
               );
 
               return system.href ? (
-                <Link key={system.code} href={system.href} className={styles.systemRow}>
+                <Link
+                  key={system.code}
+                  href={system.href}
+                  className={styles.systemRow}
+                  data-motion-reveal="panel"
+                >
                   {content}
                 </Link>
               ) : (
-                <article key={system.code} className={styles.systemRow}>
+                <article
+                  key={system.code}
+                  className={styles.systemRow}
+                  data-motion-reveal="panel"
+                >
                   {content}
                 </article>
               );
@@ -350,8 +364,9 @@ export default function Home() {
         className={styles.process}
         aria-labelledby="process-heading"
       >
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionShellNarrow}>
-          <div className={styles.processIntro}>
+          <div className={styles.processIntro} data-motion-reveal="copy">
             <p className={styles.eyebrowDark}>A disciplined build sequence</p>
             <h2 id="process-heading" className={styles.sectionTitleDark}>
               <span className={styles.desktopCopy}>Intricate where it matters.</span>
@@ -365,7 +380,7 @@ export default function Home() {
 
           <ol className={styles.processList}>
             {process.map((item) => (
-              <li key={item.step}>
+              <li key={item.step} data-motion-reveal="panel">
                 <span>{item.step}</span>
                 <div>
                   <h3>{item.title}</h3>
@@ -382,8 +397,9 @@ export default function Home() {
         className={styles.control}
         aria-labelledby="control-heading"
       >
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.controlGrid}>
-          <div className={styles.controlIntro}>
+          <div className={styles.controlIntro} data-motion-reveal="copy">
             <p className={styles.eyebrow}>Calm by design</p>
             <h2 id="control-heading" className={styles.sectionTitle}>
               <span className={styles.desktopCopy}>
@@ -399,7 +415,7 @@ export default function Home() {
 
           <div className={styles.controlList}>
             {controls.map((item) => (
-              <article key={item.title}>
+              <article key={item.title} data-motion-reveal="panel">
                 <span aria-hidden="true">✓</span>
                 <div>
                   <h3>{item.title}</h3>
@@ -417,8 +433,11 @@ export default function Home() {
         aria-labelledby="close-heading"
       >
         <div className={styles.closeGlow} aria-hidden="true" />
-        <p className={styles.eyebrow}>Your next operating layer</p>
-        <h2 id="close-heading">
+        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
+        <p className={styles.eyebrow} data-motion-reveal="copy">
+          Your next operating layer
+        </p>
+        <h2 id="close-heading" data-motion-reveal="copy">
           <span className={styles.desktopCopy}>Ready for something that feels</span>
           <span className={styles.mobileCopy}>Built for</span>
           <em>
@@ -426,11 +445,11 @@ export default function Home() {
             <span className={styles.mobileCopy}>your business.</span>
           </em>
         </h2>
-        <p className={styles.closeBody}>
+        <p className={styles.closeBody} data-motion-reveal="panel">
           Tell us the business, the bottleneck, and the outcome. We’ll reply
           with a clear direction, the right package, and a fixed quote.
         </p>
-        <div className={styles.closeActions}>
+        <div className={styles.closeActions} data-motion-reveal="action">
           <Link href="/request-update" className={styles.primaryActionLight}>
             Plan my build <span aria-hidden="true">↗</span>
           </Link>

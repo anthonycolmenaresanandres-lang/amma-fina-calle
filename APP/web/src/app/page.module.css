@@ -28,6 +28,42 @@
   -webkit-tap-highlight-color: rgba(200, 170, 114, 0.18);
 }
 
+.registrationPlate {
+  position: absolute;
+  inset: clamp(1rem, 2.4vw, 2.5rem);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.registrationPlate::before,
+.registrationPlate::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid currentColor;
+  content: "";
+  opacity: 0.1;
+  clip-path: polygon(0 4%, 92% 0, 100% 94%, 6% 100%);
+}
+
+.registrationPlate::before {
+  color: var(--fc-gold);
+}
+
+.registrationPlate::after {
+  color: var(--fc-sapphire);
+  clip-path: polygon(5% 0, 100% 5%, 95% 100%, 0 91%);
+}
+
+.heroGrid,
+.heroFoot,
+.proof .sectionShell,
+.systems .sectionShellNarrow,
+.process .sectionShellNarrow,
+.controlGrid {
+  position: relative;
+  z-index: 1;
+}
+
 .mobileCopy {
   display: none;
 }
@@ -168,6 +204,7 @@
 .hero {
   position: relative;
   isolation: isolate;
+  overflow: clip;
   min-height: 100svh;
   padding: clamp(8.5rem, 14vh, 11rem) clamp(1.25rem, 4vw, 4.5rem) 2rem;
   background:
@@ -583,6 +620,9 @@
 }
 
 .proof {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   background: var(--fc-paper);
   color: #111417;
   padding: clamp(5.5rem, 10vw, 10rem) clamp(1.25rem, 4vw, 4.5rem);
@@ -748,6 +788,8 @@
 
 .systems {
   position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding: clamp(6rem, 10vw, 10rem) clamp(1.25rem, 4vw, 4.5rem);
   background:
     radial-gradient(circle at 90% 10%, rgba(120, 174, 248, 0.09), transparent 27%),
@@ -861,6 +903,9 @@ a.systemRow:hover {
 }
 
 .process {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding: clamp(6rem, 10vw, 10rem) clamp(1.25rem, 4vw, 4.5rem);
   background: var(--fc-porcelain);
   color: #111417;
@@ -917,6 +962,8 @@ a.systemRow:hover {
 
 .control {
   position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding: clamp(6rem, 10vw, 9rem) clamp(1.25rem, 4vw, 4.5rem);
   background:
     radial-gradient(circle at 18% 50%, rgba(120, 174, 248, 0.1), transparent 30%),
@@ -999,6 +1046,11 @@ a.systemRow:hover {
   filter: blur(20px);
 }
 
+.close > :not(.closeGlow, .registrationPlate) {
+  position: relative;
+  z-index: 1;
+}
+
 .close h2 {
   max-width: 12ch;
   margin-top: 1.2rem;
@@ -1067,9 +1119,142 @@ a.systemRow:hover {
   text-transform: uppercase;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .page[data-motion="ready"] [data-motion-reveal] {
+    --motion-delay: 0ms;
+    --motion-x: 0;
+    --motion-y: 2rem;
+    --motion-scale: 0.985;
+
+    opacity: 0;
+    translate: var(--motion-x) var(--motion-y);
+    scale: var(--motion-scale);
+    transition:
+      opacity 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--motion-delay),
+      translate 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--motion-delay),
+      scale 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--motion-delay);
+    will-change: opacity, translate, scale;
+  }
+
+  .page[data-motion="ready"] [data-motion-reveal="copy"] {
+    --motion-x: -2.8rem;
+    --motion-y: 1.2rem;
+  }
+
+  .page[data-motion="ready"] [data-motion-reveal="art"] {
+    --motion-delay: 110ms;
+    --motion-x: 2.8rem;
+    --motion-y: -0.7rem;
+    --motion-scale: 0.955;
+  }
+
+  .page[data-motion="ready"] [data-motion-reveal="action"] {
+    --motion-delay: 180ms;
+    --motion-y: 1rem;
+    --motion-scale: 0.96;
+  }
+
+  .page[data-motion="ready"] [data-motion-reveal][data-motion-state="visible"] {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    will-change: auto;
+  }
+
+  .systemRows > [data-motion-reveal]:nth-child(2),
+  .processList > [data-motion-reveal]:nth-child(2),
+  .controlList > [data-motion-reveal]:nth-child(2) {
+    --motion-delay: 70ms;
+  }
+
+  .systemRows > [data-motion-reveal]:nth-child(3),
+  .processList > [data-motion-reveal]:nth-child(3),
+  .controlList > [data-motion-reveal]:nth-child(3) {
+    --motion-delay: 140ms;
+  }
+
+  .systemRows > [data-motion-reveal]:nth-child(4),
+  .processList > [data-motion-reveal]:nth-child(4) {
+    --motion-delay: 210ms;
+  }
+
+  .page[data-motion="ready"] [data-motion-plate]::before,
+  .page[data-motion="ready"] [data-motion-plate]::after {
+    opacity: 0;
+    transition:
+      opacity 780ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .page[data-motion="ready"] [data-motion-plate]::before {
+    transform: translate3d(-1.35rem, 0.8rem, 0) rotate(-0.55deg);
+  }
+
+  .page[data-motion="ready"] [data-motion-plate]::after {
+    transform: translate3d(1.35rem, -0.8rem, 0) rotate(0.55deg);
+    transition-delay: 90ms;
+  }
+
+  .page[data-motion="ready"] [data-motion-plate][data-motion-state="visible"]::before,
+  .page[data-motion="ready"] [data-motion-plate][data-motion-state="visible"]::after {
+    opacity: 0.12;
+    transform: translate3d(0, 0, 0) rotate(0);
+    will-change: auto;
+  }
+
+  .instrument {
+    animation: crestInertia 9s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  .heroAtmosphere {
+    animation: atmosphereDrift 16s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+  }
+
+  .closeGlow {
+    animation: glowBreath 10s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+}
+
 @keyframes orbit {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes crestInertia {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-0.35deg);
+  }
+
+  50% {
+    transform: translate3d(0.35rem, -0.55rem, 0) rotate(0.45deg);
+  }
+}
+
+@keyframes atmosphereDrift {
+  from {
+    transform: translate3d(-0.7%, 0, 0) scale(1.015);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: translate3d(0.7%, -0.5%, 0) scale(1.035);
+    opacity: 1;
+  }
+}
+
+@keyframes glowBreath {
+  0%,
+  100% {
+    transform: scale(0.94) rotate(-1deg);
+    opacity: 0.66;
+  }
+
+  50% {
+    transform: scale(1.06) rotate(1deg);
+    opacity: 1;
   }
 }
 
@@ -1182,6 +1367,16 @@ a.systemRow:hover {
     --fc-muted: #b9c0c6;
     --fc-gold: #e7bc68;
     --fc-sapphire: #69a8ff;
+  }
+
+  .registrationPlate {
+    inset: 0.8rem 0.65rem 1.1rem;
+  }
+
+  .registrationPlate::before,
+  .registrationPlate::after {
+    border-width: 2px;
+    opacity: 0.16;
   }
 
   .desktopCopy {
@@ -1844,7 +2039,15 @@ a.systemRow:hover {
   }
 }
 
+@media (max-width: 680px) and (prefers-reduced-motion: no-preference) {
+  .page[data-motion="ready"] [data-motion-plate][data-motion-state="visible"]::before,
+  .page[data-motion="ready"] [data-motion-plate][data-motion-state="visible"]::after {
+    opacity: 0.2;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .instrument,
   .instrumentOrbit {
     animation: none;
   }
