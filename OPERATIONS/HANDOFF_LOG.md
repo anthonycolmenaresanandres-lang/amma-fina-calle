@@ -653,3 +653,17 @@ Boundaries:
 - Merge only PR #163, wait for its exact production deployment, and verify the public root, OG image/metadata, and representative protected routes read-only.
 - No new product code, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work.
 - Stop at the first merge, deployment, alias, live-content, protected-route, or runtime-log divergence.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium landing production release verified
+Did:
+- Squash-merged PR #163 into `main` as `44cb3c1d1c7159eb9bb7916984836960209eb17b` after the updated GitHub `web`, Vercel, and Vercel Preview Comments checks passed.
+- Confirmed Vercel production deployment `dpl_EegkbvZszEGUMsM1QHBRgGHs3xig` reached Ready and aliases `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` resolve to it.
+- Verified `https://finacalleos.com/` and `/og.png` return HTTP 200; live HTML contains the new headline, flagship proof, build CTA, canonical URL, and social-card metadata, while the old primary Conquest CTA is absent.
+- Verified desktop and 390 px mobile renders in a real browser with the full content hierarchy, no page exceptions, and no framework error overlay.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all remain reachable with HTTP 200 and no protected-route code was changed.
+- Queried the exact production deployment for error-level runtime logs after the live checks; none were found. The browser console contained only Vercel's non-blocking Web Analytics-not-enabled notice.
+State now:
+- The premium Fina Calle public landing page is live at `https://finacalleos.com/` and the approved release task is complete.
+- No secrets, access, data, billing, migrations, email, purchases, or protected-route behavior were changed.
+Next / handoff to: Anthony -> review the live page; Codex -> make any requested refinements through a new review PR.
+Blocked: none.
