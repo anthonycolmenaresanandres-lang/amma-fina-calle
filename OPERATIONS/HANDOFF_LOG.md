@@ -829,3 +829,18 @@ State now:
 - Product code is unchanged after local verification; this checkpoint is the only new diff.
 Next: Push this ops checkpoint, require all checks on the new exact head, resolve its Ready preview, then squash-merge PR #165 under an exact-head lock.
 Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-19 - fluid landing motion production release verified
+Did:
+- Revalidated PR #165 at final exact head `28a6e022386b7c28b6452bab1129d1f9c3f30680`; GitHub `web`, Vercel, and Vercel Preview Comments all passed.
+- Confirmed final immutable preview `dpl_2JqrKkDhK7AkZNwU1tKwbYv1RkMc` was Ready, contained every required motion/content marker, and had no error-level runtime entries.
+- Squash-merged PR #165 under GitHub's exact-head lock to production `main` commit `210b83b8a0aca5455ebaf812e4cdabea85300952`.
+- Confirmed that exact commit reached Ready Vercel production deployment `dpl_4e8MpBTvkCP1irx8hskp57rbjc8e`; `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` all resolve to it and return HTTP 200.
+- Verified the live 390 x 844 browser experience reveals all 26 rendered motion targets, preserves the complete `01`-`06` sequence and exact Instagram destination, maintains 44 px minimum visible link height, and has zero horizontal overflow or page errors.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all return HTTP 200. The exact production deployment's error-level runtime log query returned no entries.
+State now:
+- The distinctive fluid editorial motion system is live at `https://finacalleos.com/`.
+- The browser console contains only the existing non-blocking Vercel Web Analytics-not-enabled notice; no product remediation was required.
+- This post-merge closeout is recorded on the release-log branch only so verification logging does not trigger another production deployment.
+Next / handoff to: Anthony -> review the live movement and capture; Codex -> make any future refinement through a new review PR.
+Blocked: none.
