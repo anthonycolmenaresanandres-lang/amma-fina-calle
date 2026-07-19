@@ -136,9 +136,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** At 390 px and 320 px, headings and labels have stronger readable separation; all six sections carry richer ink/paper texture, harder panel depth, and clearer contrast without visual menace or clutter; desktop, focus/touch behavior, routes, lint, build, and preview checks pass.
 **STOP:** Stop before production merge or if texture competes with legibility, shadows clip content, small-phone layout overflows, desktop changes, or protected behavior changes.
 
-## [ ] 9 - Publish the approved mobile sequential-art refinement
+## [x] 9 - Publish the approved mobile sequential-art refinement
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** LOW
 **Authority:** Anthony explicitly approved the production merge on 2026-07-19 with: `merge pleae`.
 **Branch base:** Ready PR #164 from `codex/landing-release-log-20260719` into `main`; approved head is `07a8d09`, and production `main` is `44cb3c1` before release logging.
