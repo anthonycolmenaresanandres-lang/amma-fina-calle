@@ -817,3 +817,15 @@ Evidence:
 - `outputs/fina-calle-fluid-motion-desktop-hero.png`
 Next: Commit and push the verified branch, open the review PR, bind the preview to its exact head, then merge only if GitHub and Vercel remain green.
 Blocked: none.
+
+### [CHECKPOINT] Codex - 2026-07-19 - fluid motion preview verified
+Did:
+- Pushed implementation commit `54846c0d1280c61e4b11c6e79f973b05a685426c` and opened ready PR #165 against `main`.
+- Confirmed PR #165 is mergeable and its GitHub `web`, Vercel, and Vercel Preview Comments checks all pass.
+- Resolved the exact head to immutable Vercel preview `dpl_8hahzTgr9jrC7JoZnRZEpyRgLQqn`, status Ready at `https://amma-fina-calle-80un8u2x8.vercel.app`.
+- Authenticated retrieval from that exact deployment returns the approved mobile headline, `data-motion-root`, registration-plate and reveal hooks, the complete `01`-`06` sequence, and the exact Instagram destination.
+- The exact preview's error-level runtime log query returned no entries.
+State now:
+- Product code is unchanged after local verification; this checkpoint is the only new diff.
+Next: Push this ops checkpoint, require all checks on the new exact head, resolve its Ready preview, then squash-merge PR #165 under an exact-head lock.
+Blocked: none.
