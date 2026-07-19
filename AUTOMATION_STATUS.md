@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-19 (midday twice-daily check-in — one red build: VBFH Daily Run)
+**Last updated:** 2026-07-19 (evening twice-daily check-in — one red build still open: VBFH Daily Run)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
 **Caretaker model:** pinned to **Opus 4.8**. Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,8 +12,9 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-1. **⚠️ NEW — the VBFH Daily Run now fails every morning until you add 5 email secrets.** As of
-   2026-07-19 the daily run turns **red** (it succeeded all week until 2026-07-18). Nothing is broken in
+1. **⚠️ STILL OPEN — the VBFH Daily Run fails every run until you add 5 email secrets.** (Flagged at the
+   midday check-in; the scheduled run failed again at 13:25 UTC, so it's still red.) It succeeded all week
+   until 2026-07-18, then went **red** on 2026-07-19 and stays red every run. Nothing is broken in
    the content pipeline — the run finishes its work, then **deliberately fails because the results email
    can't be sent**: email was switched on in `master` but the SMTP secrets don't exist yet, so delivery is
    "skipped_config_missing" and that's treated as a hard failure. **Fix (one time):** vbfh-media-engine →
@@ -35,18 +36,18 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    I can't see Supabase state from here — skip this if you already ran it.
 6. **Optional:** say "clean the merged branches" to delete the growing set of provably-merged branches.
 
-_Resolved:_ **PR #163 (landing redesign) — you merged it to `main` at 12:46 UTC today** with a recorded
-release approval; the new Fina Calle landing page is live/deploying. **PR #29 (AI Request Desk)** remains
-closed (from 2026-07-18). Neither is a pending decision.
+_Resolved:_ **PR #164 (mobile landing framed as sequential art) — you merged it to `main` at 20:22 UTC
+today**; post-merge `CI — web` ✅, live/deploying. **PR #163 (landing redesign)** merged earlier today
+(12:46 UTC). **PR #29 (AI Request Desk)** remains closed (from 2026-07-18). None is a pending decision.
 
 ---
 
-## Build health (as of 2026-07-19, midday)
+## Build health (as of 2026-07-19, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — `CI — web` history clean; **#163 merged to main** (`44cb3c1`, landing redesign), its post-merge `CI — web` running at check time (green on the PR). voice-gateway CI path-filtered, last run ✅ |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master. **VBFH Daily Run ❌ (NEW)** — 2026-07-19 runs fail on the email-delivery gate (`EMAIL_ENABLED=true` in `master` + no SMTP secrets → `skipped_config_missing` → exit 1). Content pipeline itself completes (`needs_review`, 0 dated game rows — the known DaySmart standings-only limitation, not a regression). Fixed by adding secrets (item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `d13642b` (**#164 merged**, mobile landing sequential art); post-merge `CI — web` ✅. `#163` (landing redesign) also merged earlier today. voice-gateway CI path-filtered, last run ✅ |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (tip `25f5b83`, unchanged since midday). **VBFH Daily Run ❌ (still red)** — the 13:25 UTC scheduled run failed again on the email-delivery gate (`EMAIL_ENABLED=true` in `master` + no SMTP secrets → `skipped_config_missing` → exit 1). Content pipeline itself completes (`needs_review`, 0 dated game rows — the known DaySmart standings-only limitation, not a regression). Fixed by adding secrets (item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds) landing incrementally; nothing to build in cloud |
 
@@ -66,13 +67,14 @@ closed (from 2026-07-18). Neither is a pending decision.
 
 ## Merged / closed since last run
 
-- **amma #163 (Redesign the Fina Calle public landing page)** — **merged to `main` by Anthony**
-  (`44cb3c1`, 2026-07-19 12:46 UTC) with a recorded release approval. Post-merge `CI — web` running at
-  check time; passed on the PR before merge.
-- **vbfh master** received no new pushes this window (tip still `25f5b83`); the Daily Run flip to red is
-  from yesterday's already-merged `EMAIL_ENABLED=true` + "expose daily delivery failures" changes now
-  hitting a run with no SMTP secrets — not a new commit.
-- No merges in shadow-engineer-rpa or EscapeTheBomb-DC.
+- **amma #164 (Frame the Fina Calle mobile landing as sequential art)** — **merged to `main` by Anthony**
+  (`d13642b`, 2026-07-19 20:22 UTC). Public landing only (`src/app/page.tsx`); no guardrail routes.
+  Post-merge `CI — web` ✅ (`d13642b`). This is the only new merge since the midday run.
+- **vbfh master** received no new pushes this window (tip still `25f5b83`); the Daily Run stays red for
+  the same reason as midday — the already-merged `EMAIL_ENABLED=true` + "expose daily delivery failures"
+  changes hitting runs with no SMTP secrets, not a new commit.
+- No merges in shadow-engineer-rpa or EscapeTheBomb-DC (shadow last commit 2026-07-09; EscapeTheBomb #1
+  unchanged since 10:56 UTC, before the midday run).
 
 ## Branch cleanup — awaiting one-click approval
 
@@ -87,6 +89,16 @@ dashboard) and the current `claude/*` caretaker working branches.
 
 ## Run log
 
+- **2026-07-19 (evening) — Twice-daily check-in (Opus 4.8):** **VBFH Daily Run still red** — the 13:25
+  UTC scheduled run failed again on the same by-design email-delivery gate (no SMTP secrets); re-confirmed
+  the content pipeline itself completes (`needs_review`, 0 dated game rows = known DaySmart limitation).
+  Not silently patched (it's Anthony's deliberate "expose delivery failures" gate) — kept as the top
+  action. **New since midday: #164 merged to `main`** by Anthony (mobile landing sequential art, public
+  route only), post-merge `CI — web` ✅ — main healthy at `d13642b`. All other builds green (amma
+  `CI — web`/`voice-gateway`, vbfh `CI`). vbfh master, shadow, and EscapeTheBomb #1 unchanged since midday.
+  No new review comments needing a reply (the only open one is the 07-18 Codex P2 note on #161, still for
+  Anthony's call). No safe auto-mergeable PRs (all remaining are review-only/draft/guardrail). Refreshed
+  this dashboard. No branches deleted.
 - **2026-07-19 (midday) — Twice-daily check-in (Opus 4.8):** **One red build found: the VBFH Daily
   Run** (2026-07-19), diagnosed end-to-end — the content pipeline completes (`needs_review`, 0 dated game
   rows = the known DaySmart standings-only limitation), but the run deliberately exits 1 because
