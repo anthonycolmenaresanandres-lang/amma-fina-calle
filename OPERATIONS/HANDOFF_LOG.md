@@ -628,3 +628,16 @@ Boundaries:
 - Local verification, push, and review PR are authorized; stop before merge, deploy, or publish.
 Next:
 - Implement the proof-led editorial homepage, run targeted lint and one production build, then open a review PR.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium public landing-page redesign ready for review
+Did:
+- Rebuilt the public root page into a proof-led editorial experience with a plain business outcome, focused build CTA, precision-core Fina Calle identity, Colattao proof, modular systems, the real four-step approval process, owner-control principles, and the preserved `@fina_calle` footer.
+- Added isolated responsive/reduced-motion styling in `APP/web/src/app/page.module.css`; protected owner, customer, menu, API, billing, authentication, data, and game surfaces were not changed.
+- Generated one bespoke social-share card with exact text, saved it as `APP/web/public/og.png`, and added canonical Open Graph and X metadata.
+- Passed targeted ESLint for the root page and layout, the full Next.js production build (25 static pages), local HTTP 200 checks for `/` and `/og.png`, and content checks for headline, proof, primary CTA, and OG metadata.
+- Committed implementation as `9423794`, pushed `codex/landing-premium-20260719`, and opened PR #163: https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/163
+State now:
+- Review PR is open. No merge, Vercel deployment, Sites hosting, or production publish occurred.
+- The separate `codex/ui-debox-20260718` branch remains untouched.
+Next / handoff to: Anthony -> review PR #163 and explicitly approve or reject the production merge; Codex -> merge/deploy only after that approval.
+Blocked: production remains intentionally gated on Anthony's approval.
