@@ -699,6 +699,20 @@ State now:
 Next / handoff to: Anthony -> review the simplified mobile capture and PR #164; Codex -> revise if requested or merge only after explicit production approval.
 Blocked: production merge remains intentionally gated on Anthony's approval.
 
+### [CHECK-IN] Codex - 2026-07-19 - mobile comic contrast and texture refinement
+Picking up: Push the existing six-page mobile sequential-art treatment further with richer texture, stronger contrast around words, and more deliberate shadow depth.
+State I see:
+- PR #164 is open, mergeable, and green at head `45beceb`; production remains unchanged at `44cb3c1`.
+- The current 390 px and 320 px layouts already preserve centered short-form copy and the intentional 01-06 page sequence.
+Design lock:
+- Keep the words minimal; increase their separation with deeper Ink, brighter Paper/Gold/Sapphire, crisp offset text shadows, and stronger panel-to-page contrast.
+- Add layered halftone/crosshatch texture, heavier ink gutters, angular frames, and hard print-style offset shadows while keeping the tone premium, calm, secure, and readable.
+Boundaries:
+- Mobile CSS and task records only; preserve desktop composition, assets, copy, exact destinations, protected routes, authentication, APIs, billing, data, games, and production.
+- Verify locally and on PR #164; do not merge or publish production without Anthony's explicit approval.
+Next:
+- Apply the finish pass, then verify 390 px, 320 px, desktop, accessibility, lint, build, and the deployed PR preview.
+
 ### [CHECK-IN] Codex - 2026-07-19 - premium mobile sequential-art treatment
 Picking up: Present each simplified mobile landing section as a cool graphic-novel page without novelty-comic styling.
 State I see:
