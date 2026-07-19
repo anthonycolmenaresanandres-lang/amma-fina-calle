@@ -682,3 +682,19 @@ Boundaries:
 - Verify locally and on the PR preview; do not merge or publish production without Anthony's approval.
 Next:
 - Implement the mobile-only copy and layout pass, then run targeted lint, build, guideline review, and desktop/mobile preview verification.
+
+### [CHECK-OUT] Codex - 2026-07-19 - mobile landing simplification ready for review
+Did:
+- Added mobile-only short headlines and reduced every phone section to its primary action, image, or terse system/process/control list; all supporting paragraphs, secondary actions, codes, facts, research notes, and footer metadata are removed from the mobile flow.
+- Centered the complete 390 px composition, reduced vertical space, kept the mechanical Fina Calle identity as the signature visual, and preserved the premium desktop copy and composition.
+- Added a keyboard skip link, intentional touch feedback, safe-area padding, mobile text balancing, and priority loading for the hero identity image.
+- Preserved the exact `/request-update`, `/case-studies/colattao`, `/conquest`, public-menu, contact, and `@fina_calle` destinations; no protected route or behavior changed.
+Verification:
+- Targeted ESLint passed for `src/app/page.tsx`; the Next.js production build passed with TypeScript and all 25 static pages using the webpack builder because Turbopack rejects worktree dependency junctions outside its filesystem root.
+- Real-browser 390 px and 1440 px renders passed with the expected visible hierarchy and zero page errors; the current Vercel Web Interface Guidelines audit found no blocking issue in the changed page or stylesheet.
+- Commit `e93f031` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass; Vercel preview `dpl_FUTDAk1me2saNvZRuNrb9DQjfwJ1` is Ready and its error-level runtime log query returned no entries.
+- Anonymous access to the preview URL redirects to Vercel login as configured; authenticated Vercel CLI access succeeds without exposing or entering credentials.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the simplified mobile capture and PR #164; Codex -> revise if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
