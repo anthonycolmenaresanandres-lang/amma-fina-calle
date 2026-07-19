@@ -786,3 +786,34 @@ State now:
 - This post-merge closeout is recorded on the release-log branch only so verification logging does not trigger another production deployment.
 Next / handoff to: Anthony -> review the live mobile page; Codex -> make any future refinement through a new review PR.
 Blocked: none.
+
+### [CHECK-IN] Codex - 2026-07-19 - fluid landing motion and authorized release
+Picking up: Give the Fina Calle landing page a distinctive fluid motion system, recheck the complete experience, then push and merge only when every local and preview gate is satisfactory.
+Authority:
+- Anthony explicitly requested fluid, cool, unique movement and authorized push and merge after Codex is satisfied with the recheck.
+State I see:
+- Production `main` is `d13642b`; the higher-contrast six-page mobile comic treatment is live and verified.
+- Fresh branch `codex/landing-motion-20260719` starts from that production tree and carries only the prior release's ops closeout before this task.
+Design lock:
+- The signature is `registration lag`: restrained Gold and Sapphire print plates trail each Ink page frame, then resolve into alignment as the page enters view.
+- Use one orchestrated motion hierarchy: diagonal copy entrance, staggered panel placement, and slow mechanical-crest inertia. Preserve the existing palette, typography, copy, layout, and calm/secure tone.
+- Progressive enhancement only: the server-rendered page stays fully visible without JavaScript, animation uses transform/opacity, and reduced-motion users receive the complete static composition.
+Boundaries:
+- Root landing surface and operations records only; preserve every exact link and all protected routes, data, access, billing, authentication, APIs, games, and production behavior.
+- Stop before merge on any local, preview, accessibility, responsive, check, or deployment divergence.
+
+### [CHECKPOINT] Codex - 2026-07-19 - fluid landing motion locally verified
+Did:
+- Added a landing-only client controller that observes six page frames and reveals each visible copy, art, and panel once; the server-rendered page stays complete when scripts are blocked.
+- Added Fina Calle-specific Gold/Sapphire registration lag, diagonal editorial entrances, staggered panel timing, mechanical-crest inertia, and restrained atmosphere/glow motion using only visual compositor properties.
+- Verified real-browser renders at 1440 px, 390 px, and 320 px with zero horizontal overflow, all rendered motion targets revealed, correct `01`-`06` heading sequence, visible 2 px focus treatment, and 44 px minimum visible link height.
+- Verified the reduced-motion path exposes all 28 targets with no active animation; a scripts-blocked production render keeps the full mobile hero visible at opacity 1.
+- Passed targeted ESLint, `git diff --check`, the current Vercel interface-guideline audit, and the full Next 16.2.7 Webpack production build across all 40 listed routes.
+- Preserved the exact href/src set, including `/conquest` and the Fina Calle Instagram destination; no protected-route implementation changed.
+Evidence:
+- `outputs/fina-calle-fluid-motion-local.webm`
+- `outputs/fina-calle-fluid-motion-390-hero.png`
+- `outputs/fina-calle-fluid-motion-320.png`
+- `outputs/fina-calle-fluid-motion-desktop-hero.png`
+Next: Commit and push the verified branch, open the review PR, bind the preview to its exact head, then merge only if GitHub and Vercel remain green.
+Blocked: none.

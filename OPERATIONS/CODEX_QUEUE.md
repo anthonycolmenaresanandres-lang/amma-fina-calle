@@ -146,3 +146,15 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No new product code, visual changes, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work. Stop at the first branch, check, merge, deployment, alias, live-content, route, or runtime-log divergence.
 **PASS:** PR #164 is merged to `main`; its exact squash commit reaches a Ready Vercel production deployment; the root returns HTTP 200 and contains the approved 01-06 mobile sequence and short headline; `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao` remain reachable or auth-gated as expected; production logs show no release-time error.
 **STOP:** Stop and report before remediation if the approved head changes, checks fail, mergeability changes, Vercel does not reach Ready, the live alias points elsewhere, approved content is absent, or a protected route regresses.
+
+## [ ] 10 - Add fluid editorial motion and publish when verified
+
+**State:** IN PROGRESS
+**Codex effort:** HIGH
+**Authority:** Anthony explicitly requested on 2026-07-19: `great now give me a fluid movement make it really cool an unique and merge and pushe when satisfiy before rechecking our work`.
+**Branch base:** `codex/landing-motion-20260719`, created from production `main` at `d13642b`; the prior release closeout is carried forward as ops-only commit `54fc906`.
+**Scope:** Add a small landing-page-only motion controller, semantic reveal hooks in `APP/web/src/app/page.tsx`, motion styling in `APP/web/src/app/page.module.css`, and this task's operations records. Preserve all copy, assets, links, routes, metadata, data, and protected behavior.
+**Motion direction:** Use a Fina Calle-specific `registration lag`: Gold and Sapphire print plates briefly trail the Ink frame before aligning; pair it with diagonal headline reveals, staggered comic panels, and slow mechanical-crest inertia. Avoid bounce, generic fade-up repetition, scroll hijacking, or constant distracting motion.
+**Boundaries:** No `/conquest`, owner/customer/menu, authentication, API, billing, database, game, secret, access, email, purchase, or unrelated code changes. Production merge is authorized only after local and deployed-preview verification are fully satisfactory and every required check is green.
+**PASS:** Motion progressively enhances the static page, uses compositor-safe transform/opacity behavior, reveals each section and panel once, keeps focus and touch behavior intact, honors reduced motion with complete static content, causes no overflow or layout shift at 390 px, 320 px, or desktop, passes targeted lint/build and browser checks, reaches a Ready preview, merges under an exact-head lock, and passes exact-production verification.
+**STOP:** Stop before merge if motion hides content without JavaScript, becomes visually noisy or disorienting, harms readability/focus/touch behavior, clips supported widths, changes protected behavior, fails a check, or the preview differs from the approved local result.
