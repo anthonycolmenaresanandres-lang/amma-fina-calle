@@ -91,9 +91,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** The first viewport explains Fina Calle plainly and routes to a build request and verified work; Colattao proof and live modules are represented without future-feature claims; visual language is open/editorial, premium, calm, secure, and responsive; keyboard focus and reduced motion are respected; protected routes have no diff; targeted lint and the production build pass; a review PR is open.
 **STOP:** Stop before merge, Vercel deployment, Sites hosting, production publish, or any change to protected routes, data, access, billing, or secrets.
 
-## [ ] 5 - Publish the approved Fina Calle landing redesign
+## [x] 5 - Publish the approved Fina Calle landing redesign
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** LOW
 **Authority:** Anthony explicitly approved the live production release on 2026-07-19 with: `go for it i want to see it live`.
 **Branch base:** Ready PR #163 from `codex/landing-premium-20260719` into `main`; approved head before release logging was `813bb3e` and all GitHub/Vercel checks passed.
@@ -101,3 +101,48 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No additional product code, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work. Stop at the first deployment or live-content divergence.
 **PASS:** PR #163 is merged to `main`; the exact merged head reaches a Ready Vercel production deployment; the root and OG image return HTTP 200; live HTML contains the new headline, proof, CTA, canonical URL, and OG image; `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao` still return their expected reachable/auth-gated responses; production logs show no release-time error.
 **STOP:** Stop and report before any remediation if mergeability changes, checks fail, Vercel does not reach Ready, the live alias points elsewhere, new homepage content is absent, or a protected route regresses.
+
+## [x] 6 - Simplify and center the Fina Calle mobile landing page
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly requested on 2026-07-19 that the mobile site use way fewer words, centered composition, and a very simple presentation.
+**Branch base:** Continue `codex/landing-release-log-20260719` from production `main` at `44cb3c1`; PR #164 remains the single unmerged review surface.
+**Scope:** Mobile-only presentation and copy variants in `APP/web/src/app/page.tsx` and `APP/web/src/app/page.module.css`, plus this task's operations records. Preserve the premium desktop composition.
+**Boundaries:** No merge, production publish, protected-route edits, new assets, secrets, access, data, billing, migrations, email, purchases, or unrelated code.
+**PASS:** At phone width, every section is centered and reduced to a short headline, primary action, image, or terse list; supporting paragraphs, codes, facts, secondary links, and metadata are removed from the mobile flow; desktop content remains intact; accessibility, targeted lint, production build, and responsive preview checks pass.
+**STOP:** Stop before production merge or if the change alters desktop hierarchy, protected routes, link destinations, or verified business claims.
+
+## [x] 7 - Present each mobile section as a premium graphic-novel page
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly requested on 2026-07-19 that each mobile section read like a cool comic-book page while avoiding a lame or novelty-comic result.
+**Branch base:** Continue `codex/landing-release-log-20260719` from verified PR #164 head `5b35e1e`; production remains `44cb3c1`.
+**Scope:** Mobile-only sequential framing and layout in `APP/web/src/app/page.tsx` and `APP/web/src/app/page.module.css`, plus this task's operations records. Preserve the simplified mobile copy and premium desktop composition.
+**Boundaries:** No speech bubbles, novelty comic fonts, sound-effect graphics, new claims, new assets, merge, production publish, protected-route edits, secrets, access, data, billing, migrations, email, purchases, or unrelated code.
+**PASS:** The six phone sections read as an intentional 01-06 sequence with distinct splash, proof, module-grid, storyboard, control, and finale compositions; the graphic-novel character comes from gutters, crops, ink texture, and restrained page marks; mobile remains centered and concise; desktop, accessibility, links, routes, lint, build, and preview verification pass.
+**STOP:** Stop before production merge or if the treatment becomes harder to scan, clips content at supported phone widths, harms focus/touch behavior, alters desktop composition, or changes protected behavior.
+
+## [x] 8 - Deepen mobile comic texture, contrast, and shadow
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly requested on 2026-07-19: `More texture more comic more words contrast more contrast in general use shadowing please`.
+**Branch base:** Continue `codex/landing-release-log-20260719` from verified PR #164 head `45beceb`; production remains `44cb3c1`.
+**Scope:** Mobile-only finish work in `APP/web/src/app/page.module.css` plus this task's operations records. Preserve the short mobile copy, sequential 01-06 structure, desktop composition, and existing assets.
+**Interpretation:** Increase contrast around the words rather than adding more words: deepen Ink, brighten Paper/Gold/Sapphire, layer halftone and crosshatch texture, and use crisp offset shadows and heavier panel gutters.
+**Boundaries:** No new copy, speech bubbles, novelty comic fonts, sound effects, new assets, merge, production publish, protected-route edits, secrets, access, data, billing, migrations, email, purchases, or unrelated code.
+**PASS:** At 390 px and 320 px, headings and labels have stronger readable separation; all six sections carry richer ink/paper texture, harder panel depth, and clearer contrast without visual menace or clutter; desktop, focus/touch behavior, routes, lint, build, and preview checks pass.
+**STOP:** Stop before production merge or if texture competes with legibility, shadows clip content, small-phone layout overflows, desktop changes, or protected behavior changes.
+
+## [ ] 9 - Publish the approved mobile sequential-art refinement
+
+**State:** IN PROGRESS
+**Codex effort:** LOW
+**Authority:** Anthony explicitly approved the production merge on 2026-07-19 with: `merge pleae`.
+**Branch base:** Ready PR #164 from `codex/landing-release-log-20260719` into `main`; approved head is `07a8d09`, and production `main` is `44cb3c1` before release logging.
+**Scope:** Commit this release check-in, squash-merge only PR #164, wait for the exact resulting `main` revision to reach Vercel production, then verify the public root and representative protected routes read-only.
+**Boundaries:** No new product code, visual changes, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work. Stop at the first branch, check, merge, deployment, alias, live-content, route, or runtime-log divergence.
+**PASS:** PR #164 is merged to `main`; its exact squash commit reaches a Ready Vercel production deployment; the root returns HTTP 200 and contains the approved 01-06 mobile sequence and short headline; `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao` remain reachable or auth-gated as expected; production logs show no release-time error.
+**STOP:** Stop and report before remediation if the approved head changes, checks fail, mergeability changes, Vercel does not reach Ready, the live alias points elsewhere, approved content is absent, or a protected route regresses.

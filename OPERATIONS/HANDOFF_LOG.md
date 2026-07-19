@@ -653,3 +653,121 @@ Boundaries:
 - Merge only PR #163, wait for its exact production deployment, and verify the public root, OG image/metadata, and representative protected routes read-only.
 - No new product code, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work.
 - Stop at the first merge, deployment, alias, live-content, protected-route, or runtime-log divergence.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium landing production release verified
+Did:
+- Squash-merged PR #163 into `main` as `44cb3c1d1c7159eb9bb7916984836960209eb17b` after the updated GitHub `web`, Vercel, and Vercel Preview Comments checks passed.
+- Confirmed Vercel production deployment `dpl_EegkbvZszEGUMsM1QHBRgGHs3xig` reached Ready and aliases `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` resolve to it.
+- Verified `https://finacalleos.com/` and `/og.png` return HTTP 200; live HTML contains the new headline, flagship proof, build CTA, canonical URL, and social-card metadata, while the old primary Conquest CTA is absent.
+- Verified desktop and 390 px mobile renders in a real browser with the full content hierarchy, no page exceptions, and no framework error overlay.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all remain reachable with HTTP 200 and no protected-route code was changed.
+- Queried the exact production deployment for error-level runtime logs after the live checks; none were found. The browser console contained only Vercel's non-blocking Web Analytics-not-enabled notice.
+State now:
+- The premium Fina Calle public landing page is live at `https://finacalleos.com/` and the approved release task is complete.
+- No secrets, access, data, billing, migrations, email, purchases, or protected-route behavior were changed.
+Next / handoff to: Anthony -> review the live page; Codex -> make any requested refinements through a new review PR.
+Blocked: none.
+
+### [CHECK-IN] Codex - 2026-07-19 - mobile landing simplification
+Picking up: Simplify the Fina Calle public landing page specifically for phones with substantially fewer words and a centered, calm composition.
+State I see:
+- Production `main` is `44cb3c1`; the premium landing page is live and verified.
+- PR #164 is open from `codex/landing-release-log-20260719`, contains only the release closeout, and is the clean review surface for this follow-up.
+Design plan:
+- Keep the mechanical Fina Calle identity as the one signature visual.
+- Give each phone section one short headline and only its primary action, image, or terse list.
+- Hide supporting paragraphs, system codes/details, proof facts, secondary links, research copy, and footer metadata at the mobile breakpoint; center the remaining composition.
+Boundaries:
+- Preserve desktop content, exact destinations including `@fina_calle`, and all `/conquest`, owner, customer, menu, authentication, API, billing, data, and game behavior.
+- Verify locally and on the PR preview; do not merge or publish production without Anthony's approval.
+Next:
+- Implement the mobile-only copy and layout pass, then run targeted lint, build, guideline review, and desktop/mobile preview verification.
+
+### [CHECK-OUT] Codex - 2026-07-19 - mobile landing simplification ready for review
+Did:
+- Added mobile-only short headlines and reduced every phone section to its primary action, image, or terse system/process/control list; all supporting paragraphs, secondary actions, codes, facts, research notes, and footer metadata are removed from the mobile flow.
+- Centered the complete 390 px composition, reduced vertical space, kept the mechanical Fina Calle identity as the signature visual, and preserved the premium desktop copy and composition.
+- Added a keyboard skip link, intentional touch feedback, safe-area padding, mobile text balancing, and priority loading for the hero identity image.
+- Preserved the exact `/request-update`, `/case-studies/colattao`, `/conquest`, public-menu, contact, and `@fina_calle` destinations; no protected route or behavior changed.
+Verification:
+- Targeted ESLint passed for `src/app/page.tsx`; the Next.js production build passed with TypeScript and all 25 static pages using the webpack builder because Turbopack rejects worktree dependency junctions outside its filesystem root.
+- Real-browser 390 px and 1440 px renders passed with the expected visible hierarchy and zero page errors; the current Vercel Web Interface Guidelines audit found no blocking issue in the changed page or stylesheet.
+- Commit `e93f031` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass; Vercel preview `dpl_FUTDAk1me2saNvZRuNrb9DQjfwJ1` is Ready and its error-level runtime log query returned no entries.
+- Anonymous access to the preview URL redirects to Vercel login as configured; authenticated Vercel CLI access succeeds without exposing or entering credentials.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the simplified mobile capture and PR #164; Codex -> revise if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - mobile comic contrast and texture refinement
+Picking up: Push the existing six-page mobile sequential-art treatment further with richer texture, stronger contrast around words, and more deliberate shadow depth.
+State I see:
+- PR #164 is open, mergeable, and green at head `45beceb`; production remains unchanged at `44cb3c1`.
+- The current 390 px and 320 px layouts already preserve centered short-form copy and the intentional 01-06 page sequence.
+Design lock:
+- Keep the words minimal; increase their separation with deeper Ink, brighter Paper/Gold/Sapphire, crisp offset text shadows, and stronger panel-to-page contrast.
+- Add layered halftone/crosshatch texture, heavier ink gutters, angular frames, and hard print-style offset shadows while keeping the tone premium, calm, secure, and readable.
+Boundaries:
+- Mobile CSS and task records only; preserve desktop composition, assets, copy, exact destinations, protected routes, authentication, APIs, billing, data, games, and production.
+- Verify locally and on PR #164; do not merge or publish production without Anthony's explicit approval.
+Next:
+- Apply the finish pass, then verify 390 px, 320 px, desktop, accessibility, lint, build, and the deployed PR preview.
+
+### [CHECK-OUT] Codex - 2026-07-19 - mobile comic contrast and texture ready for review
+Did:
+- Deepened the phone palette to near-black Ink, brighter Paper/Porcelain, Gold, and Sapphire; kept all mobile copy unchanged and concise.
+- Added layered halftone, crosshatch, registration-grid, and paper-grain treatments across the six sequential pages, plus heavier ink gutters and angular folio marks.
+- Reworked headings, panel labels, cards, image framing, and primary actions with crisp print-style text separation and layered hard offset shadows; used drop shadows on clipped elements so the offsets render outside their angular silhouettes.
+- Raised every visible mobile link to at least a 44 px touch target while retaining the keyboard skip link and visible Sapphire focus ring.
+Verification:
+- Real-browser renders passed at 390 x 844, 320 x 720, and 1440 x 1000 with no horizontal overflow or page errors; mobile retains the 01-06 hierarchy and desktop remains visually unchanged.
+- The current Vercel Web Interface Guidelines audit found no blocked pattern; targeted ESLint, TypeScript, and the full 25-static-page production build passed.
+- Implementation commit `57afc21` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass.
+- Exact preview `dpl_8g8g7BdpeppQtGcMXPkkoqeQXPA2` is Ready; authenticated retrieval contains `data-page="01"` through `data-page="06"` and the short mobile headline, and its error-level runtime log query returned no entries.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the higher-contrast mobile captures and PR #164; Codex -> revise if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - premium mobile sequential-art treatment
+Picking up: Present each simplified mobile landing section as a cool graphic-novel page without novelty-comic styling.
+State I see:
+- PR #164 is open, mergeable, and green at head `5b35e1e`; production remains unchanged at `44cb3c1`.
+- The 390 px layout is already centered and reduced to essential headlines, actions, imagery, and terse lists.
+Design lock:
+- Reuse the existing Ink, Porcelain, Paper, Gold, and Sapphire palette; keep Bodoni as the art voice, Geist for interface text, and mono only for meaningful 01-06 sequencing.
+- Treat the six sections as a splash page, proof crop, four-panel system page, storyboard process page, three-panel control page, and final splash.
+- Create the graphic-novel character with thick ink gutters, controlled crops, subtle halftone/registration texture, asymmetric frames, and restrained page marks—not speech bubbles, novelty fonts, or sound effects.
+Boundaries:
+- Mobile-only visual treatment; preserve the simplified copy, desktop composition, exact destinations, `/conquest`, owner/customer/menu routes, authentication, APIs, billing, data, games, and production.
+- Verify locally and on PR #164; do not merge or publish production without Anthony's explicit approval.
+Next:
+- Add semantic page sequencing, implement the six distinct mobile compositions, then run visual, accessibility, lint, build, and preview verification.
+
+### [CHECK-OUT] Codex - 2026-07-19 - premium mobile sequential art ready for review
+Did:
+- Added a meaningful `01`-`06` sequence to the six mobile landing sections without adding visible copy or changing desktop presentation.
+- Built distinct phone compositions: full-height opening and closing splash pages, a halftone proof crop with an offset gold ink frame, a rotated four-panel systems grid, a `1-2-1` storyboard process page, and three clipped control panels.
+- Used thick ink gutters, angular gold folio tabs, subtle registration/halftone texture, and restrained Sapphire/Gold offsets; added no speech bubbles, novelty fonts, sound effects, new claims, or new assets.
+- Preserved the centered short-form hierarchy, exact CTA and Instagram destinations, `/conquest`, owner/customer/menu routes, authentication, APIs, billing, data, games, and all protected behavior.
+Verification:
+- Real-browser renders passed at 390 x 844, 320 x 720, and 1440 x 1000 with zero page errors; the accessibility tree retains the same heading hierarchy and interactive actions while folio/texture elements remain decorative.
+- The current Vercel Web Interface Guidelines audit found no blocking issue; targeted ESLint, TypeScript, and the complete 25-static-page production build passed.
+- Implementation commit `2d42628` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass.
+- Vercel preview `dpl_Ap1mJmFvLwwW5HTzBXt7uUR1Hm3A` is Ready, authenticated retrieval contains the deployed `data-page="01"` through `data-page="06"` sequence, and its error-level runtime log query returned no entries.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the graphic-novel mobile capture and PR #164; Codex -> refine if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - Anthony-approved mobile sequential-art production release
+Picking up: Squash-merge PR #164 and verify the approved higher-contrast mobile sequential-art landing page in production.
+Authority:
+- Anthony explicitly said `merge pleae`, approving the PR #164 production merge.
+State I see:
+- PR #164 is open, CLEAN/MERGEABLE, and green at the exact approved head `07a8d090a457e4c6d60acf0dc6d6e43c0c56f5d3`.
+- The PR changes only `APP/web/src/app/page.tsx`, `APP/web/src/app/page.module.css`, and the two operations records; production `main` remains `44cb3c1d1c7159eb9bb7916984836960209eb17b`.
+Boundaries:
+- Commit this release check-in, merge only PR #164, identify its exact squash commit, and verify the corresponding Vercel production deployment, public root, and representative protected routes read-only.
+- No new product code, visual edits, secrets, access, data, billing, migrations, email, purchases, or unrelated work.
+- Stop at the first head, check, mergeability, deployment, alias, live-content, protected-route, or runtime-log divergence.

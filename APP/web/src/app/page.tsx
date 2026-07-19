@@ -87,6 +87,9 @@ const controls = [
 export default function Home() {
   return (
     <main className={`${styles.page} ${display.variable}`}>
+      <Link href="#main-content" className={styles.skipLink}>
+        Skip to content
+      </Link>
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <Link href="/" className={styles.brand} aria-label="Fina Calle OS home">
@@ -106,13 +109,20 @@ export default function Home() {
           </nav>
 
           <Link href="/request-update" className={styles.headerCta}>
-            Start a build
+            <span className={styles.desktopCopy}>Start a build</span>
+            <span className={styles.mobileCopy}>Start</span>
             <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </header>
 
-      <section className={styles.hero} aria-labelledby="hero-heading">
+      <section
+        id="main-content"
+        data-page="01"
+        className={styles.hero}
+        aria-labelledby="hero-heading"
+        tabIndex={-1}
+      >
         <div className={styles.heroAtmosphere} aria-hidden="true" />
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
@@ -120,8 +130,12 @@ export default function Home() {
               <span /> Virginia Beach · Digital systems for local business
             </p>
             <h1 id="hero-heading" className={styles.heroTitle}>
-              A sharper digital presence.
-              <em>A calmer business behind it.</em>
+              <span className={styles.desktopCopy}>A sharper digital presence.</span>
+              <span className={styles.mobileCopy}>Sharper online.</span>
+              <em>
+                <span className={styles.desktopCopy}>A calmer business behind it.</span>
+                <span className={styles.mobileCopy}>Calmer behind it.</span>
+              </em>
             </h1>
             <p className={styles.heroBody}>
               Fina Calle builds premium storefronts, branded customer
@@ -158,7 +172,7 @@ export default function Home() {
                 width={1536}
                 height={1536}
                 className={styles.instrumentLogo}
-                loading="eager"
+                priority
                 sizes="(max-width: 900px) 82vw, 44vw"
               />
 
@@ -194,13 +208,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="work" className={styles.proof} aria-labelledby="proof-heading">
+      <section
+        id="work"
+        data-page="02"
+        className={styles.proof}
+        aria-labelledby="proof-heading"
+      >
         <div className={styles.sectionShell}>
           <div className={styles.proofIntro}>
             <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
             <h2 id="proof-heading" className={styles.sectionTitleDark}>
-              One neighborhood brand.
-              <em>Three connected digital moments.</em>
+              <span className={styles.desktopCopy}>One neighborhood brand.</span>
+              <span className={styles.mobileCopy}>One brand.</span>
+              <em>
+                <span className={styles.desktopCopy}>Three connected digital moments.</span>
+                <span className={styles.mobileCopy}>Three moments.</span>
+              </em>
             </h2>
             <p className={styles.proofBody}>
               Colattao is the working reference for the Fina Calle approach: a
@@ -210,7 +233,9 @@ export default function Home() {
 
             <div className={styles.proofLinks}>
               <Link href="/case-studies/colattao" className={styles.darkAction}>
-                Explore the case study <span aria-hidden="true">↗</span>
+                <span className={styles.desktopCopy}>Explore the case study</span>
+                <span className={styles.mobileCopy}>View case study</span>
+                <span aria-hidden="true">↗</span>
               </Link>
               <a
                 href="https://colattao-cafe-rush.vercel.app/menu"
@@ -257,14 +282,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="systems" className={styles.systems} aria-labelledby="systems-heading">
+      <section
+        id="systems"
+        data-page="03"
+        className={styles.systems}
+        aria-labelledby="systems-heading"
+      >
         <div className={styles.sectionShellNarrow}>
           <div className={styles.sectionHeadingRow}>
             <div>
               <p className={styles.eyebrow}>The operating system</p>
               <h2 id="systems-heading" className={styles.sectionTitle}>
-                Start with what moves the business.
-                <em>Add only what earns its place.</em>
+                <span className={styles.desktopCopy}>Start with what moves the business.</span>
+                <span className={styles.mobileCopy}>Only what matters.</span>
+                <em>
+                  <span className={styles.desktopCopy}>Add only what earns its place.</span>
+                  <span className={styles.mobileCopy}>Nothing extra.</span>
+                </em>
               </h2>
             </div>
             <p>
@@ -310,13 +344,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="process" className={styles.process} aria-labelledby="process-heading">
+      <section
+        id="process"
+        data-page="04"
+        className={styles.process}
+        aria-labelledby="process-heading"
+      >
         <div className={styles.sectionShellNarrow}>
           <div className={styles.processIntro}>
             <p className={styles.eyebrowDark}>A disciplined build sequence</p>
             <h2 id="process-heading" className={styles.sectionTitleDark}>
-              Intricate where it matters.
-              <em>Calm where you operate it.</em>
+              <span className={styles.desktopCopy}>Intricate where it matters.</span>
+              <span className={styles.mobileCopy}>Built with discipline.</span>
+              <em>
+                <span className={styles.desktopCopy}>Calm where you operate it.</span>
+                <span className={styles.mobileCopy}>Calm to run.</span>
+              </em>
             </h2>
           </div>
 
@@ -334,13 +377,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.control} aria-labelledby="control-heading">
+      <section
+        data-page="05"
+        className={styles.control}
+        aria-labelledby="control-heading"
+      >
         <div className={styles.controlGrid}>
           <div className={styles.controlIntro}>
             <p className={styles.eyebrow}>Calm by design</p>
             <h2 id="control-heading" className={styles.sectionTitle}>
-              Powerful systems should make the owner feel
-              <em>more in control, not less.</em>
+              <span className={styles.desktopCopy}>
+                Powerful systems should make the owner feel
+              </span>
+              <span className={styles.mobileCopy}>You stay</span>
+              <em>
+                <span className={styles.desktopCopy}>more in control, not less.</span>
+                <span className={styles.mobileCopy}>in control.</span>
+              </em>
             </h2>
           </div>
 
@@ -358,12 +411,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.close} aria-labelledby="close-heading">
+      <section
+        data-page="06"
+        className={styles.close}
+        aria-labelledby="close-heading"
+      >
         <div className={styles.closeGlow} aria-hidden="true" />
         <p className={styles.eyebrow}>Your next operating layer</p>
         <h2 id="close-heading">
-          Ready for something that feels
-          <em>built, not bought?</em>
+          <span className={styles.desktopCopy}>Ready for something that feels</span>
+          <span className={styles.mobileCopy}>Built for</span>
+          <em>
+            <span className={styles.desktopCopy}>built, not bought?</span>
+            <span className={styles.mobileCopy}>your business.</span>
+          </em>
         </h2>
         <p className={styles.closeBody}>
           Tell us the business, the bottleneck, and the outcome. We’ll reply
@@ -381,7 +442,10 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <div>
-          <p>Still scrolling? Good. The strategy worked.</p>
+          <p>
+            <span className={styles.desktopCopy}>Still scrolling? Good. The strategy worked.</span>
+            <span className={styles.mobileCopy}>Still here? Good.</span>
+          </p>
           <a
             href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
             target="_blank"
