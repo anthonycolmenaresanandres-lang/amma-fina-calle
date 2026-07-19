@@ -615,3 +615,16 @@ State now:
 - No paid Checkout, payment method, subscription, charge, invoice, transfer, payout, or customer email occurred.
 Next / handoff to: Colattao owner -> use the preserved reset screen to create the private password; Codex -> verify tenant isolation and billing status afterward, stopping before paid Checkout unless Anthony separately approves it.
 Blocked on owner: final private-password entry belongs to the owner and is intentionally not performed or stored by AMMA.
+
+### [CHECK-IN] Codex - 2026-07-19 - premium public landing-page redesign
+Picking up: Redesign only the public Fina Calle root landing page around Anthony's approved direction: expensive, intricate, innovative, calm, secure, and edgy without becoming scary.
+State I see:
+- Canonical `origin/main` is `422352b`; the existing `codex/ui-debox-20260718` branch remains separate and untouched.
+- Work is isolated in `C:\Dev\amma\worktrees\landing-premium-20260719` on `codex/landing-premium-20260719`.
+- The live homepage is healthy but prioritizes a central logo portal over a plain offer, verified proof, and a focused conversion path.
+Boundaries:
+- Public root page, root metadata, one social-preview asset, and operations records only.
+- Preserve `/conquest`, owner/customer/menu routes, billing, authentication, APIs, data, secrets, and production.
+- Local verification, push, and review PR are authorized; stop before merge, deploy, or publish.
+Next:
+- Implement the proof-led editorial homepage, run targeted lint and one production build, then open a review PR.
