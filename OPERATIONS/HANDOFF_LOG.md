@@ -759,3 +759,15 @@ State now:
 - PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
 Next / handoff to: Anthony -> review the graphic-novel mobile capture and PR #164; Codex -> refine if requested or merge only after explicit production approval.
 Blocked: production merge remains intentionally gated on Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-19 - Anthony-approved mobile sequential-art production release
+Picking up: Squash-merge PR #164 and verify the approved higher-contrast mobile sequential-art landing page in production.
+Authority:
+- Anthony explicitly said `merge pleae`, approving the PR #164 production merge.
+State I see:
+- PR #164 is open, CLEAN/MERGEABLE, and green at the exact approved head `07a8d090a457e4c6d60acf0dc6d6e43c0c56f5d3`.
+- The PR changes only `APP/web/src/app/page.tsx`, `APP/web/src/app/page.module.css`, and the two operations records; production `main` remains `44cb3c1d1c7159eb9bb7916984836960209eb17b`.
+Boundaries:
+- Commit this release check-in, merge only PR #164, identify its exact squash commit, and verify the corresponding Vercel production deployment, public root, and representative protected routes read-only.
+- No new product code, visual edits, secrets, access, data, billing, migrations, email, purchases, or unrelated work.
+- Stop at the first head, check, mergeability, deployment, alias, live-content, protected-route, or runtime-log divergence.

@@ -135,3 +135,14 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No new copy, speech bubbles, novelty comic fonts, sound effects, new assets, merge, production publish, protected-route edits, secrets, access, data, billing, migrations, email, purchases, or unrelated code.
 **PASS:** At 390 px and 320 px, headings and labels have stronger readable separation; all six sections carry richer ink/paper texture, harder panel depth, and clearer contrast without visual menace or clutter; desktop, focus/touch behavior, routes, lint, build, and preview checks pass.
 **STOP:** Stop before production merge or if texture competes with legibility, shadows clip content, small-phone layout overflows, desktop changes, or protected behavior changes.
+
+## [ ] 9 - Publish the approved mobile sequential-art refinement
+
+**State:** IN PROGRESS
+**Codex effort:** LOW
+**Authority:** Anthony explicitly approved the production merge on 2026-07-19 with: `merge pleae`.
+**Branch base:** Ready PR #164 from `codex/landing-release-log-20260719` into `main`; approved head is `07a8d09`, and production `main` is `44cb3c1` before release logging.
+**Scope:** Commit this release check-in, squash-merge only PR #164, wait for the exact resulting `main` revision to reach Vercel production, then verify the public root and representative protected routes read-only.
+**Boundaries:** No new product code, visual changes, secrets, access, data, billing, migrations, email, purchases, or unrelated deployment work. Stop at the first branch, check, merge, deployment, alias, live-content, route, or runtime-log divergence.
+**PASS:** PR #164 is merged to `main`; its exact squash commit reaches a Ready Vercel production deployment; the root returns HTTP 200 and contains the approved 01-06 mobile sequence and short headline; `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao` remain reachable or auth-gated as expected; production logs show no release-time error.
+**STOP:** Stop and report before remediation if the approved head changes, checks fail, mergeability changes, Vercel does not reach Ready, the live alias points elsewhere, approved content is absent, or a protected route regresses.
