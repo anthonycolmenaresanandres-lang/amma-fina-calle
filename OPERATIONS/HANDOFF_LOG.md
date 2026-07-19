@@ -713,6 +713,22 @@ Boundaries:
 Next:
 - Apply the finish pass, then verify 390 px, 320 px, desktop, accessibility, lint, build, and the deployed PR preview.
 
+### [CHECK-OUT] Codex - 2026-07-19 - mobile comic contrast and texture ready for review
+Did:
+- Deepened the phone palette to near-black Ink, brighter Paper/Porcelain, Gold, and Sapphire; kept all mobile copy unchanged and concise.
+- Added layered halftone, crosshatch, registration-grid, and paper-grain treatments across the six sequential pages, plus heavier ink gutters and angular folio marks.
+- Reworked headings, panel labels, cards, image framing, and primary actions with crisp print-style text separation and layered hard offset shadows; used drop shadows on clipped elements so the offsets render outside their angular silhouettes.
+- Raised every visible mobile link to at least a 44 px touch target while retaining the keyboard skip link and visible Sapphire focus ring.
+Verification:
+- Real-browser renders passed at 390 x 844, 320 x 720, and 1440 x 1000 with no horizontal overflow or page errors; mobile retains the 01-06 hierarchy and desktop remains visually unchanged.
+- The current Vercel Web Interface Guidelines audit found no blocked pattern; targeted ESLint, TypeScript, and the full 25-static-page production build passed.
+- Implementation commit `57afc21` is pushed to PR #164. GitHub `web`, Vercel, and Vercel Preview Comments checks pass.
+- Exact preview `dpl_8g8g7BdpeppQtGcMXPkkoqeQXPA2` is Ready; authenticated retrieval contains `data-page="01"` through `data-page="06"` and the short mobile headline, and its error-level runtime log query returned no entries.
+State now:
+- PR #164 is open, mergeable, and ready for Anthony's visual review. Production remains unchanged at `44cb3c1`.
+Next / handoff to: Anthony -> review the higher-contrast mobile captures and PR #164; Codex -> revise if requested or merge only after explicit production approval.
+Blocked: production merge remains intentionally gated on Anthony's approval.
+
 ### [CHECK-IN] Codex - 2026-07-19 - premium mobile sequential-art treatment
 Picking up: Present each simplified mobile landing section as a cool graphic-novel page without novelty-comic styling.
 State I see:

@@ -124,9 +124,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** The six phone sections read as an intentional 01-06 sequence with distinct splash, proof, module-grid, storyboard, control, and finale compositions; the graphic-novel character comes from gutters, crops, ink texture, and restrained page marks; mobile remains centered and concise; desktop, accessibility, links, routes, lint, build, and preview verification pass.
 **STOP:** Stop before production merge or if the treatment becomes harder to scan, clips content at supported phone widths, harms focus/touch behavior, alters desktop composition, or changes protected behavior.
 
-## [ ] 8 - Deepen mobile comic texture, contrast, and shadow
+## [x] 8 - Deepen mobile comic texture, contrast, and shadow
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** MEDIUM
 **Authority:** Anthony explicitly requested on 2026-07-19: `More texture more comic more words contrast more contrast in general use shadowing please`.
 **Branch base:** Continue `codex/landing-release-log-20260719` from verified PR #164 head `45beceb`; production remains `44cb3c1`.
