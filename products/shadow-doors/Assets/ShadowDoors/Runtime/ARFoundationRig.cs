@@ -80,16 +80,24 @@ namespace ShadowDoors.Runtime
         /// <inheritdoc />
         public Transform CreateAnchor(Pose pose)
         {
-            // ⚠ VERIFY: ARAnchorManager's synchronous "add anchor at a pose" API has
-            // changed shape across AR Foundation majors — AR Foundation 4/5 exposed
-            // ARAnchorManager.AddAnchor(Pose); AR Foundation 5.1+ deprecated that in
-            // favor of TryAddAnchor(Pose, out ARAnchor) and, on some providers, an
-            // async TryAddAnchorAsync(Pose) returning an Awaitable/Task. Confirm which
-            // overload AR Foundation 6.0.4 + ARCore actually resolves to on the Unity
-            // machine — this call may need to become the async variant.
-            if (anchorManager != null && anchorManager.TryAddAnchor(pose, out ARAnchor anchor))
+            // AR Foundation 6.0.4 exposes ARAnchorManager.TryAddAnchorAsync rather than
+            // the old public synchronous TryAddAnchor overload. IARRig intentionally
+            // remains synchronous, so use AR Foundation 6's component-registration
+            // path: ARAnchor.OnEnable asks the active manager to add itself at the
+            // GameObject's world pose. If the provider rejects the add, ARAnchor
+            // deactivates the GameObject and we fall through to the drift-prone visual
+            // fallback below.
+            if (anchorManager != null)
             {
-                return anchor.transform;
+                var anchorGo = new GameObject("ShadowDoors_ARAnchor");
+                anchorGo.transform.SetPositionAndRotation(pose.position, pose.rotation);
+                anchorGo.AddComponent<ARAnchor>();
+                if (anchorGo.activeSelf)
+                {
+                    return anchorGo.transform;
+                }
+
+                Destroy(anchorGo);
             }
 
             // Fallback so a failed anchor add never nulls out the caller's handle —
