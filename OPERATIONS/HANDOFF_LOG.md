@@ -845,6 +845,21 @@ State now:
 Next / handoff to: Anthony -> review the live movement and capture; Codex -> make any future refinement through a new review PR.
 Blocked: none.
 
+### [CHECK-OUT] Codex - 2026-07-19 - scroll-linked dust release verified in production
+Did:
+- Revalidated final PR #166 head `1cadcf381e0ac06de040e26b795f3fd94bcdaa9d` as clean and mergeable with green GitHub CI and exact Ready preview `dpl_9fNmadtG4ryPUY84eP4awAk4nSYQ`.
+- Squash-merged PR #166 under GitHub's exact-head lock to production `main` commit `e890a5ce98cff6d17905050fd1550f7d5233e0e5`.
+- Confirmed that exact commit reached Ready production deployment `dpl_CqnYM6TqV6LoV9E2c64byz25zipp`; `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` resolve to it without alias error.
+- Verified the live 390 x 844 experience initializes two image-derived dust sources and 1,100 device-capped particles, renders both transition boundaries, restores both images and original opacity on reverse scroll, advances the copy-free journey 01-06, resolves the final CTA ring, and has zero horizontal overflow or page errors.
+- Verified the live reduced-motion path removes Canvas movement and journey feedback while preserving all 28 reveal targets and both static images.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all return HTTP 200. The exact production deployment's error-level runtime log query returned no entries.
+State now:
+- The image-to-color-dust transformation and conversion-safe six-stage journey mechanic are live at `https://finacalleos.com/`.
+- The browser console contains only the existing non-blocking Vercel Web Analytics-not-enabled notice; no product remediation was required.
+- This post-merge closeout is recorded on the release branch only so it cannot trigger another production deployment.
+Next / handoff to: Anthony -> review the live scroll transformation and capture; Codex -> make any future refinement through a new review PR.
+Blocked: none.
+
 ### [CHECKPOINT] Codex - 2026-07-19 - dust transition preview verified
 Did:
 - Pushed implementation head `6e9139fb275ae7e0792c68a2e66b65c9ef35223d` and opened ready PR #166 against `main`.
