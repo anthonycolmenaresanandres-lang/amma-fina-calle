@@ -172,9 +172,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** The real images visibly dissolve into sampled color dust during section transitions; reverse scrolling reconstructs them; all work is requestAnimationFrame-batched and device-capped; mobile and desktop remain legible with zero overflow; reduced-motion and no-JavaScript paths retain complete static images/content; focus/touch behavior, exact links, lint/build, immutable preview, merge lock, production aliases, protected routes, and runtime logs pass.
 **STOP:** Stop before merge if the effect reads as a fade/wipe, masks important copy, drops supported mobile responsiveness, causes sustained animation offscreen, exceeds a stable frame budget, taints the Canvas, changes content or protected behavior, fails reverse/reduced/no-JS checks, or diverges at preview.
 
-## [ ] 12 - Limit color dust to the opening logo transformation
+## [x] 12 - Limit color dust to the opening logo transformation
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** MEDIUM
 **Authority:** Anthony explicitly requested on 2026-07-20: `keep the disolving motion to only the logo design and it transforms into the next pic but ommit the desolvin for the next one lets keep the graphics only for that inisial one`.
 **Branch base:** `codex/landing-single-dust-20260720`, created from production `main` at `e890a5c`.

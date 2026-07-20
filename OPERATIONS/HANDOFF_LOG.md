@@ -932,3 +932,15 @@ State now:
 - Product scope is exactly two deleted JSX attributes plus operations records. No copy, layout, asset, engine, link, mechanic, or protected-route code changed.
 Next: Commit and push the review branch, open a PR, and bind its exact head to a Ready preview. Do not merge production without Anthony's approval.
 Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-20 - single opening dust preview ready
+Did:
+- Committed the verified refinement as `12e53beeefb114ce6f428ba2b1888ca34ba32a63`, pushed `codex/landing-single-dust-20260720`, and opened draft PR #167 against production `main`.
+- Confirmed GitHub `web`, Vercel, and Vercel Preview Comments checks pass for that exact PR head.
+- Confirmed immutable preview deployment `dpl_8iaqQnt4mgswq3iZx3FYrzzFBxdH` is Ready at `https://amma-fina-calle-8dgwblnj5.vercel.app`.
+- Authenticated retrieval from the deployment returns HTTP 200 with the crest dust hook, pages 02 and 03, and the six-stage journey rail present; the proof dust hook is absent.
+- The preview deployment's error-level runtime log query returned no entries.
+State now:
+- The requested one-transition treatment is fully implemented and reviewable. Production `main` and `finacalleos.com` remain unchanged.
+Next / handoff to: Anthony -> review PR #167 and its preview; Codex -> merge and verify production only after explicit approval.
+Blocked: production merge requires Anthony's approval.
