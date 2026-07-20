@@ -1003,3 +1003,18 @@ Plan locked:
 - Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
 Boundaries:
 - Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.
+
+### [CHECK-OUT] Codex - 2026-07-20 - crest-to-proof morph published and verified
+Did:
+- Pushed release-check-in head `222fab721532d97f59374275b482ab26f631a92b`, required GitHub `web`, Vercel, and Vercel Preview Comments to pass, marked PR #167 ready, and squash-merged under GitHub's exact-head lock.
+- Confirmed PR #167 merged at `2026-07-20T09:04:38Z` as production `main` commit `10be3ef62aa2c61ace83e27e1f333616668a030d`.
+- Confirmed that exact commit reached Ready production deployment `dpl_6VjpjGubPTsn7SCw8s8anSyhqRiT`; `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` point to it.
+- Verified public root HTTP 200 contains the exact deployment marker, crest source, proof target, source-to-target image link, and journey rail; the proof image is not registered as another dust source.
+- Verified the live 390 px morph uses one 616-particle scene: target opacity is `0` at start, `0.173` with 75.3% Canvas target coverage at 82%, `0.954` with 97.9% coverage near completion, and `1` at completion.
+- Verified the later boundary has zero active dust, reverse scroll restores source opacity `0.9` and target opacity `0`, idle frames remain frozen, horizontal overflow is zero, and no framework/page error appears.
+- Verified `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao` return HTTP 200; `www` resolves through its permanent redirect to the primary domain; exact production error-level runtime logs contain no entries.
+State now:
+- The approved crest-to-proof particle formation is live at `https://finacalleos.com/`.
+- This post-merge closeout remains on the release branch only and does not create another production release.
+Next / handoff to: Anthony -> use the live site; Codex -> route any future refinement through a new review PR.
+Blocked: none.
