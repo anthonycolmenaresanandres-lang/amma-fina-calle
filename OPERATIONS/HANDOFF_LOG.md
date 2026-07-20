@@ -907,3 +907,99 @@ Plan locked:
 Boundaries:
 - Root landing and operations records only. No Phaser dependency, protected route, data, access, billing, authentication, API, game, asset, or business-claim changes.
 - Stop before merge on any visual, responsive, accessibility, performance, preview, check, deployment, alias, protected-route, or runtime-log divergence.
+
+### [CHECK-IN] Codex - 2026-07-20 - single opening dust transformation
+Picking up: Keep the scroll-linked color-dust effect only on the opening Fina Calle logo so it resolves into page 02; remove the later proof-image dissolve.
+Authority:
+- Anthony explicitly requested the narrower one-transition treatment after reviewing the live release.
+State I see:
+- Production `main` is `e890a5c`; the current root has two dust sources, with the crest targeting page 02 and the Colattao proof image targeting page 03.
+- Fresh branch `codex/landing-single-dust-20260720` starts from that exact production tree.
+Plan locked:
+- Remove only the proof image's dust-source and target hooks. Keep the Canvas engine, opening crest transformation, scoreless journey rail, proof-image hover treatment, copy, layout, assets, and links unchanged.
+- Verify exactly one initialized source, proof-image opacity stability through forward and reverse scroll, mobile/desktop overflow, reduced motion, scripts-disabled fallback, targeted lint, and production build.
+Boundaries:
+- Root landing and operations records only. No protected route, data, authentication, billing, API, game, secret, or asset changes. Stop before production merge; prepare a review PR only.
+
+### [CHECKPOINT] Codex - 2026-07-20 - single-source dust refinement locally verified
+Did:
+- Removed only the Colattao proof image's `data-dust-source` and `data-dust-next` hooks; the opening crest remains wired to page 02 and the particle engine is otherwise unchanged.
+- Verified the rendered root initializes exactly one source and 484 mobile-capped particles; the opening midpoint has active, non-empty Canvas output and reverse scroll restores crest opacity to `0.9`.
+- Verified the former page-02-to-page-03 boundary has zero active dust scenes, no proof-image progress state, and stable proof-image opacity `1`.
+- Verified zero horizontal overflow at 320, 390, and 1440 px; reduced motion hides Canvas/journey motion while preserving every reveal; scripts-disabled rendering retains both images and all six pages.
+- Passed targeted ESLint, `git diff --check`, and the full Next.js 16.2.7 Webpack production build across all listed routes.
+State now:
+- Product scope is exactly two deleted JSX attributes plus operations records. No copy, layout, asset, engine, link, mechanic, or protected-route code changed.
+Next: Commit and push the review branch, open a PR, and bind its exact head to a Ready preview. Do not merge production without Anthony's approval.
+Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-20 - single opening dust preview ready
+Did:
+- Committed the verified refinement as `12e53beeefb114ce6f428ba2b1888ca34ba32a63`, pushed `codex/landing-single-dust-20260720`, and opened draft PR #167 against production `main`.
+- Confirmed GitHub `web`, Vercel, and Vercel Preview Comments checks pass for that exact PR head.
+- Confirmed immutable preview deployment `dpl_8iaqQnt4mgswq3iZx3FYrzzFBxdH` is Ready at `https://amma-fina-calle-8dgwblnj5.vercel.app`.
+- Authenticated retrieval from the deployment returns HTTP 200 with the crest dust hook, pages 02 and 03, and the six-stage journey rail present; the proof dust hook is absent.
+- The preview deployment's error-level runtime log query returned no entries.
+State now:
+- The requested one-transition treatment is fully implemented and reviewable. Production `main` and `finacalleos.com` remain unchanged.
+Next / handoff to: Anthony -> review PR #167 and its preview; Codex -> merge and verify production only after explicit approval.
+Blocked: production merge requires Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-20 - crest dust must assemble the proof image
+Picking up: Upgrade draft PR #167 so the opening logo particles form the Colattao photograph itself instead of resolving around a photograph that appears independently.
+Authority:
+- Anthony clarified that the target picture must begin visually absent and visibly form from the logo dust during scroll.
+State I see:
+- PR #167 is open and draft at `52828c1`; production remains `e890a5c`.
+- The branch currently has one crest source targeting page 02, while the proof image is static and not sampled by the scene.
+Plan locked:
+- Sample source and target pixels into one device-capped grid. Start particles at crest-relative coordinates and source-derived Fina Calle colors; end them at proof-image-relative coordinates with sampled photo colors.
+- Stretch the morph from page-02 entry until the proof image reaches the viewing line, so mobile readers see assembly rather than an offscreen handoff.
+- Keep the real proof image at zero opacity until late assembly, then crossfade beneath the nearly complete particle grid. Reverse the same math on upward scroll.
+- Keep the server-rendered proof image visible whenever JavaScript or motion is unavailable.
+Boundaries:
+- Landing motion, landing semantics/styles, and operations records only. No copy, layout, asset, link, journey, protected route, data, API, auth, billing, or production change. Stop before merge.
+
+### [CHECKPOINT] Codex - 2026-07-20 - crest-to-proof particle morph locally verified
+Did:
+- Reworked the single crest scene into a true source-to-target morph: one device-capped grid samples both the Fina Calle crest and Colattao proof image, starts at crest coordinates/colors, and settles into proof-image coordinates/colors.
+- Extended progress from page-02 entry until the proof image reaches the viewing line, keeping the normal image at opacity zero until late assembly and crossfading only beneath the nearly complete Canvas grid.
+- At 390 px, verified target opacity `0` through 55% progress, `0.178` with 74.4% visible target-grid Canvas coverage at 82%, `0.897` with 99.3% coverage at 94%, and `1` at completion. The grid uses 616 capped particles.
+- At 320 px and 1440 px, verified zero overflow, 76.1% and 90.3% late-stage Canvas target coverage respectively, full completion, exact reverse reconstruction, and a frozen idle frame counter.
+- Verified the old page-02-to-page-03 boundary has target opacity `1` with zero active dust, so no later dissolve remains.
+- Verified reduced motion shows both static images with Canvas/journey motion disabled and no hidden reveals; scripts-disabled rendering retains the crest, proof image, and all six pages.
+- Passed targeted ESLint, `git diff --check`, the full Next.js 16.2.7 Webpack production build, framework-overlay check, and browser page-error check.
+Evidence:
+- `outputs/fina-calle-logo-to-photo-morph-local.webm`
+- `outputs/fina-calle-logo-to-photo-morph-82.png`
+- `outputs/fina-calle-logo-to-photo-morph-94.png`
+State now:
+- The requested photo visibly forms from logo dust rather than appearing independently. Copy, layout, assets, links, journey behavior, and protected-route code remain unchanged.
+Next: Commit and update draft PR #167, then bind its exact head to a Ready preview and repeat the deployed marker/runtime-log gates. Do not merge production without Anthony's approval.
+Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-20 - crest-to-proof morph preview ready
+Did:
+- Committed the verified morph as `1b80db879b480b074eb18fdb78ea108c9051e369` and updated draft PR #167 without changing production.
+- Confirmed GitHub `web`, Vercel, and Vercel Preview Comments checks pass for that exact implementation head.
+- Confirmed immutable preview deployment `dpl_9MNWYUtGSrSvdAGHvRaW8MMjCQPb` is Ready at `https://amma-fina-calle-3ckwwx3tb.vercel.app`.
+- Authenticated retrieval returns HTTP 200 with the crest source, proof target, source-to-target image link, pages 02/03, and journey rail present; the proof image is not registered as another dust source.
+- The exact preview deployment's error-level runtime log query returned no entries.
+State now:
+- The logo dust visibly assembles the Colattao photograph, hands off only near completion, reverses into the logo, and performs no later dissolve.
+- Production `main` and `finacalleos.com` remain unchanged.
+Next / handoff to: Anthony -> review the morph video, frames, and draft PR #167; Codex -> merge and verify production only after explicit approval.
+Blocked: production merge requires Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-20 - approved crest-to-proof production release
+Picking up: Push the final release check-in, merge PR #167 under an exact-head lock, and verify the resulting production deployment and live morph.
+Authority:
+- Anthony explicitly approved `merge and or push` after reviewing the implemented crest-to-proof formation.
+State I see:
+- Local and remote PR head match at `148e868b821898c1f071e25f3284c36c6f0f88fe`; the working tree is clean.
+- PR #167 targets production `main` at `e890a5ce98cff6d17905050fd1550f7d5233e0e5`, is mergeable with `CLEAN` merge state, and GitHub `web`, Vercel, and Vercel Preview Comments all pass.
+Plan locked:
+- Commit and push only this release record, require the new exact head to pass, mark the PR ready, and squash-merge with GitHub's head-match guard.
+- Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
+Boundaries:
+- Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.

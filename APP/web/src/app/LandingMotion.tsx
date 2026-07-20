@@ -10,24 +10,24 @@ const dustPalette = [
 ] as const;
 
 type DustParticle = {
-  color: [number, number, number];
-  destination: number;
-  endOffset: number;
   seed: number;
   size: number;
+  sourceColor: [number, number, number];
   swirl: number;
+  targetColor: [number, number, number];
   u: number;
   v: number;
 };
 
 type DustScene = {
   baseOpacity: number;
+  baseTargetOpacity: number;
   columns: number;
   image: HTMLImageElement;
   particles: DustParticle[];
   rows: number;
   target: HTMLElement;
-  targetHeading: HTMLElement | null;
+  targetImage: HTMLImageElement;
 };
 
 const clamp = (value: number, minimum = 0, maximum = 1) =>
@@ -105,11 +105,25 @@ function createDustScene(
   sourceIndex: number,
 ): DustScene | null {
   const targetPage = image.dataset.dustNext;
+  const targetImageKey = image.dataset.dustNextImage;
   const target = targetPage
     ? root.querySelector<HTMLElement>(`[data-page="${targetPage}"]`)
     : null;
+  const targetImage = targetImageKey
+    ? Array.from(
+        root.querySelectorAll<HTMLImageElement>("img[data-dust-target]"),
+      ).find((candidate) => candidate.dataset.dustTarget === targetImageKey) ??
+      null
+    : null;
 
-  if (!target || image.naturalWidth === 0 || image.naturalHeight === 0) {
+  if (
+    !target ||
+    !targetImage ||
+    image.naturalWidth === 0 ||
+    image.naturalHeight === 0 ||
+    targetImage.naturalWidth === 0 ||
+    targetImage.naturalHeight === 0
+  ) {
     return null;
   }
 
@@ -120,112 +134,99 @@ function createDustScene(
   const mobile = window.innerWidth <= 680;
   const columns = lowPower ? 22 : mobile ? 27 : 35;
   const sourceAspect = image.naturalHeight / image.naturalWidth;
-  const rows = Math.max(20, Math.round(columns * sourceAspect));
-  const sampleCanvas = document.createElement("canvas");
-  sampleCanvas.width = columns;
-  sampleCanvas.height = rows;
-  const sampleContext = sampleCanvas.getContext("2d", {
+  const sourceRows = Math.max(20, Math.round(columns * sourceAspect));
+  const targetAspect = targetImage.naturalHeight / targetImage.naturalWidth;
+  const rows = Math.max(20, Math.round(columns * targetAspect));
+  const sourceCanvas = document.createElement("canvas");
+  const targetCanvas = document.createElement("canvas");
+  sourceCanvas.width = columns;
+  sourceCanvas.height = sourceRows;
+  targetCanvas.width = columns;
+  targetCanvas.height = rows;
+  const sourceContext = sourceCanvas.getContext("2d", {
+    willReadFrequently: true,
+  });
+  const targetContext = targetCanvas.getContext("2d", {
     willReadFrequently: true,
   });
 
-  if (!sampleContext) {
+  if (!sourceContext || !targetContext) {
     return null;
   }
 
   try {
-    drawImageCover(sampleContext, image, columns, rows);
-    const pixels = sampleContext.getImageData(0, 0, columns, rows).data;
+    drawImageCover(sourceContext, image, columns, sourceRows);
+    drawImageCover(targetContext, targetImage, columns, rows);
+    const sourcePixels = sourceContext.getImageData(
+      0,
+      0,
+      columns,
+      sourceRows,
+    ).data;
+    const targetPixels = targetContext.getImageData(0, 0, columns, rows).data;
     const particles: DustParticle[] = [];
 
     for (let y = 0; y < rows; y += 1) {
       for (let x = 0; x < columns; x += 1) {
-        const pixelIndex = (y * columns + x) * 4;
-        const alpha = pixels[pixelIndex + 3];
+        const u = (x + 0.5) / columns;
+        const v = (y + 0.5) / rows;
+        const sourceY = Math.min(
+          sourceRows - 1,
+          Math.floor(v * sourceRows),
+        );
+        const sourcePixelIndex = (sourceY * columns + x) * 4;
+        const targetPixelIndex = (y * columns + x) * 4;
+        const sourceAlpha = sourcePixels[sourcePixelIndex + 3];
+        const targetAlpha = targetPixels[targetPixelIndex + 3];
 
-        if (alpha < 22) {
+        if (sourceAlpha < 22 && targetAlpha < 22) {
           continue;
         }
 
         const index = y * columns + x;
         const seed = seededRandom(index + sourceIndex * 2003 + 1);
-        const sampled: [number, number, number] = [
-          pixels[pixelIndex],
-          pixels[pixelIndex + 1],
-          pixels[pixelIndex + 2],
-        ];
         const palette = dustPalette[(index + sourceIndex) % dustPalette.length];
         const paletteAmount = index % 7 === 0 ? 0.72 : 0.18 + seed * 0.2;
+        const sampledSource: [number, number, number] =
+          sourceAlpha < 22
+            ? [palette[0], palette[1], palette[2]]
+            : [
+                sourcePixels[sourcePixelIndex],
+                sourcePixels[sourcePixelIndex + 1],
+                sourcePixels[sourcePixelIndex + 2],
+              ];
+        const sampledTarget: [number, number, number] = [
+          targetPixels[targetPixelIndex],
+          targetPixels[targetPixelIndex + 1],
+          targetPixels[targetPixelIndex + 2],
+        ];
 
         particles.push({
-          color: mixColor(sampled, palette, paletteAmount),
-          destination: seededRandom(index + sourceIndex * 3011 + 19),
-          endOffset: seededRandom(index + sourceIndex * 4001 + 37),
           seed,
           size: 0.8 + seededRandom(index + sourceIndex * 5003 + 71) * 2.2,
+          sourceColor: mixColor(sampledSource, palette, paletteAmount),
           swirl: seededRandom(index + sourceIndex * 6007 + 97) * 2 - 1,
-          u: (x + 0.5) / columns,
-          v: (y + 0.5) / rows,
+          targetColor: mixColor(sampledTarget, palette, 0.03 + seed * 0.05),
+          u,
+          v,
         });
       }
     }
 
     return {
       baseOpacity: Number.parseFloat(getComputedStyle(image).opacity) || 1,
+      baseTargetOpacity:
+        Number.parseFloat(getComputedStyle(targetImage).opacity) || 1,
       columns,
       image,
       particles,
       rows,
       target,
-      targetHeading: target.querySelector<HTMLElement>("h2"),
+      targetImage,
     };
   } catch {
     return null;
   }
-}
-
-function getTargetPoint(
-  particle: DustParticle,
-  targetRect: DOMRect,
-  headingRect: DOMRect | null,
-  viewportWidth: number,
-  viewportHeight: number,
-) {
-  const inset = viewportWidth <= 680 ? 14 : 34;
-  const left = inset;
-  const right = viewportWidth - inset;
-  const top = clamp(targetRect.top + inset, inset, viewportHeight - inset);
-  const bottom = clamp(targetRect.bottom - inset, inset, viewportHeight - inset);
-
-  if (particle.destination > 0.76 && headingRect) {
-    return {
-      x: clamp(
-        headingRect.left + headingRect.width * particle.endOffset,
-        inset,
-        viewportWidth - inset,
-      ),
-      y: clamp(
-        headingRect.top + headingRect.height * particle.seed,
-        inset,
-        viewportHeight - inset,
-      ),
-    };
-  }
-
-  const side = Math.floor((particle.destination / 0.76) * 4) % 4;
-
-  if (side === 0) {
-    return { x: lerp(left, right, particle.endOffset), y: top };
-  }
-
-  if (side === 1) {
-    return { x: right, y: lerp(top, bottom, particle.endOffset) };
-  }
-
-  if (side === 2) {
-    return { x: lerp(right, left, particle.endOffset), y: bottom };
-  }
-
-  return { x: left, y: lerp(bottom, top, particle.endOffset) };
 }
 
 function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
@@ -270,13 +271,18 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
     let activeScenes = 0;
 
     const sceneFrames = scenes.map((scene) => {
-      const targetRect = scene.target.getBoundingClientRect();
+      const pageRect = scene.target.getBoundingClientRect();
+      const targetRect = scene.targetImage.getBoundingClientRect();
+      const startLine = viewportHeight * 0.96;
+      const endLine = viewportHeight * (viewportWidth <= 680 ? 0.12 : 0.16);
+      const targetOffset = Math.max(0, targetRect.top - pageRect.top);
+      const morphDistance = Math.max(
+        viewportHeight * 0.84,
+        startLine - endLine + targetOffset,
+      );
 
       return {
-        headingRect: scene.targetHeading?.getBoundingClientRect() ?? null,
-        progress: clamp(
-          (viewportHeight * 0.96 - targetRect.top) / (viewportHeight * 0.84),
-        ),
+        progress: clamp((startLine - pageRect.top) / morphDistance),
         scene,
         sourceRect: scene.image.getBoundingClientRect(),
         targetRect,
@@ -307,87 +313,112 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
       });
     }
 
-    sceneFrames.forEach(
-      ({ headingRect, progress, scene, sourceRect, targetRect }) => {
-        const imageOpacity = 1 - smoothstep(0.012, 0.09, progress);
-        scene.image.style.setProperty(
-          "--dust-source-opacity",
-          String(scene.baseOpacity * imageOpacity),
-        );
-        scene.image.dataset.dustProgress = progress.toFixed(3);
+    sceneFrames.forEach(({ progress, scene, sourceRect, targetRect }) => {
+      const imageOpacity = 1 - smoothstep(0.012, 0.09, progress);
+      const targetImageOpacity = smoothstep(0.76, 0.985, progress);
+      scene.image.style.setProperty(
+        "--dust-source-opacity",
+        String(scene.baseOpacity * imageOpacity),
+      );
+      scene.targetImage.style.setProperty(
+        "--dust-target-opacity",
+        String(scene.baseTargetOpacity * targetImageOpacity),
+      );
+      scene.image.dataset.dustProgress = progress.toFixed(3);
+      scene.targetImage.dataset.dustProgress = progress.toFixed(3);
 
-        if (progress <= 0.002 || progress >= 0.998) {
+      if (progress <= 0.002 || progress >= 0.998) {
+        return;
+      }
+
+      activeScenes += 1;
+      const canvasIn = smoothstep(0.012, 0.075, progress);
+      const canvasOut = 1 - smoothstep(0.94, 1, progress);
+      const travel = smoothstep(0.04, 0.95, progress);
+      const sourceCellSize =
+        Math.max(
+          sourceRect.width / scene.columns,
+          sourceRect.height / scene.rows,
+        ) + 0.7;
+      const targetCellSize =
+        Math.max(
+          targetRect.width / scene.columns,
+          targetRect.height / scene.rows,
+        ) + 0.45;
+
+      scene.particles.forEach((particle) => {
+        const startX = sourceRect.left + sourceRect.width * particle.u;
+        const startY = sourceRect.top + sourceRect.height * particle.v;
+        const targetX = targetRect.left + targetRect.width * particle.u;
+        const targetY = targetRect.top + targetRect.height * particle.v;
+        const arc = Math.sin(travel * Math.PI);
+        const x =
+          lerp(startX, targetX, travel) +
+          arc * particle.swirl * Math.min(54, viewportWidth * 0.1);
+        const y =
+          lerp(startY, targetY, travel) -
+          arc * (18 + particle.seed * 58) +
+          Math.sin((particle.seed + travel) * Math.PI * 4) * arc * 4;
+        const airborneSize = lerp(
+          sourceCellSize,
+          particle.size,
+          smoothstep(0.08, 0.58, travel),
+        );
+        const size = lerp(
+          airborneSize,
+          targetCellSize * (0.92 + particle.seed * 0.16),
+          smoothstep(0.62, 0.96, travel),
+        );
+        const colorProgress = smoothstep(0.38, 0.9, travel);
+        const color: [number, number, number] = [
+          Math.round(
+            lerp(particle.sourceColor[0], particle.targetColor[0], colorProgress),
+          ),
+          Math.round(
+            lerp(particle.sourceColor[1], particle.targetColor[1], colorProgress),
+          ),
+          Math.round(
+            lerp(particle.sourceColor[2], particle.targetColor[2], colorProgress),
+          ),
+        ];
+        const alpha = canvasIn * canvasOut * (0.72 + particle.seed * 0.28);
+
+        if (
+          x < -size * 2 ||
+          x > viewportWidth + size * 2 ||
+          y < -size * 2 ||
+          y > viewportHeight + size * 2
+        ) {
           return;
         }
 
-        activeScenes += 1;
-        const canvasIn = smoothstep(0.012, 0.075, progress);
-        const canvasOut = 1 - smoothstep(0.86, 1, progress);
-        const travel = smoothstep(0.055, 0.93, progress);
-        const sourceCellSize =
-          Math.max(
-            sourceRect.width / scene.columns,
-            sourceRect.height / scene.rows,
-          ) + 0.7;
+        context.fillStyle = `rgb(${color[0]} ${color[1]} ${color[2]} / ${alpha})`;
 
-        scene.particles.forEach((particle) => {
-          const startX = sourceRect.left + sourceRect.width * particle.u;
-          const startY = sourceRect.top + sourceRect.height * particle.v;
-          const target = getTargetPoint(
-            particle,
-            targetRect,
-            headingRect,
-            viewportWidth,
-            viewportHeight,
+        if (particle.seed > 0.82 && travel > 0.18 && travel < 0.72) {
+          context.fillRect(
+            x - size * (1.5 + travel * 2.5),
+            y - size * 0.22,
+            size * (2.2 + travel * 3.2),
+            Math.max(0.65, size * 0.42),
           );
-          const arc = Math.sin(travel * Math.PI);
-          const x =
-            lerp(startX, target.x, travel) +
-            arc * particle.swirl * Math.min(54, viewportWidth * 0.1);
-          const y =
-            lerp(startY, target.y, travel) -
-            arc * (18 + particle.seed * 58) +
-            Math.sin((particle.seed + travel) * Math.PI * 4) * arc * 4;
-          const size = lerp(sourceCellSize, particle.size, travel);
-          const alpha = canvasIn * canvasOut * (0.7 + particle.seed * 0.3);
+          return;
+        }
 
-          if (
-            x < -size * 2 ||
-            x > viewportWidth + size * 2 ||
-            y < -size * 2 ||
-            y > viewportHeight + size * 2
-          ) {
-            return;
-          }
+        if (particle.seed > 0.58 && travel < 0.84) {
+          const radius = size * 0.58;
+          context.beginPath();
+          context.moveTo(x, y - radius);
+          context.lineTo(x + radius, y);
+          context.lineTo(x, y + radius);
+          context.lineTo(x - radius, y);
+          context.closePath();
+          context.fill();
+          return;
+        }
 
-          context.fillStyle = `rgb(${particle.color[0]} ${particle.color[1]} ${particle.color[2]} / ${alpha})`;
-
-          if (particle.seed > 0.82 && travel > 0.18) {
-            context.fillRect(
-              x - size * (1.5 + travel * 2.5),
-              y - size * 0.22,
-              size * (2.2 + travel * 3.2),
-              Math.max(0.65, size * 0.42),
-            );
-            return;
-          }
-
-          if (particle.seed > 0.58) {
-            const radius = size * 0.58;
-            context.beginPath();
-            context.moveTo(x, y - radius);
-            context.lineTo(x + radius, y);
-            context.lineTo(x, y + radius);
-            context.lineTo(x - radius, y);
-            context.closePath();
-            context.fill();
-            return;
-          }
-
-          context.fillRect(x - size / 2, y - size / 2, size, size);
-        });
-      },
-    );
+        context.fillRect(x - size / 2, y - size / 2, size, size);
+      });
+    });
 
     canvas.dataset.dustActive = String(activeScenes);
   };
@@ -404,9 +435,13 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
   };
 
   const prepare = async () => {
-    const images = Array.from(
+    const sourceImages = Array.from(
       root.querySelectorAll<HTMLImageElement>("img[data-dust-source]"),
     );
+    const targetImages = Array.from(
+      root.querySelectorAll<HTMLImageElement>("img[data-dust-target]"),
+    );
+    const images = Array.from(new Set([...sourceImages, ...targetImages]));
 
     await Promise.all(
       images.map(async (image) => {
@@ -429,7 +464,7 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
       return;
     }
 
-    scenes = images
+    scenes = sourceImages
       .map((image, index) => createDustScene(root, image, index))
       .filter((scene): scene is DustScene => scene !== null);
 
@@ -438,6 +473,9 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
       return;
     }
 
+    scenes.forEach((scene) => {
+      scene.targetImage.style.setProperty("--dust-target-opacity", "0");
+    });
     root.dataset.dust = "ready";
     root.dataset.dustSources = String(scenes.length);
     root.dataset.journey = "ready";
@@ -446,6 +484,7 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
     );
     scenes.forEach((scene) => {
       scene.image.dataset.dustParticles = String(scene.particles.length);
+      scene.targetImage.dataset.dustParticles = String(scene.particles.length);
     });
     resize();
     window.addEventListener("scroll", scheduleDraw, { passive: true });
@@ -470,8 +509,11 @@ function setupDust(root: HTMLElement, canvas: HTMLCanvasElement) {
 
     scenes.forEach((scene) => {
       scene.image.style.removeProperty("--dust-source-opacity");
+      scene.targetImage.style.removeProperty("--dust-target-opacity");
       delete scene.image.dataset.dustProgress;
       delete scene.image.dataset.dustParticles;
+      delete scene.targetImage.dataset.dustProgress;
+      delete scene.targetImage.dataset.dustParticles;
     });
     delete root.dataset.dust;
     delete root.dataset.dustParticles;

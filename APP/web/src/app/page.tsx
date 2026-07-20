@@ -182,6 +182,7 @@ export default function Home() {
                 className={styles.instrumentLogo}
                 data-dust-source="crest"
                 data-dust-next="02"
+                data-dust-next-image="proof"
                 priority
                 sizes="(max-width: 900px) 82vw, 44vw"
               />
@@ -266,8 +267,7 @@ export default function Home() {
                 alt="Coffee and pastry presentation used in the Colattao digital menu"
                 fill
                 className={styles.proofImage}
-                data-dust-source="proof"
-                data-dust-next="03"
+                data-dust-target="proof"
                 sizes="(max-width: 900px) 92vw, 43vw"
               />
               <div className={styles.proofStamp}>

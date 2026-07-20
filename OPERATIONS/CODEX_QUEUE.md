@@ -159,9 +159,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** Motion progressively enhances the static page, uses compositor-safe transform/opacity behavior, reveals each section and panel once, keeps focus and touch behavior intact, honors reduced motion with complete static content, causes no overflow or layout shift at 390 px, 320 px, or desktop, passes targeted lint/build and browser checks, reaches a Ready preview, merges under an exact-head lock, and passes exact-production verification.
 **STOP:** Stop before merge if motion hides content without JavaScript, becomes visually noisy or disorienting, harms readability/focus/touch behavior, clips supported widths, changes protected behavior, fails a check, or the preview differs from the approved local result.
 
-## [ ] 11 - Transform landing images into scroll-linked color dust and publish
+## [x] 11 - Transform landing images into scroll-linked color dust and publish
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** HIGH
 **Authority:** Anthony explicitly requested on 2026-07-19: `Ok however possible I want the pics to dissolve into that color dust and transforma to the next slide as we scroll plan. First and when done merge and push`.
 **Branch base:** `codex/landing-dust-20260719`, created from production `main` at `210b83b`; prior motion-release checkout is carried as ops-only commit `45e1d5c`.
@@ -171,3 +171,37 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No Phaser/game runtime, scroll hijacking, new copy/assets/claims, `/conquest`, owner/customer/menu, authentication, API, billing, database, secret, access, email, purchase, or unrelated code changes. Production merge is authorized only after exact local, preview, accessibility, responsive, performance, and protected-route verification.
 **PASS:** The real images visibly dissolve into sampled color dust during section transitions; reverse scrolling reconstructs them; all work is requestAnimationFrame-batched and device-capped; mobile and desktop remain legible with zero overflow; reduced-motion and no-JavaScript paths retain complete static images/content; focus/touch behavior, exact links, lint/build, immutable preview, merge lock, production aliases, protected routes, and runtime logs pass.
 **STOP:** Stop before merge if the effect reads as a fade/wipe, masks important copy, drops supported mobile responsiveness, causes sustained animation offscreen, exceeds a stable frame budget, taints the Canvas, changes content or protected behavior, fails reverse/reduced/no-JS checks, or diverges at preview.
+
+## [x] 12 - Limit color dust to the opening logo transformation
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly requested on 2026-07-20: `keep the disolving motion to only the logo design and it transforms into the next pic but ommit the desolvin for the next one lets keep the graphics only for that inisial one`.
+**Branch base:** `codex/landing-single-dust-20260720`, created from production `main` at `e890a5c`.
+**Scope:** Remove the later Colattao proof-image opt-in from `APP/web/src/app/page.tsx`; preserve the opening logo-to-page-02 dust transformation, static proof image, six-stage journey mechanic, all copy, layout, assets, links, and protected routes.
+**Boundaries:** No particle-engine rewrite, new effect, new copy, asset change, route change, merge, or production publish. Push a review branch and preview only after local verification.
+**PASS:** Exactly one dust source initializes; the logo dissolves into the page-02 transition; the Colattao proof image remains fully visible while entering and leaving its section; reverse scroll restores the logo; responsive, reduced-motion, no-JavaScript, lint, and build checks pass.
+**STOP:** Stop before merge or if the proof image opacity changes with scroll, the opening transition regresses, static fallbacks fail, or any protected behavior changes.
+
+## [x] 13 - Form the proof image from the opening logo dust
+
+**State:** DONE
+**Codex effort:** HIGH
+**Authority:** Anthony explicitly clarified on 2026-07-20: `the next pic to be form from the dust of the logo. meaning there is no image there and as i scrooll the next image is froming not just appearing`.
+**Branch base:** Continue draft PR #167 on `codex/landing-single-dust-20260720` from verified head `52828c1`; production remains `e890a5c`.
+**Scope:** Extend `APP/web/src/app/LandingMotion.tsx` to sample the Colattao proof image as the opening crest scene's target grid; add source/target semantics in `APP/web/src/app/page.tsx`; add target-opacity progressive enhancement in `APP/web/src/app/page.module.css`; maintain operations records.
+**Morph direction:** Keep the proof image visually absent at the beginning of the transition. Move crest-derived Gold/Sapphire/Paper particles into the proof image's exact grid, interpolate toward sampled photo colors, then crossfade to the real image only during final assembly. Reverse scroll must deconstruct the proof and rebuild the crest.
+**Boundaries:** Preserve native scrolling, one dust scene, the six-stage journey, copy, layout, assets, links, hover treatment, static reduced-motion/no-JavaScript photo, and protected routes. No later dissolve, new dependency, merge, or production publish.
+**PASS:** The rendered proof image begins at opacity zero during normal motion; an active non-empty particle field travels from crest coordinates into proof-image coordinates; late-stage particles cover the target grid and carry sampled photo color; the DOM photo reaches full opacity only near completion; reverse scroll returns it to zero and restores the crest; lint, build, responsive, reduced-motion, scripts-disabled, idle-frame, and preview checks pass.
+**STOP:** Stop before merge if the photo merely fades in, target pixels do not visibly assemble, the image is absent in reduced/no-JavaScript modes, the transition obscures copy or overflows mobile, reverse motion breaks, performance regresses, or the preview diverges.
+
+## [ ] 14 - Publish the approved crest-to-proof morph
+
+**State:** IN PROGRESS
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly approved on 2026-07-20: `merge and or push`.
+**Branch base:** Draft PR #167 from `codex/landing-single-dust-20260720` into production `main`; approved head before release check-in is `148e868`, and production base is `e890a5c`.
+**Scope:** Push this release check-in, require all checks on the resulting exact head, mark PR #167 ready, squash-merge under an exact-head lock, wait for the resulting `main` commit to reach Vercel production, and verify the public landing morph plus representative protected routes read-only.
+**Boundaries:** No new product, copy, layout, asset, route, data, access, billing, authentication, API, or game changes. Do not merge if the head, base, checks, preview, or mergeability changes unexpectedly.
+**PASS:** PR #167 is merged under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live root has the crest source/proof target without a later proof source; live browser checks confirm photo formation, completion, reverse reconstruction, zero overflow, and no page error; representative protected routes return expected HTTP responses; production error logs contain no entries.
+**STOP:** Stop and report before remediation on any branch divergence, failed check, merge conflict, deployment error, alias mismatch, missing hook, broken live morph, protected-route regression, or runtime error.
