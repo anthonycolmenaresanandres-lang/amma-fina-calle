@@ -829,3 +829,81 @@ State now:
 - Product code is unchanged after local verification; this checkpoint is the only new diff.
 Next: Push this ops checkpoint, require all checks on the new exact head, resolve its Ready preview, then squash-merge PR #165 under an exact-head lock.
 Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-19 - fluid landing motion production release verified
+Did:
+- Revalidated PR #165 at final exact head `28a6e022386b7c28b6452bab1129d1f9c3f30680`; GitHub `web`, Vercel, and Vercel Preview Comments all passed.
+- Confirmed final immutable preview `dpl_2JqrKkDhK7AkZNwU1tKwbYv1RkMc` was Ready, contained every required motion/content marker, and had no error-level runtime entries.
+- Squash-merged PR #165 under GitHub's exact-head lock to production `main` commit `210b83b8a0aca5455ebaf812e4cdabea85300952`.
+- Confirmed that exact commit reached Ready Vercel production deployment `dpl_4e8MpBTvkCP1irx8hskp57rbjc8e`; `finacalleos.com`, `www.finacalleos.com`, and `amma-fina-calle.vercel.app` all resolve to it and return HTTP 200.
+- Verified the live 390 x 844 browser experience reveals all 26 rendered motion targets, preserves the complete `01`-`06` sequence and exact Instagram destination, maintains 44 px minimum visible link height, and has zero horizontal overflow or page errors.
+- Read-only checked `/conquest`, `/owner/colattao`, `/customers`, and `/m/colattao`; all return HTTP 200. The exact production deployment's error-level runtime log query returned no entries.
+State now:
+- The distinctive fluid editorial motion system is live at `https://finacalleos.com/`.
+- The browser console contains only the existing non-blocking Vercel Web Analytics-not-enabled notice; no product remediation was required.
+- This post-merge closeout is recorded on the release-log branch only so verification logging does not trigger another production deployment.
+Next / handoff to: Anthony -> review the live movement and capture; Codex -> make any future refinement through a new review PR.
+Blocked: none.
+
+### [CHECKPOINT] Codex - 2026-07-19 - dust transition preview verified
+Did:
+- Pushed implementation head `6e9139fb275ae7e0792c68a2e66b65c9ef35223d` and opened ready PR #166 against `main`.
+- Confirmed PR #166 is mergeable and its GitHub `web`, Vercel, and Vercel Preview Comments checks all pass.
+- Bound that exact commit to immutable Ready Vercel preview `dpl_D7mjnDqUNsbjWUfLW4VXiPZjKsYV` at `https://amma-fina-calle-pbfblp8dv.vercel.app`.
+- Authenticated retrieval from that exact deployment contains its deployment marker, Canvas, crest and proof dust sources, six-stage journey rail, complete 01-06 sequence, mobile hero, final build CTA, and preserved exact destinations.
+- The exact preview's error-level runtime log query returned no entries.
+State now:
+- Product code is unchanged after local verification; this checkpoint is the only new diff.
+Next: Push this ops checkpoint, require all checks on the new exact head, resolve its Ready preview, then squash-merge PR #166 under an exact-head lock.
+Blocked: none.
+
+### [CHECKPOINT] Codex - 2026-07-19 - conversion-safe journey mechanic verified
+Did:
+- Added a six-stage, copy-free edge rail that advances with the existing 01-06 pages, reverses with upward scroll, and gives the final build CTA a compositor-safe completion ring.
+- Kept the mechanic decorative and pointer-transparent; it introduces no score, sound, competing link, game route, or additional call to action.
+- Verified stages 1, 3, and 6 plus reverse 3-to-1 at 320 px; the rail occupies 3.2 px at the safe edge, CTA ring resolves at stage 6, and horizontal overflow remains zero.
+- Verified reduced motion removes the mechanic, scripts-blocked rendering keeps it hidden, original image/content fallbacks remain intact, targeted ESLint passes, and the full Webpack production build remains green.
+State now:
+- The mechanic supports orientation and completion without diminishing the landing conversion path, so it remains in the release candidate.
+Next: Amend the unpushed release commit, push the branch, open the PR, and require exact-head preview verification before merge.
+Blocked: none.
+
+### [CHECK-IN] Codex - 2026-07-19 - conversion-safe journey mechanic added before release
+Picking up: Include game mechanics only where they support the landing-page return instead of diluting it.
+Authority:
+- Anthony requested game mechanics if possible and only if they do not diminish returns; the branch is still local and has not been pushed.
+Plan:
+- Add a copy-free, pointer-transparent six-stage progress rail tied to the existing 01-06 scroll sequence and a restrained completion ring around the final build CTA.
+- Do not add points, scores, sound, a competing click, a game route, or another call to action. Remove the mechanic before release if it reduces mobile clarity or CTA prominence.
+Next: Re-run mobile visual, reverse, reduced-motion, no-JavaScript, accessibility, lint, and production-build gates before pushing.
+Blocked: none.
+
+### [CHECKPOINT] Codex - 2026-07-19 - image-to-dust transformation locally verified
+Did:
+- Added a landing-only fixed Canvas that samples the real Fina Calle crest and Colattao proof image into device-capped particles, mixes their pixels with Gold/Sapphire/Paper, and maps native scroll progress into the incoming page frame and headline.
+- Made both transformations mathematically reversible: upward scroll reconstructs the source image and its original opacity; idle pages stop requesting frames.
+- Batched layout reads once per scene before visual writes, capped device pixel ratio at 1.5, used passive scroll listeners, and kept the surface pointer-transparent.
+- Verified live particle output at both 01-to-02 and 02-to-03 boundaries, reverse reconstruction, frozen idle frame count, zero horizontal overflow at 320, 390, and 1440 px, and no browser errors.
+- Verified reduced motion presents all 28 reveal targets and both static images with the Canvas disabled; a scripts-blocked render retains the hero, proof content, and original image opacity.
+- Passed targeted ESLint, `git diff --check`, the current Vercel interface-guideline audit, and the full Next 16.2.7 Webpack production build across all listed routes.
+Evidence:
+- `outputs/fina-calle-dust-transition-local.webm`
+- `outputs/fina-calle-dust-crest-mid-local.png`
+- `outputs/fina-calle-dust-proof-mid-local.png`
+Next: Commit and push the verified branch, open the review PR, bind the preview to its exact head, then merge only if GitHub and Vercel remain green.
+Blocked: none.
+
+### [CHECK-IN] Codex - 2026-07-19 - scroll-linked image-to-dust transformation
+Picking up: Make the landing images dissolve into Fina Calle color dust and transform into the incoming comic page while scrolling, then push and merge after full verification.
+Authority:
+- Anthony explicitly requested the plan first and authorized the completed change to be pushed and merged.
+State I see:
+- Production `main` is `210b83b`; the fluid registration-lag motion system is live and verified.
+- Fresh branch `codex/landing-dust-20260719` starts from that production tree and carries only the prior release checkout before this task.
+Plan locked:
+- Add a fixed, pointer-transparent native Canvas driven by scroll progress; sample local image pixels once and cap particle density by viewport/device ratio.
+- The crest and proof image remain the source of truth. Their particles mix sampled color with Gold, Sapphire, and Paper, travel toward the next page's registration frame, and reconstruct automatically on reverse scroll.
+- Preserve native scrolling, existing copy/layout/motion, server-rendered images, keyboard/focus behavior, exact destinations, and a fully static reduced/no-JavaScript experience.
+Boundaries:
+- Root landing and operations records only. No Phaser dependency, protected route, data, access, billing, authentication, API, game, asset, or business-claim changes.
+- Stop before merge on any visual, responsive, accessibility, performance, preview, check, deployment, alias, protected-route, or runtime-log divergence.
