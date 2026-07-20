@@ -161,10 +161,57 @@ namespace ShadowDoors.Editor
                 AssetDatabase.CreateAsset(pipeline, PipelinePath);
             }
 
+            var rendererData = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(RendererPath);
+            if (rendererData == null)
+            {
+                throw new BuildFailedException("Shadow Doors URP renderer data is missing.");
+            }
+            EnsureArBackgroundRendererFeature(rendererData);
+
             GraphicsSettings.defaultRenderPipeline = pipeline;
             QualitySettings.renderPipeline = pipeline;
             EditorUtility.SetDirty(pipeline);
             AssetDatabase.SaveAssets();
+        }
+
+        private static void EnsureArBackgroundRendererFeature(UniversalRendererData rendererData)
+        {
+            if (rendererData.rendererFeatures.Any(feature => feature is ARBackgroundRendererFeature))
+            {
+                return;
+            }
+
+            var feature = ScriptableObject.CreateInstance<ARBackgroundRendererFeature>();
+            feature.name = "AR Background Renderer Feature";
+            AssetDatabase.AddObjectToAsset(feature, rendererData);
+            if (!AssetDatabase.TryGetGUIDAndLocalFileIdentifier(feature, out _, out long localId))
+            {
+                UnityEngine.Object.DestroyImmediate(feature, true);
+                throw new BuildFailedException("Could not persist the AR background renderer feature.");
+            }
+
+            var serializedRenderer = new SerializedObject(rendererData);
+            SerializedProperty features = serializedRenderer.FindProperty("m_RendererFeatures");
+            SerializedProperty featureMap = serializedRenderer.FindProperty("m_RendererFeatureMap");
+            if (features == null || featureMap == null)
+            {
+                UnityEngine.Object.DestroyImmediate(feature, true);
+                throw new BuildFailedException("Unity did not expose the URP renderer feature lists.");
+            }
+
+            features.arraySize++;
+            features.GetArrayElementAtIndex(features.arraySize - 1).objectReferenceValue = feature;
+            featureMap.arraySize++;
+            featureMap.GetArrayElementAtIndex(featureMap.arraySize - 1).longValue = localId;
+            if (!serializedRenderer.ApplyModifiedPropertiesWithoutUndo())
+            {
+                UnityEngine.Object.DestroyImmediate(feature, true);
+                throw new BuildFailedException("Could not attach the AR background renderer feature.");
+            }
+
+            EditorUtility.SetDirty(feature);
+            EditorUtility.SetDirty(rendererData);
+            Debug.Log("SHADOW_DOORS_URP arBackgroundRendererFeature=enabled");
         }
 
         private static void CreateRuntimeAssetsAndScene()

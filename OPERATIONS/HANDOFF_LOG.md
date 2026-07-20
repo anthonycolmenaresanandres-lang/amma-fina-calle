@@ -635,3 +635,22 @@ State now:
 - L3 is green. Unity 6000.3.19f1 enforces API 25 even though ARCore itself permits the requested API 24; the APK manifest truthfully reports minSdk 25 and targetSdk 36.
 - `adb devices -l` lists no device, so L4 is `DEFERRED-TO-DEVICE`; no install or logcat smoke was attempted.
 Next / handoff to: Anthony -> install the APK on the phone, tag the real doors, turn the lights down, and run the four-marker device smoke.
+
+### [CHECK-IN] Codex - 2026-07-20 - Shadow Doors L4 physical-device smoke
+Picking up: Install the L3 APK on Anthony's USB-connected Motorola razr 2024, launch the real AR session, capture the four runtime markers in order, and check the complete device log for a crash or ANR.
+State I see:
+- Device `motorola_razr_2024` is authorized for adb and the L3 APK is available at `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk`.
+- L0-L3 are green on branch `claude/escape-bomb-dc-plan-n6bfj5`; L4 was previously deferred only because no device was attached.
+
+### [CHECK-OUT] Codex - 2026-07-20 - L4 exposed and fixed missing AR background pass; retest deferred
+Did:
+- Installed the APK with adb (`Success`) and launched `com.amma.shadowdoors/com.unity3d.player.UnityPlayerGameActivity` on the Motorola razr 2024.
+- Reproduced Anthony's solid-yellow AR view in both a device screenshot and adb capture. ARCore opened the camera and remained active, but no setup marker was emitted and the experience was not playable.
+- Traced the failure to `ShadowDoorsRenderer.asset` having an empty renderer-feature list even though AR Foundation requires `ARBackgroundRendererFeature` for URP camera passthrough.
+- Updated the deterministic Android build entry point to persist that renderer feature and its URP feature map, then passed a clean Unity compile and rebuilt the IL2CPP ARM64 APK with no C# or shader errors.
+- Rebased without merging onto the non-overlapping Darkness Portal branch update, then revalidated L0 compile, the expanded L1 suite (24/24), and L2 PlayMode (3/3 with all four markers in order).
+- Verified the generated renderer asset names `UnityEngine.XR.ARFoundation.ARBackgroundRendererFeature`. The final replacement APK is 34,684,999 bytes with SHA-256 `614070486A9CA3856B10DF89955772159D3E1432682DB5648B2DD0C4BB5BBBC6`.
+State now:
+- L3 remains green with the corrected AR compositor. L4 is not green yet: Anthony disconnected the phone before the corrected APK could be installed, so marker order, three-minute `RUN_END`, crash/ANR status, and device frame rate remain `DEFERRED-TO-DEVICE`.
+- The original installed APK is known-bad on this phone and should be replaced rather than reused.
+Next / handoff to: Anthony -> reconnect the phone once; Codex -> install the corrected APK, launch it directly, verify camera passthrough, and finish the four-marker three-minute L4 smoke.
