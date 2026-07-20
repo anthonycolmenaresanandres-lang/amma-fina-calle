@@ -907,3 +907,28 @@ Plan locked:
 Boundaries:
 - Root landing and operations records only. No Phaser dependency, protected route, data, access, billing, authentication, API, game, asset, or business-claim changes.
 - Stop before merge on any visual, responsive, accessibility, performance, preview, check, deployment, alias, protected-route, or runtime-log divergence.
+
+### [CHECK-IN] Codex - 2026-07-20 - single opening dust transformation
+Picking up: Keep the scroll-linked color-dust effect only on the opening Fina Calle logo so it resolves into page 02; remove the later proof-image dissolve.
+Authority:
+- Anthony explicitly requested the narrower one-transition treatment after reviewing the live release.
+State I see:
+- Production `main` is `e890a5c`; the current root has two dust sources, with the crest targeting page 02 and the Colattao proof image targeting page 03.
+- Fresh branch `codex/landing-single-dust-20260720` starts from that exact production tree.
+Plan locked:
+- Remove only the proof image's dust-source and target hooks. Keep the Canvas engine, opening crest transformation, scoreless journey rail, proof-image hover treatment, copy, layout, assets, and links unchanged.
+- Verify exactly one initialized source, proof-image opacity stability through forward and reverse scroll, mobile/desktop overflow, reduced motion, scripts-disabled fallback, targeted lint, and production build.
+Boundaries:
+- Root landing and operations records only. No protected route, data, authentication, billing, API, game, secret, or asset changes. Stop before production merge; prepare a review PR only.
+
+### [CHECKPOINT] Codex - 2026-07-20 - single-source dust refinement locally verified
+Did:
+- Removed only the Colattao proof image's `data-dust-source` and `data-dust-next` hooks; the opening crest remains wired to page 02 and the particle engine is otherwise unchanged.
+- Verified the rendered root initializes exactly one source and 484 mobile-capped particles; the opening midpoint has active, non-empty Canvas output and reverse scroll restores crest opacity to `0.9`.
+- Verified the former page-02-to-page-03 boundary has zero active dust scenes, no proof-image progress state, and stable proof-image opacity `1`.
+- Verified zero horizontal overflow at 320, 390, and 1440 px; reduced motion hides Canvas/journey motion while preserving every reveal; scripts-disabled rendering retains both images and all six pages.
+- Passed targeted ESLint, `git diff --check`, and the full Next.js 16.2.7 Webpack production build across all listed routes.
+State now:
+- Product scope is exactly two deleted JSX attributes plus operations records. No copy, layout, asset, engine, link, mechanic, or protected-route code changed.
+Next: Commit and push the review branch, open a PR, and bind its exact head to a Ready preview. Do not merge production without Anthony's approval.
+Blocked: none.

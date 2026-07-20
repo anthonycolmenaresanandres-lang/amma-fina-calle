@@ -266,8 +266,6 @@ export default function Home() {
                 alt="Coffee and pastry presentation used in the Colattao digital menu"
                 fill
                 className={styles.proofImage}
-                data-dust-source="proof"
-                data-dust-next="03"
                 sizes="(max-width: 900px) 92vw, 43vw"
               />
               <div className={styles.proofStamp}>

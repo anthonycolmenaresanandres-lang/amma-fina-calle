@@ -159,9 +159,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** Motion progressively enhances the static page, uses compositor-safe transform/opacity behavior, reveals each section and panel once, keeps focus and touch behavior intact, honors reduced motion with complete static content, causes no overflow or layout shift at 390 px, 320 px, or desktop, passes targeted lint/build and browser checks, reaches a Ready preview, merges under an exact-head lock, and passes exact-production verification.
 **STOP:** Stop before merge if motion hides content without JavaScript, becomes visually noisy or disorienting, harms readability/focus/touch behavior, clips supported widths, changes protected behavior, fails a check, or the preview differs from the approved local result.
 
-## [ ] 11 - Transform landing images into scroll-linked color dust and publish
+## [x] 11 - Transform landing images into scroll-linked color dust and publish
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** HIGH
 **Authority:** Anthony explicitly requested on 2026-07-19: `Ok however possible I want the pics to dissolve into that color dust and transforma to the next slide as we scroll plan. First and when done merge and push`.
 **Branch base:** `codex/landing-dust-20260719`, created from production `main` at `210b83b`; prior motion-release checkout is carried as ops-only commit `45e1d5c`.
@@ -171,3 +171,14 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No Phaser/game runtime, scroll hijacking, new copy/assets/claims, `/conquest`, owner/customer/menu, authentication, API, billing, database, secret, access, email, purchase, or unrelated code changes. Production merge is authorized only after exact local, preview, accessibility, responsive, performance, and protected-route verification.
 **PASS:** The real images visibly dissolve into sampled color dust during section transitions; reverse scrolling reconstructs them; all work is requestAnimationFrame-batched and device-capped; mobile and desktop remain legible with zero overflow; reduced-motion and no-JavaScript paths retain complete static images/content; focus/touch behavior, exact links, lint/build, immutable preview, merge lock, production aliases, protected routes, and runtime logs pass.
 **STOP:** Stop before merge if the effect reads as a fade/wipe, masks important copy, drops supported mobile responsiveness, causes sustained animation offscreen, exceeds a stable frame budget, taints the Canvas, changes content or protected behavior, fails reverse/reduced/no-JS checks, or diverges at preview.
+
+## [ ] 12 - Limit color dust to the opening logo transformation
+
+**State:** IN PROGRESS
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly requested on 2026-07-20: `keep the disolving motion to only the logo design and it transforms into the next pic but ommit the desolvin for the next one lets keep the graphics only for that inisial one`.
+**Branch base:** `codex/landing-single-dust-20260720`, created from production `main` at `e890a5c`.
+**Scope:** Remove the later Colattao proof-image opt-in from `APP/web/src/app/page.tsx`; preserve the opening logo-to-page-02 dust transformation, static proof image, six-stage journey mechanic, all copy, layout, assets, links, and protected routes.
+**Boundaries:** No particle-engine rewrite, new effect, new copy, asset change, route change, merge, or production publish. Push a review branch and preview only after local verification.
+**PASS:** Exactly one dust source initializes; the logo dissolves into the page-02 transition; the Colattao proof image remains fully visible while entering and leaving its section; reverse scroll restores the logo; responsive, reduced-motion, no-JavaScript, lint, and build checks pass.
+**STOP:** Stop before merge or if the proof image opacity changes with scroll, the opening transition regresses, static fallbacks fail, or any protected behavior changes.
