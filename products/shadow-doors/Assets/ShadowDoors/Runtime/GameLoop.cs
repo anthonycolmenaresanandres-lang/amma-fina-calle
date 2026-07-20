@@ -27,6 +27,8 @@ namespace ShadowDoors.Runtime
         [SerializeField] private ScenarioDirector director;
         [SerializeField] private BanishSystem banishSystem;
         [SerializeField] private AudioKit audioKit;
+        [Tooltip("The consumed-by-darkness lose sequence. Optional — null falls back to an immediate end card.")]
+        [SerializeField] private ConsumedFX consumedFx;
         [SerializeField] private GameObject shadowAgentPrefab;
 
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
@@ -175,7 +177,7 @@ namespace ShadowDoors.Runtime
 
                 if (shadow.State == ShadowAgent.ShadowState.Hunting && shadow.DistanceToCamera <= FailDistanceMeters)
                 {
-                    HandleLose(nearestDistance);
+                    HandleLose(shadow);
                     return;
                 }
             }
@@ -187,17 +189,30 @@ namespace ShadowDoors.Runtime
             }
         }
 
-        private void HandleLose(float nearestDistance)
+        private void HandleLose(ShadowAgent killer)
         {
             _phase = RunPhase.Lost;
             director.StopRun();
-            audioKit?.StopHeartbeat();
-            audioKit?.PlayFlat("found_you");
 
             float survivalSeconds = director.Clock;
             Debug.Log("RUN_END result=LOSE survivalSeconds=" + survivalSeconds.ToString("F1"));
 
-            ShowEndCard($"IT FOUND YOU\n{survivalSeconds:F1}s");
+            // Consumed sequence (Anthony's design): the killer lunges to fill the view and
+            // the darkness closes in like an iris; ConsumedFX owns the heartbeat pin, the
+            // cut-to-silence + found_you slam at black-complete, and the card delay so the
+            // black gets to sit alone first. Fallback (no FX wired): the original immediate
+            // card, so a missing art ref can never wedge the lose path (scaffold rule).
+            string cardText = $"IT FOUND YOU\n{survivalSeconds:F1}s";
+            if (consumedFx != null)
+            {
+                consumedFx.Play(killer, _rig, audioKit, () => ShowEndCard(cardText));
+            }
+            else
+            {
+                audioKit?.StopHeartbeat();
+                audioKit?.PlayFlat("found_you");
+                ShowEndCard(cardText);
+            }
         }
 
         private void HandleWin()

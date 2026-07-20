@@ -16,7 +16,9 @@ namespace ShadowDoors.Runtime
         {
             Emerging,
             Hunting,
-            Banishing
+            Banishing,
+            /// <summary>Consumed sequence: scaling into the player's face; eyes flare then cut. Terminal — never leaves this state (ConsumedFX owns the timeline).</summary>
+            Lunging
         }
 
         private const float EmergeScaleInSeconds = 1.2f;
@@ -83,6 +85,9 @@ namespace ShadowDoors.Runtime
                     break;
                 case ShadowState.Banishing:
                     TickBanishing();
+                    break;
+                case ShadowState.Lunging:
+                    TickLunging(cameraPose);
                     break;
             }
         }
@@ -155,6 +160,52 @@ namespace ShadowDoors.Runtime
         /// safe to call more than once (e.g. dwell ticks arriving the same frame the
         /// threshold is crossed twice due to update ordering).
         /// </summary>
+        /// <summary>
+        /// Consumed-sequence lunge (ConsumedFX): the shadow abandons hunting, scales up to
+        /// fill the view and closes to just in front of the camera; eyes flare 2x then cut
+        /// to black at the ConsumedFX.BlackCompleteSeconds mark. Idempotent.
+        /// </summary>
+        public void BeginLunge(IARRig rig)
+        {
+            if (State == ShadowState.Lunging)
+            {
+                return;
+            }
+            _rig = rig != null ? rig : _rig;
+            State = ShadowState.Lunging;
+            _stateTimer = 0f;
+            _lungeStartPosition = transform.position;
+            _lungeStartScale = transform.localScale.x;
+        }
+
+        private const float LungeSeconds = 0.5f;
+        private const float LungeEndDistanceMeters = 0.3f;
+        private const float LungeEndScale = 4.0f;
+        private static readonly int EyeGlowIntensityId = Shader.PropertyToID("_EyeGlowIntensity");
+        private Vector3 _lungeStartPosition;
+        private float _lungeStartScale = 1f;
+
+        private void TickLunging(Pose cameraPose)
+        {
+            _stateTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(_stateTimer / LungeSeconds);
+            float eased = t * t; // accelerate INTO the face
+
+            Vector3 target = cameraPose.position + (transform.position - cameraPose.position).normalized * LungeEndDistanceMeters;
+            transform.position = Vector3.Lerp(_lungeStartPosition, target, eased);
+            transform.localScale = Vector3.one * Mathf.Lerp(_lungeStartScale, LungeEndScale, eased);
+
+            // Eyes: flare to 2x over the lunge, then hard-cut to zero once the ConsumedFX
+            // black completes (the last thing seen is the eyes going out inside the dark).
+            float sequenceTime = _stateTimer; // lunge starts at ConsumedFX t=0
+            float eyeIntensity = sequenceTime < ConsumedFX.BlackCompleteSeconds
+                ? Mathf.Lerp(1.5f, 3.0f, t)
+                : 0f;
+            _renderer.GetPropertyBlock(_props);
+            _props.SetFloat(EyeGlowIntensityId, eyeIntensity);
+            _renderer.SetPropertyBlock(_props);
+        }
+
         public void BeginBanish()
         {
             if (State == ShadowState.Banishing)
