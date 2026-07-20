@@ -845,6 +845,18 @@ State now:
 Next / handoff to: Anthony -> review the live movement and capture; Codex -> make any future refinement through a new review PR.
 Blocked: none.
 
+### [CHECKPOINT] Codex - 2026-07-19 - dust transition preview verified
+Did:
+- Pushed implementation head `6e9139fb275ae7e0792c68a2e66b65c9ef35223d` and opened ready PR #166 against `main`.
+- Confirmed PR #166 is mergeable and its GitHub `web`, Vercel, and Vercel Preview Comments checks all pass.
+- Bound that exact commit to immutable Ready Vercel preview `dpl_D7mjnDqUNsbjWUfLW4VXiPZjKsYV` at `https://amma-fina-calle-pbfblp8dv.vercel.app`.
+- Authenticated retrieval from that exact deployment contains its deployment marker, Canvas, crest and proof dust sources, six-stage journey rail, complete 01-06 sequence, mobile hero, final build CTA, and preserved exact destinations.
+- The exact preview's error-level runtime log query returned no entries.
+State now:
+- Product code is unchanged after local verification; this checkpoint is the only new diff.
+Next: Push this ops checkpoint, require all checks on the new exact head, resolve its Ready preview, then squash-merge PR #166 under an exact-head lock.
+Blocked: none.
+
 ### [CHECKPOINT] Codex - 2026-07-19 - conversion-safe journey mechanic verified
 Did:
 - Added a six-stage, copy-free edge rail that advances with the existing 01-06 pages, reverses with upward scroll, and gives the final build CTA a compositor-safe completion ring.
