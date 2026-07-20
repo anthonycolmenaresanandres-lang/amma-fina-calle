@@ -46,7 +46,7 @@ trusting exit code alone (Unity sometimes exits 0 on partial failures in batchmo
 ## 4. L1 — EditMode tests
 
 ```
-Unity.exe -batchmode -quit -nographics ^
+Unity.exe -batchmode -nographics ^
   -projectPath "C:\dev\amma\amma-fina-calle\products\shadow-doors" ^
   -runTests -testPlatform EditMode ^
   -testResults "C:\dev\amma\amma-fina-calle\products\shadow-doors\Logs\editmode_results.xml" ^
@@ -60,10 +60,14 @@ stdout. Covers `Assets/ShadowDoors/Tests/EditMode/`: `ScenarioDirectorTests`,
 `PRODUCT_MODULES/AR_SHADOW_DOORS_MVP.md` — it will fail with a clear "file not found" message
 until that file lands).
 
+Do not add `-quit` to a `-runTests` invocation on Unity 6000.3.19f1. It exits after the
+initial refresh before the Test Runner starts and produces no results XML. The Test Runner
+exits batchmode automatically after writing the requested results file.
+
 ## 5. L2 — PlayMode test (MockARRig, no device)
 
 ```
-Unity.exe -batchmode -quit -nographics ^
+Unity.exe -batchmode -nographics ^
   -projectPath "C:\dev\amma\amma-fina-calle\products\shadow-doors" ^
   -runTests -testPlatform PlayMode ^
   -testResults "C:\dev\amma\amma-fina-calle\products\shadow-doors\Logs\playmode_results.xml" ^
