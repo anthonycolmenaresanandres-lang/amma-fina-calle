@@ -194,3 +194,14 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** Preserve native scrolling, one dust scene, the six-stage journey, copy, layout, assets, links, hover treatment, static reduced-motion/no-JavaScript photo, and protected routes. No later dissolve, new dependency, merge, or production publish.
 **PASS:** The rendered proof image begins at opacity zero during normal motion; an active non-empty particle field travels from crest coordinates into proof-image coordinates; late-stage particles cover the target grid and carry sampled photo color; the DOM photo reaches full opacity only near completion; reverse scroll returns it to zero and restores the crest; lint, build, responsive, reduced-motion, scripts-disabled, idle-frame, and preview checks pass.
 **STOP:** Stop before merge if the photo merely fades in, target pixels do not visibly assemble, the image is absent in reduced/no-JavaScript modes, the transition obscures copy or overflows mobile, reverse motion breaks, performance regresses, or the preview diverges.
+
+## [ ] 14 - Publish the approved crest-to-proof morph
+
+**State:** IN PROGRESS
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly approved on 2026-07-20: `merge and or push`.
+**Branch base:** Draft PR #167 from `codex/landing-single-dust-20260720` into production `main`; approved head before release check-in is `148e868`, and production base is `e890a5c`.
+**Scope:** Push this release check-in, require all checks on the resulting exact head, mark PR #167 ready, squash-merge under an exact-head lock, wait for the resulting `main` commit to reach Vercel production, and verify the public landing morph plus representative protected routes read-only.
+**Boundaries:** No new product, copy, layout, asset, route, data, access, billing, authentication, API, or game changes. Do not merge if the head, base, checks, preview, or mergeability changes unexpectedly.
+**PASS:** PR #167 is merged under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live root has the crest source/proof target without a later proof source; live browser checks confirm photo formation, completion, reverse reconstruction, zero overflow, and no page error; representative protected routes return expected HTTP responses; production error logs contain no entries.
+**STOP:** Stop and report before remediation on any branch divergence, failed check, merge conflict, deployment error, alias mismatch, missing hook, broken live morph, protected-route regression, or runtime error.

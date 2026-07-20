@@ -990,3 +990,16 @@ State now:
 - Production `main` and `finacalleos.com` remain unchanged.
 Next / handoff to: Anthony -> review the morph video, frames, and draft PR #167; Codex -> merge and verify production only after explicit approval.
 Blocked: production merge requires Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-20 - approved crest-to-proof production release
+Picking up: Push the final release check-in, merge PR #167 under an exact-head lock, and verify the resulting production deployment and live morph.
+Authority:
+- Anthony explicitly approved `merge and or push` after reviewing the implemented crest-to-proof formation.
+State I see:
+- Local and remote PR head match at `148e868b821898c1f071e25f3284c36c6f0f88fe`; the working tree is clean.
+- PR #167 targets production `main` at `e890a5ce98cff6d17905050fd1550f7d5233e0e5`, is mergeable with `CLEAN` merge state, and GitHub `web`, Vercel, and Vercel Preview Comments all pass.
+Plan locked:
+- Commit and push only this release record, require the new exact head to pass, mark the PR ready, and squash-merge with GitHub's head-match guard.
+- Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
+Boundaries:
+- Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.
