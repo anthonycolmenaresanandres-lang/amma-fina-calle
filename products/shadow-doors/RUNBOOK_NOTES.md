@@ -23,6 +23,15 @@ Foundation 6.4.3, ARCore 6.4.3, Input System 1.11.2, URP 17.0.4, and Test Framew
 Unity 6000.3 substitutes its compatible built-ins for URP (17.3.0) and Test Framework
 (1.6.0).
 
+## Scene wiring - breach portal prefab (optional but wanted)
+
+`GameLoop.darknessPortalPrefab` expects a prefab built from a Unity **Quad** with the
+`DarknessPortal` component and a material using the `ShadowDoors/DarknessPortal` shader
+(same recipe as the ShadowAgent prefab: Quad + component + ShadowDoors shader/material).
+It is null-safe — the game runs without it (shadows spawn directly) — but wire it: the
+breach-before-emerge beat is a core design ruling (see AR_SHADOW_DOORS_MVP.md,
+"The breach portal"). No collider needed; `DarknessPortal.Awake` sets its own scale.
+
 ## L0 - compile
 
 ```powershell
@@ -39,6 +48,8 @@ Pass requires exit 0 and no `error CS`, compiler failure, or shader error in the
 
 Parse the NUnit XML and require root `result="Passed"`. Do not add `-quit` to a
 `-runTests` invocation on Unity 6000.3.19f1: it can exit before the Test Runner writes XML.
+Suites: `ScenarioDirectorTests`, `BanishSystemTests`, `ScenarioJsonTests`,
+`ConsumedFXTests`, `DarknessPortalTests`.
 
 ## L2 - PlayMode full loop with MockARRig
 

@@ -30,6 +30,8 @@ namespace ShadowDoors.Runtime
         [Tooltip("The consumed-by-darkness lose sequence. Optional — null falls back to an immediate end card.")]
         [SerializeField] private ConsumedFX consumedFx;
         [SerializeField] private GameObject shadowAgentPrefab;
+        [Tooltip("Breach portal (DarknessPortal) spawned over the doorway before each emerge. Optional — null spawns shadows directly with no breach visual (scaffold rule).")]
+        [SerializeField] private GameObject darknessPortalPrefab;
 
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
         [SerializeField] private GameObject endCardPanel;
@@ -118,6 +120,12 @@ namespace ShadowDoors.Runtime
 
         private void StartRun()
         {
+            // Kill any in-flight SpawnShadowAfterBreach from the previous run — its
+            // _phase guard sees the NEW run as Running, so without this a restart
+            // inside the 0.8 s bleed window would leak a stray shadow into the fresh
+            // run. (Only breach coroutines live on this component; ConsumedFX owns its
+            // own.)
+            StopAllCoroutines();
             ClearLiveShadows();
 
             _phase = RunPhase.Running;
@@ -172,6 +180,59 @@ namespace ShadowDoors.Runtime
                 audioKit.PlayAtAnchor(line, doorAnchor, false);
             }
 
+            // The hiss belongs to the BREACH, not the body — it plays the moment the
+            // darkness starts bleeding over the opening, on both paths below.
+            audioKit?.PlayFlat("emerge_hiss");
+
+            if (darknessPortalPrefab != null)
+            {
+                SpawnBreachPortal(doorAnchor);
+                // The shadow steps out of an already-open breach: delayed by exactly
+                // the portal's bleed-open time.
+                StartCoroutine(SpawnShadowAfterBreach(doorAnchor, doorIndex, speed));
+            }
+            else
+            {
+                SpawnShadow(doorAnchor, doorIndex, speed);
+            }
+        }
+
+        // Breach placement is door-agnostic on purpose: centered a door-half-height
+        // above the anchor (SetupFlow's gizmo convention — anchors sit at the tap
+        // point near the opening's base) and yaw-only billboarded toward wherever the
+        // player is standing NOW. No dependency on the tagged surface's normal, so it
+        // reads correctly on any door, archway, or window. Parented to the anchor so
+        // AR tracking updates carry it along.
+        private void SpawnBreachPortal(Transform doorAnchor)
+        {
+            Vector3 position = doorAnchor.position + Vector3.up * DarknessPortal.CenterHeightMeters;
+
+            Vector3 toCamera = _rig != null ? _rig.CameraPose.position - position : Vector3.forward;
+            toCamera.y = 0f;
+            Quaternion rotation = toCamera.sqrMagnitude > 0.0001f
+                ? Quaternion.LookRotation(-toCamera.normalized, Vector3.up)
+                : doorAnchor.rotation;
+
+            Instantiate(darknessPortalPrefab, position, rotation, doorAnchor);
+        }
+
+        private System.Collections.IEnumerator SpawnShadowAfterBreach(Transform doorAnchor, int doorIndex, float speed)
+        {
+            yield return new WaitForSeconds(DarknessPortal.OpenSeconds);
+
+            // The run may have ended (or the anchor been torn down by a restart's
+            // ClearLiveShadows/rescan) during the bleed — a breach with no run behind
+            // it must not spawn a hunter.
+            if (_phase != RunPhase.Running || doorAnchor == null)
+            {
+                yield break;
+            }
+
+            SpawnShadow(doorAnchor, doorIndex, speed);
+        }
+
+        private void SpawnShadow(Transform doorAnchor, int doorIndex, float speed)
+        {
             GameObject instance = Instantiate(shadowAgentPrefab, doorAnchor.position, doorAnchor.rotation);
             ShadowAgent shadow = instance.GetComponent<ShadowAgent>();
             if (shadow == null)
@@ -184,8 +245,6 @@ namespace ShadowDoors.Runtime
             shadow.Initialize(doorIndex, speed, _rig);
             _liveShadows.Add(shadow);
             banishSystem?.Register(shadow);
-
-            audioKit?.PlayFlat("emerge_hiss");
         }
 
         private void Update()

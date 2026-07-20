@@ -48,6 +48,23 @@
   — door index resolves to tag order; `speed` in m/s; feints are whisper-only events.
   MVP ships ONE handcrafted scenario ramping 1→3 concurrent shadows.
 
+## The breach portal (door-agnostic by design)
+
+Ruling on "what about the actual door" (Anthony, 2026-07-20): we never try to FIT the
+real door. Each emerge is preceded by a **breach** — an amorphous stain of darkness
+(`DarknessPortal.shader` + `DarknessPortal.cs`) that bleeds outward from the tagged
+anchor over 0.8 s, holds while the shadow steps through, then drains away. Because its
+edges are procedural noise-eaten smoke, it has no "correct" size: it reads right over a
+narrow door, a double door, an archway, or a window, where any fitted rectangle would
+visibly miss the real frame. Placement uses only the anchor point (center 1.05 m above
+it, yaw-billboarded to the player) — no dependency on detected door geometry.
+
+**Windows:** ARCore on phones cannot semantically identify doors or windows (plane
+detection gives walls, not openings) — which is why tagging is manual. A window IS
+taggable today: tap it in TagDoors and it joins the rotation; the breach stain and
+shadows work over it unchanged. A distinct "window" tag type (smaller portal, sill-leak
+animation) is backlog, not MVP.
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via
