@@ -624,3 +624,14 @@ State I see:
 - Canonical clone is clean at expected commit `f7867ea623c97c4c1f7afa01e7d0a18262a5a1b4`; Unity 6000.3.19f1 is installed.
 Boundaries:
 - Never touch or merge `main`; do not deploy or publish. Keep the repo overlay as source of truth, use the six-attempt compile-fix budget, and stop cleanly at L4 if no adb device is connected.
+
+### [CHECK-OUT] Codex - 2026-07-20 - Shadow Doors AR MVP built; device smoke deferred
+Did:
+- Created the fresh Unity 6000.3.19f1 project at `C:\Dev\ShadowDoors`, overlaid the checked-in Assets and Packages, and kept all fixes in the repository source overlay.
+- Passed L0 compile, L1 EditMode 20/20, and L2 PlayMode 3/3 with `SETUP_COMPLETE`, `FIRST_EMERGE`, 11 `BANISH_OK` markers, and `RUN_END result=WIN` in one scripted session.
+- Built `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk` as IL2CPP ARM64 with ARCore required, OpenGLES3, camera permission, package `com.amma.shadowdoors`, and SHA-256 `8CEBC5CCE6294EFD94029B1A9D1021435E6AE7CBEEFB86E5752E03505FB89DAE`.
+- Advanced AR Foundation and ARCore together to 6.4.3 to fix the verified Gradle 9 duplicate-AAR-namespace failure, wired scheduled spatial whispers and the banish stinger, and documented the reproducible commands.
+State now:
+- L3 is green. Unity 6000.3.19f1 enforces API 25 even though ARCore itself permits the requested API 24; the APK manifest truthfully reports minSdk 25 and targetSdk 36.
+- `adb devices -l` lists no device, so L4 is `DEFERRED-TO-DEVICE`; no install or logcat smoke was attempted.
+Next / handoff to: Anthony -> install the APK on the phone, tag the real doors, turn the lights down, and run the four-marker device smoke.

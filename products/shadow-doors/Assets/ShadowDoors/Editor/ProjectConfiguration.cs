@@ -32,11 +32,14 @@ namespace ShadowDoors.Editor
                     "Shadow Doors: Unity did not expose PlayerSettings.activeInputHandler.");
             }
 
-            activeInputHandler.intValue = InputSystemOnly;
-            if (!serializedSettings.ApplyModifiedPropertiesWithoutUndo())
+            if (activeInputHandler.intValue != InputSystemOnly)
             {
-                throw new InvalidOperationException(
-                    "Shadow Doors: failed to persist Input System-only handling.");
+                activeInputHandler.intValue = InputSystemOnly;
+                if (!serializedSettings.ApplyModifiedPropertiesWithoutUndo())
+                {
+                    throw new InvalidOperationException(
+                        "Shadow Doors: failed to persist Input System-only handling.");
+                }
             }
 
             AssetDatabase.SaveAssets();

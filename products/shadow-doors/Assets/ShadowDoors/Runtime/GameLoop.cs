@@ -68,9 +68,11 @@ namespace ShadowDoors.Runtime
             if (setupFlow != null) setupFlow.SetupCompleted += HandleSetupCompleted;
             if (director != null)
             {
+                director.OnWhisper += HandleWhisper;
                 director.OnEmerge += HandleEmerge;
                 director.OnWin += HandleWin;
             }
+            if (banishSystem != null) banishSystem.ShadowBanished += HandleBanish;
         }
 
         private void OnDisable()
@@ -78,14 +80,40 @@ namespace ShadowDoors.Runtime
             if (setupFlow != null) setupFlow.SetupCompleted -= HandleSetupCompleted;
             if (director != null)
             {
+                director.OnWhisper -= HandleWhisper;
                 director.OnEmerge -= HandleEmerge;
                 director.OnWin -= HandleWin;
             }
+            if (banishSystem != null) banishSystem.ShadowBanished -= HandleBanish;
         }
 
         private void HandleSetupCompleted()
         {
             StartRun();
+        }
+
+        private void HandleWhisper(int doorIndex)
+        {
+            if (_phase != RunPhase.Running || setupFlow == null || audioKit == null)
+            {
+                return;
+            }
+
+            IReadOnlyList<Transform> doors = setupFlow.DoorAnchors;
+            if (doors.Count == 0)
+            {
+                return;
+            }
+
+            audioKit.PlayAtAnchor("whisper_loop", doors[doorIndex % doors.Count], false);
+        }
+
+        private void HandleBanish(ShadowAgent shadow)
+        {
+            if (_phase == RunPhase.Running)
+            {
+                audioKit?.PlayFlat("banish_stinger");
+            }
         }
 
         private void StartRun()

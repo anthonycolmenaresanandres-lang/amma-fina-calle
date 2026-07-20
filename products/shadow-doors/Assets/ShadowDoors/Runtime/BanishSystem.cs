@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,9 @@ namespace ShadowDoors.Runtime
         private IARRig _rig;
         private readonly List<ShadowAgent> _activeShadows = new List<ShadowAgent>();
         private readonly Dictionary<ShadowAgent, float> _dwell = new Dictionary<ShadowAgent, float>();
+
+        /// <summary>Fires once when a tracked shadow crosses the dwell threshold.</summary>
+        public event Action<ShadowAgent> ShadowBanished;
 
         private void Awake()
         {
@@ -105,6 +109,7 @@ namespace ShadowDoors.Runtime
                     Debug.Log("BANISH_OK door=" + shadow.DoorIndex);
                     _dwell.Remove(shadow);
                     _activeShadows.RemoveAt(i);
+                    ShadowBanished?.Invoke(shadow);
                 }
             }
 
