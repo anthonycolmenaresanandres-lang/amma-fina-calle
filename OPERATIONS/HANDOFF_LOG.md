@@ -615,3 +615,12 @@ State now:
 - No paid Checkout, payment method, subscription, charge, invoice, transfer, payout, or customer email occurred.
 Next / handoff to: Colattao owner -> use the preserved reset screen to create the private password; Codex -> verify tenant isolation and billing status afterward, stopping before paid Checkout unless Anthony separately approves it.
 Blocked on owner: final private-password entry belongs to the owner and is intentionally not performed or stored by AMMA.
+
+### [CHECK-IN] Codex - 2026-07-20 - Shadow Doors AR MVP build and smoke
+Picking up: Build and verify the Shadow Doors Android AR MVP from the user-directed fresh Unity 6000.3.19f1 project overlay through L0 compile, L1 EditMode tests, L2 scripted MockARRig full-loop PlayMode markers, L3 IL2CPP ARM64 APK, and L4 adb smoke or clean device deferral.
+Authority:
+- Anthony explicitly directed this implementation on branch `claude/escape-bomb-dc-plan-n6bfj5`, including commits and pushes for each green level, overriding the queue's no-active-task state for this scoped task.
+State I see:
+- Canonical clone is clean at expected commit `f7867ea623c97c4c1f7afa01e7d0a18262a5a1b4`; Unity 6000.3.19f1 is installed.
+Boundaries:
+- Never touch or merge `main`; do not deploy or publish. Keep the repo overlay as source of truth, use the six-attempt compile-fix budget, and stop cleanly at L4 if no adb device is connected.
