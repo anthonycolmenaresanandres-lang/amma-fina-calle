@@ -1,0 +1,11 @@
+{
+    "name": "ShadowDoors.Tests.PlayMode",
+    "references": [
+        "ShadowDoors.Runtime"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

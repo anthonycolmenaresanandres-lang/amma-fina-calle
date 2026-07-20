@@ -78,18 +78,22 @@ namespace ShadowDoors.Runtime
             ShadowAgent aimedShadow = FindAimedShadow(ray);
             float dt = Time.deltaTime;
 
-            // Prune any shadow that has since been destroyed out from under us
-            // (Banishing -> dissolve -> Destroy happens on ShadowAgent's own clock).
+            // Iterate backward so banishing a shadow can remove it from the tracked
+            // list in the same frame without invalidating an enumerator. Also prune
+            // shadows destroyed by their own dissolve clock.
             for (int i = _activeShadows.Count - 1; i >= 0; i--)
             {
-                if (_activeShadows[i] == null)
+                ShadowAgent shadow = _activeShadows[i];
+                if (shadow == null)
                 {
+                    if ((object)shadow != null)
+                    {
+                        _dwell.Remove(shadow);
+                    }
                     _activeShadows.RemoveAt(i);
+                    continue;
                 }
-            }
 
-            foreach (ShadowAgent shadow in _activeShadows)
-            {
                 bool aimed = shadow == aimedShadow;
                 float current = _dwell.TryGetValue(shadow, out float existing) ? existing : 0f;
                 float updated = DwellTick(current, aimed, dt);
@@ -99,7 +103,8 @@ namespace ShadowDoors.Runtime
                 {
                     shadow.BeginBanish();
                     Debug.Log("BANISH_OK door=" + shadow.DoorIndex);
-                    Unregister(shadow);
+                    _dwell.Remove(shadow);
+                    _activeShadows.RemoveAt(i);
                 }
             }
 
