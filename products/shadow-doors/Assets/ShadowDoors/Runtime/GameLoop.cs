@@ -197,22 +197,16 @@ namespace ShadowDoors.Runtime
             }
         }
 
-        // Breach placement is door-agnostic on purpose: centered a door-half-height
-        // above the anchor (SetupFlow's gizmo convention — anchors sit at the tap
-        // point near the opening's base) and yaw-only billboarded toward wherever the
-        // player is standing NOW. No dependency on the tagged surface's normal, so it
-        // reads correctly on any door, archway, or window. Parented to the anchor so
-        // AR tracking updates carry it along.
+        // Floor-anchor ruling (Anthony, 2026-07-20): the breach is a darkness STAIN
+        // spreading flat ON the floor at the tagged threshold — anchors live on the
+        // floor (instant, reliable ARCore plane) and the shadow rises up through the
+        // stain. Fully placement-agnostic: a pool of darkness on the floor reads
+        // correctly at any doorway, archway, or window with zero dependency on the
+        // vertical surface. Parented to the anchor so AR tracking updates carry it.
         private void SpawnBreachPortal(Transform doorAnchor)
         {
-            Vector3 position = doorAnchor.position + Vector3.up * DarknessPortal.CenterHeightMeters;
-
-            Vector3 toCamera = _rig != null ? _rig.CameraPose.position - position : Vector3.forward;
-            toCamera.y = 0f;
-            Quaternion rotation = toCamera.sqrMagnitude > 0.0001f
-                ? Quaternion.LookRotation(-toCamera.normalized, Vector3.up)
-                : doorAnchor.rotation;
-
+            Vector3 position = doorAnchor.position + Vector3.up * DarknessPortal.FloorLiftMeters;
+            Quaternion rotation = Quaternion.Euler(90f, 0f, 0f); // quad lies flat on the floor; shader is radial, yaw irrelevant.
             Instantiate(darknessPortalPrefab, position, rotation, doorAnchor);
         }
 

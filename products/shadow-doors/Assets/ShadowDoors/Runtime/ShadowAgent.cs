@@ -26,6 +26,15 @@ namespace ShadowDoors.Runtime
         private const float DriftAmplitudeMeters = 0.15f;
         private const float DriftFrequencyHz = 0.35f; // arbitrary, slow "unsteady approach" wobble — tune freely, not spec-mandated.
 
+        /// <summary>
+        /// Floor-anchor ruling (Anthony, 2026-07-20): anchors live ON THE FLOOR at the
+        /// doorway threshold (vertical door surfaces are unreliable to tag; floors lock
+        /// instantly), so the shadow RISES out of the floor stain instead of sliding out
+        /// of a door plane. This is the quad-center height above the anchor once fully
+        /// risen — half the unit quad's 1 m height, keeping its base at floor level.
+        /// </summary>
+        private const float RiseCenterHeightMeters = 0.5f;
+
         [SerializeField] private float glideSpeed = 0.3f; // m/s, overwritten from the scenario event's speed at spawn.
 
         private static readonly int DissolveId = Shader.PropertyToID("_Dissolve");
@@ -60,8 +69,11 @@ namespace ShadowDoors.Runtime
             _renderer = GetComponent<MeshRenderer>();
             _props = new MaterialPropertyBlock();
 
+            _spawnPosition = transform.position; // the floor anchor point — the rise starts here.
             transform.localScale = Vector3.zero; // Emerging starts at scale 0.
         }
+
+        private Vector3 _spawnPosition;
 
         private void Update()
         {
@@ -110,7 +122,12 @@ namespace ShadowDoors.Runtime
         {
             _stateTimer += Time.deltaTime;
             float t = Mathf.Clamp01(_stateTimer / EmergeScaleInSeconds);
+
+            // Rise out of the floor: scale up while the quad's CENTER climbs so its
+            // base stays pinned to the anchor — reads as surfacing through the stain,
+            // not inflating in mid-air.
             transform.localScale = Vector3.one * t;
+            transform.position = _spawnPosition + Vector3.up * (RiseCenterHeightMeters * t);
 
             if (t >= 1f)
             {

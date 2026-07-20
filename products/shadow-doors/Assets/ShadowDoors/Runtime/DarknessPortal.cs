@@ -3,15 +3,16 @@ using UnityEngine;
 namespace ShadowDoors.Runtime
 {
     /// <summary>
-    /// The breach: an amorphous darkness stain that bleeds over a tagged opening
-    /// before a shadow steps through it. Self-driving — plays its whole
-    /// open → hold → drain timeline from OnEnable and destroys itself at the end,
-    /// so GameLoop only ever Instantiates it (scaffold rule: nothing to wire, nothing
-    /// to wedge). Drives DarknessPortal.shader's _OpenAmount via property block.
+    /// The breach: an amorphous darkness stain that spreads flat ON THE FLOOR at the
+    /// tagged doorway threshold before a shadow rises through it (floor-anchor ruling,
+    /// Anthony 2026-07-20). Self-driving — plays its whole open → hold → drain
+    /// timeline from OnEnable and destroys itself at the end, so GameLoop only ever
+    /// Instantiates it (scaffold rule: nothing to wire, nothing to wedge). Drives
+    /// DarknessPortal.shader's _OpenAmount via property block.
     ///
-    /// Door-agnostic by design: the noise-eaten smoke edge (in the shader) means the
-    /// stain never has to match the real frame — it reads correctly over any door,
-    /// double door, archway, or window.
+    /// Placement-agnostic by design: a noise-eaten pool of darkness on the floor never
+    /// has to match any real geometry — it reads correctly at any doorway, archway, or
+    /// window.
     /// </summary>
     [RequireComponent(typeof(MeshRenderer))]
     public class DarknessPortal : MonoBehaviour
@@ -25,14 +26,14 @@ namespace ShadowDoors.Runtime
         /// <summary>Drain-away duration (s) after the hold.</summary>
         public const float DrainSeconds = 1.4f;
 
-        /// <summary>Portal center height above the door anchor (m) — anchors sit at the tap point near the opening's base, matching SetupFlow's gizmo convention (bar grows upward from the anchor).</summary>
-        public const float CenterHeightMeters = 1.05f;
+        /// <summary>Tiny lift above the floor anchor (m) so the flat stain never z-fights the detected plane's visuals.</summary>
+        public const float FloorLiftMeters = 0.01f;
 
         private static readonly int OpenAmountId = Shader.PropertyToID("_OpenAmount");
 
-        [Tooltip("World size of the stain (m). Deliberately generous — smoke overshooting the frame is the look, not a bug.")]
-        [SerializeField] private float portalWidth = 1.4f;
-        [SerializeField] private float portalHeight = 2.3f;
+        [Tooltip("World size of the floor stain (m). Deliberately generous — darkness spilling past the threshold is the look, not a bug.")]
+        [SerializeField] private float portalWidth = 1.3f;
+        [SerializeField] private float portalHeight = 1.3f;
 
         private MeshRenderer _renderer;
         private MaterialPropertyBlock _props;

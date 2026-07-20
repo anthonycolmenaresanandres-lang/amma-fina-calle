@@ -20,11 +20,16 @@
 ## Core loop (MVP, nothing more)
 
 1. **Setup ritual (~60 s, in-app, dark room encouraged):** scan floor until planes lock →
-   tap each real doorway to place a **door portal anchor** (min 1, max 4; door-height
-   gizmo snaps vertical) → tap floor to set the player's "safe center" → START.
+   tap the **FLOOR at each doorway threshold** to place a **door anchor** (min 1, max 4;
+   door-height gizmo snaps vertical as the visual beacon). Floor-anchor ruling (Anthony,
+   2026-07-20, from the first device playtest): vertical door surfaces are unreliable to
+   tag on-device; floor planes lock instantly and precisely, so the engine knows exactly
+   where every door is the moment it's tapped → tap floor to set the player's
+   "safe center" → START.
 2. **Survival (3:00):** the JSON scenario schedules events per door:
    `whisper` (spatial audio AT the door, nothing visible — the dread beat) →
-   `emerge` (shadow slides out of the door plane) → shadow glides toward the player
+   `emerge` (a darkness stain spreads on the floor at the threshold; the shadow RISES
+   up through it) → shadow glides toward the player
    (camera position) at configured speed → **banish**: center the aim reticle on it and
    hold ~1.2 s (a light-cone shader + rising tone); shadow burns off with a stinger →
    escalation: shorter gaps, simultaneous doors, feints (whisper at door A, emerge at B).
@@ -48,16 +53,18 @@
   — door index resolves to tag order; `speed` in m/s; feints are whisper-only events.
   MVP ships ONE handcrafted scenario ramping 1→3 concurrent shadows.
 
-## The breach portal (door-agnostic by design)
+## The breach portal (floor stain — placement-agnostic by design)
 
-Ruling on "what about the actual door" (Anthony, 2026-07-20): we never try to FIT the
-real door. Each emerge is preceded by a **breach** — an amorphous stain of darkness
-(`DarknessPortal.shader` + `DarknessPortal.cs`) that bleeds outward from the tagged
-anchor over 0.8 s, holds while the shadow steps through, then drains away. Because its
-edges are procedural noise-eaten smoke, it has no "correct" size: it reads right over a
-narrow door, a double door, an archway, or a window, where any fitted rectangle would
-visibly miss the real frame. Placement uses only the anchor point (center 1.05 m above
-it, yaw-billboarded to the player) — no dependency on detected door geometry.
+Ruling on "what about the actual door" (Anthony, 2026-07-20, revised same day after the
+first device playtest): we never try to FIT the real door — and we never depend on the
+vertical surface at all. Each emerge is preceded by a **breach** — an amorphous pool of
+darkness (`DarknessPortal.shader` + `DarknessPortal.cs`) that spreads FLAT ON THE FLOOR
+at the tagged threshold over 0.8 s, holds while the shadow rises up through it, then
+drains away. Because its edges are procedural noise-eaten smoke, it has no "correct"
+size or shape: a stain of darkness on the floor reads right at a narrow door, a double
+door, an archway, or a window. Placement uses only the floor anchor point (+1 cm lift
+against z-fighting) — zero dependency on detected door geometry, which ARCore can't
+reliably give us anyway.
 
 **Windows:** ARCore on phones cannot semantically identify doors or windows (plane
 detection gives walls, not openings) — which is why tagging is manual. A window IS

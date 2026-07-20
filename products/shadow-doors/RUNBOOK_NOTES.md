@@ -28,9 +28,11 @@ Unity 6000.3 substitutes its compatible built-ins for URP (17.3.0) and Test Fram
 `GameLoop.darknessPortalPrefab` expects a prefab built from a Unity **Quad** with the
 `DarknessPortal` component and a material using the `ShadowDoors/DarknessPortal` shader
 (same recipe as the ShadowAgent prefab: Quad + component + ShadowDoors shader/material).
-It is null-safe — the game runs without it (shadows spawn directly) — but wire it: the
-breach-before-emerge beat is a core design ruling (see AR_SHADOW_DOORS_MVP.md,
-"The breach portal"). No collider needed; `DarknessPortal.Awake` sets its own scale.
+It is a FLOOR STAIN: GameLoop spawns it rotated flat on the floor at the tagged
+threshold and the shadow rises up through it — author the prefab unrotated, no collider;
+`DarknessPortal.Awake` sets its own scale. It is null-safe — the game runs without it
+(shadows spawn directly) — but wire it: the breach-before-emerge beat is a core design
+ruling (see AR_SHADOW_DOORS_MVP.md, "The breach portal").
 
 ## L0 - compile
 

@@ -235,7 +235,9 @@ namespace ShadowDoors.Runtime
                     statusText.text = "Scanning room... hold steady.";
                     break;
                 case SetupState.TagDoors:
-                    statusText.text = $"Tap each doorway ({_doorAnchors.Count}/{maxDoors} tagged, need {minDoors}+). Confirm when ready.";
+                    // Floor-anchor ruling: the player taps the FLOOR at the threshold —
+                    // floors lock instantly in ARCore; vertical door surfaces don't.
+                    statusText.text = $"Tap the FLOOR at each doorway ({_doorAnchors.Count}/{maxDoors} tagged, need {minDoors}+). Confirm when ready.";
                     break;
                 case SetupState.SetSafeCenter:
                     statusText.text = "Tap the floor where you'll stand.";
