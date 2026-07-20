@@ -88,7 +88,12 @@ const controls = [
 export default function Home() {
   return (
     <main className={`${styles.page} ${display.variable}`} data-motion-root>
-      <LandingMotion />
+      <LandingMotion canvasClassName={styles.dustCanvas} />
+      <div className={styles.journeyRail} data-journey-rail aria-hidden="true">
+        {Array.from({ length: 6 }, (_, index) => (
+          <span key={index} />
+        ))}
+      </div>
       <Link href="#main-content" className={styles.skipLink}>
         Skip to content
       </Link>
@@ -175,6 +180,8 @@ export default function Home() {
                 width={1536}
                 height={1536}
                 className={styles.instrumentLogo}
+                data-dust-source="crest"
+                data-dust-next="02"
                 priority
                 sizes="(max-width: 900px) 82vw, 44vw"
               />
@@ -259,6 +266,8 @@ export default function Home() {
                 alt="Coffee and pastry presentation used in the Colattao digital menu"
                 fill
                 className={styles.proofImage}
+                data-dust-source="proof"
+                data-dust-next="03"
                 sizes="(max-width: 900px) 92vw, 43vw"
               />
               <div className={styles.proofStamp}>
