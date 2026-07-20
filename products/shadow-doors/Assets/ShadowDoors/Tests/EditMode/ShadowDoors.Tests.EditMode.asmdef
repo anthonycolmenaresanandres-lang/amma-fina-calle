@@ -1,0 +1,18 @@
+{
+    "name": "ShadowDoors.Tests.EditMode",
+    "references": [
+        "ShadowDoors.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "overrideReferences": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ]
+}
