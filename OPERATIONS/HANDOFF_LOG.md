@@ -977,3 +977,16 @@ State now:
 - The requested photo visibly forms from logo dust rather than appearing independently. Copy, layout, assets, links, journey behavior, and protected-route code remain unchanged.
 Next: Commit and update draft PR #167, then bind its exact head to a Ready preview and repeat the deployed marker/runtime-log gates. Do not merge production without Anthony's approval.
 Blocked: none.
+
+### [CHECK-OUT] Codex - 2026-07-20 - crest-to-proof morph preview ready
+Did:
+- Committed the verified morph as `1b80db879b480b074eb18fdb78ea108c9051e369` and updated draft PR #167 without changing production.
+- Confirmed GitHub `web`, Vercel, and Vercel Preview Comments checks pass for that exact implementation head.
+- Confirmed immutable preview deployment `dpl_9MNWYUtGSrSvdAGHvRaW8MMjCQPb` is Ready at `https://amma-fina-calle-3ckwwx3tb.vercel.app`.
+- Authenticated retrieval returns HTTP 200 with the crest source, proof target, source-to-target image link, pages 02/03, and journey rail present; the proof image is not registered as another dust source.
+- The exact preview deployment's error-level runtime log query returned no entries.
+State now:
+- The logo dust visibly assembles the Colattao photograph, hands off only near completion, reverses into the logo, and performs no later dissolve.
+- Production `main` and `finacalleos.com` remain unchanged.
+Next / handoff to: Anthony -> review the morph video, frames, and draft PR #167; Codex -> merge and verify production only after explicit approval.
+Blocked: production merge requires Anthony's approval.

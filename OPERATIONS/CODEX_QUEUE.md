@@ -183,9 +183,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** Exactly one dust source initializes; the logo dissolves into the page-02 transition; the Colattao proof image remains fully visible while entering and leaving its section; reverse scroll restores the logo; responsive, reduced-motion, no-JavaScript, lint, and build checks pass.
 **STOP:** Stop before merge or if the proof image opacity changes with scroll, the opening transition regresses, static fallbacks fail, or any protected behavior changes.
 
-## [ ] 13 - Form the proof image from the opening logo dust
+## [x] 13 - Form the proof image from the opening logo dust
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** HIGH
 **Authority:** Anthony explicitly clarified on 2026-07-20: `the next pic to be form from the dust of the logo. meaning there is no image there and as i scrooll the next image is froming not just appearing`.
 **Branch base:** Continue draft PR #167 on `codex/landing-single-dust-20260720` from verified head `52828c1`; production remains `e890a5c`.
