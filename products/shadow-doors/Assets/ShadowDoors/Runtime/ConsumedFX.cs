@@ -110,7 +110,11 @@ namespace ShadowDoors.Runtime
                     if (audioKit != null)
                     {
                         audioKit.StopHeartbeat();
+                        audioKit.StopAmbient(); // the chant dies WITH the light — total silence
                         audioKit.PlayFlat("found_you");
+                        // THE main voice, from inside the black after a short silence beat —
+                        // it speaks before the card surfaces (and continues under it).
+                        audioKit.PlayFlatDelayed("main_voice_lose", 0.4f);
                     }
                 }
 

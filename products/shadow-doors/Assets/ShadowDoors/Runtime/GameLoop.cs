@@ -45,6 +45,7 @@ namespace ShadowDoors.Runtime
 
         private IARRig _rig;
         private RunPhase _phase = RunPhase.AwaitingSetup;
+        private int _nextDemonicVoiceIndex;
         private readonly List<ShadowAgent> _liveShadows = new List<ShadowAgent>();
         private float _holdTimer;
 
@@ -99,6 +100,9 @@ namespace ShadowDoors.Runtime
 
             director.StartRun();
             audioKit?.StartHeartbeat();
+            // The chant bed: starts with the run, low in the mix. Its cut at black-complete
+            // (ConsumedFX) is a designed beat — never stop it anywhere else on the lose path.
+            audioKit?.StartAmbient("chant_loop", 0.35f);
         }
 
         private void ClearLiveShadows()
@@ -130,6 +134,15 @@ namespace ShadowDoors.Runtime
             // tagged (min 1 allowed) — wrap rather than skip the beat entirely, so a
             // 1-door setup still plays the full escalation against that one door.
             Transform doorAnchor = doors[doorIndex % doors.Count];
+
+            // Late-run escalation (Anthony's direction): shadows past the halfway mark SPEAK.
+            // Alternating demonic lines, spatialized AT the emerge door so the voice comes
+            // from the doorway itself.
+            if (director != null && director.Clock > 90f && audioKit != null)
+            {
+                string line = (_nextDemonicVoiceIndex++ % 2 == 0) ? "demonic_voice_a" : "demonic_voice_b";
+                audioKit.PlayAtAnchor(line, doorAnchor, false);
+            }
 
             GameObject instance = Instantiate(shadowAgentPrefab, doorAnchor.position, doorAnchor.rotation);
             ShadowAgent shadow = instance.GetComponent<ShadowAgent>();
@@ -225,6 +238,8 @@ namespace ShadowDoors.Runtime
             _phase = RunPhase.Won;
             audioKit?.StopHeartbeat();
             audioKit?.PlayFlat("dawn_chord");
+            // The parting whisper: dawn came — "For now." (main voice, delayed under the chord).
+            audioKit?.PlayFlatDelayed("main_voice_dawn", 1.5f);
 
             Debug.Log("RUN_END result=WIN survivalSeconds=" + director.Duration.ToString("F1"));
 

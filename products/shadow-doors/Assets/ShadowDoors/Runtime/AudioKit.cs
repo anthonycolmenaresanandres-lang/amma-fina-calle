@@ -25,6 +25,8 @@ namespace ShadowDoors.Runtime
 
         [SerializeField] private int pooledSourceCount = 6;
         [SerializeField] private AudioSource heartbeatSource;
+        [Tooltip("Dedicated 2D source for the ambient chant bed. The chant's SILENCE is a designed beat — ConsumedFX cuts it at black-complete.")]
+        [SerializeField] private AudioSource ambientSource;
         [SerializeField] private float heartbeatBaseVolume = 0.15f;
         [SerializeField] private float heartbeatMaxVolume = 0.9f;
         [SerializeField] private float heartbeatBasePitch = 0.9f;
@@ -122,6 +124,46 @@ namespace ShadowDoors.Runtime
                 heartbeatSource.pitch = heartbeatBasePitch;
                 heartbeatSource.Play();
             }
+        }
+
+        /// <summary>
+        /// Start the ambient bed (the Gregorian chant). Low in the mix by design — it is the
+        /// safety blanket whose disappearance is the weapon (cut by ConsumedFX at black-complete).
+        /// </summary>
+        public void StartAmbient(string clipName, float volume)
+        {
+            if (ambientSource == null || !TryGetClip(clipName, out AudioClip clip))
+            {
+                return;
+            }
+            ambientSource.loop = true;
+            ambientSource.spatialBlend = 0f;
+            ambientSource.clip = clip;
+            ambientSource.volume = volume;
+            if (!ambientSource.isPlaying)
+            {
+                ambientSource.Play();
+            }
+        }
+
+        public void StopAmbient()
+        {
+            if (ambientSource != null)
+            {
+                ambientSource.Stop();
+            }
+        }
+
+        /// <summary>Play a flat (2D) clip after a delay — used for the main-voice lines.</summary>
+        public void PlayFlatDelayed(string clipName, float delaySeconds)
+        {
+            StartCoroutine(PlayFlatDelayedRoutine(clipName, delaySeconds));
+        }
+
+        private System.Collections.IEnumerator PlayFlatDelayedRoutine(string clipName, float delaySeconds)
+        {
+            yield return new WaitForSeconds(delaySeconds);
+            PlayFlat(clipName);
         }
 
         public void StopHeartbeat()
