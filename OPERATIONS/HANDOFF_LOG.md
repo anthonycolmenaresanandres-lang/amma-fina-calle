@@ -944,3 +944,36 @@ State now:
 - The requested one-transition treatment is fully implemented and reviewable. Production `main` and `finacalleos.com` remain unchanged.
 Next / handoff to: Anthony -> review PR #167 and its preview; Codex -> merge and verify production only after explicit approval.
 Blocked: production merge requires Anthony's approval.
+
+### [CHECK-IN] Codex - 2026-07-20 - crest dust must assemble the proof image
+Picking up: Upgrade draft PR #167 so the opening logo particles form the Colattao photograph itself instead of resolving around a photograph that appears independently.
+Authority:
+- Anthony clarified that the target picture must begin visually absent and visibly form from the logo dust during scroll.
+State I see:
+- PR #167 is open and draft at `52828c1`; production remains `e890a5c`.
+- The branch currently has one crest source targeting page 02, while the proof image is static and not sampled by the scene.
+Plan locked:
+- Sample source and target pixels into one device-capped grid. Start particles at crest-relative coordinates and source-derived Fina Calle colors; end them at proof-image-relative coordinates with sampled photo colors.
+- Stretch the morph from page-02 entry until the proof image reaches the viewing line, so mobile readers see assembly rather than an offscreen handoff.
+- Keep the real proof image at zero opacity until late assembly, then crossfade beneath the nearly complete particle grid. Reverse the same math on upward scroll.
+- Keep the server-rendered proof image visible whenever JavaScript or motion is unavailable.
+Boundaries:
+- Landing motion, landing semantics/styles, and operations records only. No copy, layout, asset, link, journey, protected route, data, API, auth, billing, or production change. Stop before merge.
+
+### [CHECKPOINT] Codex - 2026-07-20 - crest-to-proof particle morph locally verified
+Did:
+- Reworked the single crest scene into a true source-to-target morph: one device-capped grid samples both the Fina Calle crest and Colattao proof image, starts at crest coordinates/colors, and settles into proof-image coordinates/colors.
+- Extended progress from page-02 entry until the proof image reaches the viewing line, keeping the normal image at opacity zero until late assembly and crossfading only beneath the nearly complete Canvas grid.
+- At 390 px, verified target opacity `0` through 55% progress, `0.178` with 74.4% visible target-grid Canvas coverage at 82%, `0.897` with 99.3% coverage at 94%, and `1` at completion. The grid uses 616 capped particles.
+- At 320 px and 1440 px, verified zero overflow, 76.1% and 90.3% late-stage Canvas target coverage respectively, full completion, exact reverse reconstruction, and a frozen idle frame counter.
+- Verified the old page-02-to-page-03 boundary has target opacity `1` with zero active dust, so no later dissolve remains.
+- Verified reduced motion shows both static images with Canvas/journey motion disabled and no hidden reveals; scripts-disabled rendering retains the crest, proof image, and all six pages.
+- Passed targeted ESLint, `git diff --check`, the full Next.js 16.2.7 Webpack production build, framework-overlay check, and browser page-error check.
+Evidence:
+- `outputs/fina-calle-logo-to-photo-morph-local.webm`
+- `outputs/fina-calle-logo-to-photo-morph-82.png`
+- `outputs/fina-calle-logo-to-photo-morph-94.png`
+State now:
+- The requested photo visibly forms from logo dust rather than appearing independently. Copy, layout, assets, links, journey behavior, and protected-route code remain unchanged.
+Next: Commit and update draft PR #167, then bind its exact head to a Ready preview and repeat the deployed marker/runtime-log gates. Do not merge production without Anthony's approval.
+Blocked: none.
