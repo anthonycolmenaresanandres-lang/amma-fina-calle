@@ -77,3 +77,20 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** local/test-mode code and Drive document creation only. Do not enter secrets, access bank accounts, apply migrations, change live Stripe/Zelle settings, deploy, push, merge, or touch production.
 **PASS:** The owner portal securely displays server-configured Zelle instructions, records an owner report without marking the account paid, shows recent report status, and exposes billing-manager-only verification; Stripe records the invoice paid timestamp and rejects insecure production callback configuration; the billing runbook covers Stripe, Bank of America Zelle, Mercury, reconciliation, and activation; lint, type/build, security review, and browser fail-closed checks pass; the verified SOP manual is a native Google Doc inside Drive Documents.
 **STOP:** Stop before secrets, bank login, live payment configuration, migration application, deployment, push, merge, or production access. Stop and report any repo conflict.
+
+## [ ] 4 - Verify the Screenshot Trap hero (build + downscale + OCR)
+
+**State:** READY
+**Codex effort:** MEDIUM
+**Authority:** Anthony directed the Screenshot Trap onto the live site (2026-07-21) and asked Claude to queue this validated task after Codex's protocol block.
+**Branch base:** `claude/screenshot-trap-live`, created from `origin/main` at `f70928d`; single commit `29a2907`. PR #173 (draft, base `main`).
+**Scope:** `APP/web/scripts/generate-decoy-art.mjs`, `APP/web/public/decoy/hero-live.svg`, `APP/web/src/components/DecoyHeading.tsx`, and the hero `<h1>` swap in `APP/web/src/app/page.tsx` ONLY. Explicitly excluded: everything else — `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe, migrations, other pages, the experimental branch `claude/escape-bomb-dc-plan-n6bfj5`, and its commits (6c305e6/5000704 are NOT in scope).
+**Token-saving rule:** targeted reads; changed lines/new files only; final verification only.
+**Why:** the hero must read as the true headline to humans up close while a shrunk/OCR'd screenshot yields the anti-copy message instead; real text stays in the DOM for screen readers and SEO.
+**Exact prompt to paste:**
+```text
+Anthony, run queue task 4. git fetch, checkout claude/screenshot-trap-live (from origin/main, commit 29a2907). In APP/web: npm ci if needed, then npm run build — must pass. Regenerate art (node scripts/generate-decoy-art.mjs) and confirm DECOY_ART_GENERATED with an unchanged hero-live.svg. Serve or use the PR #173 Vercel preview, screenshot the homepage hero at full resolution, then: (a) downscale the screenshot to ~8% and visually confirm "YOU CAN COPY FINA CALLE, BUT YOU'LL NEVER BE FINA CALLE." dominates; (b) run OCR (tesseract) on the FULL-RES screenshot and record exactly what it returns. Also confirm with a screen-reader/DOM check that the h1 still exposes "A sharper digital presence. A calmer business behind it." Report build result, OCR output verbatim, and both screenshots' verdicts in HANDOFF_LOG.
+PASS = next build green AND downscaled screenshot shows the anti-copy message AND full-res OCR does NOT return the clean human headline AND the DOM h1 text is intact.
+```
+**Boundaries:** verification only on the feature branch/preview.
+**STOP:** Do not merge, do not push to main, do not deploy, do not change Vercel settings. Production merge is Anthony-only after his phone squint test passes.
