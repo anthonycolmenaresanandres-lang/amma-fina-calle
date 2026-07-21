@@ -31,11 +31,14 @@ namespace ShadowDoors.Editor
     {
         private const string ScenePath = "Assets/ShadowDoors/Scenes/ShadowDoorsMain.unity";
         private const string ShadowPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgent.prefab";
+        private const string ShadowWraithPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgentWraith.prefab";
         private const string DarknessPortalPrefabPath = "Assets/ShadowDoors/Prefabs/DarknessPortal.prefab";
         private const string WatcherEyesPrefabPath = "Assets/ShadowDoors/Prefabs/WatcherEyes.prefab";
         private const string OfferingCoinPrefabPath = "Assets/ShadowDoors/Prefabs/OfferingCoin.prefab";
         private const string DoorPrefabPath = "Assets/ShadowDoors/Prefabs/DoorGizmo.prefab";
         private const string ShadowMaterialPath = "Assets/ShadowDoors/Materials/ShadowSilhouette.mat";
+        private const string ShadowWraithMaterialPath = "Assets/ShadowDoors/Materials/ShadowWraith.mat";
+        private const string ShadowWraithMeshPath = "Assets/ShadowDoors/Meshes/SM_Wraith.fbx";
         private const string DarknessPortalMaterialPath = "Assets/ShadowDoors/Materials/DarknessPortal.mat";
         private const string WatcherEyesMaterialPath = "Assets/ShadowDoors/Materials/WatcherEyes.mat";
         private const string EvilVeilMaterialPath = "Assets/ShadowDoors/Materials/EvilVeil.mat";
@@ -232,6 +235,8 @@ namespace ShadowDoors.Editor
 
             Material shadowMaterial = GetOrCreateMaterial(
                 ShadowMaterialPath, "ShadowDoors/ShadowSilhouette");
+            Material shadowWraithMaterial = GetOrCreateMaterial(
+                ShadowWraithMaterialPath, "ShadowDoors/ShadowWraith");
             Material darknessPortalMaterial = GetOrCreateMaterial(
                 DarknessPortalMaterialPath, "ShadowDoors/DarknessPortal");
             Material watcherEyesMaterial = GetOrCreateMaterial(
@@ -247,12 +252,14 @@ namespace ShadowDoors.Editor
             Material darknessMaterial = GetOrCreateMaterial(
                 DarknessMaterialPath, "ShadowDoors/DarknessIris");
             GameObject shadowPrefab = CreateShadowPrefab(shadowMaterial);
+            GameObject shadowWraithPrefab = CreateShadowWraithPrefab(shadowWraithMaterial);
             GameObject darknessPortalPrefab = CreateDarknessPortalPrefab(darknessPortalMaterial);
             GameObject watcherEyesPrefab = CreateWatcherEyesPrefab(watcherEyesMaterial);
             GameObject offeringCoinPrefab = CreateOfferingCoinPrefab(offeringCoinMaterial);
             GameObject doorPrefab = CreateDoorPrefab();
 
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            CreateInactiveShaderRetentionObject(shadowMaterial, darknessPortalMaterial);
 
             var sessionObject = new GameObject("AR Session");
             ARSession session = sessionObject.AddComponent<ARSession>();
@@ -386,7 +393,7 @@ namespace ShadowDoors.Editor
             SetObjectReferences(loop,
                 ("arRigSource", rig), ("setupFlow", setup), ("director", director),
                 ("banishSystem", banish), ("audioKit", audio), ("consumedFx", consumed),
-                ("shadowAgentPrefab", shadowPrefab), ("darknessPortalPrefab", darknessPortalPrefab),
+                ("shadowAgentPrefab", shadowWraithPrefab != null ? shadowWraithPrefab : shadowPrefab),
                 ("watcherEyesPrefab", watcherEyesPrefab), ("evilVeil", evilVeil),
                 ("skeletonArm", skeletonArm),
                 ("coinOffering", coinOffering),
@@ -422,6 +429,50 @@ namespace ShadowDoors.Editor
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, ShadowPrefabPath);
             UnityEngine.Object.DestroyImmediate(instance);
             return prefab;
+        }
+
+        /// <summary>
+        /// Build the enhanced mesh creature from Blender's one-unit-per-metre FBX. The
+        /// original quad prefab remains untouched as the runtime fallback when Blender
+        /// output is unavailable.
+        /// </summary>
+        private static GameObject CreateShadowWraithPrefab(Material material)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(ShadowWraithPrefabPath);
+            if (existing != null) return existing;
+
+            Mesh mesh = AssetDatabase.LoadAllAssetsAtPath(ShadowWraithMeshPath)
+                .OfType<Mesh>()
+                .FirstOrDefault(candidate => candidate != null && candidate.vertexCount > 0);
+            if (mesh == null)
+            {
+                Debug.LogWarning("Wraith FBX not present; keeping ShadowAgent quad fallback.");
+                return null;
+            }
+
+            var instance = new GameObject("ShadowAgentWraith");
+            instance.AddComponent<MeshFilter>().sharedMesh = mesh;
+            instance.AddComponent<MeshRenderer>().sharedMaterial = material;
+            ShadowAgent agent = instance.AddComponent<ShadowAgent>();
+            SetSerializedBool(agent, "billboardYawOnly", true);
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, ShadowWraithPrefabPath);
+            UnityEngine.Object.DestroyImmediate(instance);
+            return prefab;
+        }
+
+        /// <summary>
+        /// Keep runtime-created fallback materials as direct scene dependencies for
+        /// Android stripping. This object is inactive, has no collider, and never
+        /// renders; it only prevents a scene-only dependency walk from discarding the
+        /// primitive fallback and floor-breach programs.
+        /// </summary>
+        private static void CreateInactiveShaderRetentionObject(params Material[] materials)
+        {
+            GameObject instance = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            instance.name = "Shader Retention (inactive)";
+            UnityEngine.Object.DestroyImmediate(instance.GetComponent<Collider>());
+            instance.GetComponent<MeshRenderer>().sharedMaterials = materials;
+            instance.SetActive(false);
         }
 
         private static GameObject CreateDarknessPortalPrefab(Material material)
@@ -594,6 +645,22 @@ namespace ShadowDoors.Editor
             if (!serialized.ApplyModifiedPropertiesWithoutUndo())
             {
                 throw new BuildFailedException("Could not serialize references for " + target.GetType().Name);
+            }
+        }
+
+        private static void SetSerializedBool(UnityEngine.Object target, string property, bool value)
+        {
+            var serialized = new SerializedObject(target);
+            SerializedProperty field = serialized.FindProperty(property);
+            if (field == null)
+            {
+                throw new BuildFailedException(
+                    $"{target.GetType().Name} has no serialized field '{property}'.");
+            }
+            field.boolValue = value;
+            if (!serialized.ApplyModifiedPropertiesWithoutUndo())
+            {
+                throw new BuildFailedException("Could not serialize bool for " + target.GetType().Name);
             }
         }
 

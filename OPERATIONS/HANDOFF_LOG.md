@@ -716,3 +716,20 @@ State now:
 - This is the current APK to install: `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk`. It supersedes the pre-rebase Bone Scan artifact noted above.
 - L4 remains `DEFERRED-TO-DEVICE`: Unity restarted adb during the build and subsequent `adb devices -l` returned an empty list. No device install, 12-coin visual count, ~14-second first-shadow observation, automatic/manual Bone Scan observation, marker sequence, crash/ANR, or frame-health result is claimed.
 Next / handoff to: Anthony -> reconnect and unlock the phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install the superseding APK and complete the requested live visual checks plus full L4 smoke.
+
+### [CHECK-OUT] Codex - 2026-07-21 - real Blender Wraith generated, wired, and installed; visual smoke in progress
+Did:
+- Confirmed the scoped branch already contained `e1b5a7a` and the prior Bone Scan wiring, then re-overlaid Assets and Packages into `C:\Dev\ShadowDoors`.
+- Blender was absent. The Winget MSI transaction remained blocked behind another Windows Installer operation, so installed Blender 5.2.0 LTS as the official self-contained runtime at `C:\dev\amma\tools\blender-5.2.0-extracted\blender-5.2.0-windows-x64\blender.exe` without disrupting that other transaction.
+- Ran `tools/blender/make_creatures.py` headlessly. It printed `SHADOWDOORS_CREATURES_GENERATED`; `Assets/ShadowDoors/Meshes/SM_Wraith.fbx` is 632 triangles, below the 2,600-triangle budget.
+- Extended the deterministic BuildScript: it makes `ShadowWraith.mat`, creates `ShadowAgentWraith.prefab` from the FBX mesh at Unity global scale 1, assigns `ShadowWraith`, sets `ShadowAgent.billboardYawOnly = true`, and points GameLoop at it. The original `ShadowAgent.prefab` quad remains present as fallback.
+- Added an inactive, collider-free scene dependency holder for the primitive fallback and floor-portal materials. It never renders but keeps those runtime-instantiated shader paths from Android scriptable stripping.
+- Copied the generated FBX, Unity metadata, ShadowWraith material, and Wraith prefab back into the overlay.
+- L0 passed on attempt 3. The first retention edit used an obsolete Unity 6000 GraphicsSettings API and failed compile; the final direct-dependency method is green. All eight custom shaders retained one GLES3 program after Android scriptable stripping.
+- L1 EditMode passed 43/43 across 10 suites. L2 PlayMode passed 3/3 with ordered `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=14.0`, `BANISH_OK`, and `RUN_END result=WIN survivalSeconds=180.0`.
+- L3 passed IL2CPP ARM64 / ARCore-required. Unity effective min API is 25. APK is 35,015,027 bytes, SHA-256 `B730B03EC8A2FC65AC703AF94C42C08A742023F634ED2E29C0AB5062615B0D6C`.
+- Used existing Wi-Fi ADB pairing discovery to connect Samsung SM-S906U1 (`192.168.1.153:42635`), installed the APK successfully, and launched `com.amma.shadowdoors`. The attached device log recorded `BONE_SCAN_START` three times; no app crash or ANR was observed in that capture.
+State now:
+- L0-L3 are green and the current APK is installed on the connected Samsung. Bone Scan is confirmed wired by device log.
+- L4 remains IN PROGRESS rather than green: the app was backgrounded before the full marker run, and the real 3D Wraith visual has not yet been confirmed by Anthony. Do not claim the solid-figure visual or a full three-minute device pass until Anthony reopens the app and completes it.
+Next / handoff to: Anthony -> reopen Shadow Doors, finish setup, confirm the emerging creature is a solid gaunt 3D figure that stays upright and turns toward the player, then complete one full run. Codex -> record the four ordered markers and update the final device verdict.
