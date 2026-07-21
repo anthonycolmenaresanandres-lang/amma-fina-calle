@@ -748,3 +748,13 @@ State now:
 - L0-L3 are green, the no-Bone-Scan scene and Floor Grasper prefab are generated and installed, and the exact current APK is `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk`.
 - L4 remains `DEFERRED-TO-ANTHONY`: after launch, the phone returned to the launcher before a run began. Current logcat contains no app crash or ANR, but the no-SCAN-button, floor-hands, red-veil, arm-grab visual checks and four-marker device sequence are intentionally unclaimed.
 Next / handoff to: Anthony -> reopen Shadow Doors, complete setup, confirm there is no SCAN button, check the floor hands/red veil/grab-and-vanish arm, then finish a full run. Codex -> capture and record the four-marker L4 result.
+
+### [CHECK-OUT] Codex - 2026-07-21 - isolated Fina Calle 3D menu demo generated and deployed
+Did:
+- Fast-forwarded the scoped branch and worked only in `products/menu-3d-demo`; the live `APP/web`, physical QR routes, and existing `amma-fina-calle` Vercel project were not touched.
+- Ran Blender 5.2.0 LTS headlessly with `tools/make_menu_items.py`. It emitted `MENU_ITEMS_GENERATED` and created `models/burger.glb` (120,664 bytes) and `models/coffee.glb` (46,804 bytes).
+- Committed and pushed just those generated GLBs as `d628fb9` (`menu-3d-demo: generate burger and coffee models`).
+- Created a new, standalone Vercel production deployment named `finacalle-menu-3d` from an in-memory payload containing only that demo's `index.html`, `vercel.json`, and two GLBs. It is separate from the existing `amma-fina-calle` Vercel project. Deployment URL: `https://finacalle-menu-3d-hrh4yh3kc.vercel.app`; permanent alias: `https://finacalle-menu-3d-anthonycolmenaresanandres-8844s-projects.vercel.app`.
+State now:
+- Vercel returns HTTP 302 to the team's SSO gate for both URLs, so deployment existence is confirmed but anonymous public access and model-byte response verification are not claimed. No Vercel access-control setting was changed.
+Next / handoff to: Anthony -> open the alias while signed into the Vercel team; if this consumer-facing demo should be public, explicitly approve changing the new project's deployment protection before sharing it externally.
