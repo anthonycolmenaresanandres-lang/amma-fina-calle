@@ -132,6 +132,30 @@ export default function Home() {
       >
         <div className={styles.heroAtmosphere} aria-hidden="true" />
         <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
+        {/* The Screenshot Trap: hybrid-frequency masthead (scripts/generate-decoy-art.mjs),
+            kept above the fold so any screenshot of the landing carries it. Up close,
+            humans read FINA CALLE OS; shrink or screenshot the page and the anti-copy
+            sentence takes over. The real text stays in the DOM (visually hidden) so
+            screen readers and search engines only ever see the true brand. */}
+        <div className={styles.mastheadTrap}>
+          <span className={styles.srOnly}>Fina Calle OS</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/decoy/hero-masthead.svg"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className={`${styles.mastheadArt} ${styles.mastheadArtDesktop}`}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/decoy/hero-masthead-mobile.svg"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className={`${styles.mastheadArt} ${styles.mastheadArtMobile}`}
+          />
+        </div>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy} data-motion-reveal="copy">
             <p className={styles.eyebrow}>

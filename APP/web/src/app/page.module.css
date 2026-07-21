@@ -293,7 +293,8 @@
   align-items: center;
   gap: clamp(2.5rem, 5vw, 7rem);
   width: min(100%, 92rem);
-  min-height: calc(100svh - 13rem);
+  /* Reserve room for the masthead trap above so the opening plate still fits one screen. */
+  min-height: calc(100svh - 15.5rem - min(72rem, 92vw) * 0.27);
   margin: 0 auto;
 }
 
@@ -646,6 +647,46 @@
   font-family: var(--font-geist-mono);
   font-size: 0.55rem;
   letter-spacing: 0.12em;
+}
+
+.mastheadTrap {
+  position: relative;
+  width: min(100%, 72rem);
+  margin: 0 auto clamp(1.4rem, 2.6vh, 2.4rem);
+}
+
+.mastheadArt {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.mastheadArtMobile {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .mastheadArtDesktop {
+    display: none;
+  }
+
+  .mastheadArtMobile {
+    display: block;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .heroFoot {

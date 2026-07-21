@@ -1003,3 +1003,38 @@ Plan locked:
 - Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
 Boundaries:
 - Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.
+
+### [CHECK-IN] Claude - 2026-07-21 - Screenshot Trap on the live landing
+Picking up: Anthony's corrected decoy intent. The site-wide Decoy TTF pass (5000704) and the
+first generated hero (6c305e6) were built against the OLD homepage design, on the dev-PC branch
+`claude/escape-bomb-dc-plan-n6bfj5` (draft PR #168) — never merged. Ruling: reverse that
+font-only approach and integrate the real two-message hybrid artwork into the NEW live landing
+(dust/motion design on main).
+Plan:
+- New branch `claude/screenshot-trap-landing` off origin/main (worktree C:\Dev\amma\wt-screenshot-trap).
+- Improved generator (hatched-fill human layer — legible, OCR-hostile; blurred gold machine layer
+  carrying the anti-copy sentence), palette-matched to page.module.css.
+- Homepage-only masthead band in the hero; h1, nav, body, prices, accessibility stay normal text.
+- Verified vs Windows OCR: control reads, trap artwork yields NO machine-readable brand text.
+Boundaries: no prod merge (Anthony-only); do not touch the dev-PC branch or PR #168.
+
+### [CHECK-OUT] Claude - 2026-07-21 - Screenshot Trap masthead ready for review
+Did:
+- Built `claude/screenshot-trap-landing` off origin/main: generator (`APP/web/scripts/generate-decoy-art.mjs`),
+  desktop + mobile artworks in `public/decoy/`, masthead band at the TOP of the landing hero
+  (above the fold — every screenshot of the page carries the trap), srOnly real text for a11y/SEO.
+- Verified: tsc clean, eslint clean, `next build` green, `next start` + headless renders at
+  1440x900 and 390x844. Windows OCR control reads normal text; the trap artwork yields ZERO
+  machine-readable text at full/mid/thumbnail scale — no copyable "FINA CALLE OS" in screenshots;
+  a vision-model read of the shrunk render surfaces the anti-copy sentence.
+- Note: at 390px headless, right-edge truncation of hero text exists on PROD today too
+  (verified against finacalleos.com) — pre-existing, not introduced here.
+State now:
+- Production main and finacalleos.com unchanged. Old decoy commits (5000704 TTF site-wide,
+  6c305e6 old-design hero) remain stranded on `claude/escape-bomb-dc-plan-n6bfj5` (draft PR #168):
+  SUPERSEDED — revert/drop them on that branch before #168 ever merges, or the old TTF headings
+  land on prod.
+Next / handoff to: Anthony -> squint-test the Vercel preview on a real phone + desktop, then
+approve or tune (machineOpacity/blur/hatch duty live in the generator's registry; rerun
+`node scripts/generate-decoy-art.mjs`). Codex -> merge only after Anthony's explicit approval.
+Blocked: production merge requires Anthony (DO_NOT_TOUCH).
