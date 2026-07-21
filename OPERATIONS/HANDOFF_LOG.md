@@ -731,5 +731,5 @@ Did:
 - Used existing Wi-Fi ADB pairing discovery to connect Samsung SM-S906U1 (`192.168.1.153:42635`), installed the APK successfully, and launched `com.amma.shadowdoors`. The attached device log recorded `BONE_SCAN_START` three times; no app crash or ANR was observed in that capture.
 State now:
 - L0-L3 are green and the current APK is installed on the connected Samsung. Bone Scan is confirmed wired by device log.
-- L4 remains IN PROGRESS rather than green: the app was backgrounded before the full marker run, and the real 3D Wraith visual has not yet been confirmed by Anthony. Do not claim the solid-figure visual or a full three-minute device pass until Anthony reopens the app and completes it.
+- L4 is DEFERRED-TO-ANTHONY rather than green: the app was backgrounded before the full marker run, and the real 3D Wraith visual has not yet been confirmed by Anthony. Do not claim the solid-figure visual or a full three-minute device pass until Anthony reopens the app and completes it.
 Next / handoff to: Anthony -> reopen Shadow Doors, finish setup, confirm the emerging creature is a solid gaunt 3D figure that stays upright and turns toward the player, then complete one full run. Codex -> record the four ordered markers and update the final device verdict.
