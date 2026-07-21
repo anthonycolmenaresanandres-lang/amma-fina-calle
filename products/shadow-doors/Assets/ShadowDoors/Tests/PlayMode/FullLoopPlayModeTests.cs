@@ -93,13 +93,17 @@ namespace ShadowDoors.Tests.PlayMode
                 root.SetActive(true);
                 yield return null;
 
-                // Script the same two confirms a player performs after tagging doors and
-                // selecting the safe center. Invoking the private button handler avoids
-                // faking any runtime marker or bypassing SetupFlow's state contract.
+                // Script the same three confirms a player performs after tagging doors,
+                // selecting the safe center, and pressing the final "begin" OK on the
+                // ArmedReady screen (player-instructions ruling). Invoking the private
+                // button handler avoids faking any runtime marker or bypassing
+                // SetupFlow's state contract.
                 SetPrivateProperty(setup, "State", SetupFlow.SetupState.TagDoors);
                 InvokePrivate(setup, "OnConfirmPressed");
                 Assert.That(setup.State, Is.EqualTo(SetupFlow.SetupState.SetSafeCenter));
                 SetPrivateProperty(setup, "SafeCenterAnchor", safeCenter.transform);
+                InvokePrivate(setup, "OnConfirmPressed");
+                Assert.That(setup.State, Is.EqualTo(SetupFlow.SetupState.ArmedReady));
                 InvokePrivate(setup, "OnConfirmPressed");
                 Assert.That(setup.State, Is.EqualTo(SetupFlow.SetupState.Ready));
 

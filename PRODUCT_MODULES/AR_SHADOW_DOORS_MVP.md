@@ -88,6 +88,12 @@ animation) is backlog, not MVP.
    (`bells_loop.wav`, deep G2 every 8 s, tails ringing across the loop point);
    whisper cue is `bell_far.wav` (distant muffled D2). Voices stay demonic-only.
    The chant WAV stays in the repo, unused, in case it returns as a scenario variant.
+5. **Guided player instructions (2026-07-21):** the setup ritual leads a first-time
+   player by the hand — Intro card (what this is, how to survive) → "STEP 1 OF 3:
+   point at the FLOOR" → "STEP 2 OF 3: tap the floor at each doorway" → "STEP 3 OF 3:
+   tap the floor at your feet" → ArmedReady ("lights LOW, sound UP — tap OK to
+   begin"): the night only starts on the player's final OK. One plain imperative
+   instruction per screen; OK button visible from launch.
 
 ## Explicitly cut from MVP (backlog)
 

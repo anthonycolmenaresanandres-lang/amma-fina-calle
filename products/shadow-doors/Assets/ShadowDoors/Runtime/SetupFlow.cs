@@ -7,18 +7,26 @@ using UnityEngine.UI;
 namespace ShadowDoors.Runtime
 {
     /// <summary>
-    /// The four-step setup ritual (spec core loop step 1): ScanFloor -&gt; TagDoors -&gt;
-    /// SetSafeCenter -&gt; Ready. Doubles as dread-building — deliberately unhurried,
-    /// entirely player-paced via tap + a single confirm button. Emits the
-    /// <c>SETUP_COMPLETE</c> log marker the L4 on-device smoke test greps for.
+    /// The guided setup ritual (spec core loop step 1, player-instructions ruling
+    /// 2026-07-21): Intro -&gt; ScanFloor -&gt; TagDoors -&gt; SetSafeCenter -&gt; ArmedReady -&gt;
+    /// Ready. One plain instruction on screen at a time — a first-time player is led
+    /// by the hand ("point at the floor", "tap the floor at each doorway", "tap OK
+    /// when you are ready") and the night only starts on their final OK. Doubles as
+    /// dread-building — deliberately unhurried, entirely player-paced via tap + a
+    /// single confirm button. Emits the <c>SETUP_COMPLETE</c> log marker the L4
+    /// on-device smoke test greps for.
     /// </summary>
     public class SetupFlow : MonoBehaviour
     {
         public enum SetupState
         {
+            /// <summary>What this is + how to survive. OK begins scanning.</summary>
+            Intro,
             ScanFloor,
             TagDoors,
             SetSafeCenter,
+            /// <summary>Everything tagged; "lights low, sound up" — the night starts on the player's final OK.</summary>
+            ArmedReady,
             Ready
         }
 
@@ -40,7 +48,7 @@ namespace ShadowDoors.Runtime
         private readonly List<Transform> _doorAnchors = new List<Transform>();
 
         /// <summary>Current ritual state.</summary>
-        public SetupState State { get; private set; } = SetupState.ScanFloor;
+        public SetupState State { get; private set; } = SetupState.Intro;
 
         /// <summary>Tagged door anchors in tap order — this order IS the scenario JSON's door index.</summary>
         public IReadOnlyList<Transform> DoorAnchors => _doorAnchors;
@@ -62,7 +70,8 @@ namespace ShadowDoors.Runtime
             if (confirmButton != null)
             {
                 confirmButton.onClick.AddListener(OnConfirmPressed);
-                confirmButton.gameObject.SetActive(false);
+                // Visible from the start: Intro waits on the player's first OK.
+                confirmButton.gameObject.SetActive(true);
             }
         }
 
@@ -75,6 +84,9 @@ namespace ShadowDoors.Runtime
 
             switch (State)
             {
+                case SetupState.Intro:
+                case SetupState.ArmedReady:
+                    break; // both wait on the confirm button only.
                 case SetupState.ScanFloor:
                     UpdateScanFloor();
                     break;
@@ -201,6 +213,10 @@ namespace ShadowDoors.Runtime
 
             switch (State)
             {
+                case SetupState.Intro:
+                    State = SetupState.ScanFloor;
+                    break;
+
                 case SetupState.TagDoors:
                     if (_doorAnchors.Count >= minDoors)
                     {
@@ -211,13 +227,23 @@ namespace ShadowDoors.Runtime
                 case SetupState.SetSafeCenter:
                     if (SafeCenterAnchor != null)
                     {
-                        State = SetupState.Ready;
-                        Debug.Log("SETUP_COMPLETE " + JsonUtility.ToJson(new SetupCompleteMarker
+                        // Armed, not started: the night begins on the player's FINAL
+                        // OK — give them the beat to kill the lights first.
+                        State = SetupState.ArmedReady;
+                        if (confirmButton != null)
                         {
-                            doorCount = _doorAnchors.Count
-                        }));
-                        SetupCompleted?.Invoke();
+                            confirmButton.gameObject.SetActive(true);
+                        }
                     }
+                    break;
+
+                case SetupState.ArmedReady:
+                    State = SetupState.Ready;
+                    Debug.Log("SETUP_COMPLETE " + JsonUtility.ToJson(new SetupCompleteMarker
+                    {
+                        doorCount = _doorAnchors.Count
+                    }));
+                    SetupCompleted?.Invoke();
                     break;
             }
         }
@@ -229,21 +255,47 @@ namespace ShadowDoors.Runtime
                 return;
             }
 
+            // One plain instruction per screen (player-instructions ruling): short
+            // imperative lines a first-time player can follow without help.
             switch (State)
             {
+                case SetupState.Intro:
+                    statusText.text = "SHADOW DOORS\n\n" +
+                        "Shadows will come through your doorways.\n" +
+                        "STARE at one to banish it.\n" +
+                        "Never let one reach you.\n\n" +
+                        "Tap OK to set up your room.";
+                    break;
                 case SetupState.ScanFloor:
-                    statusText.text = "Scanning room... hold steady.";
+                    statusText.text = "STEP 1 OF 3\n\n" +
+                        "Point your phone at the FLOOR.\n" +
+                        "Move it slowly from side to side\n" +
+                        "until the next step appears.";
                     break;
                 case SetupState.TagDoors:
                     // Floor-anchor ruling: the player taps the FLOOR at the threshold —
                     // floors lock instantly in ARCore; vertical door surfaces don't.
-                    statusText.text = $"Tap the FLOOR at each doorway ({_doorAnchors.Count}/{maxDoors} tagged, need {minDoors}+). Confirm when ready.";
+                    statusText.text = "STEP 2 OF 3\n\n" +
+                        "Walk to each doorway.\n" +
+                        "TAP THE FLOOR where the doorway meets it.\n" +
+                        $"({_doorAnchors.Count} of {maxDoors} tagged — you need at least {minDoors}.)\n\n" +
+                        (_doorAnchors.Count >= minDoors ? "Tap OK when every doorway is tagged." : "");
                     break;
                 case SetupState.SetSafeCenter:
-                    statusText.text = "Tap the floor where you'll stand.";
+                    statusText.text = "STEP 3 OF 3\n\n" +
+                        "Stand where you will hold your ground.\n" +
+                        "TAP THE FLOOR at your feet.\n\n" +
+                        (SafeCenterAnchor != null ? "Tap OK to continue." : "");
+                    break;
+                case SetupState.ArmedReady:
+                    statusText.text = "Your room is ready.\n\n" +
+                        "Turn the lights LOW.\n" +
+                        "Turn the sound UP.\n\n" +
+                        "Survive until dawn — 3 minutes.\n\n" +
+                        "Tap OK to begin.";
                     break;
                 case SetupState.Ready:
-                    statusText.text = "Ready.";
+                    statusText.text = "It begins.";
                     break;
             }
         }
