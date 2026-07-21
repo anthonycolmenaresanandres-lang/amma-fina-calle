@@ -691,3 +691,18 @@ State now:
 - L0-L3 are green. No shader fix was needed in this revision.
 - L4 is `DEFERRED-TO-DEVICE`: `adb devices -l` stayed empty through a one-minute poll. The take-coins run and refusal run were not installed or observed, so the refusal voice, immediate arm lash, faster shadows, physical marker sequence, crash/ANR status, and frame health are intentionally unclaimed.
 Next / handoff to: Anthony -> reconnect and unlock the Android phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK and run both Offering paths plus the full three-minute L4 marker smoke.
+
+### [CHECK-OUT] Codex - 2026-07-21 - Bone Scan wired and rebuilt; physical verification deferred
+Did:
+- Fast-forwarded the scoped branch through `8b4eacc`, re-overlaid the canonical Assets and Packages, and used only the deterministic BuildScript/editor path for the scene update.
+- Added `BoneScan.mat` using `ShadowDoors/BoneScan`; generated a disabled, non-raycasting fullscreen `Bone Scan` Image; added a mobile-safe lower-right `SCAN` uGUI Button with a persistent `BoneScanner.Trigger` callback; assigned the scanner's Image and AudioKit references; and assigned the scanner to GameLoop.
+- Added the parameterless `BoneScanner.Trigger()` overload required by Unity's persistent Button event, preserving the existing `Trigger(Action)` runtime API. The AR camera remains tagged `MainCamera`.
+- Copied Unity-generated metadata for the Bone Scan material, runtime script, shader, and EditMode test back into the repository overlay.
+- Passed L0 on attempt 1. All seven custom shaders (`ShadowSilhouette`, `DarknessPortal`, `WatcherEyes`, `EvilVeil`, `BoneUnlit`, `OfferingCoin`, and `BoneScan`) retained one GLES3 program after Android scriptable stripping.
+- Passed L1 EditMode 43/43 across 10 suites, including `BoneScannerTests` and the updated 12-coin `CoinOfferingTests`.
+- Passed L2 PlayMode 3/3. The scripted win path emitted `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=14.0`, `BANISH_OK`, and `RUN_END result=WIN survivalSeconds=180.0` in order.
+- Passed L3 IL2CPP ARM64 / ARCore-required build. Unity 6000.3.19f1 enforced min API 25. APK size is 35,005,775 bytes; SHA-256 `9DEF3D89E82E7ED107B55E14059738B5CD0AFB9D27E870F8751279881056E5E8`.
+State now:
+- L0-L3 are green. No shader source fix was needed; every custom plain-CG untagged shader kept one GLES3 program after stripping.
+- L4 is `DEFERRED-TO-DEVICE`: `adb devices -l` returned an empty device list after the Android build, so this APK was not installed and the live 12-coin Offering, first-shadow-at-~14-seconds, automatic mid-night Bone Scan, manual SCAN-button hand overlay, marker sequence, crash/ANR status, and frame health are intentionally unclaimed.
+Next / handoff to: Anthony -> reconnect and unlock the Android phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK, verify the 12 coins, ~14-second first shadow, automatic Bone Scan, and SCAN button, then complete the three-minute L4 marker smoke.

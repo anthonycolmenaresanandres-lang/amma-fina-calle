@@ -6,6 +6,7 @@ using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEditor.XR.ARCore;
 using UnityEditor.XR.Management;
@@ -39,6 +40,7 @@ namespace ShadowDoors.Editor
         private const string WatcherEyesMaterialPath = "Assets/ShadowDoors/Materials/WatcherEyes.mat";
         private const string EvilVeilMaterialPath = "Assets/ShadowDoors/Materials/EvilVeil.mat";
         private const string BoneMaterialPath = "Assets/ShadowDoors/Materials/BoneUnlit.mat";
+        private const string BoneScanMaterialPath = "Assets/ShadowDoors/Materials/BoneScan.mat";
         private const string OfferingCoinMaterialPath = "Assets/ShadowDoors/Materials/OfferingCoin.mat";
         private const string DarknessMaterialPath = "Assets/ShadowDoors/Materials/DarknessIris.mat";
         private const string PipelinePath = "Assets/ShadowDoors/Settings/ShadowDoorsURP.asset";
@@ -238,6 +240,8 @@ namespace ShadowDoors.Editor
                 EvilVeilMaterialPath, "ShadowDoors/EvilVeil");
             Material boneMaterial = GetOrCreateMaterial(
                 BoneMaterialPath, "ShadowDoors/BoneUnlit");
+            Material boneScanMaterial = GetOrCreateMaterial(
+                BoneScanMaterialPath, "ShadowDoors/BoneScan");
             Material offeringCoinMaterial = GetOrCreateMaterial(
                 OfferingCoinMaterialPath, "ShadowDoors/OfferingCoin");
             Material darknessMaterial = GetOrCreateMaterial(
@@ -304,6 +308,9 @@ namespace ShadowDoors.Editor
             var offeringObject = new GameObject("Coin Offering");
             CoinOffering coinOffering = offeringObject.AddComponent<CoinOffering>();
 
+            var boneScannerObject = new GameObject("Bone Scanner");
+            BoneScanner boneScanner = boneScannerObject.AddComponent<BoneScanner>();
+
             var canvasObject = new GameObject("Shadow Doors UI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             Canvas canvas = canvasObject.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -338,6 +345,17 @@ namespace ShadowDoors.Editor
             EvilVeil evilVeil = canvasObject.AddComponent<EvilVeil>();
             SetObjectReferences(evilVeil, ("veilImage", veilImage));
 
+            Image scanImage = CreateImage(canvasObject.transform, "Bone Scan", Color.white);
+            Stretch(scanImage.rectTransform);
+            scanImage.material = boneScanMaterial;
+            scanImage.raycastTarget = false;
+            scanImage.gameObject.SetActive(false);
+
+            Button scanButton = CreateButton(canvasObject.transform, "Bone Scan Button", "SCAN");
+            SetRect(scanButton.GetComponent<RectTransform>(), new Vector2(1f, 0f), new Vector2(1f, 0f),
+                new Vector2(-130f, 190f), new Vector2(180f, 100f));
+            UnityEventTools.AddPersistentListener(scanButton.onClick, boneScanner.Trigger);
+
             Image endPanel = CreateImage(canvasObject.transform, "End Card", new Color(0f, 0f, 0f, 0.9f));
             Stretch(endPanel.rectTransform);
             Text endText = CreateText(endPanel.transform, "End Card Text", "DAWN", 72,
@@ -362,6 +380,7 @@ namespace ShadowDoors.Editor
             SetObjectReferences(banish, ("arRigSource", rig), ("progressRing", progress));
             ConfigureAudio(audio, systemsObject);
             SetObjectReferences(consumed, ("darknessOverlay", darkness));
+            SetObjectReferences(boneScanner, ("scanImage", scanImage), ("audioKit", audio));
             SetObjectReferences(coinOffering,
                 ("coinPrefab", offeringCoinPrefab), ("warningText", offeringWarning), ("audioKit", audio));
             SetObjectReferences(loop,
@@ -371,6 +390,7 @@ namespace ShadowDoors.Editor
                 ("watcherEyesPrefab", watcherEyesPrefab), ("evilVeil", evilVeil),
                 ("skeletonArm", skeletonArm),
                 ("coinOffering", coinOffering),
+                ("boneScanner", boneScanner),
                 ("endCardPanel", endPanel.gameObject),
                 ("endCardText", endText));
 

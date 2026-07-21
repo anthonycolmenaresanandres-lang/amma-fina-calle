@@ -84,8 +84,14 @@ namespace ShadowDoors.Runtime
         /// <summary>Total scan duration (s).</summary>
         public static float TotalSeconds => RevealInSeconds + SweepSeconds + HoldSeconds + FadeOutSeconds;
 
+        /// <summary>Start a scan from a parameterless uGUI button callback.</summary>
+        public void Trigger()
+        {
+            Trigger(null);
+        }
+
         /// <summary>Start a scan. No-op if one is already running. onComplete fires at the end (nullable).</summary>
-        public void Trigger(Action onComplete = null)
+        public void Trigger(Action onComplete)
         {
             if (_scanning)
             {
