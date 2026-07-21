@@ -31,9 +31,15 @@ namespace ShadowDoors.Editor
         private const string ScenePath = "Assets/ShadowDoors/Scenes/ShadowDoorsMain.unity";
         private const string ShadowPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgent.prefab";
         private const string DarknessPortalPrefabPath = "Assets/ShadowDoors/Prefabs/DarknessPortal.prefab";
+        private const string WatcherEyesPrefabPath = "Assets/ShadowDoors/Prefabs/WatcherEyes.prefab";
+        private const string OfferingCoinPrefabPath = "Assets/ShadowDoors/Prefabs/OfferingCoin.prefab";
         private const string DoorPrefabPath = "Assets/ShadowDoors/Prefabs/DoorGizmo.prefab";
         private const string ShadowMaterialPath = "Assets/ShadowDoors/Materials/ShadowSilhouette.mat";
         private const string DarknessPortalMaterialPath = "Assets/ShadowDoors/Materials/DarknessPortal.mat";
+        private const string WatcherEyesMaterialPath = "Assets/ShadowDoors/Materials/WatcherEyes.mat";
+        private const string EvilVeilMaterialPath = "Assets/ShadowDoors/Materials/EvilVeil.mat";
+        private const string BoneMaterialPath = "Assets/ShadowDoors/Materials/BoneUnlit.mat";
+        private const string OfferingCoinMaterialPath = "Assets/ShadowDoors/Materials/OfferingCoin.mat";
         private const string DarknessMaterialPath = "Assets/ShadowDoors/Materials/DarknessIris.mat";
         private const string PipelinePath = "Assets/ShadowDoors/Settings/ShadowDoorsURP.asset";
         private const string RendererPath = "Assets/ShadowDoors/Settings/ShadowDoorsRenderer.asset";
@@ -226,10 +232,20 @@ namespace ShadowDoors.Editor
                 ShadowMaterialPath, "ShadowDoors/ShadowSilhouette");
             Material darknessPortalMaterial = GetOrCreateMaterial(
                 DarknessPortalMaterialPath, "ShadowDoors/DarknessPortal");
+            Material watcherEyesMaterial = GetOrCreateMaterial(
+                WatcherEyesMaterialPath, "ShadowDoors/WatcherEyes");
+            Material evilVeilMaterial = GetOrCreateMaterial(
+                EvilVeilMaterialPath, "ShadowDoors/EvilVeil");
+            Material boneMaterial = GetOrCreateMaterial(
+                BoneMaterialPath, "ShadowDoors/BoneUnlit");
+            Material offeringCoinMaterial = GetOrCreateMaterial(
+                OfferingCoinMaterialPath, "ShadowDoors/OfferingCoin");
             Material darknessMaterial = GetOrCreateMaterial(
                 DarknessMaterialPath, "ShadowDoors/DarknessIris");
             GameObject shadowPrefab = CreateShadowPrefab(shadowMaterial);
             GameObject darknessPortalPrefab = CreateDarknessPortalPrefab(darknessPortalMaterial);
+            GameObject watcherEyesPrefab = CreateWatcherEyesPrefab(watcherEyesMaterial);
+            GameObject offeringCoinPrefab = CreateOfferingCoinPrefab(offeringCoinMaterial);
             GameObject doorPrefab = CreateDoorPrefab();
 
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -281,6 +297,13 @@ namespace ShadowDoors.Editor
             ConsumedFX consumed = systemsObject.AddComponent<ConsumedFX>();
             GameLoop loop = systemsObject.AddComponent<GameLoop>();
 
+            var skeletonArmObject = new GameObject("Skeleton Arm");
+            SkeletonArm skeletonArm = skeletonArmObject.AddComponent<SkeletonArm>();
+            SetObjectReferences(skeletonArm, ("boneMaterial", boneMaterial));
+
+            var offeringObject = new GameObject("Coin Offering");
+            CoinOffering coinOffering = offeringObject.AddComponent<CoinOffering>();
+
             var canvasObject = new GameObject("Shadow Doors UI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             Canvas canvas = canvasObject.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -290,6 +313,9 @@ namespace ShadowDoors.Editor
 
             Text status = CreateText(canvasObject.transform, "Setup Status", "Scanning room... hold steady.",
                 34, TextAnchor.UpperCenter, new Vector2(40f, -60f), new Vector2(-40f, -260f));
+            Text offeringWarning = CreateText(canvasObject.transform, "Offering Warning", "", 42,
+                TextAnchor.LowerCenter, new Vector2(40f, 180f), new Vector2(-40f, 300f));
+            offeringWarning.color = new Color(1f, 0.72f, 0.35f, 1f);
             Button confirm = CreateButton(canvasObject.transform, "Confirm", "CONFIRM");
             Image progress = CreateImage(canvasObject.transform, "Banish Progress", new Color(1f, 0.85f, 0.2f, 0.9f));
             SetRect(progress.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
@@ -303,6 +329,14 @@ namespace ShadowDoors.Editor
             Stretch(darkness.rectTransform);
             darkness.material = darknessMaterial;
             darkness.gameObject.SetActive(false);
+
+            Image veilImage = CreateImage(canvasObject.transform, "Evil Veil", Color.white);
+            Stretch(veilImage.rectTransform);
+            veilImage.material = evilVeilMaterial;
+            veilImage.raycastTarget = false;
+            veilImage.gameObject.SetActive(false);
+            EvilVeil evilVeil = canvasObject.AddComponent<EvilVeil>();
+            SetObjectReferences(evilVeil, ("veilImage", veilImage));
 
             Image endPanel = CreateImage(canvasObject.transform, "End Card", new Color(0f, 0f, 0f, 0.9f));
             Stretch(endPanel.rectTransform);
@@ -328,10 +362,15 @@ namespace ShadowDoors.Editor
             SetObjectReferences(banish, ("arRigSource", rig), ("progressRing", progress));
             ConfigureAudio(audio, systemsObject);
             SetObjectReferences(consumed, ("darknessOverlay", darkness));
+            SetObjectReferences(coinOffering,
+                ("coinPrefab", offeringCoinPrefab), ("warningText", offeringWarning), ("audioKit", audio));
             SetObjectReferences(loop,
                 ("arRigSource", rig), ("setupFlow", setup), ("director", director),
                 ("banishSystem", banish), ("audioKit", audio), ("consumedFx", consumed),
                 ("shadowAgentPrefab", shadowPrefab), ("darknessPortalPrefab", darknessPortalPrefab),
+                ("watcherEyesPrefab", watcherEyesPrefab), ("evilVeil", evilVeil),
+                ("skeletonArm", skeletonArm),
+                ("coinOffering", coinOffering),
                 ("endCardPanel", endPanel.gameObject),
                 ("endCardText", endText));
 
@@ -379,6 +418,41 @@ namespace ShadowDoors.Editor
             return prefab;
         }
 
+        private static GameObject CreateWatcherEyesPrefab(Material material)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(WatcherEyesPrefabPath);
+            if (existing != null) return existing;
+            GameObject instance = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            instance.name = "WatcherEyes";
+            instance.transform.localScale = new Vector3(0.5f, 0.25f, 1f);
+            UnityEngine.Object.DestroyImmediate(instance.GetComponent<Collider>());
+            instance.GetComponent<MeshRenderer>().sharedMaterial = material;
+            instance.AddComponent<WatcherEyes>();
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, WatcherEyesPrefabPath);
+            UnityEngine.Object.DestroyImmediate(instance);
+            return prefab;
+        }
+
+        private static GameObject CreateOfferingCoinPrefab(Material material)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(OfferingCoinPrefabPath);
+            if (existing != null) return existing;
+            GameObject instance = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            instance.name = "OfferingCoin";
+            // The quad is uniformly scaled to a readable floor coin; a 0.18 local
+            // SphereCollider on this 0.5 scale resolves to the required ~0.09 m
+            // world-space tap target.
+            instance.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            UnityEngine.Object.DestroyImmediate(instance.GetComponent<Collider>());
+            SphereCollider tapCollider = instance.AddComponent<SphereCollider>();
+            tapCollider.radius = 0.18f;
+            instance.GetComponent<MeshRenderer>().sharedMaterial = material;
+            instance.AddComponent<OfferingCoin>();
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, OfferingCoinPrefabPath);
+            UnityEngine.Object.DestroyImmediate(instance);
+            return prefab;
+        }
+
         private static GameObject CreateDoorPrefab()
         {
             GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(DoorPrefabPath);
@@ -406,7 +480,8 @@ namespace ShadowDoors.Editor
             {
                 "whisper_loop", "heartbeat_loop", "emerge_hiss", "banish_stinger",
                 "dawn_chord", "found_you", "chant_loop", "demonic_voice_a",
-                "demonic_voice_b", "main_voice_dawn", "main_voice_lose"
+                "demonic_voice_b", "main_voice_dawn", "main_voice_lose",
+                "bell_far", "bells_loop", "please_dont", "leave_them", "it_knows"
             };
             var serialized = new SerializedObject(audio);
             SerializedProperty clips = serialized.FindProperty("clips");

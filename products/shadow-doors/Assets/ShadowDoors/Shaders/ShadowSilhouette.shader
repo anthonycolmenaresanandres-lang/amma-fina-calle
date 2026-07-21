@@ -39,10 +39,8 @@ Shader "ShadowDoors/ShadowSilhouette"
 
         Pass
         {
-            Name "ForwardUnlit"
-            // Custom procedural unlit output. SRPDefaultUnlit is rendered by URP's
-            // forward object pass and survives the Android shader stripper here.
-            Tags { "LightMode" = "SRPDefaultUnlit" }
+            // No LightMode tag: URP treats this as SRPDefaultUnlit, the same
+            // untagged pipeline-agnostic path retained by the other device shaders.
 
             CGPROGRAM
             #pragma vertex Vert

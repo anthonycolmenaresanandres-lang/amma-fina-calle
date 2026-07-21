@@ -665,3 +665,17 @@ Did:
 State now:
 - Shader retention and offline L0-L3 are green. The phone disconnected during the first post-install capture, so black-shadow/portal visual confirmation, ordered physical-device markers, crash/ANR status, and skipped-frame health were not claimed.
 Next / handoff to: Codex -> integrate the playtest-feedback pass, rebuild, visually verify the new crack/eyes/veil effects on the connected phone, and complete the full three-minute L4 smoke.
+
+### [CHECK-OUT] Codex - 2026-07-21 - full FX suite and Offering wired; physical smoke deferred
+Did:
+- Fast-forwarded the scoped branch through `90d678a`, `85b555e`, `b216d0c`, and `a5cb6c0`, then overlaid the canonical Assets and Packages into `C:\Dev\ShadowDoors`.
+- Extended the deterministic `BuildScript` only: wired WatcherEyes, EvilVeil, SkeletonArm, and the Offering. The Offering uses `OfferingCoin.mat`, an unrotated Quad prefab with `OfferingCoin`, a real SphereCollider providing a ~0.09 m world-space tap target, a separate fullscreen-canvas warning Text, and the AudioKit reference. The AR camera remains tagged `MainCamera` for the offering tap raycast.
+- Added the Offering voice clips (`please_dont`, `leave_them`, `it_knows`) to AudioKit's deterministic clip list, and copied all generated Unity materials, prefabs, and `.meta` files for the new FX/Offering assets back into the repository overlay.
+- Passed L0 on attempt 1. All six custom plain-CG untagged shaders (`ShadowSilhouette`, `DarknessPortal`, `WatcherEyes`, `EvilVeil`, `BoneUnlit`, `OfferingCoin`) retained one GLES3 program after built-in and scriptable stripping.
+- Passed L1 EditMode 39/39 across all 9 suites, including CoinOffering, SkeletonArm, expanded EvilVeil, and retimed Scenario JSON validation.
+- Passed L2 PlayMode 3/3. The null-safe harness skipped the Offering as designed and emitted `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=48.0`, `BANISH_OK`, then `RUN_END result=WIN survivalSeconds=180.0` in order.
+- Passed L3 IL2CPP ARM64 / ARCore-required build. The new APK is 34,944,647 bytes; SHA-256 `67D7071C8B3316099F6EA651A80ADABB7A953129537BE0875E6256BF88CD01CC`. Unity 6000.3.19f1 enforced min API 25.
+State now:
+- L0-L3 are green; no shader fixes beyond removing the stale `LightMode` tag from the otherwise already pipeline-agnostic ShadowSilhouette pass were required.
+- L4 is `DEFERRED-TO-DEVICE`: repeated `adb devices -l` checks, including a one-minute authorization poll, returned an empty list. No install, visual check, logcat marker run, crash/ANR, or frame-health claim was made for this APK.
+Next / handoff to: Anthony -> connect/unlock the Android phone using a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK, verify the Offering and full visual checklist, capture the three-minute L4 marker sequence, then update this handoff with physical evidence.
