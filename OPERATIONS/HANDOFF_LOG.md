@@ -706,3 +706,13 @@ State now:
 - L0-L3 are green. No shader source fix was needed; every custom plain-CG untagged shader kept one GLES3 program after stripping.
 - L4 is `DEFERRED-TO-DEVICE`: `adb devices -l` returned an empty device list after the Android build, so this APK was not installed and the live 12-coin Offering, first-shadow-at-~14-seconds, automatic mid-night Bone Scan, manual SCAN-button hand overlay, marker sequence, crash/ANR status, and frame health are intentionally unclaimed.
 Next / handoff to: Anthony -> reconnect and unlock the Android phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK, verify the 12 coins, ~14-second first shadow, automatic Bone Scan, and SCAN button, then complete the three-minute L4 marker smoke.
+
+### [CHECK-OUT] Codex - 2026-07-21 - Bone Scan current-branch verification rebuilt after rebase
+Did:
+- Rebasing the focused Bone Scan commit onto the concurrently landed optional Wraith-lane commit completed cleanly; no merge and no `main` change was made. The documented primitive shadow fallback remains in use because the Wraith mesh lane is optional and outside the Bone Scan request.
+- Re-overlaid the pushed branch and reran the automated ladder: L0 compile passed; L1 EditMode passed 43/43 across 10 suites; L2 PlayMode passed 3/3 and again logged `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=14.0`, `BANISH_OK`, and `RUN_END result=WIN survivalSeconds=180.0` in order.
+- Rebuilt L3 from the rebased branch. The seven requested custom shaders all retained one GLES3 program after Android scriptable stripping. The superseding IL2CPP ARM64 / ARCore-required APK is 35,006,183 bytes, Unity effective min API 25, SHA-256 `C5F9050159881BF54B04908E570E8AFADD43B3450EFCF9EC703DFA16C8F6B1F0`.
+State now:
+- This is the current APK to install: `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk`. It supersedes the pre-rebase Bone Scan artifact noted above.
+- L4 remains `DEFERRED-TO-DEVICE`: Unity restarted adb during the build and subsequent `adb devices -l` returned an empty list. No device install, 12-coin visual count, ~14-second first-shadow observation, automatic/manual Bone Scan observation, marker sequence, crash/ANR, or frame-health result is claimed.
+Next / handoff to: Anthony -> reconnect and unlock the phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install the superseding APK and complete the requested live visual checks plus full L4 smoke.
