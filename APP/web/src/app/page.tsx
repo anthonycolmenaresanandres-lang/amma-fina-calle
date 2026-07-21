@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import DecoyHeading from "@/components/DecoyHeading";
 import { Bodoni_Moda } from "next/font/google";
 import { LandingMotion } from "./LandingMotion";
 import styles from "./page.module.css";
@@ -137,13 +138,15 @@ export default function Home() {
             <p className={styles.eyebrow}>
               <span /> Virginia Beach · Digital systems for local business
             </p>
+            {/* The Screenshot Trap: humans read the real headline from the sharp
+                outline layer; shrink, screenshot, or OCR the page and the blurred
+                anti-copy message takes over. Real text stays in the DOM for screen
+                readers + SEO (see DecoyHeading / scripts/generate-decoy-art.mjs). */}
             <h1 id="hero-heading" className={styles.heroTitle}>
-              <span className={styles.desktopCopy}>A sharper digital presence.</span>
-              <span className={styles.mobileCopy}>Sharper online.</span>
-              <em>
-                <span className={styles.desktopCopy}>A calmer business behind it.</span>
-                <span className={styles.mobileCopy}>Calmer behind it.</span>
-              </em>
+              <DecoyHeading
+                art="hero-live.svg"
+                text="A sharper digital presence. A calmer business behind it."
+              />
             </h1>
             <p className={styles.heroBody}>
               Fina Calle builds premium storefronts, branded customer
