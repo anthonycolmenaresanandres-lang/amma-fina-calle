@@ -1003,3 +1003,40 @@ Plan locked:
 - Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
 Boundaries:
 - Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.
+
+### [CHECK-IN] Codex - 2026-07-21 14:41 EDT - Screenshot Trap and global AI-defense watermark release
+Picking up: Rebase the requested Screenshot Trap hero commit onto current production, add the exact global `AiDefenseWatermark` component, build, merge, publish, and verify production.
+Authority:
+- Anthony explicitly instructed Codex to continue after the canonical no-active-task gate was reported, and explicitly authorized merge and publish.
+State I see:
+- Requested commit `6c305e6` exists, but its source branch is 36 commits ahead of and 5 behind `origin/main` with unrelated Unity and grant history; merging that branch wholesale is unsafe.
+- Clean branch `codex/screenshot-trap-watermark-20260721` starts at current `origin/main` (`10be3ef`) and will receive only `6c305e6` plus the two requested watermark files/surfaces.
+Plan locked:
+- Cherry-pick only `6c305e6`, add `APP/web/src/components/AiDefenseWatermark.tsx`, inject it in `APP/web/src/app/layout.tsx`, run targeted checks and the full production build, then merge/publish only if the exact diff remains scoped and verification passes.
+Boundaries:
+- No dependencies, migrations, secrets, access changes, payment actions, or unrelated branch history. Stop on conflict, build failure, merge divergence, deployment failure, or production verification failure.
+
+### [CHECK-OUT] Codex - 2026-07-21 14:55 EDT - implementation complete; OCR release gate failed
+Did:
+- Rebased only Screenshot Trap commit `6c305e6` onto current `origin/main`, resolving its homepage conflict by preserving the production layout, motion, links, copy, and protected surfaces while replacing only the hero heading.
+- Added `APP/web/src/components/AiDefenseWatermark.tsx` with Anthony's exact 268-character text and injected it as the first child of root `<body>` without a wrapper or dependency change.
+- Passed targeted ESLint, deterministic SVG regeneration, `git diff --check`, the full Next.js 16.2.7 production build, HTTP 200 built-server check, exact DOM text/marker check, and zero-byte server stderr check.
+- Captured `C:\Dev\amma\evidence\screenshot-trap-20260721\homepage-hero-1920x1080.png`, downscaled it to 8.02%, and ran Windows offline OCR because Tesseract is not installed.
+State now:
+- The 8% visual trap works and the isolated rendered trap crop OCR is `YOU CAN CCPY CALLE, FINA CALL C.`; it does not contain clean `FINA CALLE OS`.
+- The strict full-viewport gate fails because the production header/mechanical logo still yield clean `FINA CALLE OS`; the 1%-opacity global watermark is present in the DOM and screenshot but was not recovered by OCR.
+- Local branch `codex/screenshot-trap-watermark-20260721` contains implementation commits `d4eb255` and `33a201e`. No push, PR, merge, deployment, or production publish occurred.
+Next / handoff to: Anthony -> choose whether the gate applies only to the trap artwork or whether surrounding visible brand marks must also be redesigned; choose whether to increase watermark visibility enough for OCR.
+Blocked: production release stopped at Anthony's exact OCR PASS condition; changing visible brand marks or opacity is a material design tradeoff and requires direction.
+
+### [CHECK-IN] Codex - 2026-07-21 - Anthony-approved Screenshot Trap production merge
+Picking up: Push the exact locally verified Screenshot Trap and global AI-defense watermark branch, merge it to production `main`, and verify the resulting Vercel deployment.
+Authority:
+- After receiving the full OCR failure evidence and release stop, Anthony explicitly instructed: `Merge`.
+State I see:
+- Clean branch `codex/screenshot-trap-watermark-20260721` is exactly 4 commits ahead and 0 behind current `origin/main` (`10be3ef`); the diff is limited to seven intended web/handoff files.
+- Targeted ESLint and the full Next.js production build passed. Anthony's merge instruction explicitly overrides the earlier full-viewport OCR stop.
+Plan locked:
+- Push the exact branch, open a ready PR, require its head and base to remain unchanged, merge through GitHub, then bind the resulting `main` commit to its Ready Vercel production deployment and verify the live homepage markers.
+Boundaries:
+- Merge only this exact reviewed head. No dependency, migration, secret, access, payment, or unrelated production changes. Stop on head/base/check/deployment/alias/runtime divergence.
