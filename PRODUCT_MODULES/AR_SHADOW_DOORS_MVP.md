@@ -114,6 +114,20 @@ animation) is backlog, not MVP.
    to freeze at its last intensity), so the lull reads on every channel. `lull`
    events carry their duration in the `speed` field — JSON schema unchanged.
 
+8. **The Offering — the hook, final form (2026-07-21):** the ruling in (7) evolved:
+   the opening isn't waiting, it's *playing*. After setup, five glowing coins appear
+   on the floor near the thresholds and a frightened HUMAN whisper begs the player
+   not to take them ("please... don't" → "put them back" → silence). The player,
+   being a player, takes them — and the last coin answers in the entity's own voice:
+   "IT KNOWS WHAT YOU TOOK." Beat. The night begins. The transgression is the hook:
+   the haunting is the player's fault, and the scenario's quiet first 35 s now reads
+   as "maybe I got away with it" (they did not). Refusal path: after 45 s untouched,
+   the coins sink back into the floor ("your refusal is an answer") and the night
+   begins anyway — the game never wedges on an obedient player. Restarts skip the
+   Offering: you don't get to un-take them. (`CoinOffering` + `OfferingCoin` +
+   `OfferingCoin.shader`; voices via espeak +whisper, un-demonized on purpose —
+   someone tried to warn you.)
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via

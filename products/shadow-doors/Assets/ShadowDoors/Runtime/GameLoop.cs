@@ -38,6 +38,8 @@ namespace ShadowDoors.Runtime
         [SerializeField] private EvilVeil evilVeil;
         [Tooltip("Camera-space skeleton-arm jump scare. Optional — null skips it (scaffold rule).")]
         [SerializeField] private SkeletonArm skeletonArm;
+        [Tooltip("The Offering opener (coins that belong to IT). Optional — null starts the night directly (scaffold rule).")]
+        [SerializeField] private CoinOffering coinOffering;
 
         // ---- suspense progression (Anthony, 2026-07-21): the night gets WORSE ----
         /// <summary>Ambient bell-bed volume at minute zero.</summary>
@@ -69,6 +71,8 @@ namespace ShadowDoors.Runtime
         private enum RunPhase
         {
             AwaitingSetup,
+            /// <summary>The Offering: coins on the floor, a voice begging you not to. Taking them starts the night.</summary>
+            Offering,
             Running,
             Lost,
             Won
@@ -105,6 +109,7 @@ namespace ShadowDoors.Runtime
                 director.OnWin += HandleWin;
             }
             if (banishSystem != null) banishSystem.ShadowBanished += HandleBanish;
+            if (coinOffering != null) coinOffering.OfferingCompleted += HandleOfferingCompleted;
         }
 
         private void OnDisable()
@@ -118,6 +123,7 @@ namespace ShadowDoors.Runtime
                 director.OnWin -= HandleWin;
             }
             if (banishSystem != null) banishSystem.ShadowBanished -= HandleBanish;
+            if (coinOffering != null) coinOffering.OfferingCompleted -= HandleOfferingCompleted;
         }
 
         // The false dawn: everything goes quiet ON PURPOSE — the player is meant to
@@ -131,9 +137,28 @@ namespace ShadowDoors.Runtime
             }
         }
 
+        // First run goes through the Offering (the hook: playing the innocent coin
+        // game is what CAUSES the night). Restarts skip it — StartRun directly —
+        // because the transgression already happened; you don't get to un-take them.
         private void HandleSetupCompleted()
         {
-            StartRun();
+            if (coinOffering != null && setupFlow != null)
+            {
+                _phase = RunPhase.Offering;
+                coinOffering.Begin(setupFlow.DoorAnchors, _rig);
+            }
+            else
+            {
+                StartRun();
+            }
+        }
+
+        private void HandleOfferingCompleted()
+        {
+            if (_phase == RunPhase.Offering)
+            {
+                StartRun();
+            }
         }
 
         // The whisper beat became the WATCHED beat (Anthony's device-playtest ruling):

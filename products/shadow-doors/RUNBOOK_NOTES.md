@@ -44,6 +44,13 @@ rulings in AR_SHADOW_DOORS_MVP.md):
   Materials/BoneUnlit.mat (shader `ShadowDoors/BoneUnlit`) assigned to its
   `boneMaterial`. No prefab and no mesh assets — it builds its own bones from
   primitive cubes in Awake and stays hidden until GameLoop triggers it.
+- `GameLoop.coinOffering` (the Offering opener): a scene GameObject with the
+  `CoinOffering` component — assign its `coinPrefab` (Quad + `OfferingCoin` +
+  Materials/OfferingCoin.mat using `ShadowDoors/OfferingCoin` + a SphereCollider
+  radius ~0.09 — the collider is REQUIRED, taps are a physics raycast), its
+  `warningText` (a second uGUI Text line, distinct from SetupFlow's status text),
+  and its `audioKit`. Tap raycasts use `Camera.main` — ensure the AR camera is
+  tagged MainCamera. All null-safe; with no coinPrefab the phase resolves by timeout.
 
 ## L0 - compile
 

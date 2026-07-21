@@ -193,6 +193,20 @@ def make_voice(name, text, pitch_factor, growl, espeak_pitch=18, speed=105):
     write_wav(name, demonize(dry, pitch=pitch_factor, growl=growl))
 
 
+def make_pleading_voice(name, text, espeak_pitch=60, speed=95):
+    """The frightened HUMAN whisper that begs the player not to take the coins —
+    deliberately NOT demonized: the contrast (someone tried to warn you) is the point.
+    espeak's +whisper variant + gentle lowpass + a small room tail."""
+    global PARTIAL
+    dry = espeak_line(text, pitch=espeak_pitch, speed=speed, voice="en-us+whisper")
+    if dry is None:
+        PARTIAL = True
+        log(False, "%s SKIPPED — espeak-ng not available on this machine (committed WAV remains authoritative)" % name)
+        return
+    wet = feedback_delay(one_pole_lowpass(dry, 4000), delay_ms=140, feedback=0.30, mix=0.20, tail_s=0.6)
+    write_wav(name, trim_tail(wet))
+
+
 # ---------------------------------------------------------------------------
 # Gregorian-style chant: 4-voice wordless organum (pure synth)
 # ---------------------------------------------------------------------------
@@ -256,6 +270,11 @@ def main():
     make_voice("main_voice_lose.wav", "You are ours now.", pitch_factor=0.55, growl=False, espeak_pitch=10, speed=88)
     # The parting whisper on a win: dawn came, but it is not gone.
     make_voice("main_voice_dawn.wav", "For now.", pitch_factor=0.70, growl=False, espeak_pitch=25, speed=92)
+    # The Offering (hook take 2): a frightened human whisper begs the player not to
+    # take the coins; the final line is the entity itself — the turn.
+    make_pleading_voice("please_dont.wav", "Please. Don't.", espeak_pitch=60, speed=90)
+    make_pleading_voice("leave_them.wav", "Leave them. They are not yours.", espeak_pitch=55, speed=100)
+    make_voice("it_knows.wav", "It knows what you took.", pitch_factor=0.60, growl=True, espeak_pitch=14, speed=95)
     print("SHADOWDOORS_VOICES_GENERATED" + ("_PARTIAL" if PARTIAL else ""))
 
 
