@@ -40,6 +40,8 @@ namespace ShadowDoors.Runtime
         [SerializeField] private SkeletonArm skeletonArm;
         [Tooltip("The Offering opener (coins that belong to IT). Optional — null starts the night directly (scaffold rule).")]
         [SerializeField] private CoinOffering coinOffering;
+        [Tooltip("Bone-scan X-ray beat. Optional — also wire a uGUI button to its Trigger() so the player can scan their own hand (scaffold rule).")]
+        [SerializeField] private BoneScanner boneScanner;
 
         // ---- suspense progression (Anthony, 2026-07-21): the night gets WORSE ----
         /// <summary>Ambient bell-bed volume at minute zero.</summary>
@@ -54,6 +56,10 @@ namespace ShadowDoors.Runtime
         // Skeleton-arm scare beats, as fractions of night progress. Once each per run.
         private static readonly float[] ArmScareAtProgress = { 0.45f, 0.85f };
         private readonly bool[] _armScareFired = new bool[2];
+
+        /// <summary>Night progress at which the entity looks THROUGH the player (bone scan). Once per run.</summary>
+        public const float BoneScanAtProgress = 0.65f;
+        private bool _boneScanFired;
 
         // ---- the hook (Anthony, 2026-07-21): false safety, then we move in ----
         /// <summary>How far the bells/veil sink during a scripted lull (multiplier on their normal levels).</summary>
@@ -236,6 +242,7 @@ namespace ShadowDoors.Runtime
             }
             _calmUntilClock = 0f;
             _calmMultiplier = 1f;
+            _boneScanFired = false;
 
             director.StartRun();
             audioKit?.StartHeartbeat();
@@ -458,6 +465,15 @@ namespace ShadowDoors.Runtime
                         skeletonArm.Play(_rig);
                     }
                 }
+            }
+
+            // The bone scan: mid-night, the entity looks THROUGH the player — a scan
+            // sweeps up and reveals their own skeleton. Fired unbidden once; the
+            // player can also trigger it themselves via boneScanner.Trigger() (button).
+            if (!_boneScanFired && progress >= BoneScanAtProgress && boneScanner != null)
+            {
+                _boneScanFired = true;
+                boneScanner.Trigger();
             }
         }
 

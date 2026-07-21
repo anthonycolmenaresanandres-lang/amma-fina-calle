@@ -145,6 +145,17 @@ animation) is backlog, not MVP.
     JSON-test contracts (180 s, sorted, doors 0–3, speeds 0.2–1.0, ≥2 whisper feints,
     quiet final 5 s).
 
+11. **The Bone Scan (2026-07-21: "put my hand on the screen and it sees my bones"):**
+    a fullscreen X-ray beat — a scan line sweeps up the screen and reveals a
+    procedurally-drawn (2D capsule-SDF) skeletal hand over the live camera feed, as if
+    the entity looks THROUGH the player. Two uses: fired unbidden mid-night (progress
+    0.65) as a scare, AND wired to a uGUI "SCAN" button so the player can raise their
+    own hand and watch their bones appear — the "teach anatomy" hook. `BoneScanner` +
+    `BoneScan.shader`; zero art assets, no hand-tracking dependency (the scan framing
+    "HOLD STILL" sells a screen-centered overlay). Real per-finger hand tracking
+    (MediaPipe/Unity) is a backlog upgrade if the beat lands. Log marker
+    `BONE_SCAN_START`.
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via

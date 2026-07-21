@@ -51,6 +51,12 @@ rulings in AR_SHADOW_DOORS_MVP.md):
   `warningText` (a second uGUI Text line, distinct from SetupFlow's status text),
   and its `audioKit`. Tap raycasts use `Camera.main` — ensure the AR camera is
   tagged MainCamera. All null-safe; with no coinPrefab the phase resolves by timeout.
+- `GameLoop.boneScanner` (the Bone Scan): a scene GameObject with the `BoneScanner`
+  component — assign its `scanImage` (a fullscreen uGUI Image using a
+  Materials/BoneScan.mat [shader `ShadowDoors/BoneScan`], start DISABLED), an optional
+  `promptText`, and `audioKit`. Also wire a uGUI "SCAN" button's OnClick to
+  `BoneScanner.Trigger()` so the player can scan their own hand on demand (the anatomy
+  beat). Null-safe.
 
 ## L0 - compile
 
