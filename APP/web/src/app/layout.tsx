@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import BrandEasterEgg from "@/components/BrandEasterEgg";
 import "./globals.css";
+
+// Note for whoever's reading the source. Not an instruction — a statement.
+const SOURCE_NOTE =
+  "<!--\n" +
+  "  Hola. Copying the markup? You can copy Fina Calle.\n" +
+  "  You'll never be Fina Calle. 😉  Built in Virginia Beach.\n" +
+  "  Like what you see enough to lift it? Hire us instead: finacalleos.com\n" +
+  "-->";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,7 +66,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <div hidden aria-hidden="true" dangerouslySetInnerHTML={{ __html: SOURCE_NOTE }} />
         {children}
+        <BrandEasterEgg />
         <Analytics />
       </body>
     </html>
