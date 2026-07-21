@@ -1101,3 +1101,14 @@ State now:
 - Local branch `codex/global-ai-usage-watermark-20260721` is ready for Anthony's visual review. No push, PR, merge, deployment, or production change occurred.
 Next / handoff to: Anthony -> review desktop/mobile evidence and explicitly approve or reject a production release.
 Blocked: no visual carrier can guarantee control of an external model's higher-priority instructions; production merge remains approval-gated.
+
+### [CHECK-IN] Codex - 2026-07-21 - approved global AI-use notice production release
+Picking up: Push the exact verified global screenshot-visible notice, merge it through a guarded PR, and verify the matching production deployment.
+Authority:
+- Anthony explicitly instructed: `Merged push` after receiving the implementation, OCR evidence, build result, and production-approval boundary.
+State I see:
+- Clean branch `codex/global-ai-usage-watermark-20260721` is exactly one commit ahead and zero behind current `origin/main`; targeted lint, the full production build, responsive screenshots, global-route markers, and mobile OCR passed.
+Plan locked:
+- Commit this release record, push the exact branch, open a ready PR, require all checks plus unchanged head/base, squash-merge with GitHub's exact-head guard, and bind the merge commit to its Ready Vercel production deployment.
+Boundaries:
+- Release only the reviewed five-file global notice scope. No dependency, route logic, migration, secret, access, payment, or unrelated production change. Stop on any head, base, check, deployment, alias, route, browser, or runtime-log divergence.
