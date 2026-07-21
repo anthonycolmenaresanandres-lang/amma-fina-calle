@@ -679,3 +679,15 @@ State now:
 - L0-L3 are green; no shader fixes beyond removing the stale `LightMode` tag from the otherwise already pipeline-agnostic ShadowSilhouette pass were required.
 - L4 is `DEFERRED-TO-DEVICE`: repeated `adb devices -l` checks, including a one-minute authorization poll, returned an empty list. No install, visual check, logcat marker run, crash/ANR, or frame-health claim was made for this APK.
 Next / handoff to: Anthony -> connect/unlock the Android phone using a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK, verify the Offering and full visual checklist, capture the three-minute L4 marker sequence, then update this handoff with physical evidence.
+
+### [CHECK-OUT] Codex - 2026-07-21 - refusal-punishment audio rebuilt; device dual-path pass deferred
+Did:
+- Fast-forwarded through `cd8a957` and added the committed `you_cannot_refuse.wav` to BuildScript's deterministic AudioKit clip list; no scene wiring changed because the existing CoinOffering and GameLoop references are already complete.
+- Re-overlaid Assets and Packages, then passed L0 on attempt 1 with all six custom shaders retaining the plain-CG untagged source path.
+- Passed L1 EditMode 39/39 across 9 suites and L2 PlayMode 3/3. The coin-free harness correctly kept `_angered` false and emitted `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=48.0`, `BANISH_OK`, then `RUN_END result=WIN survivalSeconds=180.0` in order.
+- Passed L3 IL2CPP ARM64 / ARCore-required build. All six custom shaders retained one GLES3 program after built-in and scriptable stripping. APK size is 35,002,975 bytes; SHA-256 `091D094DBFAFF0C31F705A12E24A45EBDDA8E416F17EC53A09BFED30B51DD7AA`.
+- Copied Unity's generated `you_cannot_refuse.wav.meta` back into the repository overlay.
+State now:
+- L0-L3 are green. No shader fix was needed in this revision.
+- L4 is `DEFERRED-TO-DEVICE`: `adb devices -l` stayed empty through a one-minute poll. The take-coins run and refusal run were not installed or observed, so the refusal voice, immediate arm lash, faster shadows, physical marker sequence, crash/ANR status, and frame health are intentionally unclaimed.
+Next / handoff to: Anthony -> reconnect and unlock the Android phone with a data-capable cable, select File transfer or Android Auto, and approve USB debugging. Codex -> install this APK and run both Offering paths plus the full three-minute L4 marker smoke.

@@ -481,7 +481,8 @@ namespace ShadowDoors.Editor
                 "whisper_loop", "heartbeat_loop", "emerge_hiss", "banish_stinger",
                 "dawn_chord", "found_you", "chant_loop", "demonic_voice_a",
                 "demonic_voice_b", "main_voice_dawn", "main_voice_lose",
-                "bell_far", "bells_loop", "please_dont", "leave_them", "it_knows"
+                "bell_far", "bells_loop", "please_dont", "leave_them", "it_knows",
+                "you_cannot_refuse"
             };
             var serialized = new SerializedObject(audio);
             SerializedProperty clips = serialized.FindProperty("clips");
