@@ -154,6 +154,15 @@ namespace ShadowDoors.Runtime
             }
         }
 
+        /// <summary>Retune the ambient bed's volume mid-run — GameLoop ramps it up over the night (suspense progression ruling).</summary>
+        public void SetAmbientVolume(float volume01)
+        {
+            if (ambientSource != null)
+            {
+                ambientSource.volume = Mathf.Clamp01(volume01);
+            }
+        }
+
         /// <summary>Play a flat (2D) clip after a delay — used for the main-voice lines.</summary>
         public void PlayFlatDelayed(string clipName, float delaySeconds)
         {

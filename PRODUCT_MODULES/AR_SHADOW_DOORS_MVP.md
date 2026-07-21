@@ -94,6 +94,14 @@ animation) is backlog, not MVP.
    tap the floor at your feet" → ArmedReady ("lights LOW, sound UP — tap OK to
    begin"): the night only starts on the player's final OK. One plain imperative
    instruction per screen; OK button visible from launch.
+6. **Suspense progression + fluid motion + the arm (2026-07-21):** the night itself
+   escalates — bells swell 0.30→0.55, the evil veil gains a creeping floor (0→0.25:
+   late-night never feels fully safe), and shadows spawn up to 1.3× faster near dawn.
+   Shadow motion is fluid: Perlin speed breathing, true lateral+vertical weave,
+   slerped turning, eased surfacing. And twice a night (45% and 85%), a code-built
+   bone-white **skeleton arm** reaches into frame from behind the player's right
+   shoulder, trembles, and withdraws (`SkeletonArm` — camera-space, zero art assets,
+   primitive-cube bones + `BoneUnlit.shader`).
 
 ## Explicitly cut from MVP (backlog)
 

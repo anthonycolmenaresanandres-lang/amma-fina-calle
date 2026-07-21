@@ -36,6 +36,22 @@ namespace ShadowDoors.Runtime
         [SerializeField] private GameObject watcherEyesPrefab;
         [Tooltip("Screen-space evil filter driven by shadow presence. Optional — null skips it (scaffold rule).")]
         [SerializeField] private EvilVeil evilVeil;
+        [Tooltip("Camera-space skeleton-arm jump scare. Optional — null skips it (scaffold rule).")]
+        [SerializeField] private SkeletonArm skeletonArm;
+
+        // ---- suspense progression (Anthony, 2026-07-21): the night gets WORSE ----
+        /// <summary>Ambient bell-bed volume at minute zero.</summary>
+        public const float AmbientVolumeStart = 0.30f;
+        /// <summary>Ambient bell-bed volume as dawn approaches.</summary>
+        public const float AmbientVolumeEnd = 0.55f;
+        /// <summary>Evil-veil floor near the end of the night — the room never fully recovers late.</summary>
+        public const float VeilBaselineAtDawn = 0.25f;
+        /// <summary>Shadow glide-speed multiplier by the end of the night (applied at spawn).</summary>
+        public const float LateSpeedMultiplier = 1.3f;
+
+        // Skeleton-arm scare beats, as fractions of night progress. Once each per run.
+        private static readonly float[] ArmScareAtProgress = { 0.45f, 0.85f };
+        private readonly bool[] _armScareFired = new bool[2];
 
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
         [SerializeField] private GameObject endCardPanel;
@@ -157,13 +173,19 @@ namespace ShadowDoors.Runtime
                 endCardPanel.SetActive(false);
             }
 
+            for (int i = 0; i < _armScareFired.Length; i++)
+            {
+                _armScareFired[i] = false;
+            }
+
             director.StartRun();
             audioKit?.StartHeartbeat();
             // The bell bed (replaced the chant per Anthony's device-playtest ruling —
-            // Undertaker-style funeral tolls): starts with the run, low in the mix.
+            // Undertaker-style funeral tolls): starts with the run, low in the mix,
+            // and swells over the night (suspense progression — see TickRunning).
             // Its cut at black-complete (ConsumedFX) is a designed beat — never stop
             // it anywhere else on the lose path.
-            audioKit?.StartAmbient("bells_loop", 0.4f);
+            audioKit?.StartAmbient("bells_loop", AmbientVolumeStart);
         }
 
         private void ClearLiveShadows()
@@ -195,6 +217,10 @@ namespace ShadowDoors.Runtime
             // tagged (min 1 allowed) — wrap rather than skip the beat entirely, so a
             // 1-door setup still plays the full escalation against that one door.
             Transform doorAnchor = doors[doorIndex % doors.Count];
+
+            // Suspense progression: late-night shadows are faster than the scenario's
+            // authored speed — the same doorway stops feeling survivable.
+            speed *= Mathf.Lerp(1f, LateSpeedMultiplier, NightProgress);
 
             // Late-run escalation (Anthony's direction): shadows past the halfway mark SPEAK.
             // Alternating demonic lines, spatialized AT the emerge door so the voice comes
@@ -310,6 +336,39 @@ namespace ShadowDoors.Runtime
             // The evil veil follows presence, not lighting: the screen turns wrong
             // while anything is out of a door, recovers when the room is clear.
             evilVeil?.SetPresence(_liveShadows.Count > 0);
+
+            TickSuspenseProgression();
+        }
+
+        /// <summary>0 at the first second of the night, 1 at dawn.</summary>
+        private float NightProgress =>
+            director != null && director.Duration > 0f
+                ? Mathf.Clamp01(director.Clock / director.Duration)
+                : 0f;
+
+        // Suspense progression (Anthony, 2026-07-21): the night itself escalates —
+        // bells swell, the veil's floor creeps up so the room never fully feels safe
+        // late, and the skeleton arm reaches in at fixed beats. Per-shadow speed
+        // scaling happens at spawn (HandleEmerge).
+        private void TickSuspenseProgression()
+        {
+            float progress = NightProgress;
+
+            audioKit?.SetAmbientVolume(Mathf.Lerp(AmbientVolumeStart, AmbientVolumeEnd, progress));
+            evilVeil?.SetBaseline(Mathf.Lerp(0f, VeilBaselineAtDawn, progress));
+
+            for (int i = 0; i < ArmScareAtProgress.Length; i++)
+            {
+                if (!_armScareFired[i] && progress >= ArmScareAtProgress[i])
+                {
+                    _armScareFired[i] = true;
+                    if (skeletonArm != null)
+                    {
+                        audioKit?.PlayFlat("emerge_hiss");
+                        skeletonArm.Play(_rig);
+                    }
+                }
+            }
         }
 
         private void HandleLose(ShadowAgent killer)

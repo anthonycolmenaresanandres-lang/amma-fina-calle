@@ -26,6 +26,14 @@ namespace ShadowDoors.Runtime
         private const float DriftAmplitudeMeters = 0.15f;
         private const float DriftFrequencyHz = 0.35f; // arbitrary, slow "unsteady approach" wobble — tune freely, not spec-mandated.
 
+        // Fluid-motion pass (Anthony, 2026-07-21): the approach breathes instead of
+        // marching — speed swells and ebbs on Perlin noise, the weave includes a slow
+        // vertical bob, and the billboard TURNS smoothly rather than snapping.
+        private const float BobAmplitudeMeters = 0.06f;
+        private const float SpeedWobbleMin = 0.75f;
+        private const float SpeedWobbleMax = 1.25f;
+        private const float BillboardTurnSharpness = 6f; // slerp rate: ~0.1 s to settle a turn.
+
         /// <summary>
         /// Floor-anchor ruling (Anthony, 2026-07-20): anchors live ON THE FLOOR at the
         /// doorway threshold (vertical door surfaces are unreliable to tag; floors lock
@@ -70,10 +78,14 @@ namespace ShadowDoors.Runtime
             _props = new MaterialPropertyBlock();
 
             _spawnPosition = transform.position; // the floor anchor point — the rise starts here.
+            _wobbleSeed = Random.Range(0f, 100f); // desync sibling shadows' speed breathing.
             transform.localScale = Vector3.zero; // Emerging starts at scale 0.
         }
 
         private Vector3 _spawnPosition;
+        private float _wobbleSeed;
+        private float _previousDrift;
+        private float _previousBob;
 
         private void Update()
         {
@@ -106,7 +118,8 @@ namespace ShadowDoors.Runtime
 
         // Billboard: quad always faces the camera. Full look-at (not Y-axis-only) —
         // the shadow is a flat sprite from any angle, so there's no "correct" locked
-        // up-axis to preserve; simplest possible billboard for an MVP.
+        // up-axis to preserve. Slerped rather than snapped (fluid-motion pass): the
+        // shadow *turns* to keep facing you, it doesn't teleport its facing.
         private void BillboardTowardCamera(Pose cameraPose)
         {
             Vector3 toCamera = cameraPose.position - transform.position;
@@ -115,7 +128,9 @@ namespace ShadowDoors.Runtime
                 return;
             }
 
-            transform.rotation = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
+            Quaternion target = Quaternion.LookRotation(-toCamera.normalized, Vector3.up);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, target, Mathf.Clamp01(BillboardTurnSharpness * Time.deltaTime));
         }
 
         private void TickEmerging()
@@ -123,11 +138,16 @@ namespace ShadowDoors.Runtime
             _stateTimer += Time.deltaTime;
             float t = Mathf.Clamp01(_stateTimer / EmergeScaleInSeconds);
 
+            // Ease-out cubic (fluid-motion pass): fast breach, slow settle — the
+            // surfacing decelerates like something heavy pushing through a membrane.
+            float inv = 1f - t;
+            float eased = 1f - inv * inv * inv;
+
             // Rise out of the floor: scale up while the quad's CENTER climbs so its
             // base stays pinned to the anchor — reads as surfacing through the stain,
             // not inflating in mid-air.
-            transform.localScale = Vector3.one * t;
-            transform.position = _spawnPosition + Vector3.up * (RiseCenterHeightMeters * t);
+            transform.localScale = Vector3.one * eased;
+            transform.position = _spawnPosition + Vector3.up * (RiseCenterHeightMeters * eased);
 
             if (t >= 1f)
             {
@@ -151,10 +171,23 @@ namespace ShadowDoors.Runtime
             perpendicular.Normalize();
 
             _driftPhase += Time.deltaTime * DriftFrequencyHz * Mathf.PI * 2f;
-            float drift = Mathf.Sin(_driftPhase) * DriftAmplitudeMeters;
 
-            Vector3 velocity = direction * glideSpeed + perpendicular * drift * Time.deltaTime;
-            transform.position += velocity * Time.deltaTime;
+            // Fluid-motion pass: the approach breathes. Speed swells/ebbs on Perlin
+            // noise; the weave is applied as POSITIONAL deltas (previous frame's sine
+            // subtracted from this frame's) so the lateral sway and vertical bob are
+            // true smooth offsets — the old velocity*dt formulation double-scaled by
+            // dt and flattened the weave to near zero.
+            float speedWobble = Mathf.Lerp(
+                SpeedWobbleMin, SpeedWobbleMax, Mathf.PerlinNoise(_driftPhase * 0.21f, _wobbleSeed));
+            float drift = Mathf.Sin(_driftPhase) * DriftAmplitudeMeters;
+            float bob = Mathf.Sin(_driftPhase * 0.63f + 1.3f) * BobAmplitudeMeters;
+
+            Vector3 weaveDelta = perpendicular * (drift - _previousDrift)
+                               + Vector3.up * (bob - _previousBob);
+            _previousDrift = drift;
+            _previousBob = bob;
+
+            transform.position += direction * (glideSpeed * speedWobble) * Time.deltaTime + weaveDelta;
         }
 
         private void TickBanishing()

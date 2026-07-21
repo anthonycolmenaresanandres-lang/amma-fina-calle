@@ -45,5 +45,13 @@ namespace ShadowDoors.Tests.EditMode
             float down = 0.5f - EvilVeil.IntensityStep(0.5f, false, 0.1f);
             Assert.Greater(up, down, "dread arrives faster than relief");
         }
+
+        [Test]
+        public void DisplayedIntensity_NightBaselineFloorsThePresenceRamp()
+        {
+            Assert.AreEqual(0.25f, EvilVeil.DisplayedIntensity(0f, 0.25f), 1e-5f);
+            Assert.AreEqual(0.8f, EvilVeil.DisplayedIntensity(0.8f, 0.25f), 1e-5f);
+            Assert.AreEqual(0f, EvilVeil.DisplayedIntensity(0f, 0f), 1e-5f);
+        }
     }
 }
