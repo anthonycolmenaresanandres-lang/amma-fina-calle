@@ -58,6 +58,25 @@ rulings in AR_SHADOW_DOORS_MVP.md):
   `BoneScanner.Trigger()` so the player can scan their own hand on demand (the anatomy
   beat). Null-safe.
 
+## Blender asset lane - real 3D wraith (optional but wanted)
+
+`tools/blender/make_creatures.py` builds the real 3D creature. Run headless on the
+Blender machine (Blender 3.6+; the FBX exporter arg fallback covers 3.x-4.x):
+
+```
+blender --background --factory-startup --python tools/blender/make_creatures.py
+```
+
+Success = `SHADOWDOORS_CREATURES_GENERATED` + `Assets/ShadowDoors/Meshes/SM_Wraith.fbx`
+(<=2600 tris). Failure prints `SHADOWDOORS_CREATURES_FAILED` and exits 1. Then in Unity:
+import the FBX (scale so 1 Blender unit = 1 m; the wraith is authored ~1.8 m tall),
+create Materials/ShadowWraith.mat (shader `ShadowDoors/ShadowWraith`), and build a
+`ShadowAgentWraith` prefab = the SM_Wraith mesh (MeshFilter/MeshRenderer) + a
+`ShadowAgent` component with **billboardYawOnly = true** + the ShadowWraith material.
+Point `GameLoop.shadowAgentPrefab` at it to swap the flat billboard for the real mesh.
+Keep the old quad prefab as the primitive fallback (guardrail). Commit the FBX + .meta
++ material back into the overlay.
+
 ## L0 - compile
 
 ```powershell

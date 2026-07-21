@@ -156,6 +156,21 @@ animation) is backlog, not MVP.
     (MediaPipe/Unity) is a backlog upgrade if the beat lands. Log marker
     `BONE_SCAN_START`.
 
+12. **Real 3D assets via the Blender lane (2026-07-21: "we can create the assets in
+    Blender and bring them here"):** the answer to "graphics look goofy" WITHOUT
+    breaking the cloud-authorable, zero-manual-asset doctrine — we author deterministic
+    `bpy` scripts (original parametric geometry, not AI-generated, not licensed) and
+    Codex runs Blender headless to export FBX into `Assets/ShadowDoors/Meshes/`. First
+    hero asset: `tools/blender/make_creatures.py` builds **SM_Wraith** — a real
+    low-poly gaunt wraith (spindle torso, forward-tilted hollow head, long reaching
+    arms, tendrils dissolving to the floor; ≤2600 tris, decimate-to-budget, tiered FBX
+    export). It replaces the flat billboard: `ShadowWraith.shader` (near-black body,
+    cold violet fresnel rim that flares with `_EyeGlowIntensity`, world-noise dissolve
+    on `_Dissolve` — same property contract as ShadowSilhouette) and a new
+    `ShadowAgent.billboardYawOnly` so the mesh stays upright and turns only about Y.
+    The billboard quad stays as the primitive fallback (guardrail). Next Blender
+    assets: a real skeletal hand (bone scan) and a modeled skeleton arm.
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via

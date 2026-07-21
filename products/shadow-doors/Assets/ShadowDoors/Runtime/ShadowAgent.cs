@@ -44,6 +44,8 @@ namespace ShadowDoors.Runtime
         private const float RiseCenterHeightMeters = 0.5f;
 
         [SerializeField] private float glideSpeed = 0.3f; // m/s, overwritten from the scenario event's speed at spawn.
+        [Tooltip("True for the real 3D wraith mesh: rotate yaw-only (stay upright, turn to face the player) instead of the flat-sprite full look-at. Leave false for the billboard quad.")]
+        [SerializeField] private bool billboardYawOnly;
 
         private static readonly int DissolveId = Shader.PropertyToID("_Dissolve");
 
@@ -116,13 +118,18 @@ namespace ShadowDoors.Runtime
             }
         }
 
-        // Billboard: quad always faces the camera. Full look-at (not Y-axis-only) —
-        // the shadow is a flat sprite from any angle, so there's no "correct" locked
-        // up-axis to preserve. Slerped rather than snapped (fluid-motion pass): the
-        // shadow *turns* to keep facing you, it doesn't teleport its facing.
+        // Billboard: turn to keep facing the player. The flat quad uses a full look-at
+        // (it's a sprite from any angle); the real 3D wraith mesh (billboardYawOnly)
+        // stays UPRIGHT and turns only about Y, so it never tips like a cardboard
+        // cutout. Slerped rather than snapped (fluid-motion pass): it *turns*, it
+        // doesn't teleport its facing.
         private void BillboardTowardCamera(Pose cameraPose)
         {
             Vector3 toCamera = cameraPose.position - transform.position;
+            if (billboardYawOnly)
+            {
+                toCamera.y = 0f;
+            }
             if (toCamera.sqrMagnitude < 0.0001f)
             {
                 return;
