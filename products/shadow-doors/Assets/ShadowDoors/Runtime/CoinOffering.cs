@@ -52,6 +52,13 @@ namespace ShadowDoors.Runtime
         public event Action OfferingCompleted;
 
         /// <summary>
+        /// True if the offering resolved by REFUSAL (coins left untouched to the
+        /// timeout) rather than greed. GameLoop reads this to punish defiance —
+        /// there was never a safe choice: taking is theft, refusing is insult.
+        /// </summary>
+        public bool WasRefused { get; private set; }
+
+        /// <summary>
         /// Which voice line a collection triggers — pure and unit-testable (house L1
         /// rule). 1st coin: the plea. 2nd: the warning. Last: the turn. Null = text-only.
         /// </summary>
@@ -199,6 +206,7 @@ namespace ShadowDoors.Runtime
         private void Refuse()
         {
             _active = false;
+            WasRefused = true;
             foreach (OfferingCoin coin in _coins)
             {
                 if (coin != null)
@@ -207,7 +215,10 @@ namespace ShadowDoors.Runtime
                 }
             }
             _coins.Clear();
-            SetWarning("your refusal is an answer.");
+            // Defiance is its own sin — the entity answers in its own voice, angrier
+            // than the greed line. GameLoop punishes the night for it (see _angered).
+            audioKit?.PlayFlat("you_cannot_refuse");
+            SetWarning("YOU CANNOT REFUSE ME.");
             StartCoroutine(CompleteAfterBeat());
         }
 

@@ -64,6 +64,12 @@ namespace ShadowDoors.Runtime
         private float _calmUntilClock;
         private float _calmMultiplier = 1f;
 
+        /// <summary>Refusal punishment: every shadow is this much faster ALL night when the player denied the offering.</summary>
+        public const float AngerSpeedMultiplier = 1.25f;
+        // Set when the Offering was REFUSED. Persists across restarts (you don't get to
+        // un-defy it) — reset only by a fresh setup, which re-runs the Offering.
+        private bool _angered;
+
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
         [SerializeField] private GameObject endCardPanel;
         [SerializeField] private Text endCardText;
@@ -142,6 +148,7 @@ namespace ShadowDoors.Runtime
         // because the transgression already happened; you don't get to un-take them.
         private void HandleSetupCompleted()
         {
+            _angered = false; // fresh setup = fresh offering; anger is earned this run.
             if (coinOffering != null && setupFlow != null)
             {
                 _phase = RunPhase.Offering;
@@ -157,6 +164,9 @@ namespace ShadowDoors.Runtime
         {
             if (_phase == RunPhase.Offering)
             {
+                // There was never a safe choice: greed damns you, and so does defiance.
+                // Refusal makes the whole night angrier (see StartRun + HandleEmerge).
+                _angered = coinOffering != null && coinOffering.WasRefused;
                 StartRun();
             }
         }
@@ -235,6 +245,16 @@ namespace ShadowDoors.Runtime
             // Its cut at black-complete (ConsumedFX) is a designed beat — never stop
             // it anywhere else on the lose path.
             audioKit?.StartAmbient("bells_loop", AmbientVolumeStart);
+
+            // Refusal punishment: the entity lashes out the INSTANT the night starts —
+            // no Quiet Minute grace for defiance. The skeleton hand snatches at you the
+            // moment you denied it. (Greed gets the slow dread build; defiance gets a
+            // slap.) Speed penalty is applied per-spawn in HandleEmerge.
+            if (_angered)
+            {
+                audioKit?.PlayFlat("emerge_hiss");
+                skeletonArm?.Play(_rig);
+            }
         }
 
         private void ClearLiveShadows()
@@ -270,6 +290,12 @@ namespace ShadowDoors.Runtime
             // Suspense progression: late-night shadows are faster than the scenario's
             // authored speed — the same doorway stops feeling survivable.
             speed *= Mathf.Lerp(1f, LateSpeedMultiplier, NightProgress);
+
+            // Refusal punishment stacks on top: a defied night is faster start to end.
+            if (_angered)
+            {
+                speed *= AngerSpeedMultiplier;
+            }
 
             // The hook's payoff: an emerge BREAKS any lull instantly — bells and veil
             // surge back with the shadow. Safety was the setup.

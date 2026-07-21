@@ -275,6 +275,9 @@ def main():
     make_pleading_voice("please_dont.wav", "Please. Don't.", espeak_pitch=60, speed=90)
     make_pleading_voice("leave_them.wav", "Leave them. They are not yours.", espeak_pitch=55, speed=100)
     make_voice("it_knows.wav", "It knows what you took.", pitch_factor=0.60, growl=True, espeak_pitch=14, speed=95)
+    # The refusal punishment (hook, take 3): denying the offering is its own sin — the
+    # entity's answer to defiance, angrier than the greed line.
+    make_voice("you_cannot_refuse.wav", "You cannot refuse me.", pitch_factor=0.62, growl=True, espeak_pitch=12, speed=110)
     print("SHADOWDOORS_VOICES_GENERATED" + ("_PARTIAL" if PARTIAL else ""))
 
 

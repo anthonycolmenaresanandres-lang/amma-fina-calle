@@ -127,6 +127,15 @@ animation) is backlog, not MVP.
    Offering: you don't get to un-take them. (`CoinOffering` + `OfferingCoin` +
    `OfferingCoin.shader`; voices via espeak +whisper, un-demonized on purpose —
    someone tried to warn you.)
+9. **No safe choice — refusal is punished too (2026-07-21):** leaving the coins is
+   NOT the escape hatch. Taking them is theft; refusing them is *defiance*, and the
+   entity punishes defiance harder. On refusal (`CoinOffering.WasRefused`) the entity
+   answers in its own voice — "YOU CANNOT REFUSE ME." — and GameLoop marks the night
+   `_angered`: (a) the skeleton arm lashes out the INSTANT the night starts (no Quiet
+   Minute grace — greed earns the slow dread build, defiance earns an immediate slap),
+   and (b) every shadow spawns 1.25× faster all night (stacks with the late-night
+   ramp). Anger persists across restarts (you don't get to un-defy it); a fresh setup
+   clears it and re-runs the Offering.
 
 ## Explicitly cut from MVP (backlog)
 
