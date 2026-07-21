@@ -758,3 +758,16 @@ Did:
 State now:
 - Vercel returns HTTP 302 to the team's SSO gate for both URLs, so deployment existence is confirmed but anonymous public access and model-byte response verification are not claimed. No Vercel access-control setting was changed.
 Next / handoff to: Anthony -> open the alias while signed into the Vercel team; if this consumer-facing demo should be public, explicitly approve changing the new project's deployment protection before sharing it externally.
+
+### [CHECK-OUT] Codex - 2026-07-21 - Decoy display typography preview ready
+Did:
+- Added the licensed Mixfont Decoy Font as a locally served, preloaded display face and preserved its license beside the font binary.
+- Applied the hybrid display treatment to large public marketing/editorial headings across the homepage, systems, R&D, contact, case studies, content engine, news, request-update, and PayBridge surfaces. Body copy, buttons, prices, navigation, owner screens, customer screens, restaurant menus, and internal tools remain in Geist.
+- Added the homepage line `Copy the page. You can't copy the pulse.` as the screenshot-aware brand joke requested by Anthony.
+- Passed ESLint with 0 errors (8 existing warnings) and passed the optimized Next.js build, TypeScript check, and static generation for all 25 pages.
+- Committed and pushed `5000704` (`web: add Decoy display headings to public surfaces`) on `claude/escape-bomb-dc-plan-n6bfj5`; `main` was not touched.
+- Confirmed Vercel deployment `dpl_HFpBLA3zNpEHj2BUnWPTDfR7PXmk` reached `READY` at `https://amma-fina-calle-o0m8ys64w.vercel.app`.
+State now:
+- The feature is live in the protected Vercel preview. Automated compile/deployment checks are green.
+- Final desktop/mobile visual comparison is intentionally deferred to Anthony: Windows browser control was blocked by a stale Blender permission prompt, and Anthony offered to inspect the live page directly. `APP/web/design-qa.md` records this as `final result: blocked` until that human visual sign-off.
+Next / handoff to: Anthony -> open the temporary share URL supplied by Codex, inspect the homepage and one interior page on phone/desktop, then merge PR 168 if the display treatment feels right.
