@@ -1065,3 +1065,14 @@ State now:
 - Crawler rules can govern compliant access and the policy can guide AI search, but they cannot override an external model's system prompt. Google-Extended combines Gemini training and search grounding, so it remains allowed to preserve incoming Gemini search.
 Next / handoff to: Anthony -> approve merge and production verification if this restored hero and honest AI-control approach are accepted.
 Blocked: production merge requires Anthony's explicit approval.
+
+### [CHECK-IN] Codex - 2026-07-21 - approved restored hero and AI crawler-control production release
+Picking up: Push the exact verified restore branch, merge it through a guarded PR, and verify production before planning any new screenshot-defense experiment.
+Authority:
+- Anthony explicitly instructed: `merge prior work first please`.
+State I see:
+- Clean branch `codex/restore-hero-ai-crawl-controls-20260721` is exactly one commit ahead and zero behind current `origin/main`; its targeted lint, full production build, built-route checks, and true-mobile browser verification passed.
+Plan locked:
+- Push the exact head, open a ready PR, require its checks/head/base to remain valid, squash-merge with GitHub's head-match guard, bind the merge commit to its exact Ready Vercel deployment, and verify the public hero, `/robots.txt`, `/llms.txt`, and error logs.
+Boundaries:
+- Merge only the reviewed restore/crawler-control scope. No new screenshot trap, dependency, migration, secret, access, payment, or unrelated production change in this release.
