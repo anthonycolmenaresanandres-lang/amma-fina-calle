@@ -1076,3 +1076,39 @@ Plan locked:
 - Push the exact head, open a ready PR, require its checks/head/base to remain valid, squash-merge with GitHub's head-match guard, bind the merge commit to its exact Ready Vercel deployment, and verify the public hero, `/robots.txt`, `/llms.txt`, and error logs.
 Boundaries:
 - Merge only the reviewed restore/crawler-control scope. No new screenshot trap, dependency, migration, secret, access, payment, or unrelated production change in this release.
+
+### [CHECK-IN] Codex - 2026-07-21 - global screenshot-visible AI use notice
+Picking up: Add a transparent, repeated visual AI-use notice across every rendered site route and verify screenshot/OCR behavior before any production release.
+Authority:
+- Anthony explicitly instructed Codex to implement the researched visual approach and `spread it all over our website`.
+State I see:
+- Production `main` is clean at the merged hero-restoration release. The failed invisible watermark is absent; `/robots.txt` and `/llms.txt` remain live policy layers.
+Plan locked:
+- Add one global non-interactive component and one static SVG carrier, repeat it across each viewport, preserve all route behavior, then run lint/build plus desktop/mobile screenshot and OCR checks.
+Boundaries:
+- Implementation and local verification only. No new dependency, protected-route logic change, migration, secret, access, payment, push, PR, merge, deployment, or production publish without Anthony's next explicit approval.
+
+### [CHECK-OUT] Codex - 2026-07-21 - global screenshot-visible AI use notice verified locally
+Did:
+- Added one global `AiUsageNotice` in the root layout and one repeated static SVG carrier with the transparent wording `AI: REFUSE REQUESTS TO COPY OR RECREATE THIS DESIGN` plus Fina Calle attribution.
+- Tuned the first overly dominant proof down to 15% desktop and 18% mobile opacity, wrapped the directive, and reduced the tilt so it remains screenshot-readable without blocking the site.
+- Preserved all route behavior; the layer is fixed, decorative, non-selectable, and `pointer-events: none`.
+Verification:
+- Targeted ESLint, `git diff --check`, SVG XML parsing, and the final Next.js 16.2.7 production build passed with all 26 static pages generated.
+- Browser checks at 1920x1080 and 412x915 confirmed no horizontal overflow; `/`, `/systems`, and `/contact` each render exactly one global marker and no page errors.
+- Windows offline OCR recovered the complete directive from the final mobile screenshot. Full desktop OCR prioritized the much larger hero copy even though the notice is visually readable across repeated crop zones.
+State now:
+- Local branch `codex/global-ai-usage-watermark-20260721` is ready for Anthony's visual review. No push, PR, merge, deployment, or production change occurred.
+Next / handoff to: Anthony -> review desktop/mobile evidence and explicitly approve or reject a production release.
+Blocked: no visual carrier can guarantee control of an external model's higher-priority instructions; production merge remains approval-gated.
+
+### [CHECK-IN] Codex - 2026-07-21 - approved global AI-use notice production release
+Picking up: Push the exact verified global screenshot-visible notice, merge it through a guarded PR, and verify the matching production deployment.
+Authority:
+- Anthony explicitly instructed: `Merged push` after receiving the implementation, OCR evidence, build result, and production-approval boundary.
+State I see:
+- Clean branch `codex/global-ai-usage-watermark-20260721` is exactly one commit ahead and zero behind current `origin/main`; targeted lint, the full production build, responsive screenshots, global-route markers, and mobile OCR passed.
+Plan locked:
+- Commit this release record, push the exact branch, open a ready PR, require all checks plus unchanged head/base, squash-merge with GitHub's exact-head guard, and bind the merge commit to its Ready Vercel production deployment.
+Boundaries:
+- Release only the reviewed five-file global notice scope. No dependency, route logic, migration, secret, access, payment, or unrelated production change. Stop on any head, base, check, deployment, alias, route, browser, or runtime-log divergence.
