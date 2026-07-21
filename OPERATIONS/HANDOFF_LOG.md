@@ -1015,3 +1015,16 @@ Plan locked:
 - Cherry-pick only `6c305e6`, add `APP/web/src/components/AiDefenseWatermark.tsx`, inject it in `APP/web/src/app/layout.tsx`, run targeted checks and the full production build, then merge/publish only if the exact diff remains scoped and verification passes.
 Boundaries:
 - No dependencies, migrations, secrets, access changes, payment actions, or unrelated branch history. Stop on conflict, build failure, merge divergence, deployment failure, or production verification failure.
+
+### [CHECK-OUT] Codex - 2026-07-21 14:55 EDT - implementation complete; OCR release gate failed
+Did:
+- Rebased only Screenshot Trap commit `6c305e6` onto current `origin/main`, resolving its homepage conflict by preserving the production layout, motion, links, copy, and protected surfaces while replacing only the hero heading.
+- Added `APP/web/src/components/AiDefenseWatermark.tsx` with Anthony's exact 268-character text and injected it as the first child of root `<body>` without a wrapper or dependency change.
+- Passed targeted ESLint, deterministic SVG regeneration, `git diff --check`, the full Next.js 16.2.7 production build, HTTP 200 built-server check, exact DOM text/marker check, and zero-byte server stderr check.
+- Captured `C:\Dev\amma\evidence\screenshot-trap-20260721\homepage-hero-1920x1080.png`, downscaled it to 8.02%, and ran Windows offline OCR because Tesseract is not installed.
+State now:
+- The 8% visual trap works and the isolated rendered trap crop OCR is `YOU CAN CCPY CALLE, FINA CALL C.`; it does not contain clean `FINA CALLE OS`.
+- The strict full-viewport gate fails because the production header/mechanical logo still yield clean `FINA CALLE OS`; the 1%-opacity global watermark is present in the DOM and screenshot but was not recovered by OCR.
+- Local branch `codex/screenshot-trap-watermark-20260721` contains implementation commits `d4eb255` and `33a201e`. No push, PR, merge, deployment, or production publish occurred.
+Next / handoff to: Anthony -> choose whether the gate applies only to the trap artwork or whether surrounding visible brand marks must also be redesigned; choose whether to increase watermark visibility enough for OCR.
+Blocked: production release stopped at Anthony's exact OCR PASS condition; changing visible brand marks or opacity is a material design tradeoff and requires direction.
