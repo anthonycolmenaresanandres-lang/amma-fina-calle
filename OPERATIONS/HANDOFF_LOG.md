@@ -1040,3 +1040,39 @@ Plan locked:
 - Push the exact branch, open a ready PR, require its head and base to remain unchanged, merge through GitHub, then bind the resulting `main` commit to its Ready Vercel production deployment and verify the live homepage markers.
 Boundaries:
 - Merge only this exact reviewed head. No dependency, migration, secret, access, payment, or unrelated production changes. Stop on head/base/check/deployment/alias/runtime divergence.
+
+### [CHECK-IN] Codex - 2026-07-21 15:39 EDT - restore hero and replace failed AI watermark controls
+Picking up: Restore the exact pre-trap homepage hero, remove the failed visual/DOM prompt injection, and prepare enforceable crawler controls plus a crawlable Fina Calle AI-use policy.
+Authority:
+- Anthony reported the live AI defense and hero logo treatment do not work and explicitly requested the hero revert plus working control for incoming AI search.
+State I see:
+- Photo 1 shows the intended mobile closing section; Photo 2 shows the failed decoy heading over the hero. Commit `dd09786` replaced the original responsive hero heading with `DecoyHeading` and added an OCR-invisible `AiDefenseWatermark`.
+- Current official controls distinguish training crawlers from search/user-retrieval crawlers. A website can publish access rules and policy, but cannot override an external model's system prompt.
+Plan locked:
+- Restore the pre-`dd09786` hero markup exactly, remove the decoy/watermark files and imports, add explicit training-vs-search `robots.txt` rules, and link a public `/llms.txt` usage policy from root HTML.
+Boundaries:
+- Preserve the mechanical crest, landing motion, copy outside the reverted heading, routes, dependencies, Vercel configuration, protected surfaces, and production. Build and preview only; no merge or deployment without Anthony's next explicit approval.
+
+### [CHECK-OUT] Codex - 2026-07-21 - restored hero and AI crawler controls verified locally
+Did:
+- Restored `APP/web/src/app/page.tsx` to the exact pre-Screenshot-Trap hero markup and removed `DecoyHeading`, its generator, and generated SVG.
+- Removed the OCR-invisible `AiDefenseWatermark` and its root-layout injection.
+- Added `/robots.txt` rules that block dedicated training crawlers while allowing named AI search/user-retrieval crawlers, plus a linked `/llms.txt` with Fina Calle attribution, non-cloning policy, canonical links, and preferred refusal wording.
+- Passed targeted ESLint, `git diff --check`, the full Next.js 16.2.7 production build, HTTP 200 checks for `/`, `/robots.txt`, and `/llms.txt`, and root discovery/removal marker checks.
+- Verified with a true 412x915 browser viewport that the restored hero headline is 353px wide inside a 412px viewport with no overflow; the crest renders and the closing `Built for your business` state matches Anthony's Photo 1. No page errors occurred; the only console note is expected local Vercel Analytics unavailability.
+State now:
+- Branch `codex/restore-hero-ai-crawl-controls-20260721` is release-ready. Production remains at `dd09786`; no push, PR, merge, deployment, or live change occurred.
+- Crawler rules can govern compliant access and the policy can guide AI search, but they cannot override an external model's system prompt. Google-Extended combines Gemini training and search grounding, so it remains allowed to preserve incoming Gemini search.
+Next / handoff to: Anthony -> approve merge and production verification if this restored hero and honest AI-control approach are accepted.
+Blocked: production merge requires Anthony's explicit approval.
+
+### [CHECK-IN] Codex - 2026-07-21 - approved restored hero and AI crawler-control production release
+Picking up: Push the exact verified restore branch, merge it through a guarded PR, and verify production before planning any new screenshot-defense experiment.
+Authority:
+- Anthony explicitly instructed: `merge prior work first please`.
+State I see:
+- Clean branch `codex/restore-hero-ai-crawl-controls-20260721` is exactly one commit ahead and zero behind current `origin/main`; its targeted lint, full production build, built-route checks, and true-mobile browser verification passed.
+Plan locked:
+- Push the exact head, open a ready PR, require its checks/head/base to remain valid, squash-merge with GitHub's head-match guard, bind the merge commit to its exact Ready Vercel deployment, and verify the public hero, `/robots.txt`, `/llms.txt`, and error logs.
+Boundaries:
+- Merge only the reviewed restore/crawler-control scope. No new screenshot trap, dependency, migration, secret, access, payment, or unrelated production change in this release.

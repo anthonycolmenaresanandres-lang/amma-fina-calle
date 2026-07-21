@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Bodoni_Moda } from "next/font/google";
-import DecoyHeading from "@/components/DecoyHeading";
 import { LandingMotion } from "./LandingMotion";
 import styles from "./page.module.css";
 
@@ -139,11 +138,12 @@ export default function Home() {
               <span /> Virginia Beach · Digital systems for local business
             </p>
             <h1 id="hero-heading" className={styles.heroTitle}>
-              <DecoyHeading
-                art="hero-home.svg"
-                text="FINA CALLE OS"
-                className="block w-full max-w-[34rem]"
-              />
+              <span className={styles.desktopCopy}>A sharper digital presence.</span>
+              <span className={styles.mobileCopy}>Sharper online.</span>
+              <em>
+                <span className={styles.desktopCopy}>A calmer business behind it.</span>
+                <span className={styles.mobileCopy}>Calmer behind it.</span>
+              </em>
             </h1>
             <p className={styles.heroBody}>
               Fina Calle builds premium storefronts, branded customer
