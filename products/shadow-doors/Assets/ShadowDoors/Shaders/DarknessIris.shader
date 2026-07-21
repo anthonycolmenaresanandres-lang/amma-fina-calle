@@ -1,11 +1,9 @@
 // Shadow Doors — fullscreen "consumed" iris: darkness closes from the screen edges to the
 // center as _CloseAmount goes 0 -> 1. The edge is given a slight angular wobble so the
 // black reads as something ALIVE creeping in, not a clean camera iris.
-// Used on a fullscreen uGUI Image by ConsumedFX.cs. UI-transparent-queue unlit shader —
-// deliberately pipeline-agnostic (plain CG/HLSL UI shader, no URP includes) so it works
-// wherever uGUI renders. ⚠ VERIFY on the Unity machine: UI shaders of this classic form
-// compile under URP's 2D/UI path in 6000.3; if the project's UI material rejects it, the
-// fallback is Unity's default UI shader with animated alpha (fade, losing the iris shape).
+// Used on a fullscreen uGUI Image by ConsumedFX.cs. UI-transparent-queue unlit shader,
+// explicitly classified SRPDefaultUnlit to match the retained Android GLES3 path used
+// by the other two device-effect shaders.
 Shader "ShadowDoors/DarknessIris"
 {
     Properties
@@ -26,6 +24,8 @@ Shader "ShadowDoors/DarknessIris"
 
         Pass
         {
+            Tags { "LightMode" = "SRPDefaultUnlit" }
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

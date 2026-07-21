@@ -30,8 +30,10 @@ namespace ShadowDoors.Editor
     {
         private const string ScenePath = "Assets/ShadowDoors/Scenes/ShadowDoorsMain.unity";
         private const string ShadowPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgent.prefab";
+        private const string DarknessPortalPrefabPath = "Assets/ShadowDoors/Prefabs/DarknessPortal.prefab";
         private const string DoorPrefabPath = "Assets/ShadowDoors/Prefabs/DoorGizmo.prefab";
         private const string ShadowMaterialPath = "Assets/ShadowDoors/Materials/ShadowSilhouette.mat";
+        private const string DarknessPortalMaterialPath = "Assets/ShadowDoors/Materials/DarknessPortal.mat";
         private const string DarknessMaterialPath = "Assets/ShadowDoors/Materials/DarknessIris.mat";
         private const string PipelinePath = "Assets/ShadowDoors/Settings/ShadowDoorsURP.asset";
         private const string RendererPath = "Assets/ShadowDoors/Settings/ShadowDoorsRenderer.asset";
@@ -222,9 +224,12 @@ namespace ShadowDoors.Editor
 
             Material shadowMaterial = GetOrCreateMaterial(
                 ShadowMaterialPath, "ShadowDoors/ShadowSilhouette");
+            Material darknessPortalMaterial = GetOrCreateMaterial(
+                DarknessPortalMaterialPath, "ShadowDoors/DarknessPortal");
             Material darknessMaterial = GetOrCreateMaterial(
                 DarknessMaterialPath, "ShadowDoors/DarknessIris");
             GameObject shadowPrefab = CreateShadowPrefab(shadowMaterial);
+            GameObject darknessPortalPrefab = CreateDarknessPortalPrefab(darknessPortalMaterial);
             GameObject doorPrefab = CreateDoorPrefab();
 
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -326,7 +331,8 @@ namespace ShadowDoors.Editor
             SetObjectReferences(loop,
                 ("arRigSource", rig), ("setupFlow", setup), ("director", director),
                 ("banishSystem", banish), ("audioKit", audio), ("consumedFx", consumed),
-                ("shadowAgentPrefab", shadowPrefab), ("endCardPanel", endPanel.gameObject),
+                ("shadowAgentPrefab", shadowPrefab), ("darknessPortalPrefab", darknessPortalPrefab),
+                ("endCardPanel", endPanel.gameObject),
                 ("endCardText", endText));
 
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -355,6 +361,20 @@ namespace ShadowDoors.Editor
             instance.GetComponent<MeshRenderer>().sharedMaterial = material;
             instance.AddComponent<ShadowAgent>();
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, ShadowPrefabPath);
+            UnityEngine.Object.DestroyImmediate(instance);
+            return prefab;
+        }
+
+        private static GameObject CreateDarknessPortalPrefab(Material material)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(DarknessPortalPrefabPath);
+            if (existing != null) return existing;
+            GameObject instance = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            instance.name = "DarknessPortal";
+            UnityEngine.Object.DestroyImmediate(instance.GetComponent<Collider>());
+            instance.GetComponent<MeshRenderer>().sharedMaterial = material;
+            instance.AddComponent<DarknessPortal>();
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, DarknessPortalPrefabPath);
             UnityEngine.Object.DestroyImmediate(instance);
             return prefab;
         }

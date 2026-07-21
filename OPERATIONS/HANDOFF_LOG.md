@@ -654,3 +654,14 @@ State now:
 - L3 remains green with the corrected AR compositor. L4 is not green yet: Anthony disconnected the phone before the corrected APK could be installed, so marker order, three-minute `RUN_END`, crash/ANR status, and device frame rate remain `DEFERRED-TO-DEVICE`.
 - The original installed APK is known-bad on this phone and should be replaced rather than reused.
 Next / handoff to: Anthony -> reconnect the phone once; Codex -> install the corrected APK, launch it directly, verify camera passthrough, and finish the four-marker three-minute L4 smoke.
+
+### [CHECK-OUT] Codex - 2026-07-20 - device shader stripping fixed; floor-stain portal wired; visual smoke interrupted
+Did:
+- Identified the magenta-device root cause in the Android shader build report: URP 17.3 scriptable stripping removed the sole GLES3 variant from `ShadowDoors/ShadowSilhouette` (`After scriptable stripping: 0`), leaving the APK with zero compatible device programs. A LightMode-only change did not retain it.
+- Converted `ShadowDoors/ShadowSilhouette` and `ShadowDoors/DarknessPortal` to pipeline-agnostic plain-CG passes and explicitly aligned `ShadowDoors/DarknessIris`; the final Android build retained one GLES3 program for each of all three shaders after scriptable stripping.
+- Added and deterministically generated `DarknessPortal.mat` plus an unrotated, collider-free `DarknessPortal.prefab`, and assigned it to `GameLoop.darknessPortalPrefab` through `BuildScript` rather than hand-editing scene YAML.
+- Revalidated L0 compile, L1 EditMode 24/24, and L2 PlayMode 3/3 with `SETUP_COMPLETE`, `FIRST_EMERGE`, `BANISH_OK`, and `RUN_END result=WIN survivalSeconds=180.0`.
+- Built and installed the corrected 34,687,619-byte APK (`adb install -r`: `Success`) on Samsung SM-S906U1; SHA-256 is `AB69C384A37394B8A968F63745DFD49E17EDC9F6DDC6600CD7953F7F2137D683`.
+State now:
+- Shader retention and offline L0-L3 are green. The phone disconnected during the first post-install capture, so black-shadow/portal visual confirmation, ordered physical-device markers, crash/ANR status, and skipped-frame health were not claimed.
+Next / handoff to: Codex -> integrate the playtest-feedback pass, rebuild, visually verify the new crack/eyes/veil effects on the connected phone, and complete the full three-minute L4 smoke.

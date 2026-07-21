@@ -1,8 +1,6 @@
-// ⚠ VERIFY (whole file): written as text against the general URP Unlit-shader pattern
-// (Core.hlsl include, "UniversalForward" LightMode, "UniversalRenderPipeline" tag) that
-// has been broadly stable across URP 12–17, but this was never run through Unity's
-// shader compiler. Confirm on the Unity 6000.3.19f1 + URP 17.0.4 machine before relying
-// on it — likely trouble spots are called out inline below.
+// Android-build-verified custom-unlit shader. Effective URP 17.3 stripped the only
+// GLES3 program while this was a custom URP-tagged/Core.hlsl pass; the equivalent
+// pipeline-agnostic UnityCG pass below retains one GLES3 program.
 Shader "ShadowDoors/ShadowSilhouette"
 {
     Properties
@@ -27,15 +25,11 @@ Shader "ShadowDoors/ShadowSilhouette"
 
     SubShader
     {
-        // ⚠ VERIFY: "RenderPipeline"="UniversalRenderPipeline" is the standard URP tag
-        // that keeps this SubShader from being picked up under the Built-in pipeline;
-        // confirm the project's URP asset is actually assigned as the active RP so
-        // this SubShader is the one selected at all.
+        // Pipeline-agnostic so URP's scriptable stripper does not discard the pass.
         Tags
         {
             "RenderType" = "Transparent"
             "Queue" = "Transparent"
-            "RenderPipeline" = "UniversalRenderPipeline"
             "IgnoreProjector" = "True"
         }
 
@@ -46,23 +40,18 @@ Shader "ShadowDoors/ShadowSilhouette"
         Pass
         {
             Name "ForwardUnlit"
-            // ⚠ VERIFY: "UniversalForward" is the conventional LightMode for a
-            // URP unlit forward pass, but some URP versions/samples instead use
-            // "UniversalForwardOnly" or omit LightMode and rely on
-            // "SRPDefaultUnlit". If this pass doesn't render in URP 17.0.4, try
-            // "UniversalForwardOnly" first.
-            Tags { "LightMode" = "UniversalForward" }
+            // Custom procedural unlit output. SRPDefaultUnlit is rendered by URP's
+            // forward object pass and survives the Android shader stripper here.
+            Tags { "LightMode" = "SRPDefaultUnlit" }
 
-            HLSLPROGRAM
+            CGPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
 
-            // ⚠ VERIFY: include path assumes the package is resolved as
-            // com.unity.render-pipelines.universal at whatever version manifest.json
-            // pins (17.0.4 here) — Core.hlsl's own location has been stable across
-            // URP 12-17 but double-check against the installed package's ShaderLibrary
-            // folder on the Unity machine.
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // Deliberately use Unity's pipeline-agnostic transform include. Effective
+            // URP 17.3 stripped the custom URP-tagged/Core.hlsl pass completely from
+            // the GLES3 player even though its source compiled.
+            #include "UnityCG.cginc"
 
             struct Attributes
             {
@@ -76,26 +65,21 @@ Shader "ShadowDoors/ShadowSilhouette"
                 float2 uv : TEXCOORD0;
             };
 
-            CBUFFER_START(UnityPerMaterial)
-                float _InnerRadius;
-                float _OuterRadius;
-                float4 _SilhouetteColor;
-                float4 _EyeGlowColor;
-                float _EyeOffsetX;
-                float _EyeOffsetY;
-                float _EyeRadius;
-                float _EyeGlowIntensity;
-                float _Dissolve;
-                float _DissolveEdgeSoftness;
-            CBUFFER_END
+            float _InnerRadius;
+            float _OuterRadius;
+            float4 _SilhouetteColor;
+            float4 _EyeGlowColor;
+            float _EyeOffsetX;
+            float _EyeOffsetY;
+            float _EyeRadius;
+            float _EyeGlowIntensity;
+            float _Dissolve;
+            float _DissolveEdgeSoftness;
 
             Varyings Vert(Attributes input)
             {
                 Varyings output;
-                // ⚠ VERIFY: TransformObjectToHClip is the URP macro for object-space
-                // -> clip-space in Core.hlsl; correct across URP 12-17 to my knowledge,
-                // but confirm it resolves given the actual include chain above.
-                output.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.positionHCS = UnityObjectToClipPos(input.positionOS);
                 output.uv = input.uv;
                 return output;
             }
@@ -138,12 +122,10 @@ Shader "ShadowDoors/ShadowSilhouette"
 
                 return half4(color, alpha);
             }
-            ENDHLSL
+            ENDCG
         }
     }
 
-    // ⚠ VERIFY: no Fallback declared — URP shaders conventionally either omit Fallback
-    // or point at "Hidden/Universal Render Pipeline/FallbackError"; confirm which is
-    // expected by the project's shader-stripping/build settings.
+    // Never silently substitute an unrelated visual shader.
     Fallback Off
 }
