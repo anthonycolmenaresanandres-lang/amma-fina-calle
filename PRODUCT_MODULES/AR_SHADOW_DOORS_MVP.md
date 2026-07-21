@@ -103,6 +103,17 @@ animation) is backlog, not MVP.
    shoulder, trembles, and withdraws (`SkeletonArm` — camera-space, zero art assets,
    primitive-cube bones + `BoneUnlit.shader`).
 
+7. **The hook — false safety, then we move in (2026-07-21):** fear needs contrast, so
+   safety is scripted. (a) **The Quiet Minute:** nothing happens for the first 35 s —
+   long enough to genuinely relax — and the first emerge waits until t=48 at the
+   night's slowest speed. (b) **The False Dawn:** a `lull` scenario action (t=100,
+   16 s) fades the bells and the veil floor to near-nothing (GameLoop's calm
+   multiplier, CalmFloor 0.15 over 2.5 s) — it reads as "it's over." The next emerge
+   BREAKS the lull instantly: a two-door slam at t=119/121 with everything surging
+   back at once. (c) The heartbeat now decays to calm when the room is empty (it used
+   to freeze at its last intensity), so the lull reads on every channel. `lull`
+   events carry their duration in the `speed` field — JSON schema unchanged.
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via

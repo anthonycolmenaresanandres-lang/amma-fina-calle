@@ -53,6 +53,15 @@ namespace ShadowDoors.Runtime
         private static readonly float[] ArmScareAtProgress = { 0.45f, 0.85f };
         private readonly bool[] _armScareFired = new bool[2];
 
+        // ---- the hook (Anthony, 2026-07-21): false safety, then we move in ----
+        /// <summary>How far the bells/veil sink during a scripted lull (multiplier on their normal levels).</summary>
+        public const float CalmFloor = 0.15f;
+        /// <summary>Seconds for the calm to settle in — and for the world to surge back after it breaks.</summary>
+        public const float CalmTransitionSeconds = 2.5f;
+
+        private float _calmUntilClock;
+        private float _calmMultiplier = 1f;
+
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
         [SerializeField] private GameObject endCardPanel;
         [SerializeField] private Text endCardText;
@@ -92,6 +101,7 @@ namespace ShadowDoors.Runtime
             {
                 director.OnWhisper += HandleWhisper;
                 director.OnEmerge += HandleEmerge;
+                director.OnLull += HandleLull;
                 director.OnWin += HandleWin;
             }
             if (banishSystem != null) banishSystem.ShadowBanished += HandleBanish;
@@ -104,9 +114,21 @@ namespace ShadowDoors.Runtime
             {
                 director.OnWhisper -= HandleWhisper;
                 director.OnEmerge -= HandleEmerge;
+                director.OnLull -= HandleLull;
                 director.OnWin -= HandleWin;
             }
             if (banishSystem != null) banishSystem.ShadowBanished -= HandleBanish;
+        }
+
+        // The false dawn: everything goes quiet ON PURPOSE — the player is meant to
+        // think it's over. The next emerge (HandleEmerge) breaks it instantly, so the
+        // world surges back WITH the shadow.
+        private void HandleLull(float seconds)
+        {
+            if (_phase == RunPhase.Running && director != null)
+            {
+                _calmUntilClock = director.Clock + seconds;
+            }
         }
 
         private void HandleSetupCompleted()
@@ -177,6 +199,8 @@ namespace ShadowDoors.Runtime
             {
                 _armScareFired[i] = false;
             }
+            _calmUntilClock = 0f;
+            _calmMultiplier = 1f;
 
             director.StartRun();
             audioKit?.StartHeartbeat();
@@ -221,6 +245,10 @@ namespace ShadowDoors.Runtime
             // Suspense progression: late-night shadows are faster than the scenario's
             // authored speed — the same doorway stops feeling survivable.
             speed *= Mathf.Lerp(1f, LateSpeedMultiplier, NightProgress);
+
+            // The hook's payoff: an emerge BREAKS any lull instantly — bells and veil
+            // surge back with the shadow. Safety was the setup.
+            _calmUntilClock = 0f;
 
             // Late-run escalation (Anthony's direction): shadows past the halfway mark SPEAK.
             // Alternating demonic lines, spatialized AT the emerge door so the voice comes
@@ -327,9 +355,13 @@ namespace ShadowDoors.Runtime
                 }
             }
 
-            if (audioKit != null && nearestDistance < float.MaxValue)
+            if (audioKit != null)
             {
-                float intensity = 1f - Mathf.Clamp01(nearestDistance / HeartbeatMaxIntensityDistance);
+                // Empty room = calm pulse. (Previously the heartbeat froze at its last
+                // intensity after a banish — it must come DOWN for the lull to read.)
+                float intensity = nearestDistance < float.MaxValue
+                    ? 1f - Mathf.Clamp01(nearestDistance / HeartbeatMaxIntensityDistance)
+                    : 0f;
                 audioKit.SetHeartbeatIntensity(intensity);
             }
 
@@ -354,8 +386,15 @@ namespace ShadowDoors.Runtime
         {
             float progress = NightProgress;
 
-            audioKit?.SetAmbientVolume(Mathf.Lerp(AmbientVolumeStart, AmbientVolumeEnd, progress));
-            evilVeil?.SetBaseline(Mathf.Lerp(0f, VeilBaselineAtDawn, progress));
+            // The hook's calm multiplier: sinks toward CalmFloor during a scripted
+            // lull, surges back to 1 once it breaks. Applied to the bells AND the
+            // veil floor so "safe" reads on both channels at once.
+            bool calm = director != null && director.Clock < _calmUntilClock;
+            _calmMultiplier = Mathf.MoveTowards(
+                _calmMultiplier, calm ? CalmFloor : 1f, Time.deltaTime / CalmTransitionSeconds);
+
+            audioKit?.SetAmbientVolume(Mathf.Lerp(AmbientVolumeStart, AmbientVolumeEnd, progress) * _calmMultiplier);
+            evilVeil?.SetBaseline(Mathf.Lerp(0f, VeilBaselineAtDawn, progress) * _calmMultiplier);
 
             for (int i = 0; i < ArmScareAtProgress.Length; i++)
             {

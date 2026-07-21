@@ -59,6 +59,14 @@ namespace ShadowDoors.Runtime
         /// <summary>Fired once when Clock reaches Duration with no prior Lose. GameLoop owns the RUN_END log (it's the only system that also knows about Lose) — see GameLoop.cs.</summary>
         public event Action OnWin;
 
+        /// <summary>
+        /// The false-safety beat (Anthony's hook ruling, 2026-07-21: "let the player
+        /// feel safe and then we move in"): a scripted calm window. Payload = seconds
+        /// (carried in the event's <c>speed</c> field). GameLoop fades the bells and
+        /// the evil veil toward silence — and the next emerge slams them back.
+        /// </summary>
+        public event Action<float> OnLull;
+
         private void Awake()
         {
             if (scenarioJson == null)
@@ -127,6 +135,12 @@ namespace ShadowDoors.Runtime
                         Debug.Log("FIRST_EMERGE door=" + evt.door + " t=" + evt.t.ToString("F1"));
                     }
                     OnEmerge?.Invoke(evt.door, evt.speed);
+                    break;
+
+                case "lull":
+                    // speed doubles as the calm window's duration in seconds here —
+                    // reusing the field keeps the JSON schema/DTOs unchanged.
+                    OnLull?.Invoke(evt.speed);
                     break;
 
                 default:
