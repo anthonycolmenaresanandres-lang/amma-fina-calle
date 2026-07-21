@@ -34,6 +34,13 @@ threshold and the shadow rises up through it — author the prefab unrotated, no
 (shadows spawn directly) — but wire it: the breach-before-emerge beat is a core design
 ruling (see AR_SHADOW_DOORS_MVP.md, "The breach portal").
 
+Two more optional-but-wanted wirings (same null-safe recipe, see the device-playtest
+rulings in AR_SHADOW_DOORS_MVP.md):
+- `GameLoop.watcherEyesPrefab`: Quad + `WatcherEyes` component + a material using
+  `ShadowDoors/WatcherEyes` (unrotated, no collider; ~0.5 x 0.25 quad scale reads well).
+- `GameLoop.evilVeil`: an `EvilVeil` component whose `veilImage` is a fullscreen uGUI
+  Image using `ShadowDoors/EvilVeil` (start the Image disabled; EvilVeil toggles it).
+
 ## L0 - compile
 
 ```powershell

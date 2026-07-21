@@ -32,6 +32,10 @@ namespace ShadowDoors.Runtime
         [SerializeField] private GameObject shadowAgentPrefab;
         [Tooltip("Breach portal (DarknessPortal) spawned over the doorway before each emerge. Optional — null spawns shadows directly with no breach visual (scaffold rule).")]
         [SerializeField] private GameObject darknessPortalPrefab;
+        [Tooltip("Eyes-only apparition (WatcherEyes) spawned near thresholds on whisper beats. Optional — null skips the watched feeling (scaffold rule).")]
+        [SerializeField] private GameObject watcherEyesPrefab;
+        [Tooltip("Screen-space evil filter driven by shadow presence. Optional — null skips it (scaffold rule).")]
+        [SerializeField] private EvilVeil evilVeil;
 
         [Header("End cards (uGUI panel: 'IT FOUND YOU' + time, or 'DAWN')")]
         [SerializeField] private GameObject endCardPanel;
@@ -94,9 +98,13 @@ namespace ShadowDoors.Runtime
             StartRun();
         }
 
+        // The whisper beat became the WATCHED beat (Anthony's device-playtest ruling):
+        // a single distant muffled bell toll at the door — Undertaker-style — plus
+        // eyes-only apparitions at a random offset near the threshold. Different spot
+        // every time; no gameplay threat; pure "something is watching".
         private void HandleWhisper(int doorIndex)
         {
-            if (_phase != RunPhase.Running || setupFlow == null || audioKit == null)
+            if (_phase != RunPhase.Running || setupFlow == null)
             {
                 return;
             }
@@ -107,7 +115,22 @@ namespace ShadowDoors.Runtime
                 return;
             }
 
-            audioKit.PlayAtAnchor("whisper_loop", doors[doorIndex % doors.Count], false);
+            Transform doorAnchor = doors[doorIndex % doors.Count];
+            audioKit?.PlayAtAnchor("bell_far", doorAnchor, false);
+
+            if (watcherEyesPrefab != null)
+            {
+                Vector3 offset = new Vector3(
+                    Random.Range(-0.8f, 0.8f),
+                    Random.Range(0.2f, 0.45f), // low to the floor — where nothing should be looking from.
+                    Random.Range(-0.3f, 0.3f));
+                GameObject instance = Instantiate(watcherEyesPrefab, doorAnchor.position + offset, Quaternion.identity);
+                WatcherEyes eyes = instance.GetComponent<WatcherEyes>();
+                if (eyes != null)
+                {
+                    eyes.Initialize(_rig);
+                }
+            }
         }
 
         private void HandleBanish(ShadowAgent shadow)
@@ -136,9 +159,11 @@ namespace ShadowDoors.Runtime
 
             director.StartRun();
             audioKit?.StartHeartbeat();
-            // The chant bed: starts with the run, low in the mix. Its cut at black-complete
-            // (ConsumedFX) is a designed beat — never stop it anywhere else on the lose path.
-            audioKit?.StartAmbient("chant_loop", 0.35f);
+            // The bell bed (replaced the chant per Anthony's device-playtest ruling —
+            // Undertaker-style funeral tolls): starts with the run, low in the mix.
+            // Its cut at black-complete (ConsumedFX) is a designed beat — never stop
+            // it anywhere else on the lose path.
+            audioKit?.StartAmbient("bells_loop", 0.4f);
         }
 
         private void ClearLiveShadows()
@@ -281,12 +306,17 @@ namespace ShadowDoors.Runtime
                 float intensity = 1f - Mathf.Clamp01(nearestDistance / HeartbeatMaxIntensityDistance);
                 audioKit.SetHeartbeatIntensity(intensity);
             }
+
+            // The evil veil follows presence, not lighting: the screen turns wrong
+            // while anything is out of a door, recovers when the room is clear.
+            evilVeil?.SetPresence(_liveShadows.Count > 0);
         }
 
         private void HandleLose(ShadowAgent killer)
         {
             _phase = RunPhase.Lost;
             director.StopRun();
+            evilVeil?.SetPresence(false); // the iris close owns the screen from here.
 
             float survivalSeconds = director.Clock;
             Debug.Log("RUN_END result=LOSE survivalSeconds=" + survivalSeconds.ToString("F1"));
@@ -317,6 +347,7 @@ namespace ShadowDoors.Runtime
             }
 
             _phase = RunPhase.Won;
+            evilVeil?.SetPresence(false);
             audioKit?.StopHeartbeat();
             audioKit?.PlayFlat("dawn_chord");
             // The parting whisper: dawn came — "For now." (main voice, delayed under the chord).

@@ -72,6 +72,23 @@ taggable today: tap it in TagDoors and it joins the rotation; the breach stain a
 shadows work over it unchanged. A distinct "window" tag type (smaller portal, sill-leak
 animation) is backlog, not MVP.
 
+## Device-playtest rulings (Anthony, first on-device session, 2026-07-20)
+
+1. **Floor cracks, not a raw stain:** the breach opens in two phases — thin
+   ember-glowing cracks split outward first, then darkness pools out of them
+   (`DarknessPortal.shader` two-phase timeline; unconditional border falloff so the
+   quad shape can never show again).
+2. **Seem watched:** whisper beats became WATCHED beats — a distant muffled bell toll
+   at the door plus an eyes-only apparition (`WatcherEyes`) at a random offset low to
+   the floor near the threshold. Appears, stares ~2 s, vanishes. No gameplay threat.
+3. **Evil filter, not lighting:** a fullscreen screen-space veil (`EvilVeil`,
+   blood-red vignette) ramps in fast while any shadow is out and drains slowly when
+   the room is clear — same doctrine as Escape the Bomb's screen-flash lightMode.
+4. **Bells, not chant:** ambient is now Undertaker-style funeral tolls
+   (`bells_loop.wav`, deep G2 every 8 s, tails ringing across the loop point);
+   whisper cue is `bell_far.wav` (distant muffled D2). Voices stay demonic-only.
+   The chant WAV stays in the repo, unused, in case it returns as a scenario variant.
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via
