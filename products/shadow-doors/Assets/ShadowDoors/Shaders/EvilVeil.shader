@@ -18,9 +18,9 @@ Shader "ShadowDoors/EvilVeil"
         // 0 = no veil, 1 = full presence. Driven per-frame by EvilVeil.cs.
         _Intensity ("Intensity", Range(0, 1)) = 0
 
-        _VeilColor ("Veil Color", Color) = (0.35, 0.02, 0.02, 1)
-        _VignettePower ("Vignette Power", Range(0.5, 6)) = 2.6
-        _CenterBleed ("Center Bleed", Range(0, 0.4)) = 0.10
+        _VeilColor ("Veil Color", Color) = (0.55, 0.03, 0.03, 1)
+        _VignettePower ("Vignette Power", Range(0.5, 6)) = 2.2
+        _CenterBleed ("Center Bleed", Range(0, 0.4)) = 0.16
         _PulseSpeed ("Pulse Speed", Range(0, 6)) = 2.4
     }
 
@@ -83,7 +83,7 @@ Shader "ShadowDoors/EvilVeil"
                 // A slow uneasy breath, not a strobe.
                 float pulse = 0.92 + 0.08 * sin(_Time.y * _PulseSpeed);
 
-                float alpha = _Intensity * pulse * saturate(vignette * 0.85 + _CenterBleed);
+                float alpha = _Intensity * pulse * saturate(vignette + _CenterBleed);
                 return fixed4(_VeilColor.rgb, alpha * _VeilColor.a);
             }
             ENDCG

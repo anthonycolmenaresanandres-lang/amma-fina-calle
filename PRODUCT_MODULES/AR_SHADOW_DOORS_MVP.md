@@ -145,16 +145,22 @@ animation) is backlog, not MVP.
     JSON-test contracts (180 s, sorted, doors 0–3, speeds 0.2–1.0, ≥2 whisper feints,
     quiet final 5 s).
 
-11. **The Bone Scan (2026-07-21: "put my hand on the screen and it sees my bones"):**
-    a fullscreen X-ray beat — a scan line sweeps up the screen and reveals a
-    procedurally-drawn (2D capsule-SDF) skeletal hand over the live camera feed, as if
-    the entity looks THROUGH the player. Two uses: fired unbidden mid-night (progress
-    0.65) as a scare, AND wired to a uGUI "SCAN" button so the player can raise their
-    own hand and watch their bones appear — the "teach anatomy" hook. `BoneScanner` +
-    `BoneScan.shader`; zero art assets, no hand-tracking dependency (the scan framing
-    "HOLD STILL" sells a screen-centered overlay). Real per-finger hand tracking
-    (MediaPipe/Unity) is a backlog upgrade if the beat lands. Log marker
-    `BONE_SCAN_START`.
+11. **Playtest revisions (2026-07-21, second device session):**
+    - **Bone Scan CUT.** The X-ray anatomy scan (BoneScanner/BoneScan.shader/SCAN
+      button) is removed — didn't earn its place.
+    - **Skeleton arm = grab-then-vanish.** The behind-the-shoulder arm now snatches
+      fast to a clutch right at the player's face, clenches, and DISAPPEARS in place
+      (scale-collapse) rather than politely withdrawing (SkeletonArm.VanishAt).
+    - **Evil filter brought back / stronger.** EvilVeil is deeper red, has a wider
+      center bleed, and is now ALWAYS faintly present (baseline 0.14 at run start →
+      0.4 at dawn; shadow presence still spikes it above that).
+    - **Floor graspers.** New ambient dread: hands strain half-out of the floor around
+      the player's safe center and sink back — "it wants to but it can't" (capped at
+      `MaxEmergeFraction` = never fully emerges). Rate/burst climb with night progress.
+      `FloorGraspers` (spawner) + `FloorGrasper` (rise/strain/sink, purely decorative,
+      never touches the fail check), using a real Blender `SM_Hand` mesh.
+    - **Blender lane grows:** `make_creatures.py` now also builds `SM_Hand.fbx`
+      (≤1400 tris) alongside the wraith.
 
 12. **Real 3D assets via the Blender lane (2026-07-21: "we can create the assets in
     Blender and bring them here"):** the answer to "graphics look goofy" WITHOUT

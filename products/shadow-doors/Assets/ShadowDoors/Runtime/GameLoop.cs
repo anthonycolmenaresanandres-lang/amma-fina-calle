@@ -40,16 +40,18 @@ namespace ShadowDoors.Runtime
         [SerializeField] private SkeletonArm skeletonArm;
         [Tooltip("The Offering opener (coins that belong to IT). Optional — null starts the night directly (scaffold rule).")]
         [SerializeField] private CoinOffering coinOffering;
-        [Tooltip("Bone-scan X-ray beat. Optional — also wire a uGUI button to its Trigger() so the player can scan their own hand (scaffold rule).")]
-        [SerializeField] private BoneScanner boneScanner;
+        [Tooltip("Ambient floor-grasper hands (half-out-of-floor dread). Optional (scaffold rule).")]
+        [SerializeField] private FloorGraspers floorGraspers;
 
         // ---- suspense progression (Anthony, 2026-07-21): the night gets WORSE ----
         /// <summary>Ambient bell-bed volume at minute zero.</summary>
         public const float AmbientVolumeStart = 0.30f;
         /// <summary>Ambient bell-bed volume as dawn approaches.</summary>
         public const float AmbientVolumeEnd = 0.55f;
+        /// <summary>Evil-veil floor at the START of the night — the filter is ALWAYS present, faintly (Anthony: "bring the filter screen back").</summary>
+        public const float VeilBaselineAtStart = 0.14f;
         /// <summary>Evil-veil floor near the end of the night — the room never fully recovers late.</summary>
-        public const float VeilBaselineAtDawn = 0.25f;
+        public const float VeilBaselineAtDawn = 0.4f;
         /// <summary>Shadow glide-speed multiplier by the end of the night (applied at spawn).</summary>
         public const float LateSpeedMultiplier = 1.3f;
 
@@ -57,9 +59,6 @@ namespace ShadowDoors.Runtime
         private static readonly float[] ArmScareAtProgress = { 0.45f, 0.85f };
         private readonly bool[] _armScareFired = new bool[2];
 
-        /// <summary>Night progress at which the entity looks THROUGH the player (bone scan). Once per run.</summary>
-        public const float BoneScanAtProgress = 0.65f;
-        private bool _boneScanFired;
 
         // ---- the hook (Anthony, 2026-07-21): false safety, then we move in ----
         /// <summary>How far the bells/veil sink during a scripted lull (multiplier on their normal levels).</summary>
@@ -242,7 +241,6 @@ namespace ShadowDoors.Runtime
             }
             _calmUntilClock = 0f;
             _calmMultiplier = 1f;
-            _boneScanFired = false;
 
             director.StartRun();
             audioKit?.StartHeartbeat();
@@ -252,6 +250,10 @@ namespace ShadowDoors.Runtime
             // Its cut at black-complete (ConsumedFX) is a designed beat — never stop
             // it anywhere else on the lose path.
             audioKit?.StartAmbient("bells_loop", AmbientVolumeStart);
+
+            // Straining hands surface around the player all night ("half coming out
+            // like it wants to but it can't"), centered on the safe spot.
+            floorGraspers?.Begin(setupFlow != null ? setupFlow.SafeCenterAnchor : null);
 
             // Refusal punishment: the entity lashes out the INSTANT the night starts —
             // no Quiet Minute grace for defiance. The skeleton hand snatches at you the
@@ -427,6 +429,8 @@ namespace ShadowDoors.Runtime
             // while anything is out of a door, recovers when the room is clear.
             evilVeil?.SetPresence(_liveShadows.Count > 0);
 
+            floorGraspers?.Tick(NightProgress);
+
             TickSuspenseProgression();
         }
 
@@ -452,7 +456,9 @@ namespace ShadowDoors.Runtime
                 _calmMultiplier, calm ? CalmFloor : 1f, Time.deltaTime / CalmTransitionSeconds);
 
             audioKit?.SetAmbientVolume(Mathf.Lerp(AmbientVolumeStart, AmbientVolumeEnd, progress) * _calmMultiplier);
-            evilVeil?.SetBaseline(Mathf.Lerp(0f, VeilBaselineAtDawn, progress) * _calmMultiplier);
+            // The filter is on from the first second (faint) and deepens toward dawn;
+            // shadow presence still spikes it above this floor.
+            evilVeil?.SetBaseline(Mathf.Lerp(VeilBaselineAtStart, VeilBaselineAtDawn, progress) * _calmMultiplier);
 
             for (int i = 0; i < ArmScareAtProgress.Length; i++)
             {
@@ -466,21 +472,13 @@ namespace ShadowDoors.Runtime
                     }
                 }
             }
-
-            // The bone scan: mid-night, the entity looks THROUGH the player — a scan
-            // sweeps up and reveals their own skeleton. Fired unbidden once; the
-            // player can also trigger it themselves via boneScanner.Trigger() (button).
-            if (!_boneScanFired && progress >= BoneScanAtProgress && boneScanner != null)
-            {
-                _boneScanFired = true;
-                boneScanner.Trigger();
-            }
         }
 
         private void HandleLose(ShadowAgent killer)
         {
             _phase = RunPhase.Lost;
             director.StopRun();
+            floorGraspers?.Stop();
             evilVeil?.SetPresence(false); // the iris close owns the screen from here.
 
             float survivalSeconds = director.Clock;
@@ -513,6 +511,7 @@ namespace ShadowDoors.Runtime
 
             _phase = RunPhase.Won;
             evilVeil?.SetPresence(false);
+            floorGraspers?.Stop();
             audioKit?.StopHeartbeat();
             audioKit?.PlayFlat("dawn_chord");
             // The parting whisper: dawn came — "For now." (main voice, delayed under the chord).

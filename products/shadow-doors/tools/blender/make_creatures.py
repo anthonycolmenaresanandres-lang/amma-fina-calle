@@ -200,6 +200,43 @@ def build_wraith():
     return obj
 
 
+def build_hand():
+    """A gaunt clawing hand that strains up out of the floor (the FloorGraspers —
+    "half coming out like it wants to but it can't"). Wrist at origin, fingers reach
+    +Z with a forward -Y claw curl. ~0.22 m tall."""
+    bm = bmesh.new()
+
+    # Palm: a flattened ovoid.
+    ovoid(bm, Vector((0.0, 0.0, 0.035)), (0.052, 0.024, 0.055), rings=6, sides=10)
+    # Wrist stub down into the floor.
+    tube(bm, [(Vector((0.0, 0.0, 0.02)), 0.035), (Vector((0.0, 0.0, -0.05)), 0.028)], sides=8)
+
+    # Four fingers, splayed, tips curling forward (claw).
+    knux = [-0.036, -0.012, 0.012, 0.036]
+    flen = [0.11, 0.135, 0.125, 0.10]
+    for i in range(4):
+        x = knux[i]
+        base = Vector((x, 0.0, 0.075))
+        mid = Vector((x * 1.05, -0.015, 0.075 + flen[i] * 0.55))
+        tip = Vector((x * 1.1, -0.05, 0.075 + flen[i]))  # curl toward -Y = grasping
+        tube(bm, [(base, 0.016), (mid, 0.012), (tip, 0.004)], sides=5)
+
+    # Thumb: off the side, angled up-and-out.
+    tube(bm, [
+        (Vector((-0.052, 0.0, 0.025)), 0.017),
+        (Vector((-0.075, -0.01, 0.06)), 0.013),
+        (Vector((-0.088, -0.03, 0.085)), 0.004),
+    ], sides=5)
+
+    bmesh.ops.triangulate(bm, faces=bm.faces[:])
+    mesh = bpy.data.meshes.new("SM_Hand")
+    bm.to_mesh(mesh)
+    bm.free()
+    obj = bpy.data.objects.new("SM_Hand", mesh)
+    bpy.context.scene.collection.objects.link(obj)
+    return obj
+
+
 def tri_count(obj):
     return sum(len(p.vertices) - 2 for p in obj.data.polygons)
 
@@ -240,23 +277,36 @@ def export_fbx(obj, path):
     return False
 
 
+HAND_TRI_BUDGET = 1400
+
+
+def build_and_export(name, builder, budget):
+    bpy.ops.object.select_all(action='DESELECT')
+    obj = builder()
+    tris = decimate_to_budget(obj, budget)
+    if tris > budget:
+        log(False, "%s tris=%d exceeds budget %d after decimate" % (name, tris, budget))
+        return False
+    log(True, "%s tris=%d (budget %d)" % (name, tris, budget))
+    path = os.path.join(OUT_DIR, name + ".fbx")
+    if not export_fbx(obj, path):
+        return False
+    log(True, "wrote %s" % path)
+    # Remove so the next asset exports in isolation.
+    bpy.data.objects.remove(obj, do_unlink=True)
+    return True
+
+
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
 
-    obj = build_wraith()
-    tris = decimate_to_budget(obj, WRAITH_TRI_BUDGET)
-    if tris > WRAITH_TRI_BUDGET:
-        log(False, "SM_Wraith tris=%d exceeds budget %d after decimate" % (tris, WRAITH_TRI_BUDGET))
-        print("SHADOWDOORS_CREATURES_FAILED")
-        sys.exit(1)
-    log(True, "SM_Wraith tris=%d (budget %d)" % (tris, WRAITH_TRI_BUDGET))
+    ok = build_and_export("SM_Wraith", build_wraith, WRAITH_TRI_BUDGET)
+    ok = build_and_export("SM_Hand", build_hand, HAND_TRI_BUDGET) and ok
 
-    path = os.path.join(OUT_DIR, "SM_Wraith.fbx")
-    if not export_fbx(obj, path):
+    if not ok:
         print("SHADOWDOORS_CREATURES_FAILED")
         sys.exit(1)
-    log(True, "wrote %s" % path)
     print("SHADOWDOORS_CREATURES_GENERATED")
 
 

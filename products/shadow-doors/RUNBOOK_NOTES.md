@@ -51,12 +51,12 @@ rulings in AR_SHADOW_DOORS_MVP.md):
   `warningText` (a second uGUI Text line, distinct from SetupFlow's status text),
   and its `audioKit`. Tap raycasts use `Camera.main` — ensure the AR camera is
   tagged MainCamera. All null-safe; with no coinPrefab the phase resolves by timeout.
-- `GameLoop.boneScanner` (the Bone Scan): a scene GameObject with the `BoneScanner`
-  component — assign its `scanImage` (a fullscreen uGUI Image using a
-  Materials/BoneScan.mat [shader `ShadowDoors/BoneScan`], start DISABLED), an optional
-  `promptText`, and `audioKit`. Also wire a uGUI "SCAN" button's OnClick to
-  `BoneScanner.Trigger()` so the player can scan their own hand on demand (the anatomy
-  beat). Null-safe.
+- `GameLoop.floorGraspers` (ambient dread): a scene GameObject with the `FloorGraspers`
+  component — assign its `grasperPrefab` = the **SM_Hand** mesh + a `FloorGrasper`
+  component + a dark material (Materials/BoneUnlit.mat or ShadowWraith.mat). Null-safe.
+- REMOVED: the Bone Scan (BoneScanner / BoneScan.shader / BoneScan.mat / the SCAN
+  button) — delete the button, the fullscreen BoneScan Image, and the BoneScan.mat from
+  the scene/BuildScript; the source files are gone from the repo.
 
 ## Blender asset lane - real 3D wraith (optional but wanted)
 
@@ -68,7 +68,8 @@ blender --background --factory-startup --python tools/blender/make_creatures.py
 ```
 
 Success = `SHADOWDOORS_CREATURES_GENERATED` + `Assets/ShadowDoors/Meshes/SM_Wraith.fbx`
-(<=2600 tris). Failure prints `SHADOWDOORS_CREATURES_FAILED` and exits 1. Then in Unity:
+(<=2600 tris) AND `SM_Hand.fbx` (<=1400 tris, used by the FloorGraspers). Failure
+prints `SHADOWDOORS_CREATURES_FAILED` and exits 1. Then in Unity:
 import the FBX (scale so 1 Blender unit = 1 m; the wraith is authored ~1.8 m tall),
 create Materials/ShadowWraith.mat (shader `ShadowDoors/ShadowWraith`), and build a
 `ShadowAgentWraith` prefab = the SM_Wraith mesh (MeshFilter/MeshRenderer) + a

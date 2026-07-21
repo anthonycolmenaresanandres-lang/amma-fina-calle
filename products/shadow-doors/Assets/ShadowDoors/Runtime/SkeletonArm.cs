@@ -27,12 +27,13 @@ namespace ShadowDoors.Runtime
         public const float HoldSeconds = 0.9f;
 
         /// <summary>Withdraw duration (s).</summary>
-        public const float RetractSeconds = 0.5f;
+        /// <summary>Vanish (s): after the grab it DISAPPEARS in place — snaps out of existence, doesn't withdraw (Anthony 2026-07-21: "as if it grabbed the player and then disappears").</summary>
+        public const float RetractSeconds = 0.35f;
 
-        // Camera-local offsets (m): from fully hidden behind the right shoulder to
-        // reaching into the lower-right of the view.
+        // Camera-local offsets (m): from fully hidden behind the right shoulder to a
+        // clutch right in front of the player's face (the grab, not a polite reach).
         private static readonly Vector3 RetractedOffset = new Vector3(0.50f, -0.35f, -0.15f);
-        private static readonly Vector3 ExtendedOffset = new Vector3(0.26f, -0.16f, 0.40f);
+        private static readonly Vector3 ExtendedOffset = new Vector3(0.16f, -0.10f, 0.32f);
 
         [Tooltip("Material using ShadowDoors/BoneUnlit, applied to every bone. Optional — null keeps primitive defaults.")]
         [SerializeField] private Material boneMaterial;
@@ -44,9 +45,10 @@ namespace ShadowDoors.Runtime
         private bool _playing;
 
         /// <summary>
-        /// Pure envelope, unit-testable without a scene (house L1 rule): 0 at t<=0,
-        /// ease-out cubic to 1 at ReachInSeconds (fast lunge, soft stop), 1 through
-        /// the hold, ease back to 0 over RetractSeconds, 0 after.
+        /// Reach POSITION (0..1), unit-testable (house L1 rule): 0 at t<=0, ease-out
+        /// cubic to 1 at ReachInSeconds (the fast snatch), then PINNED at 1 for the
+        /// grab-hold AND the vanish — the hand doesn't travel back; it clutches at the
+        /// player and disappears in place (see VanishAt for the shrink-out).
         /// </summary>
         public static float ReachAmountAt(float t)
         {
@@ -59,13 +61,24 @@ namespace ShadowDoors.Runtime
                 float inv = 1f - t / ReachInSeconds;
                 return 1f - inv * inv * inv;
             }
-            if (t < ReachInSeconds + HoldSeconds)
+            return 1f;
+        }
+
+        /// <summary>
+        /// Vanish scale (1..0), unit-testable: 1 through the snatch + grab-hold, then a
+        /// fast cubic collapse to 0 over RetractSeconds — the grab clenches, then the
+        /// hand is simply GONE. 0 after the timeline ends.
+        /// </summary>
+        public static float VanishAt(float t)
+        {
+            float holdEnd = ReachInSeconds + HoldSeconds;
+            if (t < holdEnd)
             {
                 return 1f;
             }
-            float d = Mathf.Clamp01((t - ReachInSeconds - HoldSeconds) / RetractSeconds);
-            float invOut = 1f - d;
-            return invOut * invOut;
+            float d = Mathf.Clamp01((t - holdEnd) / RetractSeconds);
+            float inv = 1f - d;
+            return inv * inv * inv; // snappy disappear
         }
 
         /// <summary>Begin the scare. No-op while one is already running or with no rig (scaffold rule).</summary>
@@ -95,15 +108,16 @@ namespace ShadowDoors.Runtime
             while (_t < total)
             {
                 _t += Time.deltaTime;
-                TrackCamera(ReachAmountAt(_t));
+                TrackCamera(ReachAmountAt(_t), VanishAt(_t));
                 yield return null;
             }
 
+            _armRoot.localScale = Vector3.one; // restore for next play.
             _armRoot.gameObject.SetActive(false);
             _playing = false;
         }
 
-        private void TrackCamera(float reach)
+        private void TrackCamera(float reach, float vanish)
         {
             Pose cam = _rig.CameraPose;
 
@@ -111,7 +125,12 @@ namespace ShadowDoors.Runtime
             float trembleX = (Mathf.PerlinNoise(Time.time * 11f, 0.3f) - 0.5f) * 8f * reach;
             float trembleY = (Mathf.PerlinNoise(0.7f, Time.time * 13f) - 0.5f) * 8f * reach;
 
-            Vector3 localPos = Vector3.Lerp(RetractedOffset, ExtendedOffset, reach);
+            // A grab clench: a quick forward jab at the moment the hand arrives, on top
+            // of the reach — it snatches, it doesn't settle.
+            float clench = reach >= 1f ? 0.03f * Mathf.Sin(Mathf.Min(_t * 24f, 3.14f)) : 0f;
+
+            Vector3 localPos = Vector3.Lerp(RetractedOffset, ExtendedOffset, reach)
+                             + Vector3.forward * clench;
             Quaternion localRot = Quaternion.Euler(
                 -12f + trembleX,
                 -38f + reach * -14f + trembleY, // sweeps inward toward screen center as it extends
@@ -120,6 +139,9 @@ namespace ShadowDoors.Runtime
             _armRoot.SetPositionAndRotation(
                 cam.position + cam.rotation * localPos,
                 cam.rotation * localRot);
+
+            // Vanish in place: the whole arm collapses to nothing after the grab.
+            _armRoot.localScale = Vector3.one * vanish;
 
             // The elbow unbends as the arm reaches — one joint is enough to sell it.
             if (_elbow != null)
