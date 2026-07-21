@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Aurora from "@/components/reactbits/Aurora";
-import ShinyText from "@/components/reactbits/ShinyText";
+import DecoyHeading from "@/components/DecoyHeading";
 
 const companyNav = [
   { label: "Case Studies", href: "/case-studies" },
@@ -64,8 +64,11 @@ export default function Home() {
 
         <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
           <div className="mb-5">
-            <h1 className="fc-decoy-heading fc-decoy-heading-gold text-4xl sm:text-6xl">
-              <ShinyText>FINA CALLE OS</ShinyText>
+            {/* The Screenshot Trap: humans read FINA CALLE OS up close; shrink or
+                OCR the screenshot and the anti-copy message takes over. Real text
+                stays in the DOM for screen readers + SEO (DecoyHeading). */}
+            <h1 className="text-4xl sm:text-6xl">
+              <DecoyHeading art="hero-home.svg" text="FINA CALLE OS" className="mx-auto w-[min(92vw,34rem)]" />
             </h1>
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.34em] text-[#aeb7bd]">
               by AMMA Ventures
