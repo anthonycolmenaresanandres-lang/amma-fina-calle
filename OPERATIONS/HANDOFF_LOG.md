@@ -733,3 +733,18 @@ State now:
 - L0-L3 are green and the current APK is installed on the connected Samsung. Bone Scan is confirmed wired by device log.
 - L4 is DEFERRED-TO-ANTHONY rather than green: the app was backgrounded before the full marker run, and the real 3D Wraith visual has not yet been confirmed by Anthony. Do not claim the solid-figure visual or a full three-minute device pass until Anthony reopens the app and completes it.
 Next / handoff to: Anthony -> reopen Shadow Doors, finish setup, confirm the emerging creature is a solid gaunt 3D figure that stays upright and turns toward the player, then complete one full run. Codex -> record the four ordered markers and update the final device verdict.
+
+### [CHECK-OUT] Codex - 2026-07-21 - Bone Scan removed; Floor Graspers wired and installed
+Did:
+- Fast-forwarded the scoped branch through `8c88681`, re-overlaid Assets and Packages into `C:\Dev\ShadowDoors`, and removed the stale prior-overlay Bone Scan source, material, UI Image, and SCAN button. The deterministic BuildScript now contains no `BoneScan`, `Bone Scan`, or `boneScanner` reference.
+- Ran Blender 5.2.0 LTS headlessly with `tools/blender/make_creatures.py`. It emitted `SHADOWDOORS_CREATURES_GENERATED`; regenerated `SM_Wraith.fbx` (632 triangles) and generated `SM_Hand.fbx` (282 triangles, below its 1,400-triangle budget).
+- Extended only the deterministic BuildScript/editor path: it creates `FloorGrasper.prefab` from `SM_Hand`, a MeshFilter/MeshRenderer using the existing dark `ShadowWraith` material, and `FloorGrasper`; it creates the `Floor Graspers` scene object, configures its `grasperPrefab`, and assigns it to GameLoop. No hand-edited scene YAML was used.
+- Copied Unity-generated metadata and the generated hand/prefab assets back into the repository overlay.
+- Passed L0 on attempt 1. All seven custom shaders (`ShadowSilhouette`, `DarknessPortal`, `WatcherEyes`, `EvilVeil`, `BoneUnlit`, `OfferingCoin`, and `ShadowWraith`) retained at least one GLES3 program after Android stripping; BoneScan is not compiled.
+- Passed L1 EditMode 44/44 across 10 suites, including `FloorGrasperTests` and excluding the retired BoneScanner suite. Passed L2 PlayMode 3/3 with ordered `SETUP_COMPLETE`, `FIRST_EMERGE door=0 t=14.0`, `BANISH_OK`, and `RUN_END result=WIN survivalSeconds=180.0`.
+- Passed L3 IL2CPP ARM64 / ARCore-required. Unity effective min API is 25. APK is 35,018,923 bytes; SHA-256 `49D4E23EF47EF6C6739385C91B367D3883174970AEA5F40E4A38A66C4EFA41A5`.
+- Reconnected the paired Samsung SM-S906U1 over Wi-Fi ADB and replaced the installed package with `adb install -r`; the installation printed `Success`.
+State now:
+- L0-L3 are green, the no-Bone-Scan scene and Floor Grasper prefab are generated and installed, and the exact current APK is `C:\Dev\ShadowDoors\Builds\Android\ShadowDoors.apk`.
+- L4 remains `DEFERRED-TO-ANTHONY`: after launch, the phone returned to the launcher before a run began. Current logcat contains no app crash or ANR, but the no-SCAN-button, floor-hands, red-veil, arm-grab visual checks and four-marker device sequence are intentionally unclaimed.
+Next / handoff to: Anthony -> reopen Shadow Doors, complete setup, confirm there is no SCAN button, check the floor hands/red veil/grab-and-vanish arm, then finish a full run. Codex -> capture and record the four-marker L4 result.

@@ -6,7 +6,6 @@ using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEditor.XR.ARCore;
 using UnityEditor.XR.Management;
@@ -32,6 +31,7 @@ namespace ShadowDoors.Editor
         private const string ScenePath = "Assets/ShadowDoors/Scenes/ShadowDoorsMain.unity";
         private const string ShadowPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgent.prefab";
         private const string ShadowWraithPrefabPath = "Assets/ShadowDoors/Prefabs/ShadowAgentWraith.prefab";
+        private const string FloorGrasperPrefabPath = "Assets/ShadowDoors/Prefabs/FloorGrasper.prefab";
         private const string DarknessPortalPrefabPath = "Assets/ShadowDoors/Prefabs/DarknessPortal.prefab";
         private const string WatcherEyesPrefabPath = "Assets/ShadowDoors/Prefabs/WatcherEyes.prefab";
         private const string OfferingCoinPrefabPath = "Assets/ShadowDoors/Prefabs/OfferingCoin.prefab";
@@ -39,11 +39,11 @@ namespace ShadowDoors.Editor
         private const string ShadowMaterialPath = "Assets/ShadowDoors/Materials/ShadowSilhouette.mat";
         private const string ShadowWraithMaterialPath = "Assets/ShadowDoors/Materials/ShadowWraith.mat";
         private const string ShadowWraithMeshPath = "Assets/ShadowDoors/Meshes/SM_Wraith.fbx";
+        private const string HandMeshPath = "Assets/ShadowDoors/Meshes/SM_Hand.fbx";
         private const string DarknessPortalMaterialPath = "Assets/ShadowDoors/Materials/DarknessPortal.mat";
         private const string WatcherEyesMaterialPath = "Assets/ShadowDoors/Materials/WatcherEyes.mat";
         private const string EvilVeilMaterialPath = "Assets/ShadowDoors/Materials/EvilVeil.mat";
         private const string BoneMaterialPath = "Assets/ShadowDoors/Materials/BoneUnlit.mat";
-        private const string BoneScanMaterialPath = "Assets/ShadowDoors/Materials/BoneScan.mat";
         private const string OfferingCoinMaterialPath = "Assets/ShadowDoors/Materials/OfferingCoin.mat";
         private const string DarknessMaterialPath = "Assets/ShadowDoors/Materials/DarknessIris.mat";
         private const string PipelinePath = "Assets/ShadowDoors/Settings/ShadowDoorsURP.asset";
@@ -245,14 +245,13 @@ namespace ShadowDoors.Editor
                 EvilVeilMaterialPath, "ShadowDoors/EvilVeil");
             Material boneMaterial = GetOrCreateMaterial(
                 BoneMaterialPath, "ShadowDoors/BoneUnlit");
-            Material boneScanMaterial = GetOrCreateMaterial(
-                BoneScanMaterialPath, "ShadowDoors/BoneScan");
             Material offeringCoinMaterial = GetOrCreateMaterial(
                 OfferingCoinMaterialPath, "ShadowDoors/OfferingCoin");
             Material darknessMaterial = GetOrCreateMaterial(
                 DarknessMaterialPath, "ShadowDoors/DarknessIris");
             GameObject shadowPrefab = CreateShadowPrefab(shadowMaterial);
             GameObject shadowWraithPrefab = CreateShadowWraithPrefab(shadowWraithMaterial);
+            GameObject floorGrasperPrefab = CreateFloorGrasperPrefab(shadowWraithMaterial);
             GameObject darknessPortalPrefab = CreateDarknessPortalPrefab(darknessPortalMaterial);
             GameObject watcherEyesPrefab = CreateWatcherEyesPrefab(watcherEyesMaterial);
             GameObject offeringCoinPrefab = CreateOfferingCoinPrefab(offeringCoinMaterial);
@@ -315,8 +314,8 @@ namespace ShadowDoors.Editor
             var offeringObject = new GameObject("Coin Offering");
             CoinOffering coinOffering = offeringObject.AddComponent<CoinOffering>();
 
-            var boneScannerObject = new GameObject("Bone Scanner");
-            BoneScanner boneScanner = boneScannerObject.AddComponent<BoneScanner>();
+            var floorGraspersObject = new GameObject("Floor Graspers");
+            FloorGraspers floorGraspers = floorGraspersObject.AddComponent<FloorGraspers>();
 
             var canvasObject = new GameObject("Shadow Doors UI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             Canvas canvas = canvasObject.GetComponent<Canvas>();
@@ -352,17 +351,6 @@ namespace ShadowDoors.Editor
             EvilVeil evilVeil = canvasObject.AddComponent<EvilVeil>();
             SetObjectReferences(evilVeil, ("veilImage", veilImage));
 
-            Image scanImage = CreateImage(canvasObject.transform, "Bone Scan", Color.white);
-            Stretch(scanImage.rectTransform);
-            scanImage.material = boneScanMaterial;
-            scanImage.raycastTarget = false;
-            scanImage.gameObject.SetActive(false);
-
-            Button scanButton = CreateButton(canvasObject.transform, "Bone Scan Button", "SCAN");
-            SetRect(scanButton.GetComponent<RectTransform>(), new Vector2(1f, 0f), new Vector2(1f, 0f),
-                new Vector2(-130f, 190f), new Vector2(180f, 100f));
-            UnityEventTools.AddPersistentListener(scanButton.onClick, boneScanner.Trigger);
-
             Image endPanel = CreateImage(canvasObject.transform, "End Card", new Color(0f, 0f, 0f, 0.9f));
             Stretch(endPanel.rectTransform);
             Text endText = CreateText(endPanel.transform, "End Card Text", "DAWN", 72,
@@ -387,7 +375,7 @@ namespace ShadowDoors.Editor
             SetObjectReferences(banish, ("arRigSource", rig), ("progressRing", progress));
             ConfigureAudio(audio, systemsObject);
             SetObjectReferences(consumed, ("darknessOverlay", darkness));
-            SetObjectReferences(boneScanner, ("scanImage", scanImage), ("audioKit", audio));
+            SetObjectReferences(floorGraspers, ("grasperPrefab", floorGrasperPrefab));
             SetObjectReferences(coinOffering,
                 ("coinPrefab", offeringCoinPrefab), ("warningText", offeringWarning), ("audioKit", audio));
             SetObjectReferences(loop,
@@ -397,7 +385,7 @@ namespace ShadowDoors.Editor
                 ("watcherEyesPrefab", watcherEyesPrefab), ("evilVeil", evilVeil),
                 ("skeletonArm", skeletonArm),
                 ("coinOffering", coinOffering),
-                ("boneScanner", boneScanner),
+                ("floorGraspers", floorGraspers),
                 ("endCardPanel", endPanel.gameObject),
                 ("endCardText", endText));
 
@@ -456,6 +444,28 @@ namespace ShadowDoors.Editor
             ShadowAgent agent = instance.AddComponent<ShadowAgent>();
             SetSerializedBool(agent, "billboardYawOnly", true);
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, ShadowWraithPrefabPath);
+            UnityEngine.Object.DestroyImmediate(instance);
+            return prefab;
+        }
+
+        private static GameObject CreateFloorGrasperPrefab(Material material)
+        {
+            GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(FloorGrasperPrefabPath);
+            if (existing != null) return existing;
+
+            Mesh mesh = AssetDatabase.LoadAllAssetsAtPath(HandMeshPath)
+                .OfType<Mesh>()
+                .FirstOrDefault(candidate => candidate != null && candidate.vertexCount > 0);
+            if (mesh == null)
+            {
+                throw new BuildFailedException("Missing FloorGrasper hand mesh: " + HandMeshPath);
+            }
+
+            var instance = new GameObject("FloorGrasper");
+            instance.AddComponent<MeshFilter>().sharedMesh = mesh;
+            instance.AddComponent<MeshRenderer>().sharedMaterial = material;
+            instance.AddComponent<FloorGrasper>();
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(instance, FloorGrasperPrefabPath);
             UnityEngine.Object.DestroyImmediate(instance);
             return prefab;
         }
