@@ -32,7 +32,7 @@ export default function CaseStudiesPage() {
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
               Proof Library
             </p>
-            <h1 className="mt-5 text-4xl font-semibold tracking-normal text-[#f4f6f7] sm:text-5xl">
+            <h1 className="fc-decoy-heading mt-5 text-4xl text-[#f4f6f7] sm:text-5xl">
               Customer work, recorded carefully.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
@@ -46,7 +46,7 @@ export default function CaseStudiesPage() {
               <p className="text-[0.66rem] uppercase tracking-[0.24em] text-[#d8b36d]">
                 Flagship proof of concept
               </p>
-              <h2 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">
+              <h2 className="fc-decoy-heading mt-4 text-2xl text-[#f4f6f7]">
                 Colattao Cafe Rush
               </h2>
               <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">

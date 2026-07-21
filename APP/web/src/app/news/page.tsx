@@ -63,7 +63,7 @@ export default async function NewsFrontPage() {
         <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
           Noticias de la calle
         </p>
-        <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+        <h1 className="fc-decoy-heading mt-4 text-4xl sm:text-5xl">
           Fina Calle
         </h1>
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#c8d0d4]">
@@ -107,7 +107,7 @@ export default async function NewsFrontPage() {
               <p className="text-[0.66rem] uppercase tracking-[0.24em] text-[#d8b36d]">
                 {[lead.city, formatNewsDate(lead.publishedAt)].filter(Boolean).join(" · ")}
               </p>
-              <h2 className="mt-3 text-2xl font-bold leading-snug text-[#f4f6f7] transition group-hover:text-white sm:text-3xl">
+              <h2 className="fc-decoy-heading mt-3 text-2xl text-[#f4f6f7] transition group-hover:text-white sm:text-3xl">
                 {lead.headline}
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">{lead.brief}</p>

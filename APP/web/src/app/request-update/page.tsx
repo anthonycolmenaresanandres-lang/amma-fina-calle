@@ -28,7 +28,7 @@ export default function RequestUpdatePage() {
         <div className="grid flex-1 gap-8 py-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:py-10">
           <section className="flex flex-col items-start">
             <Eyebrow>Request a Build</Eyebrow>
-            <h2 className="fc-balance mt-4 text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7] sm:text-4xl">
+            <h2 className="fc-balance fc-decoy-heading mt-4 text-3xl text-[#f4f6f7] sm:text-4xl">
               Tell us what your business needs.
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">

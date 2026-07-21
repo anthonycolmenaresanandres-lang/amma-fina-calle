@@ -64,9 +64,9 @@ export default function Home() {
 
         <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
           <div className="mb-5">
-            <p className="text-xs uppercase tracking-[0.58em] text-[#f1f4f5] sm:text-sm">
+            <h1 className="fc-decoy-heading fc-decoy-heading-gold text-4xl sm:text-6xl">
               <ShinyText>FINA CALLE OS</ShinyText>
-            </p>
+            </h1>
             <p className="mt-3 text-[0.68rem] uppercase tracking-[0.34em] text-[#aeb7bd]">
               by AMMA Ventures
             </p>
@@ -119,8 +119,11 @@ export default function Home() {
             <p className="relative text-[0.62rem] font-semibold uppercase tracking-[0.34em] text-[#d8b36d]/86">
               Built in Virginia Beach
             </p>
-            <p className="relative mt-3 text-balance text-lg font-semibold leading-tight text-[#f4f6f7] sm:text-2xl">
+            <p className="fc-decoy-heading relative mt-3 text-balance text-2xl text-[#f4f6f7] sm:text-4xl">
               Still scrolling? Good. The strategy worked.
+            </p>
+            <p className="fc-decoy-heading fc-decoy-heading-gold relative mx-auto mt-4 max-w-2xl text-2xl sm:text-3xl">
+              Copy the page. You can&apos;t copy the pulse.
             </p>
             <p className="relative mx-auto mt-3 max-w-xl text-balance text-sm leading-6 text-[#c8d0d4] sm:text-base">
               Now follow Fina Calle before this footer starts charging rent.

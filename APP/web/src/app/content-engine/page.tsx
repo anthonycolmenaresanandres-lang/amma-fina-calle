@@ -38,7 +38,7 @@ export default function ContentEnginePage() {
           <p className="text-[0.7rem] uppercase tracking-[0.46em] text-[#d8b36d]">
             Fina Calle OS · Content Engine
           </p>
-          <h1 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-[#f4f6f7] sm:text-6xl">
+          <h1 className="fc-decoy-heading mx-auto mt-6 max-w-4xl text-balance text-4xl text-[#f4f6f7] sm:text-6xl">
             Turn one idea into a month of content that actually sells.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-balance text-base leading-7 text-[#c8d0d4] sm:text-lg">
@@ -89,7 +89,7 @@ export default function ContentEnginePage() {
               <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
                 The Prompt Systems
               </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#f4f6f7] sm:text-4xl">
+              <h2 className="fc-decoy-heading mt-4 text-3xl text-[#f4f6f7] sm:text-4xl">
                 Plug in your inputs. Copy. Post.
               </h2>
             </div>

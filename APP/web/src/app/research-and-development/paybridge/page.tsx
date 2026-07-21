@@ -77,7 +77,7 @@ export default function PayBridgeResearchPage() {
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
               R&D Concept Only
             </p>
-            <h1 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.04em] text-[#fff8ea] sm:text-5xl">
+            <h1 className="fc-decoy-heading mt-5 max-w-2xl text-4xl text-[#fff8ea] sm:text-5xl">
               Fina Calle PayBridge
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#d8cdb9] sm:text-lg">

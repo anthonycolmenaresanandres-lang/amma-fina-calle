@@ -64,7 +64,7 @@ export default function ResearchPage() {
             <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
               Internal Lab
             </p>
-            <h1 className="mt-5 text-4xl font-semibold tracking-normal text-[#f4f6f7] sm:text-5xl">
+            <h1 className="fc-decoy-heading mt-5 text-4xl text-[#f4f6f7] sm:text-5xl">
               Research stays labeled as research.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">

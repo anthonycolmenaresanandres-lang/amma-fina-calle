@@ -70,7 +70,7 @@ export default async function NewsStoryPage({ params }: PageProps) {
           <p className="text-[0.66rem] uppercase tracking-[0.24em] text-[#d8b36d]">
             {[story.city, formatNewsDate(story.publishedAt)].filter(Boolean).join(" · ")}
           </p>
-          <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl">
+          <h1 className="fc-decoy-heading mt-4 text-3xl sm:text-4xl">
             {story.headline}
           </h1>
           <p className="mt-5 text-lg leading-8 text-[#c8d0d4]">{story.brief}</p>

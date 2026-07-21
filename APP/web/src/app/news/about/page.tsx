@@ -43,7 +43,7 @@ export default function NewsAboutPage() {
 
         <section className="pt-10">
           <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">Masthead</p>
-          <h1 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+          <h1 className="fc-decoy-heading mt-4 text-3xl sm:text-4xl">
             About Fina Calle
           </h1>
           <p className="mt-5 text-base leading-8 text-[#c8d0d4]">
