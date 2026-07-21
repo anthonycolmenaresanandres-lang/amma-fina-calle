@@ -10,32 +10,32 @@ namespace ShadowDoors.Tests.EditMode
     public class CoinOfferingTests
     {
         [Test]
-        public void VoiceLadder_PleaThenWarningThenTheTurn()
+        public void VoiceLadder_PleaThenHalfwayWarningThenTheTurn()
         {
             Assert.AreEqual("please_dont", CoinOffering.WarningLineFor(1));
-            Assert.AreEqual("leave_them", CoinOffering.WarningLineFor(2));
+            Assert.AreEqual("leave_them", CoinOffering.WarningLineFor(CoinOffering.CoinCount / 2));
             Assert.AreEqual("it_knows", CoinOffering.WarningLineFor(CoinOffering.CoinCount));
         }
 
         [Test]
-        public void VoiceLadder_SilentInBetweenAndOutOfRange()
+        public void VoiceLadder_SilentOnOtherCountsAndOutOfRange()
         {
-            Assert.IsNull(CoinOffering.WarningLineFor(3));
-            Assert.IsNull(CoinOffering.WarningLineFor(4));
+            Assert.IsNull(CoinOffering.WarningLineFor(2));
+            Assert.IsNull(CoinOffering.WarningLineFor(CoinOffering.CoinCount - 1));
             Assert.IsNull(CoinOffering.WarningLineFor(0));
             Assert.IsNull(CoinOffering.WarningLineFor(-1));
             Assert.IsNull(CoinOffering.WarningLineFor(CoinOffering.CoinCount + 1));
         }
 
         [Test]
-        public void TextLadder_EscalatesEveryCoinAndEndsOnTheTurn()
+        public void TextLadder_EscalatesTowardTheTurn()
         {
+            Assert.AreEqual("", CoinOffering.WarningTextFor(0));
             Assert.AreEqual("please... don't.", CoinOffering.WarningTextFor(1));
             Assert.AreEqual("put them back.", CoinOffering.WarningTextFor(2));
-            Assert.AreEqual("PUT THEM BACK.", CoinOffering.WarningTextFor(3));
-            Assert.AreEqual("...", CoinOffering.WarningTextFor(4));
+            Assert.AreEqual("PUT THEM BACK.", CoinOffering.WarningTextFor(CoinOffering.CoinCount / 2));
+            Assert.AreEqual("...", CoinOffering.WarningTextFor(CoinOffering.CoinCount - 1));
             Assert.AreEqual("IT KNOWS WHAT YOU TOOK.", CoinOffering.WarningTextFor(CoinOffering.CoinCount));
-            Assert.AreEqual("", CoinOffering.WarningTextFor(0));
         }
     }
 }

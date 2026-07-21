@@ -137,6 +137,14 @@ animation) is backlog, not MVP.
    ramp). Anger persists across restarts (you don't get to un-defy it); a fresh setup
    clears it and re-runs the Offering.
 
+10. **Pace + coin tuning (2026-07-21 playtest: "boring, needs more coins, faster"):**
+    the Offering now lays **12** coins (was 5; warning ladder rescaled to plea @1 →
+    "PUT THEM BACK" @half → "IT KNOWS" @last). The night is denser and starts sooner:
+    first whisper t=6, first emerge **t=14** (was t=48), ~36 events (was 23), higher
+    authored speeds (0.4→0.85), the False Dawn lull shortened to 8 s at t=85. Kept all
+    JSON-test contracts (180 s, sorted, doors 0–3, speeds 0.2–1.0, ≥2 whisper feints,
+    quiet final 5 s).
+
 ## Explicitly cut from MVP (backlog)
 
 Zombies/goat packs (theme system later — whitelabel-style content packs) · occlusion via

@@ -24,8 +24,8 @@ namespace ShadowDoors.Runtime
     /// </summary>
     public class CoinOffering : MonoBehaviour
     {
-        /// <summary>How many coins are laid out.</summary>
-        public const int CoinCount = 5;
+        /// <summary>How many coins are laid out. Anthony's playtest: "way more coins."</summary>
+        public const int CoinCount = 12;
 
         /// <summary>Refusal timeout (s): untouched coins sink and the night starts anyway.</summary>
         public const float OfferingTimeoutSeconds = 45f;
@@ -64,13 +64,10 @@ namespace ShadowDoors.Runtime
         /// </summary>
         public static string WarningLineFor(int collectedCount)
         {
-            switch (collectedCount)
-            {
-                case 1: return "please_dont";
-                case 2: return "leave_them";
-                case CoinCount: return "it_knows";
-                default: return null;
-            }
+            if (collectedCount == 1) return "please_dont";       // the first plea
+            if (collectedCount == CoinCount / 2) return "leave_them"; // halfway: the warning
+            if (collectedCount == CoinCount) return "it_knows";  // the last coin: the turn
+            return null;
         }
 
         /// <summary>Lay out the coins on the floor near the tagged thresholds and start listening for greed.</summary>
@@ -192,15 +189,12 @@ namespace ShadowDoors.Runtime
         /// <summary>Subtitle ladder — pure for the same testability reason as WarningLineFor.</summary>
         public static string WarningTextFor(int collectedCount)
         {
-            switch (collectedCount)
-            {
-                case 1: return "please... don't.";
-                case 2: return "put them back.";
-                case 3: return "PUT THEM BACK.";
-                case 4: return "...";
-                case CoinCount: return "IT KNOWS WHAT YOU TOOK.";
-                default: return "";
-            }
+            if (collectedCount <= 0) return "";
+            if (collectedCount == 1) return "please... don't.";
+            if (collectedCount < CoinCount / 2) return "put them back.";
+            if (collectedCount == CoinCount / 2) return "PUT THEM BACK.";
+            if (collectedCount < CoinCount) return "...";
+            return "IT KNOWS WHAT YOU TOOK."; // the last coin
         }
 
         private void Refuse()
