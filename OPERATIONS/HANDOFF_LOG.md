@@ -1003,3 +1003,15 @@ Plan locked:
 - Bind the resulting merge commit to its exact Ready Vercel production deployment, verify production aliases and public HTML markers, run the live mobile morph/reverse/error gate, check representative protected routes, and query error-level runtime logs.
 Boundaries:
 - Release and verification only. No new product code or unrelated change. Stop at the first head, base, check, merge, deployment, alias, route, browser, or runtime-log divergence.
+
+### [CHECK-IN] Codex - 2026-07-21 14:41 EDT - Screenshot Trap and global AI-defense watermark release
+Picking up: Rebase the requested Screenshot Trap hero commit onto current production, add the exact global `AiDefenseWatermark` component, build, merge, publish, and verify production.
+Authority:
+- Anthony explicitly instructed Codex to continue after the canonical no-active-task gate was reported, and explicitly authorized merge and publish.
+State I see:
+- Requested commit `6c305e6` exists, but its source branch is 36 commits ahead of and 5 behind `origin/main` with unrelated Unity and grant history; merging that branch wholesale is unsafe.
+- Clean branch `codex/screenshot-trap-watermark-20260721` starts at current `origin/main` (`10be3ef`) and will receive only `6c305e6` plus the two requested watermark files/surfaces.
+Plan locked:
+- Cherry-pick only `6c305e6`, add `APP/web/src/components/AiDefenseWatermark.tsx`, inject it in `APP/web/src/app/layout.tsx`, run targeted checks and the full production build, then merge/publish only if the exact diff remains scoped and verification passes.
+Boundaries:
+- No dependencies, migrations, secrets, access changes, payment actions, or unrelated branch history. Stop on conflict, build failure, merge divergence, deployment failure, or production verification failure.
