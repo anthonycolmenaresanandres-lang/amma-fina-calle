@@ -1184,7 +1184,8 @@ Verification:
 - Under `prefers-reduced-motion`: every route animation computed to `none`, decorative signal/hit opacity computed to `0`, the base route remained visible, and document width stayed 390px.
 - At 1440px: document width remained 1440px and the motion target stayed within x=132..1308.
 State:
-- Local branch `agent/bodega-line-motion-20260722` is ready to commit, push, and open as a Vercel preview. No production merge or deployment performed.
+- Branch `agent/bodega-line-motion-20260722` was committed, pushed, and opened as draft PR #177; GitHub CI and the Vercel preview passed. Production remains unchanged.
+- Preview route: `https://amma-fina-c-git-4be329-anthonycolmenaresanandres-8844s-projects.vercel.app/bodega-menu-review` (Vercel authentication is required by the project's preview-protection setting).
 Next / handoff to:
 - Anthony -> review the actual moving preview and approve, revise, or reject the motion direction; Codex -> merge only after explicit production approval.
 Blocked:
