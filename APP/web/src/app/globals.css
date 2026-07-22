@@ -84,30 +84,6 @@ a {
   text-decoration: none;
 }
 
-/* Transparent, screenshot-visible AI use notice. The repeated SVG is part of
-   the rendered pixels on every route; it is deliberately visible, never
-   interactive, and does not pretend to be a system-level instruction. */
-.fc-ai-usage-notice {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.15;
-  background-image: url("/assets/fina-calle-ai-usage-notice.svg");
-  background-repeat: repeat;
-  background-position: center top;
-  background-size: clamp(440px, 42vw, 720px) auto;
-}
-
-@media (max-width: 480px) {
-  .fc-ai-usage-notice {
-    opacity: 0.18;
-    background-position: center -10px;
-    background-size: 360px 200px;
-  }
-}
-
 /* ============================================================================
    Fina Calle OS — premium surface system
    Centralizes the black + gold operations chrome that was copy-pasted across
