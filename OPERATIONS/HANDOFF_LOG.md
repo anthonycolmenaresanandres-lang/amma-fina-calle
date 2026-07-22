@@ -1189,3 +1189,41 @@ Next / handoff to:
 - Anthony -> review the actual moving preview and approve, revise, or reject the motion direction; Codex -> merge only after explicit production approval.
 Blocked:
 - Production release is intentionally held for Anthony's visual approval.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega identity refresh and Sessions game prototype
+Picking up:
+- Implement the approved hybrid Bodega visual system and an isolated rhythm-game owner-review route.
+Authority:
+- Anthony approved the proposed implementation plan in this task.
+Plan locked:
+- Restyle `/bodega-menu-review` around the supplied Bodega wordmark, circular-seal, waveform, and seasonal chalkboard references while preserving all evidence and price caveats.
+- Build `/bodega-sessions-review` as a 15-20 second, three-round Phaser rhythm-memory prototype with original synthesized tones and an owner-confirmed music/events CTA gate.
+- Preserve the existing route-wave interaction, mobile responsiveness, reduced-motion support, keyboard access, and primitive fallbacks.
+Boundaries:
+- Work only in `codex/bodega-identity-rhythm-20260722` from `origin/main`; leave the dirty canonical checkout and the existing motion branch intact.
+- Do not change Colattao, Penalty Shootout, menu data, billing, auth, database state, secrets, production, or public navigation.
+- Keep both Bodega surfaces unlinked and `noindex`; no merge, deployment, client contact, or event claim without separate approval and verified owner inputs.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega identity refresh and Sessions game verified
+Did:
+- Carried the reviewed route-wave interaction into a clean branch and rebuilt `/bodega-menu-review` around the supplied horizontal wordmark, circular seal, seasonal chalkboard colors, and open poster/menu composition.
+- Added the review-only logo crops under `public/assets/bodega/review/`; registered both as `pending` with source, intended use, forbidden use, replacement rule, and approval gate in `ASSET_REGISTRY/BODEGA/REVIEW_IDENTITY_AND_GAME_STYLE.md`.
+- Preserved every public-source item label, withheld price, evidence caveat, `noindex`, and unlinked-review boundary.
+- Added `/bodega-sessions-review`: a Phaser 4 rhythm-memory game with three deterministic rounds, Cup/Steam/Bell/Bass inputs, synthesized Web Audio tones, sound off by default, keys 1-4, HTML touch controls, timeout handling, replay, and scored result states.
+- Kept the music/event CTA disabled pending one owner-confirmed title and destination. No event, artist, song, offer, or approval is claimed.
+Verification:
+- Targeted ESLint: pass.
+- `tsc --noEmit`: pass.
+- Optimized Next.js production build: pass; both Bodega routes were present.
+- Menu browser QA: 390px and 1440px document/body widths matched the viewport; final mobile seal no longer covers the wordmark; route interaction worked; both routes emitted `noindex, nofollow, nocache`.
+- Reduced-motion QA: media preference detected; base/signal/hit animations computed to `none`; decorative signal/hit opacity computed to `0`; static route remained visible.
+- Game browser QA: perfect 12/12 run completed as `Headliner` in 11.7 seconds; timeout path produced `Warm-up set`; replay cleared the prior result; sound changed only after explicit opt-in; event CTA remained non-interactive; no browser page errors occurred.
+- Visual evidence captured locally under `APP/web/output/bodega-identity-rhythm/screenshots/` and intentionally left untracked. Local-only Vercel Analytics script messages were the only console notices.
+State:
+- Branch `codex/bodega-identity-rhythm-20260722`; production remains at `origin/main` `3c0a261`.
+- No push, PR, merge, deployment, client contact, database write, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the local visual/game evidence and approve a preview push if desired.
+- Bodega owners -> provide the current menu/prices, transparent logo files, written logo-use approval, and one verified event title/destination before public release.
+Blocked:
+- Public release remains intentionally blocked on owner assets/content/approval and Anthony's separate release authorization.
