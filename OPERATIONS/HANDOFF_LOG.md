@@ -1148,3 +1148,14 @@ Plan locked:
 Boundaries:
 - No private owner data, scraped assets, prices, recipes, database changes, secrets, payment changes, or unrelated dirty-worktree files.
 - Plan the game only after the menu is live; do not build or publish it in this release.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega mobile production polish
+Picking up:
+- Repair the responsive clipping found during the post-deployment visual check of the live Bodega menu.
+Evidence:
+- The first 390px capture cropped the review ribbon and oversized wordmark; desktop remained clean.
+Scope:
+- Adjust only the Bodega route's mobile ribbon type, utility-row wrapping, and wordmark scale.
+- Preserve the desktop direction, menu content, review labels, `noindex`, and every non-Bodega route.
+Pass condition:
+- At a real 390px CSS viewport, document width remains 390px, the Bodega wordmark ends inside the viewport, the evidence link is visible, no page errors occur, and lint/typecheck/build pass before release.

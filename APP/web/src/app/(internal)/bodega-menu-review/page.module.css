@@ -28,9 +28,10 @@
   padding: 0.55rem 1rem;
   color: #fff;
   font-family: var(--font-geist-mono), monospace;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
   text-align: center;
   text-transform: uppercase;
 }
@@ -54,6 +55,7 @@
 
 .utilityRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -97,7 +99,7 @@
   margin: 0;
   color: var(--ink);
   font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
-  font-size: clamp(5rem, 18vw, 13.5rem);
+  font-size: clamp(4rem, 18vw, 13.5rem);
   font-weight: 950;
   letter-spacing: -0.075em;
   line-height: 0.72;
@@ -365,6 +367,11 @@
 }
 
 @media (min-width: 48rem) {
+  .reviewBar {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+  }
+
   .shell {
     padding-inline: 2.25rem;
   }
