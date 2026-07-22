@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-21 (evening twice-daily check-in — **VBFH Daily Run is now GREEN**: the 07-21 14:01 UTC scheduled run succeeded, confirming the PR #5 email-gate fix works. Nothing red anywhere; caretaker took no code action this run beyond this dashboard.)
+**Last updated:** 2026-07-22 (morning twice-daily check-in — **everything green, nothing red anywhere.** Since last run Anthony merged **#174** (removed the global AI-use watermark, reverting #172); the screenshot-trap/watermark saga is now fully wound back to the plain hero. A new stale draft **#173** (another screenshot-trap hero variant) appeared and is superseded by that removal. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -13,23 +13,23 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 ## 👉 What Anthony needs to do right now
 
 1. **(Optional) Add the 5 VBFH email secrets so you actually RECEIVE the daily email.**
-   The Daily Run is green again — it no longer fails on missing SMTP config. But it still won't *send*
-   you anything until the secrets exist. Add them in vbfh-media-engine → Settings → Secrets and variables
-   → Actions → `EMAIL_TO`, `EMAIL_FROM`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` (optional Variables
-   `SMTP_PORT` default 587, `SMTP_SECURE` `true` only for port 465). Tell me your mail provider and I'll
-   give you the exact host/port. (Same secrets ask as PR #4.)
+   The Daily Run is green and staying green — it no longer fails on missing SMTP config. But it still
+   won't *send* you anything until the secrets exist. Add them in vbfh-media-engine → Settings → Secrets
+   and variables → Actions → `EMAIL_TO`, `EMAIL_FROM`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` (optional
+   Variables `SMTP_PORT` default 587, `SMTP_SECURE` `true` only for port 465). Tell me your mail provider
+   and I'll give you the exact host/port. (Same secrets ask as PR #4.)
 2. **Review & merge PR #161 (Add ethical sales conversion system)** — your call. Evidence-first AMMA
    sales-conversion skill + scripts, routed through the business router. Build/Vercel **green**, touches
    no guardrail routes, but it's a substantive new feature — open the Vercel preview and merge when happy.
 3. **PR #168 (amma) — review the grant-application draft, then submit it yourself.**
    `BUSINESS/GRANT_APPLICATION_DEV_PC.md` — a paste-ready ~$1,900 dev-PC grant application. Draft, Vercel
    **green**, no code/guardrail routes. Nothing is auto-submitted. NOTE: its branch also carries the old
-   screenshot-trap decoy commits that are now obsolete (the screenshot-trap effort concluded via merged
-   #170→#171→#172); if you ever merge #168, take only the grant-app doc.
-4. **PR #169 (amma) — likely close it; it's superseded.** "Screenshot Trap landing" (draft). The whole
-   screenshot-trap experiment already played out on `main`: #170 shipped it, #171 restored the hero and
-   removed the failed decoy, #172 added the visible AI-use notice. #169 is now stale. I left it open (it's
-   your draft — I don't close your PRs unprompted); say the word and I'll close it.
+   screenshot-trap decoy commits that are now obsolete; if you ever merge #168, take only the grant-app doc.
+4. **PRs #169 and #173 (amma) — close them both; they're superseded and obsolete.** Both are
+   screenshot-trap hero drafts. The whole experiment shipped and was then fully reverted on `main`
+   (#170 shipped it → #171 restored the hero → #172 added the visible notice → **#174 removed the notice
+   entirely**). Nothing from either draft belongs on the plain, un-watermarked hero that now ships. I left
+   them open (they're your drafts — I don't close them unprompted); say the word and I'll close both.
 5. **PR #4 (vbfh) — confirm the "Claude QA's the images before emailing" routine.** The code half is
    done and green; held as draft. Beyond the SMTP secrets (item 1), it asks you to confirm the separate
    scheduled-QA routine before that piece gets built.
@@ -41,19 +41,19 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    I can't see Supabase state from here — skip this if you already ran it.
 8. **Optional:** say "clean the merged branches" to delete the growing set of provably-merged branches.
 
-_Resolved / no action:_ **VBFH Daily Run recovered** — first green scheduled run (07-21 14:01 UTC) since
-the 07-19 breakage, confirming PR #5. **#29 stays closed** (Anthony, 07-18). **#170/#171/#172 merged by
-Anthony** (07-21 evening) — the screenshot-trap saga is settled on `main`. shadow-engineer-rpa dormant (07-09).
+_Resolved / no action:_ **#174 merged by Anthony** (07-22 00:02) — watermark removed, saga closed.
+**VBFH Daily Run stays GREEN** (last scheduled run 07-21 14:01 UTC ✅). **#29 stays closed** (07-18).
+**#170/#171/#172 merged** (07-21). shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-21, evening)
+## Build health (as of 2026-07-22, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `f70928d` (**#172**, "global screenshot-visible AI use notice"); latest `CI — web` ✅ (2026-07-21 20:26 UTC), also ✅ at #171 `fddc89d` and #170 `dd09786`. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`17d479e`). **VBFH Daily Run — GREEN.** The 07-21 14:01 UTC scheduled run **succeeded** — first green run since 07-19, confirming the PR #5 email-gate fix (`skipped_config_missing` now non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
-| shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows · last commit 2026-07-09 |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `b36a0af` (**#174**, "Remove global AI use notice"); latest `CI — web` ✅ #58 (2026-07-22 00:02 UTC). voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #19, 2026-07-22 02:08 UTC). **VBFH Daily Run — GREEN.** Latest scheduled run (07-21 14:01 UTC, run #48) **succeeded** — the PR #5 email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
 ## Open PRs
@@ -62,8 +62,11 @@ Anthony** (07-21 evening) — the screenshot-trap saga is settled on `main`. sha
   Awaiting Anthony's review/merge (item 2). Bot comments only; no human review comments.
 - **amma #168 — grant application draft (dev PC)** (open **draft**, Vercel **green**). Docs-only grant
   doc; branch also carries now-obsolete decoy commits (item 3). Bot comments only.
-- **amma #169 — Screenshot Trap landing** (open **draft**, Vercel **green**). **Superseded** by the
-  merged #170→#171→#172 sequence on `main`; recommend closing (item 4). Bot comment only.
+- **amma #169 — the Screenshot Trap decoy masthead** (open **draft**, Vercel **green**). **Superseded**
+  — recommend closing (item 4). Bot comment only.
+- **amma #173 — the Screenshot Trap two-message hybrid hero** (open **draft**, **green** — `web` ✅ +
+  Vercel ✅). New since last run; another screenshot-trap variant, **superseded** by #174's watermark
+  removal — recommend closing (item 4). Vercel bot comment only, no human review.
 - **amma #162 — Make owner portal installable** (open **draft**, CI **green** — `web` ✅ + Vercel ✅).
   Protected `/owner/[id]` route → hard-guardrail item for Anthony (item 6).
 - **vbfh #4 — email a copy-paste-ready post package** (open **draft**, CI **green** — `check` ✅).
@@ -74,21 +77,21 @@ Anthony** (07-21 evening) — the screenshot-trap saga is settled on `main`. sha
 
 ## Merged / closed since last run
 
-- **amma #170, #171, #172 all merged to `main` by Anthony** (07-21 evening): #170 shipped the Screenshot
-  Trap + AI-defense watermark (19:25), #171 restored the homepage hero and added `/robots.txt` + `/llms.txt`
-  AI-crawler controls, removing the failed decoy (19:54), #172 added a visible screenshot-OCR AI-use notice
-  (20:26). Post-merge `CI — web` ✅ at each step; main tip now `f70928d`.
-- No other new merges: vbfh master unchanged since #5 (`17d479e`); EscapeTheBomb #1 unchanged since 07-20;
-  shadow dormant (07-09). #29 stays closed (07-18).
-- No new human review comments on any open PR (only Vercel bot on #161/#168/#169).
+- **amma #174 merged to `main` by Anthony** (07-22 00:02): "Remove global AI use notice" — deletes the
+  `AiUsageNotice` component + its SVG and root-layout injection, restoring the plain un-watermarked hero.
+  This reverts #172. Post-merge `CI — web` ✅ #58; main tip now `b36a0af`.
+- No other new merges: vbfh master unchanged since #5; EscapeTheBomb #1 unchanged since 07-20; shadow
+  dormant (07-09). #29 stays closed.
+- No new human review comments on any open PR (only Vercel bot on #161/#168/#169/#173).
 
 ## Branch cleanup — awaiting one-click approval
 
 Still awaiting Anthony's "clean the merged branches" go-ahead (never deleted unprompted). Prior
-provably-merged amma list stands, now extended by the branches behind merged #170–#172. Keep active:
-`automation/status` (this dashboard) and the current `claude/*` caretaker working branches. The
-`voice/twiml-stream-fallback` and `voice/vbfh-tester-171128` branches are old (June, pre-#141) — leave for
-Anthony to judge, not on the auto-clean list.
+provably-merged amma list stands, now extended by the branches behind merged #170–#172 and **#174**
+(`codex/remove-global-ai-usage-watermark-20260721`). Keep active: `automation/status` (this dashboard)
+and the current `claude/*` caretaker working branches. The `voice/twiml-stream-fallback` and
+`voice/vbfh-tester-171128` branches are old (June, pre-#141) — leave for Anthony to judge, not on the
+auto-clean list.
 
 **vbfh-media-engine:** `claude/build-automation-management-sh68i3`, `feat/facility-info`,
 `claude/vbfh-broadcast-instagram-e6p75v`, `claude/pensive-edison-hl5sxo` (PR #5) — all merged, safe to delete.
@@ -96,6 +99,14 @@ Anthony to judge, not on the auto-clean list.
 
 ## Run log
 
+- **2026-07-22 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed.** Since last run Anthony merged **#174** (removed the global AI-use watermark, reverting
+  #172) — post-merge `CI — web` ✅ #58, main tip `b36a0af`; the screenshot-trap/watermark saga is now fully
+  wound back to the plain hero. A new stale draft **#173** (screenshot-trap two-message hybrid hero, green)
+  appeared and is **superseded** by that removal — flagged #169 **and** #173 for closing. vbfh **Daily Run
+  stays GREEN** (last run 07-21 14:01 UTC ✅) and `CI` ✅ on master (#19). All open-PR checks green
+  (#161/#162/#168/#169/#173 web/Vercel ✅; vbfh #4 `check` ✅). EscapeTheBomb #1 unchanged (07-20); shadow
+  dormant (07-09). No new human review comments. No branches deleted (awaiting go-ahead).
 - **2026-07-21 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
   action needed.** **VBFH Daily Run recovered** — the 07-21 14:01 UTC scheduled run **succeeded** (first
   green since 07-19), confirming PR #5's email-gate fix in production. amma `main` advanced: Anthony merged
