@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-22 (morning twice-daily check-in — **everything green, nothing red anywhere.** Since last run Anthony merged **#174** (removed the global AI-use watermark, reverting #172); the screenshot-trap/watermark saga is now fully wound back to the plain hero. A new stale draft **#173** (another screenshot-trap hero variant) appeared and is superseded by that removal. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-22 (evening twice-daily check-in — **everything green, nothing red anywhere, nothing changed since the morning run.** Today's **VBFH Daily Run (07-22 14:04 UTC) succeeded** — confirms #6's "fail closed on missing scheduled league data" didn't break the scheduled run. No new merges, PRs, commits, or human review comments across all four repos since this morning. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -42,17 +42,17 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 8. **Optional:** say "clean the merged branches" to delete the growing set of provably-merged branches.
 
 _Resolved / no action:_ **#174 merged by Anthony** (07-22 00:02) — watermark removed, saga closed.
-**VBFH Daily Run stays GREEN** (last scheduled run 07-21 14:01 UTC ✅). **#29 stays closed** (07-18).
-**#170/#171/#172 merged** (07-21). shadow-engineer-rpa dormant (07-09).
+**VBFH Daily Run stays GREEN** — latest scheduled run **07-22 14:04 UTC ✅** (07-21 14:01 also ✅).
+**#29 stays closed** (07-18). **#170/#171/#172 merged** (07-21). shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-22, morning)
+## Build health (as of 2026-07-22, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `b36a0af` (**#174**, "Remove global AI use notice"); latest `CI — web` ✅ #58 (2026-07-22 00:02 UTC). voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #19, 2026-07-22 02:08 UTC). **VBFH Daily Run — GREEN.** Latest scheduled run (07-21 14:01 UTC, run #48) **succeeded** — the PR #5 email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #19, 2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data"). **VBFH Daily Run — GREEN.** Latest scheduled run **07-22 14:04 UTC succeeded** (07-21 14:01 also ✅) — the email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails) and #6's fail-closed change didn't break the run. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
@@ -77,12 +77,11 @@ _Resolved / no action:_ **#174 merged by Anthony** (07-22 00:02) — watermark r
 
 ## Merged / closed since last run
 
-- **amma #174 merged to `main` by Anthony** (07-22 00:02): "Remove global AI use notice" — deletes the
-  `AiUsageNotice` component + its SVG and root-layout injection, restoring the plain un-watermarked hero.
-  This reverts #172. Post-merge `CI — web` ✅ #58; main tip now `b36a0af`.
-- No other new merges: vbfh master unchanged since #5; EscapeTheBomb #1 unchanged since 07-20; shadow
-  dormant (07-09). #29 stays closed.
-- No new human review comments on any open PR (only Vercel bot on #161/#168/#169/#173).
+- **Nothing new merged or closed since the morning run** (07-22). No new PRs, no new commits on any
+  default branch, no new human review comments (only Vercel bot on #161/#168/#169/#173).
+- Prior-run context still current: **amma #174 merged to `main`** (07-22 00:02, "Remove global AI use
+  notice", reverts #172; main tip `b36a0af`). vbfh master tip `fec7266` (#6). EscapeTheBomb #1 unchanged
+  since 07-20; shadow dormant (07-09). #29 stays closed.
 
 ## Branch cleanup — awaiting one-click approval
 
@@ -99,6 +98,13 @@ auto-clean list.
 
 ## Run log
 
+- **2026-07-22 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed — nothing changed since the morning run.** Today's **VBFH Daily Run (07-22 14:04 UTC)
+  succeeded** (run `29926831318`), confirming #6's "fail closed on missing scheduled league data" change
+  didn't break the scheduled run. amma `main` unchanged (tip `b36a0af`, `CI — web` ✅); vbfh `CI` ✅ on
+  master (tip `fec7266`, #6). All open-PR checks still green (#161/#162/#168/#169/#173 web/Vercel ✅;
+  vbfh #4 `check` ✅). No new merges/PRs/commits/human-review-comments across any of the four repos.
+  EscapeTheBomb #1 unchanged (07-20); shadow dormant (07-09). No branches deleted (awaiting go-ahead).
 - **2026-07-22 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
   action needed.** Since last run Anthony merged **#174** (removed the global AI-use watermark, reverting
   #172) — post-merge `CI — web` ✅ #58, main tip `b36a0af`; the screenshot-trap/watermark saga is now fully
