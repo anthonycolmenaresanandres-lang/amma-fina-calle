@@ -1112,3 +1112,26 @@ Plan locked:
 - Commit this release record, push the exact branch, open a ready PR, require all checks plus unchanged head/base, squash-merge with GitHub's exact-head guard, and bind the merge commit to its Ready Vercel production deployment.
 Boundaries:
 - Release only the reviewed five-file global notice scope. No dependency, route logic, migration, secret, access, payment, or unrelated production change. Stop on any head, base, check, deployment, alias, route, browser, or runtime-log divergence.
+
+### [CHECK-IN] Codex - 2026-07-21 - remove global AI-use watermark
+Picking up: Remove the global visual AI-use notice from the rendered site and restore the unwatermarked experience.
+Authority:
+- Anthony explicitly instructed: `Take away the water mark please`.
+State I see:
+- Production `main` contains only the reviewed global notice implementation from release #172; the original hero and the honest `/robots.txt` and `/llms.txt` policy surfaces are otherwise intact.
+Plan locked:
+- Remove the notice component, its root-layout injection, its CSS, and its static SVG; run targeted lint/build and browser verification; then release only that reversal through a guarded PR and production deployment check.
+Boundaries:
+- Keep `/robots.txt`, `/llms.txt`, hero behavior, all routes, dependencies, migrations, secrets, access, payments, and unrelated production code unchanged.
+
+### [CHECK-OUT] Codex - 2026-07-21 - global AI-use watermark removed and verified locally
+Did:
+- Removed `AiUsageNotice`, its root-layout render/import, the `.fc-ai-usage-notice` CSS, and the static repeated-SVG carrier.
+- Preserved the restored homepage hero and the existing `/robots.txt` and `/llms.txt` policy surfaces.
+Verification:
+- `npm.cmd run lint` passed with only seven pre-existing warnings outside this scope; `npm.cmd run build` passed and generated all 26 static pages.
+- A built local site at 412x915 returned `notice: 0`, `overlay: 0`, and `overflow: false`; evidence is `C:\Dev\amma\evidence\remove-global-ai-usage-watermark-20260721\local-mobile-412x915.png`.
+State now:
+- The clean reversal is ready for a guarded production release; no VBFH email configuration has been changed or invoked yet.
+Next / handoff to: release the exact reversal, then trace the VBFH voice-email notification flow and run one real test to Anthony's supplied address.
+Blocked: none for the watermark reversal; VBFH email send depends on the existing configured sender and the verified notification handler.
