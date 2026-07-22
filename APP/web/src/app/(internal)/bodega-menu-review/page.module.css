@@ -1,0 +1,414 @@
+.page {
+  --paper: #f0e4c7;
+  --paper-light: #fff8e7;
+  --ink: #17130f;
+  --blue: #0b4dff;
+  --red: #e4482e;
+  --amber: #f0a52b;
+  --steel: #737a7d;
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(23, 19, 15, 0.055) 1px, transparent 1px),
+    var(--paper);
+  background-size: 32px 100%;
+  color: var(--ink);
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+.reviewBar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  padding: 0.55rem 1rem;
+  color: #fff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.shell {
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto;
+  width: min(100%, 78rem);
+  padding: 1.25rem 1.15rem 3.5rem;
+}
+
+.shell::before {
+  position: absolute;
+  inset: 0 1.15rem auto;
+  z-index: -1;
+  height: 21rem;
+  background: linear-gradient(125deg, rgba(255, 248, 231, 0.94), rgba(255, 248, 231, 0.2));
+  content: "";
+}
+
+.utilityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.utilityRow a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3rem;
+}
+
+.hero {
+  padding: clamp(3.75rem, 9vw, 8rem) 0 2.25rem;
+}
+
+.storyLabel,
+.sectionSide,
+.sourceLabel,
+.priceLabel,
+.footerLabel {
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+}
+
+.storyLabel {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--red);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+}
+
+.wordmark {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(5rem, 18vw, 13.5rem);
+  font-weight: 950;
+  letter-spacing: -0.075em;
+  line-height: 0.72;
+  text-transform: uppercase;
+}
+
+.routeField {
+  position: relative;
+  margin-top: clamp(1.8rem, 5vw, 3.5rem);
+}
+
+.routeField::before {
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: rgba(23, 19, 15, 0.16);
+  content: "";
+}
+
+.routeSvg {
+  position: relative;
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 9px 0 rgba(11, 77, 255, 0.08));
+}
+
+.routePath {
+  animation: drawRoute 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+@keyframes drawRoute {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.heroCopy {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.2rem;
+}
+
+.officialLead {
+  max-width: 16ch;
+  font-size: clamp(1.7rem, 5vw, 3.25rem);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+
+.proposedStory {
+  max-width: 34ch;
+  color: var(--blue);
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(1rem, 2.6vw, 1.5rem);
+  letter-spacing: 0.025em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.reviewNotice {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem -1.15rem 0;
+  background: var(--ink);
+  padding: 1.25rem 1.15rem;
+  color: var(--paper-light);
+}
+
+.reviewNotice strong {
+  color: var(--amber);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.reviewNotice p {
+  max-width: 64ch;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.sectionNav {
+  position: sticky;
+  top: 2.5rem;
+  z-index: 20;
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  margin: 0 -1.15rem;
+  border-bottom: 2px solid var(--ink);
+  background: rgba(240, 228, 199, 0.94);
+  padding: 1rem 1.15rem 0.8rem;
+  backdrop-filter: blur(14px);
+  scrollbar-width: none;
+}
+
+.sectionNav a {
+  flex: none;
+  color: var(--ink);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sectionNav a:hover {
+  color: var(--blue);
+}
+
+.menuGrid {
+  display: grid;
+  gap: 3rem;
+  padding: 3.5rem 0;
+}
+
+.menuSection {
+  scroll-margin-top: 7rem;
+  border-top: 3px solid var(--ink);
+  padding-top: 0.9rem;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 0.6rem;
+  padding-bottom: 1.3rem;
+}
+
+.sectionSide {
+  color: var(--blue);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.sectionHeader h2 {
+  max-width: 13ch;
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(2rem, 7vw, 4.4rem);
+  letter-spacing: -0.055em;
+  line-height: 0.91;
+  text-transform: uppercase;
+}
+
+.sectionHeader p {
+  max-width: 52ch;
+  color: #4f4740;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.itemList {
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  border-bottom: 1px dashed rgba(23, 19, 15, 0.32);
+  padding: 1rem 0;
+}
+
+.itemName {
+  display: block;
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  font-weight: 760;
+  letter-spacing: -0.025em;
+}
+
+.sourceLabel {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--steel);
+  font-size: 0.53rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+}
+
+.priceLabel {
+  color: var(--red);
+  font-size: 0.56rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+.hours {
+  scroll-margin-top: 7rem;
+  display: grid;
+  gap: 2rem;
+  border-top: 8px solid var(--blue);
+  padding: 2rem 0 1rem;
+}
+
+.hours h2 {
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(2.5rem, 9vw, 6rem);
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.hoursList {
+  list-style: none;
+}
+
+.hoursList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(23, 19, 15, 0.25);
+  padding: 0.75rem 0;
+  font-size: 0.88rem;
+}
+
+.hoursList time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+}
+
+.address {
+  margin-top: 1rem;
+  max-width: 28ch;
+  color: #4f4740;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.footer {
+  display: grid;
+  gap: 1rem;
+  margin-top: 4rem;
+  border-top: 2px solid var(--ink);
+  padding-top: 1.25rem;
+}
+
+.footerLabel {
+  color: var(--red);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.footer p {
+  max-width: 62ch;
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 760;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+@media (min-width: 48rem) {
+  .shell {
+    padding-inline: 2.25rem;
+  }
+
+  .shell::before {
+    inset-inline: 2.25rem;
+  }
+
+  .heroCopy,
+  .reviewNotice,
+  .hours,
+  .footer {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reviewNotice,
+  .sectionNav {
+    margin-inline: -2.25rem;
+    padding-inline: 2.25rem;
+  }
+
+  .menuGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3.5rem;
+  }
+
+  .menuSection:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .menuSection:last-child .itemList {
+    columns: 2;
+    column-gap: 3.5rem;
+  }
+
+  .menuSection:last-child .item {
+    break-inside: avoid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routePath {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+}

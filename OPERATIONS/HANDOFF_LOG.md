@@ -1135,3 +1135,16 @@ State now:
 - The clean reversal is ready for a guarded production release; no VBFH email configuration has been changed or invoked yet.
 Next / handoff to: release the exact reversal, then trace the VBFH voice-email notification flow and run one real test to Anthony's supplied address.
 Blocked: none for the watermark reversal; VBFH email send depends on the existing configured sender and the verified notification handler.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega live menu release
+Picking up:
+- Publish the isolated Bodega owner-review menu and verify its live Vercel route before planning the game.
+Authority:
+- Anthony explicitly approved merge, push, and live publication in this task.
+Plan locked:
+- Release only the three files under `APP/web/src/app/(internal)/bodega-menu-review/` from a clean branch based on current `origin/main`.
+- Keep the route unlinked and `noindex`; expose it at `/bodega-menu-review` as a live review concept with prices withheld and owner approval still required.
+- Run targeted lint, typecheck, production build, local browser checks, guarded PR merge, deployment binding, and live-route verification.
+Boundaries:
+- No private owner data, scraped assets, prices, recipes, database changes, secrets, payment changes, or unrelated dirty-worktree files.
+- Plan the game only after the menu is live; do not build or publish it in this release.
