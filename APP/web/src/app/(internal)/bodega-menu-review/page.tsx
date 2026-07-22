@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
+import { RouteBecomesRhythm } from "./route-becomes-rhythm";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -18,30 +19,6 @@ export const metadata: Metadata = {
     },
   },
 };
-
-function RouteBecomesRhythm() {
-  return (
-    <svg
-      className={styles.routeSvg}
-      viewBox="0 0 1200 230"
-      role="img"
-      aria-label="A city route becomes a sound wave and then a coastal horizon"
-    >
-      <path
-        className={styles.routePath}
-        d="M0 72h132v92h118V38h118v86h66l22-42 26 94 31-132 32 154 31-116 28 72 27-44 31 14h88l55 0c56 0 74 33 124 33 56 0 73-47 132-47 48 0 77 31 123 31h56"
-        fill="none"
-        pathLength={1}
-        stroke="#0b4dff"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        strokeWidth="12"
-      />
-      <circle cx="250" cy="38" r="10" fill="#e4482e" />
-      <circle cx="1144" cy="141" r="10" fill="#f0a52b" />
-    </svg>
-  );
-}
 
 export default function BodegaMenuReviewPage() {
   return (

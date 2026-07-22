@@ -1159,3 +1159,33 @@ Scope:
 - Preserve the desktop direction, menu content, review labels, `noindex`, and every non-Bodega route.
 Pass condition:
 - At a real 390px CSS viewport, document width remains 390px, the Bodega wordmark ends inside the viewport, the evidence link is visible, no page errors occur, and lint/typecheck/build pass before release.
+
+### [CHECK-IN] Codex - 2026-07-22 - animate the Bodega route-wave identity
+Picking up:
+- Add restrained motion and game-feel interaction to the blue route-to-wave line beneath the Bodega wordmark.
+Authority:
+- Anthony requested the site update and specifically asked to use Fina Calle OS gaming mechanics.
+Plan locked:
+- Preserve the existing SVG identity and menu content; add a draw-on entrance, slow signal traversal, and tap/click/keyboard beat response using the game pattern input -> immediate feedback -> eased recovery.
+- Use a small client component and CSS/SVG only; do not load Phaser on the menu page or add a dependency.
+- Keep the experience silent, responsive, keyboard accessible, and static under `prefers-reduced-motion`.
+Boundaries:
+- Touch only the Bodega route component/styles and this handoff log. Preserve `noindex`, review caveats, prices, menu data, routes, auth, billing, and every game engine file.
+- Prepare a branch and Vercel preview only. Do not merge or deploy this motion change to production without Anthony's separate approval.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega route-wave motion ready for preview
+Did:
+- Extracted the route-wave SVG into a small client component without loading Phaser or adding dependencies.
+- Added a one-time path draw, 4.4-second traveling signal, staggered endpoint pulses, hover acceleration, press feedback, and a replayable 720ms beat sweep on click, tap, or Enter.
+- Added a visible keyboard focus treatment and a complete reduced-motion fallback that keeps the blue route static while hiding decorative signal/hit layers.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, and the optimized Next.js production build passed.
+- At 390px: document width remained 390px; the interactive line stayed inside x=18.4..371.6; idle path/signal/node animations were active; click replay replaced the beat animation with a new start time; Enter created the same 720ms response; no page errors occurred.
+- Under `prefers-reduced-motion`: every route animation computed to `none`, decorative signal/hit opacity computed to `0`, the base route remained visible, and document width stayed 390px.
+- At 1440px: document width remained 1440px and the motion target stayed within x=132..1308.
+State:
+- Local branch `agent/bodega-line-motion-20260722` is ready to commit, push, and open as a Vercel preview. No production merge or deployment performed.
+Next / handoff to:
+- Anthony -> review the actual moving preview and approve, revise, or reject the motion direction; Codex -> merge only after explicit production approval.
+Blocked:
+- Production release is intentionally held for Anthony's visual approval.
