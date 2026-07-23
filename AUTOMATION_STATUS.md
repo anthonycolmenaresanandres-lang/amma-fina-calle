@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-22 (evening twice-daily check-in — **everything green, nothing red anywhere, nothing changed since the morning run.** Today's **VBFH Daily Run (07-22 14:04 UTC) succeeded** — confirms #6's "fail closed on missing scheduled league data" didn't break the scheduled run. No new merges, PRs, commits, or human review comments across all four repos since this morning. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-23 (morning twice-daily check-in — **everything green, nothing red anywhere, no code action needed.** Since the 07-22 evening run Anthony merged a wave of Bodega-menu-review PRs — **#175, #176, #178, #179** (live `/bodega-menu-review` route, mobile polish, single-seal identity, and one-shot logo rhythm/cup-beat) — all post-merge `CI — web` ✅, main tip `ad9773a`. New draft **#177** (Bodega route-line motion) appeared but now **conflicts** with those merges. **VBFH Daily Run stays GREEN** (last scheduled 07-22 14:04 UTC ✅; today's ~14:00 UTC run not yet fired at check time). No red builds, no human review comments. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -30,6 +30,12 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    (#170 shipped it → #171 restored the hero → #172 added the visible notice → **#174 removed the notice
    entirely**). Nothing from either draft belongs on the plain, un-watermarked hero that now ships. I left
    them open (they're your drafts — I don't close them unprompted); say the word and I'll close both.
+4b. **PR #177 (amma, "Animate Bodega route rhythm") — rebase or close; it now conflicts.** Your own
+   preview draft for the Bodega route-line motion. Since you opened it, **#178 and #179 merged** the
+   Bodega identity + logo rhythm/cup-beat straight to `main`, so #177's base is stale and it shows a
+   **merge conflict** (`dirty`). Decide: rebase it onto the new `main` if the route-line motion is still
+   wanted on top of the shipped rhythm, or close it as superseded. It's your creative draft — I won't
+   touch it unprompted.
 5. **PR #4 (vbfh) — confirm the "Claude QA's the images before emailing" routine.** The code half is
    done and green; held as draft. Beyond the SMTP secrets (item 1), it asks you to confirm the separate
    scheduled-QA routine before that piece gets built.
@@ -41,18 +47,21 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    I can't see Supabase state from here — skip this if you already ran it.
 8. **Optional:** say "clean the merged branches" to delete the growing set of provably-merged branches.
 
-_Resolved / no action:_ **#174 merged by Anthony** (07-22 00:02) — watermark removed, saga closed.
-**VBFH Daily Run stays GREEN** — latest scheduled run **07-22 14:04 UTC ✅** (07-21 14:01 also ✅).
-**#29 stays closed** (07-18). **#170/#171/#172 merged** (07-21). shadow-engineer-rpa dormant (07-09).
+_Resolved / no action:_ **Bodega menu-review wave merged by Anthony** — **#175** (live `/bodega-menu-review`
+route, 07-22 22:18), **#176** (mobile polish, 07-22 22:29), **#178** (single-seal identity + rhythm,
+07-23 11:35), **#179** (cup beat + disappearing gold flash, 07-23 12:18); all post-merge `CI — web` ✅,
+main tip `ad9773a`. Additive unlinked/noindex owner-review route — no guardrail routes, DB, billing, or
+secrets touched. **#174 merged** (07-22) — watermark saga stays closed. **VBFH Daily Run stays GREEN**
+(07-22 14:04 UTC ✅). **#29 stays closed** (07-18). shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-22, evening)
+## Build health (as of 2026-07-23, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `b36a0af` (**#174**, "Remove global AI use notice"); latest `CI — web` ✅ #58 (2026-07-22 00:02 UTC). voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #19, 2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data"). **VBFH Daily Run — GREEN.** Latest scheduled run **07-22 14:04 UTC succeeded** (07-21 14:01 also ✅) — the email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails) and #6's fail-closed change didn't break the run. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `ad9773a` (**#179**, "Add Bodega cup beat and disappearing gold flash"); latest `CI — web` ✅ (2026-07-23 12:18 UTC). Bodega-review wave #175/#176/#178/#179 all merged green since the evening run. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #20, 2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data"). **VBFH Daily Run — GREEN.** Latest scheduled run **07-22 14:04 UTC succeeded** (07-21 14:01 also ✅) — the email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Today's ~14:00 UTC scheduled run had not yet fired at check time. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
@@ -67,6 +76,10 @@ _Resolved / no action:_ **#174 merged by Anthony** (07-22 00:02) — watermark r
 - **amma #173 — the Screenshot Trap two-message hybrid hero** (open **draft**, **green** — `web` ✅ +
   Vercel ✅). New since last run; another screenshot-trap variant, **superseded** by #174's watermark
   removal — recommend closing (item 4). Vercel bot comment only, no human review.
+- **amma #177 — Animate Bodega route rhythm** (open **draft**, **conflicts** — `mergeable_state: dirty`).
+  New since last run. Bodega route-line motion preview; **#178/#179 merged the Bodega rhythm/cup-beat**
+  after it opened, so its base is stale and it now conflicts. Rebase-or-close, Anthony's call (item 4b).
+  Vercel bot comment only, no human review.
 - **amma #162 — Make owner portal installable** (open **draft**, CI **green** — `web` ✅ + Vercel ✅).
   Protected `/owner/[id]` route → hard-guardrail item for Anthony (item 6).
 - **vbfh #4 — email a copy-paste-ready post package** (open **draft**, CI **green** — `check` ✅).
@@ -98,6 +111,17 @@ auto-clean list.
 
 ## Run log
 
+- **2026-07-23 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed.** Since the evening run Anthony merged the **Bodega menu-review wave** to `main` —
+  **#175** (live unlinked/noindex `/bodega-menu-review` route), **#176** (390px mobile polish), **#178**
+  (single circular seal identity + logo-internal rhythm), **#179** (one-shot cup beat + disappearing gold
+  flash) — every post-merge `CI — web` ✅, main tip now `ad9773a`. Additive owner-review route only; no
+  guardrail routes, DB, billing, or secrets. A new draft **#177** (Bodega route-line motion) appeared but
+  now **conflicts** (`dirty`) because #178/#179 shipped overlapping rhythm work after it opened — flagged
+  rebase-or-close (item 4b). **VBFH Daily Run stays GREEN** (07-22 14:04 UTC ✅; today's ~14:00 UTC run
+  not yet fired at check time) and `CI` ✅ on master. All open-PR checks green except #177's conflict
+  (#161/#162/#168/#169/#173 web/Vercel ✅; vbfh #4 `check` ✅). EscapeTheBomb #1 unchanged (07-20); shadow
+  dormant (07-09). No new human review comments. No branches deleted (awaiting go-ahead).
 - **2026-07-22 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
   action needed — nothing changed since the morning run.** Today's **VBFH Daily Run (07-22 14:04 UTC)
   succeeded** (run `29926831318`), confirming #6's "fail closed on missing scheduled league data" change
