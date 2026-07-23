@@ -87,190 +87,74 @@
 
 .hero {
   position: relative;
+  display: grid;
   margin-inline: -1.15rem;
   overflow: hidden;
   background:
-    linear-gradient(90deg, transparent 0 48%, rgba(255, 253, 247, 0.055) 48% 50%, transparent 50%),
-    linear-gradient(0deg, transparent 0 47%, rgba(255, 253, 247, 0.05) 47% 51%, transparent 51%),
-    radial-gradient(circle at 82% 18%, rgba(134, 184, 238, 0.14), transparent 18rem),
+    radial-gradient(circle at 50% 48%, rgba(240, 195, 79, 0.12), transparent 23rem),
+    radial-gradient(circle at 82% 18%, rgba(134, 184, 238, 0.1), transparent 18rem),
     linear-gradient(145deg, #170d0c 0%, var(--brick) 47%, #160b0a 100%);
-  background-size: 7.5rem 3.7rem, 7.5rem 3.7rem, auto, auto;
-  padding: clamp(2.4rem, 7vw, 6rem) 1.15rem clamp(3rem, 7vw, 5.5rem);
+  min-height: clamp(25rem, 63vw, 43rem);
+  padding: clamp(3rem, 8vw, 6rem) 1.15rem;
   color: var(--chalk);
-}
-
-.streetStrip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  align-items: center;
-  margin: clamp(1.75rem, 4vw, 3rem) auto 0;
-  max-width: 68rem;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.57rem;
-  font-weight: 900;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.streetStrip span {
-  background: var(--ink);
-  padding: 0.55rem 0.68rem;
-}
-
-.streetStrip span:nth-child(1) {
-  color: var(--pollen);
-}
-
-.streetStrip span:nth-child(2) {
-  background: var(--sky);
-  color: var(--ink);
-  transform: rotate(1.5deg);
-}
-
-.streetStrip span:nth-child(3) {
-  background: var(--chalk);
-  color: var(--brick);
-  transform: rotate(-1deg);
-}
-
-.sealStage {
-  --seal-travel: min(22vw, 9rem);
-  position: relative;
-  display: grid;
-  justify-items: center;
-  margin: 0 auto;
-  max-width: 68rem;
-  min-height: clamp(17rem, 42vw, 25rem);
   place-items: center;
 }
 
-.sealTrack {
-  position: absolute;
-  right: 0;
-  left: 0;
-  top: 50%;
-  height: 1rem;
-  background:
-    linear-gradient(
-      to bottom,
-      var(--pollen) 0 18%,
-      transparent 18% 37%,
-      var(--sky) 37% 63%,
-      transparent 63% 82%,
-      var(--chalk) 82% 100%
-    );
-  box-shadow: 0 0.5rem 0 rgba(9, 9, 9, 0.6);
-  opacity: 0.9;
-  transform: rotate(-1deg);
+.sealStage {
+  width: min(100%, 34rem);
 }
 
-.sealButton {
+.sealMark {
   position: relative;
-  z-index: 2;
-  display: block;
   width: 100%;
-  appearance: none;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  padding: 0;
-  touch-action: manipulation;
-}
-
-.sealButton:focus-visible {
-  outline: 4px solid var(--pollen);
-  outline-offset: 0.45rem;
-}
-
-.sealTraveler {
-  animation: sealRide 7.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  display: block;
-  margin: 0 auto;
-  width: clamp(12rem, 32vw, 20rem);
   aspect-ratio: 1;
-}
-
-.sealDisc,
-.sealDiscHit {
-  display: block;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
-  border: 0.55rem solid var(--chalk);
+  border: clamp(0.42rem, 1vw, 0.7rem) solid var(--chalk);
   border-radius: 50%;
   background: var(--chalk);
   box-shadow:
-    0 0 0 0.45rem var(--ink),
-    0.75rem 0.95rem 0 rgba(9, 9, 9, 0.65),
-    0 1.7rem 2.5rem rgba(9, 9, 9, 0.34);
+    0 0 0 clamp(0.32rem, 0.8vw, 0.55rem) var(--ink),
+    clamp(0.65rem, 1.7vw, 1.2rem) clamp(0.8rem, 2vw, 1.4rem) 0 rgba(9, 9, 9, 0.62),
+    0 2rem 3.5rem rgba(9, 9, 9, 0.38);
   clip-path: circle(50% at 50% 50%);
 }
 
-.sealDiscHit {
-  animation: sealScratch 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.movingSealImage {
+.sealImage {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.sealButton:active .sealTraveler {
-  filter: brightness(1.08);
-}
-
-.sealHint {
+.waveformMotion {
   position: absolute;
-  z-index: 3;
-  bottom: -0.15rem;
-  background: var(--ink);
-  padding: 0.45rem 0.62rem;
-  color: var(--pink);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.55rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
-@keyframes sealRide {
-  0%,
-  100% {
-    transform: translateX(calc(-1 * var(--seal-travel)));
-  }
-
-  50% {
-    transform: translateX(var(--seal-travel));
-  }
+.waveformMotion path {
+  animation: waveformSignal 2.8s linear infinite;
+  fill: none;
+  filter: drop-shadow(0 0 0.12rem rgba(122, 48, 40, 0.55));
+  stroke: var(--brick);
+  stroke-dasharray: 17 83;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 7;
 }
 
-@keyframes sealScratch {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-
-  28% {
-    transform: rotate(-24deg) scale(1.08);
-  }
-
-  58% {
-    transform: rotate(16deg) scale(0.98);
-  }
-
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
+.waveformMotion path:last-child {
+  animation-delay: -1.4s;
 }
 
-.heroCopy {
-  display: grid;
-  gap: 1.75rem;
-  margin: clamp(2.3rem, 6vw, 4.75rem) auto 0;
-  max-width: 70rem;
+@keyframes waveformSignal {
+  to {
+    stroke-dashoffset: -100;
+  }
 }
 
 .storyLabel,
@@ -291,24 +175,6 @@
   font-size: 0.61rem;
   font-weight: 800;
   letter-spacing: 0.15em;
-}
-
-.officialLead {
-  max-width: 15ch;
-  font-size: clamp(1.9rem, 6vw, 4.1rem);
-  font-weight: 820;
-  letter-spacing: -0.055em;
-  line-height: 0.93;
-}
-
-.proposedStory {
-  max-width: 24ch;
-  color: var(--pollen);
-  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
-  font-size: clamp(1.15rem, 3.2vw, 2rem);
-  letter-spacing: 0.015em;
-  line-height: 1.02;
-  text-transform: uppercase;
 }
 
 .chalkInterlude {
@@ -650,16 +516,6 @@
   text-underline-offset: 0.3rem;
 }
 
-@media (hover: hover) {
-  .sealButton:hover .sealDisc,
-  .sealButton:hover .sealDiscHit {
-    box-shadow:
-      0 0 0 0.45rem var(--ink),
-      0.9rem 1.1rem 0 var(--pollen),
-      0 1.7rem 2.5rem rgba(9, 9, 9, 0.4);
-  }
-}
-
 @media (min-width: 48rem) {
   .shell {
     padding-inline: 2.25rem;
@@ -675,7 +531,6 @@
     padding-inline: 2.25rem;
   }
 
-  .heroCopy,
   .reviewNotice,
   .hours,
   .sessionsTeaser,
@@ -716,20 +571,14 @@
     flex-wrap: wrap;
   }
 
-  .sealStage {
-    --seal-travel: 18vw;
-  }
-
   .item {
     grid-template-columns: minmax(0, 1fr) 5.4rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sealTraveler,
-  .sealDisc,
-  .sealDiscHit {
+  .waveformMotion path {
     animation: none;
-    transform: none;
+    opacity: 0;
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
-import { MovingBodegaSeal } from "./moving-bodega-seal";
+import { BodegaSignalLogo } from "./bodega-signal-logo";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -33,24 +33,7 @@ export default function BodegaMenuReviewPage() {
         </div>
 
         <header className={styles.hero}>
-          <MovingBodegaSeal />
-
-          <div className={styles.streetStrip} aria-label="Bronx-inspired visual direction">
-            <span>BX STYLE STUDY</span>
-            <span>CAFECITO</span>
-            <span>VIRGINIA BEACH</span>
-          </div>
-
-          <div className={styles.heroCopy}>
-            <div>
-              <span className={styles.storyLabel}>The storefront signal</span>
-              <p className={styles.officialLead}>{publishedBusinessDetails.lead}.</p>
-            </div>
-            <div>
-              <span className={styles.storyLabel}>Proposed story line - owner approval required</span>
-              <p className={styles.proposedStory}>New York energy. Virginia Beach home.</p>
-            </div>
-          </div>
+          <BodegaSignalLogo />
         </header>
 
         <section className={styles.chalkInterlude} aria-labelledby="seasonal-board-title">

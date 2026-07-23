@@ -1288,3 +1288,33 @@ Next / handoff to:
 - Anthony -> review the corrected single-logo hero and authorize a preview push separately if desired.
 Blocked:
 - Public release remains blocked pending owner content/logo approval and Anthony's release authorization.
+
+### [CHECK-IN] Codex - 2026-07-22 - Internal-waveform-only hero motion
+Picking up:
+- Strip the Bodega hero to the circular logo alone and move only the heartbeat lines printed inside the bottom of the mark.
+Authority:
+- Anthony directly clarified the hero content and motion target.
+Plan locked:
+- Remove every visible hero label, story line, tag, external rail, and background line mesh.
+- Keep the circular logo stationary and animate two traced pulse segments over its existing lower waveform.
+- Retain a static original logo for reduced-motion and no-animation states.
+Boundaries:
+- Touch only the Bodega menu hero component/styles, Bodega identity registry, and this handoff log.
+- Preserve all post-hero content, menu data, game behavior, review controls outside the hero, `noindex`, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Internal-waveform-only hero verified
+Did:
+- Removed all visible hero copy, tags, external rails, controls, and background line mesh; the circular seal is the hero's only object.
+- Kept the logo fixed and added two lightweight SVG pulse traces aligned to the existing lower-left and lower-right heartbeat segments inside the mark.
+- Preserved the original static waveform beneath the enhancement and hid the pulse overlay for reduced-motion users.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA: hero text was empty; exactly one hero image, one internal SVG, and two waveform paths; logo transform stayed `none` while both dash offsets changed over time.
+- 390px and 1440px document widths matched their viewports; reduced motion set both pulse animations to `none` and overlay opacity to `0`; `noindex, nofollow, nocache` remained intact; no browser page errors occurred.
+State:
+- Changes remain local on `codex/bodega-identity-rhythm-20260722`; visual evidence remains untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the internal-waveform-only hero and authorize a preview push separately if desired.
+Blocked:
+- Public release remains blocked pending owner content/logo approval and Anthony's release authorization.

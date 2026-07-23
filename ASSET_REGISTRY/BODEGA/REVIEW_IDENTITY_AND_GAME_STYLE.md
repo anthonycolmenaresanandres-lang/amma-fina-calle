@@ -8,7 +8,7 @@
 
 - **Only identity mark:** supplied circular cup-and-waveform seal. No other supplied artwork may be presented as Bodega's logo.
 - **Promotional artwork:** the supplied horizontal `BODEGA CAFE / VIRGINIA BEACH` treatment is reference material only and must not appear as the business logo.
-- **Signature motion:** the circular cup-and-wave seal travels upright across a storefront rail; tap produces one quick scratch response without leaving the mark inverted.
+- **Signature motion:** the circular seal stays fixed; only the two heartbeat segments printed inside the bottom of the logo carry a restrained traveling pulse. No external lines, labels, or hero copy accompany the mark.
 - **Palette:** studio black `#090909`, brick `#7A3028`, cafe paper `#F7F2E8`, chalk white `#FFFDF7`, lavender `#B695E7`, sky `#86B8EE`, bloom pink `#EFAAC8`, pollen `#F0C34F`, leaf `#A8C8A0`.
 - **Typography:** heavy geometric display treatment for brand-scale statements; Geist for body copy; Geist Mono for evidence, status, and utility labels.
 - **Composition:** Bronx-style storefront study expressed through brick, pasted-sign offsets, transit color, open poster fields, chalkboard transitions, strong type, and hairline menu structure. This is a visual direction, not a claim that Bodega or its owners originated in the Bronx. Avoid generic card grids and decorative UI boxes.
