@@ -8,10 +8,10 @@
 
 - **Primary mark:** supplied horizontal `BODEGA CAFE / VIRGINIA BEACH` wordmark.
 - **Secondary mark:** supplied circular cup-and-waveform seal.
-- **Signature motion:** one route line becomes an audio waveform; tap produces one quick signal sweep.
-- **Palette:** studio black `#090909`, cafe paper `#F7F2E8`, chalk white `#FFFDF7`, lavender `#B695E7`, sky `#86B8EE`, bloom pink `#EFAAC8`, pollen `#F0C34F`, leaf `#A8C8A0`.
+- **Signature motion:** the circular cup-and-wave seal rolls like a record across a storefront rail; tap produces one quick scratch response.
+- **Palette:** studio black `#090909`, brick `#7A3028`, cafe paper `#F7F2E8`, chalk white `#FFFDF7`, lavender `#B695E7`, sky `#86B8EE`, bloom pink `#EFAAC8`, pollen `#F0C34F`, leaf `#A8C8A0`.
 - **Typography:** heavy geometric display treatment for brand-scale statements; Geist for body copy; Geist Mono for evidence, status, and utility labels.
-- **Composition:** open poster fields, chalkboard transitions, strong type, and hairline menu structure. Avoid generic card grids and decorative UI boxes.
+- **Composition:** Bronx-style storefront study expressed through brick, pasted-sign offsets, transit color, open poster fields, chalkboard transitions, strong type, and hairline menu structure. This is a visual direction, not a claim that Bodega or its owners originated in the Bronx. Avoid generic card grids and decorative UI boxes.
 
 ## Registered review assets
 

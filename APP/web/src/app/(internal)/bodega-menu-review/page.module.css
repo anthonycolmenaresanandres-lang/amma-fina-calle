@@ -9,6 +9,7 @@
   --pink: #efaac8;
   --pollen: #f0c34f;
   --leaf: #a8c8a0;
+  --brick: #7a3028;
   min-height: 100dvh;
   overflow: hidden;
   background:
@@ -89,9 +90,11 @@
   margin-inline: -1.15rem;
   overflow: hidden;
   background:
-    radial-gradient(circle at 82% 18%, rgba(134, 184, 238, 0.16), transparent 18rem),
-    radial-gradient(circle at 20% 92%, rgba(239, 170, 200, 0.09), transparent 22rem),
-    var(--ink);
+    linear-gradient(90deg, transparent 0 48%, rgba(255, 253, 247, 0.055) 48% 50%, transparent 50%),
+    linear-gradient(0deg, transparent 0 47%, rgba(255, 253, 247, 0.05) 47% 51%, transparent 51%),
+    radial-gradient(circle at 82% 18%, rgba(134, 184, 238, 0.14), transparent 18rem),
+    linear-gradient(145deg, #170d0c 0%, var(--brick) 47%, #160b0a 100%);
+  background-size: 7.5rem 3.7rem, 7.5rem 3.7rem, auto, auto;
   padding: clamp(2.4rem, 7vw, 6rem) 1.15rem clamp(3rem, 7vw, 5.5rem);
   color: var(--chalk);
 }
@@ -103,7 +106,13 @@
 }
 
 .wordmarkFrame {
+  position: relative;
   width: min(100%, 58rem);
+  background: var(--ink);
+  box-shadow:
+    0.55rem 0.55rem 0 var(--pollen),
+    1.1rem 1.1rem 0 rgba(9, 9, 9, 0.78);
+  transform: rotate(-0.65deg);
 }
 
 .wordmarkImage {
@@ -112,32 +121,75 @@
   height: auto;
 }
 
-.sealFrame {
+.streetStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  margin: clamp(2.75rem, 7vw, 5.5rem) auto 0;
+  max-width: 68rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.57rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.streetStrip span {
+  background: var(--ink);
+  padding: 0.55rem 0.68rem;
+}
+
+.streetStrip span:nth-child(1) {
+  color: var(--pollen);
+}
+
+.streetStrip span:nth-child(2) {
+  background: var(--sky);
+  color: var(--ink);
+  transform: rotate(1.5deg);
+}
+
+.streetStrip span:nth-child(3) {
+  background: var(--chalk);
+  color: var(--brick);
+  transform: rotate(-1deg);
+}
+
+.sealStage {
+  --seal-travel: min(24vw, 10rem);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  margin: clamp(1.75rem, 5vw, 3.5rem) auto 0;
+  max-width: 68rem;
+  min-height: clamp(13rem, 35vw, 20rem);
+  place-items: center;
+}
+
+.sealTrack {
   position: absolute;
   right: 0;
-  bottom: -1.15rem;
-  width: clamp(5rem, 18vw, 10rem);
-  aspect-ratio: 1;
-  filter: drop-shadow(0 0.8rem 1.8rem rgba(0, 0, 0, 0.34));
-  overflow: hidden;
-  clip-path: circle(47.5% at 50% 50%);
+  left: 0;
+  top: 50%;
+  height: 1rem;
+  background:
+    linear-gradient(
+      to bottom,
+      var(--pollen) 0 18%,
+      transparent 18% 37%,
+      var(--sky) 37% 63%,
+      transparent 63% 82%,
+      var(--chalk) 82% 100%
+    );
+  box-shadow: 0 0.5rem 0 rgba(9, 9, 9, 0.6);
+  opacity: 0.9;
+  transform: rotate(-1deg);
 }
 
-.sealImage {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.routeField {
+.sealButton {
   position: relative;
-  margin: clamp(2.6rem, 7vw, 5.25rem) auto 0;
-  max-width: 70rem;
-}
-
-.routeButton {
-  position: relative;
+  z-index: 2;
   display: block;
   width: 100%;
   appearance: none;
@@ -149,129 +201,100 @@
   touch-action: manipulation;
 }
 
-.routeButton:focus-visible {
-  outline: 3px solid var(--pink);
-  outline-offset: 0.35rem;
+.sealButton:focus-visible {
+  outline: 4px solid var(--pollen);
+  outline-offset: 0.45rem;
 }
 
-.routeSvg {
-  position: relative;
+.sealTraveler {
+  animation: sealRide 7.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  display: block;
+  margin: 0 auto;
+  width: clamp(8.5rem, 25vw, 14rem);
+  aspect-ratio: 1;
+}
+
+.sealDisc,
+.sealDiscHit {
   display: block;
   width: 100%;
-  filter: drop-shadow(0 8px 0 rgba(134, 184, 238, 0.12));
-  transition:
-    filter 220ms ease,
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  height: 100%;
+  overflow: hidden;
+  border: 0.55rem solid var(--chalk);
+  border-radius: 50%;
+  background: var(--chalk);
+  box-shadow:
+    0 0 0 0.45rem var(--ink),
+    0.75rem 0.95rem 0 rgba(9, 9, 9, 0.65),
+    0 1.7rem 2.5rem rgba(9, 9, 9, 0.34);
+  clip-path: circle(50% at 50% 50%);
 }
 
-.routePath {
-  animation: drawRoute 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-  stroke: var(--sky);
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+.sealDisc {
+  animation: sealSpin 7.6s linear infinite;
 }
 
-.routeSignal {
-  animation: runSignal 4.4s linear 1.15s infinite;
-  opacity: 0;
-  stroke: var(--pollen);
-  stroke-dasharray: 0.055 0.945;
-  stroke-dashoffset: 1;
+.sealDiscHit {
+  animation: sealScratch 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.routeHit {
-  animation: beatHit 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  opacity: 0;
-  stroke: var(--pink);
-  stroke-dasharray: 0.18 0.82;
-  stroke-dashoffset: 1;
-}
-
-.routeNodeStart,
-.routeNodeEnd {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.routeNodeStart {
-  animation: nodePulse 4.4s ease-in-out 1.15s infinite;
-  fill: var(--pink);
-}
-
-.routeNodeEnd {
-  animation: nodePulse 4.4s ease-in-out 3.35s infinite;
-  fill: var(--pollen);
-}
-
-.routeButton:active .routeSvg {
-  filter: drop-shadow(0 4px 0 rgba(134, 184, 238, 0.16));
-  transform: scaleY(0.96);
-}
-
-.routeHint {
+.movingSealImage {
   display: block;
-  margin-top: 0.45rem;
-  color: rgba(255, 253, 247, 0.48);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sealButton:active .sealTraveler {
+  filter: brightness(1.08);
+}
+
+.sealHint {
+  position: absolute;
+  z-index: 3;
+  bottom: -0.15rem;
+  background: var(--ink);
+  padding: 0.45rem 0.62rem;
+  color: var(--pink);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 0.54rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-align: center;
+  font-size: 0.55rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-@keyframes drawRoute {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes runSignal {
-  0% {
-    opacity: 0;
-    stroke-dashoffset: 1;
-  }
-
-  10%,
-  78% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes beatHit {
-  0% {
-    opacity: 0;
-    stroke-dashoffset: 1;
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes nodePulse {
+@keyframes sealRide {
   0%,
-  68%,
   100% {
-    transform: scale(1);
+    transform: translateX(calc(-1 * var(--seal-travel)));
   }
 
-  76% {
-    transform: scale(1.65);
+  50% {
+    transform: translateX(var(--seal-travel));
+  }
+}
+
+@keyframes sealSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sealScratch {
+  0% {
+    transform: rotate(0deg) scale(1);
   }
 
-  84% {
-    transform: scale(1);
+  28% {
+    transform: rotate(-24deg) scale(1.08);
+  }
+
+  58% {
+    transform: rotate(16deg) scale(0.98);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
   }
 }
 
@@ -660,12 +683,12 @@
 }
 
 @media (hover: hover) {
-  .routeButton:hover .routeSignal {
-    animation-duration: 2.2s;
-  }
-
-  .routeButton:hover .routeSvg {
-    filter: drop-shadow(0 12px 0 rgba(134, 184, 238, 0.16));
+  .sealButton:hover .sealDisc,
+  .sealButton:hover .sealDiscHit {
+    box-shadow:
+      0 0 0 0.45rem var(--ink),
+      0.9rem 1.1rem 0 var(--pollen),
+      0 1.7rem 2.5rem rgba(9, 9, 9, 0.4);
   }
 }
 
@@ -725,14 +748,14 @@
     flex-wrap: wrap;
   }
 
-  .sealFrame {
-    right: 0.2rem;
-    bottom: -4rem;
-    width: 4.75rem;
+  .wordmarkFrame {
+    box-shadow:
+      0.3rem 0.35rem 0 var(--pollen),
+      0.65rem 0.75rem 0 rgba(9, 9, 9, 0.78);
   }
 
-  .routeField {
-    margin-top: 6rem;
+  .sealStage {
+    --seal-travel: 18vw;
   }
 
   .item {
@@ -741,30 +764,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .routePath,
-  .routeSignal,
-  .routeHit,
-  .routeNodeStart,
-  .routeNodeEnd {
+  .sealTraveler,
+  .sealDisc,
+  .sealDiscHit {
     animation: none;
-  }
-
-  .routePath {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-  }
-
-  .routeSignal,
-  .routeHit {
-    opacity: 0;
-  }
-
-  .routeSvg {
-    transition: none;
-  }
-
-  .routeButton:active .routeSvg {
-    filter: drop-shadow(0 8px 0 rgba(134, 184, 238, 0.12));
     transform: none;
   }
 }

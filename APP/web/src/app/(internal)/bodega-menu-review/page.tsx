@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
-import { RouteBecomesRhythm } from "./route-becomes-rhythm";
+import { MovingBodegaSeal } from "./moving-bodega-seal";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ export default function BodegaMenuReviewPage() {
 
       <div className={styles.shell}>
         <div className={styles.utilityRow}>
-          <span>Virginia Beach / cafecito / sound</span>
+          <span>Bronx-style storefront study / owner review</span>
           <a href="#review-notes">Evidence notes</a>
         </div>
 
@@ -45,25 +45,19 @@ export default function BodegaMenuReviewPage() {
                 width={1590}
               />
             </div>
-            <div className={styles.sealFrame}>
-              <Image
-                alt="Bodega Cafe cup and waveform seal"
-                className={styles.sealImage}
-                height={720}
-                src="/assets/bodega/review/bodega-round-seal-review.webp"
-                width={720}
-              />
-            </div>
           </div>
 
-          <div className={styles.routeField}>
-            <RouteBecomesRhythm />
-            <span className={styles.routeHint}>Tap the line / catch the signal</span>
+          <div className={styles.streetStrip} aria-label="Bronx-inspired visual direction">
+            <span>BX STYLE STUDY</span>
+            <span>CAFECITO</span>
+            <span>VIRGINIA BEACH</span>
           </div>
+
+          <MovingBodegaSeal />
 
           <div className={styles.heroCopy}>
             <div>
-              <span className={styles.storyLabel}>The house line</span>
+              <span className={styles.storyLabel}>The storefront signal</span>
               <p className={styles.officialLead}>{publishedBusinessDetails.lead}.</p>
             </div>
             <div>

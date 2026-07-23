@@ -1227,3 +1227,34 @@ Next / handoff to:
 - Bodega owners -> provide the current menu/prices, transparent logo files, written logo-use approval, and one verified event title/destination before public release.
 Blocked:
 - Public release remains intentionally blocked on owner assets/content/approval and Anthony's separate release authorization.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega moving-seal Bronx storefront hero
+Picking up:
+- Replace the menu hero's route-wave line with the circular cup-and-wave seal and strengthen the visual direction toward Bronx/New York storefront energy.
+Authority:
+- Anthony directly requested this hero revision.
+Plan locked:
+- Remove the route-wave component from the Bodega menu hero and make the supplied circular logo the single moving signature.
+- Animate the seal as a rolling record/storefront signal with tap feedback, keyboard access, and a static reduced-motion fallback.
+- Add brick, transit color, and handbill/type rhythm as a clearly labeled Bronx-style visual study; do not claim the owners or business originated in the Bronx.
+Boundaries:
+- Touch only the Bodega menu hero component/styles, Bodega style registry, and this handoff log.
+- Preserve menu data, prices-withheld labels, review caveats, `noindex`, game behavior, other clients, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Moving-seal hero verified locally
+Did:
+- Replaced the beat-line SVG with the supplied circular Bodega Cafe seal as the hero's single moving signature.
+- Added a rolling record-style travel loop, a tap/click scratch response, keyboard activation, and a fully static reduced-motion fallback.
+- Shifted the hero toward a Bronx storefront study with brick, posted-sign offsets, handbill tags, and a transit-color rail; documentation explicitly treats this as visual direction, not an origin claim.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA at 390px and 1440px: no horizontal overflow; official seal visible; old SVG path count zero; accessible motion button present.
+- Interaction QA: tap changed the seal to the scratch animation state. Reduced-motion QA: traveler, spin, and tap animations computed to `none`.
+- Review route retained `noindex, nofollow, nocache`; no browser page errors occurred.
+State:
+- Changes remain local on `codex/bodega-identity-rhythm-20260722`; screenshots remain untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the local hero evidence and separately authorize a preview push if desired.
+Blocked:
+- Public release remains intentionally blocked pending Bodega owner content/assets approval and Anthony's release authorization.
