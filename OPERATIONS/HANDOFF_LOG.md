@@ -1258,3 +1258,33 @@ Next / handoff to:
 - Anthony -> review the local hero evidence and separately authorize a preview push if desired.
 Blocked:
 - Public release remains intentionally blocked pending Bodega owner content/assets approval and Anthony's release authorization.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega single-logo correction
+Picking up:
+- Correct the identity hierarchy: the circular cup-and-wave seal is Bodega's only logo; the rectangular artwork is promotional branding, not an identity mark.
+Authority:
+- Anthony directly clarified the logo rule and requested the circular design replace the line treatment.
+Plan locked:
+- Remove the promotional wordmark from the menu hero and lead with the moving circular seal.
+- Preserve Bronx/New York storefront character through material, type, color, and motion only.
+- Update the asset registry so future work cannot mistake promotional artwork for the Bodega logo.
+Boundaries:
+- Touch only the Bodega menu hero/styles, Bodega identity registry, and this handoff log.
+- Preserve menu content, game behavior, review caveats, `noindex`, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega single-logo correction verified
+Did:
+- Removed the rectangular promotional wordmark from the hero and made the circular cup-and-wave seal the only visible Bodega identity mark.
+- Enlarged the seal, kept its storefront-rail travel, and removed continuous rotation so the logo stays upright and readable; tap retains a brief scratch response.
+- Reclassified the rectangular artwork as promotional reference only and explicitly prohibited its use as the business logo.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA found exactly one page image, the circular seal; zero old SVG paths; `noindex, nofollow, nocache`; and no browser page errors.
+- 390px and 1440px widths matched their viewports. Ambient seal animation remained upright while the traveler moved; tap activated `sealScratch`; reduced-motion disabled both animations.
+State:
+- Correction remains local on `codex/bodega-identity-rhythm-20260722`; visual evidence remains untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the corrected single-logo hero and authorize a preview push separately if desired.
+Blocked:
+- Public release remains blocked pending owner content/logo approval and Anthony's release authorization.

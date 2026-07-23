@@ -99,34 +99,12 @@
   color: var(--chalk);
 }
 
-.brandLockup {
-  position: relative;
-  margin: 0 auto;
-  max-width: 66rem;
-}
-
-.wordmarkFrame {
-  position: relative;
-  width: min(100%, 58rem);
-  background: var(--ink);
-  box-shadow:
-    0.55rem 0.55rem 0 var(--pollen),
-    1.1rem 1.1rem 0 rgba(9, 9, 9, 0.78);
-  transform: rotate(-0.65deg);
-}
-
-.wordmarkImage {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .streetStrip {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
   align-items: center;
-  margin: clamp(2.75rem, 7vw, 5.5rem) auto 0;
+  margin: clamp(1.75rem, 4vw, 3rem) auto 0;
   max-width: 68rem;
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.57rem;
@@ -157,13 +135,13 @@
 }
 
 .sealStage {
-  --seal-travel: min(24vw, 10rem);
+  --seal-travel: min(22vw, 9rem);
   position: relative;
   display: grid;
   justify-items: center;
-  margin: clamp(1.75rem, 5vw, 3.5rem) auto 0;
+  margin: 0 auto;
   max-width: 68rem;
-  min-height: clamp(13rem, 35vw, 20rem);
+  min-height: clamp(17rem, 42vw, 25rem);
   place-items: center;
 }
 
@@ -210,7 +188,7 @@
   animation: sealRide 7.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   display: block;
   margin: 0 auto;
-  width: clamp(8.5rem, 25vw, 14rem);
+  width: clamp(12rem, 32vw, 20rem);
   aspect-ratio: 1;
 }
 
@@ -228,10 +206,6 @@
     0.75rem 0.95rem 0 rgba(9, 9, 9, 0.65),
     0 1.7rem 2.5rem rgba(9, 9, 9, 0.34);
   clip-path: circle(50% at 50% 50%);
-}
-
-.sealDisc {
-  animation: sealSpin 7.6s linear infinite;
 }
 
 .sealDiscHit {
@@ -271,12 +245,6 @@
 
   50% {
     transform: translateX(var(--seal-travel));
-  }
-}
-
-@keyframes sealSpin {
-  to {
-    transform: rotate(360deg);
   }
 }
 
@@ -746,12 +714,6 @@
 @media (max-width: 30rem) {
   .utilityRow {
     flex-wrap: wrap;
-  }
-
-  .wordmarkFrame {
-    box-shadow:
-      0.3rem 0.35rem 0 var(--pollen),
-      0.65rem 0.75rem 0 rgba(9, 9, 9, 0.78);
   }
 
   .sealStage {

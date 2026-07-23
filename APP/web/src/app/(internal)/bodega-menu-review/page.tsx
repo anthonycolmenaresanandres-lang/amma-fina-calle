@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
 import { MovingBodegaSeal } from "./moving-bodega-seal";
@@ -34,26 +33,13 @@ export default function BodegaMenuReviewPage() {
         </div>
 
         <header className={styles.hero}>
-          <div className={styles.brandLockup}>
-            <div className={styles.wordmarkFrame}>
-              <Image
-                alt="Bodega Cafe Virginia Beach wordmark"
-                className={styles.wordmarkImage}
-                height={780}
-                priority
-                src="/assets/bodega/review/bodega-wordmark-review.webp"
-                width={1590}
-              />
-            </div>
-          </div>
+          <MovingBodegaSeal />
 
           <div className={styles.streetStrip} aria-label="Bronx-inspired visual direction">
             <span>BX STYLE STUDY</span>
             <span>CAFECITO</span>
             <span>VIRGINIA BEACH</span>
           </div>
-
-          <MovingBodegaSeal />
 
           <div className={styles.heroCopy}>
             <div>
