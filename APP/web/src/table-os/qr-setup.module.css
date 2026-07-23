@@ -140,6 +140,24 @@
   line-height: 1.4;
 }
 
+.download {
+  display: inline-block;
+  margin-top: 0.85rem;
+  border-bottom: 2px solid currentColor;
+  color: #061618;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.download:hover,
+.download:focus-visible {
+  color: #a33b3d;
+}
+
 @media print {
   @page {
     size: letter portrait;
@@ -165,5 +183,9 @@
     border: 1px dashed #666;
     background: #fff;
     padding: 0.12in;
+  }
+
+  .download {
+    display: none;
   }
 }

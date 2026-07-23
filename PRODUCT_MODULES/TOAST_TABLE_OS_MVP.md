@@ -23,6 +23,14 @@ Toast remains the order and payment system of record. Fina Calle never collects 
 
 Adding a restaurant should not change `table-os/game/`, `realtime.ts`, `toast.ts`, or the route contract. Add its menu dataset, venue configuration, approved skin, and Toast destinations.
 
+## Production route and QR contract
+
+- Permanent guest URL: `https://finacalleos.com/table/[venueId]/[tableId]`.
+- Owner setup URL: `https://finacalleos.com/table-os/[venueId]`.
+- The owner setup page creates high-correction PNG downloads and a printable sheet locally in the browser.
+- Each physical table receives its own numbered QR. The QR destination does not change when menu art, Toast URLs, or the approved game skin changes.
+- Restaurant customization is limited to menu data, venue configuration, approved brand art, approved game direction, and verified Toast destinations. The shared route, QR, realtime, and game engine remain stable.
+
 ## Maracaibo preview state
 
 - Verified: Maracaibo has public Toast ordering at `https://www.toasttab.com/local/order/maracaibo-bistro`.

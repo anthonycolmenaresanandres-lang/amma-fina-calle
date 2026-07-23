@@ -17,6 +17,7 @@ Never ask for or store a Toast password, card number, bank detail, API secret, o
 7. Confirmation from Toast/owner that Mobile Order & Pay is active.
 8. One Toast Mobile Order & Pay destination per table.
 9. Approved game colors, country choices, copy, duration, and age/accessibility requirements.
+10. Approved QR placement map: table number/label, physical location, and whether a front-counter demo QR is needed.
 
 ## Build procedure
 
@@ -26,9 +27,19 @@ Never ask for or store a Toast password, card number, bank detail, API secret, o
 4. Add the public Toast ordering URL as the safe preview fallback.
 5. Apply approved skin/color tokens only; do not alter game mechanics.
 6. Review `/table/[venueId]/1` at phone and desktop widths.
-7. Review `/table-os/[venueId]`, set the draft table count, and inspect every destination.
+7. Review `/table-os/[venueId]`, set the draft table count, inspect every destination, and download the numbered PNG files.
 8. After the owner supplies verified per-table Toast URLs, add them to `tableOrderPayUrls`.
 9. Set `tableOrderPayStatus` to `READY` only after every mapped table opens the correct Toast table.
+
+## Standard QR deliverables
+
+- One production PNG per confirmed table, named `[venueId]-table-[number]-qr.png`.
+- One optional front-counter demo QR, only when the owner approves its destination and placement.
+- One printable owner sheet for installation and replacement.
+- Recommended finished size: 2.5-3.5 inches on tables or 4-6 inches on a wall, with the QR quiet zone preserved.
+- Use matte, high-contrast material and keep the code flat, unobstructed, and away from glare.
+- Before printing, scan every code on both iOS and Android at close, normal seated, and angled distances.
+- Record final table labels and placements. A table-map change requires re-verification before installation.
 
 ## Verification gate
 
@@ -38,6 +49,7 @@ Never ask for or store a Toast password, card number, bank detail, API secret, o
 - Public Toast fallback opens in a new tab and the preview does not claim pay-at-table.
 - Each configured table-specific Toast URL opens the matching table.
 - QR remains readable at intended print size and resolves to the exact stable route.
+- Every PNG download uses the correct venue/table filename and production destination.
 - Two phones on the same table see the same score and timer.
 - Duplicate role selection produces a visible warning.
 - With Realtime unavailable, local practice still loads.

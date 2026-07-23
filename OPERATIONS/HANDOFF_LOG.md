@@ -1417,3 +1417,20 @@ Blocked:
 - State: implementation complete for owner review; draft PR intentionally not merged.
 - Next owner inputs: confirm current menu/prices, final table count/labels, approved brand/game art, active Toast Mobile Order & Pay, and one Toast destination per table.
 - Production stop: Anthony must separately approve making the PR ready/merging main after owner inputs and final live activation review.
+
+## [CHECK-IN] Codex - 2026-07-23 - Table OS production review release
+
+- Authority: Anthony explicitly requested a live Fina Calle release, a standardized restaurant-ready product, and downloadable QR deliverables.
+- Route contract: `https://finacalleos.com/table/[venueId]/[tableId]`; restaurant menu, art, Toast destinations, and game direction remain configurable behind the stable route.
+- Added release scope: individual high-correction PNG downloads, printable QR sheet, filename/placement standards, and a repeatable restaurant intake checklist.
+- Safety boundary: Maracaibo remains an unlinked `noindex` owner-review experience. Do not claim owner approval or active Toast pay-at-table.
+- Release gate: targeted ESLint, `tsc --noEmit`, production build, route/browser verification, remote CI, mergeability, production deployment, and live-domain verification must pass.
+- Still prohibited: Toast-account changes, credentials, money movement, owner contact, final physical printing, and unsupported capability claims.
+
+## [RELEASE GATE] Codex - 2026-07-23 - Downloadable QR package verified
+
+- Added 12 locally generated high-correction PNG downloads for the draft Maracaibo table set, named `maracaibo-table-1-qr.png` through `maracaibo-table-12-qr.png`.
+- Local browser evidence: 12 QR images and 12 download controls render; PNG sources are local `data:image/png;base64` values; the setup route has no horizontal overflow at phone width.
+- Guest-route evidence: owner-review warning, exact public Toast fallback, and `noindex, nofollow, nocache` remain present.
+- Code gates: targeted ESLint, `tsc --noEmit`, optimized production build, `git diff --check`, and secret-pattern scan pass.
+- Next: push the release commit, wait for remote checks, promote PR #181 from draft, merge under Anthony's explicit production authorization, then verify the live Fina Calle domain.

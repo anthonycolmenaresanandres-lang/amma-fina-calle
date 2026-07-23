@@ -60,7 +60,7 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
         <h1>One permanent QR<br />for every table.</h1>
         <p>
           These codes always open the Fina Calle table route. Change menu art, game skin, or Toast destinations later
-          without reprinting the QR.
+          without reprinting the QR. Download individual PNG files or print the full sheet.
         </p>
         <label>
           Draft table count
@@ -98,6 +98,14 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
               <h2>Table {card.table}</h2>
               <p>MENU · ORDER · PLAY</p>
               <small>{card.destination}</small>
+              <a
+                className={styles.download}
+                href={card.dataUrl}
+                download={`${venue.id}-table-${card.table}-qr.png`}
+                aria-label={`Download QR code for ${venue.name} table ${card.table}`}
+              >
+                Download PNG
+              </a>
             </div>
           </article>
         ))}
