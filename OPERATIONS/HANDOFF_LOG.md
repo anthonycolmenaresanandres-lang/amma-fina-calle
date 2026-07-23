@@ -1289,6 +1289,36 @@ Next / handoff to:
 Blocked:
 - Public release remains blocked pending owner content/logo approval and Anthony's release authorization.
 
+### [CHECK-IN] Codex - 2026-07-23 - Full-surface borderless Bodega hero release
+Picking up:
+- Make the logo itself fill the hero treatment, remove both visible circular outlines, blend the source image into a white background, then publish and merge after verification.
+Authority:
+- Anthony directly approved the scoped visual change, push, and merge on 2026-07-23.
+Plan locked:
+- Remove the CSS border/shadow and cover only the baked perimeter ring with a white inset mask; do not regenerate or alter the logo lettering, cup, or waveform.
+- Let the logo fill the hero height on a seamless white field while preserving internal waveform motion and reduced-motion behavior.
+- Run lint, typecheck, build, responsive/reduced-motion browser QA, push the exact branch head, merge through GitHub, then verify the resulting production route and deployment state.
+Boundaries:
+- Touch only the Bodega hero styles, Bodega identity registry, and operations log before release.
+- Keep `APP/web/output/` untracked; preserve all post-hero content, menu data, game behavior, `noindex`, other routes, secrets, access, billing, and database state.
+
+### [CHECK-OUT] Codex - 2026-07-23 - Borderless white hero locally verified for release
+Did:
+- Replaced the brick hero field with seamless white and let the logo define the full hero height: 390px on the 390px viewport and 768px on desktop.
+- Removed the CSS border and all shadow treatments; clipped the source corners and covered the baked perimeter ring with a measured white ellipse while preserving the logo lettering, cup, Virginia Beach line, and heartbeat endpoints.
+- Preserved motion only on the two internal heartbeat paths and retained a static original waveform under reduced motion.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA at 390px and 1440px: document width matched viewport, hero text was empty, logo width equaled hero height, background was pure white, CSS border was `0px`, shadow was `none`, and no page errors occurred.
+- Former top and bottom ring sample pixels rendered `255,255,255`; two internal waveform paths remained animated. Reduced-motion QA set both path animations to `none` and opacity to `0`; `noindex, nofollow, nocache` remained intact.
+State:
+- Anthony authorized push and merge. The exact local release head will be committed and published only after these gates; `APP/web/output/` remains untracked and excluded.
+- No secret, access, billing, database, or client-contact change is included.
+Next / handoff to:
+- Codex -> commit the exact verified scope, push the branch, open a ready PR, merge under an exact-head lock, and verify the resulting production deployment and live review route.
+Blocked:
+- None for the authorized scoped release; stop if the branch head, production base, required checks, mergeability, deployment state, or live behavior changes unexpectedly.
+
 ### [CHECK-IN] Codex - 2026-07-22 - Internal-waveform-only hero motion
 Picking up:
 - Strip the Bodega hero to the circular logo alone and move only the heartbeat lines printed inside the bottom of the mark.
