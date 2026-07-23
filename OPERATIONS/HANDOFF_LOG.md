@@ -1348,3 +1348,35 @@ Next / handoff to:
 - Anthony -> review the internal-waveform-only hero and authorize a preview push separately if desired.
 Blocked:
 - Public release remains blocked pending owner content/logo approval and Anthony's release authorization.
+
+### [CHECK-IN] Codex - 2026-07-23 - Bodega cup-beat and gold-flash cue
+Picking up:
+- Extend the internal logo motion so the rhythm line travels, the cup moves with the beat, and the sequence ends in one golden flash.
+Authority:
+- Anthony directly requested this motion change on 2026-07-23.
+Plan locked:
+- Keep the logo and white hero fixed; animate only traced SVG overlays aligned to the internal left/right heartbeat and cup.
+- Use one finite 4.8-second sequence: waveform travel, two restrained cup beats, gold resolution, then static rest.
+- Preserve the original raster underneath and hide all motion overlays under reduced motion.
+Boundaries:
+- Touch only the Bodega signal component, Bodega menu hero motion styles, Bodega identity registry, and this handoff log.
+- Preserve the borderless hero, logo lettering, baked-image masking, post-hero content, menu/game behavior, `noindex`, production, public navigation, and `APP/web/output/`.
+- No push, PR, merge, or deployment without separate release authorization.
+
+### [CHECK-OUT] Codex - 2026-07-23 - Cup-beat and gold-flash cue verified locally
+Did:
+- Added traced cup motion to the existing two internal waveform pulses without moving the raster logo or white hero.
+- Replaced the infinite pulse loop with one coordinated 4.8-second cue: waveform travel, two cup beats, gold line resolution, transparent radial gold flash, then static rest.
+- Kept the original logo visible underneath every phase and removed every motion overlay for reduced-motion users.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Frame QA at 900ms, 1500ms, 3840ms, and 4800ms verified waveform, cup beat, transparent gold flash with the cup still visible, and clean final rest.
+- Browser runtime reported four animations, each duration `4800`, iterations `1`, and final state `finished`; all four overlay opacities resolved to `0` while the logo transform remained `none`.
+- 390px and 1440px document widths matched their viewports; reduced motion computed all overlay animations to `none` and opacity to `0`; `noindex, nofollow, nocache` remained intact; no browser page errors occurred.
+State:
+- Work remains local on `codex/bodega-golden-flash-20260723`; `APP/web/output/` contains untracked QA evidence and remains excluded.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the frame evidence and separately authorize preview publication or production release if desired.
+Blocked:
+- Production intentionally remains unchanged pending separate release authorization.

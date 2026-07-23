@@ -142,10 +142,11 @@
   stroke-width: 12;
 }
 
-.waveformMotion path {
-  animation: waveformSignal 2.8s linear infinite;
+.waveformPulse {
+  animation: waveformSignal 4.8s cubic-bezier(0.4, 0, 0.2, 1) 1 both;
   fill: none;
   filter: drop-shadow(0 0 0.12rem rgba(122, 48, 40, 0.55));
+  opacity: 0;
   stroke: var(--brick);
   stroke-dasharray: 17 83;
   stroke-dashoffset: 0;
@@ -154,13 +155,131 @@
   stroke-width: 7;
 }
 
-.waveformMotion path:last-child {
-  animation-delay: -1.4s;
+.cupMotion {
+  animation: cupBeat 4.8s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+  fill: none;
+  opacity: 0;
+  stroke: var(--brick);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 7;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.goldenFlash {
+  animation: goldenResolve 4.8s cubic-bezier(0.16, 1, 0.3, 1) 1 both;
+  filter:
+    drop-shadow(0 0 0.8rem rgba(240, 195, 79, 1))
+    drop-shadow(0 0 2.4rem rgba(240, 195, 79, 0.72));
+  opacity: 0;
+  stroke: var(--pollen);
+  stroke-width: 8;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 @keyframes waveformSignal {
-  to {
-    stroke-dashoffset: -100;
+  0%,
+  8% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+
+  12%,
+  60% {
+    opacity: 1;
+  }
+
+  66% {
+    opacity: 0.9;
+    stroke: var(--brick);
+    stroke-dashoffset: -135;
+  }
+
+  76% {
+    opacity: 1;
+    stroke: var(--pollen);
+    stroke-dashoffset: -150;
+  }
+
+  90%,
+  100% {
+    opacity: 0;
+    stroke: var(--pollen);
+    stroke-dashoffset: -160;
+  }
+}
+
+@keyframes cupBeat {
+  0%,
+  24% {
+    opacity: 0;
+    stroke-dashoffset: 100;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  31% {
+    opacity: 0.95;
+    stroke-dashoffset: 0;
+    transform: translateY(-0.55rem) rotate(-1.5deg);
+  }
+
+  39% {
+    opacity: 0.85;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  48% {
+    opacity: 1;
+    transform: translateY(-0.3rem) rotate(1deg);
+  }
+
+  59% {
+    opacity: 0.9;
+    stroke: var(--brick);
+    transform: translateY(0) rotate(0deg);
+  }
+
+  76% {
+    opacity: 1;
+    stroke: var(--pollen);
+    transform: translateY(0) rotate(0deg);
+  }
+
+  90%,
+  100% {
+    opacity: 0;
+    stroke: var(--pollen);
+    stroke-dashoffset: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes goldenResolve {
+  0%,
+  72% {
+    opacity: 0;
+    transform: scale(0.45);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(0.82);
+  }
+
+  93% {
+    opacity: 0;
+    stroke-width: 2;
+    transform: scale(2.1);
+  }
+
+  100% {
+    opacity: 0;
+    stroke-width: 2;
+    transform: scale(2.1);
   }
 }
 
@@ -584,7 +703,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .waveformMotion path {
+  .waveformPulse,
+  .cupMotion,
+  .goldenFlash {
     animation: none;
     opacity: 0;
   }

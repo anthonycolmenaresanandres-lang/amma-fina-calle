@@ -8,7 +8,7 @@
 
 - **Only identity mark:** supplied circular cup-and-waveform seal. No other supplied artwork may be presented as Bodega's logo.
 - **Promotional artwork:** the supplied horizontal `BODEGA CAFE / VIRGINIA BEACH` treatment is reference material only and must not appear as the business logo.
-- **Signature motion:** the circular seal stays fixed; only the two heartbeat segments printed inside the bottom of the logo carry a restrained traveling pulse. No external lines, labels, or hero copy accompany the mark.
+- **Signature motion:** one finite 4.8-second cue keeps the circular seal fixed while the internal heartbeat travels, the cup answers with two restrained beats, and the lower mark resolves in one gold flash before resting. No loop, external lines, labels, or hero copy accompany the mark.
 - **Hero treatment:** the mark fills a seamless white hero field with no added border, shadow, or visible perimeter rings. The review route masks the baked source ring without regenerating the logo; replace the raster with an owner-supplied clean transparent master before public client approval.
 - **Palette:** studio black `#090909`, brick `#7A3028`, cafe paper `#F7F2E8`, chalk white `#FFFDF7`, lavender `#B695E7`, sky `#86B8EE`, bloom pink `#EFAAC8`, pollen `#F0C34F`, leaf `#A8C8A0`.
 - **Typography:** heavy geometric display treatment for brand-scale statements; Geist for body copy; Geist Mono for evidence, status, and utility labels.
