@@ -1405,3 +1405,15 @@ Blocked:
 - Code gates: targeted ESLint, `tsc --noEmit`, production build, Toast resolver smoke test, `git diff --check`, and secret-pattern scan pass.
 - Dependency remediation: upgraded supported stable Next/eslint config from 16.2.7 to 16.2.11. Residual npm high findings are inherited from stable Next's pinned PostCSS 8.4.31 and optional Sharp ^0.34.5; latest stable still declares them, so no unsupported override or canary upgrade was applied.
 - Stop remains: no production merge, Toast account change, final QR printing, owner contact, client-asset publication, or claim that pay-at-table is active.
+
+## [CHECK-OUT] Codex — 2026-07-23 — Toast Table OS protected preview delivered
+
+- Branch: `codex/maracaibo-table-os-mvp-20260723`
+- Implementation commit: `68258df` (`feat: add reusable Toast Table OS MVP`)
+- Draft PR: `https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/181`
+- Protected Vercel preview: `https://amma-fina-c-git-c9dbc9-anthonycolmenaresanandres-8844s-projects.vercel.app`
+- Preview verification: authenticated Vercel requests returned the table and QR setup HTML with the expected title/copy, noindex metadata, and exact Toast fallback.
+- Remote gates: GitHub `web`, Vercel deployment, and Vercel Preview Comments all pass; merge state is clean.
+- State: implementation complete for owner review; draft PR intentionally not merged.
+- Next owner inputs: confirm current menu/prices, final table count/labels, approved brand/game art, active Toast Mobile Order & Pay, and one Toast destination per table.
+- Production stop: Anthony must separately approve making the PR ready/merging main after owner inputs and final live activation review.
