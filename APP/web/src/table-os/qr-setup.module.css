@@ -1,0 +1,191 @@
+.page {
+  min-height: 100dvh;
+  background: #f4edda;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  color: #061618;
+}
+
+.header {
+  max-width: 68rem;
+  margin: 0 auto 3rem;
+}
+
+.header > span,
+.activation,
+.card span,
+.card p,
+.card small {
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+}
+
+.header > span {
+  color: #a33b3d;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.header h1 {
+  margin-top: 1rem;
+  font-size: clamp(3rem, 9vw, 7rem);
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.header p {
+  max-width: 48rem;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.header label {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.header input {
+  width: 5rem;
+  border: 0;
+  border-bottom: 2px solid #061618;
+  background: transparent;
+  padding: 0.5rem;
+  color: inherit;
+  font: inherit;
+}
+
+.header button {
+  margin-top: 1.25rem;
+  border: 0;
+  background: #061618;
+  padding: 0.9rem 1.2rem;
+  color: #f4edda;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.activation {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 68rem;
+  margin: 0 auto 3rem;
+  border-top: 4px solid #a33b3d;
+  padding-top: 1rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+}
+
+.activation strong {
+  color: #a33b3d;
+}
+
+.sheet {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.25rem;
+  max-width: 68rem;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  background: #fff8e8;
+  padding: 1rem;
+  break-inside: avoid;
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.card span {
+  color: #a33b3d;
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.card h2 {
+  margin-top: 0.25rem;
+  font-size: 2rem;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.card p {
+  margin-top: 0.35rem;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.card small {
+  display: block;
+  overflow-wrap: anywhere;
+  margin-top: 0.8rem;
+  color: #676056;
+  font-size: 0.42rem;
+  line-height: 1.4;
+}
+
+.download {
+  display: inline-block;
+  margin-top: 0.85rem;
+  border-bottom: 2px solid currentColor;
+  color: #061618;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.download:hover,
+.download:focus-visible {
+  color: #a33b3d;
+}
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0.35in;
+  }
+
+  .page {
+    background: #fff;
+    padding: 0;
+  }
+
+  .header,
+  .activation {
+    display: none;
+  }
+
+  .sheet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.2in;
+  }
+
+  .card {
+    border: 1px dashed #666;
+    background: #fff;
+    padding: 0.12in;
+  }
+
+  .download {
+    display: none;
+  }
+}

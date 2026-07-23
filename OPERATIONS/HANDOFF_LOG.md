@@ -1380,3 +1380,57 @@ Next / handoff to:
 - Anthony -> review the frame evidence and separately authorize preview publication or production release if desired.
 Blocked:
 - Production intentionally remains unchanged pending separate release authorization.
+## [CHECK-IN] Codex — 2026-07-23 — Reusable Toast Table OS MVP
+
+- Authority: Anthony directly approved internal implementation, dependencies, verification, commit, push, and a protected preview PR for a reusable Toast restaurant MVP.
+- Scope: actual public Maracaibo menu data; one stable table QR route; Toast-native menu/order/pay handoff; shared multiplayer table-football game; reusable venue/skin configuration; onboarding and verification documentation.
+- Safety: no Toast account changes, credentials, owner contact, money movement, production merge, client-logo publication, or claim that Toast Mobile Order & Pay is enabled.
+- Product boundary: game mechanics remain stable; restaurant menu, brand art, Toast URLs, and game direction are configuration. Camera AR and prizes are deferred.
+- State: implementation started in isolated worktree `C:\Dev\amma\worktrees\maracaibo-table-os-mvp-20260723` on `codex/maracaibo-table-os-mvp-20260723`.
+- Next: verify repo patterns and Next guidance, implement in non-overlapping workstreams, run release gates, push, open protected preview PR, and stop before production.
+
+## [CHECKPOINT] Codex — 2026-07-23 — Toast Table OS integrated locally
+
+- Built: stable venue/table route, actual public-source Maracaibo menu preview, Toast resolver with honest public-order fallback, locally generated printable QR sheet, deterministic 1v1/2v2-capable table-football engine, four-role 2v2 client, Supabase Broadcast/Presence bridge, and browser-local fallback.
+- Reuse boundary: venue menu, Toast URLs, team choices, and skin are configuration; game mechanics, QR route, realtime protocol, and payment boundary stay fixed.
+- Verified: targeted ESLint, `tsc --noEmit`, and `git diff --check` pass.
+- Unknown: owner-confirmed menu/prices, table count, approved assets, and active Toast Mobile Order & Pay table URLs.
+- Next: production build, browser/visual/two-tab verification, remediate, commit, push, protected preview PR, and stop before production merge.
+
+## [RELEASE GATE] Codex — 2026-07-23 — Toast Table OS preview-ready
+
+- Fixed during browser QA: 375px decorative-pitch overflow, view-change scroll retention, React Strict Mode game-mount race, and local two-tab participant count.
+- Browser evidence: 375px and 1425px layouts have no horizontal overflow; 12 QR images resolve to sequential stable table routes; menu renders 12 sections/80 public-source items; game canvas mounts at 343x532; remote player input moves both tabs to `playing`; both tabs show the same score/timer; console error/warn logs are empty.
+- Runtime evidence on Next 16.2.11: valid table route `200`, QR setup `200`, unknown venue `404`, exact Toast fallback present, and robots metadata is `noindex, nofollow, nocache`.
+- Code gates: targeted ESLint, `tsc --noEmit`, production build, Toast resolver smoke test, `git diff --check`, and secret-pattern scan pass.
+- Dependency remediation: upgraded supported stable Next/eslint config from 16.2.7 to 16.2.11. Residual npm high findings are inherited from stable Next's pinned PostCSS 8.4.31 and optional Sharp ^0.34.5; latest stable still declares them, so no unsupported override or canary upgrade was applied.
+- Stop remains: no production merge, Toast account change, final QR printing, owner contact, client-asset publication, or claim that pay-at-table is active.
+
+## [CHECK-OUT] Codex — 2026-07-23 — Toast Table OS protected preview delivered
+
+- Branch: `codex/maracaibo-table-os-mvp-20260723`
+- Implementation commit: `68258df` (`feat: add reusable Toast Table OS MVP`)
+- Draft PR: `https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/181`
+- Protected Vercel preview: `https://amma-fina-c-git-c9dbc9-anthonycolmenaresanandres-8844s-projects.vercel.app`
+- Preview verification: authenticated Vercel requests returned the table and QR setup HTML with the expected title/copy, noindex metadata, and exact Toast fallback.
+- Remote gates: GitHub `web`, Vercel deployment, and Vercel Preview Comments all pass; merge state is clean.
+- State: implementation complete for owner review; draft PR intentionally not merged.
+- Next owner inputs: confirm current menu/prices, final table count/labels, approved brand/game art, active Toast Mobile Order & Pay, and one Toast destination per table.
+- Production stop: Anthony must separately approve making the PR ready/merging main after owner inputs and final live activation review.
+
+## [CHECK-IN] Codex - 2026-07-23 - Table OS production review release
+
+- Authority: Anthony explicitly requested a live Fina Calle release, a standardized restaurant-ready product, and downloadable QR deliverables.
+- Route contract: `https://finacalleos.com/table/[venueId]/[tableId]`; restaurant menu, art, Toast destinations, and game direction remain configurable behind the stable route.
+- Added release scope: individual high-correction PNG downloads, printable QR sheet, filename/placement standards, and a repeatable restaurant intake checklist.
+- Safety boundary: Maracaibo remains an unlinked `noindex` owner-review experience. Do not claim owner approval or active Toast pay-at-table.
+- Release gate: targeted ESLint, `tsc --noEmit`, production build, route/browser verification, remote CI, mergeability, production deployment, and live-domain verification must pass.
+- Still prohibited: Toast-account changes, credentials, money movement, owner contact, final physical printing, and unsupported capability claims.
+
+## [RELEASE GATE] Codex - 2026-07-23 - Downloadable QR package verified
+
+- Added 12 locally generated high-correction PNG downloads for the draft Maracaibo table set, named `maracaibo-table-1-qr.png` through `maracaibo-table-12-qr.png`.
+- Local browser evidence: 12 QR images and 12 download controls render; PNG sources are local `data:image/png;base64` values; the setup route has no horizontal overflow at phone width.
+- Guest-route evidence: owner-review warning, exact public Toast fallback, and `noindex, nofollow, nocache` remain present.
+- Code gates: targeted ESLint, `tsc --noEmit`, optimized production build, `git diff --check`, and secret-pattern scan pass.
+- Next: push the release commit, wait for remote checks, promote PR #181 from draft, merge under Anthony's explicit production authorization, then verify the live Fina Calle domain.
