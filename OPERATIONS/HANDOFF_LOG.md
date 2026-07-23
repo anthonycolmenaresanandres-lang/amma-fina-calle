@@ -1380,3 +1380,28 @@ Next / handoff to:
 - Anthony -> review the frame evidence and separately authorize preview publication or production release if desired.
 Blocked:
 - Production intentionally remains unchanged pending separate release authorization.
+## [CHECK-IN] Codex — 2026-07-23 — Reusable Toast Table OS MVP
+
+- Authority: Anthony directly approved internal implementation, dependencies, verification, commit, push, and a protected preview PR for a reusable Toast restaurant MVP.
+- Scope: actual public Maracaibo menu data; one stable table QR route; Toast-native menu/order/pay handoff; shared multiplayer table-football game; reusable venue/skin configuration; onboarding and verification documentation.
+- Safety: no Toast account changes, credentials, owner contact, money movement, production merge, client-logo publication, or claim that Toast Mobile Order & Pay is enabled.
+- Product boundary: game mechanics remain stable; restaurant menu, brand art, Toast URLs, and game direction are configuration. Camera AR and prizes are deferred.
+- State: implementation started in isolated worktree `C:\Dev\amma\worktrees\maracaibo-table-os-mvp-20260723` on `codex/maracaibo-table-os-mvp-20260723`.
+- Next: verify repo patterns and Next guidance, implement in non-overlapping workstreams, run release gates, push, open protected preview PR, and stop before production.
+
+## [CHECKPOINT] Codex — 2026-07-23 — Toast Table OS integrated locally
+
+- Built: stable venue/table route, actual public-source Maracaibo menu preview, Toast resolver with honest public-order fallback, locally generated printable QR sheet, deterministic 1v1/2v2-capable table-football engine, four-role 2v2 client, Supabase Broadcast/Presence bridge, and browser-local fallback.
+- Reuse boundary: venue menu, Toast URLs, team choices, and skin are configuration; game mechanics, QR route, realtime protocol, and payment boundary stay fixed.
+- Verified: targeted ESLint, `tsc --noEmit`, and `git diff --check` pass.
+- Unknown: owner-confirmed menu/prices, table count, approved assets, and active Toast Mobile Order & Pay table URLs.
+- Next: production build, browser/visual/two-tab verification, remediate, commit, push, protected preview PR, and stop before production merge.
+
+## [RELEASE GATE] Codex — 2026-07-23 — Toast Table OS preview-ready
+
+- Fixed during browser QA: 375px decorative-pitch overflow, view-change scroll retention, React Strict Mode game-mount race, and local two-tab participant count.
+- Browser evidence: 375px and 1425px layouts have no horizontal overflow; 12 QR images resolve to sequential stable table routes; menu renders 12 sections/80 public-source items; game canvas mounts at 343x532; remote player input moves both tabs to `playing`; both tabs show the same score/timer; console error/warn logs are empty.
+- Runtime evidence on Next 16.2.11: valid table route `200`, QR setup `200`, unknown venue `404`, exact Toast fallback present, and robots metadata is `noindex, nofollow, nocache`.
+- Code gates: targeted ESLint, `tsc --noEmit`, production build, Toast resolver smoke test, `git diff --check`, and secret-pattern scan pass.
+- Dependency remediation: upgraded supported stable Next/eslint config from 16.2.7 to 16.2.11. Residual npm high findings are inherited from stable Next's pinned PostCSS 8.4.31 and optional Sharp ^0.34.5; latest stable still declares them, so no unsupported override or canary upgrade was applied.
+- Stop remains: no production merge, Toast account change, final QR printing, owner contact, client-asset publication, or claim that pay-at-table is active.
