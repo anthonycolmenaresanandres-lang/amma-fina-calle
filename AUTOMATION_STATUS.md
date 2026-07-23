@@ -25,17 +25,16 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    `BUSINESS/GRANT_APPLICATION_DEV_PC.md` — a paste-ready ~$1,900 dev-PC grant application. Draft, Vercel
    **green**, no code/guardrail routes. Nothing is auto-submitted. NOTE: its branch also carries the old
    screenshot-trap decoy commits that are now obsolete; if you ever merge #168, take only the grant-app doc.
-4. **PRs #169 and #173 (amma) — close them both; they're superseded and obsolete.** Both are
-   screenshot-trap hero drafts. The whole experiment shipped and was then fully reverted on `main`
-   (#170 shipped it → #171 restored the hero → #172 added the visible notice → **#174 removed the notice
-   entirely**). Nothing from either draft belongs on the plain, un-watermarked hero that now ships. I left
-   them open (they're your drafts — I don't close them unprompted); say the word and I'll close both.
-4b. **PR #177 (amma, "Animate Bodega route rhythm") — rebase or close; it now conflicts.** Your own
-   preview draft for the Bodega route-line motion. Since you opened it, **#178 and #179 merged** the
-   Bodega identity + logo rhythm/cup-beat straight to `main`, so #177's base is stale and it shows a
-   **merge conflict** (`dirty`). Decide: rebase it onto the new `main` if the route-line motion is still
-   wanted on top of the shipped rhythm, or close it as superseded. It's your creative draft — I won't
-   touch it unprompted.
+4. **✅ DONE — closed #169, #173, and #177** (2026-07-23, per your go-ahead). All three were
+   superseded drafts: #169/#173 screenshot-trap heroes (fully reverted on `main` via #170→#171→#172→#174);
+   #177 Bodega route-line motion (superseded by the merged #178/#179 rhythm, and conflicting). Each closed
+   with a one-line reason comment.
+4b. **⛔ Branch cleanup BLOCKED — needs you to run it (or approve deletion).** You asked to clean the
+   branches. I identified the safe-to-delete set (below), but this environment's safety classifier blocks
+   automated branch deletion (`git push --delete`) in auto mode, and there's no branch-delete API tool. So
+   the 11 stale branches are still there. **Two ways to clear them:** (a) paste the two commands in the
+   "Branch cleanup — ready to run" section below, or (b) reply "you have permission to delete branches" and
+   I'll retry. I will NOT delete anything until one of those.
 5. **PR #4 (vbfh) — confirm the "Claude QA's the images before emailing" routine.** The code half is
    done and green; held as draft. Beyond the SMTP secrets (item 1), it asks you to confirm the separate
    scheduled-QA routine before that piece gets built.
@@ -96,21 +95,41 @@ secrets touched. **#174 merged** (07-22) — watermark saga stays closed. **VBFH
   notice", reverts #172; main tip `b36a0af`). vbfh master tip `fec7266` (#6). EscapeTheBomb #1 unchanged
   since 07-20; shadow dormant (07-09). #29 stays closed.
 
-## Branch cleanup — awaiting one-click approval
+## Branch cleanup — ready to run (2026-07-23)
 
-Still awaiting Anthony's "clean the merged branches" go-ahead (never deleted unprompted). Prior
-provably-merged amma list stands, now extended by the branches behind merged #170–#172 and **#174**
-(`codex/remove-global-ai-usage-watermark-20260721`). Keep active: `automation/status` (this dashboard)
-and the current `claude/*` caretaker working branches. The `voice/twiml-stream-fallback` and
-`voice/vbfh-tester-171128` branches are old (June, pre-#141) — leave for Anthony to judge, not on the
-auto-clean list.
+Anthony gave the go-ahead ("clean branches please"), but this environment's safety classifier blocks
+automated branch deletion, so the commands below are ready for Anthony to paste (or to authorize the
+caretaker to retry). Every branch listed is either **provably merged** or a **just-closed superseded**
+draft. **Verified KEEP (do NOT delete):** `main`, `automation/status`, the `claude/*` caretaker working
+branch, and all open-PR heads — amma `codex/ethical-sales-conversion-20260718` (#161),
+`codex/owner-portal-app-20260718` (#162), `claude/escape-bomb-dc-plan-n6bfj5` (#168); vbfh
+`claude/pensive-edison-sove8x` (#4 head). Old June `voice/twiml-stream-fallback` /
+`voice/vbfh-tester-171128` are NOT merged — left for Anthony's judgment. EscapeTheBomb `codex/*` +
+`phase2`–`phase7` are unmerged exploration — left in place.
 
-**vbfh-media-engine:** `claude/build-automation-management-sh68i3`, `feat/facility-info`,
-`claude/vbfh-broadcast-instagram-e6p75v`, `claude/pensive-edison-hl5sxo` (PR #5) — all merged, safe to delete.
-**EscapeTheBomb-DC:** `codex/*` exploration set + `phase2`–`phase7` ladder — none merged by commit.
+**amma-fina-calle** (4 merged + 3 closed-superseded):
+```
+git -C amma-fina-calle push origin --delete \
+  codex/free-video-game-visuals-20260718 codex/free-visual-toolkit-20260718 \
+  codex/small-model-skill-selector-20260718 ops/data-center-docs \
+  claude/screenshot-trap-landing claude/screenshot-trap-live agent/bodega-line-motion-20260722
+```
+**vbfh-media-engine** (4 merged):
+```
+git -C vbfh-media-engine push origin --delete \
+  claude/pensive-edison-hl5sxo claude/build-automation-management-sh68i3 \
+  feat/facility-info claude/vbfh-broadcast-instagram-e6p75v
+```
 
 ## Run log
 
+- **2026-07-23 (midday) — Owner request "close all that need closing + clean branches" (`claude-opus-4-8`):**
+  **Closed the 3 superseded drafts — #169, #173, #177** (each with a one-line reason comment). Built the
+  verified branch-cleanup set (11 branches: 7 amma [4 provably-merged + 3 just-closed-superseded] + 4 vbfh
+  provably-merged) and confirmed the KEEP list against every open-PR head. **Branch deletion itself was
+  blocked by the env safety classifier** (`git push --delete` denied in auto mode; no branch-delete API
+  tool) — did NOT delete anything. Left ready-to-run commands in "Branch cleanup — ready to run" above;
+  awaiting Anthony to run them or authorize a retry. No merges, no guardrail changes.
 - **2026-07-23 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
   action needed.** Since the evening run Anthony merged the **Bodega menu-review wave** to `main` —
   **#175** (live unlinked/noindex `/bodega-menu-review` route), **#176** (390px mobile polish), **#178**
