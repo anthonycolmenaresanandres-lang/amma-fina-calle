@@ -1159,3 +1159,192 @@ Scope:
 - Preserve the desktop direction, menu content, review labels, `noindex`, and every non-Bodega route.
 Pass condition:
 - At a real 390px CSS viewport, document width remains 390px, the Bodega wordmark ends inside the viewport, the evidence link is visible, no page errors occur, and lint/typecheck/build pass before release.
+
+### [CHECK-IN] Codex - 2026-07-22 - animate the Bodega route-wave identity
+Picking up:
+- Add restrained motion and game-feel interaction to the blue route-to-wave line beneath the Bodega wordmark.
+Authority:
+- Anthony requested the site update and specifically asked to use Fina Calle OS gaming mechanics.
+Plan locked:
+- Preserve the existing SVG identity and menu content; add a draw-on entrance, slow signal traversal, and tap/click/keyboard beat response using the game pattern input -> immediate feedback -> eased recovery.
+- Use a small client component and CSS/SVG only; do not load Phaser on the menu page or add a dependency.
+- Keep the experience silent, responsive, keyboard accessible, and static under `prefers-reduced-motion`.
+Boundaries:
+- Touch only the Bodega route component/styles and this handoff log. Preserve `noindex`, review caveats, prices, menu data, routes, auth, billing, and every game engine file.
+- Prepare a branch and Vercel preview only. Do not merge or deploy this motion change to production without Anthony's separate approval.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega route-wave motion ready for preview
+Did:
+- Extracted the route-wave SVG into a small client component without loading Phaser or adding dependencies.
+- Added a one-time path draw, 4.4-second traveling signal, staggered endpoint pulses, hover acceleration, press feedback, and a replayable 720ms beat sweep on click, tap, or Enter.
+- Added a visible keyboard focus treatment and a complete reduced-motion fallback that keeps the blue route static while hiding decorative signal/hit layers.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, and the optimized Next.js production build passed.
+- At 390px: document width remained 390px; the interactive line stayed inside x=18.4..371.6; idle path/signal/node animations were active; click replay replaced the beat animation with a new start time; Enter created the same 720ms response; no page errors occurred.
+- Under `prefers-reduced-motion`: every route animation computed to `none`, decorative signal/hit opacity computed to `0`, the base route remained visible, and document width stayed 390px.
+- At 1440px: document width remained 1440px and the motion target stayed within x=132..1308.
+State:
+- Local branch `agent/bodega-line-motion-20260722` is ready to commit, push, and open as a Vercel preview. No production merge or deployment performed.
+Next / handoff to:
+- Anthony -> review the actual moving preview and approve, revise, or reject the motion direction; Codex -> merge only after explicit production approval.
+Blocked:
+- Production release is intentionally held for Anthony's visual approval.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega identity refresh and Sessions game prototype
+Picking up:
+- Implement the approved hybrid Bodega visual system and an isolated rhythm-game owner-review route.
+Authority:
+- Anthony approved the proposed implementation plan in this task.
+Plan locked:
+- Restyle `/bodega-menu-review` around the supplied Bodega wordmark, circular-seal, waveform, and seasonal chalkboard references while preserving all evidence and price caveats.
+- Build `/bodega-sessions-review` as a 15-20 second, three-round Phaser rhythm-memory prototype with original synthesized tones and an owner-confirmed music/events CTA gate.
+- Preserve the existing route-wave interaction, mobile responsiveness, reduced-motion support, keyboard access, and primitive fallbacks.
+Boundaries:
+- Work only in `codex/bodega-identity-rhythm-20260722` from `origin/main`; leave the dirty canonical checkout and the existing motion branch intact.
+- Do not change Colattao, Penalty Shootout, menu data, billing, auth, database state, secrets, production, or public navigation.
+- Keep both Bodega surfaces unlinked and `noindex`; no merge, deployment, client contact, or event claim without separate approval and verified owner inputs.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega identity refresh and Sessions game verified
+Did:
+- Carried the reviewed route-wave interaction into a clean branch and rebuilt `/bodega-menu-review` around the supplied horizontal wordmark, circular seal, seasonal chalkboard colors, and open poster/menu composition.
+- Added the review-only logo crops under `public/assets/bodega/review/`; registered both as `pending` with source, intended use, forbidden use, replacement rule, and approval gate in `ASSET_REGISTRY/BODEGA/REVIEW_IDENTITY_AND_GAME_STYLE.md`.
+- Preserved every public-source item label, withheld price, evidence caveat, `noindex`, and unlinked-review boundary.
+- Added `/bodega-sessions-review`: a Phaser 4 rhythm-memory game with three deterministic rounds, Cup/Steam/Bell/Bass inputs, synthesized Web Audio tones, sound off by default, keys 1-4, HTML touch controls, timeout handling, replay, and scored result states.
+- Kept the music/event CTA disabled pending one owner-confirmed title and destination. No event, artist, song, offer, or approval is claimed.
+Verification:
+- Targeted ESLint: pass.
+- `tsc --noEmit`: pass.
+- Optimized Next.js production build: pass; both Bodega routes were present.
+- Menu browser QA: 390px and 1440px document/body widths matched the viewport; final mobile seal no longer covers the wordmark; route interaction worked; both routes emitted `noindex, nofollow, nocache`.
+- Reduced-motion QA: media preference detected; base/signal/hit animations computed to `none`; decorative signal/hit opacity computed to `0`; static route remained visible.
+- Game browser QA: perfect 12/12 run completed as `Headliner` in 11.7 seconds; timeout path produced `Warm-up set`; replay cleared the prior result; sound changed only after explicit opt-in; event CTA remained non-interactive; no browser page errors occurred.
+- Visual evidence captured locally under `APP/web/output/bodega-identity-rhythm/screenshots/` and intentionally left untracked. Local-only Vercel Analytics script messages were the only console notices.
+State:
+- Branch `codex/bodega-identity-rhythm-20260722`; production remains at `origin/main` `3c0a261`.
+- No push, PR, merge, deployment, client contact, database write, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the local visual/game evidence and approve a preview push if desired.
+- Bodega owners -> provide the current menu/prices, transparent logo files, written logo-use approval, and one verified event title/destination before public release.
+Blocked:
+- Public release remains intentionally blocked on owner assets/content/approval and Anthony's separate release authorization.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega moving-seal Bronx storefront hero
+Picking up:
+- Replace the menu hero's route-wave line with the circular cup-and-wave seal and strengthen the visual direction toward Bronx/New York storefront energy.
+Authority:
+- Anthony directly requested this hero revision.
+Plan locked:
+- Remove the route-wave component from the Bodega menu hero and make the supplied circular logo the single moving signature.
+- Animate the seal as a rolling record/storefront signal with tap feedback, keyboard access, and a static reduced-motion fallback.
+- Add brick, transit color, and handbill/type rhythm as a clearly labeled Bronx-style visual study; do not claim the owners or business originated in the Bronx.
+Boundaries:
+- Touch only the Bodega menu hero component/styles, Bodega style registry, and this handoff log.
+- Preserve menu data, prices-withheld labels, review caveats, `noindex`, game behavior, other clients, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Moving-seal hero verified locally
+Did:
+- Replaced the beat-line SVG with the supplied circular Bodega Cafe seal as the hero's single moving signature.
+- Added a rolling record-style travel loop, a tap/click scratch response, keyboard activation, and a fully static reduced-motion fallback.
+- Shifted the hero toward a Bronx storefront study with brick, posted-sign offsets, handbill tags, and a transit-color rail; documentation explicitly treats this as visual direction, not an origin claim.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA at 390px and 1440px: no horizontal overflow; official seal visible; old SVG path count zero; accessible motion button present.
+- Interaction QA: tap changed the seal to the scratch animation state. Reduced-motion QA: traveler, spin, and tap animations computed to `none`.
+- Review route retained `noindex, nofollow, nocache`; no browser page errors occurred.
+State:
+- Changes remain local on `codex/bodega-identity-rhythm-20260722`; screenshots remain untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the local hero evidence and separately authorize a preview push if desired.
+Blocked:
+- Public release remains intentionally blocked pending Bodega owner content/assets approval and Anthony's release authorization.
+
+### [CHECK-IN] Codex - 2026-07-22 - Bodega single-logo correction
+Picking up:
+- Correct the identity hierarchy: the circular cup-and-wave seal is Bodega's only logo; the rectangular artwork is promotional branding, not an identity mark.
+Authority:
+- Anthony directly clarified the logo rule and requested the circular design replace the line treatment.
+Plan locked:
+- Remove the promotional wordmark from the menu hero and lead with the moving circular seal.
+- Preserve Bronx/New York storefront character through material, type, color, and motion only.
+- Update the asset registry so future work cannot mistake promotional artwork for the Bodega logo.
+Boundaries:
+- Touch only the Bodega menu hero/styles, Bodega identity registry, and this handoff log.
+- Preserve menu content, game behavior, review caveats, `noindex`, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Bodega single-logo correction verified
+Did:
+- Removed the rectangular promotional wordmark from the hero and made the circular cup-and-wave seal the only visible Bodega identity mark.
+- Enlarged the seal, kept its storefront-rail travel, and removed continuous rotation so the logo stays upright and readable; tap retains a brief scratch response.
+- Reclassified the rectangular artwork as promotional reference only and explicitly prohibited its use as the business logo.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA found exactly one page image, the circular seal; zero old SVG paths; `noindex, nofollow, nocache`; and no browser page errors.
+- 390px and 1440px widths matched their viewports. Ambient seal animation remained upright while the traveler moved; tap activated `sealScratch`; reduced-motion disabled both animations.
+State:
+- Correction remains local on `codex/bodega-identity-rhythm-20260722`; visual evidence remains untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the corrected single-logo hero and authorize a preview push separately if desired.
+Blocked:
+- Public release remains blocked pending owner content/logo approval and Anthony's release authorization.
+
+### [CHECK-IN] Codex - 2026-07-23 - Full-surface borderless Bodega hero release
+Picking up:
+- Make the logo itself fill the hero treatment, remove both visible circular outlines, blend the source image into a white background, then publish and merge after verification.
+Authority:
+- Anthony directly approved the scoped visual change, push, and merge on 2026-07-23.
+Plan locked:
+- Remove the CSS border/shadow and cover only the baked perimeter ring with a white inset mask; do not regenerate or alter the logo lettering, cup, or waveform.
+- Let the logo fill the hero height on a seamless white field while preserving internal waveform motion and reduced-motion behavior.
+- Run lint, typecheck, build, responsive/reduced-motion browser QA, push the exact branch head, merge through GitHub, then verify the resulting production route and deployment state.
+Boundaries:
+- Touch only the Bodega hero styles, Bodega identity registry, and operations log before release.
+- Keep `APP/web/output/` untracked; preserve all post-hero content, menu data, game behavior, `noindex`, other routes, secrets, access, billing, and database state.
+
+### [CHECK-OUT] Codex - 2026-07-23 - Borderless white hero locally verified for release
+Did:
+- Replaced the brick hero field with seamless white and let the logo define the full hero height: 390px on the 390px viewport and 768px on desktop.
+- Removed the CSS border and all shadow treatments; clipped the source corners and covered the baked perimeter ring with a measured white ellipse while preserving the logo lettering, cup, Virginia Beach line, and heartbeat endpoints.
+- Preserved motion only on the two internal heartbeat paths and retained a static original waveform under reduced motion.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA at 390px and 1440px: document width matched viewport, hero text was empty, logo width equaled hero height, background was pure white, CSS border was `0px`, shadow was `none`, and no page errors occurred.
+- Former top and bottom ring sample pixels rendered `255,255,255`; two internal waveform paths remained animated. Reduced-motion QA set both path animations to `none` and opacity to `0`; `noindex, nofollow, nocache` remained intact.
+State:
+- Anthony authorized push and merge. The exact local release head will be committed and published only after these gates; `APP/web/output/` remains untracked and excluded.
+- No secret, access, billing, database, or client-contact change is included.
+Next / handoff to:
+- Codex -> commit the exact verified scope, push the branch, open a ready PR, merge under an exact-head lock, and verify the resulting production deployment and live review route.
+Blocked:
+- None for the authorized scoped release; stop if the branch head, production base, required checks, mergeability, deployment state, or live behavior changes unexpectedly.
+
+### [CHECK-IN] Codex - 2026-07-22 - Internal-waveform-only hero motion
+Picking up:
+- Strip the Bodega hero to the circular logo alone and move only the heartbeat lines printed inside the bottom of the mark.
+Authority:
+- Anthony directly clarified the hero content and motion target.
+Plan locked:
+- Remove every visible hero label, story line, tag, external rail, and background line mesh.
+- Keep the circular logo stationary and animate two traced pulse segments over its existing lower waveform.
+- Retain a static original logo for reduced-motion and no-animation states.
+Boundaries:
+- Touch only the Bodega menu hero component/styles, Bodega identity registry, and this handoff log.
+- Preserve all post-hero content, menu data, game behavior, review controls outside the hero, `noindex`, production, and public navigation.
+
+### [CHECK-OUT] Codex - 2026-07-22 - Internal-waveform-only hero verified
+Did:
+- Removed all visible hero copy, tags, external rails, controls, and background line mesh; the circular seal is the hero's only object.
+- Kept the logo fixed and added two lightweight SVG pulse traces aligned to the existing lower-left and lower-right heartbeat segments inside the mark.
+- Preserved the original static waveform beneath the enhancement and hid the pulse overlay for reduced-motion users.
+Verification:
+- Targeted ESLint, `tsc --noEmit`, optimized production build, and `git diff --check`: pass.
+- Browser QA: hero text was empty; exactly one hero image, one internal SVG, and two waveform paths; logo transform stayed `none` while both dash offsets changed over time.
+- 390px and 1440px document widths matched their viewports; reduced motion set both pulse animations to `none` and overlay opacity to `0`; `noindex, nofollow, nocache` remained intact; no browser page errors occurred.
+State:
+- Changes remain local on `codex/bodega-identity-rhythm-20260722`; visual evidence remains untracked under `APP/web/output/`.
+- No push, PR, merge, deployment, production change, client contact, access change, spend, or secret handling performed.
+Next / handoff to:
+- Anthony -> review the internal-waveform-only hero and authorize a preview push separately if desired.
+Blocked:
+- Public release remains blocked pending owner content/logo approval and Anthony's release authorization.

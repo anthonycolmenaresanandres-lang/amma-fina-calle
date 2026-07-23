@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
+import { BodegaSignalLogo } from "./bodega-signal-logo";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -19,30 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-function RouteBecomesRhythm() {
-  return (
-    <svg
-      className={styles.routeSvg}
-      viewBox="0 0 1200 230"
-      role="img"
-      aria-label="A city route becomes a sound wave and then a coastal horizon"
-    >
-      <path
-        className={styles.routePath}
-        d="M0 72h132v92h118V38h118v86h66l22-42 26 94 31-132 32 154 31-116 28 72 27-44 31 14h88l55 0c56 0 74 33 124 33 56 0 73-47 132-47 48 0 77 31 123 31h56"
-        fill="none"
-        pathLength={1}
-        stroke="#0b4dff"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        strokeWidth="12"
-      />
-      <circle cx="250" cy="38" r="10" fill="#e4482e" />
-      <circle cx="1144" cy="141" r="10" fill="#f0a52b" />
-    </svg>
-  );
-}
-
 export default function BodegaMenuReviewPage() {
   return (
     <main className={styles.page}>
@@ -50,29 +28,32 @@ export default function BodegaMenuReviewPage() {
 
       <div className={styles.shell}>
         <div className={styles.utilityRow}>
-          <span>Menu direction 01</span>
+          <span>Bronx-style storefront study / owner review</span>
           <a href="#review-notes">Evidence notes</a>
         </div>
 
         <header className={styles.hero}>
-          <span className={styles.storyLabel}>Route becomes rhythm</span>
-          <h1 className={styles.wordmark}>Bodega</h1>
-
-          <div className={styles.routeField}>
-            <RouteBecomesRhythm />
-          </div>
-
-          <div className={styles.heroCopy}>
-            <p className={styles.officialLead}>{publishedBusinessDetails.lead}.</p>
-            <div>
-              <span className={styles.storyLabel}>Proposed story line - owner approval required</span>
-              <p className={styles.proposedStory}>New York energy. Virginia Beach home.</p>
-            </div>
-          </div>
+          <BodegaSignalLogo />
         </header>
 
+        <section className={styles.chalkInterlude} aria-labelledby="seasonal-board-title">
+          <div className={styles.chalkIntro}>
+            <span className={styles.chalkKicker}>Seasonal board language</span>
+            <h2 id="seasonal-board-title">What&apos;s blooming at Bodega?</h2>
+          </div>
+          <div className={styles.chalkWords} aria-hidden="true">
+            <span>CAFECITO</span>
+            <span>SEASONAL</span>
+            <span>FRESH PRESS</span>
+          </div>
+          <p>
+            A flexible chalkboard moment for owner-confirmed specials. Names, recipes, prices, and availability stay
+            out until Bodega supplies the current board.
+          </p>
+        </section>
+
         <aside className={styles.reviewNotice} id="review-notes">
-          <strong>Structure ready / content not approved</strong>
+          <strong>Visual system ready / content not approved</strong>
           <p>
             Item names below are public-source candidates for layout review only. Bodega must provide the current
             source menu before any item, category, price, recipe, modifier, or availability is treated as accurate.
@@ -128,11 +109,26 @@ export default function BodegaMenuReviewPage() {
           </ul>
         </section>
 
+        <section className={styles.sessionsTeaser}>
+          <div>
+            <span className={styles.sessionsKicker}>Bodega Sessions / owner review</span>
+            <h2>Catch the beat.</h2>
+          </div>
+          <div className={styles.sessionsCopy}>
+            <p>
+              Three fast rounds turn the cup-and-wave identity into a rhythm challenge. The final event link remains
+              locked until Bodega confirms what is playing.
+            </p>
+            <Link href="/bodega-sessions-review">Preview the rhythm game</Link>
+          </div>
+        </section>
+
         <footer className={styles.footer}>
           <span className={styles.footerLabel}>Concept by Fina Calle / owner approval required</span>
           <p>
-            No scraped logo, photography, music, recipes, prices, or protected owner details are used in this draft.
-            This live review link remains unlinked and noindex until the owners approve its content.
+            Logo references supplied by Anthony appear only in this owner-review concept. No music, recipes, prices,
+            event claims, or protected owner details are used. Both Bodega review routes remain unlinked and noindex
+            until the owners approve their content and asset use.
           </p>
           <a href={publishedBusinessDetails.instagramUrl} target="_blank" rel="noreferrer">
             Review the official Instagram profile
