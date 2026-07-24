@@ -28,7 +28,7 @@ export default function BodegaSessionsReviewPage() {
       <div className={styles.shell}>
         <header className={styles.hero}>
           <div className={styles.utilityRow}>
-            <Link href="/bodega-menu-review">Back to menu review</Link>
+            <Link href="/demo/bodega">Back to menu review</Link>
             <span>Side A / three rounds</span>
           </div>
           <span className={styles.kicker}>Bodega Sessions</span>
