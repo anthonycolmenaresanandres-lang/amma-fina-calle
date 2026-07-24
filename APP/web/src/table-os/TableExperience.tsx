@@ -45,6 +45,7 @@ export function TableExperience({ venue, tableId, orderDestination }: Props): Re
 
   return (
     <main className={styles.page} data-venue={venue.id}>
+      <a className={styles.skipLink} href="#table-actions">Skip to table actions</a>
       <div className={styles.reviewBar}>
         Prospect preview · owner confirmation required · no requests or orders are sent
       </div>
@@ -68,7 +69,7 @@ export function TableExperience({ venue, tableId, orderDestination }: Props): Re
             </p>
           </div>
 
-          <div className={styles.actionRail} aria-label="Table actions">
+          <div className={styles.actionRail} id="table-actions" aria-label="Table actions">
             <button type="button" onClick={() => setView("menu")}>
               <span>01</span>
               <strong>See the current menu</strong>
