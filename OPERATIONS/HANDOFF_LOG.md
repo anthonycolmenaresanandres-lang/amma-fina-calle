@@ -18,6 +18,17 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-24 16:29 EDT - Bodega stable demo slug
+Did:
+- Moved the unchanged Bodega menu/data/logo/style unit to `/demo/bodega`, added the permanent old-route redirect, and corrected the sessions backlink.
+- Verified local lint, types, production build, staged diff/boundaries, 390x844 menu/redirect/sessions behavior, exact robots metadata, preserved notices, and a working sessions canvas.
+- Pushed `codex/bodega-demo-slug-20260724` and opened draft PR #184; the application commit passed GitHub CI, Vercel preview, and clean mergeability.
+State now:
+- Task 1 is merged and verified live. Task 2 is preview-ready but intentionally remains a draft and unmerged.
+- This check-out update is documentation-only; its final remote rerun must remain green.
+Next / handoff to: Anthony - visually review `/demo/bodega` on PR #184's Vercel preview, then explicitly approve or reject the Task 2 merge.
+Blocked on Anthony: Task 2 production merge.
+
 ### [RELEASE GATE] Codex - 2026-07-24 16:27 EDT - Bodega demo slug local gate
 Verified:
 - `/demo/bodega` uses the original Bodega menu page blob unchanged; its data, signal logo, styles, notices, and sessions link remain one source of truth.
