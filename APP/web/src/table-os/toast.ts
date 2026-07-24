@@ -1,6 +1,6 @@
 import type { TableOsVenue } from "./venue-config";
 
-export type ToastDestination = Readonly<{
+export type OrderDestination = Readonly<{
   url: string;
   mode: "TABLE_ORDER_PAY" | "PUBLIC_ORDERING_PREVIEW";
   buttonLabel: string;
@@ -11,28 +11,30 @@ const HTTPS_URL = /^https:\/\//i;
 
 function safeExternalUrl(value: string): string {
   if (!HTTPS_URL.test(value)) {
-    throw new Error("Toast destinations must use HTTPS.");
+    throw new Error("Ordering destinations must use HTTPS.");
   }
 
   return value;
 }
 
-export function resolveToastDestination(venue: TableOsVenue, tableId: string): ToastDestination {
-  const tableUrl = venue.toast.tableOrderPayUrls[tableId];
+export function resolveOrderDestination(venue: TableOsVenue, tableId: string): OrderDestination {
+  const tableUrl = venue.ordering.tableOrderPayUrls[tableId];
+  const provider = venue.ordering.providerName;
 
-  if (venue.toast.tableOrderPayStatus === "READY" && tableUrl) {
+  if (venue.ordering.tableOrderPayStatus === "READY" && tableUrl) {
     return {
       url: safeExternalUrl(tableUrl),
       mode: "TABLE_ORDER_PAY",
-      buttonLabel: "Order & pay on Toast",
-      statusLine: `Toast will attach this visit to ${tableId}.`,
+      buttonLabel: `Order & pay with ${provider}`,
+      statusLine: `${provider} will open the checkout configured for this table.`,
     };
   }
 
   return {
-    url: safeExternalUrl(venue.toast.publicOrderUrl),
+    url: safeExternalUrl(venue.ordering.publicOrderUrl),
     mode: "PUBLIC_ORDERING_PREVIEW",
-    buttonLabel: "Open current Toast ordering",
-    statusLine: "Pay-at-table activates after the owner enables Toast Mobile Order & Pay and supplies each table link.",
+    buttonLabel: `Open current ${provider} ordering`,
+    statusLine:
+      "Current pickup/delivery handoff only. Dine-in activation requires owner-confirmed POS and table routing.",
   };
 }

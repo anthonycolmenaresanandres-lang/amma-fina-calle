@@ -59,8 +59,9 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
         <span>Internal owner setup · noindex</span>
         <h1>One permanent QR<br />for every table.</h1>
         <p>
-          These codes always open the Fina Calle table route. Change menu art, game skin, or Toast destinations later
-          without reprinting the QR. Download individual PNG files or print the full sheet.
+          These codes always open the Fina Calle table route. Change menu art, game skin, service routing, or
+          ordering destinations later without reprinting the QR. Download individual PNG files or print the full
+          sheet.
         </p>
         <label>
           Draft table count
@@ -68,6 +69,9 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
             type="number"
             min={venue.tableRange.min}
             max={venue.tableRange.max}
+            name="draft-table-count"
+            autoComplete="off"
+            inputMode="numeric"
             value={count}
             onChange={(event) => {
               const next = Number.parseInt(event.target.value, 10);
@@ -82,8 +86,12 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
 
       <section className={styles.activation}>
         <strong>Before restaurant activation</strong>
-        <span>Owner confirms table count and current menu.</span>
-        <span>Toast Mobile Order & Pay is enabled and one URL per table is added to venue config.</span>
+        <span>Owner confirms table count, current menu, and approved visual assets.</span>
+        <span>
+          Confirm the in-house POS and choose how service requests reach staff; current {venue.ordering.providerName}
+          ordering remains the safe handoff.
+        </span>
+        <span>Add table-specific checkout links only when the restaurant&apos;s provider confirms dine-in support.</span>
         <span>Two-device match and every QR destination are verified.</span>
       </section>
 
@@ -92,11 +100,17 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
           <article className={styles.card} key={card.table}>
             {/* Generated locally from the stable route; no third-party QR service. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={card.dataUrl} alt={`QR code for ${venue.name} table ${card.table}`} />
+            <img
+              src={card.dataUrl}
+              alt={`QR code for ${venue.name} table ${card.table}`}
+              width={640}
+              height={640}
+              loading="lazy"
+            />
             <div>
               <span>{venue.name}</span>
               <h2>Table {card.table}</h2>
-              <p>MENU · ORDER · PLAY</p>
+              <p>MENU · SERVICE · ORDER · PLAY</p>
               <small>{card.destination}</small>
               <a
                 className={styles.download}

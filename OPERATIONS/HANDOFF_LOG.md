@@ -1434,3 +1434,13 @@ Blocked:
 - Guest-route evidence: owner-review warning, exact public Toast fallback, and `noindex, nofollow, nocache` remain present.
 - Code gates: targeted ESLint, `tsc --noEmit`, optimized production build, `git diff --check`, and secret-pattern scan pass.
 - Next: push the release commit, wait for remote checks, promote PR #181 from draft, merge under Anthony's explicit production authorization, then verify the live Fina Calle domain.
+
+## [CHECK-IN] Codex - 2026-07-23 - Las Palmas Lynnhaven prospect Table OS
+
+- Authority: Anthony explicitly requested a live build, merge, push, broad prospect research, and a tomorrow-ready sales attack.
+- Scope: add the Lynnhaven venue to the stable Table OS route, wire the correct DoorDash Commerce Platform fallback, add a public-source menu preview, demonstrate service requests, preserve the shared table game and downloadable QR setup, and document the sales approach.
+- Product boundary: Fina Calle is the dine-in experience layer. It does not replace or claim integration with MenuChow, DoorDash, Uber Eats, Grubhub, or the unidentified in-house POS.
+- Safety: the route remains unlinked and noindex; no restaurant staff request is sent; no payment is collected; no unapproved logo, photo, or copied client asset is used; private business-card contact details stay out of the public repository.
+- Unknowns for owner discovery: in-house POS, order auto-fire behavior, receipt/kitchen hardware, table count, staff routing and escalation, owner-approved menu/prices, and dine-in checkout support.
+- Branch: `feat/las-palmas-lynnhaven-table-os`.
+- Release gate: review changed UI against current web guidelines, validate the prospect routes on phone and desktop, run targeted ESLint/type/build checks, confirm remote checks and mergeability, then merge under Anthony's explicit production authorization and verify `finacalleos.com`.
