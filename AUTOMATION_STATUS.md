@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-24 (morning twice-daily check-in — **everything green, nothing red anywhere, no code action needed.** Since the 07-23 evening run Anthony merged two additive Table-OS prospect PRs to amma `main` — **#181** (reusable Toast Table OS MVP + downloadable table-QR assets, 07-23 23:10) and **#182** (noindex Las Palmas Lynnhaven owner-review Table OS route, public-source menu data, 07-24 04:23) — post-merge `CI — web` ✅ (07-24 04:23 UTC), main tip now `b05007d`. One new draft appeared: **amma #180** (`vercel-dash-report` skill — dashboard-drop traffic ledger that feeds this daily report; additive, Vercel green, `mergeable_state: clean`, no guardrail routes) — held as **draft** by the author, so it's a review item for Anthony, not caretaker-merged. VBFH Daily Run stays GREEN (last run 07-23 14:10 UTC ✅, run `30014538824`; today's ~14:10 UTC run not yet fired at check time). No new human review comments anywhere — only Vercel bot comments. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-24 (evening twice-daily check-in — **everything green, nothing red anywhere, no code action needed.** Since the 07-24 morning run Anthony merged **four more additive prospect/demo PRs** to amma `main` — **#183** (Las Palmas prospect demo: penalty-skin + demo menu + console-style impact feedback; non-human palm mascot, no club marks, primitive fallback preserved, 07-24 20:17), **#184** (stable Bodega demo slug, 07-24 20:40), **#185** (prospect QR leave-behind field pack, 07-24 21:10), **#186** (docs: close prospect QR field-pack release, 07-24 21:14). Every code merge's post-merge `CI — web` ✅ (latest run#86, 07-24 21:10 UTC for #185; #186 is docs-only, path-filtered); **main tip now `e8fdafb`**. All additive demo/prospect/QR assets — no Client-OS routes (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase, Stripe, or secrets touched; the stable Colattao in-store QR URL is untouched. **VBFH Daily Run fired today and SUCCEEDED** (07-24 13:52 UTC ✅, run #51) — the morning run's "not yet fired" is now confirmed green, four scheduled runs green in a row. Open-PR set unchanged (#180/#161/#168/#162, vbfh #4, EscapeTheBomb #1) — all checks green, only Vercel bot comments, no new human review comments. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -18,7 +18,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    and variables → Actions → `EMAIL_TO`, `EMAIL_FROM`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` (optional
    Variables `SMTP_PORT` default 587, `SMTP_SECURE` `true` only for port 465). Tell me your mail provider
    and I'll give you the exact host/port. (Same secrets ask as PR #4.)
-2. **NEW — PR #180 (amma): review the `vercel-dash-report` skill, then mark it "Ready" (or say "merge it").**
+2. **PR #180 (amma): review the `vercel-dash-report` skill, then mark it "Ready" (or say "merge it").**
    Additive skill + scripts + 7 passing tests that turn your Vercel-dashboard screenshots into a traffic
    ledger feeding this daily report. Vercel **green**, `clean`, no app routes / Supabase / Stripe / secrets.
    It's a **draft**, so I left it for you — flip it to Ready (or tell me to merge) and I'll land it.
@@ -41,35 +41,35 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 8. **⛔ Branch cleanup — still needs you to run it (or approve deletion).** You asked to clean the
    branches. I identified the safe-to-delete set (below), but this environment's safety classifier blocks
    automated branch deletion (`git push --delete`) in auto mode, and there's no branch-delete API tool. So
-   the 11 stale branches are still there. **Two ways to clear them:** (a) paste the two commands in the
+   the stale branches are still there. **Two ways to clear them:** (a) paste the two commands in the
    "Branch cleanup — ready to run" section below, or (b) reply "you have permission to delete branches" and
    I'll retry. I will NOT delete anything until one of those.
 
-_Resolved / no action:_ **Table-OS prospect wave merged by Anthony** — **#181** (reusable Toast Table OS
-MVP + table-QR assets, 07-23 23:10) and **#182** (noindex Las Palmas Lynnhaven owner-review route, public-
-source menu data, 07-24 04:23); both post-merge `CI — web` ✅, main tip `b05007d`. Additive noindex prospect/
-owner-review routes — no protected Client-OS routes (`/m/[id]`, `/owner/[id]`, `/customers`), DB, billing,
-or secrets touched. Earlier **Bodega menu-review wave** (#175/#176/#178/#179) stays merged. The 3 superseded
-drafts closed 07-23 (#169/#173/#177) stay closed. **VBFH Daily Run stays GREEN.** **#29 stays closed**
+_Resolved / no action:_ **Prospect/demo wave merged by Anthony** — **#183** (Las Palmas penalty-skin demo +
+demo menu + impact feedback), **#184** (Bodega demo slug), **#185** (prospect QR field pack), **#186** (docs);
+all post-merge `CI — web` ✅, main tip `e8fdafb`. Additive demo/prospect/QR assets, non-human mascots with
+primitive fallback, no protected Client-OS routes / DB / billing / secrets, Colattao QR URL untouched. Earlier
+**Table-OS prospect wave** (#181/#182) and **Bodega menu-review wave** (#175/#176/#178/#179) stay merged. The 3
+superseded drafts closed 07-23 (#169/#173/#177) stay closed. **VBFH Daily Run stays GREEN.** **#29 stays closed**
 (07-18). shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-24, morning)
+## Build health (as of 2026-07-24, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `b05007d` (**#182**, "launch Las Palmas Lynnhaven Table OS prospect"); latest `CI — web` ✅ (2026-07-24 04:23 UTC). Table-OS prospect wave #181/#182 merged green since the evening run. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (`CI` #20, 2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data"). **VBFH Daily Run — GREEN.** Latest scheduled run **07-23 14:10 UTC succeeded** (run `30014538824`; 07-21 & 07-22 14:0x also ✅ — three green in a row); today's ~14:10 UTC run not yet fired at check time. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `e8fdafb` (**#186**, "close prospect QR field-pack release"); latest `CI — web` ✅ (run#86, 2026-07-24 21:10 UTC for #185; #186 docs-only, path-filtered). Prospect/demo wave #183/#184/#185/#186 merged green since the morning run. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-24 13:52 UTC succeeded** (run #51; 07-21/07-22/07-23 14:0x also ✅ — four green in a row). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
 ## Open PRs
 
 - **amma #180 — `vercel-dash-report` skill (traffic ledger feeding the daily report)** (open **draft**,
-  Vercel **green**, `mergeable_state: clean`). NEW since last run. Additive skill + scripts + 7 passing
-  tests; appends to `BUSINESS/ANALYTICS/vercel-traffic-ledger.jsonl`; no app routes / Supabase / Stripe /
-  secrets. Held as draft → Anthony to mark Ready or say "merge it" (item 2). Vercel bot comment only.
+  Vercel **green**, `mergeable_state: clean`). Additive skill + scripts + 7 passing tests; appends to
+  `BUSINESS/ANALYTICS/vercel-traffic-ledger.jsonl`; no app routes / Supabase / Stripe / secrets. Held as
+  draft → Anthony to mark Ready or say "merge it" (item 2). Vercel bot comment only.
 - **amma #161 — Add ethical sales conversion system** (open, **green**, no guardrail routes).
   Awaiting Anthony's review/merge (item 3). Bot comments only; no human review comments.
 - **amma #168 — grant application draft (dev PC)** (open **draft**, Vercel **green**). Docs-only grant
@@ -77,21 +77,24 @@ drafts closed 07-23 (#169/#173/#177) stay closed. **VBFH Daily Run stays GREEN.*
 - **amma #162 — Make owner portal installable** (open **draft**, CI **green** — `web` ✅ + Vercel ✅).
   Protected `/owner/[id]` route → hard-guardrail item for Anthony (item 6).
 - **vbfh #4 — email a copy-paste-ready post package** (open **draft**, CI **green** — `check` ✅).
-  Held pending Anthony's SMTP secrets + QA-routine confirmation (items 1 & 5). No guardrail routes.
+  Held pending Anthony's SMTP secrets + QA-routine confirmation (items 1 & 5). No guardrail routes. No comments.
 - **EscapeTheBomb-DC #1 — M1 master plan + P5–P8 scaffolds** (open **draft**, no CI). Unchanged since
   07-20; not "green" until the M2 Windows compile-verify gate. Never merged without Anthony.
 - No open PRs in shadow-engineer-rpa.
 
 ## Merged / closed since last run
 
-- **#181 merged** (07-23 23:10, by Anthony) — reusable Toast Table OS MVP + Table OS preview handoff +
-  downloadable table-QR assets. Post-merge `CI — web` ✅.
-- **#182 merged** (07-24 04:23, by Anthony) — noindex Las Palmas Lynnhaven owner-review Table OS route
-  with public-source menu data, table-service demo, provider-neutral ordering handoff, QR setup guidance.
-  Post-merge `CI — web` ✅; main tip now `b05007d`. Additive noindex prospect route — no guardrail routes.
-- **#180 opened** (07-23 22:10, draft) — `vercel-dash-report` skill (see Open PRs; item 2).
+- **#186 merged** (07-24 21:14, by Anthony) — docs: close prospect QR field-pack release. Docs-only;
+  main tip now `e8fdafb`.
+- **#185 merged** (07-24 21:10, by Anthony) — prospect QR leave-behind field pack. Post-merge `CI — web` ✅
+  (run#86). Additive QR assets — Colattao in-store QR URL untouched.
+- **#184 merged** (07-24 20:40, by Anthony) — stable Bodega demo slug. Post-merge `CI — web` ✅.
+- **#183 merged** (07-24 20:17, by Anthony) — Las Palmas prospect demo: penalty-skin (non-human palm
+  mascot, no club marks) + demo menu + console-style impact feedback; primitive fallback preserved,
+  demo/noindex routes only. Post-merge `CI — web` ✅.
 - No other new PRs, no new commits on any other default branch, no new human review comments (only Vercel
-  bot comments on the open PRs). The 3 superseded drafts closed 07-23 (#169/#173/#177) stay closed.
+  bot comments on the open PRs). The Table-OS wave (#181/#182) and the 3 superseded drafts closed 07-23
+  (#169/#173/#177) stay as-is.
 - Prior-run context still current: vbfh master tip `fec7266` (#6). EscapeTheBomb #1 unchanged since 07-20;
   shadow dormant (`5113ce5`, 07-09). #29 stays closed.
 
@@ -123,41 +126,32 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-07-24 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed.** Since the morning run Anthony merged **four additive prospect/demo PRs** to amma
+  `main` — **#183** (Las Palmas penalty-skin demo + demo menu + impact feedback; non-human palm mascot,
+  no club marks, primitive fallback preserved), **#184** (stable Bodega demo slug), **#185** (prospect QR
+  leave-behind field pack), **#186** (docs: close QR field-pack release). Every code merge post-merge
+  `CI — web` ✅ (run#86, 07-24 21:10 UTC); **main tip now `e8fdafb`**. All additive demo/prospect/QR
+  assets — no protected Client-OS routes, Supabase, Stripe, or secrets; Colattao QR URL untouched.
+  **VBFH Daily Run fired today (07-24 13:52 UTC) and SUCCEEDED** (run #51) — four scheduled runs green in
+  a row; `CI` ✅ on master (`fec7266`, #6, unchanged); `CI — voice-gateway` path-filtered (last ✅ 07-09).
+  All open-PR checks green (#180/#161/#162/#168 web/Vercel ✅; vbfh #4 `check` ✅); only Vercel bot
+  comments, no new human review comments anywhere. EscapeTheBomb #1 unchanged (07-20); shadow dormant
+  (`5113ce5`, 07-09). #29 stays closed. No branches deleted (still awaiting Anthony to run the ready
+  commands or authorize a retry).
 - **2026-07-24 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
-  action needed.** Since the 07-23 evening run Anthony merged two additive Table-OS prospect PRs to amma
-  `main` — **#181** (reusable Toast Table OS MVP + table-QR assets, 07-23 23:10) and **#182** (noindex Las
-  Palmas Lynnhaven owner-review Table OS route, public-source menu data, 07-24 04:23); post-merge
-  `CI — web` ✅ (07-24 04:23 UTC), main tip now `b05007d`. One new draft appeared — **#180**
-  (`vercel-dash-report` skill; additive, Vercel green, `clean`, no guardrail routes) — held as draft, so
-  left for Anthony to mark Ready/merge (not caretaker-merged). vbfh **Daily Run stays GREEN** (last run
-  07-23 14:10 UTC ✅, run `30014538824`; today's ~14:10 UTC not yet fired) and `CI` ✅ on master
-  (`fec7266`, #6); `CI — voice-gateway` path-filtered (last ✅ 07-09). All open-PR checks green
-  (#180/#161/#162/#168 web/Vercel ✅; vbfh #4 `check` ✅). EscapeTheBomb #1 unchanged (07-20); shadow
-  dormant (`5113ce5`, 07-09). #29 stays closed. No new human review comments anywhere. No branches
-  deleted (still awaiting Anthony to run the ready commands or authorize a retry).
-- **2026-07-23 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
-  action needed — nothing material changed since the midday run.** The one new datapoint: **today's
-  VBFH Daily Run (07-23 14:10 UTC) fired and succeeded** (run `30014538824`), making it three green
-  scheduled runs in a row (07-21/07-22/07-23) — the email-gate fix continues to hold. amma `main`
-  unchanged (tip `ad9773a`, #179; `CI — web` ✅); vbfh `CI` ✅ on master (`fec7266`, #6);
-  `CI — voice-gateway` path-filtered (last ✅ 07-09, no voice changes since). Open-PR set is the clean
-  post-midday state — amma #161/#168/#162, vbfh #4, EscapeTheBomb #1 — all checks green; the closed
-  #169/#173/#177 stay closed. No new commits, no new/closed PRs, no new human review comments anywhere.
-  EscapeTheBomb #1 unchanged (07-20); shadow dormant (07-09). #29 stays closed. No branches deleted
-  (still awaiting Anthony to run the ready commands or authorize a retry).
+  action needed.** Anthony merged Table-OS prospect PRs **#181** (Toast Table OS MVP + table-QR assets)
+  and **#182** (noindex Las Palmas Lynnhaven owner-review route); post-merge `CI — web` ✅, main tip
+  `b05007d`. New draft **#180** (`vercel-dash-report` skill) held for Anthony. VBFH Daily Run GREEN.
+- **2026-07-23 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All green; VBFH Daily Run
+  (07-23 14:10 UTC) succeeded (run `30014538824`) — three green in a row. No merges/PRs/commits/human
+  review since midday.
 - **2026-07-23 (midday) — Owner request "close all that need closing + clean branches" (`claude-opus-4-8`):**
-  **Closed the 3 superseded drafts — #169, #173, #177** (each with a one-line reason comment). Built the
-  verified branch-cleanup set (11 branches: 7 amma [4 provably-merged + 3 just-closed-superseded] + 4 vbfh
-  provably-merged) and confirmed the KEEP list against every open-PR head. **Branch deletion itself was
-  blocked by the env safety classifier** (`git push --delete` denied in auto mode; no branch-delete API
-  tool) — did NOT delete anything. Left ready-to-run commands in "Branch cleanup — ready to run" above;
-  awaiting Anthony to run them or authorize a retry. No merges, no guardrail changes.
-- **2026-07-23 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
-  action needed.** Since the evening run Anthony merged the **Bodega menu-review wave** to `main` —
-  **#175** (live unlinked/noindex `/bodega-menu-review` route), **#176** (390px mobile polish), **#178**
-  (single circular seal identity + logo-internal rhythm), **#179** (one-shot cup beat + disappearing gold
-  flash) — every post-merge `CI — web` ✅, main tip `ad9773a`. A new draft **#177** appeared but conflicts
-  (`dirty`); flagged rebase-or-close (later closed midday). **VBFH Daily Run GREEN** and `CI` ✅ on master.
+  Closed the 3 superseded drafts — #169, #173, #177 (each with a one-line reason). Built the verified
+  branch-cleanup set; branch deletion blocked by the env safety classifier — left ready-to-run commands.
+- **2026-07-23 (morning) — Twice-daily check-in (`claude-opus-4-8`):** Bodega menu-review wave merged
+  (#175/#176/#178/#179), post-merge `CI — web` ✅, main tip `ad9773a`. Draft #177 flagged (later closed).
+  VBFH Daily Run GREEN and `CI` ✅ on master.
 - **2026-07-22 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All green; VBFH Daily Run
   (07-22 14:04 UTC) succeeded (run `29926831318`). No merges/PRs/commits/human-review since morning.
 - **2026-07-22 (morning) — Twice-daily check-in (`claude-opus-4-8`):** #174 merged (removed AI-use
