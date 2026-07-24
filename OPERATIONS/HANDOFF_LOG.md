@@ -18,6 +18,31 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [RELEASE GATE] Codex - 2026-07-24 16:13 EDT - Las Palmas local production gate
+Verified:
+- Added the required visible `Pending client approval - Demo only` notice to both Las Palmas menu and game states; other skins remain unchanged.
+- Targeted ESLint, `tsc --noEmit`, Turbopack production build, and `git diff --check origin/main` pass.
+- 390x844 menu QA passes with `noindex, nofollow, nocache`, no horizontal overflow, and the correct game link.
+- 390x844 Las Palmas game QA passes with the Las Palmas skin selected, blue keeper, legible ad board, visible approval notice, no horizontal overflow, and no browser errors.
+- A forced goal recording shows one flash/confetti burst and the cleared post-effect state; renderer phase-transition gating allows one burst per shot.
+- Default Fina Calle regression passes with Fina Calle selected, no prospect notice, no horizontal overflow, a mounted game canvas, and no browser errors.
+State:
+- Local release gate is green. Draft PR creation, remote CI, clean mergeability, authorized merge, and live production verification remain.
+- Initial Windows builds failed because the same worktree was addressed with mixed `C:\dev` / `C:\Dev` casing; rerunning from the resolved canonical casing passed without source changes.
+
+### [CHECK-IN] Codex - 2026-07-24 15:49 EDT - Las Palmas production release + Bodega demo slug
+Picking up: Release the approved Las Palmas demo branch through production gates, then prepare a separate Bodega `/demo/bodega` draft PR for Anthony's visual review.
+State I see:
+- Canonical clone has unrelated local work, so release work is isolated in sibling worktrees under `C:\dev\amma\worktrees`.
+- `claude/las-palmas-menu-game-59vtbg` is two commits ahead of `origin/main`; no pull request exists yet.
+- Initial diff audit shows no engine/zones/geometry, Supabase, Stripe, POS, Client OS route, or client-logo-file changes.
+Plan:
+- Re-run targeted lint, types, production build, phone-width behavior, diff, CI, and mergeability gates before the authorized Las Palmas merge.
+- Verify the live production routes, then branch updated `main` for the Bodega slug/redirect change and stop at a draft PR.
+Boundaries:
+- Task 1 merge is authorized. Task 2 must not merge before Anthony visually reviews the new slug page.
+- Do not touch secrets, customer data, payment systems, Client OS routes, physical QR destinations, or add client logos.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
 Did:
 - Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.

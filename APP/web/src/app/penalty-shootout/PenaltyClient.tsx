@@ -24,6 +24,7 @@ export default function PenaltyClient({
   const [selectedInput, setSelectedInput] = useState<InputMode>("tap");
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);
+  const isProspectDemo = selectedSkin.id === "laspalmas";
 
   useEffect(() => {
     if (!selectedLevel || !mountRef.current || gameRef.current || typeof window === "undefined") {
@@ -87,10 +88,15 @@ export default function PenaltyClient({
           <p className="mt-3 text-center text-sm leading-relaxed text-[#aeb7bd]">
             Five from the spot. Pick your keeper.
           </p>
+          {isProspectDemo ? (
+            <p className="mt-3 text-center text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#e8b45a]">
+              Pending client approval · Demo only
+            </p>
+          ) : null}
 
           <div className="mt-6">
             <p className="text-center text-[0.66rem] uppercase tracking-[0.2em] text-[#aeb7bd]">Skin</p>
-            <div className="mt-2 flex justify-center gap-2">
+            <div className="mt-2 flex flex-wrap justify-center gap-2">
               {PENALTY_SKINS.map((skin) => {
                 const active = skin.id === selectedSkin.id;
                 return (
@@ -162,6 +168,11 @@ export default function PenaltyClient({
       <div className="border-b border-[#d8b36d]/35 px-4 py-2">
         <p className="text-center text-xs uppercase tracking-[0.2em] text-[#d8b36d]">
           {selectedSkin.displayName} · Keeper {selectedLevel.levelNumber} - {selectedLevel.levelName}
+          {isProspectDemo ? (
+            <span className="mt-1 block text-[0.6rem] font-semibold tracking-[0.16em]">
+              Pending client approval · Demo only
+            </span>
+          ) : null}
         </p>
         <div className="mt-2 flex justify-center gap-2">
           <button

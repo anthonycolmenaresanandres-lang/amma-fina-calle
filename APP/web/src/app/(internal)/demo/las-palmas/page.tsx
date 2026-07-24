@@ -69,6 +69,9 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
         </header>
 
         <p className="mt-5 border-l-2 border-[#e8b45a]/60 pl-3 text-left text-[0.72rem] leading-5 text-[#d8c99a]">
+          <span className="block font-semibold uppercase tracking-[0.12em] text-[#e8b45a]">
+            Pending client approval · Demo only
+          </span>
           {notice}
         </p>
 
