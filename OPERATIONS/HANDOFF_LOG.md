@@ -18,6 +18,17 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-24 16:15 EDT - Las Palmas release gate
+Did:
+- Audited the full prospect-demo diff against the frozen engine, data, payment, Client OS, QR, asset, and approval boundaries.
+- Closed the two release gaps: visible pending-client notices on menu/game and zero horizontal overflow at the 390px selection screen.
+- Passed targeted ESLint, `tsc --noEmit`, Turbopack production build, `git diff --check`, phone-width menu/game/default regression QA, one-shot goal-FX evidence, GitHub CI, Vercel preview, and clean mergeability.
+State now:
+- Draft PR #183 is green and clean at `294d6f9`; Anthony explicitly authorized this Task 1 production merge on 2026-07-24.
+- Production merge and live-route verification are the immediate next actions; no production claim is recorded before that evidence exists.
+Next / handoff to: Codex - merge PR #183, verify both production routes and robots metadata, then create the isolated Bodega slug branch from updated `main`.
+Blocked on Anthony: none for Task 1. Task 2 must stop at its draft PR for Anthony's visual approval.
+
 ### [RELEASE GATE] Codex - 2026-07-24 16:13 EDT - Las Palmas local production gate
 Verified:
 - Added the required visible `Pending client approval - Demo only` notice to both Las Palmas menu and game states; other skins remain unchanged.
