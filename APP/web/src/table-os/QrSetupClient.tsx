@@ -69,6 +69,9 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
             type="number"
             min={venue.tableRange.min}
             max={venue.tableRange.max}
+            name="draft-table-count"
+            autoComplete="off"
+            inputMode="numeric"
             value={count}
             onChange={(event) => {
               const next = Number.parseInt(event.target.value, 10);
@@ -97,7 +100,13 @@ export function QrSetupClient({ venue }: Props): React.JSX.Element {
           <article className={styles.card} key={card.table}>
             {/* Generated locally from the stable route; no third-party QR service. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={card.dataUrl} alt={`QR code for ${venue.name} table ${card.table}`} />
+            <img
+              src={card.dataUrl}
+              alt={`QR code for ${venue.name} table ${card.table}`}
+              width={640}
+              height={640}
+              loading="lazy"
+            />
             <div>
               <span>{venue.name}</span>
               <h2>Table {card.table}</h2>
