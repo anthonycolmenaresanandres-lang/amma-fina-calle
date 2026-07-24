@@ -18,6 +18,19 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-24 17:12 EDT - Personalized prospect QR leave-behinds
+Did:
+- Released PR #185 to production as squash commit `76e6711` after clean mergeability, GitHub CI, and Vercel gates passed.
+- Published the unlinked/noindex AJ Gator's owner-review route and verified the public alias at 390x844: HTTP 200, exact robots metadata, visible pending-client notice, honest AJ-specific-content caveat, and zero horizontal overflow.
+- Delivered four individual letter PDFs, four 300-DPI companion renders, vector QR files, one four-page print-all PDF, a reusable manifest/generator, transparent pricing guidance, and a Wednesday review script.
+- Decoded every QR from both its final individual PDF render and the final combined PDF render to the exact registered URL.
+State now:
+- Las Palmas, Bodega, Maracaibo, and AJ Gator's personalized proof destinations are live, noindex, approval-labeled, and registered for private owner-review use.
+- Offer is locked at `$150/month/location` for menu + branded game. Optional Table QR is `$300 one-time/location + $5/active-table/month`; printing and POS/order/pay/staff routing remain separately scoped.
+- No prospect was contacted, no secret/access/payment/customer-data surface changed, and no existing physical QR destination moved.
+Next / handoff to: Anthony - print the four-page file at Actual Size/100%, phone-scan each physical page once, leave only the matching sheet, and use the saved 15-minute review on Wednesday.
+Blocked on Anthony: physical print/scan/placement and each owner's voluntary scope decision; no engineering blocker.
+
 ### [RELEASE GATE] Codex - 2026-07-24 17:06 EDT - Prospect QR leave-behind field pack
 Verified:
 - Built four personalized US Letter PDFs plus one four-page print-all file using the literal 61.8/38.2 page split; no client logos or unapproved assets are present.

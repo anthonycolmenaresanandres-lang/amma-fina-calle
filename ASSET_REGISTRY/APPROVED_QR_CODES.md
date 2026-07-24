@@ -89,16 +89,16 @@ ASSET ID: QR-PROSPECT-AJ-GATORS-20260725
 ASSET NAME: AJ Gator's private owner-review QR
 SOURCE: local deterministic ReportLab generator
 DATE ADDED: 2026-07-24
-STATUS: pending
-INTENDED USE: private AJ Gator's owner-review leave-behind after production verification
-FORBIDDEN USE: placement before the route is live, public advertising, implying client approval, or repointing the image
+STATUS: approved
+INTENDED USE: private AJ Gator's owner-review leave-behind
+FORBIDDEN USE: public advertising, implying client approval, or repointing the image
 REPLACEMENT RULE: generate and register a new QR if the destination changes
 OWNER / APPROVER: Anthony
 FILE PATH / LOCATION: output/pdf/prospect-leave-behinds/2026-07-25/aj-gators/qr/aj-gators-owner-review.svg
 DESTINATION URL: https://finacalleos.com/demo/aj-gators
-DESTINATION VERIFIED: pending production release
+DESTINATION VERIFIED: yes - HTTP 200, noindex, visible pending-client-approval notice at production commit 76e6711
 SCAN TEST RESULT: exact URL decoded from final 300-DPI PDF render with OpenCV on 2026-07-24
-NOTES: SVG SHA-256 BCCCAB9776E443AA99778C48235B084D310AB3ECCD4B64F94A7DA89AE0B5388F. Approve only after live HTTP/content/noindex verification; re-scan the physical 100% print before placement.
+NOTES: SVG SHA-256 BCCCAB9776E443AA99778C48235B084D310AB3ECCD4B64F94A7DA89AE0B5388F. Re-scan the physical 100% print before placement.
 ```
 
 ## Replacement Rule
