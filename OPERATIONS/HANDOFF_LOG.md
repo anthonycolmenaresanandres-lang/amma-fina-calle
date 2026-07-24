@@ -18,6 +18,42 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-24 16:15 EDT - Las Palmas release gate
+Did:
+- Audited the full prospect-demo diff against the frozen engine, data, payment, Client OS, QR, asset, and approval boundaries.
+- Closed the two release gaps: visible pending-client notices on menu/game and zero horizontal overflow at the 390px selection screen.
+- Passed targeted ESLint, `tsc --noEmit`, Turbopack production build, `git diff --check`, phone-width menu/game/default regression QA, one-shot goal-FX evidence, GitHub CI, Vercel preview, and clean mergeability.
+State now:
+- Draft PR #183 is green and clean at `294d6f9`; Anthony explicitly authorized this Task 1 production merge on 2026-07-24.
+- Production merge and live-route verification are the immediate next actions; no production claim is recorded before that evidence exists.
+Next / handoff to: Codex - merge PR #183, verify both production routes and robots metadata, then create the isolated Bodega slug branch from updated `main`.
+Blocked on Anthony: none for Task 1. Task 2 must stop at its draft PR for Anthony's visual approval.
+
+### [RELEASE GATE] Codex - 2026-07-24 16:13 EDT - Las Palmas local production gate
+Verified:
+- Added the required visible `Pending client approval - Demo only` notice to both Las Palmas menu and game states; other skins remain unchanged.
+- Targeted ESLint, `tsc --noEmit`, Turbopack production build, and `git diff --check origin/main` pass.
+- 390x844 menu QA passes with `noindex, nofollow, nocache`, no horizontal overflow, and the correct game link.
+- 390x844 Las Palmas game QA passes with the Las Palmas skin selected, blue keeper, legible ad board, visible approval notice, no horizontal overflow, and no browser errors.
+- A forced goal recording shows one flash/confetti burst and the cleared post-effect state; renderer phase-transition gating allows one burst per shot.
+- Default Fina Calle regression passes with Fina Calle selected, no prospect notice, no horizontal overflow, a mounted game canvas, and no browser errors.
+State:
+- Local release gate is green. Draft PR creation, remote CI, clean mergeability, authorized merge, and live production verification remain.
+- Initial Windows builds failed because the same worktree was addressed with mixed `C:\dev` / `C:\Dev` casing; rerunning from the resolved canonical casing passed without source changes.
+
+### [CHECK-IN] Codex - 2026-07-24 15:49 EDT - Las Palmas production release + Bodega demo slug
+Picking up: Release the approved Las Palmas demo branch through production gates, then prepare a separate Bodega `/demo/bodega` draft PR for Anthony's visual review.
+State I see:
+- Canonical clone has unrelated local work, so release work is isolated in sibling worktrees under `C:\dev\amma\worktrees`.
+- `claude/las-palmas-menu-game-59vtbg` is two commits ahead of `origin/main`; no pull request exists yet.
+- Initial diff audit shows no engine/zones/geometry, Supabase, Stripe, POS, Client OS route, or client-logo-file changes.
+Plan:
+- Re-run targeted lint, types, production build, phone-width behavior, diff, CI, and mergeability gates before the authorized Las Palmas merge.
+- Verify the live production routes, then branch updated `main` for the Bodega slug/redirect change and stop at a draft PR.
+Boundaries:
+- Task 1 merge is authorized. Task 2 must not merge before Anthony visually reviews the new slug page.
+- Do not touch secrets, customer data, payment systems, Client OS routes, physical QR destinations, or add client logos.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
 Did:
 - Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.
@@ -1444,3 +1480,14 @@ Blocked:
 - Unknowns for owner discovery: in-house POS, order auto-fire behavior, receipt/kitchen hardware, table count, staff routing and escalation, owner-approved menu/prices, and dine-in checkout support.
 - Branch: `feat/las-palmas-lynnhaven-table-os`.
 - Release gate: review changed UI against current web guidelines, validate the prospect routes on phone and desktop, run targeted ESLint/type/build checks, confirm remote checks and mergeability, then merge under Anthony's explicit production authorization and verify `finacalleos.com`.
+
+## [CHECK-IN] Claude - 2026-07-24 - Las Palmas menu + penalty demo (post-pitch follow-up)
+
+- Authority: Anthony pitched Javier Ibarra (Las Palmas) in person, positive response; asked for the menu + penalty game demo, plan first, live preview.
+- Scope: `laspalmas` Penalty Shootout Campaign Pack (behind-goal ad board, red/white-sleeve mascot kicker, blue Sentinel keeper), static `/demo/las-palmas` menu concept reusing the curated Lynnhaven dataset, `?skin=` deep link, and a shell-wide impact-feedback pass (fake-3D ball arc, camera flash/shake, goal confetti).
+- Compliance: non-human palm mascot only; red/white is a generic color scheme (no club crest/cannon/marks); no client logo used (logos are approved overlays only — none on file); menu remains PENDING OWNER CONFIRMATION; Client OS routes and Supabase untouched; primitive fallback verified.
+
+## [CHECK-OUT] Claude - 2026-07-24 - Las Palmas demo preview-ready
+
+- Verified: production build, tsc, targeted ESLint pass; headless phone QA (390x844) of `/demo/las-palmas`, `laspalmas` game path (blue keeper dive, ad board legible, kicker framed, GOAL/SAVED flow, confetti + flash + camera shake firing once per shot), and default Fina Calle skin regression; no console errors beyond local-only Vercel insights; no horizontal overflow.
+- State: pushed to `claude/las-palmas-menu-game-59vtbg`, draft PR for owner review. NOT production: merge to `main` needs Anthony's explicit approval + Javier's written asset/menu sign-off.

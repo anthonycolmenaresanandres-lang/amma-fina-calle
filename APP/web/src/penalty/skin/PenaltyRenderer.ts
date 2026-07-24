@@ -121,6 +121,14 @@ export class PenaltyRenderer {
   // for drawing — the ad-zone renderer and tintable kit arrive in later steps.
   private readonly campaign: PenaltyCampaign;
 
+  // Impact feedback (shell-wide presentation, skin-agnostic): camera flash +
+  // confetti on a goal, camera shake on a save/miss, tracked off the phase
+  // transition so it fires exactly once per shot. Purely visual — engine,
+  // zones, and timing are untouched.
+  private readonly scene: Phaser.Scene;
+  private readonly confetti: Phaser.GameObjects.Particles.ParticleEmitter;
+  private prevPhase: MatchState["phase"] | null = null;
+
   constructor(
     scene: Phaser.Scene,
     colors: PenaltyColors,
@@ -133,6 +141,7 @@ export class PenaltyRenderer {
     campaign: PenaltyCampaign = DEFAULT_CAMPAIGN,
     ballFit: SpriteFit = {},
   ) {
+    this.scene = scene;
     this.colors = colors;
     this.bgFit = backgroundFit;
     this.kickerFit = kickerFit;
@@ -167,6 +176,29 @@ export class PenaltyRenderer {
 
     this.fieldGraphics = scene.add.graphics().setDepth(DEPTH.field);
     this.actorGraphics = scene.add.graphics().setDepth(DEPTH.actors);
+
+    // One-shot goal confetti. The 6px white square texture is generated once
+    // and tinted per skin (accent + goal frame + white), so no image asset is
+    // needed and the no-asset fallback path is unaffected (emitter stays idle
+    // until a goal explodes it).
+    if (!scene.textures.exists("penalty-spark")) {
+      const spark = scene.make.graphics();
+      spark.fillStyle(0xffffff, 1).fillRect(0, 0, 6, 6);
+      spark.generateTexture("penalty-spark", 6, 6);
+      spark.destroy();
+    }
+    this.confetti = scene.add
+      .particles(0, 0, "penalty-spark", {
+        emitting: false,
+        speed: { min: 80, max: 280 },
+        angle: { min: 220, max: 320 },
+        gravityY: 620,
+        lifespan: { min: 380, max: 820 },
+        scale: { start: 1, end: 0 },
+        rotate: { min: 0, max: 360 },
+        tint: [colors.accent, colors.goalFrame, 0xffffff],
+      })
+      .setDepth(DEPTH.ball + 1);
 
     // Optional product-themed ball (drawn instead of the primitive ball).
     if (assets.ballKey) {
@@ -258,6 +290,7 @@ export class PenaltyRenderer {
   }
 
   render(state: RenderState): void {
+    this.applyImpactFeedback(state);
     this.positionAssets(state);
 
     this.drawBackdrop(state);
@@ -278,6 +311,27 @@ export class PenaltyRenderer {
   // Top scoreboard: a clean rounded panel behind the title + score, so the score
   // reads as proper scoreboard chrome rather than floating text. Part of the
   // fixed shell strip; shown on every skin.
+  // Fires once on the shooting → result transition: goal = white flash +
+  // confetti burst at the ball; save = a hard camera shake (the "thump" of the
+  // stop); miss = a lighter shake. Console-style impact feedback without any
+  // engine, zone, or timing change.
+  private applyImpactFeedback(state: RenderState): void {
+    const phase = state.match.phase;
+    if (this.prevPhase === "shooting" && phase === "result") {
+      const outcome = state.match.results[state.match.results.length - 1];
+      const cam = this.scene.cameras.main;
+      if (outcome === "goal") {
+        cam.flash(110, 255, 255, 255, true);
+        this.confetti.explode(28, state.ballPos.x, state.ballPos.y);
+      } else if (outcome === "save") {
+        cam.shake(150, 0.006);
+      } else if (outcome === "miss") {
+        cam.shake(90, 0.003);
+      }
+    }
+    this.prevPhase = phase;
+  }
+
   private drawScoreboard(state: RenderState): void {
     const { layout } = state;
     const g = this.scoreboardGraphics;
@@ -608,14 +662,28 @@ export class PenaltyRenderer {
     const colors = this.colors;
     // Per-skin ball size (position is unchanged — stays on the penalty spot — so
     // flight, scoring, and keeper logic are unaffected). Default 1 = current size.
-    const r = layout.ballRadius * (this.ballFit.scale ?? 1);
     const { x, y } = state.ballPos;
 
+    // Fake-3D depth arc: while the shot is in flight the ball swells toward the
+    // camera mid-arc and settles back by the goal line. Derived purely from the
+    // ball's vertical travel, so flight timing, scoring, and layout are
+    // untouched (sin is 0 at both ends of the flight).
+    const travel = Phaser.Math.Clamp(
+      (layout.spotY - y) / Math.max(1, layout.spotY - layout.goalTop),
+      0,
+      1,
+    );
+    const depthSwell =
+      state.match.phase === "shooting" ? 1 + 0.38 * Math.sin(travel * Math.PI) : 1;
+    const r = layout.ballRadius * (this.ballFit.scale ?? 1) * depthSwell;
+
     // Ground shadow scales down as the ball rises (sky region). Drawn for both
-    // the primitive and image ball.
+    // the primitive and image ball. Uses the base radius so the fake-3D swell
+    // doesn't inflate the shadow while the ball is airborne.
+    const baseR = layout.ballRadius * (this.ballFit.scale ?? 1);
     const groundFactor = Phaser.Math.Clamp((y - layout.goalTop) / (layout.spotY - layout.goalTop), 0.2, 1);
     a.fillStyle(0x000000, 0.22 * groundFactor);
-    a.fillCircle(x, layout.spotY, r * groundFactor);
+    a.fillCircle(x, layout.spotY, baseR * groundFactor);
 
     if (this.ballImage) {
       const d = r * 2.4;
