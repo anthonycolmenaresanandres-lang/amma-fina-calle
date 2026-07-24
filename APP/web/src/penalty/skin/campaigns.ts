@@ -52,7 +52,31 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
   },
 };
 
-const CAMPAIGNS: PenaltyCampaign[] = [STADIUM_CAMPAIGN, COLATTAO_CAMPAIGN];
+// Las Palmas prospect campaign (PENDING CLIENT APPROVAL — demo only, not
+// production-published). Uses all three Campaign Pack slots:
+// - behind-goal ad zone: code-drawn palm/wordmark board (plain type, no logo —
+//   logos are approved overlays only and none is on file yet);
+// - player kit: red shirt / white sleeves (generic color scheme, no club marks) —
+//   carried visually by the skin's mascot kicker sprite;
+// - keeper kit: royal blue over navy on the primitive Sentinel Keeper.
+export const LASPALMAS_CAMPAIGN: PenaltyCampaign = {
+  id: "laspalmas",
+  client: "Las Palmas (prospect)",
+  adZone: {
+    image: "/assets/laspalmas/penalty/adzone-laspalmas-board-v1.png",
+    label: "Las Palmas — Mexican Restaurant & Cantina, Virginia Beach",
+  },
+  kit: {
+    player: { primary: 0xd5322d, secondary: 0xffffff },
+    keeper: { primary: 0x1e4fd8, secondary: 0x0c1e4a },
+  },
+};
+
+const CAMPAIGNS: PenaltyCampaign[] = [
+  STADIUM_CAMPAIGN,
+  COLATTAO_CAMPAIGN,
+  LASPALMAS_CAMPAIGN,
+];
 
 const CAMPAIGNS_BY_ID: Record<string, PenaltyCampaign> = Object.fromEntries(
   CAMPAIGNS.map((campaign) => [campaign.id, campaign]),

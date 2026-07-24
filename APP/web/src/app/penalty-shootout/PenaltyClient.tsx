@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Game } from "phaser";
 import { PENALTY_LEVELS } from "@/penalty/config";
-import { DEFAULT_PENALTY_SKIN, PENALTY_SKINS } from "@/penalty/skin/skins";
+import { getPenaltySkin, PENALTY_SKINS } from "@/penalty/skin/skins";
 import type { InputMode, PenaltyLevel, PenaltySkin } from "@/penalty/types";
 
 const toHex = (n: number): string => `#${n.toString(16).padStart(6, "0")}`;
@@ -13,10 +13,14 @@ const INPUT_MODES: { id: InputMode; label: string }[] = [
   { id: "swipe", label: "Swipe" },
 ];
 
-export default function PenaltyClient(): React.JSX.Element {
+export default function PenaltyClient({
+  initialSkinId,
+}: {
+  initialSkinId?: string;
+}): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const gameRef = useRef<Game | null>(null);
-  const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(DEFAULT_PENALTY_SKIN);
+  const [selectedSkin, setSelectedSkin] = useState<PenaltySkin>(() => getPenaltySkin(initialSkinId));
   const [selectedInput, setSelectedInput] = useState<InputMode>("tap");
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);

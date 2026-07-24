@@ -1444,3 +1444,14 @@ Blocked:
 - Unknowns for owner discovery: in-house POS, order auto-fire behavior, receipt/kitchen hardware, table count, staff routing and escalation, owner-approved menu/prices, and dine-in checkout support.
 - Branch: `feat/las-palmas-lynnhaven-table-os`.
 - Release gate: review changed UI against current web guidelines, validate the prospect routes on phone and desktop, run targeted ESLint/type/build checks, confirm remote checks and mergeability, then merge under Anthony's explicit production authorization and verify `finacalleos.com`.
+
+## [CHECK-IN] Claude - 2026-07-24 - Las Palmas menu + penalty demo (post-pitch follow-up)
+
+- Authority: Anthony pitched Javier Ibarra (Las Palmas) in person, positive response; asked for the menu + penalty game demo, plan first, live preview.
+- Scope: `laspalmas` Penalty Shootout Campaign Pack (behind-goal ad board, red/white-sleeve mascot kicker, blue Sentinel keeper), static `/demo/las-palmas` menu concept reusing the curated Lynnhaven dataset, `?skin=` deep link, and a shell-wide impact-feedback pass (fake-3D ball arc, camera flash/shake, goal confetti).
+- Compliance: non-human palm mascot only; red/white is a generic color scheme (no club crest/cannon/marks); no client logo used (logos are approved overlays only — none on file); menu remains PENDING OWNER CONFIRMATION; Client OS routes and Supabase untouched; primitive fallback verified.
+
+## [CHECK-OUT] Claude - 2026-07-24 - Las Palmas demo preview-ready
+
+- Verified: production build, tsc, targeted ESLint pass; headless phone QA (390x844) of `/demo/las-palmas`, `laspalmas` game path (blue keeper dive, ad board legible, kicker framed, GOAL/SAVED flow, confetti + flash + camera shake firing once per shot), and default Fina Calle skin regression; no console errors beyond local-only Vercel insights; no horizontal overflow.
+- State: pushed to `claude/las-palmas-menu-game-59vtbg`, draft PR for owner review. NOT production: merge to `main` needs Anthony's explicit approval + Javier's written asset/menu sign-off.
