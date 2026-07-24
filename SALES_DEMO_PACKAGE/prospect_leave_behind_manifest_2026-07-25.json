@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "las-palmas",
+    "restaurant": "LAS PALMAS",
+    "descriptor": "Lynnhaven owner-review concept",
+    "demo_url": "https://finacalleos.com/demo/las-palmas",
+    "proof_label": "YOUR LIVE OWNER-REVIEW DEMO",
+    "accent": "#E8B45A",
+    "secondary": "#D5322D",
+    "table_offer": false,
+    "offer_note": "RECOMMENDED START: CORE ONLY"
+  },
+  {
+    "slug": "bodega",
+    "restaurant": "BODEGA CAFE",
+    "descriptor": "Menu + rhythm-game owner review",
+    "demo_url": "https://finacalleos.com/demo/bodega",
+    "proof_label": "YOUR LIVE OWNER-REVIEW DEMO",
+    "accent": "#F4C542",
+    "secondary": "#3B82F6",
+    "table_offer": true,
+    "offer_note": "OPTIONAL TABLE QR PACKAGE"
+  },
+  {
+    "slug": "maracaibo",
+    "restaurant": "MARACAIBO",
+    "descriptor": "Table 1 menu + football concept",
+    "demo_url": "https://finacalleos.com/table/maracaibo/1",
+    "proof_label": "YOUR LIVE TABLE CONCEPT",
+    "accent": "#F3B61F",
+    "secondary": "#0E5555",
+    "table_offer": true,
+    "offer_note": "OPTIONAL TABLE QR PACKAGE"
+  },
+  {
+    "slug": "aj-gators",
+    "restaurant": "AJ GATOR'S",
+    "descriptor": "Hampton Roads owner-review concept",
+    "demo_url": "https://finacalleos.com/demo/aj-gators",
+    "proof_label": "YOUR LIVE OWNER-REVIEW DEMO",
+    "accent": "#C9F05A",
+    "secondary": "#176B3A",
+    "table_offer": true,
+    "offer_note": "OPTIONAL TABLE QR PACKAGE"
+  }
+]

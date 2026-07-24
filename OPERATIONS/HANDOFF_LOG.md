@@ -18,6 +18,32 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [RELEASE GATE] Codex - 2026-07-24 17:06 EDT - Prospect QR leave-behind field pack
+Verified:
+- Built four personalized US Letter PDFs plus one four-page print-all file using the literal 61.8/38.2 page split; no client logos or unapproved assets are present.
+- Locked the transparent offer at `$150/month/location` for menu + branded game and `$300 one-time/location + $5/active-table/month` for the optional Table QR package. Physical printing, staff requests, dine-in order/pay, and POS remain separate scope.
+- Rendered every individual PDF at 300 DPI (2550x3300), visually inspected all four, and decoded each final rendered QR to its exact manifest URL with OpenCV.
+- Las Palmas, Bodega, and Maracaibo destinations are verified live/noindex with their approval notices. AJ Gator's remains blocked from physical placement until its new route is verified in production.
+- The AJ Gator's route is typography-only, unlinked, noindex/nofollow/nocache, and visibly labels the experience pending client approval; official facts are source-noted and all location-specific menu content remains unclaimed.
+- Targeted ESLint, `tsc --noEmit`, Turbopack production build, `git diff --check`, sales field-mode honesty gates, and 390x844 AJ Gator's browser QA pass with zero horizontal overflow.
+State:
+- The local field pack is green. Push, PR, remote checks, authorized merge, production verification, AJ QR registry approval, and final check-out remain.
+- Stop before merge on any failed CI/Vercel check, branch divergence, live noindex/notice failure, or QR destination mismatch.
+
+### [CHECK-IN] Codex - 2026-07-24 16:42 EDT - Personalized prospect QR leave-behinds
+Picking up: Prepare print-ready, personalized one-page QR proof sheets for Anthony to leave with the verified restaurant prospects before 2026-07-25.
+State I see:
+- Bodega PR #184 is merged; `/demo/bodega` is live with a permanent old-route redirect.
+- Las Palmas and Bodega have personalized live demo routes; the exact remaining prospect list and usable routes are being verified before artwork is generated.
+- Anthony set the core offer at `$150/month per location` for digital menu plus branded game and asked for a clearly priced optional table-specific QR service.
+Plan:
+- Lock the verified prospect/destination matrix and a transparent two-choice offer with no POS/payment overclaim.
+- Generate one personalized letter-size PDF per verified prospect, with a large tested QR, concise proof, exact price, exclusions, and one voluntary CTA.
+- Render and visually inspect every PDF, decode every QR from the final rendered page, then publish only any route changes that are genuinely required.
+Boundaries:
+- Do not contact prospects, invent results, use fake urgency, hide recurring terms, or claim POS/order/pay is included.
+- Do not change Client OS, payment systems, customer data, secrets, access, or physical Colattao QR destinations.
+
 ### [CHECK-OUT] Codex - 2026-07-24 16:29 EDT - Bodega stable demo slug
 Did:
 - Moved the unchanged Bodega menu/data/logo/style unit to `/demo/bodega`, added the permanent old-route redirect, and corrected the sessions backlink.
