@@ -1566,3 +1566,9 @@ Blocked:
 
 - Verified: production build, tsc, targeted ESLint pass; headless phone QA (390x844) of `/demo/las-palmas`, `laspalmas` game path (blue keeper dive, ad board legible, kicker framed, GOAL/SAVED flow, confetti + flash + camera shake firing once per shot), and default Fina Calle skin regression; no console errors beyond local-only Vercel insights; no horizontal overflow.
 - State: pushed to `claude/las-palmas-menu-game-59vtbg`, draft PR for owner review. NOT production: merge to `main` needs Anthony's explicit approval + Javier's written asset/menu sign-off.
+
+## [CHECK-IN] Claude - 2026-07-24 - Odyssey Daily started (10s/day film craft program)
+
+- Authority: Anthony approved the "10 seconds a day" Odyssey production — Claude studies one craft topic daily, generates one QA-gated 10s shot, Anthony edits.
+- System: STUDIO/ODYSSEY_DAILY/ (PRODUCTION_BIBLE.md look-locks + no-slop QA gate + budget cap ~$5-15/day; SHOT_LIST.md 30-day curriculum ≈ 5-min short; DAILY_LOG.md).
+- Rights: Butler public-domain translation only; original character designs; no studio-film references or real faces. Engine: Runway (Anthony's workspace); Higgsfield free tier benched.
