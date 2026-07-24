@@ -18,6 +18,31 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [RELEASE GATE] Codex - 2026-07-24 16:27 EDT - Bodega demo slug local gate
+Verified:
+- `/demo/bodega` uses the original Bodega menu page blob unchanged; its data, signal logo, styles, notices, and sessions link remain one source of truth.
+- `/bodega-menu-review` returns a permanent 308 to `/demo/bodega`; `/bodega-sessions-review` remains a 200 and its backlink now targets the stable slug.
+- Targeted ESLint, `tsc --noEmit`, Webpack production build, staged `git diff --check`, and forbidden-surface diff checks pass.
+- 390x844 QA passes for the new menu, redirect, and sessions route: no horizontal overflow; exact robots metadata and owner-review/prices-withheld notices remain; the sessions canvas starts without browser errors.
+- No public assets, global navigation, Client OS, payment, table-game, penalty-engine, Supabase, Stripe, POS, QR destination, or secret surface changed.
+State:
+- Local release gate is green. A shared dependency junction required the supported Webpack builder locally; remote CI will run a clean dependency install and the repository's normal Turbopack build.
+- Push, draft PR creation, remote checks, and Anthony's visual review remain. Merge is not authorized for Task 2.
+
+### [CHECK-IN] Codex - 2026-07-24 16:19 EDT - Bodega stable demo slug
+Picking up: Give the existing Bodega owner-review menu a stable `/demo/bodega` home, preserve the old menu URL with a permanent redirect, and keep the sessions prototype reachable.
+State I see:
+- Task 1 is merged in production as PR #183; both Las Palmas live routes return the expected content, notice, skin, and robots metadata.
+- This clean sibling worktree starts from updated `origin/main` at `6829104`.
+- Existing Bodega menu content, data, signal logo, styles, review notices, and sessions route are already present and unlinked.
+Plan:
+- Move the existing four-file menu route as one unit to `/demo/bodega`, add a minimal 308 old-route page, and update only the sessions backlink.
+- Run targeted lint, types, production build, diff boundaries, and 390x844 route/redirect/session checks.
+- Push and open a draft PR, then stop before merge for Anthony's visual review.
+Boundaries:
+- Preserve one source of truth, all noindex/nofollow/nocache and owner-review/prices-withheld notices, and unlinked status.
+- Do not touch Supabase, Stripe, POS, secrets, customer data, Client OS routes, public assets, game mechanics, navigation, or physical QR destinations.
+
 ### [CHECK-OUT] Codex - 2026-07-24 16:15 EDT - Las Palmas release gate
 Did:
 - Audited the full prospect-demo diff against the frozen engine, data, payment, Client OS, QR, asset, and approval boundaries.
