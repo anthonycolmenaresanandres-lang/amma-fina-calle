@@ -1622,3 +1622,10 @@ Blocked:
 - Asset gate: 37 originals remain untouched; 37 final 1024x1024 WebP restorations exist under `/assets/laspalmas/menu-enhanced`, total 5.54 MB. The media JSON has 37 matching references, zero missing files, and the lowest source/final structural correlation measured 0.9897 after the permitted tonal/sharpness changes.
 - Verification: after rebasing the concurrent Las Palmas dropdown/game-art commits, `git diff --check` and `npm run build` pass again. Browser QA passes at 390x844 and 1440x900: route 200, all 39 native item dropdowns open/close, 37/37 enhanced photos load, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus the pending-client-approval and owner-review notices remain visible. The only console noise is the known local-only Vercel Insights 404/MIME warning.
 - Scope: only the 37 enhanced WebP assets, their 37 media-path updates, and this log are eligible to commit. QA sheets, one-time root installer manifests, and the two rejected duplicate source images remain local-only. No merge.
+
+## [CHECK-OUT] Codex - 2026-07-25 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Delivered: commit `9f575ed` pushed to `claude/las-palmas-menu-game-59vtbg`, preserving the concurrent Las Palmas dropdown and game-art commits while adding the 37 fidelity-safe menu restorations.
+- Remote gate: draft PR #187 is open and mergeable; GitHub `web`, Vercel, and Vercel Preview Comments checks pass for the pushed head. The preview remains owner-review only and all restaurant media/content remains PENDING CLIENT APPROVAL.
+- State: PR #187 is not merged. The canonical checkout, local QA evidence, two rejected duplicate images, and one-time root installer manifests remain untouched and outside the commit.
+- Next: Anthony reviews the Vercel preview and decides whether the photo treatment is approved; production merge remains a separate explicit approval.
