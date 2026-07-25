@@ -1629,3 +1629,21 @@ Blocked:
 - Remote gate: draft PR #187 is open and mergeable; GitHub `web`, Vercel, and Vercel Preview Comments checks pass for the pushed head. The preview remains owner-review only and all restaurant media/content remains PENDING CLIENT APPROVAL.
 - State: PR #187 is not merged. The canonical checkout, local QA evidence, two rejected duplicate images, and one-time root installer manifests remain untouched and outside the commit.
 - Next: Anthony reviews the Vercel preview and decides whether the photo treatment is approved; production merge remains a separate explicit approval.
+
+## [CHECK-IN] Codex - 2026-07-25 - Las Palmas paradise demo direction
+
+- Authority: Anthony supplied the current Las Palmas tropical hero as visual direction and requested that the live prospect demo match its paradise feel.
+- Base: isolated branch `codex/las-palmas-paradise-20260725` from current `origin/main` at `90f31bb`; the dirty canonical checkout remains untouched.
+- Scope: restyle only `/demo/las-palmas` and its guest-note presentation, add one original logo-free tropical hero asset, and preserve the existing menu dataset, enhanced food media, game/table links, intake behavior, unlinked status, and `noindex, nofollow, nocache`.
+- Direction: lagoon turquoise, clear-sky blue, palm green, coral warmth, and sun-sand neutrals with open hospitality composition and fewer visible boxes.
+- Hard stops: no client logo or copied source image, no game-engine/config changes, no Supabase, Stripe, POS, Client OS, secrets, customer data, menu/pricing edits, or unsupported approval claim.
+- Release gate: targeted ESLint, `tsc --noEmit`, production build, reference-versus-implementation visual QA at phone and desktop widths, protected-surface diff check, remote checks, exact-head merge, and live route verification.
+
+## [RELEASE GATE] Codex - 2026-07-25 - Las Palmas paradise demo
+
+- Asset: added one original, logo-free 1672 x 941 WebP tropical hero at 317 KB; the supplied client image was used only as art direction.
+- Design QA: source and implementation were reviewed in one combined comparison input; the paradise palette, palm framing, centered hierarchy, waterline, island silhouette, and coral warmth pass without copying the client logo.
+- Responsive/browser gate: 390 x 844 and 1440 x 900 views have no horizontal overflow; the first native menu disclosure opens and its enhanced image renders square; console error/warning logs are empty.
+- Product gate: route metadata remains `noindex, nofollow, nocache`; 39 disclosures, 37 enhanced food images, two pending-client-approval notices, and the exact game/table destinations remain present; zero images are broken.
+- Code gate: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass.
+- Scope gate: only the Las Palmas demo presentation, its original hero asset, `design-qa.md`, and this operations record changed. Client OS, data, prices, game engine/config, integrations, secrets, and unrelated routes have no diff.

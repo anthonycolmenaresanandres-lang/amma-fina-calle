@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 import {
   lasPalmasLynnhavenMenuSections,
   lasPalmasLynnhavenMenuSourcePreview,
@@ -10,9 +12,9 @@ import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
 // Static preview only: it reuses the curated public-source Lynnhaven dataset
 // (single source of truth in src/table-os/menu/las-palmas-lynnhaven.ts) and
 // never touches Supabase or the Client OS routes (/m, /owner, /customers).
-// Visual direction: the engraved-steel business card (palm pattern, monogram)
-// translated to a palm-dusk cantina menu — same identity as the game's
-// "laspalmas" skin so menu + game read as one system.
+// Visual direction: the owner's tropical storefront hero translated into an
+// original, logo-free paradise menu — lagoon turquoise, sky blue, palm green,
+// coral warmth, and sun-sand neutrals. Menu + game remain one system.
 
 export const metadata: Metadata = {
   title: "Las Palmas · Menu concept | Fina Calle OS",
@@ -30,167 +32,157 @@ function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-/** Small engraved-style palm frond, echoing the steel business card pattern. */
-function Palm({ className }: { className?: string }): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 32 40" aria-hidden className={className} fill="currentColor">
-      <path d="M15 38c-1-8-1-16 .4-24l1.6.2c-1.2 8-1 16 0 23.8z" />
-      <path d="M16 15C11 11 5.6 10 1 12.4c4.4 3 9.8 3.4 15 1.4z" />
-      <path d="M16 15c5-4 10.4-5 15-2.6-4.4 3-9.8 3.4-15 1.4z" />
-      <path d="M16 14.6C12.4 9.6 8 7 3.4 7.6 6 12 10.8 14.6 16 14.6z" />
-      <path d="M16 14.6c3.6-5 8-7.6 12.6-7C26 12 21.2 14.6 16 14.6z" />
-      <path d="M15.6 14c-1.2-5.4 0-9.6 2.4-11.6 1.6 3.6.8 8-1.2 11.8z" />
-    </svg>
-  );
-}
-
 export default function LasPalmasDemoMenuPage(): React.JSX.Element {
   const sections = lasPalmasLynnhavenMenuSections;
   const notice = lasPalmasLynnhavenMenuSourcePreview.prominentNotice;
 
   return (
-    <main className="min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 py-10 text-[#f2ead6] sm:px-8">
-      <div className="mx-auto w-full max-w-2xl">
-        {/* Engraved header band — the steel-card palm pattern, in cantina green */}
-        <header className="border-y-2 border-[#e8b45a]/70 py-8 text-center">
-          <div className="flex items-center justify-center gap-4 text-[#e8b45a]/45">
-            <Palm className="h-6 w-5" />
-            <Palm className="h-8 w-6" />
-            <Palm className="h-6 w-5" />
+    <main className="min-h-dvh bg-[#f7efdc] text-[#123f3a]">
+      <div className="mx-auto w-full max-w-5xl bg-[#fffaf0] shadow-[0_24px_80px_rgba(8,69,72,0.13)]">
+        <header className="relative isolate flex min-h-[30rem] items-center justify-center overflow-hidden px-6 py-16 text-center sm:min-h-[34rem]">
+          <Image
+            src="/assets/laspalmas/paradise-hero-v1.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            className="-z-20 object-cover object-[58%_center]"
+          />
+          <div aria-hidden className="absolute inset-0 -z-10 bg-[#04383d]/40" />
+
+          <div className="max-w-3xl text-white [text-shadow:0_3px_18px_rgba(0,38,43,0.7)]">
+            <p className="text-[0.68rem] font-bold uppercase tracking-[0.32em] text-[#fff1b9]">
+              Paradise at the table
+            </p>
+            <h1 className="mt-4 font-serif text-5xl leading-[0.9] tracking-[0.08em] sm:text-7xl">
+              LAS PALMAS
+            </h1>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.3em] text-white">
+              Mexican Restaurant &amp; Cantina
+            </p>
+            <p className="mt-2 text-[0.68rem] uppercase tracking-[0.22em] text-white/80">
+              Lynnhaven · Virginia Beach · Desde 2010
+            </p>
+            <Link
+              href="/penalty-shootout?skin=laspalmas"
+              className="mt-8 inline-flex min-h-11 items-center rounded-full bg-[#ef5d43] px-6 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_12px_30px_rgba(99,29,20,0.32)] transition hover:bg-[#d94c36] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              Play the Cantina Shootout
+            </Link>
+            <p className="mt-3 text-[0.65rem] uppercase tracking-[0.18em] text-white/78">
+              Beat the blue keeper · 5 shots from the spot
+            </p>
           </div>
-          <h1 className="mt-4 font-serif text-5xl tracking-[0.14em] text-[#f7f1e0]">
-            LAS PALMAS
-          </h1>
-          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.34em] text-[#e8b45a]">
-            Mexican Restaurant &amp; Cantina
-          </p>
-          <p className="mt-2 text-[0.7rem] uppercase tracking-[0.26em] text-[#a9b8a9]">
-            Lynnhaven · Virginia Beach · Desde 2010
-          </p>
         </header>
 
-        <p className="mt-5 border-l-2 border-[#e8b45a]/60 pl-3 text-left text-[0.72rem] leading-5 text-[#d8c99a]">
-          <span className="block font-semibold uppercase tracking-[0.12em] text-[#e8b45a]">
-            Pending client approval · Demo only
-          </span>
-          {notice}
-        </p>
-
-        {/* The hook: menu + game are one experience */}
-        <div className="mt-7 text-center">
-          <Link
-            href="/penalty-shootout?skin=laspalmas"
-            className="inline-flex min-h-11 items-center gap-2 border border-[#d5322d] bg-[#d5322d] px-6 text-xs font-bold uppercase tracking-[0.2em] text-[#fff6ec] transition hover:bg-[#b7241f]"
-          >
-            Play the Cantina Shootout
-          </Link>
-          <p className="mt-2 text-[0.68rem] uppercase tracking-[0.22em] text-[#a9b8a9]">
-            Beat the blue keeper · 5 shots from the spot
+        <div className="mx-auto w-full max-w-2xl px-5 sm:px-8">
+          <p className="mt-6 border-l-2 border-[#ef5d43] pl-3 text-left text-[0.72rem] leading-5 text-[#4c6b65]">
+            <span className="block font-semibold uppercase tracking-[0.12em] text-[#d94832]">
+              Pending client approval · Demo only
+            </span>
+            {notice}
           </p>
         </div>
 
         <nav
           aria-label="Menu sections"
-          className="sticky top-0 z-10 -mx-5 mt-8 flex gap-2 overflow-x-auto border-b border-[#e8b45a]/20 bg-[#06130d]/90 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
+          className="sticky top-0 z-10 mt-7 flex gap-6 overflow-x-auto border-b border-[#17aeb4]/20 bg-[#fffaf0]/95 px-5 py-4 shadow-[0_8px_24px_rgba(6,74,75,0.08)] backdrop-blur [scrollbar-width:none] sm:px-8"
         >
           {sections.map((section) => (
             <a
               key={section.name}
               href={`#sec-${slugify(section.name)}`}
-              className="shrink-0 border border-[#a9b8a9]/25 px-3.5 py-1.5 text-xs font-medium text-[#cfd8c8] transition hover:border-[#e8b45a]/70 hover:text-[#f4d99c]"
+              className="shrink-0 border-b-2 border-transparent py-1 text-xs font-semibold text-[#267370] transition hover:border-[#ef5d43] hover:text-[#bd3f2c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0b8d94]"
             >
               {section.name}
             </a>
           ))}
         </nav>
 
-        <div className="mt-8 space-y-10">
-          {sections.map((section) => (
-            <section key={section.name} id={`sec-${slugify(section.name)}`} className="scroll-mt-20">
-              <h2 className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#e8b45a]">
-                <Palm className="h-4 w-3.5 shrink-0 text-[#e8b45a]/60" />
-                {section.name}
-                <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-[#e8b45a]/40 to-transparent" />
-              </h2>
-              <ul className="mt-3">
-                {section.items.map((item) => {
-                  const hasMedia = Boolean(item.photo || item.description);
-                  const row = (
-                    <span className="flex w-full items-baseline gap-3">
-                      <span className="font-medium text-[#f2ead6]">{item.name}</span>
-                      <span
-                        aria-hidden
-                        className="mb-1 flex-1 self-end border-b border-dotted border-[#a9b8a9]/30"
-                      />
-                      <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
-                        {item.priceDisplay}
+        <div className="mx-auto w-full max-w-2xl px-5 pb-12 sm:px-8">
+          <div className="mt-10 space-y-12">
+            {sections.map((section) => (
+              <section
+                key={section.name}
+                id={`sec-${slugify(section.name)}`}
+                className="scroll-mt-24"
+              >
+                <h2 className="border-b border-[#18aeb4]/25 pb-3 text-sm font-bold uppercase tracking-[0.23em] text-[#087f85]">
+                  {section.name}
+                </h2>
+                <ul className="mt-3">
+                  {section.items.map((item) => {
+                    const hasMedia = Boolean(item.photo || item.description);
+                    const row = (
+                      <span className="flex w-full items-baseline gap-3">
+                        <span className="font-semibold text-[#153f3b]">{item.name}</span>
+                        <span
+                          aria-hidden
+                          className="mb-1 flex-1 self-end border-b border-dotted border-[#1e8e8e]/30"
+                        />
+                        <span className="shrink-0 font-bold tabular-nums text-[#c84a35]">
+                          {item.priceDisplay}
+                        </span>
                       </span>
-                    </span>
-                  );
-                  return (
-                    <li key={item.name} className="border-b border-[#e8b45a]/10">
-                      {hasMedia ? (
-                        // Dropdown per item: name + price always visible; the
-                        // photo + description reveal on tap. Native details/
-                        // summary keeps it JS-free and keyboard-accessible.
-                        <details className="group">
-                          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 py-2.5 [&::-webkit-details-marker]:hidden">
-                            {row}
-                            <svg
-                              aria-hidden
-                              viewBox="0 0 12 8"
-                              className="h-2 w-3 shrink-0 text-[#e8b45a]/70 transition-transform group-open:rotate-180"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                            >
-                              <path d="M1 1.5 6 6.5 11 1.5" />
-                            </svg>
-                          </summary>
-                          <div className="pb-4 pl-1 pr-6">
-                            {item.description ? (
-                              <p className="text-sm leading-6 text-[#c9d4c2]">{item.description}</p>
-                            ) : null}
-                            {item.photo ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={item.photo}
-                                alt={item.name}
-                                loading="lazy"
-                                className="mt-3 aspect-square w-full max-w-xs rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:max-w-sm"
+                    );
+                    return (
+                      <li key={item.name} className="border-b border-[#187e7f]/10">
+                        {hasMedia ? (
+                          <details className="group">
+                            <summary className="flex min-h-12 cursor-pointer list-none items-center gap-2 py-3 [&::-webkit-details-marker]:hidden">
+                              {row}
+                              <ChevronDown
+                                aria-hidden
+                                className="h-4 w-4 shrink-0 text-[#0b8d94] transition-transform group-open:rotate-180"
+                                strokeWidth={2}
                               />
-                            ) : null}
-                          </div>
-                        </details>
-                      ) : (
-                        <div className="flex min-h-11 items-center py-2.5 pr-5">{row}</div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
+                            </summary>
+                            <div className="pb-5 pr-6">
+                              {item.description ? (
+                                <p className="text-sm leading-6 text-[#52716b]">
+                                  {item.description}
+                                </p>
+                              ) : null}
+                              {item.photo ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={item.photo}
+                                  alt={item.name}
+                                  loading="lazy"
+                                  className="mt-4 aspect-square w-full max-w-xs rounded-3xl object-cover shadow-[0_16px_36px_rgba(14,83,78,0.16)] sm:max-w-sm"
+                                />
+                              ) : null}
+                            </div>
+                          </details>
+                        ) : (
+                          <div className="flex min-h-12 items-center py-3 pr-5">{row}</div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+
+          <div className="mt-14 border-t border-[#18aeb4]/25 pt-7 text-center">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#547b74]">
+              Full table experience concept
+            </p>
+            <Link
+              href="/table/las-palmas-lynnhaven/1"
+              className="mt-3 inline-block text-sm font-bold text-[#07858c] underline decoration-[#ef5d43]/60 underline-offset-4 hover:decoration-[#ef5d43] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#07858c]"
+            >
+              Open Table 1 — menu, service requests &amp; table game
+            </Link>
+          </div>
+
+          <LasPalmasGuestNoteForm />
+
+          <footer className="mt-10 pb-2 text-center text-[0.62rem] uppercase tracking-[0.28em] text-[#4d7770]/55">
+            Owner-review concept · Menu by Fina Calle
+          </footer>
         </div>
-
-        <div className="mt-12 border-t border-[#e8b45a]/20 pt-6 text-center">
-          <p className="text-[0.7rem] uppercase tracking-[0.22em] text-[#a9b8a9]">
-            Full table experience concept
-          </p>
-          <Link
-            href="/table/las-palmas-lynnhaven/1"
-            className="mt-2 inline-block text-sm font-semibold text-[#f4d99c] underline decoration-[#e8b45a]/50 underline-offset-4 hover:decoration-[#e8b45a]"
-          >
-            Open Table 1 — menu, service requests &amp; table game
-          </Link>
-        </div>
-
-        <LasPalmasGuestNoteForm />
-
-        <footer className="mt-10 pb-2 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd8c8]/40">
-          Owner-review concept · Menu by Fina Calle
-        </footer>
       </div>
     </main>
   );
