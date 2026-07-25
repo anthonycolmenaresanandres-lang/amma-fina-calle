@@ -1595,3 +1595,9 @@ Blocked:
 - Media QA: 39 descriptions retained; 37 distinct, visually reviewed 640x640 WebP assets retained. One unrelated duplicate source image assigned to both `Lunch Burrito Texano` and `Ceviche Las Palmas` was rejected; those two records use the existing no-photo fallback.
 - Verification: `node --check tools/laspalmas-menu-scrape.mjs`, `npm run build` in `APP/web`, and `git diff --check` pass. Phone-width browser QA at 390x844 confirms 39 rendered descriptions, 37 loaded images, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus both pending-client-approval notices.
 - Scope: only the media JSON, its referenced menu images, one evidence-backed card selector, and this log are eligible to commit. Root installer manifests and rejected image files remain local-only and must not enter PR #187. No merge.
+
+## [CHECK-OUT] Codex - 2026-07-24 - PR #187 Las Palmas menu-media harvest
+
+- Delivered: commit `5648c3a` pushed to `claude/las-palmas-menu-game-59vtbg`, updating draft PR #187 with 39 verified public-source descriptions, 37 visually accepted menu images, and the current DoorDash card selector.
+- State: local build and 390x844 browser gate pass; rejected duplicate media and root one-time installer manifests were not committed. The canonical checkout and the older divergent worktree remain untouched.
+- Next: Anthony reviews the PR/Vercel preview. Photos, descriptions, menu/prices, and all prospect content remain PENDING CLIENT APPROVAL. PR #187 is not merged.
