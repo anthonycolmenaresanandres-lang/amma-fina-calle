@@ -111,14 +111,24 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
                 {section.name}
                 <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-[#e8b45a]/40 to-transparent" />
               </h2>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-4 space-y-4">
                 {section.items.map((item) => (
-                  <li key={item.name} className="flex items-baseline gap-3">
-                    <span className="font-medium text-[#f2ead6]">{item.name}</span>
-                    <span
-                      aria-hidden
-                      className="mb-1 flex-1 self-end border-b border-dotted border-[#a9b8a9]/30"
-                    />
+                  <li key={item.name} className="flex items-start gap-4">
+                    {item.photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.photo}
+                        alt={item.name}
+                        loading="lazy"
+                        className="h-16 w-16 shrink-0 rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:h-20 sm:w-20"
+                      />
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-[#f2ead6]">{item.name}</p>
+                      {item.description ? (
+                        <p className="mt-0.5 text-sm leading-5 text-[#a9b8a9]">{item.description}</p>
+                      ) : null}
+                    </div>
                     <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
                       {item.priceDisplay}
                     </span>

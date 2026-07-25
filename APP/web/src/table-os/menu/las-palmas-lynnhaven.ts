@@ -5,6 +5,14 @@
  */
 
 import type { MaracaiboMenuItem, MaracaiboMenuSection } from "./maracaibo";
+import mediaJson from "./las-palmas-lynnhaven-media.json";
+
+// Per-item description + photo harvested from the same public DoorDash page as
+// the prices (tools/laspalmas-menu-scrape.mjs writes this file; photos land in
+// /public/assets/laspalmas/menu/). Restaurant's own marketing content — demo
+// use only, PENDING CLIENT APPROVAL. Empty file → menu renders exactly as
+// before (names + prices only).
+const MEDIA = mediaJson as Record<string, { description?: string; photo?: string }>;
 
 type LasPalmasMenuSource = Readonly<{
   url: string;
@@ -41,6 +49,7 @@ const item = (name: string, priceCents: number, priceDisplay: string): Maracaibo
   name,
   priceCents,
   priceDisplay,
+  ...MEDIA[name],
 });
 
 /**

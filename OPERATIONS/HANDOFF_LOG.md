@@ -1572,3 +1572,12 @@ Blocked:
 - Authority: Anthony approved the "10 seconds a day" Odyssey production — Claude studies one craft topic daily, generates one QA-gated 10s shot, Anthony edits.
 - System: STUDIO/ODYSSEY_DAILY/ (PRODUCTION_BIBLE.md look-locks + no-slop QA gate + budget cap ~$5-15/day; SHOT_LIST.md 30-day curriculum ≈ 5-min short; DAILY_LOG.md).
 - Rights: Butler public-domain translation only; original character designs; no studio-film references or real faces. Engine: Runway (Anthony's workspace); Higgsfield free tier benched.
+
+## [CHECK-IN] Claude - 2026-07-24 - Las Palmas menu photos: photo-ready layer + harvester
+
+- Authority: Anthony asked for DoorDash food photos + descriptions under each /demo/las-palmas item, Colattao-style, via an automated (time-friendly) route.
+- Blocker found: the remote container's network policy blocks order.online / cdn4dd / irp.cdn-website.com (and WebFetch 403s) — harvesting cannot run from the cloud session.
+- Shipped: optional description/photo on MaracaiboMenuItem; las-palmas-lynnhaven merges tools-generated las-palmas-lynnhaven-media.json (empty = renders as before); /demo/las-palmas renders Colattao-style thumb + description with clean fallback; tools/laspalmas-menu-scrape.mjs (Playwright item-modal click-through, image download → webp, JSON writer) ready for any open-internet machine.
+- Verified: build/tsc/eslint clean on empty media; merge+render proven with a stand-in entry then reverted.
+- Rights: photos are the restaurant's own public marketing images — demo/owner-review only, PENDING CLIENT APPROVAL (same rule as prices).
+- Next: Codex runs the harvester on the data-center machine, commits JSON + webp assets, PR; or Anthony opens the environment network policy and Claude runs it in-cloud.
