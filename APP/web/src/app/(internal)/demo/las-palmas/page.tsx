@@ -4,6 +4,7 @@ import {
   lasPalmasLynnhavenMenuSections,
   lasPalmasLynnhavenMenuSourcePreview,
 } from "@/table-os/menu/las-palmas-lynnhaven";
+import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
 
 // Las Palmas prospect demo menu — PENDING CLIENT APPROVAL, unlinked + noindex.
 // Static preview only: it reuses the curated public-source Lynnhaven dataset
@@ -184,6 +185,8 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
             Open Table 1 — menu, service requests &amp; table game
           </Link>
         </div>
+
+        <LasPalmasGuestNoteForm />
 
         <footer className="mt-10 pb-2 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd8c8]/40">
           Owner-review concept · Menu by Fina Calle
