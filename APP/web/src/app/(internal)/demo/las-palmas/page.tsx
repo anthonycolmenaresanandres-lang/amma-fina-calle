@@ -111,29 +111,63 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
                 {section.name}
                 <span aria-hidden className="h-px flex-1 bg-gradient-to-r from-[#e8b45a]/40 to-transparent" />
               </h2>
-              <ul className="mt-4 space-y-4">
-                {section.items.map((item) => (
-                  <li key={item.name} className="flex items-start gap-4">
-                    {item.photo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={item.photo}
-                        alt={item.name}
-                        loading="lazy"
-                        className="h-16 w-16 shrink-0 rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:h-20 sm:w-20"
+              <ul className="mt-3">
+                {section.items.map((item) => {
+                  const hasMedia = Boolean(item.photo || item.description);
+                  const row = (
+                    <span className="flex w-full items-baseline gap-3">
+                      <span className="font-medium text-[#f2ead6]">{item.name}</span>
+                      <span
+                        aria-hidden
+                        className="mb-1 flex-1 self-end border-b border-dotted border-[#a9b8a9]/30"
                       />
-                    ) : null}
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-[#f2ead6]">{item.name}</p>
-                      {item.description ? (
-                        <p className="mt-0.5 text-sm leading-5 text-[#a9b8a9]">{item.description}</p>
-                      ) : null}
-                    </div>
-                    <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
-                      {item.priceDisplay}
+                      <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
+                        {item.priceDisplay}
+                      </span>
                     </span>
-                  </li>
-                ))}
+                  );
+                  return (
+                    <li key={item.name} className="border-b border-[#e8b45a]/10">
+                      {hasMedia ? (
+                        // Dropdown per item: name + price always visible; the
+                        // photo + description reveal on tap. Native details/
+                        // summary keeps it JS-free and keyboard-accessible.
+                        <details className="group">
+                          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 py-2.5 [&::-webkit-details-marker]:hidden">
+                            {row}
+                            <svg
+                              aria-hidden
+                              viewBox="0 0 12 8"
+                              className="h-2 w-3 shrink-0 text-[#e8b45a]/70 transition-transform group-open:rotate-180"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            >
+                              <path d="M1 1.5 6 6.5 11 1.5" />
+                            </svg>
+                          </summary>
+                          <div className="pb-4 pl-1 pr-6">
+                            {item.description ? (
+                              <p className="text-sm leading-6 text-[#c9d4c2]">{item.description}</p>
+                            ) : null}
+                            {item.photo ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={item.photo}
+                                alt={item.name}
+                                loading="lazy"
+                                className="mt-3 h-44 w-full rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:h-56"
+                              />
+                            ) : null}
+                          </div>
+                        </details>
+                      ) : (
+                        <div className="flex min-h-11 items-center py-2.5 pr-5">{row}</div>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ))}
