@@ -1608,3 +1608,17 @@ Blocked:
 - Processed in-session with sharp: magenta backdrops flood-filled to alpha + de-haloed, AI sparkle marks cropped/patched, stadium conformed to the 941x1672 authoring canvas (175KB webp).
 - Wired: laspalmas skin background + backgroundFit (scale 1.35, offsetY -0.175, scrim 0.2), kicker burrito (street/pro), levelKickers club=quesabirria; ad-zone board turned OFF (branding via backdrop, Colattao pattern); Bruno the blue keeper unchanged (campaign kit).
 - Verified: build/tsc/eslint clean; 390x844 QA street+club+default paths, no asset 404s. PENDING CLIENT APPROVAL before production.
+
+## [CHECK-IN] Codex - 2026-07-24 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Authority: Anthony explicitly requested menu-quality enhancement of every recently retained Las Palmas food photo. The 37 accepted source photos are the complete scope; the two previously rejected duplicate images remain excluded.
+- Invariants: preserve the exact dish, plating, portion, ingredients, garnishes, sauces, plate, utensils, crop, perspective, and camera angle. Permitted changes are resolution, clean sharpness, white balance, restrained natural vibrancy, soft warm lighting, and minimal tonal/background cleanup only.
+- Workflow: keep originals untouched; write candidate 1024x1024 outputs under `/public/assets/laspalmas/menu-enhanced`; compare every candidate against its source and reject any content or composition drift before wiring it into the demo.
+- Stop conditions: all media and menu content remain PENDING CLIENT APPROVAL; no production merge, Client OS, Supabase, Stripe, POS, secrets, prices, or unrelated routes.
+
+## [RELEASE GATE] Codex - 2026-07-24 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Fidelity decision: all 37 sources were processed through the built-in image-edit workflow, but side-by-side and structural QA found semantic redraw in several low-resolution candidates. Those generative candidates were rejected from the product; the shippable set was rebuilt directly from the original pixels with deterministic upscale, restrained white-balance/color/lighting correction, and mild sharpening. No food, plating, portion, ingredient, plateware, crop, perspective, or background object was added, removed, moved, or regenerated.
+- Asset gate: 37 originals remain untouched; 37 final 1024x1024 WebP restorations exist under `/assets/laspalmas/menu-enhanced`, total 5.54 MB. The media JSON has 37 matching references, zero missing files, and the lowest source/final structural correlation measured 0.9897 after the permitted tonal/sharpness changes.
+- Verification: after rebasing the concurrent Las Palmas dropdown/game-art commits, `git diff --check` and `npm run build` pass again. Browser QA passes at 390x844 and 1440x900: route 200, all 39 native item dropdowns open/close, 37/37 enhanced photos load, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus the pending-client-approval and owner-review notices remain visible. The only console noise is the known local-only Vercel Insights 404/MIME warning.
+- Scope: only the 37 enhanced WebP assets, their 37 media-path updates, and this log are eligible to commit. QA sheets, one-time root installer manifests, and the two rejected duplicate source images remain local-only. No merge.
