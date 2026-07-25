@@ -1566,3 +1566,66 @@ Blocked:
 
 - Verified: production build, tsc, targeted ESLint pass; headless phone QA (390x844) of `/demo/las-palmas`, `laspalmas` game path (blue keeper dive, ad board legible, kicker framed, GOAL/SAVED flow, confetti + flash + camera shake firing once per shot), and default Fina Calle skin regression; no console errors beyond local-only Vercel insights; no horizontal overflow.
 - State: pushed to `claude/las-palmas-menu-game-59vtbg`, draft PR for owner review. NOT production: merge to `main` needs Anthony's explicit approval + Javier's written asset/menu sign-off.
+
+## [CHECK-IN] Claude - 2026-07-24 - Odyssey Daily started (10s/day film craft program)
+
+- Authority: Anthony approved the "10 seconds a day" Odyssey production — Claude studies one craft topic daily, generates one QA-gated 10s shot, Anthony edits.
+- System: STUDIO/ODYSSEY_DAILY/ (PRODUCTION_BIBLE.md look-locks + no-slop QA gate + budget cap ~$5-15/day; SHOT_LIST.md 30-day curriculum ≈ 5-min short; DAILY_LOG.md).
+- Rights: Butler public-domain translation only; original character designs; no studio-film references or real faces. Engine: Runway (Anthony's workspace); Higgsfield free tier benched.
+
+## [CHECK-IN] Claude - 2026-07-24 - Las Palmas menu photos: photo-ready layer + harvester
+
+- Authority: Anthony asked for DoorDash food photos + descriptions under each /demo/las-palmas item, Colattao-style, via an automated (time-friendly) route.
+- Blocker found: the remote container's network policy blocks order.online / cdn4dd / irp.cdn-website.com (and WebFetch 403s) — harvesting cannot run from the cloud session.
+- Shipped: optional description/photo on MaracaiboMenuItem; las-palmas-lynnhaven merges tools-generated las-palmas-lynnhaven-media.json (empty = renders as before); /demo/las-palmas renders Colattao-style thumb + description with clean fallback; tools/laspalmas-menu-scrape.mjs (Playwright item-modal click-through, image download → webp, JSON writer) ready for any open-internet machine.
+- Verified: build/tsc/eslint clean on empty media; merge+render proven with a stand-in entry then reverted.
+- Rights: photos are the restaurant's own public marketing images — demo/owner-review only, PENDING CLIENT APPROVAL (same rule as prices).
+- Next: Codex runs the harvester on the data-center machine, commits JSON + webp assets, PR; or Anthony opens the environment network policy and Claude runs it in-cloud.
+
+## [CHECK-IN] Codex - 2026-07-24 - PR #187 Las Palmas menu-media harvest
+
+- Authority: Anthony explicitly approved installing the local scraper dependencies, harvesting the public menu media, verifying the private demo, and pushing the scoped artifacts to PR #187. No merge is authorized.
+- State: work is isolated in `C:\Dev\amma\worktrees\las-palmas-media-pr187` at remote head `f711311`; the dirty canonical checkout and the older divergent Las Palmas worktree are preserved untouched.
+- Scope: run `tools/laspalmas-menu-scrape.mjs`, change its candidate selectors only if the first run finds zero cards, build `APP/web`, and verify `/demo/las-palmas` at phone width.
+- Commit boundary: media JSON, generated `/public/assets/laspalmas/menu` images, this handoff evidence, and only a required selector repair. Photos and descriptions remain PENDING CLIENT APPROVAL; no merge, production launch, Client OS, Supabase, Stripe, POS, secret, or unrelated-route changes.
+
+## [RELEASE GATE] Codex - 2026-07-24 - PR #187 Las Palmas menu media
+
+- Source result: standalone Playwright and the required headed retry reached DoorDash Cloudflare verification before menu DOM. The normal connected browser exposed the same public page's server-rendered DoorDash feed; all 39 curated names matched by normalized name and price. `Carne Asada Fries` showed public price drift (`$22.99` versus the held demo `$21.99`), so media only was harvested and pricing remains pending owner confirmation.
+- Media QA: 39 descriptions retained; 37 distinct, visually reviewed 640x640 WebP assets retained. One unrelated duplicate source image assigned to both `Lunch Burrito Texano` and `Ceviche Las Palmas` was rejected; those two records use the existing no-photo fallback.
+- Verification: `node --check tools/laspalmas-menu-scrape.mjs`, `npm run build` in `APP/web`, and `git diff --check` pass. Phone-width browser QA at 390x844 confirms 39 rendered descriptions, 37 loaded images, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus both pending-client-approval notices.
+- Scope: only the media JSON, its referenced menu images, one evidence-backed card selector, and this log are eligible to commit. Root installer manifests and rejected image files remain local-only and must not enter PR #187. No merge.
+
+## [CHECK-OUT] Codex - 2026-07-24 - PR #187 Las Palmas menu-media harvest
+
+- Delivered: commit `5648c3a` pushed to `claude/las-palmas-menu-game-59vtbg`, updating draft PR #187 with 39 verified public-source descriptions, 37 visually accepted menu images, and the current DoorDash card selector.
+- State: local build and 390x844 browser gate pass; rejected duplicate media and root one-time installer manifests were not committed. The canonical checkout and the older divergent worktree remain untouched.
+- Next: Anthony reviews the PR/Vercel preview. Photos, descriptions, menu/prices, and all prospect content remain PENDING CLIENT APPROVAL. PR #187 is not merged.
+
+## [CHECKPOINT] Claude - 2026-07-25 - Las Palmas game art live on preview
+
+- Anthony supplied final art (own generations): Burrito California #10 + Quesabirria #7 die-cut mascots and the palm-fiesta stadium. Pollo Yucatan dropped; only these 2 characters ship for now.
+- Processed in-session with sharp: magenta backdrops flood-filled to alpha + de-haloed, AI sparkle marks cropped/patched, stadium conformed to the 941x1672 authoring canvas (175KB webp).
+- Wired: laspalmas skin background + backgroundFit (scale 1.35, offsetY -0.175, scrim 0.2), kicker burrito (street/pro), levelKickers club=quesabirria; ad-zone board turned OFF (branding via backdrop, Colattao pattern); Bruno the blue keeper unchanged (campaign kit).
+- Verified: build/tsc/eslint clean; 390x844 QA street+club+default paths, no asset 404s. PENDING CLIENT APPROVAL before production.
+
+## [CHECK-IN] Codex - 2026-07-24 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Authority: Anthony explicitly requested menu-quality enhancement of every recently retained Las Palmas food photo. The 37 accepted source photos are the complete scope; the two previously rejected duplicate images remain excluded.
+- Invariants: preserve the exact dish, plating, portion, ingredients, garnishes, sauces, plate, utensils, crop, perspective, and camera angle. Permitted changes are resolution, clean sharpness, white balance, restrained natural vibrancy, soft warm lighting, and minimal tonal/background cleanup only.
+- Workflow: keep originals untouched; write candidate 1024x1024 outputs under `/public/assets/laspalmas/menu-enhanced`; compare every candidate against its source and reject any content or composition drift before wiring it into the demo.
+- Stop conditions: all media and menu content remain PENDING CLIENT APPROVAL; no production merge, Client OS, Supabase, Stripe, POS, secrets, prices, or unrelated routes.
+
+## [RELEASE GATE] Codex - 2026-07-24 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Fidelity decision: all 37 sources were processed through the built-in image-edit workflow, but side-by-side and structural QA found semantic redraw in several low-resolution candidates. Those generative candidates were rejected from the product; the shippable set was rebuilt directly from the original pixels with deterministic upscale, restrained white-balance/color/lighting correction, and mild sharpening. No food, plating, portion, ingredient, plateware, crop, perspective, or background object was added, removed, moved, or regenerated.
+- Asset gate: 37 originals remain untouched; 37 final 1024x1024 WebP restorations exist under `/assets/laspalmas/menu-enhanced`, total 5.54 MB. The media JSON has 37 matching references, zero missing files, and the lowest source/final structural correlation measured 0.9897 after the permitted tonal/sharpness changes.
+- Verification: after rebasing the concurrent Las Palmas dropdown/game-art commits, `git diff --check` and `npm run build` pass again. Browser QA passes at 390x844 and 1440x900: route 200, all 39 native item dropdowns open/close, 37/37 enhanced photos load, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus the pending-client-approval and owner-review notices remain visible. The only console noise is the known local-only Vercel Insights 404/MIME warning.
+- Scope: only the 37 enhanced WebP assets, their 37 media-path updates, and this log are eligible to commit. QA sheets, one-time root installer manifests, and the two rejected duplicate source images remain local-only. No merge.
+
+## [CHECK-OUT] Codex - 2026-07-25 - PR #187 Las Palmas fidelity-locked photo enhancement
+
+- Delivered: commit `9f575ed` pushed to `claude/las-palmas-menu-game-59vtbg`, preserving the concurrent Las Palmas dropdown and game-art commits while adding the 37 fidelity-safe menu restorations.
+- Remote gate: draft PR #187 is open and mergeable; GitHub `web`, Vercel, and Vercel Preview Comments checks pass for the pushed head. The preview remains owner-review only and all restaurant media/content remains PENDING CLIENT APPROVAL.
+- State: PR #187 is not merged. The canonical checkout, local QA evidence, two rejected duplicate images, and one-time root installer manifests remain untouched and outside the commit.
+- Next: Anthony reviews the Vercel preview and decides whether the photo treatment is approved; production merge remains a separate explicit approval.

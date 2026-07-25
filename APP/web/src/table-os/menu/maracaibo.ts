@@ -8,6 +8,13 @@ export type MaracaiboMenuItem = Readonly<{
   name: string;
   priceCents: number;
   priceDisplay: string;
+  /** Public-source item description (pending owner confirmation). */
+  description?: string;
+  /** Local path under /public (e.g. /assets/laspalmas/menu/quesabirria.webp).
+   *  Restaurant's own marketing photo from its public ordering page — demo use
+   *  only, PENDING CLIENT APPROVAL before production use. Missing → no image
+   *  rendered (never a broken layout). */
+  photo?: string;
 }>;
 
 export type MaracaiboMenuSection = Readonly<{
