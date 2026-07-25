@@ -62,9 +62,12 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
 export const LASPALMAS_CAMPAIGN: PenaltyCampaign = {
   id: "laspalmas",
   client: "Las Palmas (prospect)",
+  // Behind-goal branding now lives in the owner-approved fiesta backdrop
+  // (crowd/palms/papel picado), so the signage board is OFF — same decision
+  // as Colattao. The board asset stays in the folder for campaigns that want
+  // it back (e.g. seasonal promos).
   adZone: {
-    image: "/assets/laspalmas/penalty/adzone-laspalmas-board-v1.png",
-    label: "Las Palmas — Mexican Restaurant & Cantina, Virginia Beach",
+    label: "Behind-goal branding via fiesta backdrop (no board)",
   },
   kit: {
     player: { primary: 0xd5322d, secondary: 0xffffff },

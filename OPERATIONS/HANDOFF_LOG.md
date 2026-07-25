@@ -1601,3 +1601,10 @@ Blocked:
 - Delivered: commit `5648c3a` pushed to `claude/las-palmas-menu-game-59vtbg`, updating draft PR #187 with 39 verified public-source descriptions, 37 visually accepted menu images, and the current DoorDash card selector.
 - State: local build and 390x844 browser gate pass; rejected duplicate media and root one-time installer manifests were not committed. The canonical checkout and the older divergent worktree remain untouched.
 - Next: Anthony reviews the PR/Vercel preview. Photos, descriptions, menu/prices, and all prospect content remain PENDING CLIENT APPROVAL. PR #187 is not merged.
+
+## [CHECKPOINT] Claude - 2026-07-25 - Las Palmas game art live on preview
+
+- Anthony supplied final art (own generations): Burrito California #10 + Quesabirria #7 die-cut mascots and the palm-fiesta stadium. Pollo Yucatan dropped; only these 2 characters ship for now.
+- Processed in-session with sharp: magenta backdrops flood-filled to alpha + de-haloed, AI sparkle marks cropped/patched, stadium conformed to the 941x1672 authoring canvas (175KB webp).
+- Wired: laspalmas skin background + backgroundFit (scale 1.35, offsetY -0.175, scrim 0.2), kicker burrito (street/pro), levelKickers club=quesabirria; ad-zone board turned OFF (branding via backdrop, Colattao pattern); Bruno the blue keeper unchanged (campaign kit).
+- Verified: build/tsc/eslint clean; 390x844 QA street+club+default paths, no asset 404s. PENDING CLIENT APPROVAL before production.

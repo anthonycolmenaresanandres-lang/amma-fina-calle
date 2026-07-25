@@ -122,11 +122,25 @@ export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
   brandName: "Las Palmas Penalty Shootout",
   skinName: "Cantina Shootout",
   colors: lasPalmasColors,
-  // Code-drawn original art (SVG-rendered, no AI-generated logo/marks). Both
-  // optional — the renderer falls back to primitives if a file is missing.
+  // Owner-supplied die-cut food-mascot stickers (processed from Anthony's
+  // uploads 2026-07-25: magenta backdrop flood-filled to alpha, AI sparkle
+  // cropped) + fiesta stadium backdrop. All optional — missing file falls
+  // back to primitives. The earlier palm mascot (kicker-laspalmas-v1.png)
+  // stays in the folder as an alternate.
   assets: {
-    kicker: "/assets/laspalmas/penalty/kicker-laspalmas-v1.png",
+    background: "/assets/laspalmas/penalty/background-laspalmas-fiesta-v1.webp",
+    kicker: "/assets/laspalmas/penalty/kicker-laspalmas-burrito-v1.webp",
   },
+  // Quesabirria #7 takes over from the Club keeper up; Street (and Pro via
+  // fallback) field Burrito California #10 — the two live characters for now.
+  levelKickers: {
+    "club-keeper": "/assets/laspalmas/penalty/kicker-laspalmas-quesabirria-v1.webp",
+  },
+  // Fiesta backdrop: grass line sits ~0.65 in the art; scale+lift lands it at
+  // ~0.53 on canvas so the crowd/stands fill the behind-goal band and the
+  // keeper dives over grass. Light scrim keeps the papel picado vivid while
+  // the UI stays legible. Cosmetic only — goal geometry is engine-drawn.
+  backgroundFit: { scrim: 0.2, scale: 1.35, offsetYPct: -0.175 },
   // Same foreground framing as the Colattao striker: big bottom-left figure so
   // the ball on the spot stays clearly visible beside it.
   kickerFit: { scale: 2.4, offsetXPct: -0.2 },
