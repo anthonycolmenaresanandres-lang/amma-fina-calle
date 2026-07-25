@@ -157,7 +157,7 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
                                 src={item.photo}
                                 alt={item.name}
                                 loading="lazy"
-                                className="mt-3 h-44 w-full rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:h-56"
+                                className="mt-3 aspect-square w-full max-w-xs rounded-xl border border-[#e8b45a]/20 object-cover ring-1 ring-white/[0.03] sm:max-w-sm"
                               />
                             ) : null}
                           </div>
