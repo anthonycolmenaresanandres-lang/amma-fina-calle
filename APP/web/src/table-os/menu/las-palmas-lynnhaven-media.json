@@ -1,1 +1,156 @@
-{}
+{
+  "Burrito California": {
+    "description": "A large burrito filled with steak or chicken, rice & beans, topped with cheese sauce. Served with lettuce, guacamole, pico de gallo and sour cream.",
+    "photo": "/assets/laspalmas/menu/burrito-california.webp"
+  },
+  "Quesabirria": {
+    "description": "Served with rice and consome.",
+    "photo": "/assets/laspalmas/menu/quesabirria.webp"
+  },
+  "Enchiladas al Queso": {
+    "description": "Three chicken enchiladas topped with our cheese sauce. Served with rice & sour cream, salad.",
+    "photo": "/assets/laspalmas/menu/enchiladas-al-queso.webp"
+  },
+  "Pollo Yucatan": {
+    "description": "Marinated chicken grilled with red and green peppers, onions. tomatoes, squash and zucchini. Served with rice, guacamole salad and flour tortillas.",
+    "photo": "/assets/laspalmas/menu/pollo-yucatan.webp"
+  },
+  "Carne Asada": {
+    "description": "Thin-cut steak with onions. Served with rice, beans, guacamole salad and pico de gallo.",
+    "photo": "/assets/laspalmas/menu/carne-asada.webp"
+  },
+  "Carnitas Michoacan": {
+    "description": "Fried pork served with rice, beans, lettuce, pico de gallo and guacamole.",
+    "photo": "/assets/laspalmas/menu/carnitas-michoacan.webp"
+  },
+  "Arroz con Pollo": {
+    "description": "Grilled chicken cooked with onions over a bed of rice, topped with melted cheese.",
+    "photo": "/assets/laspalmas/menu/arroz-con-pollo.webp"
+  },
+  "Fajitas Nachos": {
+    "description": "Grilled steak or grilled chicken with onions, bell peppers and tomatoes. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/fajitas-nachos.webp"
+  },
+  "Tableside Guacamole": {
+    "description": "Fresh tableside guacamole prepared at your table with only the freshest of ingredients.",
+    "photo": "/assets/laspalmas/menu/tableside-guacamole.webp"
+  },
+  "Queso Fundido": {
+    "description": "Cheese dip mixed with grilled chorizo.",
+    "photo": "/assets/laspalmas/menu/queso-fundido.webp"
+  },
+  "Cheese Dip": {
+    "description": "Creamy dip made from melted cheese.",
+    "photo": "/assets/laspalmas/menu/cheese-dip.webp"
+  },
+  "Guacamole Dip": {
+    "description": "A creamy dip made from avocado.",
+    "photo": "/assets/laspalmas/menu/guacamole-dip.webp"
+  },
+  "Sizzling Steak & Shrimp": {
+    "description": "Tender rib-eye steak, grilled to order with six grilled shrimp, onions, green and red peppers. Served with rice and beans. You can have it with chicken instead. Just ask! *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/sizzling-steak-shrimp.webp"
+  },
+  "Steak Vallarta": {
+    "description": "12oz. New York steak topped with shrimp and nacho cheese. Served with rice, beans, and flour tortillas. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/steak-vallarta.webp"
+  },
+  "Fajitas": {
+    "description": "Fajitas cooked with grilled onions, and red & green peppers. Served with rice, beans, lettuce, pico de gallo, guacamole and sour cream.",
+    "photo": "/assets/laspalmas/menu/fajitas.webp"
+  },
+  "Texas Fajitas": {
+    "description": "Steak, Chicken and shrimp with grilled onions, red and green peppers. Served with rice and beans, lettuce, pico de gallo, guacamole and sour cream. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/texas-fajitas.webp"
+  },
+  "Javier Special": {
+    "description": "Tender grilled rib-eye steak, half grilled chicken breast served with rice, beans, pico de gallo, guacamole salad and tortillas. Shrimp for an additional charge. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/javier-special.webp"
+  },
+  "Molcajete": {
+    "description": "Grilled shrimp, nopales (cactus) stuffed jalapenos, poblano, beef, chicken fajitas, smoked sausage, grilled onions, pico de gallo, sour cream, guacamole, beans, rice. tortillas, salsa and cheese at the bottom. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/molcajete.webp"
+  },
+  "Carne Asada Fries": {
+    "description": "Fries with cheese, sour cream, pico de gallo and guacamole.",
+    "photo": "/assets/laspalmas/menu/carne-asada-fries.webp"
+  },
+  "Special El Puerto": {
+    "description": "Grilled chicken breast with shrimp, mushrooms, peppers and onions. Served with rice and beans topped with a creamy cheese sauce.",
+    "photo": "/assets/laspalmas/menu/special-el-puerto.webp"
+  },
+  "Camarones Yucatan": {
+    "description": "Marinated shrimp grilled with red and green peppers, onions, squash zucchini. Served with rice, guacamole salad & sour cream. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/camarones-yucatan.webp"
+  },
+  "Arroz con Mariscos": {
+    "description": "Grilled shrimp & scallops on a bed of rice & topped with nacho cheese and a special ranchero sauce. Served with lettuce, sour cream, guacamole and tortillas. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/arroz-con-mariscos.webp"
+  },
+  "Camarones Sinaloa": {
+    "description": "8 shrimp wrapped with bacon with chipotle sauce.",
+    "photo": "/assets/laspalmas/menu/camarones-sinaloa.webp"
+  },
+  "Shrimp Fajitas": {
+    "description": "Jumbo shrimp, red and green peppers, onions, rice and beans guacamole, pico de gallo, sour cream, cheese and tortillas.",
+    "photo": "/assets/laspalmas/menu/shrimp-fajitas.webp"
+  },
+  "Pollo a la Crema": {
+    "description": "Grilled chicken with our special sour cream sauce. Served with rice, beans.",
+    "photo": "/assets/laspalmas/menu/pollo-a-la-crema.webp"
+  },
+  "Arroz con Camaron": {
+    "description": "Shrimp cooked with onions, over a bed of rice, topped with cheese sauce and served with tortillas. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions.",
+    "photo": "/assets/laspalmas/menu/arroz-con-camaron.webp"
+  },
+  "Burrito Dos Manos": {
+    "description": "Large four tortillas with choice of steak or chicken, stuffed with rice, beans, lettuce, tomato, sour cream and guacamole.",
+    "photo": "/assets/laspalmas/menu/burrito-dos-manos.webp"
+  },
+  "Burrito Texano": {
+    "description": "Extra large flour tortilla stuffed with your choice of grilled beef or chicken & chorizo, rice and beans topped with melted cheese. Served with, lettuce, guacamole and sour cream.",
+    "photo": "/assets/laspalmas/menu/burrito-texano.webp"
+  },
+  "Burrito San Jose": {
+    "description": "Two fajitas steak burritos, with peppers, onions and tomato, topped with cheese sauce, lettuce, tomatoes and sour cream.",
+    "photo": "/assets/laspalmas/menu/burrito-san-jose.webp"
+  },
+  "Enchiladas Supremas": {
+    "description": "Supreme combination consisting of one chicken, one beef, one beans & one cheese enchilada, topped with special sauce, lettuce, tomatoes & sour cream.",
+    "photo": "/assets/laspalmas/menu/enchiladas-supremas.webp"
+  },
+  "El Cazuelon": {
+    "description": "Tender beef, chorizo and grilled chicken. Served with rice, beans, and pico de gallo.",
+    "photo": "/assets/laspalmas/menu/el-cazuelon.webp"
+  },
+  "Palms Ranchero": {
+    "description": "Grilled chicken, steak, pork chop, chorizo, fresh cheese and fresh avocado.",
+    "photo": "/assets/laspalmas/menu/palms-ranchero.webp"
+  },
+  "Lunch Special #2": {
+    "description": "One beef burrito, rice & beans.",
+    "photo": "/assets/laspalmas/menu/lunch-special-2.webp"
+  },
+  "Lunch Burrito Texano": {
+    "description": "Flour tortilla stuffed with chorizo, choice of chicken or steak, stuffed with rice and beans and topped with melted cheese and pico de gallo. served with lettuce, tomatoes, guacamole & sour cream. Add shrimp for extra charge."
+  },
+  "Lunch Fajitas": {
+    "description": "Your choice of chicken or beef red & green peppers, served with rice and beans, lettuce, guacamole, sour cream and two flour tortillas. Mixed for extra charge.",
+    "photo": "/assets/laspalmas/menu/lunch-fajitas.webp"
+  },
+  "Tacos de Birria": {
+    "description": "Corn tortilla with delicious barbacoa. Served with queso Oaxaca, cilantro and onions on the side.",
+    "photo": "/assets/laspalmas/menu/tacos-de-birria.webp"
+  },
+  "Tacos de Carne Asada": {
+    "description": "Grilled rib-eye steak, served with onions and cilantro.",
+    "photo": "/assets/laspalmas/menu/tacos-de-carne-asada.webp"
+  },
+  "Tacos de Tripa": {
+    "description": "Served with onions, cilantro, rice and beans.",
+    "photo": "/assets/laspalmas/menu/tacos-de-tripa.webp"
+  },
+  "Ceviche Las Palmas": {
+    "description": "Shrimp or fish marinated in lime juice and mixed with tomatoes, onions and cilantro. *Notice: May be cooked to order. Consuming raw or undercooked meats, poultry, seafood, shellfish or eggs may increase your risk of foodborne illness, especially if you have certain medical conditions."
+  }
+}

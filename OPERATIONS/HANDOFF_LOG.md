@@ -1581,3 +1581,17 @@ Blocked:
 - Verified: build/tsc/eslint clean on empty media; merge+render proven with a stand-in entry then reverted.
 - Rights: photos are the restaurant's own public marketing images — demo/owner-review only, PENDING CLIENT APPROVAL (same rule as prices).
 - Next: Codex runs the harvester on the data-center machine, commits JSON + webp assets, PR; or Anthony opens the environment network policy and Claude runs it in-cloud.
+
+## [CHECK-IN] Codex - 2026-07-24 - PR #187 Las Palmas menu-media harvest
+
+- Authority: Anthony explicitly approved installing the local scraper dependencies, harvesting the public menu media, verifying the private demo, and pushing the scoped artifacts to PR #187. No merge is authorized.
+- State: work is isolated in `C:\Dev\amma\worktrees\las-palmas-media-pr187` at remote head `f711311`; the dirty canonical checkout and the older divergent Las Palmas worktree are preserved untouched.
+- Scope: run `tools/laspalmas-menu-scrape.mjs`, change its candidate selectors only if the first run finds zero cards, build `APP/web`, and verify `/demo/las-palmas` at phone width.
+- Commit boundary: media JSON, generated `/public/assets/laspalmas/menu` images, this handoff evidence, and only a required selector repair. Photos and descriptions remain PENDING CLIENT APPROVAL; no merge, production launch, Client OS, Supabase, Stripe, POS, secret, or unrelated-route changes.
+
+## [RELEASE GATE] Codex - 2026-07-24 - PR #187 Las Palmas menu media
+
+- Source result: standalone Playwright and the required headed retry reached DoorDash Cloudflare verification before menu DOM. The normal connected browser exposed the same public page's server-rendered DoorDash feed; all 39 curated names matched by normalized name and price. `Carne Asada Fries` showed public price drift (`$22.99` versus the held demo `$21.99`), so media only was harvested and pricing remains pending owner confirmation.
+- Media QA: 39 descriptions retained; 37 distinct, visually reviewed 640x640 WebP assets retained. One unrelated duplicate source image assigned to both `Lunch Burrito Texano` and `Ceviche Las Palmas` was rejected; those two records use the existing no-photo fallback.
+- Verification: `node --check tools/laspalmas-menu-scrape.mjs`, `npm run build` in `APP/web`, and `git diff --check` pass. Phone-width browser QA at 390x844 confirms 39 rendered descriptions, 37 loaded images, zero broken images, zero horizontal overflow, and `noindex, nofollow, nocache` plus both pending-client-approval notices.
+- Scope: only the media JSON, its referenced menu images, one evidence-backed card selector, and this log are eligible to commit. Root installer manifests and rejected image files remain local-only and must not enter PR #187. No merge.

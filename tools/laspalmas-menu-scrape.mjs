@@ -52,6 +52,7 @@ const CARD_CANDIDATES = [
   '[data-anchor-id="MenuItem"]',
   '[data-testid="MenuItem"]',
   '[data-item-id]',
+  '[data-testid="image-action-card-container"]',
   'div[role="button"][aria-label]',
 ];
 const MODAL_CANDIDATES = ['[role="dialog"]', '[data-testid="ItemModal"]'];
