@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-25 (morning twice-daily check-in — **everything green, nothing red anywhere, no code action needed.** Since the 07-24 evening run Anthony merged **two more additive Las Palmas demo PRs** to amma `main` — **#187** (Las Palmas photo dropdown menu + fiesta game art + Odyssey Daily production docs; non-human Burrito/Quesabirria die-cut mascot kickers, no club marks, primitive fallback verified, demo/noindex routes only, 07-25 09:50) and **#188** (fix: full square menu photos in Las Palmas dropdowns — one-line aspect-ratio fix so plates aren't cropped, 07-25 10:47). Both post-merge `CI — web` ✅ (07-25 10:47 UTC for #188, 09:50 for #187); **main tip now `90f31bb`**. All additive demo/prospect assets — no Client-OS routes (`/m/[id]`, `/owner/[id]`, `/customers`), Supabase, Stripe, POS, or secrets touched; the stable Colattao in-store QR URL is untouched; the guest-note intake posts to the existing public `/api/customer-requests` (no new surface). **VBFH Daily Run stays GREEN** — latest scheduled run 07-24 13:52 UTC ✅ (run #51, four+ in a row); the 07-25 run had not yet fired at check time (fires ~14:00 UTC). Open-PR set unchanged (#180/#161/#168/#162, vbfh #4, EscapeTheBomb #1) — all checks green, only Vercel bot comments, no new human review comments. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-25 (evening twice-daily check-in — **everything green, nothing red anywhere, no code action needed.** Since the 07-25 morning run: (1) the **VBFH Daily Run fired 07-25 13:42 UTC and SUCCEEDED** (run #52 — five scheduled runs in a row green: 07-21/22/23/24/25), and (2) one **new additive docs-only draft** opened in amma — **#189** (Odyssey Daily production log: Day 02 shot blocked because the Runway credit pool is exhausted; +6 lines to `STUDIO/ODYSSEY_DAILY/DAILY_LOG.md` only, Vercel **green**, no app routes / Supabase / Stripe / secrets). No new merges to any default branch — amma `main` tip still `90f31bb` (#188), vbfh master `fec7266` (#6), shadow `5113ce5` (07-09), all unchanged. Open-PR set is now #189/#180/#161/#168/#162 (amma), vbfh #4, EscapeTheBomb #1 — all checks green, only Vercel bot comments, no new human review comments anywhere. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -35,37 +35,46 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 6. **PR #162 (owner portal installable) — your explicit go-ahead needed.** Draft, green. Adds an
    installable web-app manifest + icons to `/owner/[id]`. Sits on a **protected owner route**, so it stays
    a hard-guardrail item — not caretaker-mergeable.
-7. **(If not already done) Run the Marbel admin SQL in Supabase.** From #150: Supabase SQL editor →
+7. **PR #189 (amma) — new docs-only draft, nothing needed unless you want it landed.** Odyssey Daily
+   production-log entry (Day 02 shot blocked — Runway credit pool exhausted). Vercel **green**, docs only.
+   Held as a draft by its author; flip to Ready or say "merge it" and I'll land it. Ops note inside: the
+   daily film shot and client art share one Runway credit pool — top up credits or schedule client art
+   *after* the daily shot so a heavy art day doesn't starve the next morning's shot.
+8. **(If not already done) Run the Marbel admin SQL in Supabase.** From #150: Supabase SQL editor →
    run `0009_admin_team_update.sql` (or `supabase db push`) to grant `marbeljsiado@gmail.com` admin.
    I can't see Supabase state from here — skip this if you already ran it.
-8. **⛔ Branch cleanup — still needs you to run it (or approve deletion).** You asked to clean the
+9. **⛔ Branch cleanup — still needs you to run it (or approve deletion).** You asked to clean the
    branches. I identified the safe-to-delete set (below), but this environment's safety classifier blocks
    automated branch deletion (`git push --delete`) in auto mode, and there's no branch-delete API tool. So
    the stale branches are still there. **Two ways to clear them:** (a) paste the two commands in the
    "Branch cleanup — ready to run" section below, or (b) reply "you have permission to delete branches" and
    I'll retry. I will NOT delete anything until one of those.
 
-_Resolved / no action:_ **Las Palmas demo wave merged by Anthony** — **#187** (photo dropdown menu +
-fiesta game art + Odyssey Daily docs), **#188** (full square menu photos fix); both post-merge `CI — web` ✅,
-main tip `90f31bb`. Additive demo assets, non-human Burrito/Quesabirria mascots with primitive fallback,
-demo/noindex routes only, no protected Client-OS routes / DB / billing / secrets, Colattao QR URL untouched.
-Earlier **prospect/demo wave** (#183/#184/#185/#186), **Table-OS wave** (#181/#182) and **Bodega menu-review
-wave** (#175/#176/#178/#179) stay merged. The 3 superseded drafts closed 07-23 (#169/#173/#177) stay closed.
-**VBFH Daily Run stays GREEN.** **#29 stays closed** (07-18). shadow-engineer-rpa dormant (07-09).
+_Resolved / no action:_ **VBFH Daily Run stays GREEN** — 07-25 13:42 UTC run #52 succeeded (five in a
+row). **Las Palmas demo wave merged by Anthony** — **#187** (photo dropdown menu + fiesta game art +
+Odyssey Daily docs), **#188** (full square menu photos fix); both post-merge `CI — web` ✅, main tip
+`90f31bb`. Additive demo assets, non-human Burrito/Quesabirria mascots with primitive fallback,
+demo/noindex routes only, no protected Client-OS routes / DB / billing / secrets, Colattao QR URL
+untouched. Earlier **prospect/demo wave** (#183/#184/#185/#186), **Table-OS wave** (#181/#182) and
+**Bodega menu-review wave** (#175/#176/#178/#179) stay merged. The 3 superseded drafts closed 07-23
+(#169/#173/#177) stay closed. **#29 stays closed** (07-18). shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-25, morning)
+## Build health (as of 2026-07-25, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `90f31bb` (**#188**, "full square menu photos in Las Palmas dropdowns"); latest `CI — web` ✅ (2026-07-25 10:47 UTC for #188; #187 `b629488` also ✅ 09:50). Las Palmas demo wave #187/#188 merged green since the evening run. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-24 13:52 UTC succeeded** (run #51; 07-21/07-22/07-23 14:0x also ✅ — four+ green in a row). The 07-25 run had not yet fired at check time (fires ~14:00 UTC). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `90f31bb` (**#188**, "full square menu photos in Las Palmas dropdowns"); latest `CI — web` ✅ (2026-07-25 10:47 UTC). No new commits to main since the morning run. voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-25 13:42 UTC succeeded** (run #52; 07-21/22/23/24 also ✅ — **five green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
 ## Open PRs
 
+- **amma #189 — Odyssey Daily log — Day 02 blocked (Runway credit pool exhausted)** (open **draft**,
+  Vercel **green**). Docs-only, +6 lines to `STUDIO/ODYSSEY_DAILY/DAILY_LOG.md`; no app routes / Supabase /
+  Stripe / secrets. Held as draft → Anthony to mark Ready or say "merge it" (item 7). Bot comment only.
 - **amma #180 — `vercel-dash-report` skill (traffic ledger feeding the daily report)** (open **draft**,
   Vercel **green**, `mergeable_state: clean`). Additive skill + scripts + 7 passing tests; appends to
   `BUSINESS/ANALYTICS/vercel-traffic-ledger.jsonl`; no app routes / Supabase / Stripe / secrets. Held as
@@ -84,19 +93,15 @@ wave** (#175/#176/#178/#179) stay merged. The 3 superseded drafts closed 07-23 (
 
 ## Merged / closed since last run
 
-- **#188 merged** (07-25 10:47, by Anthony) — fix: full square menu photos in Las Palmas dropdowns
-  (aspect-square, no cropping). Post-merge `CI — web` ✅. Demo route only; main tip now `90f31bb`.
-- **#187 merged** (07-25 09:50, by Anthony) — Las Palmas photo dropdown menu + fiesta game art
-  (non-human Burrito #10 / Quesabirria #7 die-cut kickers, primitive fallback verified, no club marks) +
-  Odyssey Daily production docs. Post-merge `CI — web` ✅. Demo/noindex routes only; guest-note intake
-  posts to existing public `/api/customer-requests`.
-- No other new PRs, no new commits on any other default branch, no new human review comments (only Vercel
-  bot comments on the open PRs). The prospect/demo wave (#183/#184/#185/#186), Table-OS wave (#181/#182),
-  and the 3 superseded drafts closed 07-23 (#169/#173/#177) stay as-is.
-- Prior-run context still current: vbfh master tip `fec7266` (#6). EscapeTheBomb #1 unchanged since 07-20;
-  shadow dormant (`5113ce5`, 07-09). #29 stays closed.
+- **No merges and no new commits on any default branch** since the 07-25 morning run. amma `main` tip
+  still `90f31bb` (#188), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb head `bb0eea8`.
+- **New:** draft **#189** opened in amma (Odyssey Daily docs, docs-only, Vercel ✅) — see Open PRs. The
+  VBFH Daily Run fired 07-25 13:42 UTC and succeeded (run #52).
+- No new human review comments anywhere (only Vercel bot comments on the open PRs). The Las Palmas demo
+  wave (#187/#188), prospect/demo wave (#183/#184/#185/#186), Table-OS wave (#181/#182), Bodega wave
+  (#175/#176/#178/#179), and the 3 superseded drafts closed 07-23 (#169/#173/#177) stay as-is. #29 stays closed.
 
-## Branch cleanup — ready to run (2026-07-23)
+## Branch cleanup — ready to run (2026-07-23, updated 2026-07-25 eve)
 
 Anthony gave the go-ahead ("clean branches please"), but this environment's safety classifier blocks
 automated branch deletion, so the commands below are ready for Anthony to paste (or to authorize the
@@ -104,11 +109,11 @@ caretaker to retry). Every branch listed is either **provably merged** or a **ju
 draft. **Verified KEEP (do NOT delete):** `main`, `automation/status`, the `claude/*` caretaker working
 branches, and all open-PR heads — amma `codex/ethical-sales-conversion-20260718` (#161),
 `codex/owner-portal-app-20260718` (#162), `claude/escape-bomb-dc-plan-n6bfj5` (#168),
-`claude/blissful-darwin-ddej93` (#180 head); vbfh `claude/pensive-edison-sove8x` (#4 head). Old June
-`voice/twiml-stream-fallback` / `voice/vbfh-tester-171128` are NOT merged — left for Anthony's judgment.
-EscapeTheBomb `codex/*` + `phase2`–`phase7` are unmerged exploration — left in place. NOTE: the Las Palmas
-demo branch `claude/las-palmas-menu-game-59vtbg` (heads of merged #187/#188) is now also merged and safe to
-add to the amma delete list whenever Anthony runs cleanup.
+`claude/blissful-darwin-ddej93` (#180 head), **`claude/las-palmas-menu-game-59vtbg` (now the open #189
+head — NO LONGER safe to delete; it carries #189's unmerged docs commit)**; vbfh
+`claude/pensive-edison-sove8x` (#4 head). Old June `voice/twiml-stream-fallback` /
+`voice/vbfh-tester-171128` are NOT merged — left for Anthony's judgment. EscapeTheBomb `codex/*` +
+`phase2`–`phase7` are unmerged exploration — left in place.
 
 **amma-fina-calle** (4 merged + 3 closed-superseded):
 ```
@@ -126,24 +131,24 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-07-25 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed.** No merges or new commits on any default branch since the morning run (amma `main`
+  `90f31bb`, vbfh master `fec7266`, shadow `5113ce5` — all unchanged). **VBFH Daily Run fired 07-25 13:42
+  UTC and SUCCEEDED** (run #52 — five scheduled runs green in a row). One new additive docs-only draft in
+  amma — **#189** (Odyssey Daily production log, Day 02 shot blocked on exhausted Runway credit pool; +6
+  lines to `STUDIO/ODYSSEY_DAILY/DAILY_LOG.md`, Vercel ✅, no app routes / Supabase / Stripe / secrets),
+  held as draft for Anthony. Corrected the branch-cleanup note: `claude/las-palmas-menu-game-59vtbg` now
+  carries #189's open commit and is no longer safe to delete. All open-PR checks green
+  (#189/#180/#161/#162/#168 Vercel/web ✅; vbfh #4 `check` ✅); only Vercel bot comments, no new human
+  review comments anywhere. EscapeTheBomb #1 unchanged (07-20); shadow dormant. #29 stays closed. No
+  branches deleted (still awaiting Anthony to run the ready commands or authorize a retry).
 - **2026-07-25 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
-  action needed.** Since the 07-24 evening run Anthony merged **two additive Las Palmas demo PRs** to amma
-  `main` — **#187** (photo dropdown menu + fiesta game art with non-human Burrito/Quesabirria die-cut
-  mascot kickers + Odyssey Daily production docs) and **#188** (full square menu photos, no cropping).
-  Both post-merge `CI — web` ✅ (07-25 10:47 UTC); **main tip now `90f31bb`**. All additive demo assets —
-  non-human mascots with primitive fallback, demo/noindex routes only, no protected Client-OS routes,
-  Supabase, Stripe, or secrets; Colattao QR URL untouched; guest-note intake posts to existing public
-  `/api/customer-requests`. **VBFH Daily Run GREEN** (latest 07-24 13:52 UTC ✅, run #51; 07-25 run not
-  yet fired at check time, fires ~14:00 UTC); `CI` ✅ on vbfh master (`fec7266`, #6, unchanged);
-  `CI — voice-gateway` path-filtered (last ✅ 07-09). All open-PR checks green (#180/#161/#162/#168
-  web/Vercel ✅; vbfh #4 `check` ✅); only Vercel bot comments, no new human review comments anywhere.
-  EscapeTheBomb #1 unchanged (07-20); shadow dormant (`5113ce5`, 07-09). #29 stays closed. No branches
-  deleted (still awaiting Anthony to run the ready commands or authorize a retry).
-- **2026-07-24 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
-  action needed.** Anthony merged **four additive prospect/demo PRs** to amma `main` — **#183** (Las Palmas
-  penalty-skin demo + demo menu + impact feedback), **#184** (stable Bodega demo slug), **#185** (prospect
-  QR leave-behind field pack), **#186** (docs). Every code merge post-merge `CI — web` ✅ (run#86, 07-24
-  21:10 UTC); main tip `e8fdafb`. VBFH Daily Run fired 07-24 13:52 UTC and SUCCEEDED (run #51).
+  action needed.** Anthony merged **#187** (Las Palmas photo dropdown menu + fiesta game art with
+  non-human Burrito/Quesabirria die-cut mascot kickers + Odyssey Daily docs) and **#188** (full square
+  menu photos, no cropping). Both post-merge `CI — web` ✅; main tip `90f31bb`. VBFH Daily Run green.
+- **2026-07-24 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green.** Anthony
+  merged **#183/#184/#185/#186** (Las Palmas penalty-skin demo, stable Bodega slug, prospect QR field
+  pack, docs); post-merge `CI — web` ✅, main tip `e8fdafb`. VBFH Daily Run 07-24 13:52 UTC ✅ (run #51).
 - **2026-07-24 (morning) — Twice-daily check-in (`claude-opus-4-8`):** All green; Table-OS prospect PRs
   #181/#182 merged (post-merge `CI — web` ✅, main tip `b05007d`); new draft #180 held for Anthony.
 - **2026-07-23 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All green; VBFH Daily Run
