@@ -1647,3 +1647,11 @@ Blocked:
 - Product gate: route metadata remains `noindex, nofollow, nocache`; 39 disclosures, 37 enhanced food images, two pending-client-approval notices, and the exact game/table destinations remain present; zero images are broken.
 - Code gate: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass.
 - Scope gate: only the Las Palmas demo presentation, its original hero asset, `design-qa.md`, and this operations record changed. Client OS, data, prices, game engine/config, integrations, secrets, and unrelated routes have no diff.
+
+## [CHECK-OUT] Codex - 2026-07-25 - Las Palmas paradise demo live
+
+- Delivered: PR #190 passed GitHub `web`, Vercel, and Vercel Preview Comments, then squash-merged under exact head `6e5a8a9`; production `main` is `1efe559`.
+- Deployment: Vercel production `dpl_2JZQ3nbLfEoufwvK2wvATyvGpWnV` is Ready and aliased to `finacalleos.com`.
+- Live verification: `/demo/las-palmas` returns HTTP 200 with `Paradise at the table`, the new hero asset from the exact deployment, `noindex, nofollow, nocache`, 39 menu disclosures, 37 enhanced food photos, zero broken images, zero client-logo images, the exact game/table links, no horizontal overflow, and no browser console errors or warnings.
+- Runtime: no production error logs were found for the release deployment.
+- State: the paradise presentation is live; all prospect content and pricing remain pending client approval, and no protected product or integration surface changed.
