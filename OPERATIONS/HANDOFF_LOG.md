@@ -1655,3 +1655,23 @@ Blocked:
 - Live verification: `/demo/las-palmas` returns HTTP 200 with `Paradise at the table`, the new hero asset from the exact deployment, `noindex, nofollow, nocache`, 39 menu disclosures, 37 enhanced food photos, zero broken images, zero client-logo images, the exact game/table links, no horizontal overflow, and no browser console errors or warnings.
 - Runtime: no production error logs were found for the release deployment.
 - State: the paradise presentation is live; all prospect content and pricing remain pending client approval, and no protected product or integration surface changed.
+
+## [CHECK-IN] Codex - 2026-07-26 - Las Palmas green return and silver-palm motion
+
+- Authority: Anthony rejected the paradise presentation, directed a return to the prior green design, requested the Colattao motion pattern with silver palms, and reported that the owners are open to the table-service direction.
+- Base: isolated branch `codex/las-palmas-silver-palms-20260726` from current `origin/main` at `ae5342d`; the dirty canonical checkout remains untouched.
+- Verified reference: the requested green presentation is the pre-paradise `/demo/las-palmas` implementation at `90f31bb`; the Colattao reference is the scroll-driven source-to-`MENU` particle morph on Colattao `origin/main`.
+- Scope: restore only the Las Palmas demo page and guest-note colors, add one original client-side silver-palm-to-`MENU` motion component, and clarify the already-linked table-service preview.
+- Guardrails: keep the route unlinked and `noindex, nofollow, nocache`; preserve the menu dataset, enhanced food media, form behavior, and exact game/table destinations; do not claim POS, payment, or service activation.
+- Hard stops: no client logo, game engine/config, Supabase, Stripe, POS, Client OS, secrets, customer data, menu/pricing edits, or unsupported owner-approval claim.
+
+## [RELEASE GATE] Codex - 2026-07-26 - Las Palmas silver-palm menu
+
+- Design: restored the pre-paradise dark cantina-green system and removed the paradise hero from the rendered route. Added one original, logo-free silver-palm formation that responds only to page scroll and reversibly settles into `MENU`.
+- Table-service truth: the demo now makes the existing table preview visible near the game CTA and at the menu bottom. Both surfaces state or lead to the no-send preview; no staff routing, ordering, payment, or POS activation is claimed.
+- Mobile browser gate: 390 x 844 verified `brand` at progress `0.000`, dispersed palm particles during `transform`, `MENU` at `1.000`, and reverse motion back toward the brand; no horizontal overflow or console errors.
+- Desktop browser gate: 1440 x 900 verified the centered green/silver brand state and final `MENU` state without overflow or console errors.
+- Route gate: `/demo/las-palmas` and `/table/las-palmas-lynnhaven/1` return HTTP 200 locally; demo metadata remains `noindex, nofollow, nocache`; the table route still says no requests or orders are sent.
+- Code gate: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-silver-palms-20260726\` contains phone and desktop brand, transform, and final-menu captures plus preview logs.
+- Scope gate: only the Las Palmas demo presentation, its new motion component, guest-note colors, and this operations record changed. Menu data, enhanced media, game engine/config, Client OS, integrations, secrets, and unrelated routes have no diff.
