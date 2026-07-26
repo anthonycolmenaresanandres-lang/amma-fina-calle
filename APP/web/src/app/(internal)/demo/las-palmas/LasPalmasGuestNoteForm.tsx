@@ -77,25 +77,24 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
   }
 
   const inputClasses =
-    "w-full rounded-2xl border border-[#188e8e]/20 bg-white/80 px-4 py-3 text-sm text-[#173f3b] shadow-[0_8px_20px_rgba(14,83,78,0.06)] placeholder:text-[#6f8f88]/60 focus:border-[#0b8d94] focus:outline-none focus:ring-2 focus:ring-[#0b8d94]/20";
-  const labelClasses =
-    "mb-1.5 block text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-[#52716b]";
+    "w-full border border-[#a9b8a9]/30 bg-[#0a2317] px-3 py-2 text-sm text-[#f2ead6] placeholder:text-[#a9b8a9]/50 focus:border-[#dfe3e6] focus:outline-none focus:ring-1 focus:ring-[#dfe3e6]/50";
+  const labelClasses = "mb-1 block text-[0.64rem] uppercase tracking-[0.2em] text-[#a9b8a9]";
 
   return (
-    <section className="mt-14 border-t border-[#18aeb4]/25 pt-9">
-      <p className="text-center text-[0.68rem] font-bold uppercase tracking-[0.28em] text-[#d94832]">
+    <section className="mt-12 border-t-2 border-[#c8ced3]/50 pt-8">
+      <p className="text-center text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#dfe3e6]">
         Guest Notes
       </p>
-      <h2 className="mt-2 text-center font-serif text-3xl tracking-[0.05em] text-[#123f3a]">
+      <h2 className="mt-2 text-center font-serif text-3xl tracking-[0.06em] text-[#f7f1e0]">
         Deja tu nota
       </h2>
-      <p className="mx-auto mt-2 max-w-sm text-center text-sm leading-6 text-[#52716b]">
+      <p className="mx-auto mt-2 max-w-sm text-center text-sm leading-6 text-[#a9b8a9]">
         Tell the Las Palmas team what you loved, what needs attention, or what you want to see
         next.
       </p>
 
       {status === "success" ? (
-        <p className="mx-auto mt-6 max-w-sm rounded-2xl bg-[#dff6ee] px-4 py-4 text-center text-sm font-semibold text-[#126757]">
+        <p className="mx-auto mt-6 max-w-sm border border-[#dfe3e6]/40 bg-[#dfe3e6]/10 px-4 py-4 text-center text-sm font-semibold text-[#f3f5f6]">
           ¡Gracias! Your note was sent to the team.
         </p>
       ) : (
@@ -171,7 +170,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
               {(["Yes", "No"] as const).map((option) => (
                 <label
                   key={option}
-                  className="flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full bg-white/80 text-sm font-semibold text-[#315c56] shadow-[0_8px_20px_rgba(14,83,78,0.06)] has-[:checked]:bg-[#d9f5f1] has-[:checked]:text-[#087f85] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#0b8d94]"
+                  className="flex min-h-11 cursor-pointer items-center justify-center gap-2 border border-[#a9b8a9]/30 text-sm font-semibold text-[#f2ead6] has-[:checked]:border-[#dfe3e6] has-[:checked]:bg-[#dfe3e6]/10 has-[:checked]:text-[#f3f5f6]"
                 >
                   <input
                     type="radio"
@@ -180,7 +179,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
                     checked={mayContact === option}
                     onChange={() => setMayContact(option)}
                     required
-                    className="h-3.5 w-3.5 accent-[#ef5d43]"
+                    className="h-3.5 w-3.5 accent-[#dfe3e6]"
                   />
                   {option}
                 </label>
@@ -189,7 +188,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
           </fieldset>
 
           {status === "error" ? (
-            <p className="rounded-2xl bg-[#ffe4dd] px-4 py-3 text-sm text-[#963522]">
+            <p className="border border-[#d5322d]/50 bg-[#d5322d]/10 px-3 py-2 text-sm text-[#f2ead6]">
               We could not send this note right now. Please try again in a moment.
             </p>
           ) : null}
@@ -197,14 +196,14 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full rounded-full bg-[#ef5d43] px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_12px_28px_rgba(153,52,35,0.2)] transition hover:bg-[#d94c36] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0b8d94] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full border border-[#dfe3e6] bg-[#dfe3e6] px-5 py-3 text-xs font-bold uppercase tracking-[0.22em] text-[#06130d] transition hover:bg-[#f4f6f7] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {status === "loading" ? "Sending..." : "Send guest note"}
           </button>
         </form>
       )}
 
-      <p className="mt-4 text-center text-[0.66rem] italic leading-5 text-[#5f7e77]/75">
+      <p className="mt-4 text-center text-[0.66rem] italic leading-5 text-[#a9b8a9]/70">
         Demo preview: notes go to the Fina Calle team, not restaurant staff. No account needed.
       </p>
     </section>

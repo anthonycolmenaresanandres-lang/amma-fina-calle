@@ -1,0 +1,156 @@
+.shell {
+  display: grid;
+  width: 100%;
+  max-width: 672px;
+  margin-inline: auto;
+}
+
+.shell[data-motion-state="ready"] {
+  min-height: clamp(700px, 96svh, 860px);
+  align-items: start;
+}
+
+.shell[data-motion-state="ready"] .stage {
+  position: sticky;
+  top: 0;
+}
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 330px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(circle at 50% 43%, rgb(168 178 184 / 13%), transparent 29%),
+    radial-gradient(circle at 16% 20%, rgb(35 92 61 / 28%), transparent 35%),
+    radial-gradient(circle at 82% 80%, rgb(3 26 17 / 58%), transparent 42%),
+    linear-gradient(154deg, #0b2b1b 0%, #071a11 53%, #06130d 100%);
+  box-shadow:
+    0 34px 80px -54px rgb(0 0 0 / 95%),
+    inset 0 1px 0 rgb(235 240 243 / 8%);
+}
+
+.stage::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(112deg, transparent 0 43%, rgb(237 241 244 / 4%) 50%, transparent 57%),
+    radial-gradient(circle, rgb(226 231 235 / 10%) 0 0.7px, transparent 0.9px);
+  background-size:
+    100% 100%,
+    15px 15px;
+  content: "";
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  opacity: 0.42;
+}
+
+.stage::after {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 34%), transparent 16% 84%, rgb(0 0 0 / 34%)),
+    linear-gradient(180deg, rgb(0 0 0 / 18%), transparent 24% 76%, rgb(0 0 0 / 34%));
+  content: "";
+  pointer-events: none;
+}
+
+.canvas {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.staticMark {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 32px 20px;
+  text-align: center;
+  transition: opacity 160ms ease;
+}
+
+.stage[data-motion-state="ready"] .staticMark {
+  opacity: 0;
+}
+
+.palms {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  color: #dfe3e6;
+  filter: drop-shadow(0 0 16px rgb(226 232 236 / 18%));
+}
+
+.palmSmall {
+  width: 28px;
+  height: 36px;
+  opacity: 0.72;
+}
+
+.palmLarge {
+  width: 38px;
+  height: 48px;
+}
+
+.staticMark h1 {
+  margin-top: 22px;
+  background: linear-gradient(105deg, #f7f8f9 8%, #a9b0b7 42%, #f2f4f5 64%, #858d95 94%);
+  background-clip: text;
+  color: transparent;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(2.75rem, 9vw, 5rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 0.95;
+  text-indent: 0.1em;
+}
+
+.staticMark p {
+  margin-top: 17px;
+  color: #c7cdd1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.29em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  .stage {
+    min-height: 310px;
+    aspect-ratio: 5 / 4;
+  }
+
+  .staticMark p {
+    max-width: 280px;
+    line-height: 1.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell {
+    min-height: auto;
+  }
+
+  .shell .stage {
+    position: relative;
+    top: auto;
+  }
+
+  .canvas {
+    display: none;
+  }
+
+  .stage .staticMark {
+    opacity: 1;
+  }
+}
