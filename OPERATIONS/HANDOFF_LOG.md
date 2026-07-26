@@ -1675,3 +1675,12 @@ Blocked:
 - Code gate: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass.
 - Evidence: `C:\Dev\amma\evidence\las-palmas-silver-palms-20260726\` contains phone and desktop brand, transform, and final-menu captures plus preview logs.
 - Scope gate: only the Las Palmas demo presentation, its new motion component, guest-note colors, and this operations record changed. Menu data, enhanced media, game engine/config, Client OS, integrations, secrets, and unrelated routes have no diff.
+
+## [CHECK-OUT] Codex - 2026-07-26 - Las Palmas green silver-palm menu live
+
+- Delivered: PR #192 passed GitHub `web`, Vercel, and Vercel Preview Comments, then squash-merged from exact tested head `f6e64b7`; production `main` is `f4c4498`.
+- Deployment: GitHub deployment `5610029242` reports successful Vercel production for `f4c4498`; the live alias is `https://finacalleos.com`.
+- Live demo: `/demo/las-palmas` returns HTTP 200 with the dark green presentation, the original silver-palm scroll component, `noindex, nofollow, nocache`, 39 menu disclosures, one game link, two table-preview links, and no paradise-hero reference.
+- Live motion: 390 x 844 production QA verified `LAS PALMAS` at progress `0.000`, reversible scroll transformation, and `MENU` at progress `1.000`; document width remains within the viewport and the browser console is clean.
+- Live table preview: `/table/las-palmas-lynnhaven/1` returns HTTP 200 and still states that no requests or orders are sent. Table-service activation, staff routing, ordering, payment, and POS remain pending owner workflow confirmation.
+- State: the requested green/silver presentation is live. Menu data, enhanced media, game engine/config, Client OS, Supabase, Stripe, POS, secrets, customer data, and unrelated routes were not changed.
