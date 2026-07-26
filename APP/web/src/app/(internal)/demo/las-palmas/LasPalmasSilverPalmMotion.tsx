@@ -11,9 +11,11 @@ type SamplePoint = {
 
 type ArtworkSample = {
   aspectRatio: number;
-  canvas: HTMLCanvasElement;
   points: SamplePoint[];
 };
+
+const LOGO_PATH =
+  "/assets/laspalmas/brand/las-palmas-original-sign-v1.png?v=20260726b";
 
 const clamp = (value: number, minimum = 0, maximum = 1) =>
   Math.min(maximum, Math.max(minimum, value));
@@ -30,54 +32,6 @@ const seededRandom = (seed: number) => {
   const value = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
   return value - Math.floor(value);
 };
-
-function drawPalm(
-  context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  scale: number,
-): void {
-  context.save();
-  context.translate(x, y);
-  context.scale(scale, scale);
-  context.lineCap = "round";
-  context.lineJoin = "round";
-  context.strokeStyle = "#d9dce0";
-  context.fillStyle = "#eef0f2";
-
-  context.lineWidth = 3.2;
-  context.beginPath();
-  context.moveTo(-2, 38);
-  context.quadraticCurveTo(-7, 15, 2, -1);
-  context.stroke();
-
-  const fronds = [
-    { controlX: -31, controlY: -18, endX: -44, endY: -8 },
-    { controlX: -24, controlY: -31, endX: -37, endY: -31 },
-    { controlX: -10, controlY: -38, endX: -16, endY: -48 },
-    { controlX: 7, controlY: -38, endX: 12, endY: -50 },
-    { controlX: 24, controlY: -30, endX: 38, endY: -33 },
-    { controlX: 31, controlY: -15, endX: 45, endY: -7 },
-  ];
-
-  context.lineWidth = 4.4;
-  fronds.forEach((frond) => {
-    context.beginPath();
-    context.moveTo(1, 0);
-    context.quadraticCurveTo(
-      frond.controlX,
-      frond.controlY,
-      frond.endX,
-      frond.endY,
-    );
-    context.stroke();
-  });
-
-  context.beginPath();
-  context.arc(1, 0, 4.4, 0, Math.PI * 2);
-  context.fill();
-  context.restore();
-}
 
 function createPalmSprite(): HTMLCanvasElement {
   const sprite = document.createElement("canvas");
@@ -130,50 +84,15 @@ function createPalmSprite(): HTMLCanvasElement {
   return sprite;
 }
 
-function createArtwork(
-  kind: "brand" | "menu",
-  displayFont: string,
+function sampleCanvas(
+  canvas: HTMLCanvasElement,
+  seedOffset: number,
   lowPower: boolean,
-): ArtworkSample | null {
-  const canvas = document.createElement("canvas");
-  canvas.width = 960;
-  canvas.height = kind === "brand" ? 560 : 340;
+): SamplePoint[] {
   const context = canvas.getContext("2d", { willReadFrequently: true });
 
   if (!context) {
-    return null;
-  }
-
-  const silver = context.createLinearGradient(0, 40, canvas.width, canvas.height);
-  silver.addColorStop(0, "#f8fafb");
-  silver.addColorStop(0.3, "#aab1b8");
-  silver.addColorStop(0.56, "#f4f6f7");
-  silver.addColorStop(0.8, "#8c949c");
-  silver.addColorStop(1, "#e7eaed");
-  context.fillStyle = silver;
-  context.strokeStyle = silver;
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-
-  if (kind === "brand") {
-    context.save();
-    context.strokeStyle = silver;
-    context.fillStyle = silver;
-    drawPalm(context, 408, 178, 1.42);
-    drawPalm(context, 480, 154, 1.72);
-    drawPalm(context, 554, 178, 1.42);
-    context.restore();
-
-    context.font = `700 128px ${displayFont}, Georgia, serif`;
-    context.fillText("LAS PALMAS", canvas.width / 2, 330);
-    context.font = `600 27px ui-sans-serif, system-ui, sans-serif`;
-    context.fillText("MEXICAN RESTAURANT & CANTINA", canvas.width / 2, 433);
-  } else {
-    context.shadowColor = "rgb(235 239 243 / 0.22)";
-    context.shadowBlur = 18;
-    context.font = `700 246px ${displayFont}, Georgia, serif`;
-    context.fillText("MENU", canvas.width / 2, canvas.height / 2 + 8);
-    context.shadowBlur = 0;
+    return [];
   }
 
   const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -184,63 +103,104 @@ function createArtwork(
     for (let x = 0; x < canvas.width; x += sampleStep) {
       const pixelIndex = (y * canvas.width + x) * 4;
 
-      if (pixels[pixelIndex + 3] < 52) {
+      if (pixels[pixelIndex + 3] < 72) {
         continue;
       }
 
-      const seedIndex = y * canvas.width + x;
+      const seedIndex = y * canvas.width + x + seedOffset;
       points.push({
-        seed: seededRandom(seedIndex + (kind === "brand" ? 17 : 71)),
+        seed: seededRandom(seedIndex),
         u: (x + sampleStep / 2) / canvas.width,
         v: (y + sampleStep / 2) / canvas.height,
       });
     }
   }
 
+  const maximumPoints = lowPower ? 500 : 720;
+
+  if (points.length <= maximumPoints) {
+    return points;
+  }
+
+  return Array.from({ length: maximumPoints }, (_, index) => {
+    const sourceIndex = Math.floor((index * points.length) / maximumPoints);
+    return points[sourceIndex];
+  });
+}
+
+function createLogoSample(
+  image: HTMLImageElement,
+  lowPower: boolean,
+): ArtworkSample | null {
+  const canvas = document.createElement("canvas");
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+
+  if (!context || canvas.width === 0 || canvas.height === 0) {
+    return null;
+  }
+
+  context.drawImage(image, 0, 0);
+  const points = sampleCanvas(canvas, 17, lowPower);
+
   if (points.length === 0) {
     return null;
   }
 
-  const maximumPoints = lowPower ? 480 : 660;
-  const sampledPoints =
-    points.length <= maximumPoints
-      ? points
-      : Array.from({ length: maximumPoints }, (_, index) => {
-          const sourceIndex = Math.floor((index * points.length) / maximumPoints);
-          return points[sourceIndex];
-        });
-
   return {
     aspectRatio: canvas.width / canvas.height,
-    canvas,
-    points: sampledPoints,
+    points,
   };
 }
 
-function PalmGlyph({ className }: { className: string }): React.JSX.Element {
-  return (
-    <svg viewBox="0 0 32 40" aria-hidden className={className} fill="currentColor">
-      <path d="M15 38c-1-8-1-16 .4-24l1.6.2c-1.2 8-1 16 0 23.8z" />
-      <path d="M16 15C11 11 5.6 10 1 12.4c4.4 3 9.8 3.4 15 1.4z" />
-      <path d="M16 15c5-4 10.4-5 15-2.6-4.4 3-9.8 3.4-15 1.4z" />
-      <path d="M16 14.6C12.4 9.6 8 7 3.4 7.6 6 12 10.8 14.6 16 14.6z" />
-      <path d="M16 14.6c3.6-5 8-7.6 12.6-7C26 12 21.2 14.6 16 14.6z" />
-      <path d="M15.6 14c-1.2-5.4 0-9.6 2.4-11.6 1.6 3.6.8 8-1.2 11.8z" />
-    </svg>
-  );
+function createMenuSample(
+  fontFamily: string,
+  lowPower: boolean,
+): ArtworkSample | null {
+  const canvas = document.createElement("canvas");
+  canvas.width = 720;
+  canvas.height = 220;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+
+  if (!context) {
+    return null;
+  }
+
+  context.fillStyle = "#ffffff";
+  context.font = `800 168px ${fontFamily}, Georgia, serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("MENU", canvas.width / 2, canvas.height / 2 + 8);
+  const points = sampleCanvas(canvas, 71, lowPower);
+
+  if (points.length === 0) {
+    return null;
+  }
+
+  return {
+    aspectRatio: canvas.width / canvas.height,
+    points,
+  };
 }
 
 export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
   const shellRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+  const menuTitleRef = useRef<HTMLHeadingElement>(null);
+  const menuDockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const shell = shellRef.current;
     const stage = stageRef.current;
     const canvas = canvasRef.current;
+    const logo = logoRef.current;
+    const menuTitle = menuTitleRef.current;
+    const menuDock = menuDockRef.current;
 
-    if (!shell || !stage || !canvas) {
+    if (!shell || !stage || !canvas || !logo || !menuTitle || !menuDock) {
       return;
     }
 
@@ -258,7 +218,7 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
     let width = 0;
     let height = 0;
     let pixelRatio = 1;
-    let brandSample: ArtworkSample | null = null;
+    let logoSample: ArtworkSample | null = null;
     let menuSample: ArtworkSample | null = null;
     const palmSprite = createPalmSprite();
 
@@ -272,66 +232,65 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     };
 
-    const artworkRect = (sample: ArtworkSample, maximumWidth: number) => {
-      const artworkWidth = Math.min(width * 0.9, maximumWidth);
-      const artworkHeight = artworkWidth / sample.aspectRatio;
-
-      return {
-        height: artworkHeight,
-        left: (width - artworkWidth) / 2,
-        top: (height - artworkHeight) / 2,
-        width: artworkWidth,
-      };
-    };
-
     const draw = () => {
       animationFrame = 0;
 
-      if (cancelled || !brandSample || !menuSample) {
+      if (cancelled || !logoSample || !menuSample) {
         return;
       }
 
-      const activeBrandSample = brandSample;
+      const activeLogoSample = logoSample;
       const activeMenuSample = menuSample;
       const shellRect = shell.getBoundingClientRect();
       const stageRect = stage.getBoundingClientRect();
+      const logoBounds = logo.getBoundingClientRect();
       const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
-      const morphDistance = Math.max(280, shellRect.height - stageRect.height);
+      const morphDistance = Math.max(300, shellRect.height - stageRect.height);
       const progress = clamp((stickyTop - shellRect.top) / morphDistance);
-      const travel = smoothstep(0.035, 0.965, progress);
+      const travel = smoothstep(0.045, 0.955, progress);
       const airborne = Math.sin(travel * Math.PI);
-      const sourceOpacity = 1 - smoothstep(0.015, 0.12, progress);
-      const targetOpacity = smoothstep(0.87, 0.995, progress);
+      const sourceOpacity = 1 - smoothstep(0.035, 0.24, progress);
+      const targetOpacity = smoothstep(0.72, 0.96, progress);
       const particleOpacity =
-        smoothstep(0.02, 0.14, progress) *
-        (1 - smoothstep(0.88, 0.99, progress));
-      const sourceRect = artworkRect(activeBrandSample, 610);
-      const targetRect = artworkRect(activeMenuSample, 450);
+        smoothstep(0.025, 0.16, progress) *
+        (1 - smoothstep(0.86, 0.985, progress));
+      const sourceRect = {
+        height: logoBounds.height,
+        left: logoBounds.left - stageRect.left,
+        top: logoBounds.top - stageRect.top,
+        width: logoBounds.width,
+      };
+      const targetRect = {
+        height: menuTitle.offsetHeight,
+        left: menuDock.offsetLeft + menuTitle.offsetLeft,
+        top: menuDock.offsetTop + menuTitle.offsetTop,
+        width: menuTitle.offsetWidth,
+      };
 
       context.clearRect(0, 0, width, height);
       stage.dataset.motionProgress = progress.toFixed(3);
       stage.dataset.motionPhase =
         progress <= 0.015
-          ? "brand"
+          ? "logo"
           : progress >= 0.985
-            ? "menu"
+            ? "menu-dock"
             : "transform";
+      logo.style.opacity = sourceOpacity.toFixed(3);
+      logo.style.transform = `translate(-50%, -50%) translate3d(0, ${(
+        -10 * travel
+      ).toFixed(2)}px, 0) scale(${(1 - 0.035 * travel).toFixed(4)})`;
+      menuTitle.style.opacity = targetOpacity.toFixed(3);
+      menuTitle.style.transform = `translate3d(0, ${(
+        16 *
+        (1 - targetOpacity)
+      ).toFixed(2)}px, 0)`;
+      menuDock.style.setProperty("--resolve-progress", targetOpacity.toFixed(3));
 
-      if (sourceOpacity > 0) {
-        context.globalAlpha = sourceOpacity;
-        context.drawImage(
-          activeBrandSample.canvas,
-          sourceRect.left,
-          sourceRect.top,
-          sourceRect.width,
-          sourceRect.height,
-        );
-        context.globalAlpha = 1;
-      }
-
-      activeBrandSample.points.forEach((point, index) => {
+      activeLogoSample.points.forEach((point, index) => {
         const targetPoint =
-          activeMenuSample.points[(index * 137) % activeMenuSample.points.length];
+          activeMenuSample.points[
+            (index * 137) % activeMenuSample.points.length
+          ];
 
         if (!targetPoint) {
           return;
@@ -345,14 +304,14 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
           airborne *
           Math.sin(point.seed * 31 + travel * Math.PI * 3) *
           (18 + point.seed * 48);
-        const lift = airborne * (14 + point.seed * 42);
+        const lift = airborne * (12 + point.seed * 38);
         const x = lerp(sourceX, destinationX, travel) + curl;
         const y =
           lerp(sourceY, destinationY, travel) -
           lift +
           Math.cos(point.seed * 27 + travel * Math.PI * 4) *
             airborne *
-            (10 + point.seed * 28);
+            (9 + point.seed * 25);
         const alpha = particleOpacity * (0.58 + point.seed * 0.38);
         const settle = smoothstep(0.76, 0.97, travel);
         const release = smoothstep(0.03, 0.22, travel);
@@ -387,18 +346,6 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
         );
         context.restore();
       });
-
-      if (targetOpacity > 0) {
-        context.globalAlpha = targetOpacity;
-        context.drawImage(
-          activeMenuSample.canvas,
-          targetRect.left,
-          targetRect.top,
-          targetRect.width,
-          targetRect.height,
-        );
-        context.globalAlpha = 1;
-      }
     };
 
     const scheduleDraw = () => {
@@ -415,6 +362,13 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
     };
 
     const prepare = async () => {
+      if (!logo.complete || logo.naturalWidth === 0) {
+        await new Promise<void>((resolve) => {
+          logo.addEventListener("load", () => resolve(), { once: true });
+          logo.addEventListener("error", () => resolve(), { once: true });
+        });
+      }
+
       if ("fonts" in document) {
         await document.fonts.ready;
       }
@@ -430,14 +384,11 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
         window.innerWidth <= 600 ||
         navigator.hardwareConcurrency <= 4 ||
         (navigatorWithMemory.deviceMemory ?? 8) <= 4;
-      const displayFont =
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--font-playfair")
-          .trim() || "Georgia";
-      brandSample = createArtwork("brand", displayFont, lowPower);
-      menuSample = createArtwork("menu", displayFont, lowPower);
+      const titleStyles = getComputedStyle(menuTitle);
+      logoSample = createLogoSample(logo, lowPower);
+      menuSample = createMenuSample(titleStyles.fontFamily, lowPower);
 
-      if (!brandSample || !menuSample) {
+      if (!logoSample || !menuSample) {
         stage.dataset.motionState = "static";
         shell.dataset.motionState = "static";
         return;
@@ -447,8 +398,8 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
       stage.dataset.motionState = "ready";
       shell.dataset.motionState = "ready";
       stage.dataset.motionInput = "scroll";
-      stage.dataset.motionTarget = "menu";
-      stage.dataset.particleCount = String(brandSample.points.length);
+      stage.dataset.motionTarget = "semantic-menu-dock";
+      stage.dataset.particleCount = String(logoSample.points.length);
       window.addEventListener("scroll", scheduleDraw, { passive: true });
       window.addEventListener("resize", handleResize);
       scheduleDraw();
@@ -465,6 +416,11 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
 
       window.removeEventListener("scroll", scheduleDraw);
       window.removeEventListener("resize", handleResize);
+      logo.style.removeProperty("opacity");
+      logo.style.removeProperty("transform");
+      menuTitle.style.removeProperty("opacity");
+      menuTitle.style.removeProperty("transform");
+      menuDock.style.removeProperty("--resolve-progress");
       delete stage.dataset.motionInput;
       delete stage.dataset.motionPhase;
       delete stage.dataset.motionProgress;
@@ -479,25 +435,40 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
     <div
       ref={shellRef}
       className={styles.shell}
-      aria-label="Las Palmas silver palms transform into the menu as the page scrolls"
+      aria-label="The original Las Palmas sign resolves into the permanent menu heading as the page scrolls"
     >
       <div
         ref={stageRef}
         className={styles.stage}
         data-las-palmas-palm-motion
         data-motion-source="scroll"
+        data-motion-state="loading"
       >
+        <h1 className="sr-only">
+          Las Palmas Mexican Restaurant &amp; Cantina
+        </h1>
+        {/* The exact supplied logo is kept as native image content; the canvas never redraws it. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={logoRef}
+          src={LOGO_PATH}
+          alt=""
+          className={styles.logo}
+          draggable={false}
+        />
         <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
-        <div className={styles.staticMark}>
-          <div className={styles.palms} aria-hidden="true">
-            <PalmGlyph className={styles.palmSmall} />
-            <PalmGlyph className={styles.palmLarge} />
-            <PalmGlyph className={styles.palmSmall} />
-          </div>
-          <h1>LAS PALMAS</h1>
-          <p>Mexican Restaurant &amp; Cantina</p>
+        <div ref={menuDockRef} className={styles.menuDock}>
+          <span className={styles.dockRule} aria-hidden="true" />
+          <h2
+            ref={menuTitleRef}
+            id="las-palmas-menu-heading"
+            className={styles.menuTitle}
+          >
+            MENU
+          </h2>
+          <p>Lynnhaven · Virginia Beach</p>
         </div>
-        <span className="sr-only">Lynnhaven · Virginia Beach · Desde 2010</span>
+        <span className="sr-only">Desde 2010</span>
       </div>
     </div>
   );

@@ -18,6 +18,21 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [RELEASE GATE] Codex - 2026-07-26 09:07 EDT - Las Palmas original-logo menu dock
+Verified:
+- Deterministic extraction preserves the supplied sign pixels and wording in a 600 x 389 transparent PNG; the beach scene and screenshot controls are absent. Registered SHA-256: `E905DA3F5F683AEAA106880BAE76B8F11A00427C60B8B2685837B20B49C31C11`.
+- Targeted ESLint, `tsc --noEmit`, extractor syntax check, `git diff --check`, and the final production build pass.
+- Browser QA passes at 390 x 844 and 1440 x 900: exact logo start, silver-palm midpoint, semantic `MENU` dock end, reverse-scroll restoration, reduced-motion static fallback, zero horizontal overflow, and zero console errors/warnings.
+- Route invariants remain: `noindex, nofollow, nocache`, 39 menu disclosures, one game link, two table-preview links, unchanged pending-client notices, and no Client OS, data, integration, pricing, or game-engine changes.
+- Combined source/implementation review is recorded in `design-qa.md`; final result is `passed`.
+
+### [CHECK-IN] Codex - 2026-07-26 08:35 EDT - Las Palmas original-logo menu dock
+Picking up: Replace the generated Las Palmas mark with Anthony's supplied original red sign, exclude the beach background, and make the scroll transformation resolve into a permanent semantic `MENU` heading integrated with the category navigation.
+State I see:
+- Clean branch `codex/las-palmas-original-logo-menu-dock-20260726` starts at current `origin/main` (`5c2a888`).
+- The live green demo currently renders a generated silver-palm brand and a second generated canvas word; menu data, media, game link, and table-service preview are already present and stay unchanged.
+- Scope is limited to the Las Palmas demo presentation, the exact supplied logo asset/registry record, reference QA, and this operations log. No beach image, AI-redrawn logo, integrations, Client OS, game engine, secrets, customer data, or pricing changes are authorized.
+
 ### [CHECK-OUT] Codex - 2026-07-24 17:12 EDT - Personalized prospect QR leave-behinds
 Did:
 - Released PR #185 to production as squash commit `76e6711` after clean mergeability, GitHub CI, and Vercel gates passed.
