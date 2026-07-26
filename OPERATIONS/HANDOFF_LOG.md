@@ -18,6 +18,18 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-07-26 09:14 EDT - Las Palmas original-logo menu dock live
+Did:
+- Released PR #194 as production merge `6180342` after the scoped local gate, GitHub CI, and Vercel deployment all passed.
+- Published Anthony's exact supplied red/orange Las Palmas sign on transparency; no beach scene, screenshot controls, AI-redrawn lettering, menu-data change, or adjacent system change shipped.
+- Replaced the generated final canvas word with a permanent semantic `MENU` heading and category dock; the silver-palm motion now resolves into that real interface element and reverses back to the logo.
+State now:
+- `https://finacalleos.com/demo/las-palmas` is verified live at 390 x 844: original-logo start and `MENU`-dock end both pass with zero overflow and zero page console errors/warnings.
+- Live route evidence confirms `noindex, nofollow, nocache`, 39 menu disclosures, 37 enhanced food images, one game link, two table-preview links, the pending-client notice, and the `semantic-menu-dock` target.
+- Reduced-motion, desktop 1440 x 900, asset-fidelity, and combined source/implementation QA passed; evidence is recorded in `design-qa.md`.
+Next / handoff to: Anthony - review the live transition; engineering is complete unless he wants timing or scale adjusted.
+Blocked on Anthony: none.
+
 ### [RELEASE GATE] Codex - 2026-07-26 09:07 EDT - Las Palmas original-logo menu dock
 Verified:
 - Deterministic extraction preserves the supplied sign pixels and wording in a 600 x 389 transparent PNG; the beach scene and screenshot controls are absent. Registered SHA-256: `E905DA3F5F683AEAA106880BAE76B8F11A00427C60B8B2685837B20B49C31C11`.
