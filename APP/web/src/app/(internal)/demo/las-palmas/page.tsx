@@ -11,8 +11,9 @@ import LasPalmasSilverPalmMotion from "./LasPalmasSilverPalmMotion";
 // Static preview only: it reuses the curated public-source Lynnhaven dataset
 // (single source of truth in src/table-os/menu/las-palmas-lynnhaven.ts) and
 // never touches Supabase or the Client OS routes (/m, /owner, /customers).
-// Visual direction: the original green cantina system with a logo-free,
-// scroll-driven silver-palm morph. Menu + game + table preview remain one
+// Visual direction: the original green cantina system with Anthony's supplied
+// red sign isolated from its beach background. Silver palms resolve into the
+// permanent semantic menu dock. Menu + game + table preview remain one
 // pending-approval prospect experience.
 
 export const metadata: Metadata = {
@@ -40,10 +41,23 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
       <div className="mx-auto w-full max-w-2xl">
         <header>
           <LasPalmasSilverPalmMotion />
-          <p className="mt-4 text-center text-[0.68rem] uppercase tracking-[0.26em] text-[#aeb8b1]">
-            Lynnhaven · Virginia Beach · Desde 2010
-          </p>
         </header>
+
+        <nav
+          aria-label="Menu sections"
+          aria-labelledby="las-palmas-menu-heading"
+          className="sticky top-0 z-10 -mx-5 flex gap-2 overflow-x-auto border-b border-[#c8ced3]/20 bg-[#06130d]/95 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
+        >
+          {sections.map((section) => (
+            <a
+              key={section.name}
+              href={`#sec-${slugify(section.name)}`}
+              className="shrink-0 border border-[#a9b8a9]/25 px-3.5 py-1.5 text-xs font-medium text-[#cfd8c8] transition hover:border-[#dfe3e6]/70 hover:text-[#f3f5f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6]"
+            >
+              {section.name}
+            </a>
+          ))}
+        </nav>
 
         <p className="mt-6 border-l-2 border-[#b9c0c6]/70 pl-3 text-left text-[0.72rem] leading-5 text-[#d8cfc1]">
           <span className="block font-semibold uppercase tracking-[0.12em] text-[#dfe3e6]">
@@ -71,21 +85,6 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
             Menu · service-request demo · table game
           </p>
         </div>
-
-        <nav
-          aria-label="Menu sections"
-          className="sticky top-0 z-10 -mx-5 mt-8 flex gap-2 overflow-x-auto border-b border-[#c8ced3]/20 bg-[#06130d]/90 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
-        >
-          {sections.map((section) => (
-            <a
-              key={section.name}
-              href={`#sec-${slugify(section.name)}`}
-              className="shrink-0 border border-[#a9b8a9]/25 px-3.5 py-1.5 text-xs font-medium text-[#cfd8c8] transition hover:border-[#dfe3e6]/70 hover:text-[#f3f5f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6]"
-            >
-              {section.name}
-            </a>
-          ))}
-        </nav>
 
         <div className="mt-8 space-y-10">
           {sections.map((section) => (
