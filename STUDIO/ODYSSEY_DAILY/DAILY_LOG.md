@@ -21,3 +21,9 @@ Append one entry per day. Format:
 - Takes: stills 0 (2 submissions refused), video 0
 - Verdict: NOTHING SHIPPED (Runway workspace limit on both nano-banana-pro and nano-banana-2-lite — the plan's credit pool is exhausted from yesterday's Las Palmas art + Day 01; refused submissions cost nothing)
 - Learning: The daily budget now shares one Runway pool with client art work; heavy client-art days can starve the next morning's shot. Either top up Runway credits or schedule client art after the daily shot. s002 stays next in queue — the craft note above carries over.
+
+## Day 03 — s002 (carryover) — Medium shot & blocking — 2026-07-26
+- Craft note: (carried over from Day 02 — see above)
+- Takes: stills 0 (2 submissions refused), video 0
+- Verdict: NOTHING SHIPPED (Runway workspace limit persists on pro + lite image tiers; the plan's credit pool is monthly and will not self-reset — needs an Anthony top-up or plan upgrade)
+- Learning: A monthly pool means blocked days repeat until topped up; no point burning more than the 2 probe submissions per day (they cost nothing but prove state). The routine self-recovers the day credits appear.
