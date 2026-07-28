@@ -32,4 +32,4 @@ Append one entry per day. Format:
 - Craft note: (carried over from Day 02)
 - Takes: stills 0 (1 probe refused), video 0
 - Verdict: NOTHING SHIPPED (Runway workspace limit, third consecutive blocked day — monthly pool still empty)
-- Learning: Paused the daily routine to stop blocked-day noise; it resumes when Anthony tops up Runway and says "resume odyssey" (or the trigger is re-enabled). s002 remains next in queue.
+- Learning: The daily trigger stays live (Anthony's call): each blocked day costs only 1–2 refused probe submissions and the routine self-recovers the morning credits appear — no manual "resume" needed, just the Runway top-up. s002 remains next in queue.
