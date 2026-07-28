@@ -27,3 +27,9 @@ Append one entry per day. Format:
 - Takes: stills 0 (2 submissions refused), video 0
 - Verdict: NOTHING SHIPPED (Runway workspace limit persists on pro + lite image tiers; the plan's credit pool is monthly and will not self-reset — needs an Anthony top-up or plan upgrade)
 - Learning: A monthly pool means blocked days repeat until topped up; no point burning more than the 2 probe submissions per day (they cost nothing but prove state). The routine self-recovers the day credits appear.
+
+## Day 04 — s002 (carryover) — Medium shot & blocking — 2026-07-28
+- Craft note: (carried over from Day 02)
+- Takes: stills 0 (1 probe refused), video 0
+- Verdict: NOTHING SHIPPED (Runway workspace limit, third consecutive blocked day — monthly pool still empty)
+- Learning: Paused the daily routine to stop blocked-day noise; it resumes when Anthony tops up Runway and says "resume odyssey" (or the trigger is re-enabled). s002 remains next in queue.
