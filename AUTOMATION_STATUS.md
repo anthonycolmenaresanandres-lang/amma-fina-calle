@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-28 (evening twice-daily check-in — **everything green, no code action needed.** Only change since the morning run: **today's 07-28 VBFH Daily Run (14:18 UTC) SUCCEEDED — eight green in a row** (morning run had noted it hadn't fired yet). No new commits on any default branch: amma `main` still `3474d4c` (#195), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb head `bb0eea8`. `CI — web` ✅ on last built commit `6180342`; amma main / vbfh master recent runs show zero failures. Open-PR set unchanged (vbfh #7/#4, amma #189/#180/#161/#168/#162, EscapeTheBomb #1) — all checks green. No newly merged/closed PRs and no new human review comments since last run. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-29 (morning twice-daily check-in — **everything green, nothing changed, no code action needed.** No new commits on any default branch since the 07-28 evening run: amma `main` still `3474d4c` (#195), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb head `bb0eea8`. **VBFH Daily Run stays GREEN** — last run 07-28 14:18 UTC ✅ (eight in a row); today's 07-29 run had **not yet fired** at check time (12:46 UTC — runs ~14:00 UTC, expected). `CI — web` ✅ on last built commit `6180342`; amma main / vbfh master recent runs show zero failures. Open-PR set unchanged (vbfh #7/#4, amma #189/#180/#161/#168/#162, EscapeTheBomb #1) — all checks green. No newly merged/closed PRs and no new human review comments since last run. Caretaker took no code action beyond this dashboard.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -66,12 +66,12 @@ shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-28, evening)
+## Build health (as of 2026-07-29, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `3474d4c` (**#195**, "close Las Palmas logo release", docs `[skip ci]`); last built commit `6180342` (**#194**, "land Las Palmas logo into menu dock") `CI — web` ✅ (2026-07-26 13:12 UTC). voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-28 14:18 UTC succeeded** (07-21/22/23/24/25/26/27/28 all ✅ — **eight green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-28 14:18 UTC succeeded** (07-21…07-28 all ✅ — **eight green in a row**); today's **07-29** run not yet fired at 12:46 UTC check time (runs ~14:00 UTC, expected). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
@@ -102,8 +102,9 @@ shadow-engineer-rpa dormant (07-09).
 
 ## Merged / closed since last run
 
-- **Nothing merged/closed since the 07-27 evening run.** No new commits on any default branch;
-  open-PR set unchanged. **Today's 07-28 VBFH Daily Run (14:18 UTC) succeeded** — eight green in a row.
+- **Nothing merged/closed since the 07-28 evening run.** No new commits on any default branch;
+  open-PR set unchanged. **VBFH Daily Run stays GREEN** (last run 07-28 14:18 UTC ✅, eight in a row);
+  today's 07-29 run not yet fired at check time (12:46 UTC).
 - **amma `main` last advanced by Anthony's Las Palmas original-logo cycle (07-26):** **#194** ("land Las Palmas logo
   into menu dock" — replaced the generated hero mark with the restaurant's original supplied sign; merged
   07-26 13:12 → `6180342`) + docs closeout **#195** (`3474d4c`, current tip, `[skip ci]`). Post-merge
@@ -144,6 +145,16 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-07-29 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, nothing
+  changed, no code action needed.** No new commits on any default branch since the 07-28 evening run —
+  amma `main` `3474d4c` (#195), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb `bb0eea8`.
+  **VBFH Daily Run stays GREEN** — last run 07-28 14:18 UTC ✅ (eight in a row); today's 07-29 run not
+  yet fired at 12:46 UTC check time (runs ~14:00 UTC, expected). `CI — web` ✅ on `6180342`; amma main /
+  vbfh master recent runs show zero failures. All open-PR checks green (#189/#180/#161/#162/#168
+  Vercel/web ✅; vbfh #4/#7 `check` ✅). No newly merged/closed PRs and no new human review comments since
+  last run (only prior Vercel/bot comments). #29 stays closed. No branches deleted (still awaiting
+  Anthony). Standing items for Anthony unchanged (SMTP secrets, drafts to review, #29 decision, branch
+  cleanup).
 - **2026-07-28 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
   action needed.** Only change since the morning run: **today's 07-28 VBFH Daily Run (14:18 UTC)
   SUCCEEDED — eight green in a row** (the morning run had noted it hadn't fired yet). No new commits on
