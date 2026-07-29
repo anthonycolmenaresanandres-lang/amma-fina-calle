@@ -33,3 +33,9 @@ Append one entry per day. Format:
 - Takes: stills 0 (1 probe refused), video 0
 - Verdict: NOTHING SHIPPED (Runway workspace limit, third consecutive blocked day — monthly pool still empty)
 - Learning: The daily trigger stays live (Anthony's call): each blocked day costs only 1–2 refused probe submissions and the routine self-recovers the morning credits appear — no manual "resume" needed, just the Runway top-up. s002 remains next in queue.
+
+## Day 05 — s002 (carryover) — Medium shot & blocking — 2026-07-29
+- Craft note: (carried over from Day 02)
+- Takes: stills 0 (2 probes refused: nano-banana-pro + nano-banana-2-lite), video 0
+- Verdict: NOTHING SHIPPED (Runway workspace limit, fourth consecutive blocked day — monthly pool still empty, awaiting Anthony's top-up)
+- Learning: Nothing new to learn from a repeat block; the two daily probes stay the ceiling. The day credits appear, the routine ships s002 the same morning.
