@@ -62,10 +62,12 @@ the **owner sends**.
 
 ## Field channels — go where owners already gather
 The cheapest "Source" step is a place that pre-filters for restaurant owners.
+
+> **CURRENT PRINT HOLD:** Do not distribute the existing `restaurant-depot-flyer-letter.pdf` or its PNG export. The rendered asset contains placeholder contact information and unsupported retention/loyalty claims. Regenerate it from the approved bilingual copy, verify the QR and contact line, and obtain Anthony's approval before printing or field use.
 - **Restaurant Depot (field channel).** A members-only wholesale supplier — almost
   everyone walking in **owns/runs a food business**, so it's a dense, pre-qualified
   prospecting spot. Tactic: stand near the entrance (public sidewalk / with permission),
-  hand out the **bilingual flyer** (`SALES_DEMO_PACKAGE/restaurant-depot-flyer-letter.pdf`)
+  hand out the **approved current bilingual flyer** after the print hold is cleared
   whose **QR opens the live demo** (`/penalty-shootout`); for anyone who stops, run the
   2-minute demo on the phone and log them in the lead tracker (HOT/WARM). The flyer's
   hook — _"then we put YOUR brand in it"_ — sets up the Tailored Demo follow-up.
@@ -93,6 +95,8 @@ prospects directly.)_
 Prospects sourced · tailored demos built · demos shown · demo→call rate · close
 rate · avg cycle time (source→close) · referrals generated. A simple trend on
 these tells you whether the loop is accelerating.
+
+Use `SALES_DEMO_PACKAGE/ETHICAL_CONVERSION_SYSTEM.md` and assign one hook, proof, CTA, and offer ID per exposure. Change one variable at a time and report sample sizes; do not call an anecdote a behavioral pattern.
 
 ## Guardrails
 - Claude **prepares materials and tracks pipeline only** — it does **not** send

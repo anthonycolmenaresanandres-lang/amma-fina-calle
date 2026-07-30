@@ -1,0 +1,4 @@
+interface:
+  display_name: "AMMA Sales Conversion"
+  short_description: "Improve sales with evidence and ethical influence"
+  default_prompt: "Use $amma-sales-conversion to audit this AMMA sales asset, select the strongest verified customer frame, and define one measurable conversion experiment."

@@ -1,11 +1,3 @@
-date_visited,business_name,business_type,owner_name,phone_whatsapp,instagram_handle,language,demo_shown,played_game,menu_collected,objection_raised,lead_temp,next_action,followup_date,notes
-2026-06-08,EXAMPLE - Cafe Aurora,cafe,Maria L,757-555-0101,@cafeaurora,ES,yes,yes,yes,how much,HOT,send pilot plan within 24h,2026-06-09,Loved the game; wants her menu live for weekend promo
-2026-06-08,EXAMPLE - Tacos El Sol,restaurant,Jorge P,757-555-0102,@tacoselsol,ES,yes,no,no,maybe later,WARM,leave flyer + follow up in 2 weeks,2026-06-22,Busy lunch rush; interested but distracted
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
+date_visited,business_name,business_type,owner_name,phone_whatsapp,instagram_handle,language,entry_channel,stated_priority,priority_evidence,hook_id,proof_id,cta_id,offer_id,demo_shown,played_game,menu_collected,proof_response,cta_response,objection_raised,outcome_stage,loss_reason,consent_to_followup,lead_temp,next_action,followup_date,notes
+2026-06-08,EXAMPLE - Cafe Aurora,cafe,Maria L,757-555-0101,@cafeaurora,ES,field visit,weekend menu updates,owner stated the weekend promo deadline,H-UPDATES-01,P-COLATTAO-01,C-PILOT-PLAN-01,O-WRITTEN-PILOT-01,yes,yes,yes,asked how quickly a menu can change,accepted dated next action,how much,dated_next_action,,yes,HOT,send written pilot plan,2026-06-09,Example only; keep real PII in a private tracker
+2026-06-08,EXAMPLE - Tacos El Sol,restaurant,Jorge P,757-555-0102,@tacoselsol,ES,field visit,unknown,no priority stated,H-DISCOVERY-01,P-COLATTAO-01,C-PERMISSION-FOLLOWUP-01,O-NONE,yes,no,no,viewed menu briefly,declined immediate action,maybe later,nurture,busy during visit,yes,WARM,follow up at agreed time,2026-06-22,Example only; behavior is an observation not a personality label

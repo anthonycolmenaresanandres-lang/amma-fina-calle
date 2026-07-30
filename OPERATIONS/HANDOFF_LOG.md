@@ -156,6 +156,30 @@ Boundaries:
 - Task 1 merge is authorized. Task 2 must not merge before Anthony visually reviews the new slug page.
 - Do not touch secrets, customer data, payment systems, Client OS routes, physical QR destinations, or add client logos.
 
+### [CHECK-IN] Codex - 2026-07-18 08:05 EDT - ethical sales conversion system
+Picking up: Maximize AMMA's sales batting average across materials and product surfaces through customer evidence, behavioral design, and continuous experiment learning.
+State I see:
+- PR #160 was explicitly approved, merged to `main` as `422352b`, and its Vercel production deployment completed successfully.
+- The canonical sales package has honest demo assets, but no hook/proof/CTA experiment fields; the in-repo lead tracker contains examples only, so no real behavioral pattern or close-rate claim is currently supportable.
+- The live mobile journey separates brand spectacle, Colattao proof, and contact action; the current Restaurant Depot flyer contains placeholder contact text and unverified retention/engagement claims.
+Plan:
+- Add a shared ethical-conversion skill, evidence-labeled restaurant-owner model, deterministic material scorer, experiment-ready tracker, reconciled scripts, and a product audit with visual work held behind the required design-selection gate.
+Boundaries:
+- Do not use deception, covert coercion, fabricated scarcity/social proof, hidden fees, shame, protected-trait targeting, or unsupported performance claims. Do not contact prospects, publish, push, open a PR, merge, deploy, or alter production without separate approval.
+
+### [CHECK-OUT] Codex - 2026-07-18 08:18 EDT - ethical sales conversion system ready locally
+Did:
+- Added mirrored `amma-sales-conversion` skills for Codex and Claude, an evidence-labeled restaurant-owner model, ethical behavioral-design references, and a deterministic field-material scorer with six passing tests.
+- Routed sales-material, pitch, flyer, objection, follow-up, and conversion requests to the new skill through both the AMMA business router and the small-model selector; all 29 router/selector tests pass.
+- Added the ethical conversion runbook, experiment log, expanded private-tracker schema, product conversion audit, and reconciled demo, objection, outreach, checklist, flyer-copy, and acquisition-loop guidance.
+- Put the old Restaurant Depot PDF/PNG on hold because it contains placeholder contact details and unsupported retention/loyalty claims; the corrected flyer copy scores 90/100 with no field blocker.
+- Installed identical global skill copies for Codex and Claude and updated the active AMMA Operating Rhythm Revenue Power Hour to use verified priority/proof/CTA experiment IDs.
+State now:
+- No product UI was changed; the live mobile audit is documented and visual implementation remains behind the design-selection gate.
+- No prospect was contacted and no sales material was published, printed, pushed, or deployed from this branch.
+Next / handoff to: Anthony -> approve or decline pushing `codex/ethical-sales-conversion-20260718` and opening its PR; Visual Direction -> create/select the reduced-outline product treatment before any UI implementation.
+Blocked on Anthony: push/open-PR approval for this new branch; approval of regenerated flyer artwork before field use.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
 Did:
 - Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.

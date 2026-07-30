@@ -100,6 +100,11 @@ def reorder_specialists(workflow_name: str, query: str, candidates: list[str]) -
     if workflow_name == "revenue_power_hour":
         if any(phrase in normalized for phrase in ["existing list", "lead tracker", "pipeline", "grounded leads"]):
             return ["prioritize-accounts"] + [item for item in candidates if item != "prioritize-accounts"]
+        if any(phrase in normalized for phrase in [
+            "pitch", "flyer", "objection", "follow up", "follow-up", "demo script",
+            "close", "closing", "conversion", "sales material", "customer psychology",
+        ]):
+            return ["amma-sales-conversion"] + [item for item in candidates if item != "amma-sales-conversion"]
     if workflow_name == "finance_review":
         if any(word in normalized.split() for word in ["integrate", "webhook", "checkout", "subscription"]):
             return ["payments"] + [item for item in candidates if item != "payments"]

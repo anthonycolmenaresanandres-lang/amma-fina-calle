@@ -13,10 +13,11 @@
   - [ ] `finacalleos.com/owner/colattao` (shows Owner Sign-In)
   - [ ] `finacalleos.com/rd` (optional)
 - [ ] Bookmark the URLs in order; know which one is the hero (`/m/colattao`).
-- [ ] Printed flyer (ONE_PAGE_FLYER_COPY.md) + a business card.
+- [ ] Use the approved current flyer only. Do not distribute an older PDF/PNG with placeholder contact information or unsupported retention/loyalty claims.
 - [ ] Field card in your pocket (REP_FIELD_CARD_ES.md).
 - [ ] Re-read FEATURE_STATUS_TABLE.md — know what's live vs not.
 - [ ] Know the pricing ranges (don't improvise high numbers).
+- [ ] Choose one `hook_id`, one `proof_id`, one `cta_id`, and one `offer_id` for this interaction.
 
 ## B. What to show (in order)
 - [ ] `finacalleos.com` — "real platform."
@@ -27,6 +28,7 @@
 - [ ] ❌ Never show `/customers` (internal, not prospect-facing).
 
 ## C. What to say (anchors)
+- [ ] Ask one discovery question and record the owner's stated priority.
 - [ ] "Not just a QR menu — a branded digital experience."
 - [ ] "We handle the tech. No headaches."
 - [ ] "It's already live for a real café, Colattao."
@@ -41,11 +43,14 @@
 - [ ] Current menu (photo or link) for a pilot
 - [ ] Best time / preferred language (EN/ES)
 - [ ] Their reaction + any objection raised
+- [ ] Exact response to the proof and CTA; do not label personality or motivation.
+- [ ] Permission to follow up and the agreed date.
 
 ## E. Follow-up steps
 - [ ] Same day: send follow-up text (script in FINA_CALLE_SALES_DEMO_SCRIPT.md §6) with `finacalleos.com/m/colattao`.
 - [ ] If interested: send simple pilot plan (timeline + package options + what you need from them).
 - [ ] Log the lead + next action + date.
+- [ ] Log the IDs and observed outcome; do not declare a pattern from one interaction.
 - [ ] Set a reminder for the agreed follow-up.
 
 ## F. Lead temperature rules

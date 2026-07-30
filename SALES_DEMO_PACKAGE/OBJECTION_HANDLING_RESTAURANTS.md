@@ -3,14 +3,16 @@
 > Grounded in SALES_SCRIPT.md §6, PRICING_AND_OFFER.md, OWNER_DEMO_SCRIPT_ES.
 > Stay honest: never promise payments, POS, online ordering, AI, or guaranteed sales.
 
+Before answering, ask one diagnostic question: **“Is the concern mainly time, fit, price, or trust?”** Record only what the owner states. Do not infer a personality, fear, or hidden motivation. Answer the stated concern, show one relevant proof, and ask for one next action.
+
 ---
 
 ## "I already have a menu"
 **EN:** "Perfect — this isn't a paper-menu replacement. It's a *branded digital experience*
-behind one QR: a clean menu plus a mini-game so customers actually engage, and a page where
+behind one QR: a clean menu plus a playable mini-game demo, and a page where
 you update it yourself. It's already live for Colattao — want to see?"
 **ES:** "Perfecto — esto no reemplaza su menú de papel. Es una *experiencia digital con su
-marca* detrás de un QR: menú limpio más un mini-juego para que el cliente interactúe, y una
+marca* detrás de un QR: menú limpio más una demo jugable de mini-juego, y una
 página donde usted lo actualiza. Ya está en vivo para Colattao — ¿se lo muestro?"
 
 ## "I only use Instagram"
@@ -36,11 +38,11 @@ pequeños cambios por usted cada mes."
 
 ## "How much?"
 **EN:** "There are Starter and Premium options depending on how custom you want it, plus a
-predictable monthly maintenance. Most owners start with a simple pilot so you see real customers
-using it before committing. I'll put the exact numbers in writing for you."
+predictable monthly maintenance. A bounded pilot is available so you can evaluate the fit before
+a larger commitment. I'll put the exact numbers and recurring terms in writing for you."
 **ES:** "Hay opciones Starter y Premium según qué tan personalizado lo quiera, más un mantenimiento
-mensual predecible. La mayoría empieza con un piloto simple para ver clientes reales usándolo antes
-de comprometerse. Le paso los números exactos por escrito."
+mensual predecible. Hay un piloto con alcance limitado para evaluar si encaja antes de un compromiso
+mayor. Le paso por escrito los números exactos y los términos recurrentes."
 *(Reference figures: FEATURE_STATUS_TABLE.md / PRICING_AND_OFFER.md. Don't improvise high numbers.)*
 
 ## "Maybe later"
@@ -63,3 +65,4 @@ vivo con un café local, Colattao — no es una promesa, es un ejemplo que funci
 - Don't counter with payments/POS/online-ordering/AI/guaranteed-sales claims.
 - When in doubt, fall back to the proof: **finacalleos.com/m/colattao** (real, live).
 - "We handle the tech" + "no headache" is your anchor tone.
+- Never use a diagnostic answer to pressure the owner; use it only to choose relevant proof.
