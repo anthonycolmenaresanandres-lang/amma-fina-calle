@@ -1779,3 +1779,11 @@ Blocked:
 - Live motion: 390 x 844 production QA verified `LAS PALMAS` at progress `0.000`, reversible scroll transformation, and `MENU` at progress `1.000`; document width remains within the viewport and the browser console is clean.
 - Live table preview: `/table/las-palmas-lynnhaven/1` returns HTTP 200 and still states that no requests or orders are sent. Table-service activation, staff routing, ordering, payment, and POS remain pending owner workflow confirmation.
 - State: the requested green/silver presentation is live. Menu data, enhanced media, game engine/config, Client OS, Supabase, Stripe, POS, secrets, customer data, and unrelated routes were not changed.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-07-30 ~22:10 UTC**
+Task: Stop Odyssey Daily; pivot to the AnchorFrame news Gemini pipeline (Anthony's call).
+**CHECK-OUT — same session**
+- Odyssey Daily stopped: 14:00 UTC daily trigger disabled (kept, re-enable to resume); stop entry appended to STUDIO/ODYSSEY_DAILY/DAILY_LOG.md; PR #197 updated (Day 06 blocked + program stopped). Shipped total: 1 clip (ody-s001-d01-t1.mp4).
+- Pivot target confirmed from repo docs: AnchorFrame Daily (news-anchor plates), Gemini web = the free motion path. Verified constraint stands (SKILLS/ANCHORFRAME_MOTION_GENERATION): cloud egress 403s gemini.google.com, so Gemini runs only on Anthony's machine (Codex or Anthony manually). Last state: Step 2 motion proof blocked at Codex Chrome extension file upload — fix is chrome://extensions → Codex → "Allow access to file URLs" ON, then rerun with the locked motion prompt.
+- Next: Anthony flips the Chrome toggle (or runs the 3-minute manual Gemini path), Codex reruns Step 2, output saved to C:\Users\antho\OneDrive\Desktop\AnchorFrame\out\anchorOne_motion_proof_v1.mp4, hand back here for QA.
