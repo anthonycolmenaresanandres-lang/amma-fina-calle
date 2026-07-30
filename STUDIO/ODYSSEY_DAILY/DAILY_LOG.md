@@ -39,3 +39,9 @@ Append one entry per day. Format:
 - Takes: stills 0 (2 probes refused: nano-banana-pro + nano-banana-2-lite), video 0
 - Verdict: NOTHING SHIPPED (Runway workspace limit, fourth consecutive blocked day — monthly pool still empty, awaiting Anthony's top-up)
 - Learning: Nothing new to learn from a repeat block; the two daily probes stay the ceiling. The day credits appear, the routine ships s002 the same morning.
+
+## Day 06 — s002 (carryover) — Medium shot & blocking — 2026-07-30
+- Craft note: (carried over from Day 02)
+- Takes: stills 0 (2 probes refused: nano-banana-pro + nano-banana-2-lite), video 0
+- Verdict: NOTHING SHIPPED (Runway workspace limit, fifth consecutive blocked day — monthly pool still empty, awaiting Anthony's top-up)
+- Learning: Block unchanged; probes stay at the 2/day ceiling. If the pool is still empty on Aug 1, check whether the monthly cycle rollover restores credits on its own before asking again.
