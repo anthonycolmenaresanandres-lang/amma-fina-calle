@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-30 (midday — **Anthony's live go-ahead executed: merge wave landed.** Merged amma **#189** (Odyssey log), **#180** (vercel-dash-report skill), **#161** (ethical sales conversion, after resolving the HANDOFF_LOG conflict with main), **#196** (grant-app doc cleanly extracted from #168), and vbfh **#7** (graphics attached to the daily email). Closed as superseded: amma **#168** (its branch also carried the obsolete decoy-art commits + an unrelated Unity dump — only the grant doc was wanted, landed via #196) and vbfh **#4** (its email/template rewrite targets the pre-#6 `run.packages` data model; everything it promised already landed via #5+#7). Still held: amma **#162** (hard-guardrail `/owner/[id]` route — needs Anthony to say "merge 162" explicitly) and EscapeTheBomb **#1** (cannot compile-verify Unreal in cloud; M2 gate). **Branch deletion approved by Anthony but still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; refreshed paste-set below.)
+**Last updated:** 2026-07-30 (afternoon — Anthony: "merge" → **#162 and EscapeTheBomb #1 are now merged too; zero open PRs remain across all four repos.** #162 needed a main-merge first (ops-log conflicts resolved, additive `owner-app:selftest` script auto-merged clean); squash `a454ad6`, `CI — web` + Vercel verifying post-merge. EscapeTheBomb #1 squash `eee6a37` (no cloud CI). Earlier midday — **Anthony's live go-ahead executed: merge wave landed.** Merged amma **#189** (Odyssey log), **#180** (vercel-dash-report skill), **#161** (ethical sales conversion, after resolving the HANDOFF_LOG conflict with main), **#196** (grant-app doc cleanly extracted from #168), and vbfh **#7** (graphics attached to the daily email). Closed as superseded: amma **#168** (its branch also carried the obsolete decoy-art commits + an unrelated Unity dump — only the grant doc was wanted, landed via #196) and vbfh **#4** (its email/template rewrite targets the pre-#6 `run.packages` data model; everything it promised already landed via #5+#7). Still held: amma **#162** (hard-guardrail `/owner/[id]` route — needs Anthony to say "merge 162" explicitly) and EscapeTheBomb **#1** (cannot compile-verify Unreal in cloud; M2 gate). **Branch deletion approved by Anthony but still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; refreshed paste-set below.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -20,9 +20,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    no spaces; requires 2-Step Verification on the Google account — your normal password will NOT work).
    Port 587 default is already correct, no Variables needed. Next 14:00-UTC Daily Run then emails you the
    caption + all post-ready graphics (the #7 code is now live on master).
-2. **Say "merge 162" if you want the owner-portal PR landed too.** Your "merge all those branches" wave
-   is done, but #162 sits on the protected `/owner/[id]` route — a hard-guardrail surface — so it still
-   needs you to name it explicitly before I touch it.
+2. ~~merge 162~~ **DONE — #162 and EscapeTheBomb #1 merged on Anthony's follow-up "merge" (2026-07-30).**
 3. **Grant application is now on `main` — submit it yourself when ready.**
    `BUSINESS/GRANT_APPLICATION_DEV_PC.md` (landed via #196). Nothing is auto-submitted.
 4. **Confirm the "Claude QA's the images before emailing" routine (was PR #4's open question).** The code
@@ -64,14 +62,17 @@ shadow-engineer-rpa dormant (07-09).
 
 ## Open PRs
 
-- **amma #162 — Make owner portal installable** (open **draft**, CI **green**). Adds installable
-  web-app manifest + icons to the protected `/owner/[id]` route → hard-guardrail item; Anthony's blanket
-  "merge all those branches" was not treated as naming this one — say "merge 162" to land it.
-- **EscapeTheBomb-DC #1 — M1 master plan + P5–P8 scaffolds** (open **draft**, no CI). Unreal project —
-  cannot compile-verify in cloud; stays at the M2 Windows compile-verify gate. Never merged without Anthony.
-- No other open PRs across the four repos (today's wave merged or closed the rest).
+- **None.** All four repos have zero open PRs as of 2026-07-30 afternoon (#162 `a454ad6` and
+  EscapeTheBomb #1 `eee6a37` were the last two; merged on Anthony's live instruction).
 
 ## Merged / closed since last run
+
+**2026-07-30 afternoon (Anthony: "merge"):**
+
+- **amma #162 merged** — owner portal installable (protected `/owner/[id]` route; Anthony's explicit
+  live follow-up authorized it). Ops-log conflicts with main resolved on the head first. Squash `a454ad6`.
+- **EscapeTheBomb-DC #1 merged** — M1 master plan + P5–P8 scaffolds. Squash `eee6a37`. No cloud CI;
+  first Windows compile after pull is the real verify (M2 gate note stands).
 
 **2026-07-30 midday merge wave (Anthony's live go-ahead: "merge all those branches"):**
 
@@ -123,6 +124,13 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-07-30 (afternoon) — Anthony: "merge" + "give me the Codex email prompt" (`claude-fable-5`):**
+  Merged the last two held PRs — **amma #162** (owner portal installable; explicit owner authorization for
+  the guardrail route; main-merge conflicts in CODEX_QUEUE/HANDOFF_LOG resolved newest-first, squash
+  `a454ad6`) and **EscapeTheBomb #1** (M1 scaffolds, squash `eee6a37`). **Zero open PRs remain.** Handed
+  Anthony a paste-ready Codex prompt that sets the 5 VBFH email secrets via `gh secret set` (Codex prompts
+  him locally for the Gmail App Password; caretaker never touches the secret values) and fires a test run.
+  Also added the stale-branch deletion to the same Codex prompt since this env's git proxy 403-blocks it.
 - **2026-07-30 (midday) — Anthony live go-ahead: merge wave + email address + branch-delete permission
   (`claude-fable-5` — Anthony switched the session model via `/model`):** Merged amma **#189/#180/#161/#196**
   and vbfh **#7**; #161 needed a HANDOFF_LOG conflict resolution pushed to its head first. #196 is the clean
