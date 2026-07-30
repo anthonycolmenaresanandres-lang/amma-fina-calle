@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-30 (afternoon — Anthony: "merge" → **#162 and EscapeTheBomb #1 are now merged too; zero open PRs remain across all four repos.** #162 needed a main-merge first (ops-log conflicts resolved, additive `owner-app:selftest` script auto-merged clean); squash `a454ad6`, `CI — web` + Vercel verifying post-merge. EscapeTheBomb #1 squash `eee6a37` (no cloud CI). Earlier midday — **Anthony's live go-ahead executed: merge wave landed.** Merged amma **#189** (Odyssey log), **#180** (vercel-dash-report skill), **#161** (ethical sales conversion, after resolving the HANDOFF_LOG conflict with main), **#196** (grant-app doc cleanly extracted from #168), and vbfh **#7** (graphics attached to the daily email). Closed as superseded: amma **#168** (its branch also carried the obsolete decoy-art commits + an unrelated Unity dump — only the grant doc was wanted, landed via #196) and vbfh **#4** (its email/template rewrite targets the pre-#6 `run.packages` data model; everything it promised already landed via #5+#7). Still held: amma **#162** (hard-guardrail `/owner/[id]` route — needs Anthony to say "merge 162" explicitly) and EscapeTheBomb **#1** (cannot compile-verify Unreal in cloud; M2 gate). **Branch deletion approved by Anthony but still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; refreshed paste-set below.)
+**Last updated:** 2026-07-30 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; no code action needed.** Two changes since the afternoon run: (1) **today's VBFH Daily Run fired and SUCCEEDED — 07-30 14:10 UTC ✅** (the afternoon note flagged it as not-yet-fired; now green, ~ten scheduled runs in a row); (2) a new **docs-only draft, amma #197** — "Odyssey Daily log — Day 06 blocked (Runway pool still empty)" — the Day-06 continuation of the merged #189 series. It's a **draft**, so it's held by its author (caretaker does not merge drafts); Vercel preview is Ready/green, no CI-web (docs-only, path-filtered). No red builds, no new human review comments, no merge-conflict/base-branch notices anywhere. Earlier afternoon (still true): **#162 + EscapeTheBomb #1 merged**, main tip `a454ad6`; the midday merge wave (**#189/#180/#161/#196** + vbfh **#7**) and superseded closes (**#168**, vbfh **#4**) all stand. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -27,9 +27,10 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    half is fully landed (#5+#7); #4 itself is closed as superseded. What's left is only the decision:
    should a scheduled Claude session QA/regenerate the graphics after each 14:00-UTC run before the email
    goes out? Say yes + preferred timing and I'll build the routine.
-5. **Runway credits (from the #189 log, now merged): the Odyssey Daily shot has been blocked 4 days
-   straight** — the plan's credit pool is exhausted and it's monthly (won't self-reset). Top up credits,
-   or schedule client art *after* the daily shot so it can't starve the next morning's run.
+5. **Runway credits — now blocked 5+ days straight (the new #197 draft logs Day 06 still blocked).**
+   The plan's credit pool is exhausted and it's monthly (won't self-reset), so the Odyssey Daily shot
+   can't progress until you act. Top up credits, or schedule client art *after* the daily shot so it
+   can't starve the next morning's run. (This is the only recurring item that keeps re-surfacing.)
 6. **(If not already done) Run the Marbel admin SQL in Supabase.** From #150: Supabase SQL editor →
    run `0009_admin_team_update.sql` (or `supabase db push`) to grant `marbeljsiado@gmail.com` admin.
    I can't see Supabase state from here — skip this if you already ran it.
@@ -51,19 +52,22 @@ shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-30, midday)
+## Build health (as of 2026-07-30, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `96c87b0` (**#196**, grant-app doc). Today's merge wave: #189, #180, #161, #196 (Vercel deploys triggered on each; `CI — web` runs on the new tip). voice-gateway CI path-filtered, last run ✅. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅; master tip `e21077d` (**#7**, graphics attached to daily email — merged today). **#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-29 14:19 UTC succeeded** (07-21…07-29 all ✅ — **nine green in a row**); today's 07-30 run had not yet fired at check time (runs ~14:19 UTC, expected). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `a454ad6` (**#162**, owner portal installable). Latest `CI — web` on main ✅ (07-30 13:07 UTC); recent main runs show zero failures. voice-gateway CI path-filtered (no recent run — nothing touched its paths). One open draft (#197, docs) has Vercel green, no web CI. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Today's scheduled run **07-30 14:10 UTC SUCCEEDED** (07-21…07-30 all ✅ — ~**ten green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
-| EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
+| EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
-- **None.** All four repos have zero open PRs as of 2026-07-30 afternoon (#162 `a454ad6` and
-  EscapeTheBomb #1 `eee6a37` were the last two; merged on Anthony's live instruction).
+- **amma #197 (draft, docs-only) — "Odyssey Daily log — Day 06 blocked (Runway pool still empty)."**
+  Opened after the afternoon run; Day-06 continuation of the merged #189 series. Vercel preview
+  Ready/green; no `CI — web` (docs-only, path-filtered). **Held — it's a draft**, so the caretaker
+  does not merge it; Anthony merges the daily-log entries himself as with #189. Nothing to fix.
+- vbfh-media-engine, shadow-engineer-rpa, EscapeTheBomb-DC: **zero open PRs.**
 
 ## Merged / closed since last run
 
@@ -124,6 +128,17 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-07-30 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, no code
+  action needed.** Two changes since the afternoon run: (1) **today's VBFH Daily Run fired and
+  SUCCEEDED — 07-30 14:10 UTC ✅** (~ten scheduled runs in a row; afternoon note had it as not-yet-fired);
+  (2) **one new draft — amma #197** ("Odyssey Daily log — Day 06 blocked, Runway pool still empty"),
+  docs-only Day-06 continuation of the merged #189 series — **held as a draft** (caretaker doesn't merge
+  drafts; Vercel preview green, no web CI on docs). main tip `a454ad6` (#162), `CI — web` on main ✅,
+  vbfh master `e21077d` (#7) CI ✅, shadow `5113ce5` dormant, EscapeTheBomb #1 merged (`eee6a37`). No
+  red builds, no merge-conflict/base-branch notices, no newly merged/closed PRs, no new human review
+  comments (only Vercel/bot on #197). Branch cleanup still 403-blocked (awaiting Anthony's local paste).
+  Standing items for Anthony unchanged (SMTP secrets, Runway credits now Day 06, image-QA routine
+  decision, grant submission, branch cleanup).
 - **2026-07-30 (afternoon) — Anthony: "merge" + "give me the Codex email prompt" (`claude-fable-5`):**
   Merged the last two held PRs — **amma #162** (owner portal installable; explicit owner authorization for
   the guardrail route; main-merge conflicts in CODEX_QUEUE/HANDOFF_LOG resolved newest-first, squash
