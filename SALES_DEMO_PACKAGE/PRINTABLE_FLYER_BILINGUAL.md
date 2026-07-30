@@ -11,16 +11,16 @@
 <!-- ========================= FRONT (ENGLISH) ========================= -->
 ## ◼ FRONT — ENGLISH
 
-# Your menu, but make it unforgettable.
+# Give customers more than a static QR screen.
 
 **Not just a QR menu — a branded digital experience for your restaurant.**
 
 ---
 
-**One QR code gives your customers:**
+**See one working system:**
 
 - 📋 A clean **digital menu** — items, prices, hours, promos
-- 🎮 A fun **branded mini-game** while they wait
+- 🎮 A playable **mini-game demo** that can be brand-skinned after approval
 - 📱 All on their phone — nothing to download
 
 **For you, the owner:**
@@ -34,8 +34,9 @@
 **Already live for a real local café — see it now:**
 ## → finacalleos.com/m/colattao
 
-**No data collection.** No names, no emails, no payment info from your customers.
-**Start with a simple pilot.** See real customers using it in your store.
+**No personal customer information is required for the live menu or game demo.**
+Anonymous analytics can be scoped separately and explained in writing.
+**Scan the live example. If it fits, ask for a written pilot plan.**
 
 > **Fina Calle OS**  ·  **finacalleos.com**  ·  Instagram **@fina_calle**
 
@@ -49,16 +50,16 @@
 <!-- ========================= BACK (ESPAÑOL) ========================= -->
 ## ◼ BACK — ESPAÑOL
 
-# Su menú, pero inolvidable.
+# Ofrezca más que una pantalla QR estática.
 
 **No es solo un menú QR — es una experiencia digital con la marca de su restaurante.**
 
 ---
 
-**Un solo código QR le da a sus clientes:**
+**Vea un sistema que ya funciona:**
 
 - 📋 Un **menú digital** limpio — productos, precios, horario, promociones
-- 🎮 Un **mini-juego con su marca** mientras esperan
+- 🎮 Una **demo jugable de mini-juego** que puede adaptarse a su marca después de aprobar el diseño
 - 📱 Todo en el celular — nada que descargar
 
 **Para usted, el dueño:**
@@ -72,8 +73,9 @@
 **Ya está en vivo para un café local real — véalo ahora:**
 ## → finacalleos.com/m/colattao
 
-**Sin recolección de datos.** Sin nombres, sin correos, sin información de pago de sus clientes.
-**Empiece con un piloto simple.** Vea clientes reales usándolo en su local.
+**La demo del menú y el juego no requiere información personal del cliente.**
+Las analíticas anónimas se pueden definir por separado y explicar por escrito.
+**Escanee el ejemplo en vivo. Si encaja, pida un plan piloto por escrito.**
 
 > **Fina Calle OS**  ·  **finacalleos.com**  ·  Instagram **@fina_calle**
 
@@ -83,7 +85,8 @@
 ---
 
 ### Print/design rules (do not violate)
-- Do **NOT** add: payments, online ordering, POS, "more sales guaranteed," AI, or loyalty — none are live (see `FEATURE_STATUS_TABLE.md`).
+- Do **NOT** add: payments, online ordering, POS, unsupported sales outcomes, AI, or loyalty — none are live (see `FEATURE_STATUS_TABLE.md`).
 - Keep the live proof link visible: **finacalleos.com/m/colattao**.
+- Use one CTA only: scan the proof, then request a written pilot plan.
 - Tone: modern, simple, "we handle the tech."
 - Keep it to one physical page (or one double-sided sheet).

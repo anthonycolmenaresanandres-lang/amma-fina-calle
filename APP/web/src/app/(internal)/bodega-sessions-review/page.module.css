@@ -1,0 +1,363 @@
+.page {
+  --ink: #090909;
+  --board: #171817;
+  --paper: #f7f2e8;
+  --chalk: #fffdf7;
+  --lavender: #b695e7;
+  --sky: #86b8ee;
+  --pink: #efaac8;
+  --pollen: #f0c34f;
+  --leaf: #a8c8a0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(134, 184, 238, 0.12), transparent 22rem),
+    var(--ink);
+  color: var(--chalk);
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.reviewBar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 2.5rem;
+  background: var(--lavender);
+  padding: 0.6rem 1rem;
+  color: var(--ink);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.shell {
+  margin: 0 auto;
+  width: min(100%, 64rem);
+  padding: 1rem 1rem 3.5rem;
+}
+
+.hero {
+  padding: clamp(2rem, 7vw, 4.75rem) 0 2rem;
+}
+
+.utilityRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(3rem, 8vw, 6rem);
+  color: rgba(255, 253, 247, 0.5);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.utilityRow a {
+  color: var(--sky);
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.kicker,
+.startLabel,
+.resultLabel {
+  color: var(--leaf);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 10ch;
+  margin-top: 0.7rem;
+  color: var(--pollen);
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(3.25rem, 13vw, 8.5rem);
+  letter-spacing: -0.075em;
+  line-height: 0.8;
+  text-transform: uppercase;
+}
+
+.hero > p {
+  max-width: 48ch;
+  margin-top: 1.4rem;
+  color: rgba(255, 253, 247, 0.68);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.startPanel {
+  display: grid;
+  gap: 2rem;
+  background:
+    radial-gradient(circle at 88% 22%, rgba(239, 170, 200, 0.14), transparent 14rem),
+    var(--board);
+  padding: clamp(2rem, 6vw, 4rem);
+}
+
+.startPanel h2 {
+  max-width: 13ch;
+  margin-top: 0.7rem;
+  color: var(--pink);
+  font-size: clamp(2rem, 7vw, 4rem);
+  font-weight: 820;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.startPanel p {
+  max-width: 46ch;
+  margin-top: 1rem;
+  color: rgba(255, 253, 247, 0.68);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.startActions,
+.resultActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  justify-content: flex-end;
+}
+
+.startActions button,
+.resultActions button,
+.inlineControl,
+.accessiblePads button {
+  appearance: none;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.startActions button:first-child,
+.resultActions button {
+  min-height: 3rem;
+  background: var(--lavender);
+  padding: 0.85rem 1rem;
+  color: var(--ink);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.soundButton,
+.inlineControl {
+  min-height: 2.65rem;
+  background: transparent;
+  color: var(--sky);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-decoration: underline;
+  text-underline-offset: 0.32rem;
+  text-transform: uppercase;
+}
+
+.gameSection {
+  background: var(--board);
+  padding: 0.75rem;
+}
+
+.gameToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.75rem;
+  padding-inline: 0.35rem;
+  color: rgba(255, 253, 247, 0.45);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.gameMount {
+  width: 100%;
+  height: min(34rem, 67dvh);
+  min-height: 29rem;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.gameMount canvas {
+  display: block;
+}
+
+.accessiblePads {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.accessiblePads button {
+  min-width: 0;
+  min-height: 3.3rem;
+  background: #222322;
+  padding: 0.45rem 0.2rem;
+  color: var(--chalk);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.56rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+.accessiblePads button:nth-child(1) {
+  color: var(--lavender);
+}
+
+.accessiblePads button:nth-child(2) {
+  color: var(--sky);
+}
+
+.accessiblePads button:nth-child(3) {
+  color: var(--pollen);
+}
+
+.accessiblePads button:nth-child(4) {
+  color: var(--pink);
+}
+
+.accessiblePads span {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: 1rem;
+}
+
+.resultPanel {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  background: var(--paper);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  color: var(--ink);
+}
+
+.resultPanel h2 {
+  margin-top: 0.55rem;
+  font-family: "Arial Black", "Franklin Gothic Heavy", Impact, sans-serif;
+  font-size: clamp(2rem, 7vw, 4rem);
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.resultPanel p {
+  margin-top: 0.65rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+}
+
+.pendingCta {
+  display: block;
+  color: #70675d;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.evidenceNote {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  background: var(--pollen);
+  padding: 1.2rem;
+  color: var(--ink);
+}
+
+.evidenceNote strong {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.evidenceNote p {
+  max-width: 72ch;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.page button:focus-visible,
+.page a:focus-visible,
+.gameMount canvas:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 0.28rem;
+}
+
+.page button:active {
+  transform: translateY(1px);
+}
+
+@media (min-width: 44rem) {
+  .shell {
+    padding-inline: 1.5rem;
+  }
+
+  .startPanel,
+  .resultPanel {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+
+  .gameSection {
+    padding: 1rem;
+  }
+
+  .evidenceNote {
+    grid-template-columns: 0.35fr 1.65fr;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 26rem) {
+  .utilityRow,
+  .gameToolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gameToolbar {
+    padding-block: 0.5rem;
+  }
+
+  .accessiblePads button {
+    font-size: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before,
+  .page *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+
+  .page button:active {
+    transform: none;
+  }
+}

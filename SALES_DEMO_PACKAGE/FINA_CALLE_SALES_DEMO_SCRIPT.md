@@ -1,10 +1,15 @@
 # Fina Calle OS — Sales Demo Script
 
 > Source of truth: only verified company files + the six owner-verified live URLs.
-> Do not promise payments, POS, online ordering, AI automation, guaranteed sales,
+> Do not promise payments, POS, online ordering, AI automation, or sales outcomes,
 > or custom features as "live." See `FEATURE_STATUS_TABLE.md` before every demo.
 
 **Tone:** modern, simple, no headache — *we handle the tech.*
+
+**Before pitching, ask one question:**
+"What matters more right now: making menu updates easier, improving the in-store experience, or keeping the setup simple?"
+
+Use the answer as the recognition line. If the owner gives no priority, show the live proof without inventing one. Log one `hook_id`, `proof_id`, `cta_id`, and `offer_id`; change only one material variable between comparable interactions.
 
 **One-line positioning (verified, PRICING_AND_OFFER.md):**
 "This is not just a QR menu. It is a branded digital customer experience."
@@ -15,8 +20,8 @@
 
 ### English
 "I help local restaurants turn a plain QR menu into a branded digital experience.
-Your customers scan one code and get a clean digital menu, plus a fun branded
-mini-game — so they actually engage instead of glancing and leaving. You get a
+Your customers scan one code and get a clean digital menu, plus a playable
+mini-game demo that can be adapted to your brand after approval. You get a
 private owner page to update your menu yourself, and we handle all the tech. It's
 already live for a local café called Colattao — I can show you the real thing on
 my phone right now."
@@ -24,7 +29,7 @@ my phone right now."
 ### Español
 "Ayudo a restaurantes locales a convertir un menú QR básico en una experiencia
 digital con marca. Sus clientes escanean un código y ven un menú digital limpio,
-más un mini-juego con su marca — así sí interactúan en vez de solo mirar y irse.
+más una demo jugable que puede adaptarse a su marca después de aprobar el diseño.
 Usted recibe una página privada para actualizar su propio menú, y nosotros nos
 encargamos de toda la parte técnica. Ya está funcionando para un café local,
 Colattao — se lo puedo mostrar en mi teléfono ahora mismo."
@@ -34,7 +39,7 @@ Colattao — se lo puedo mostrar en mi teléfono ahora mismo."
 ## 2. 2-Minute Pitch
 
 ### English
-"Most restaurants already have a menu and Instagram. But in the store, customers
+"If you already have a menu and Instagram, keep them. In the store, customers may
 scan a QR, glance once, and move on — there's no real engagement and no easy way
 for you to keep things updated.
 
@@ -49,13 +54,13 @@ Colattao, is live right now at finacalleos.com/m/colattao. I'm not showing you a
 mock-up — I'm showing you a working client.
 
 We start with a simple pilot so you can see real customers using it in your store,
-then we refine from there. No payment systems, no POS headaches — just a branded
-experience that makes your spot feel modern and memorable."
+then we refine from there. No payment systems or POS integration are included in
+this demo — the written pilot defines exactly what is included."
 
 ### Español
-"La mayoría de los restaurantes ya tienen menú e Instagram. Pero en el local, el
-cliente escanea un QR, mira una vez, y se va — no hay interacción real y no hay
-una forma fácil de mantener todo actualizado.
+"Si ya tiene menú e Instagram, consérvelos. En el local, un cliente puede escanear
+un QR y mirar una sola vez, y a usted puede faltarle una forma fácil de mantener
+todo actualizado.
 
 Lo que yo instalo es una experiencia digital con su marca, detrás de un solo QR:
 - Un **menú digital** limpio con sus productos, precios, horario y promociones.
@@ -68,8 +73,8 @@ está en vivo ahora mismo en finacalleos.com/m/colattao. No le muestro una maque
 — le muestro un cliente que funciona.
 
 Empezamos con un piloto simple para que vea clientes reales usándolo en su local,
-y de ahí lo mejoramos. Sin sistemas de pago, sin complicaciones de POS — solo una
-experiencia de marca que hace que su negocio se sienta moderno y memorable."
+y de ahí lo mejoramos. Esta demo no incluye sistemas de pago ni integración POS;
+el piloto por escrito define exactamente lo que incluye."
 
 ---
 
@@ -110,12 +115,12 @@ Open on your phone, in this order. (Full talk track in `DEMO_URLS_AND_TALK_TRACK
 ## 5. Closing Line
 
 ### English
-"If you like it, I can launch a pilot for your restaurant and we refine it based on
-real customer use in your store. Want me to set that up?"
+"If this fits your priority, I can send one written pilot plan with scope, timeline,
+and pricing. Should I send it by tomorrow?"
 
 ### Español
-"Si le gusta, puedo lanzar un piloto para su restaurante y lo ajustamos según el uso
-real de sus clientes en el local. ¿Quiere que se lo prepare?"
+"Si esto encaja con su prioridad, puedo enviarle un plan piloto por escrito con alcance,
+tiempos y precio. ¿Se lo envío mañana?"
 
 ---
 

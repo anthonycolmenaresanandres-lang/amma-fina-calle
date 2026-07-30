@@ -1,0 +1,276 @@
+.lobby,
+.gameShell {
+  min-height: 70dvh;
+}
+
+.matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  background: #fff5d9;
+  padding: 1.2rem;
+  color: #061618;
+}
+
+.matchup > div {
+  position: relative;
+  display: grid;
+  gap: 0.3rem;
+  min-height: 7rem;
+  align-content: end;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--team) 0 68%, var(--team-alt) 68%);
+  padding: 1rem;
+}
+
+.matchup > div:last-child {
+  text-align: right;
+}
+
+.matchup span {
+  font-size: 2.2rem;
+}
+
+.matchup strong {
+  font-size: clamp(0.82rem, 3vw, 1.2rem);
+  letter-spacing: -0.025em;
+}
+
+.matchup em {
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.lobbyCopy {
+  padding: clamp(2rem, 7vw, 5rem) 0 2rem;
+}
+
+.lobbyCopy > span,
+.syncLine,
+.controls,
+.roleWarning {
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+}
+
+.lobbyCopy > span {
+  color: #f3b61f;
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.lobbyCopy h1 {
+  max-width: 12ch;
+  margin-top: 0.8rem;
+  font-size: clamp(3rem, 12vw, 7rem);
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.lobbyCopy p {
+  max-width: 46rem;
+  margin-top: 1.5rem;
+  color: rgba(255, 245, 217, 0.68);
+  line-height: 1.6;
+}
+
+.roles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.roles button {
+  display: grid;
+  gap: 0.25rem;
+  border: 0;
+  border-top: 1px solid rgba(255, 245, 217, 0.2);
+  background: transparent;
+  padding: 1rem 0.8rem;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.roles button:nth-child(odd) {
+  padding-left: 0;
+}
+
+.roles button:nth-child(even) {
+  border-left: 1px solid rgba(255, 245, 217, 0.2);
+}
+
+.roles button::before {
+  width: 2.5rem;
+  height: 0.22rem;
+  background: var(--role-color);
+  content: "";
+}
+
+.roles span {
+  font-size: 1.5rem;
+}
+
+.roles strong {
+  font-size: 0.82rem;
+}
+
+.roles small {
+  color: rgba(255, 245, 217, 0.48);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.51rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.roles .roleSelected {
+  background: rgba(243, 182, 31, 0.11);
+  color: #f3b61f;
+}
+
+.join {
+  width: 100%;
+  margin-top: 1.5rem;
+  border: 0;
+  background: #f3b61f;
+  padding: 1.1rem;
+  color: #061618;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.scoreboard > div {
+  display: flex;
+  gap: 0.55rem;
+  align-items: baseline;
+}
+
+.scoreboard > div:last-child {
+  justify-content: flex-end;
+}
+
+.scoreboard span {
+  color: #f3b61f;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+}
+
+.scoreboard strong {
+  font-size: 2.2rem;
+}
+
+.scoreboard .clock {
+  display: grid;
+  gap: 0;
+  text-align: center;
+}
+
+.scoreboard .clock strong {
+  font-size: 1rem;
+}
+
+.syncLine {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 245, 217, 0.56);
+  font-size: 0.5rem;
+  letter-spacing: 0.07em;
+}
+
+.gameStage {
+  position: relative;
+  min-height: min(63dvh, 43rem);
+  overflow: hidden;
+  background: #0d5555;
+  touch-action: none;
+}
+
+.gameStage canvas {
+  display: block;
+}
+
+.loading,
+.error {
+  position: absolute;
+  z-index: 2;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.error {
+  color: #ff9a9e;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  color: rgba(255, 245, 217, 0.58);
+  font-size: 0.51rem;
+  letter-spacing: 0.06em;
+}
+
+.controls button {
+  border: 0;
+  background: #f3b61f;
+  padding: 0.65rem 0.8rem;
+  color: #061618;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.roleWarning {
+  background: #e5484d;
+  padding: 0.8rem;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+@media (min-width: 48rem) {
+  .roles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .roles button:nth-child(n) {
+    border-left: 1px solid rgba(255, 245, 217, 0.2);
+    padding-left: 1rem;
+  }
+
+  .roles button:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameStage canvas {
+    image-rendering: auto;
+  }
+}

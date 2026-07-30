@@ -17,9 +17,10 @@ Guardrails: never handle secrets, grant access, publish/send, purchase, or ship 
 ## Required skill selection
 1. If the user names a skill, use that skill and read its complete `SKILL.md` before acting.
 2. For AMMA management, Morning Command, Revenue Power Hour, Daily Closeout, leads, onboarding, delivery, billing review, KPIs, bottlenecks, or business automation, read `.agents/skills/amma-business-intelligence/SKILL.md` and run its deterministic business router.
-3. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.agents/skills/select-skill/SKILL.md` and run its deterministic selector.
-4. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
-5. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
+3. For AMMA sales materials, restaurant-owner messaging, pitches, demos, flyers, objections, follow-ups, offers, conversion experiments, or behavioral-pattern claims, read `.agents/skills/amma-sales-conversion/SKILL.md`; use verified customer evidence and reject dark patterns.
+4. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.agents/skills/select-skill/SKILL.md` and run its deterministic selector.
+5. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
+6. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
 
 ## Required visual workflow
 1. Before creating or reshaping UI, read `.agents/skills/frontend-design/SKILL.md` and ground the direction in the real brand, audience, content, and current screen.

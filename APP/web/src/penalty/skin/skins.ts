@@ -93,6 +93,59 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
   ballFit: { scale: 2.9 },
 };
 
+// Las Palmas (prospect demo — PENDING CLIENT APPROVAL, not production-published).
+// Tropical cantina palette: palm-dusk greens with a warm gold accent. The kicker
+// is "El Palmerito", an original Fina Calle non-human palm mascot in a red shirt
+// with white sleeves (generic color scheme only — no club crest or marks). The
+// keeper stays the primitive Sentinel, recolored blue by the campaign kit.
+const lasPalmasColors: PenaltyColors = {
+  bg: 0x061410,
+  sky: 0x11382a,
+  grass: 0x0f4d26,
+  grassLine: 0x146030,
+  goalFrame: 0xf7f1e0,
+  net: 0xe3d9bd,
+  ball: 0xfdfdfd,
+  ballSpot: 0x1c2b22,
+  keeper: 0x1e4fd8,
+  keeperAccent: 0x0c1e4a,
+  accent: 0xe8b45a,
+  goalText: "#8fe6a8",
+  saveText: "#ff8a6b",
+  missText: "#f4d35e",
+  text: "#f7f1e0",
+};
+
+export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
+  id: "laspalmas",
+  displayName: "Las Palmas",
+  brandName: "Las Palmas Penalty Shootout",
+  skinName: "Cantina Shootout",
+  colors: lasPalmasColors,
+  // Owner-supplied die-cut food-mascot stickers (processed from Anthony's
+  // uploads 2026-07-25: magenta backdrop flood-filled to alpha, AI sparkle
+  // cropped) + fiesta stadium backdrop. All optional — missing file falls
+  // back to primitives. The earlier palm mascot (kicker-laspalmas-v1.png)
+  // stays in the folder as an alternate.
+  assets: {
+    background: "/assets/laspalmas/penalty/background-laspalmas-fiesta-v1.webp",
+    kicker: "/assets/laspalmas/penalty/kicker-laspalmas-burrito-v1.webp",
+  },
+  // Quesabirria #7 takes over from the Club keeper up; Street (and Pro via
+  // fallback) field Burrito California #10 — the two live characters for now.
+  levelKickers: {
+    "club-keeper": "/assets/laspalmas/penalty/kicker-laspalmas-quesabirria-v1.webp",
+  },
+  // Fiesta backdrop: grass line sits ~0.65 in the art; scale+lift lands it at
+  // ~0.53 on canvas so the crowd/stands fill the behind-goal band and the
+  // keeper dives over grass. Light scrim keeps the papel picado vivid while
+  // the UI stays legible. Cosmetic only — goal geometry is engine-drawn.
+  backgroundFit: { scrim: 0.2, scale: 1.35, offsetYPct: -0.175 },
+  // Same foreground framing as the Colattao striker: big bottom-left figure so
+  // the ball on the spot stays clearly visible beside it.
+  kickerFit: { scale: 2.4, offsetXPct: -0.2 },
+};
+
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   id: "stadium",
   displayName: "Stadium",
@@ -109,6 +162,7 @@ export const STADIUM_PENALTY_SKIN: PenaltySkin = {
 export const PENALTY_SKINS: PenaltySkin[] = [
   DEFAULT_PENALTY_SKIN,
   COLATTAO_PENALTY_SKIN,
+  LASPALMAS_PENALTY_SKIN,
   STADIUM_PENALTY_SKIN,
 ];
 

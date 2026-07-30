@@ -1,10 +1,10 @@
 # Sales Script
 
 ## 1. 15-Second Opener
-"I help local businesses turn a basic QR menu into a branded customer experience with a mini game, digital menu, and simple owner tools that are easy to update."
+"Before I show you anything: what matters more right now—making menu updates easier, improving the in-store experience, or keeping the setup simple?"
 
 ## 2. 60-Second Pitch
-"Most businesses already have a menu and social media, but in-store engagement is still weak. Customers scan, glance, and move on. I set up a branded digital experience that gives them something fun to do while also guiding them to your menu and brand story. You get a custom mini game, QR signs, a digital menu, an owner presentation page, and a feedback box. Everything is mobile-first, easy to update, and built for local businesses that want more attention without extra staff work."
+"I help local businesses turn a basic QR menu into a branded digital experience. The working Colattao example has a live digital menu and a secure owner sign-in for updates. I can also show a playable mini-game engine demo; a client-branded version requires separate design approval. QR signage, a feedback box, and anonymous analytics can be scoped as setup deliverables, but they are not claimed as live on Colattao. I will put the pilot scope, timeline, price, and recurring terms in writing."
 
 ## 3. Pain Points to Mention
 - Boring QR menus that feel generic.
@@ -13,18 +13,17 @@
 - No easy workflow for quick updates.
 
 ## 4. Core Offer
-- Branded mini game
-- Digital menu
-- QR signs
-- Owner presentation
-- Feedback box
-- Anonymous analytics
+- Live digital menu
+- Playable game-engine demo; a branded skin is scoped after approval
+- QR signage only when included in the written setup
+- Secure owner sign-in and self-edit workflow
+- QR signage, feedback box, and anonymous analytics only when included in the written scope
 
 ## 5. Demo Flow
-1. Show game (scan -> play -> reward flow).
-2. Show menu page.
-3. Show owner presentation page.
-4. Show feedback box.
+1. Show the Colattao live menu as verified proof.
+2. Show the game engine as a demo; do not promise a reward or loyalty flow.
+3. Show the owner sign-in screen; do not fake a login.
+4. Explain coming-soon items only from the feature-status table.
 
 ## 6. Objection Handling
 ### "I already have a website"
@@ -40,7 +39,7 @@
 "There are starter and premium options depending on customization depth, plus predictable monthly maintenance for updates and support."
 
 ## 7. Closing Line
-"If you want, I can launch a pilot version for your business and we can refine it based on real customer use in your store."
+"If this fits the priority you named, should I send you a written pilot plan by tomorrow?"
 
 ## 8. Follow-Up Text Message Template
-"Hi [Name], great meeting you today. Here is the demo link we discussed: [LINK]. This is the branded game + menu + QR customer engagement system for [Business Name]. If you want, I can send a pilot setup plan with timeline and pricing options next."
+"Hi [Name], great meeting you today. Here is the live example we discussed: [LINK]. It shows the working menu; the game is a separate engine demo, and any client-branded version is scoped after approval. Should I send the written pilot plan with timeline, price, recurring terms, and exclusions by tomorrow?"

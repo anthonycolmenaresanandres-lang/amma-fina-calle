@@ -1,47 +1,57 @@
 # Outreach Message Pack
 
-## 1. Universal Short Text Message
-Hi [Name], I build branded customer engagement systems for local businesses. It is not just a QR menu: you get a mini-game, digital menu, QR signs, and a simple update workflow. Want me to show you a 2-minute demo?
+> Use only after Anthony approves contact. Personalize from public business facts or the owner's stated priority. Do not infer a fear, personality, or hidden motivation. Use one proof and one CTA. Log the `hook_id`, `proof_id`, `cta_id`, and observed response in the private tracker.
 
-## 2. Universal Instagram DM
-Hey [Business Name] team, quick idea for your in-store customer experience. I build a branded mini-game + digital menu system with QR signs and an easy update workflow. It is not just a QR menu. Want me to show you a 2-minute demo?
+## 1. Permission-first text / DM
 
-## 3. Universal Email
-Subject: Quick idea for [Business Name] in-store engagement
+Hi [Name], I help local restaurants make menu updates simpler and turn a generic QR page into a branded experience. Colattao's menu is live, and I can show you the working example in two minutes. May I send the link?
+
+## 2. Permission-first email
+
+**Subject:** A live QR-menu example for [Business Name]
 
 Hi [Name],
 
-I help local businesses turn a basic QR menu into a branded digital experience. It includes a mini-game, digital menu, QR signs, and a simple update workflow so changes are easy.
+I help local restaurants turn a basic QR menu into a branded digital experience. Colattao's digital menu is already live, with secure owner tools behind it. I can also show a playable mini-game engine demo; client branding is scoped and approved separately.
 
-It is not just a QR menu, and it is designed to be lightweight for owners.
+May I send the two-minute live example?
 
-Want me to show you a 2-minute demo?
+— Anthony
 
-- Anthony
+## 3. Priority-based opener after discovery
 
-## 4. Caf�-Specific Message
-Hi [Name], I built a caf�-focused customer experience that adds a branded mini-game on top of your digital menu. You also get QR signs and a simple update workflow for menu/copy changes. It is not just a QR menu. Want me to show you a 2-minute demo?
+- **Updates:** “You mentioned that changing items and prices takes too long. The live Colattao example shows the menu, and the secure owner workflow is built for authorized updates.”
+- **Brand:** “You said the QR should feel more like [Business Name]. I can show the live menu and a separate game-engine demo; any branded mock stays private until you approve it.”
+- **Trust:** “You said you want to see what is real first. I will show only the live Colattao menu, the labeled game demo, and the written feature boundaries.”
+- **Price/risk:** “You said the commitment must be predictable. I can send one written pilot with exact scope, price, recurring terms, and exclusions.”
 
-## 5. Restaurant-Specific Message
-Hi [Name], I help restaurants make QR experiences more engaging with a branded mini-game + digital menu + QR signs and a simple update workflow. It is not just a QR menu. Want me to show you a 2-minute demo?
+## 4. Follow-up after permission
 
-## 6. Barbershop-Specific Message
-Hi [Name], I build branded in-shop digital experiences for barbershops: mini-game, service/menu page, QR signs, and easy updates. It is not just a QR menu. Want me to show you a 2-minute demo?
+Thanks, [Name]. Here is the live Colattao menu: https://finacalleos.com/m/colattao. It is a working client example, not a mockup. After you review it, tell me which matters most: easier updates, a stronger branded experience, or a simple low-risk setup.
 
-## 7. Gym-Specific Message
-Hi [Name], I help gyms stand out with a branded mini-game + digital info/menu flow, QR signs, and a simple update workflow for promos and announcements. It is not just a QR menu. Want me to show you a 2-minute demo?
+## 5. Follow-up after demo
 
-## 8. Food Truck-Specific Message
-Hi [Name], I built a mobile-friendly system for food trucks: branded mini-game, digital menu, QR signs, and easy updates when locations/items change. It is not just a QR menu. Want me to show you a 2-minute demo?
+Thanks for reviewing the demo, [Name]. If it fits the priority you mentioned, should I send a written pilot plan with scope, timeline, pricing, recurring terms, and what I need from you by tomorrow?
 
-## 9. Follow-Up After No Reply
-Hi [Name], just following up on my last message. I can show you a quick 2-minute demo of the branded mini-game + digital menu + QR setup when you have a moment. Want me to show you a 2-minute demo?
+## 6. One follow-up after no reply
 
-## 10. Follow-Up After Demo
-Thanks again for checking out the demo, [Name]. If helpful, I can send a simple setup plan with timeline, package options, and what I need from you to launch. Want me to show you a 2-minute demo?
+Hi [Name], following up once on the live Colattao example. If it is relevant, reply “demo” and I will send it. If not, I will close the loop.
 
-## 11. Soft Close Message
-If now is not the right time, no problem. I can circle back later and keep this on standby for your next promo cycle. If you want, I can still send a short demo link for reference. Want me to show you a 2-minute demo?
+## 7. Respectful close
 
-## 12. Spanish Version for Latino-Owned Businesses
-Hola [Nombre], ayudo a negocios locales a convertir un c�digo QR b�sico en una experiencia digital con marca. No es solo un men� QR: incluye mini-juego, men� digital, letreros QR y un flujo simple para hacer cambios r�pidos. �Quieres que te muestre una demo de 2 minutos?
+If now is not the right time, no problem. Should I close the loop, or follow up on a date you choose?
+
+## 8. Español — permiso primero
+
+Hola [Nombre], ayudo a restaurantes locales a convertir un código QR básico en una experiencia digital con marca y un flujo de actualización sencillo. El menú de Colattao ya está en vivo. ¿Le envío el ejemplo de dos minutos?
+
+## 9. Español — después de la demo
+
+Gracias por revisar la demo, [Nombre]. Si encaja con la prioridad que mencionó, ¿le envío mañana un plan piloto por escrito con alcance, tiempos, precio, términos recurrentes y lo que necesito de usted?
+
+## Guardrails
+
+- Do not send more than one no-reply follow-up unless the owner agrees to a date.
+- Never say feedback, analytics, QR printing, a branded game skin, payments, POS, ordering, or loyalty are live unless the feature-status table verifies it.
+- Do not use fabricated urgency, popularity, testimonials, or outcomes.
+- A reply is not a pattern. Report counts and experiment dates before calling a message a winner.

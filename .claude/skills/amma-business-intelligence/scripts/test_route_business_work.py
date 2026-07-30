@@ -13,6 +13,7 @@ INSTALLED = {
     "gather-business-context",
     "kpi-reporting",
     "sales-company-research",
+    "amma-sales-conversion",
     "prioritize-accounts",
     "enrich-company-and-contact-data",
     "fina-calle-client-onboarding",
@@ -55,6 +56,11 @@ class BusinessIntelligenceTests(unittest.TestCase):
     def test_grounded_pipeline_prefers_prioritization(self):
         result = self.result("Prioritize the existing lead tracker pipeline for the revenue power hour")
         self.assertEqual(result["primary_skill"], "prioritize-accounts")
+
+    def test_sales_materials_prefer_conversion_skill(self):
+        result = self.result("Improve the restaurant sales pitch flyer objections and conversion")
+        self.assertEqual(result["workflow"], "revenue_power_hour")
+        self.assertEqual(result["primary_skill"], "amma-sales-conversion")
 
     def test_onboarding_routes_to_factory_skill(self):
         result = self.result("Onboard a new restaurant client and complete client intake")
