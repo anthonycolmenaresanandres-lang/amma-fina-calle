@@ -180,6 +180,50 @@ State now:
 Next / handoff to: Anthony -> approve or decline pushing `codex/ethical-sales-conversion-20260718` and opening its PR; Visual Direction -> create/select the reduced-outline product treatment before any UI implementation.
 Blocked on Anthony: push/open-PR approval for this new branch; approval of regenerated flyer artwork before field use.
 
+### [CHECK-IN] Codex - 2026-07-18 08:47 EDT - approved owner-app branch publication
+Picking up: Publish the completed installable owner-portal branch and open a GitHub pull request for review.
+Authority:
+- Anthony selected option 2 and explicitly approved pushing commit `f2d7605` and opening its PR.
+Boundaries:
+- Publish only `codex/owner-portal-app-20260718`. Do not merge, deploy, change production, contact a customer, change access, or perform a payment action.
+
+### [CHECK-OUT] Codex - 2026-07-18 08:47 EDT - owner-app branch ready for remote review
+Did:
+- Reconfirmed the branch contains only the installable owner-portal implementation, its self-test, runbook, optimization register, queue result, and this handoff update.
+- Preserved the verified no-service-worker and private owner-page caching boundaries.
+State now:
+- The branch is ready to push and open as a draft pull request against `main`.
+Next / handoff to: GitHub review and preview checks; Anthony retains the separate merge and production approval gate.
+Blocked on Anthony: merge and production publication are intentionally not authorized by this step.
+
+### [CHECK-IN] Codex - 2026-07-18 08:26 EDT - owner portal installable app and optimization register
+Picking up: Publish the approved ethical-sales branch as a PR, then organize AMMA optimization work and make the existing owner portal installable as a tenant-scoped browser app.
+State I see:
+- Approved sales branch `codex/ethical-sales-conversion-20260718` was pushed and PR #161 is open; it was not merged or deployed.
+- Current production base `422352b` has a responsive, authenticated `/owner/[id]` portal with menu, billing, and Zelle surfaces, but no web app manifest, generated app icons, or installable-app runbook.
+- Current Next.js 16.2.7 and React 19.2.4 are above the minimum patched versions in the installed Next.js guidance.
+Plan:
+- Add tenant-scoped manifest and icon routes without changing the owner URL or sensitive behavior; intentionally avoid offline caching of authenticated or billing responses.
+- Create one optimization register that ranks acquisition, onboarding, delivery, portal, billing, support, analytics, performance, security, finance, automation, and governance by evidence, KPI, value, effort, and approval gate.
+Boundaries:
+- No portal redesign, database migration, secret, customer data, access change, payment action, push, PR, merge, deploy, production access, or customer communication on this new branch without separate approval.
+
+### [CHECK-OUT] Codex - 2026-07-18 08:41 EDT - owner portal app foundation verified locally
+Did:
+- Published the separately approved ethical-sales branch and opened clean, mergeable PR #161; both Vercel checks pass. Did not merge it.
+- Added a tenant-scoped install manifest and generated 192/512 PNG app icons for every safe `/owner/[id]` route, plus matching page metadata and a deterministic self-test.
+- Preserved the current owner URL and all auth, tenant, menu, request, billing, Stripe, and Zelle behavior; added no service worker or offline cache.
+- Added `OPERATIONS/AMMA_OPTIMIZATION_REGISTER.md` covering acquisition through governance and `OPERATIONS/OWNER_PORTAL_APP_RUNBOOK.md` with architecture, security, installation, replication, and release gates.
+Verification:
+- Owner-app self-test, targeted ESLint, `tsc --noEmit`, `git diff --check`, and two production builds pass.
+- Local production browser checks pass at 320×800 and 390×844 with meaningful content, no error overlay, and no horizontal overflow; tenant manifest and app/Apple icons are linked in the document head.
+- Manifest returns the correct content type, unique tenant id/start URL/scope, standalone display, and four standard/maskable icon entries; icon dimensions are 192×192 and 512×512.
+- Owner response is `private, no-cache, no-store`; only public manifest/icon responses are cacheable. Dependency audit reports two moderate PostCSS-chain findings and no high/critical findings; npm's breaking downgrade suggestion was not applied.
+State now:
+- App foundation is local only on `codex/owner-portal-app-20260718`; no new branch push, PR, merge, deploy, production access, customer instruction, or App Store action occurred.
+Next / handoff to: Anthony -> review the installable-app decision and separately approve push/open PR; after preview approval, test real install on Anthony's phone before any owner instruction or production merge.
+Blocked on Anthony: push/open-PR approval for the owner-app branch; later merge/deploy and customer rollout approvals remain separate.
+
 ### [CHECK-OUT] Codex - 2026-07-18 07:50 EDT - AMMA business intelligence routing
 Did:
 - Added `amma-business-intelligence` for deterministic routing across Morning Command, revenue, onboarding, delivery, campaigns, finance, executive review, strategy, and automation improvement.

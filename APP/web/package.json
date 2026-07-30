@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "traffic:today": "tsx scripts/traffic-today.ts",
-    "traffic:selftest": "tsx scripts/traffic-selftest.ts"
+    "traffic:selftest": "tsx scripts/traffic-selftest.ts",
+    "owner-app:selftest": "tsx scripts/owner-app-selftest.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

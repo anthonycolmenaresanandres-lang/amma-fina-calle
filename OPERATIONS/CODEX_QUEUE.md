@@ -8,7 +8,7 @@ Production branch: `main` (human approval required)
 Live handoff log: `OPERATIONS/HANDOFF_LOG.md`
 Superseded Desktop queue: `OPERATIONS/archive/desktop-20260710/CODEX_QUEUE.md`
 
-## Revalidation gate — no active task yet
+## Revalidation gate — archived tasks only
 
 The archived Desktop queue contains stale clone paths, a stale migration counter, and production/send steps that require human action. Claude must revalidate each item against the current canonical branch before restoring it as an actionable task.
 
@@ -205,3 +205,16 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No new product, copy, layout, asset, route, data, access, billing, authentication, API, or game changes. Do not merge if the head, base, checks, preview, or mergeability changes unexpectedly.
 **PASS:** PR #167 is merged under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live root has the crest source/proof target without a later proof source; live browser checks confirm photo formation, completion, reverse reconstruction, zero overflow, and no page error; representative protected routes return expected HTTP responses; production error logs contain no entries.
 **STOP:** Stop and report before remediation on any branch divergence, failed check, merge conflict, deployment error, alias mismatch, missing hook, broken live morph, protected-route regression, or runtime error.
+
+## [ ] 4 - Make the owner portal installable and organize the optimization backlog
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony explicitly approved publication of the completed sales-system branch and directed Codex to organize and optimize the operation, including finding a way to make the customer portal an app, on 2026-07-18.
+**Branch base:** `codex/owner-portal-app-20260718`, created from `origin/main` at `422352b`.
+**Scope:** Add tenant-scoped install metadata and generated app icons for `/owner/[id]`; preserve the existing route, authentication, billing, Zelle, menu, and tenant-isolation behavior; add a canonical company optimization register and owner-app runbook. No visual dashboard redesign, service worker, offline cache, native App Store package, database change, secret, access change, or production change.
+**Why:** Owners should be able to install the existing portal from their browser and launch directly into their restaurant account without creating a second application or duplicating sensitive business logic.
+**PASS:** Every owner route emits a tenant-stable manifest link; the manifest has a unique app id, owner start URL, owner scope, standalone display, and 192/512 icons; icon and manifest routes work without credentials; authenticated pages and billing data are never cached for offline use; targeted lint, type/build, manifest assertions, and mobile browser checks pass; the optimization register has owner, KPI, evidence, priority, and approval gate fields.
+**STOP:** Stop before push, PR, merge, deploy, production access, App Store submission, service-worker caching, secret entry, access change, customer communication, or payment action. Report any conflict before editing protected owner or billing behavior.
+
+**Result:** Local commit prepared on `codex/owner-portal-app-20260718`. Manifest self-test, targeted ESLint, `tsc --noEmit`, and two production builds pass. Local production verification confirms tenant manifest linkage, four standard/maskable icon entries, 192/512 PNG output, 320/390 px no-overflow rendering, no browser error overlay, owner `Cache-Control: private, no-cache, no-store`, and public-only caching for manifest/icons. No service worker, database, access, billing, push, PR, merge, deploy, or production change was made.
