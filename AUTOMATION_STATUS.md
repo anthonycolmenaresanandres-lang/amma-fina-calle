@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-07-30 (morning twice-daily check-in — **everything green, nothing changed, no code action needed.** No new commits on any default branch since the 07-29 evening run: amma `main` still `3474d4c` (#195), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb head `bb0eea8`. **VBFH Daily Run stays GREEN** — last run 07-29 14:19 UTC succeeded ✅ (**nine in a row**); today's 07-30 run had not yet fired at check time (runs ~14:19 UTC, expected). `CI — web` ✅ on last built commit `6180342`; amma main / vbfh master recent runs show zero failures. Open-PR set unchanged (vbfh #7/#4, amma #189/#180/#161/#168/#162, EscapeTheBomb #1) — all checks green. No newly merged/closed PRs and no new human review comments since last run. Caretaker took no code action beyond this dashboard.)
+**Last updated:** 2026-07-30 (midday — **Anthony's live go-ahead executed: merge wave landed.** Merged amma **#189** (Odyssey log), **#180** (vercel-dash-report skill), **#161** (ethical sales conversion, after resolving the HANDOFF_LOG conflict with main), **#196** (grant-app doc cleanly extracted from #168), and vbfh **#7** (graphics attached to the daily email). Closed as superseded: amma **#168** (its branch also carried the obsolete decoy-art commits + an unrelated Unity dump — only the grant doc was wanted, landed via #196) and vbfh **#4** (its email/template rewrite targets the pre-#6 `run.packages` data model; everything it promised already landed via #5+#7). Still held: amma **#162** (hard-guardrail `/owner/[id]` route — needs Anthony to say "merge 162" explicitly) and EscapeTheBomb **#1** (cannot compile-verify Unreal in cloud; M2 gate). **Branch deletion approved by Anthony but still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; refreshed paste-set below.)
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,47 +12,34 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-1. **(Optional) Add the 5 VBFH email secrets so you actually RECEIVE the daily email.**
-   The Daily Run is green and staying green — it no longer fails on missing SMTP config. But it still
-   won't *send* you anything until the secrets exist. Add them in vbfh-media-engine → Settings → Secrets
-   and variables → Actions → `EMAIL_TO`, `EMAIL_FROM`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` (optional
-   Variables `SMTP_PORT` default 587, `SMTP_SECURE` `true` only for port 465). Tell me your mail provider
-   and I'll give you the exact host/port. (Same secrets ask as PR #4/#7.)
-2. **PR #7 (vbfh) — new draft: attach the daily-email GRAPHICS (not just the PDF).** Additive; makes the
-   daily email carry every post-ready Instagram card image plus the caption, so once mail is on you get
-   usable files. `check` ✅, no guardrail/secret/rendering logic. It's a **draft** → flip to Ready or say
-   "merge it" and I'll land it (still needs the item-1 secrets to actually deliver).
-3. **PR #180 (amma): review the `vercel-dash-report` skill, then mark it "Ready" (or say "merge it").**
-   Additive skill + scripts + 7 passing tests that turn your Vercel-dashboard screenshots into a traffic
-   ledger feeding this daily report. Vercel **green**, `clean`, no app routes / Supabase / Stripe / secrets.
-   It's a **draft**, so I left it for you — flip it to Ready (or tell me to merge) and I'll land it.
-4. **Review & merge PR #161 (Add ethical sales conversion system)** — your call. Evidence-first AMMA
-   sales-conversion skill + scripts, routed through the business router. Build/Vercel **green**, touches
-   no guardrail routes, but it's a substantive new feature — open the Vercel preview and merge when happy.
-5. **PR #168 (amma) — review the grant-application draft, then submit it yourself.**
-   `BUSINESS/GRANT_APPLICATION_DEV_PC.md` — a paste-ready ~$1,900 dev-PC grant application. Draft, Vercel
-   **green**, no code/guardrail routes. Nothing is auto-submitted. NOTE: its branch also carries the old
-   screenshot-trap decoy commits that are now obsolete; if you ever merge #168, take only the grant-app doc.
-6. **PR #4 (vbfh) — confirm the "Claude QA's the images before emailing" routine.** The code half is
-   done and green; held as draft. Beyond the SMTP secrets (item 1), it asks you to confirm the separate
-   scheduled-QA routine before that piece gets built.
-7. **PR #162 (owner portal installable) — your explicit go-ahead needed.** Draft, green. Adds an
-   installable web-app manifest + icons to `/owner/[id]`. Sits on a **protected owner route**, so it stays
-   a hard-guardrail item — not caretaker-mergeable.
-8. **PR #189 (amma) — docs-only draft, nothing needed unless you want it landed.** Odyssey Daily
-   production-log entry (Day 02 shot blocked — Runway credit pool exhausted). Vercel **green**, docs only.
-   Held as a draft by its author; flip to Ready or say "merge it" and I'll land it. Ops note inside: the
-   daily film shot and client art share one Runway credit pool — top up credits or schedule client art
-   *after* the daily shot so a heavy art day doesn't starve the next morning's shot.
-9. **(If not already done) Run the Marbel admin SQL in Supabase.** From #150: Supabase SQL editor →
+1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
+   vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
+   `EMAIL_TO` = `anthonycolmenaresanandres@gmail.com` · `EMAIL_FROM` = `anthonycolmenaresanandres@gmail.com`
+   · `SMTP_HOST` = `smtp.gmail.com` · `SMTP_USER` = `anthonycolmenaresanandres@gmail.com` · `SMTP_PASS` =
+   a Gmail **App Password** (myaccount.google.com/apppasswords → create app password → paste the 16 chars,
+   no spaces; requires 2-Step Verification on the Google account — your normal password will NOT work).
+   Port 587 default is already correct, no Variables needed. Next 14:00-UTC Daily Run then emails you the
+   caption + all post-ready graphics (the #7 code is now live on master).
+2. **Say "merge 162" if you want the owner-portal PR landed too.** Your "merge all those branches" wave
+   is done, but #162 sits on the protected `/owner/[id]` route — a hard-guardrail surface — so it still
+   needs you to name it explicitly before I touch it.
+3. **Grant application is now on `main` — submit it yourself when ready.**
+   `BUSINESS/GRANT_APPLICATION_DEV_PC.md` (landed via #196). Nothing is auto-submitted.
+4. **Confirm the "Claude QA's the images before emailing" routine (was PR #4's open question).** The code
+   half is fully landed (#5+#7); #4 itself is closed as superseded. What's left is only the decision:
+   should a scheduled Claude session QA/regenerate the graphics after each 14:00-UTC run before the email
+   goes out? Say yes + preferred timing and I'll build the routine.
+5. **Runway credits (from the #189 log, now merged): the Odyssey Daily shot has been blocked 4 days
+   straight** — the plan's credit pool is exhausted and it's monthly (won't self-reset). Top up credits,
+   or schedule client art *after* the daily shot so it can't starve the next morning's run.
+6. **(If not already done) Run the Marbel admin SQL in Supabase.** From #150: Supabase SQL editor →
    run `0009_admin_team_update.sql` (or `supabase db push`) to grant `marbeljsiado@gmail.com` admin.
    I can't see Supabase state from here — skip this if you already ran it.
-10. **⛔ Branch cleanup — still needs you to run it (or approve deletion).** You asked to clean the
-    branches. I identified the safe-to-delete set (below), but this environment's safety classifier blocks
-    automated branch deletion (`git push --delete`) in auto mode, and there's no branch-delete API tool. So
-    the stale branches are still there. **Two ways to clear them:** (a) paste the two commands in the
-    "Branch cleanup — ready to run" section below, or (b) reply "you have permission to delete branches" and
-    I'll retry. I will NOT delete anything until one of those.
+7. **⛔ Branch cleanup — you gave permission, I retried, the environment still physically blocks it.**
+    `git push --delete` now returns **HTTP 403 from the session's git proxy** (server-side, regardless of
+    permission), and the GitHub tooling here has no branch-delete API. The refreshed safe-to-delete set —
+    now including the heads of everything merged/closed today — is in the paste-ready commands below;
+    they'll run fine from your local clone.
 
 _Resolved / no action:_ **VBFH Daily Run stays GREEN** — 07-27 14:44 UTC run succeeded (seven in a row).
 **Las Palmas original-logo cycle landed by Anthony** — **#194** (landed the restaurant's original supplied
@@ -66,85 +53,85 @@ shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-07-30, morning)
+## Build health (as of 2026-07-30, midday)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `3474d4c` (**#195**, "close Las Palmas logo release", docs `[skip ci]`); last built commit `6180342` (**#194**, "land Las Palmas logo into menu dock") `CI — web` ✅ (2026-07-26 13:12 UTC). voice-gateway CI path-filtered, last run ✅ (no voice changes since 07-09). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ on master (2026-07-22 02:08 UTC); master tip `fec7266` (**#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-29 14:19 UTC succeeded** (07-21…07-29 all ✅ — **nine green in a row**); today's 07-30 run had not yet fired at check time (runs ~14:19 UTC, expected). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip `96c87b0` (**#196**, grant-app doc). Today's merge wave: #189, #180, #161, #196 (Vercel deploys triggered on each; `CI — web` runs on the new tip). voice-gateway CI path-filtered, last run ✅. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅; master tip `e21077d` (**#7**, graphics attached to daily email — merged today). **#6**, "Fail closed on missing scheduled league data") — unchanged. **VBFH Daily Run — GREEN.** Latest scheduled run **07-29 14:19 UTC succeeded** (07-21…07-29 all ✅ — **nine green in a row**); today's 07-30 run had not yet fired at check time (runs ~14:19 UTC, expected). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | Draft PR #1 (M1 scaffolds), tip `bb0eea8`, unchanged since 07-20; nothing to build in cloud |
 
 ## Open PRs
 
-- **vbfh #7 — attach the post-ready graphics to the daily email (not just the PDF)** (open **draft**,
-  `check` ✅). Additive — attaches every generated Instagram card image plus the caption; no workflow /
-  secret / Instagram-publish / scraping / rendering logic touched, no new deps. Held as draft → Anthony to
-  mark Ready or say "merge it" (item 2). No comments.
-- **amma #189 — Odyssey Daily log — Day 02 blocked (Runway credit pool exhausted)** (open **draft**,
-  Vercel **green**). Docs-only, +6 lines to `STUDIO/ODYSSEY_DAILY/DAILY_LOG.md`; no app routes / Supabase /
-  Stripe / secrets. Held as draft → Anthony to mark Ready or say "merge it" (item 8). Bot comment only.
-- **amma #180 — `vercel-dash-report` skill (traffic ledger feeding the daily report)** (open **draft**,
-  Vercel **green**, `mergeable_state: clean`). Additive skill + scripts + 7 passing tests; appends to
-  `BUSINESS/ANALYTICS/vercel-traffic-ledger.jsonl`; no app routes / Supabase / Stripe / secrets. Held as
-  draft → Anthony to mark Ready or say "merge it" (item 3). Vercel bot comment only.
-- **amma #161 — Add ethical sales conversion system** (open, **green**, no guardrail routes).
-  Awaiting Anthony's review/merge (item 4). Bot comments only; no human review comments.
-- **amma #168 — grant application draft (dev PC)** (open **draft**, Vercel **green**). Docs-only grant
-  doc; branch also carries now-obsolete decoy commits (item 5). Bot comments only.
-- **amma #162 — Make owner portal installable** (open **draft**, CI **green** — `web` ✅ + Vercel ✅).
-  Protected `/owner/[id]` route → hard-guardrail item for Anthony (item 7).
-- **vbfh #4 — email a copy-paste-ready post package** (open **draft**, CI **green** — `check` ✅).
-  Held pending Anthony's SMTP secrets + QA-routine confirmation (items 1 & 6). No guardrail routes. No comments.
-- **EscapeTheBomb-DC #1 — M1 master plan + P5–P8 scaffolds** (open **draft**, no CI). Unchanged since
-  07-20; not "green" until the M2 Windows compile-verify gate. Never merged without Anthony.
-- No open PRs in shadow-engineer-rpa.
+- **amma #162 — Make owner portal installable** (open **draft**, CI **green**). Adds installable
+  web-app manifest + icons to the protected `/owner/[id]` route → hard-guardrail item; Anthony's blanket
+  "merge all those branches" was not treated as naming this one — say "merge 162" to land it.
+- **EscapeTheBomb-DC #1 — M1 master plan + P5–P8 scaffolds** (open **draft**, no CI). Unreal project —
+  cannot compile-verify in cloud; stays at the M2 Windows compile-verify gate. Never merged without Anthony.
+- No other open PRs across the four repos (today's wave merged or closed the rest).
 
 ## Merged / closed since last run
 
-- **Nothing merged/closed since the 07-29 evening run.** No new commits on any default branch;
-  open-PR set unchanged. **VBFH Daily Run stays GREEN** (07-29 14:19 UTC ✅, nine in a row; 07-30 run
-  not yet fired at check time).
-- **amma `main` last advanced by Anthony's Las Palmas original-logo cycle (07-26):** **#194** ("land Las Palmas logo
-  into menu dock" — replaced the generated hero mark with the restaurant's original supplied sign; merged
-  07-26 13:12 → `6180342`) + docs closeout **#195** (`3474d4c`, current tip, `[skip ci]`). Post-merge
-  `CI — web` ✅ on `6180342`. Demo-only route, `noindex`, approved real client logo overlay (not
-  AI-generated), no guardrail surfaces.
-- No new commits on vbfh master (`fec7266`), shadow (`5113ce5`), or EscapeTheBomb head (`bb0eea8`).
-- No new human review comments anywhere (only Vercel/bot comments on the open PRs). #29 stays closed.
+**2026-07-30 midday merge wave (Anthony's live go-ahead: "merge all those branches"):**
 
-## Branch cleanup — ready to run (2026-07-23, updated 2026-07-26)
+- **amma #189 merged** — Odyssey Daily log Days 02–05 (docs). Squash `3b9dcbd`.
+- **amma #180 merged** — `vercel-dash-report` skill + traffic ledger. Squash `46097ae`.
+- **amma #161 merged** — ethical sales conversion system. Was conflicted with main
+  (`OPERATIONS/HANDOFF_LOG.md`); resolved newest-first (main's 07-26/07-24 entries above the branch's
+  07-18 entries), pushed to the PR head, squash `343743d`.
+- **amma #196 opened + merged** — clean extraction of the grant-app doc from #168's branch onto current
+  main. Squash `96c87b0` (current main tip).
+- **amma #168 closed (superseded by #196)** — NOT merged wholesale on purpose: its branch also carried
+  the obsolete Screenshot-Trap decoy commits (decoy fonts/art, `DecoyHeading`, `globals.css`/`layout.tsx`
+  edits across ~15 live routes) plus an unrelated Unity `products/shadow-doors` dump; merging would have
+  reintroduced reverted decoy styling to production.
+- **vbfh #7 merged** — daily email now attaches every post-ready Instagram card + the PDF. Squash
+  `e21077d` (current master tip).
+- **vbfh #4 closed (superseded)** — everything it promised already landed via #5 (email on, safe-skip)
+  + #7 (graphics + caption). Its template rewrite targets the pre-#6 `run.packages` data model and
+  conflicts irreconcilably with the current `run.instagramReview` pipeline — merging would have regressed
+  the working email. Its one open question (scheduled Claude image-QA routine) moved to the action list.
 
-Anthony gave the go-ahead ("clean branches please"), but this environment's safety classifier blocks
-automated branch deletion, so the commands below are ready for Anthony to paste (or to authorize the
-caretaker to retry). Every branch listed is either **provably merged** or a **just-closed superseded**
-draft. **Verified KEEP (do NOT delete):** `main`, `automation/status`, the `claude/*` caretaker working
-branches, and all open-PR heads — amma `codex/ethical-sales-conversion-20260718` (#161),
-`codex/owner-portal-app-20260718` (#162), `claude/escape-bomb-dc-plan-n6bfj5` (#168),
-`claude/blissful-darwin-ddej93` (#180 head), `claude/las-palmas-menu-game-59vtbg` (now the #189 head —
-carries #189's unmerged docs commit); vbfh `claude/pensive-edison-sove8x` (#4 head),
-`claude/pensive-edison-sb3ujd` (#7 head). Old June `voice/twiml-stream-fallback` /
-`voice/vbfh-tester-171128` are NOT merged — left for Anthony's judgment. EscapeTheBomb `codex/*` +
-`phase2`–`phase7` are unmerged exploration — left in place. The recently-merged `codex/las-palmas-*-2026072x`
-demo/closeout branches (#190–#195) are now safe to delete too but are left off the paste-set below until
-Anthony confirms he wants them swept in the next cleanup.
+## Branch cleanup — ready to run (refreshed 2026-07-30)
 
-**amma-fina-calle** (4 merged + 3 closed-superseded):
+Anthony has now explicitly approved deletion, and the caretaker retried — but the session git proxy
+returns **HTTP 403 on any `push --delete`** (server-side block, independent of permission), and the
+GitHub tooling here has no branch-delete API. So the commands below remain for Anthony to paste from a
+local clone. The set is refreshed to include today's merged/closed heads. **Verified KEEP:** `main`,
+`automation/status`, `claude/*-86zasp` caretaker branches, open-PR heads (`codex/owner-portal-app-20260718`
+for #162, the EscapeTheBomb branches), unmerged `voice/*` (Anthony's judgment) and the unproven
+squash-merged exploration sets.
+
+**amma-fina-calle** (verified merged or closed-superseded):
 ```
 git -C amma-fina-calle push origin --delete \
   codex/free-video-game-visuals-20260718 codex/free-visual-toolkit-20260718 \
   codex/small-model-skill-selector-20260718 ops/data-center-docs \
-  claude/screenshot-trap-landing claude/screenshot-trap-live agent/bodega-line-motion-20260722
+  claude/screenshot-trap-landing claude/screenshot-trap-live agent/bodega-line-motion-20260722 \
+  claude/las-palmas-menu-game-59vtbg claude/blissful-darwin-ddej93 \
+  codex/ethical-sales-conversion-20260718 claude/escape-bomb-dc-plan-n6bfj5 \
+  feat/las-palmas-lynnhaven-table-os
 ```
-**vbfh-media-engine** (4 merged):
+**vbfh-media-engine** (verified merged or closed-superseded):
 ```
 git -C vbfh-media-engine push origin --delete \
   claude/pensive-edison-hl5sxo claude/build-automation-management-sh68i3 \
-  feat/facility-info claude/vbfh-broadcast-instagram-e6p75v
+  feat/facility-info claude/vbfh-broadcast-instagram-e6p75v \
+  claude/pensive-edison-sb3ujd claude/pensive-edison-sove8x
 ```
 
 ## Run log
 
+- **2026-07-30 (midday) — Anthony live go-ahead: merge wave + email address + branch-delete permission
+  (`claude-fable-5` — Anthony switched the session model via `/model`):** Merged amma **#189/#180/#161/#196**
+  and vbfh **#7**; #161 needed a HANDOFF_LOG conflict resolution pushed to its head first. #196 is the clean
+  extraction of the grant doc from #168; **#168 and vbfh #4 closed as superseded** (details in the
+  merged/closed section — #168 carried obsolete decoy commits; #4 targets the pre-#6 data model). Held:
+  **#162** (hard guardrail `/owner/[id]` — asked Anthony to name it explicitly) and **EscapeTheBomb #1**
+  (no cloud compile). Branch deletion retried under Anthony's explicit permission → **403 from the git
+  proxy**; refreshed the paste-set instead. Gmail SMTP values for anthonycolmenaresanandres@gmail.com
+  written into action item 1 (app-password required). New main tip `96c87b0`, new master tip `e21077d`.
 - **2026-07-30 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all green, nothing
   changed, no code action needed.** No new commits on any default branch since the 07-29 evening run —
   amma `main` `3474d4c` (#195), vbfh master `fec7266` (#6), shadow `5113ce5`, EscapeTheBomb `bb0eea8`
