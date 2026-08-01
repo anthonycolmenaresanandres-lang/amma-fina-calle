@@ -18,6 +18,29 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-OUT] Codex - 2026-08-01 17:56 EDT - AJ Gator's Holland Road guest portal
+
+- Did: built the unlisted `/demo/aj-gators` owner-review portal with searchable current menu data, verified Holland Road trivia/specials, three local-device games, and explicit capability boundaries.
+- State now: release gates pass on isolated branch `codex/aj-gators-holland-portal-20260801`; no production publication, logo/photo use, client contact, POS/payment/data integration, or protected-route change occurred.
+- Next / handoff to: Anthony - approve preview publication only if he wants a shareable review URL; owner confirmation remains required before any client-facing menu, promotion, schedule, logo, or QR use.
+- Blocked on Anthony: preview publication approval and subsequent client content/brand approval.
+
+## [RELEASE GATE] Codex - 2026-08-01 17:56 EDT - AJ Gator's Holland Road guest portal
+
+- Targeted ESLint, `tsc --noEmit`, production build, and `git diff --check` pass.
+- Production-build browser QA passes at 390x844 and 1440x900 with exact-width rendering, zero page errors, `noindex, nofollow, nocache`, zero image elements, searchable menu results, and working trivia, points-only picks, and reflex interactions.
+- Safety verified: fictional teams and pre-set outcomes only; no money, odds, deposits, purchase, cash value, prizes, redemption, alcohol rewards, real-team marks, patron photos, or owner/logo assets.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-holland-portal-20260801\aj-gators-mobile-final.png` and `aj-gators-desktop-final.png`.
+
+## [CHECK-IN] Codex - 2026-08-01 - AJ Gator's Holland Road guest portal
+
+- Authority: Anthony directly requested generation of the Holland Road portal from his in-store menu and specials photos, with menu access, trivia, a gambling-style experience, and at least three games. This direct instruction is the scoped override for the otherwise empty Codex queue.
+- Base: isolated branch `codex/aj-gators-holland-portal-20260801` from `origin/main` at `a454ad6`; the dirty canonical checkout remains untouched.
+- Scope: replace only the unlinked, noindex `/demo/aj-gators` owner-review concept with a Holland Road menu + specials + three-game portal. Add route-local static data and client-side game components only.
+- Game direction: sports trivia, a free points-only prediction game, and a short original arcade challenge. No money, deposits, cash value, purchase, prize, alcohol-linked reward, sportsbook language, or external wagering.
+- Evidence: Anthony's photographed printed menu and in-store specials plus the current official menu. Every item, price, special, schedule, image, and brand treatment remains `PENDING CLIENT APPROVAL` until owner-confirmed.
+- Hard stops: no production merge/deploy, client send/contact, logo or human-photo publication, league/club marks, POS/order/payment activation, Supabase, Stripe, Client OS, secrets, customer data, or stable physical QR changes.
+
 ### [CHECK-OUT] Codex - 2026-07-26 09:14 EDT - Las Palmas original-logo menu dock live
 Did:
 - Released PR #194 as production merge `6180342` after the scoped local gate, GitHub CI, and Vercel deployment all passed.
