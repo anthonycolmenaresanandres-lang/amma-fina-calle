@@ -18,6 +18,13 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-IN] Codex - 2026-08-01 18:18 EDT - Publish AJ Gator's Holland Road portal
+
+- Authority: Anthony explicitly approved pushing the completed AJ Gator's portal live and requested the cleanest QR-ready online version.
+- State: clean isolated branch `codex/aj-gators-holland-portal-20260801` is one scoped commit ahead of current `origin/main`; GitHub CLI is authenticated and the canonical checkout remains untouched.
+- Release target: preserve the stable unlisted route `https://finacalleos.com/demo/aj-gators`, its `noindex, nofollow, nocache` metadata, pending-owner-approval language, and all payment/POS/data/client-logo hard stops.
+- Plan: rerun release gates, push/open PR/merge under Anthony's approval, verify the production alias at phone and desktop widths, then generate and decode-test a high-resolution QR for the exact stable URL.
+
 ## [CHECK-OUT] Codex - 2026-08-01 17:56 EDT - AJ Gator's Holland Road guest portal
 
 - Did: built the unlisted `/demo/aj-gators` owner-review portal with searchable current menu data, verified Holland Road trivia/specials, three local-device games, and explicit capability boundaries.
