@@ -18,6 +18,14 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-OUT] Codex - 2026-08-01 - A.J. Gator's landing hub review ready
+
+- Delivered: commit `3104c58` is pushed on `codex/aj-gators-landing-hub-20260801`; draft PR #199 targets `main` and passed GitHub web CI, Vercel deployment, and Vercel Preview Comments on that exact head.
+- Preview: Vercel generated the authenticated review URL `https://amma-fina-c-git-b3500e-anthonycolmenaresanandres-8844s-projects.vercel.app/demo/aj-gators`. Public unauthenticated access correctly stops at Vercel login; no access setting was weakened.
+- State now: production `https://finacalleos.com/demo/aj-gators` remains on the previously approved version. The revised landing hub, official-menu handoff, three games, promotions board, and $150/$225 offer await Anthony's visual approval.
+- Next / handoff to: Anthony - review PR #199's protected preview and approve or reject the revised landing page. A production merge remains a separate explicit action.
+- Blocked on Anthony: production approval only.
+
 ## [RELEASE GATE] Codex - 2026-08-01 - A.J. Gator's landing hub preview
 
 - Product: the QR route is now a landing hub. Its primary and sticky-menu actions open the verified official A.J. Gator's current-menu URL; the duplicated transcribed menu is no longer rendered. Three existing games and the promotion board remain in place.
