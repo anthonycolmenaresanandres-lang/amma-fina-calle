@@ -18,6 +18,21 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-OUT] Codex - 2026-08-01 18:27 EDT - AJ Gator's Holland Road portal live
+
+- Did: merged PR #198 as production commit `b701b6e`, verified the Vercel production deployment, and generated high-resolution PNG and scalable SVG QR artifacts for the stable route.
+- State now: `https://finacalleos.com/demo/aj-gators` is live, unlisted, and phone-ready; menu search, current specials, sports trivia, points-only fictional picks, and the reflex challenge are verified working.
+- Next / handoff to: Anthony - use the decoded QR artifact for owner review; obtain written owner confirmation before public promotion, logo/photo use, or treating menu prices and time-sensitive specials as approved.
+- Blocked on Anthony: owner content/brand approval and any physical QR distribution.
+
+## [RELEASE GATE] Codex - 2026-08-01 18:27 EDT - AJ Gator's production + QR
+
+- GitHub web CI, Vercel preview, production deployment, targeted ESLint, `tsc --noEmit`, production build, and diff checks passed.
+- Live browser QA passed at 390x844 and 1440x900: HTTP 200, exact-width rendering, meaningful content, zero Next error overlays, zero page errors, zero image elements, and `noindex, nofollow, nocache` preserved.
+- Live interaction QA passed: `crab cake` search returned three matching items; trivia scored the correct answer; fictional picks produced the pre-set result with the no-money/no-prize boundary visible; reflex reached `TAP!` and recorded a result.
+- QR decode verification returned exactly `https://finacalleos.com/demo/aj-gators`. PNG SHA-256: `143C6859F51637D7A3F4DFB712DEB414949A62097100E9BCB4F4399A274B2A4A`; SVG SHA-256: `2EDF313400AC50430A4BBACECB378FDBF35A58F3BB3C9A3E646475B56C1C3258`.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-holland-portal-20260801\aj-gators-live-mobile.png`, `aj-gators-live-desktop.png`, `aj-gators-live-qr-2048.png`, and `aj-gators-live-qr.svg`.
+
 ## [CHECK-IN] Codex - 2026-08-01 18:18 EDT - Publish AJ Gator's Holland Road portal
 
 - Authority: Anthony explicitly approved pushing the completed AJ Gator's portal live and requested the cleanest QR-ready online version.
