@@ -18,6 +18,24 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [RELEASE GATE] Codex - 2026-08-01 - A.J. Gator's landing hub preview
+
+- Product: the QR route is now a landing hub. Its primary and sticky-menu actions open the verified official A.J. Gator's current-menu URL; the duplicated transcribed menu is no longer rendered. Three existing games and the promotion board remain in place.
+- Offer: field-ready scope records $150/month for the core portal and +$75/month for up to four owner-approved promotion changes monthly. Table service remains a separately scoped second wave.
+- Code gate: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, `git diff --check`, and the AMMA sales field-mode blocking gate pass.
+- Browser gate: 390x844 and 1440x900 render at exact viewport width with no Next error overlay or page errors. The external menu action opens the exact official URL; the promotions anchor lands below the sticky bar; trivia, points-only picks, and reflex interactions pass.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-landing-hub-20260801\mobile-landing.png` and `desktop-landing.png`.
+- Boundary: preview PR only. Production and the existing physical QR destination remain unchanged pending Anthony's visual approval.
+
+## [CHECK-IN] Codex - 2026-08-01 - A.J. Gator's landing hub and promotion offer
+
+- Authority: Anthony requested that the QR destination become a clear landing page whose menu action opens the restaurant's current live menu, while retaining three games and adding promotions with an optional weekly managed upcharge.
+- Base: isolated branch `codex/aj-gators-landing-hub-20260801` from current `origin/main`; production remains unchanged.
+- Verified destination: the official A.J. Gator's current-menu page is live at `https://www.gatorssportsbar.com/currentmenu?menu=a-j-gators-menu` and is the only external menu target added.
+- Scope: only `/demo/aj-gators`, its presentation styles, one prospect-offer document, and this operations record. Preserve the three games, unlisted/noindex status, pending-client-approval language, and explicit no-order/no-payment/no-POS boundaries.
+- Queue note: queue item 14 still says PR #167 is in progress, but GitHub verifies PR #167 merged on 2026-07-20. That stale, unrelated root-landing record does not overlap this isolated prospect route.
+- Release boundary: preview branch and PR only. No production merge or live publication without Anthony's approval of the revised landing page.
+
 ## [CHECK-OUT] Codex - 2026-08-01 18:27 EDT - AJ Gator's Holland Road portal live
 
 - Did: merged PR #198 as production commit `b701b6e`, verified the Vercel production deployment, and generated high-resolution PNG and scalable SVG QR artifacts for the stable route.

@@ -126,6 +126,55 @@
   background: currentColor;
 }
 
+.heroActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.primaryLink,
+.secondaryLink,
+.menuLaunch {
+  min-height: 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.primaryLink {
+  background: var(--score-yellow);
+  color: #102117;
+}
+
+.secondaryLink {
+  background: rgb(255 250 240 / 9%);
+  color: var(--chalk);
+}
+
+.heroPromoLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #c4d1c6;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-underline-offset: 0.3rem;
+  text-transform: uppercase;
+}
+
+.heroPromoLink:hover,
+.heroPromoLink:focus-visible {
+  color: var(--score-yellow);
+  text-decoration: underline;
+}
+
 .portalNav {
   position: sticky;
   top: 0;
@@ -160,6 +209,57 @@
   width: min(72rem, calc(100% - 2rem));
   margin-inline: auto;
   padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.menuBand {
+  background: var(--paper);
+  color: #142118;
+}
+
+.menuBand .eyebrow {
+  color: #a52d29;
+}
+
+.menuBand .lede {
+  color: #465248;
+}
+
+.menuHandoff {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+  align-items: end;
+  gap: clamp(2rem, 7vw, 6rem);
+}
+
+.menuLaunch {
+  min-height: 8rem;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #0b5d3b;
+  color: #fffaf0;
+  text-align: left;
+}
+
+.menuLaunch span {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  letter-spacing: 0;
+}
+
+.menuLaunch small {
+  margin-top: 0.45rem;
+  color: #d3dfd5;
+  font-size: 0.61rem;
+  letter-spacing: 0.13em;
+}
+
+.primaryLink:hover,
+.primaryLink:focus-visible,
+.secondaryLink:hover,
+.secondaryLink:focus-visible,
+.menuLaunch:hover,
+.menuLaunch:focus-visible {
+  transform: translateY(-2px);
 }
 
 .anchorTarget {
@@ -495,7 +595,11 @@
 .actionButton:focus-visible,
 .choiceButton:focus-visible,
 .reactionPad:focus-visible,
-.navLink:focus-visible {
+.navLink:focus-visible,
+.primaryLink:focus-visible,
+.secondaryLink:focus-visible,
+.menuLaunch:focus-visible,
+.heroPromoLink:focus-visible {
   outline: 3px solid var(--score-yellow);
   outline-offset: 3px;
 }
@@ -515,6 +619,20 @@
   .menuGrid,
   .specialsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .heroActions {
+    flex-direction: column;
+  }
+
+  .primaryLink,
+  .secondaryLink {
+    width: 100%;
+  }
+
+  .menuHandoff {
+    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .gameTabs {
@@ -542,7 +660,10 @@
   .categoryButton,
   .gameTab,
   .actionButton,
-  .choiceButton {
+  .choiceButton,
+  .primaryLink,
+  .secondaryLink,
+  .menuLaunch {
     transition: none;
   }
 }
