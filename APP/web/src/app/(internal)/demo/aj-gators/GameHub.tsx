@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./portal.module.css";
 
@@ -275,9 +274,6 @@ export default function GameHub(): React.JSX.Element {
       {activeGame === "picks" ? <PicksGame /> : null}
       {activeGame === "reflex" ? <ReflexGame /> : null}
 
-      <div className={styles.responsibleNote}>
-        Bonus live engine preview: <Link href="/penalty-shootout" className="font-black text-[#ffc83d] underline underline-offset-4">play the five-shot challenge</Link>. A Holland Road skin remains pending owner approval.
-      </div>
     </div>
   );
 }

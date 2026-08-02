@@ -1850,3 +1850,20 @@ Blocked:
 - Live motion: 390 x 844 production QA verified `LAS PALMAS` at progress `0.000`, reversible scroll transformation, and `MENU` at progress `1.000`; document width remains within the viewport and the browser console is clean.
 - Live table preview: `/table/las-palmas-lynnhaven/1` returns HTTP 200 and still states that no requests or orders are sent. Table-service activation, staff routing, ordering, payment, and POS remain pending owner workflow confirmation.
 - State: the requested green/silver presentation is live. Menu data, enhanced media, game engine/config, Client OS, Supabase, Stripe, POS, secrets, customer data, and unrelated routes were not changed.
+## [CHECK-IN] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Authority: Anthony requested the existing AJ Gator's Holland Road owner-review landing be reduced to almost no copy, place the restaurant's exact logo at the center, and present simple Menu, Games, and Promotions actions.
+- Branch: continue draft PR #199 on `codex/aj-gators-landing-hub-20260801`; production remains untouched.
+- Direction: exact official AJ Gator's logo, restrained emerald/white/gold Scottish-football atmosphere, stadium geometry, and three primary actions. No Celtic FC crest, sponsor, league mark, copied club graphic, or implied affiliation.
+- Preserve: official live-menu destination, three existing local games, verified promotions, unlisted/noindex owner-review status, pending-client-approval notice, and the no-order/no-payment/no-POS/no-prize boundary.
+- Stop: push only to draft PR #199 after lint, types, production build, responsive browser QA, and remote checks. Do not merge or publish to production without Anthony's separate approval.
+
+## [RELEASE GATE] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Brand: integrated the exact transparent mascot/wordmark PNG served by the official AJ Gator's site; the local owner-review asset is 500 x 500, SHA-256 `F16C563978B606CD6C2849125BE35FD520ED2B043540D5AA77964B5D6D0E638C`, and remains pending client approval.
+- Design: the first viewport now contains only Holland Road, pending-client-approval status, the exact mark, and Menu, Games, and Promotions. Emerald/cream/gold stadium geometry supplies the Scottish-football reference without Celtic FC marks, hoops, sponsors, slogans, or implied affiliation.
+- Product: Menu retains the exact official live-menu URL; Games retains the three local-device experiences; Promotions retains the verified review copy. The duplicate ticker, sticky nav, menu explainer, giant status section, and bonus fourth-game link were removed.
+- Browser: 390 x 844 and 1440 x 900 both render the entire hero at one viewport with zero horizontal overflow and a loaded 500 px logo. Menu href, Games and Promotions anchors, Sports Trivia, Points-Only Picks, and Reflex Challenge were exercised successfully. Metadata remains `noindex, nofollow, nocache`.
+- Code: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass. Browser console errors are empty; only the expected local Vercel Analytics script log appears.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-minimal-landing-20260802\mobile-landing.png` and `desktop-landing.png`.
+- Scope: only the AJ Gator's owner-review route, its game-hub presentation, one official review asset, and this operations record changed. Client OS, Supabase, Stripe, POS, customer data, secrets, table routes, and production are untouched.
