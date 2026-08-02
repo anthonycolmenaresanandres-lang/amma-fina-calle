@@ -1867,3 +1867,10 @@ Blocked:
 - Code: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass. Browser console errors are empty; only the expected local Vercel Analytics script log appears.
 - Evidence: `C:\Dev\amma\evidence\aj-gators-minimal-landing-20260802\mobile-landing.png` and `desktop-landing.png`.
 - Scope: only the AJ Gator's owner-review route, its game-hub presentation, one official review asset, and this operations record changed. Client OS, Supabase, Stripe, POS, customer data, secrets, table routes, and production are untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Delivered: commit `7de1903` pushed to draft PR #199 on `codex/aj-gators-landing-hub-20260801`; the PR remains open, draft, cleanly mergeable, and unmerged.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass for `7de1903`. The exact preview deployment is Ready at `https://amma-fina-calle-hp8ltsndu.vercel.app/demo/aj-gators` and remains protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Production: `https://finacalleos.com/demo/aj-gators` remains the prior approved production version; no production deployment or merge occurred.
+- Next: Anthony reviews the draft preview while signed into Vercel and decides whether to revise or explicitly approve PR #199 for production.
