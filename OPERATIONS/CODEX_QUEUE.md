@@ -221,9 +221,9 @@ No task is live until it appears below this line with a current PASS condition.
 
 **Result:** Feature commit `18ef60b` is pushed to draft PR #200. Local lint, types, production build, responsive/motion/reduced-motion/focus/content/destination checks pass; GitHub `web`, Vercel, and Vercel Preview Comments checks pass. The Ready preview is Vercel-SSO protected. Production is unchanged pending Anthony's explicit approval of PR #200.
 
-## [ ] 16 - Publish the approved Las Palmas minimal landing
+## [x] 16 - Publish the approved Las Palmas minimal landing
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** LOW
 **Authority:** Anthony explicitly approved Las Palmas for production on 2026-08-02 with: `Aprove las palmas`.
 **Branch base:** Draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into `main`; approved head before this release check-in is `2c8d947`, and production base is `bb0cb42`.
@@ -231,6 +231,8 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No new product, visual, copy, asset, menu/data/media, Guest Notes, game, table, Client OS, integration, secret, access, billing, QR, or customer-contact changes. Stop on any unexpected head, base, diff, check, mergeability, deployment, alias, route, motion, content-count, or runtime result.
 **PASS:** PR #200 merges under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live demo returns HTTP 200 with the registered sign, minimal actions, reversible motion, noindex metadata, 39 disclosures, 37 enhanced photos, and truthful pending/no-send boundaries; representative protected surfaces retain expected responses.
 **STOP:** Stop before remediation on any divergence. Do not claim production success until the merged revision and live behavior are directly verified.
+
+**Result:** PR #200 was squash-merged under the approved exact-head lock as production commit `21d032c`. Vercel production deployment `dpl_HpFdBwXbnx7wdYHgVLFB5Gp98Nb3` reached Ready and aliases `finacalleos.com`. Live phone-width verification passed for the logo-first landing, three actions, reversible and reduced-motion states, 39 disclosures, 37 enhanced menu photos with no broken media, noindex metadata, Guest Notes, game and table destinations, and the pending-client-approval/no-send boundaries. Representative protected routes retained HTTP 200 responses; no protected surface was changed.
 
 ## [ ] 4 - Make the owner portal installable and organize the optimization backlog
 

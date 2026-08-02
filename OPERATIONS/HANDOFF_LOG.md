@@ -1915,3 +1915,15 @@ Blocked:
 - Exact pre-release state: draft PR #200 is cleanly mergeable from tested head `2c8d947` into production base `bb0cb42`; GitHub `web`, Vercel, and Vercel Preview Comments are green.
 - Release sequence: commit this authorization record to the PR branch, require all remote checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, wait for the merged revision's Vercel production deployment, then verify the live demo, motion, Menu/Game/Table destinations, content counts, metadata, and protected boundaries.
 - Hard stop: no new product or visual change, data/integration/payment/POS/access/secret work, live QR change, customer contact, or unverified result. Stop on the first branch, check, merge, deployment, alias, route, or runtime divergence.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas minimal landing production release
+
+- Release: PR #200 was marked ready and squash-merged with exact-head protection. The approved PR head `ffada9a` became production `main` commit `21d032c`.
+- Deployment: GitHub production deployment `5714590326` completed successfully; Vercel deployment `dpl_HpFdBwXbnx7wdYHgVLFB5Gp98Nb3` is Ready and aliases `https://finacalleos.com`.
+- Live demo: `https://finacalleos.com/demo/las-palmas` returns HTTP 200 at 390 x 844 with the registered sign, exactly three first-viewport actions, zero horizontal overflow, and `noindex, nofollow, nocache`.
+- Motion: the logo-to-`MENU` scroll transformation completes, reverses to the logo, and exposes a readable static state when reduced motion is requested.
+- Content: the DOM contains 39 menu disclosures and 37 enhanced menu photos; all 38 unique image URLs, including the registered sign, load successfully. Guest Notes and both pending-client-approval notices remain present.
+- Destinations: Menu reaches `#menu`; Game and Table return HTTP 200 with the Las Palmas skin and the explicit pending-client-approval/no-requests/no-orders boundaries. Browser consoles are clean.
+- Regression boundary: representative `/demo/aj-gators`, `/owner/colattao`, `/customers`, and `/m/colattao` routes retain HTTP 200 responses. No Supabase, Stripe, POS, Client OS, customer data, secret, QR target, menu/media, game-engine, or table-behavior change was made.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\production-mobile.png` and `production-menu-final.png` capture the verified production result.
+- Next: use `https://finacalleos.com/demo/las-palmas` as the live Las Palmas proof-of-concept and QR destination; future client-approved content or integration work remains a separate scoped change.
