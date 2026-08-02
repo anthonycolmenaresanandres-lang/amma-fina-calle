@@ -221,6 +221,17 @@ No task is live until it appears below this line with a current PASS condition.
 
 **Result:** Feature commit `18ef60b` is pushed to draft PR #200. Local lint, types, production build, responsive/motion/reduced-motion/focus/content/destination checks pass; GitHub `web`, Vercel, and Vercel Preview Comments checks pass. The Ready preview is Vercel-SSO protected. Production is unchanged pending Anthony's explicit approval of PR #200.
 
+## [ ] 16 - Publish the approved Las Palmas minimal landing
+
+**State:** IN PROGRESS
+**Codex effort:** LOW
+**Authority:** Anthony explicitly approved Las Palmas for production on 2026-08-02 with: `Aprove las palmas`.
+**Branch base:** Draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into `main`; approved head before this release check-in is `2c8d947`, and production base is `bb0cb42`.
+**Scope:** Add this release authorization record, require all checks on the resulting exact head, mark PR #200 ready, squash-merge under an exact-head lock, wait for the resulting `main` commit to reach Vercel production, and verify the Las Palmas demo plus its Menu, Game, and Table destinations read-only.
+**Boundaries:** No new product, visual, copy, asset, menu/data/media, Guest Notes, game, table, Client OS, integration, secret, access, billing, QR, or customer-contact changes. Stop on any unexpected head, base, diff, check, mergeability, deployment, alias, route, motion, content-count, or runtime result.
+**PASS:** PR #200 merges under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live demo returns HTTP 200 with the registered sign, minimal actions, reversible motion, noindex metadata, 39 disclosures, 37 enhanced photos, and truthful pending/no-send boundaries; representative protected surfaces retain expected responses.
+**STOP:** Stop before remediation on any divergence. Do not claim production success until the merged revision and live behavior are directly verified.
+
 ## [ ] 4 - Make the owner portal installable and organize the optimization backlog
 
 **State:** DONE

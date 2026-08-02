@@ -1908,3 +1908,10 @@ Blocked:
 - Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass. Exact-head deployment `5714443705` is Ready at `https://amma-fina-calle-r5fs430s4.vercel.app/demo/las-palmas` and protected by Vercel SSO with `X-Robots-Tag: noindex`.
 - Review state: the draft PR is cleanly mergeable. Anthony can review the SSO-authenticated preview; production `https://finacalleos.com/demo/las-palmas` remains unchanged.
 - Next: Anthony either requests revisions or explicitly approves PR #200 for production. Do not merge the Las Palmas PR before that approval.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas minimal landing production release
+
+- Authority: Anthony explicitly approved Las Palmas for production on 2026-08-02 with `Aprove las palmas`.
+- Exact pre-release state: draft PR #200 is cleanly mergeable from tested head `2c8d947` into production base `bb0cb42`; GitHub `web`, Vercel, and Vercel Preview Comments are green.
+- Release sequence: commit this authorization record to the PR branch, require all remote checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, wait for the merged revision's Vercel production deployment, then verify the live demo, motion, Menu/Game/Table destinations, content counts, metadata, and protected boundaries.
+- Hard stop: no new product or visual change, data/integration/payment/POS/access/secret work, live QR change, customer contact, or unverified result. Stop on the first branch, check, merge, deployment, alias, route, or runtime divergence.
