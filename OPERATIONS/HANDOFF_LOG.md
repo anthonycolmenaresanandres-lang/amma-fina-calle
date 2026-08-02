@@ -1927,3 +1927,11 @@ Blocked:
 - Regression boundary: representative `/demo/aj-gators`, `/owner/colattao`, `/customers`, and `/m/colattao` routes retain HTTP 200 responses. No Supabase, Stripe, POS, Client OS, customer data, secret, QR target, menu/media, game-engine, or table-behavior change was made.
 - Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\production-mobile.png` and `production-menu-final.png` capture the verified production result.
 - Next: use `https://finacalleos.com/demo/las-palmas` as the live Las Palmas proof-of-concept and QR destination; future client-approved content or integration work remains a separate scoped change.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Authority: Anthony requested that the Las Palmas menu use the current original restaurant menu.
+- Verified source: the current official Las Palmas Lynnhaven website links `Menu Las Palmas Lynnhaven` directly to `https://irp.cdn-website.com/1508c02f/files/uploaded/Las_Palmas_2-_3_-_4_Menu_2025.pdf`; the linked PDF is 14 pages and publicly reachable.
+- Branch: `codex/las-palmas-original-menu-20260802` from current `origin/main` at `15edd95`, isolated in `C:\Dev\amma\worktrees\las-palmas-original-menu-20260802`.
+- Scope: update only the first-viewport Menu action to open that official menu in a separate tab. Preserve the local owner-review proof below the landing, the logo-to-`MENU` motion, Game, Table, Guest Notes, notices, and metadata.
+- Hard stops: no menu transcription or asset/data edit, integration/payment/POS/Client OS work, customer data, secrets, QR target change, customer contact, or production merge. Push a draft PR only after targeted code and browser gates pass.

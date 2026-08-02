@@ -234,6 +234,17 @@ No task is live until it appears below this line with a current PASS condition.
 
 **Result:** PR #200 was squash-merged under the approved exact-head lock as production commit `21d032c`. Vercel production deployment `dpl_HpFdBwXbnx7wdYHgVLFB5Gp98Nb3` reached Ready and aliases `finacalleos.com`. Live phone-width verification passed for the logo-first landing, three actions, reversible and reduced-motion states, 39 disclosures, 37 enhanced menu photos with no broken media, noindex metadata, Guest Notes, game and table destinations, and the pending-client-approval/no-send boundaries. Representative protected routes retained HTTP 200 responses; no protected surface was changed.
 
+## [ ] 17 - Point Las Palmas Menu to the current original menu
+
+**State:** IN PROGRESS
+**Codex effort:** LOW
+**Authority:** Anthony requested that the Las Palmas menu use the current original restaurant menu on 2026-08-02, overriding the stale queue order for this scoped task.
+**Branch base:** `codex/las-palmas-original-menu-20260802`, created from current `origin/main` at `15edd95` in a clean sibling worktree.
+**Scope:** Change only the `/demo/las-palmas` first-viewport Menu action from the local `#menu` anchor to the exact Lynnhaven menu PDF currently linked by the restaurant's official website. Keep the existing curated owner-review proof below the landing unchanged.
+**Boundaries:** No menu transcription, price/media/data change, Guest Notes change, motion redesign, game/table behavior change, Supabase, Stripe, POS, Client OS, customer data, secret, live QR target, customer contact, or production merge.
+**PASS:** The Menu action opens the verified official Lynnhaven PDF in a separate tab; Game and Table remain unchanged; the landing, motion, local owner-review proof, notices, noindex metadata, responsive layout, keyboard behavior, lint, types, build, and browser checks pass; a draft PR is ready for Anthony.
+**STOP:** Stop before production merge. Stop if the official source no longer exposes the same menu URL or any protected behavior changes.
+
 ## [ ] 4 - Make the owner portal installable and organize the optimization backlog
 
 **State:** DONE
