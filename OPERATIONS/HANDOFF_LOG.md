@@ -1935,3 +1935,18 @@ Blocked:
 - Branch: `codex/las-palmas-original-menu-20260802` from current `origin/main` at `15edd95`, isolated in `C:\Dev\amma\worktrees\las-palmas-original-menu-20260802`.
 - Scope: update only the first-viewport Menu action to open that official menu in a separate tab. Preserve the local owner-review proof below the landing, the logo-to-`MENU` motion, Game, Table, Guest Notes, notices, and metadata.
 - Hard stops: no menu transcription or asset/data edit, integration/payment/POS/Client OS work, customer data, secrets, QR target change, customer contact, or production merge. Push a draft PR only after targeted code and browser gates pass.
+
+## [RELEASE GATE] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Source: the menu PDF linked from the current official Las Palmas Lynnhaven website returns HTTP 200 with `Content-Type: application/pdf`.
+- Landing: at 390 x 844, Menu points to the exact official PDF with `target=_blank` and `rel=noreferrer`; Game and Table retain their exact internal destinations. All three targets remain 46 px tall and horizontal overflow is zero.
+- Motion/content: the 500-particle sequence remains `logo` at `0.000`, `transform` at `0.567`, `menu-dock` at `1.000`, and reverses to `logo`; the existing 39 owner-review disclosures, notices, Guest Notes, and noindex metadata remain present.
+- Code: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass. GitHub `web`, Vercel, and Vercel Preview Comments pass on exact head `0f2bfa5`.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-original-menu-20260802\mobile.png` captures the verified phone layout.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Delivered: commit `0f2bfa5` is pushed to draft PR #201 from `codex/las-palmas-original-menu-20260802` into production `main`.
+- Effect: the Las Palmas landing's Menu action now opens the restaurant's current official Lynnhaven PDF in a separate tab. The curated owner-review proof below the landing remains available and unchanged.
+- Scope: no menu data, price, photo, Guest Notes, motion, game/table behavior, Supabase, Stripe, POS, Client OS, secret, customer data, QR destination, contact, merge, or production change was made.
+- Next: Anthony reviews PR #201 and explicitly approves or requests revisions. Do not merge before that approval.
