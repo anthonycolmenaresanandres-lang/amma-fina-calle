@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import styles from "./LasPalmasSilverPalmMotion.module.css";
 
@@ -447,6 +448,10 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
         <h1 className="sr-only">
           Las Palmas Mexican Restaurant &amp; Cantina
         </h1>
+        <div className={styles.statusLine} aria-hidden="true">
+          <span>Lynnhaven</span>
+          <span>Pending client approval</span>
+        </div>
         {/* The exact supplied logo is kept as native image content; the canvas never redraws it. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -466,8 +471,24 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
           >
             MENU
           </h2>
-          <p>Lynnhaven · Virginia Beach</p>
         </div>
+        <nav className={styles.primaryActions} aria-label="Las Palmas guest portal">
+          <Link href="#menu" className={styles.primaryAction}>
+            Menu
+          </Link>
+          <Link
+            href="/penalty-shootout?skin=laspalmas"
+            className={styles.primaryAction}
+          >
+            Game
+          </Link>
+          <Link
+            href="/table/las-palmas-lynnhaven/1"
+            className={styles.primaryAction}
+          >
+            Table
+          </Link>
+        </nav>
         <span className="sr-only">Desde 2010</span>
       </div>
     </div>

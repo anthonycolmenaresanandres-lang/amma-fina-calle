@@ -195,9 +195,9 @@ No task is live until it appears below this line with a current PASS condition.
 **PASS:** The rendered proof image begins at opacity zero during normal motion; an active non-empty particle field travels from crest coordinates into proof-image coordinates; late-stage particles cover the target grid and carry sampled photo color; the DOM photo reaches full opacity only near completion; reverse scroll returns it to zero and restores the crest; lint, build, responsive, reduced-motion, scripts-disabled, idle-frame, and preview checks pass.
 **STOP:** Stop before merge if the photo merely fades in, target pixels do not visibly assemble, the image is absent in reduced/no-JavaScript modes, the transition obscures copy or overflows mobile, reverse motion breaks, performance regresses, or the preview diverges.
 
-## [ ] 14 - Publish the approved crest-to-proof morph
+## [x] 14 - Publish the approved crest-to-proof morph
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** MEDIUM
 **Authority:** Anthony explicitly approved on 2026-07-20: `merge and or push`.
 **Branch base:** Draft PR #167 from `codex/landing-single-dust-20260720` into production `main`; approved head before release check-in is `148e868`, and production base is `e890a5c`.
@@ -205,6 +205,32 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No new product, copy, layout, asset, route, data, access, billing, authentication, API, or game changes. Do not merge if the head, base, checks, preview, or mergeability changes unexpectedly.
 **PASS:** PR #167 is merged under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live root has the crest source/proof target without a later proof source; live browser checks confirm photo formation, completion, reverse reconstruction, zero overflow, and no page error; representative protected routes return expected HTTP responses; production error logs contain no entries.
 **STOP:** Stop and report before remediation on any branch divergence, failed check, merge conflict, deployment error, alias mismatch, missing hook, broken live morph, protected-route regression, or runtime error.
+
+**Result:** PR #167 merged on 2026-07-20 as `10be3ef`; GitHub currently reports the PR merged. The stale open queue state was corrected during the 2026-08-02 Las Palmas check-in.
+
+## [x] 15 - Simplify the Las Palmas owner-review landing
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony directly approved the AJ Gator's production merge and requested the same minimal landing treatment for the Las Palmas menu on 2026-08-02, overriding the stale queue order for this scoped task.
+**Branch base:** `codex/las-palmas-minimal-landing-20260802`, created from current production `origin/main` at `bb0cb42` in a clean sibling worktree.
+**Scope:** Refine only `/demo/las-palmas` into a logo-first, three-action first viewport using the registered exact sign asset and the existing silver-palm-to-`MENU` scroll motion. Preserve the menu single source of truth, enhanced food media, disclosures, Guest Notes, game and table-preview destinations, noindex metadata, and pending-client-approval language.
+**Boundaries:** No Supabase, Stripe, POS, Client OS, customer data, secrets, menu/pricing/media edits, game engine/config, table behavior, live QR changes, or production merge. AJ Gator's release logging may be carried as operations-only history.
+**PASS:** The phone first viewport contains only minimal status, the registered logo/motion, and Menu, Game, Table actions; all three destinations work; the motion completes and reverses; reduced motion, keyboard focus, responsive layout, menu/photo counts, notices, metadata, targeted lint, types, production build, and browser checks pass; a draft review PR is open.
+**STOP:** Stop before the Las Palmas production merge. Stop and report if the registered logo, motion, menu, media, game, table preview, Guest Notes, approval labels, or protected surfaces regress.
+
+**Result:** Feature commit `18ef60b` is pushed to draft PR #200. Local lint, types, production build, responsive/motion/reduced-motion/focus/content/destination checks pass; GitHub `web`, Vercel, and Vercel Preview Comments checks pass. The Ready preview is Vercel-SSO protected. Production is unchanged pending Anthony's explicit approval of PR #200.
+
+## [ ] 16 - Publish the approved Las Palmas minimal landing
+
+**State:** IN PROGRESS
+**Codex effort:** LOW
+**Authority:** Anthony explicitly approved Las Palmas for production on 2026-08-02 with: `Aprove las palmas`.
+**Branch base:** Draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into `main`; approved head before this release check-in is `2c8d947`, and production base is `bb0cb42`.
+**Scope:** Add this release authorization record, require all checks on the resulting exact head, mark PR #200 ready, squash-merge under an exact-head lock, wait for the resulting `main` commit to reach Vercel production, and verify the Las Palmas demo plus its Menu, Game, and Table destinations read-only.
+**Boundaries:** No new product, visual, copy, asset, menu/data/media, Guest Notes, game, table, Client OS, integration, secret, access, billing, QR, or customer-contact changes. Stop on any unexpected head, base, diff, check, mergeability, deployment, alias, route, motion, content-count, or runtime result.
+**PASS:** PR #200 merges under the exact-head lock; its squash commit reaches a Ready production deployment aliased to `finacalleos.com`; the live demo returns HTTP 200 with the registered sign, minimal actions, reversible motion, noindex metadata, 39 disclosures, 37 enhanced photos, and truthful pending/no-send boundaries; representative protected surfaces retain expected responses.
+**STOP:** Stop before remediation on any divergence. Do not claim production success until the merged revision and live behavior are directly verified.
 
 ## [ ] 4 - Make the owner portal installable and organize the optimization backlog
 

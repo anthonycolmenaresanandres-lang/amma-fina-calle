@@ -1874,3 +1874,44 @@ Blocked:
 - Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass for `7de1903`. The exact preview deployment is Ready at `https://amma-fina-calle-hp8ltsndu.vercel.app/demo/aj-gators` and remains protected by Vercel SSO with `X-Robots-Tag: noindex`.
 - Production: `https://finacalleos.com/demo/aj-gators` remains the prior approved production version; no production deployment or merge occurred.
 - Next: Anthony reviews the draft preview while signed into Vercel and decides whether to revise or explicitly approve PR #199 for production.
+
+## [RELEASE GATE] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing production
+
+- Authority: Anthony explicitly approved the merge on 2026-08-02.
+- Merge: PR #199 was marked ready and squash-merged under exact approved head `87f2c93`; production `main` is `bb0cb42`.
+- Deployment: GitHub/Vercel deployment `5714225648` reached Ready for the merged revision.
+- Live verification: `https://finacalleos.com/demo/aj-gators` and its registered logo asset return HTTP 200. The rendered route contains Menu, Games, Promotions, the exact official-menu destination, `noindex`, and Pending client approval.
+- Scope: no Supabase, Stripe, POS, Client OS, customer data, secrets, table route, or unrelated product surface changed.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- Authority: after approving AJ Gator's production release, Anthony requested the same minimal landing treatment for the Las Palmas menu.
+- Queue reconciliation: stale item 14 was verified merged as PR #167 on 2026-07-20 and marked done. Anthony's direct request is recorded as queue item 15.
+- Branch: `codex/las-palmas-minimal-landing-20260802` from current production `origin/main` at `bb0cb42`, isolated in `C:\Dev\amma\worktrees\las-palmas-minimal-landing-20260802`.
+- Scope: a minimal first viewport with tiny status, the registered exact sign, the existing silver-palm-to-`MENU` scroll transformation, and Menu, Game, Table actions. Preserve all menu data, 37 enhanced menu restorations, disclosures, Guest Notes, game/table journeys, metadata, and approval notices.
+- Hard stops: no data, integrations, payments, POS, Client OS, menu/media/game/table behavior, secrets, live QR, or production merge. Push a draft PR only after code and browser gates pass.
+
+## [RELEASE GATE] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- First viewport: 390 x 844 and 1440 x 900 show only `Lynnhaven`, `Pending client approval`, the registered Las Palmas sign, and 46 px Menu, Game, Table actions. The stage fills the viewport and horizontal overflow is zero.
+- Motion: phone QA verified `logo` at progress `0.000`, an active 500-particle silver-palm transform at `0.567`, `menu-dock` at `1.000`, and reverse scroll back to the original sign. Actions remain anchored throughout.
+- Accessibility: keyboard Tab lands on Menu with a visible 2 px focus outline. Reduced-motion mode hides the canvas and keeps the exact sign, semantic `MENU`, and all actions visible with zero overflow.
+- Content: the owner-review route retains 39 disclosures, 39 descriptions, 37 enhanced menu photos, one registered 600 x 389 sign, two pending-client-approval mentions, Guest Notes, and `noindex, nofollow, nocache`; all 38 image URLs return successfully.
+- Destinations: Menu lands exactly on `#menu`; Game opens `/penalty-shootout?skin=laspalmas` with Las Palmas and pending-approval copy; Table opens `/table/las-palmas-lynnhaven/1` with the explicit no-requests/no-orders boundary. Both destination routes render without overflow.
+- Code: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass. Browser consoles contain no errors; only the expected local-only Vercel Analytics script log appears.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\` contains phone, desktop, motion, reduced-motion, focus, and server artifacts.
+- Scope: only the Las Palmas demo presentation and operations records changed. Menu data/media, Guest Notes behavior, game engine/config, table routes/behavior, Client OS, Supabase, Stripe, POS, customer data, secrets, live QR destinations, and production remain untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- Delivered: feature commit `18ef60b` is pushed to draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into production `main`.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass. Exact-head deployment `5714443705` is Ready at `https://amma-fina-calle-r5fs430s4.vercel.app/demo/las-palmas` and protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Review state: the draft PR is cleanly mergeable. Anthony can review the SSO-authenticated preview; production `https://finacalleos.com/demo/las-palmas` remains unchanged.
+- Next: Anthony either requests revisions or explicitly approves PR #200 for production. Do not merge the Las Palmas PR before that approval.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas minimal landing production release
+
+- Authority: Anthony explicitly approved Las Palmas for production on 2026-08-02 with `Aprove las palmas`.
+- Exact pre-release state: draft PR #200 is cleanly mergeable from tested head `2c8d947` into production base `bb0cb42`; GitHub `web`, Vercel, and Vercel Preview Comments are green.
+- Release sequence: commit this authorization record to the PR branch, require all remote checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, wait for the merged revision's Vercel production deployment, then verify the live demo, motion, Menu/Game/Table destinations, content counts, metadata, and protected boundaries.
+- Hard stop: no new product or visual change, data/integration/payment/POS/access/secret work, live QR change, customer contact, or unverified result. Stop on the first branch, check, merge, deployment, alias, route, or runtime divergence.
