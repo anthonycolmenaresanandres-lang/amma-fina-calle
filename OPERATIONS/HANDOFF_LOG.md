@@ -18,6 +18,32 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-OUT] Codex - 2026-08-01 - A.J. Gator's landing hub review ready
+
+- Delivered: commit `3104c58` is pushed on `codex/aj-gators-landing-hub-20260801`; draft PR #199 targets `main` and passed GitHub web CI, Vercel deployment, and Vercel Preview Comments on that exact head.
+- Preview: Vercel generated the authenticated review URL `https://amma-fina-c-git-b3500e-anthonycolmenaresanandres-8844s-projects.vercel.app/demo/aj-gators`. Public unauthenticated access correctly stops at Vercel login; no access setting was weakened.
+- State now: production `https://finacalleos.com/demo/aj-gators` remains on the previously approved version. The revised landing hub, official-menu handoff, three games, promotions board, and $150/$225 offer await Anthony's visual approval.
+- Next / handoff to: Anthony - review PR #199's protected preview and approve or reject the revised landing page. A production merge remains a separate explicit action.
+- Blocked on Anthony: production approval only.
+
+## [RELEASE GATE] Codex - 2026-08-01 - A.J. Gator's landing hub preview
+
+- Product: the QR route is now a landing hub. Its primary and sticky-menu actions open the verified official A.J. Gator's current-menu URL; the duplicated transcribed menu is no longer rendered. Three existing games and the promotion board remain in place.
+- Offer: field-ready scope records $150/month for the core portal and +$75/month for up to four owner-approved promotion changes monthly. Table service remains a separately scoped second wave.
+- Code gate: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, `git diff --check`, and the AMMA sales field-mode blocking gate pass.
+- Browser gate: 390x844 and 1440x900 render at exact viewport width with no Next error overlay or page errors. The external menu action opens the exact official URL; the promotions anchor lands below the sticky bar; trivia, points-only picks, and reflex interactions pass.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-landing-hub-20260801\mobile-landing.png` and `desktop-landing.png`.
+- Boundary: preview PR only. Production and the existing physical QR destination remain unchanged pending Anthony's visual approval.
+
+## [CHECK-IN] Codex - 2026-08-01 - A.J. Gator's landing hub and promotion offer
+
+- Authority: Anthony requested that the QR destination become a clear landing page whose menu action opens the restaurant's current live menu, while retaining three games and adding promotions with an optional weekly managed upcharge.
+- Base: isolated branch `codex/aj-gators-landing-hub-20260801` from current `origin/main`; production remains unchanged.
+- Verified destination: the official A.J. Gator's current-menu page is live at `https://www.gatorssportsbar.com/currentmenu?menu=a-j-gators-menu` and is the only external menu target added.
+- Scope: only `/demo/aj-gators`, its presentation styles, one prospect-offer document, and this operations record. Preserve the three games, unlisted/noindex status, pending-client-approval language, and explicit no-order/no-payment/no-POS boundaries.
+- Queue note: queue item 14 still says PR #167 is in progress, but GitHub verifies PR #167 merged on 2026-07-20. That stale, unrelated root-landing record does not overlap this isolated prospect route.
+- Release boundary: preview branch and PR only. No production merge or live publication without Anthony's approval of the revised landing page.
+
 ## [CHECK-OUT] Codex - 2026-08-01 18:27 EDT - AJ Gator's Holland Road portal live
 
 - Did: merged PR #198 as production commit `b701b6e`, verified the Vercel production deployment, and generated high-resolution PNG and scalable SVG QR artifacts for the stable route.
@@ -1824,3 +1850,27 @@ Blocked:
 - Live motion: 390 x 844 production QA verified `LAS PALMAS` at progress `0.000`, reversible scroll transformation, and `MENU` at progress `1.000`; document width remains within the viewport and the browser console is clean.
 - Live table preview: `/table/las-palmas-lynnhaven/1` returns HTTP 200 and still states that no requests or orders are sent. Table-service activation, staff routing, ordering, payment, and POS remain pending owner workflow confirmation.
 - State: the requested green/silver presentation is live. Menu data, enhanced media, game engine/config, Client OS, Supabase, Stripe, POS, secrets, customer data, and unrelated routes were not changed.
+## [CHECK-IN] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Authority: Anthony requested the existing AJ Gator's Holland Road owner-review landing be reduced to almost no copy, place the restaurant's exact logo at the center, and present simple Menu, Games, and Promotions actions.
+- Branch: continue draft PR #199 on `codex/aj-gators-landing-hub-20260801`; production remains untouched.
+- Direction: exact official AJ Gator's logo, restrained emerald/white/gold Scottish-football atmosphere, stadium geometry, and three primary actions. No Celtic FC crest, sponsor, league mark, copied club graphic, or implied affiliation.
+- Preserve: official live-menu destination, three existing local games, verified promotions, unlisted/noindex owner-review status, pending-client-approval notice, and the no-order/no-payment/no-POS/no-prize boundary.
+- Stop: push only to draft PR #199 after lint, types, production build, responsive browser QA, and remote checks. Do not merge or publish to production without Anthony's separate approval.
+
+## [RELEASE GATE] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Brand: integrated the exact transparent mascot/wordmark PNG served by the official AJ Gator's site; the local owner-review asset is 500 x 500, SHA-256 `F16C563978B606CD6C2849125BE35FD520ED2B043540D5AA77964B5D6D0E638C`, and remains pending client approval.
+- Design: the first viewport now contains only Holland Road, pending-client-approval status, the exact mark, and Menu, Games, and Promotions. Emerald/cream/gold stadium geometry supplies the Scottish-football reference without Celtic FC marks, hoops, sponsors, slogans, or implied affiliation.
+- Product: Menu retains the exact official live-menu URL; Games retains the three local-device experiences; Promotions retains the verified review copy. The duplicate ticker, sticky nav, menu explainer, giant status section, and bonus fourth-game link were removed.
+- Browser: 390 x 844 and 1440 x 900 both render the entire hero at one viewport with zero horizontal overflow and a loaded 500 px logo. Menu href, Games and Promotions anchors, Sports Trivia, Points-Only Picks, and Reflex Challenge were exercised successfully. Metadata remains `noindex, nofollow, nocache`.
+- Code: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass. Browser console errors are empty; only the expected local Vercel Analytics script log appears.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-minimal-landing-20260802\mobile-landing.png` and `desktop-landing.png`.
+- Scope: only the AJ Gator's owner-review route, its game-hub presentation, one official review asset, and this operations record changed. Client OS, Supabase, Stripe, POS, customer data, secrets, table routes, and production are untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Delivered: commit `7de1903` pushed to draft PR #199 on `codex/aj-gators-landing-hub-20260801`; the PR remains open, draft, cleanly mergeable, and unmerged.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass for `7de1903`. The exact preview deployment is Ready at `https://amma-fina-calle-hp8ltsndu.vercel.app/demo/aj-gators` and remains protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Production: `https://finacalleos.com/demo/aj-gators` remains the prior approved production version; no production deployment or merge occurred.
+- Next: Anthony reviews the draft preview while signed into Vercel and decides whether to revise or explicitly approve PR #199 for production.
