@@ -37,13 +37,14 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
   const notice = lasPalmasLynnhavenMenuSourcePreview.prominentNotice;
 
   return (
-    <main className="min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 py-8 text-[#f2ead6] sm:px-8">
+    <main className="min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 text-[#f2ead6] sm:px-8">
       <div className="mx-auto w-full max-w-2xl">
         <header>
           <LasPalmasSilverPalmMotion />
         </header>
 
         <nav
+          id="menu"
           aria-label="Menu sections"
           aria-labelledby="las-palmas-menu-heading"
           className="sticky top-0 z-10 -mx-5 flex gap-2 overflow-x-auto border-b border-[#c8ced3]/20 bg-[#06130d]/95 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
@@ -65,26 +66,6 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
           </span>
           {notice}
         </p>
-
-        <div className="mt-7 text-center">
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/penalty-shootout?skin=laspalmas"
-              className="inline-flex min-h-11 items-center bg-[#d5322d] px-6 text-xs font-bold uppercase tracking-[0.2em] text-[#fff6ec] transition hover:bg-[#b7241f] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#eef1f3]"
-            >
-              Play the Cantina Shootout
-            </Link>
-            <Link
-              href="/table/las-palmas-lynnhaven/1"
-              className="inline-flex min-h-11 items-center border border-[#c8ced3]/65 px-6 text-xs font-bold uppercase tracking-[0.18em] text-[#eef1f3] transition hover:border-[#f4f6f7] hover:bg-[#dfe3e6]/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#eef1f3]"
-            >
-              Preview table service
-            </Link>
-          </div>
-          <p className="mt-3 text-[0.66rem] uppercase tracking-[0.2em] text-[#a9b8a9]">
-            Menu · service-request demo · table game
-          </p>
-        </div>
 
         <div className="mt-8 space-y-10">
           {sections.map((section) => (

@@ -6,7 +6,7 @@
 }
 
 .shell[data-motion-state="ready"] {
-  min-height: clamp(740px, 102svh, 900px);
+  min-height: clamp(860px, calc(100svh + 300px), 1200px);
   align-items: start;
 }
 
@@ -20,9 +20,9 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: 390px;
+  height: clamp(560px, 100svh, 900px);
+  min-height: 560px;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
   background:
     radial-gradient(circle at 50% 37%, rgb(167 182 170 / 11%), transparent 33%),
     radial-gradient(circle at 17% 20%, rgb(39 100 67 / 24%), transparent 36%),
@@ -48,6 +48,28 @@
   opacity: 0.4;
 }
 
+.statusLine {
+  position: absolute;
+  z-index: 9;
+  top: 18px;
+  right: 20px;
+  left: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #d8ded9;
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.statusLine span:last-child {
+  color: #e4b1a8;
+  text-align: right;
+}
+
 .stage::after {
   position: absolute;
   z-index: 8;
@@ -62,12 +84,12 @@
 .logo {
   position: absolute;
   z-index: 2;
-  top: 35%;
+  top: 36%;
   left: 50%;
   display: block;
   width: min(88%, 610px);
   height: auto;
-  max-height: calc(100% - 126px);
+  max-height: calc(100% - 184px);
   object-fit: contain;
   object-position: center;
   filter:
@@ -96,10 +118,10 @@
   bottom: 0;
   left: 0;
   display: grid;
-  min-height: 112px;
+  min-height: 160px;
   place-content: center;
   justify-items: center;
-  padding: 21px 24px 18px;
+  padding: 20px 24px 76px;
   background:
     linear-gradient(
       180deg,
@@ -153,13 +175,52 @@
   text-indent: 0.19em;
 }
 
-.menuDock p {
-  margin-top: 11px;
-  color: #aeb8b1;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
+.primaryActions {
+  position: absolute;
+  z-index: 9;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 460px;
+  min-height: 46px;
+  margin-inline: auto;
+  border-top: 1px solid rgb(222 227 230 / 50%);
+  border-bottom: 1px solid rgb(222 227 230 / 50%);
+  background: rgb(6 19 13 / 72%);
+  backdrop-filter: blur(8px);
+}
+
+.primaryAction {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 46px;
+  place-items: center;
+  color: #f2ead6;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.primaryAction + .primaryAction {
+  border-left: 1px solid rgb(222 227 230 / 24%);
+}
+
+.primaryAction:hover {
+  background: rgb(213 50 45 / 76%);
+  color: #fff8ee;
+}
+
+.primaryAction:focus-visible {
+  z-index: 1;
+  outline: 2px solid #f4f6f7;
+  outline-offset: 3px;
 }
 
 .stage[data-motion-state="loading"] .menuTitle,
@@ -169,23 +230,32 @@
 
 @media (max-width: 560px) {
   .stage {
-    min-height: 360px;
-    aspect-ratio: 5 / 4;
+    min-height: 560px;
   }
 
   .logo {
     top: 35%;
     width: 92%;
-    max-height: calc(100% - 118px);
+    max-height: calc(100% - 180px);
   }
 
   .menuDock {
-    min-height: 106px;
+    min-height: 154px;
     padding-inline: 18px;
   }
 
-  .menuDock p {
-    letter-spacing: 0.18em;
+  .menuTitle {
+    font-size: clamp(2.25rem, 12vw, 3rem);
+  }
+
+  .primaryActions {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+  }
+
+  .primaryAction {
+    letter-spacing: 0.13em;
   }
 }
 

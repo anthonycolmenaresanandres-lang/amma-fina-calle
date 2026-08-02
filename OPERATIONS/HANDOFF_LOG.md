@@ -18,6 +18,77 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+## [CHECK-OUT] Codex - 2026-08-01 - A.J. Gator's landing hub review ready
+
+- Delivered: commit `3104c58` is pushed on `codex/aj-gators-landing-hub-20260801`; draft PR #199 targets `main` and passed GitHub web CI, Vercel deployment, and Vercel Preview Comments on that exact head.
+- Preview: Vercel generated the authenticated review URL `https://amma-fina-c-git-b3500e-anthonycolmenaresanandres-8844s-projects.vercel.app/demo/aj-gators`. Public unauthenticated access correctly stops at Vercel login; no access setting was weakened.
+- State now: production `https://finacalleos.com/demo/aj-gators` remains on the previously approved version. The revised landing hub, official-menu handoff, three games, promotions board, and $150/$225 offer await Anthony's visual approval.
+- Next / handoff to: Anthony - review PR #199's protected preview and approve or reject the revised landing page. A production merge remains a separate explicit action.
+- Blocked on Anthony: production approval only.
+
+## [RELEASE GATE] Codex - 2026-08-01 - A.J. Gator's landing hub preview
+
+- Product: the QR route is now a landing hub. Its primary and sticky-menu actions open the verified official A.J. Gator's current-menu URL; the duplicated transcribed menu is no longer rendered. Three existing games and the promotion board remain in place.
+- Offer: field-ready scope records $150/month for the core portal and +$75/month for up to four owner-approved promotion changes monthly. Table service remains a separately scoped second wave.
+- Code gate: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, `git diff --check`, and the AMMA sales field-mode blocking gate pass.
+- Browser gate: 390x844 and 1440x900 render at exact viewport width with no Next error overlay or page errors. The external menu action opens the exact official URL; the promotions anchor lands below the sticky bar; trivia, points-only picks, and reflex interactions pass.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-landing-hub-20260801\mobile-landing.png` and `desktop-landing.png`.
+- Boundary: preview PR only. Production and the existing physical QR destination remain unchanged pending Anthony's visual approval.
+
+## [CHECK-IN] Codex - 2026-08-01 - A.J. Gator's landing hub and promotion offer
+
+- Authority: Anthony requested that the QR destination become a clear landing page whose menu action opens the restaurant's current live menu, while retaining three games and adding promotions with an optional weekly managed upcharge.
+- Base: isolated branch `codex/aj-gators-landing-hub-20260801` from current `origin/main`; production remains unchanged.
+- Verified destination: the official A.J. Gator's current-menu page is live at `https://www.gatorssportsbar.com/currentmenu?menu=a-j-gators-menu` and is the only external menu target added.
+- Scope: only `/demo/aj-gators`, its presentation styles, one prospect-offer document, and this operations record. Preserve the three games, unlisted/noindex status, pending-client-approval language, and explicit no-order/no-payment/no-POS boundaries.
+- Queue note: queue item 14 still says PR #167 is in progress, but GitHub verifies PR #167 merged on 2026-07-20. That stale, unrelated root-landing record does not overlap this isolated prospect route.
+- Release boundary: preview branch and PR only. No production merge or live publication without Anthony's approval of the revised landing page.
+
+## [CHECK-OUT] Codex - 2026-08-01 18:27 EDT - AJ Gator's Holland Road portal live
+
+- Did: merged PR #198 as production commit `b701b6e`, verified the Vercel production deployment, and generated high-resolution PNG and scalable SVG QR artifacts for the stable route.
+- State now: `https://finacalleos.com/demo/aj-gators` is live, unlisted, and phone-ready; menu search, current specials, sports trivia, points-only fictional picks, and the reflex challenge are verified working.
+- Next / handoff to: Anthony - use the decoded QR artifact for owner review; obtain written owner confirmation before public promotion, logo/photo use, or treating menu prices and time-sensitive specials as approved.
+- Blocked on Anthony: owner content/brand approval and any physical QR distribution.
+
+## [RELEASE GATE] Codex - 2026-08-01 18:27 EDT - AJ Gator's production + QR
+
+- GitHub web CI, Vercel preview, production deployment, targeted ESLint, `tsc --noEmit`, production build, and diff checks passed.
+- Live browser QA passed at 390x844 and 1440x900: HTTP 200, exact-width rendering, meaningful content, zero Next error overlays, zero page errors, zero image elements, and `noindex, nofollow, nocache` preserved.
+- Live interaction QA passed: `crab cake` search returned three matching items; trivia scored the correct answer; fictional picks produced the pre-set result with the no-money/no-prize boundary visible; reflex reached `TAP!` and recorded a result.
+- QR decode verification returned exactly `https://finacalleos.com/demo/aj-gators`. PNG SHA-256: `143C6859F51637D7A3F4DFB712DEB414949A62097100E9BCB4F4399A274B2A4A`; SVG SHA-256: `2EDF313400AC50430A4BBACECB378FDBF35A58F3BB3C9A3E646475B56C1C3258`.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-holland-portal-20260801\aj-gators-live-mobile.png`, `aj-gators-live-desktop.png`, `aj-gators-live-qr-2048.png`, and `aj-gators-live-qr.svg`.
+
+## [CHECK-IN] Codex - 2026-08-01 18:18 EDT - Publish AJ Gator's Holland Road portal
+
+- Authority: Anthony explicitly approved pushing the completed AJ Gator's portal live and requested the cleanest QR-ready online version.
+- State: clean isolated branch `codex/aj-gators-holland-portal-20260801` is one scoped commit ahead of current `origin/main`; GitHub CLI is authenticated and the canonical checkout remains untouched.
+- Release target: preserve the stable unlisted route `https://finacalleos.com/demo/aj-gators`, its `noindex, nofollow, nocache` metadata, pending-owner-approval language, and all payment/POS/data/client-logo hard stops.
+- Plan: rerun release gates, push/open PR/merge under Anthony's approval, verify the production alias at phone and desktop widths, then generate and decode-test a high-resolution QR for the exact stable URL.
+
+## [CHECK-OUT] Codex - 2026-08-01 17:56 EDT - AJ Gator's Holland Road guest portal
+
+- Did: built the unlisted `/demo/aj-gators` owner-review portal with searchable current menu data, verified Holland Road trivia/specials, three local-device games, and explicit capability boundaries.
+- State now: release gates pass on isolated branch `codex/aj-gators-holland-portal-20260801`; no production publication, logo/photo use, client contact, POS/payment/data integration, or protected-route change occurred.
+- Next / handoff to: Anthony - approve preview publication only if he wants a shareable review URL; owner confirmation remains required before any client-facing menu, promotion, schedule, logo, or QR use.
+- Blocked on Anthony: preview publication approval and subsequent client content/brand approval.
+
+## [RELEASE GATE] Codex - 2026-08-01 17:56 EDT - AJ Gator's Holland Road guest portal
+
+- Targeted ESLint, `tsc --noEmit`, production build, and `git diff --check` pass.
+- Production-build browser QA passes at 390x844 and 1440x900 with exact-width rendering, zero page errors, `noindex, nofollow, nocache`, zero image elements, searchable menu results, and working trivia, points-only picks, and reflex interactions.
+- Safety verified: fictional teams and pre-set outcomes only; no money, odds, deposits, purchase, cash value, prizes, redemption, alcohol rewards, real-team marks, patron photos, or owner/logo assets.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-holland-portal-20260801\aj-gators-mobile-final.png` and `aj-gators-desktop-final.png`.
+
+## [CHECK-IN] Codex - 2026-08-01 - AJ Gator's Holland Road guest portal
+
+- Authority: Anthony directly requested generation of the Holland Road portal from his in-store menu and specials photos, with menu access, trivia, a gambling-style experience, and at least three games. This direct instruction is the scoped override for the otherwise empty Codex queue.
+- Base: isolated branch `codex/aj-gators-holland-portal-20260801` from `origin/main` at `a454ad6`; the dirty canonical checkout remains untouched.
+- Scope: replace only the unlinked, noindex `/demo/aj-gators` owner-review concept with a Holland Road menu + specials + three-game portal. Add route-local static data and client-side game components only.
+- Game direction: sports trivia, a free points-only prediction game, and a short original arcade challenge. No money, deposits, cash value, purchase, prize, alcohol-linked reward, sportsbook language, or external wagering.
+- Evidence: Anthony's photographed printed menu and in-store specials plus the current official menu. Every item, price, special, schedule, image, and brand treatment remains `PENDING CLIENT APPROVAL` until owner-confirmed.
+- Hard stops: no production merge/deploy, client send/contact, logo or human-photo publication, league/club marks, POS/order/payment activation, Supabase, Stripe, Client OS, secrets, customer data, or stable physical QR changes.
+
 ### [CHECK-OUT] Codex - 2026-07-26 09:14 EDT - Las Palmas original-logo menu dock live
 Did:
 - Released PR #194 as production merge `6180342` after the scoped local gate, GitHub CI, and Vercel deployment all passed.
@@ -1793,3 +1864,80 @@ Task: Stop Odyssey Daily; pivot to the AnchorFrame news Gemini pipeline (Anthony
 - Codex report: Gemini web (Crear vídeo, 9:16) refused image-to-video on anchorOne_likeness_v2.png with the generic "I can't generate that video" message. Codex correctly stopped per plan §8 — no retries, no rewording, no output.
 - Read: the trigger is almost certainly the uploaded photorealistic-person keyframe (real-person likeness policy in the consumer Gemini app), not the prompt wording. Plan already predicted this: "Platform may refuse... treat a refusal as an expected outcome; do not reword around it."
 - Decision standing: we do NOT engineer prompts to evade a safety refusal (plan §8 + handoff hard rules). Compliant options handed to Anthony: (A) isolation test with the generic mock keyframe, (B) Veo via the official Gemini API where person-generation is an explicit documented setting, (C) Runway (already wired from cloud) once credits are topped up.
+## [CHECK-IN] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Authority: Anthony requested the existing AJ Gator's Holland Road owner-review landing be reduced to almost no copy, place the restaurant's exact logo at the center, and present simple Menu, Games, and Promotions actions.
+- Branch: continue draft PR #199 on `codex/aj-gators-landing-hub-20260801`; production remains untouched.
+- Direction: exact official AJ Gator's logo, restrained emerald/white/gold Scottish-football atmosphere, stadium geometry, and three primary actions. No Celtic FC crest, sponsor, league mark, copied club graphic, or implied affiliation.
+- Preserve: official live-menu destination, three existing local games, verified promotions, unlisted/noindex owner-review status, pending-client-approval notice, and the no-order/no-payment/no-POS/no-prize boundary.
+- Stop: push only to draft PR #199 after lint, types, production build, responsive browser QA, and remote checks. Do not merge or publish to production without Anthony's separate approval.
+
+## [RELEASE GATE] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Brand: integrated the exact transparent mascot/wordmark PNG served by the official AJ Gator's site; the local owner-review asset is 500 x 500, SHA-256 `F16C563978B606CD6C2849125BE35FD520ED2B043540D5AA77964B5D6D0E638C`, and remains pending client approval.
+- Design: the first viewport now contains only Holland Road, pending-client-approval status, the exact mark, and Menu, Games, and Promotions. Emerald/cream/gold stadium geometry supplies the Scottish-football reference without Celtic FC marks, hoops, sponsors, slogans, or implied affiliation.
+- Product: Menu retains the exact official live-menu URL; Games retains the three local-device experiences; Promotions retains the verified review copy. The duplicate ticker, sticky nav, menu explainer, giant status section, and bonus fourth-game link were removed.
+- Browser: 390 x 844 and 1440 x 900 both render the entire hero at one viewport with zero horizontal overflow and a loaded 500 px logo. Menu href, Games and Promotions anchors, Sports Trivia, Points-Only Picks, and Reflex Challenge were exercised successfully. Metadata remains `noindex, nofollow, nocache`.
+- Code: targeted ESLint, `tsc --noEmit`, the Next.js 16.2.11 production build, and `git diff --check` pass. Browser console errors are empty; only the expected local Vercel Analytics script log appears.
+- Evidence: `C:\Dev\amma\evidence\aj-gators-minimal-landing-20260802\mobile-landing.png` and `desktop-landing.png`.
+- Scope: only the AJ Gator's owner-review route, its game-hub presentation, one official review asset, and this operations record changed. Client OS, Supabase, Stripe, POS, customer data, secrets, table routes, and production are untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
+
+- Delivered: commit `7de1903` pushed to draft PR #199 on `codex/aj-gators-landing-hub-20260801`; the PR remains open, draft, cleanly mergeable, and unmerged.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass for `7de1903`. The exact preview deployment is Ready at `https://amma-fina-calle-hp8ltsndu.vercel.app/demo/aj-gators` and remains protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Production: `https://finacalleos.com/demo/aj-gators` remains the prior approved production version; no production deployment or merge occurred.
+- Next: Anthony reviews the draft preview while signed into Vercel and decides whether to revise or explicitly approve PR #199 for production.
+
+## [RELEASE GATE] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing production
+
+- Authority: Anthony explicitly approved the merge on 2026-08-02.
+- Merge: PR #199 was marked ready and squash-merged under exact approved head `87f2c93`; production `main` is `bb0cb42`.
+- Deployment: GitHub/Vercel deployment `5714225648` reached Ready for the merged revision.
+- Live verification: `https://finacalleos.com/demo/aj-gators` and its registered logo asset return HTTP 200. The rendered route contains Menu, Games, Promotions, the exact official-menu destination, `noindex`, and Pending client approval.
+- Scope: no Supabase, Stripe, POS, Client OS, customer data, secrets, table route, or unrelated product surface changed.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- Authority: after approving AJ Gator's production release, Anthony requested the same minimal landing treatment for the Las Palmas menu.
+- Queue reconciliation: stale item 14 was verified merged as PR #167 on 2026-07-20 and marked done. Anthony's direct request is recorded as queue item 15.
+- Branch: `codex/las-palmas-minimal-landing-20260802` from current production `origin/main` at `bb0cb42`, isolated in `C:\Dev\amma\worktrees\las-palmas-minimal-landing-20260802`.
+- Scope: a minimal first viewport with tiny status, the registered exact sign, the existing silver-palm-to-`MENU` scroll transformation, and Menu, Game, Table actions. Preserve all menu data, 37 enhanced menu restorations, disclosures, Guest Notes, game/table journeys, metadata, and approval notices.
+- Hard stops: no data, integrations, payments, POS, Client OS, menu/media/game/table behavior, secrets, live QR, or production merge. Push a draft PR only after code and browser gates pass.
+
+## [RELEASE GATE] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- First viewport: 390 x 844 and 1440 x 900 show only `Lynnhaven`, `Pending client approval`, the registered Las Palmas sign, and 46 px Menu, Game, Table actions. The stage fills the viewport and horizontal overflow is zero.
+- Motion: phone QA verified `logo` at progress `0.000`, an active 500-particle silver-palm transform at `0.567`, `menu-dock` at `1.000`, and reverse scroll back to the original sign. Actions remain anchored throughout.
+- Accessibility: keyboard Tab lands on Menu with a visible 2 px focus outline. Reduced-motion mode hides the canvas and keeps the exact sign, semantic `MENU`, and all actions visible with zero overflow.
+- Content: the owner-review route retains 39 disclosures, 39 descriptions, 37 enhanced menu photos, one registered 600 x 389 sign, two pending-client-approval mentions, Guest Notes, and `noindex, nofollow, nocache`; all 38 image URLs return successfully.
+- Destinations: Menu lands exactly on `#menu`; Game opens `/penalty-shootout?skin=laspalmas` with Las Palmas and pending-approval copy; Table opens `/table/las-palmas-lynnhaven/1` with the explicit no-requests/no-orders boundary. Both destination routes render without overflow.
+- Code: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass. Browser consoles contain no errors; only the expected local-only Vercel Analytics script log appears.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\` contains phone, desktop, motion, reduced-motion, focus, and server artifacts.
+- Scope: only the Las Palmas demo presentation and operations records changed. Menu data/media, Guest Notes behavior, game engine/config, table routes/behavior, Client OS, Supabase, Stripe, POS, customer data, secrets, live QR destinations, and production remain untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- Delivered: feature commit `18ef60b` is pushed to draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into production `main`.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass. Exact-head deployment `5714443705` is Ready at `https://amma-fina-calle-r5fs430s4.vercel.app/demo/las-palmas` and protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Review state: the draft PR is cleanly mergeable. Anthony can review the SSO-authenticated preview; production `https://finacalleos.com/demo/las-palmas` remains unchanged.
+- Next: Anthony either requests revisions or explicitly approves PR #200 for production. Do not merge the Las Palmas PR before that approval.
+
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas minimal landing production release
+
+- Authority: Anthony explicitly approved Las Palmas for production on 2026-08-02 with `Aprove las palmas`.
+- Exact pre-release state: draft PR #200 is cleanly mergeable from tested head `2c8d947` into production base `bb0cb42`; GitHub `web`, Vercel, and Vercel Preview Comments are green.
+- Release sequence: commit this authorization record to the PR branch, require all remote checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, wait for the merged revision's Vercel production deployment, then verify the live demo, motion, Menu/Game/Table destinations, content counts, metadata, and protected boundaries.
+- Hard stop: no new product or visual change, data/integration/payment/POS/access/secret work, live QR change, customer contact, or unverified result. Stop on the first branch, check, merge, deployment, alias, route, or runtime divergence.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas minimal landing production release
+
+- Release: PR #200 was marked ready and squash-merged with exact-head protection. The approved PR head `ffada9a` became production `main` commit `21d032c`.
+- Deployment: GitHub production deployment `5714590326` completed successfully; Vercel deployment `dpl_HpFdBwXbnx7wdYHgVLFB5Gp98Nb3` is Ready and aliases `https://finacalleos.com`.
+- Live demo: `https://finacalleos.com/demo/las-palmas` returns HTTP 200 at 390 x 844 with the registered sign, exactly three first-viewport actions, zero horizontal overflow, and `noindex, nofollow, nocache`.
+- Motion: the logo-to-`MENU` scroll transformation completes, reverses to the logo, and exposes a readable static state when reduced motion is requested.
+- Content: the DOM contains 39 menu disclosures and 37 enhanced menu photos; all 38 unique image URLs, including the registered sign, load successfully. Guest Notes and both pending-client-approval notices remain present.
+- Destinations: Menu reaches `#menu`; Game and Table return HTTP 200 with the Las Palmas skin and the explicit pending-client-approval/no-requests/no-orders boundaries. Browser consoles are clean.
+- Regression boundary: representative `/demo/aj-gators`, `/owner/colattao`, `/customers`, and `/m/colattao` routes retain HTTP 200 responses. No Supabase, Stripe, POS, Client OS, customer data, secret, QR target, menu/media, game-engine, or table-behavior change was made.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\production-mobile.png` and `production-menu-final.png` capture the verified production result.
+- Next: use `https://finacalleos.com/demo/las-palmas` as the live Las Palmas proof-of-concept and QR destination; future client-approved content or integration work remains a separate scoped change.

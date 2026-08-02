@@ -1,0 +1,503 @@
+.portal {
+  --ink: #001c14;
+  --deep-green: #033d2d;
+  --field: #08734c;
+  --field-bright: #0b8b59;
+  --cream: #f7f3e6;
+  --gold: #e1b52d;
+  --red: #c82037;
+  --muted: #b7c9be;
+  min-height: 100dvh;
+  overflow-x: clip;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+.skipLink {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: 0.8rem 1rem;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: clamp(1.1rem, 3vw, 2rem) clamp(1rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgb(247 243 230 / 7%) 0 0.45rem, transparent 0.45rem calc(100% - 0.45rem), rgb(247 243 230 / 7%) calc(100% - 0.45rem)),
+    radial-gradient(ellipse at 50% 61%, rgb(225 181 45 / 14%) 0 5%, transparent 5.4% 30%, rgb(247 243 230 / 7%) 30.4% 30.9%, transparent 31.3% 43%, rgb(247 243 230 / 6%) 43.4% 43.8%, transparent 44.2%),
+    linear-gradient(155deg, var(--deep-green) 0%, #07583e 48%, #02281d 100%);
+}
+
+.hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  content: "";
+  opacity: 0.36;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 4.6rem, rgb(247 243 230 / 8%) 4.65rem 4.72rem),
+    repeating-linear-gradient(90deg, transparent 0 7.4rem, rgb(225 181 45 / 5%) 7.45rem 7.5rem);
+  mask-image: linear-gradient(to bottom, #000, transparent 86%);
+}
+
+.hero::after {
+  position: absolute;
+  inset: auto -15vw -27vw;
+  z-index: -1;
+  height: 46vw;
+  min-height: 18rem;
+  content: "";
+  border-radius: 50% 50% 0 0;
+  background:
+    repeating-radial-gradient(ellipse at 50% 100%, transparent 0 1.7rem, rgb(247 243 230 / 7%) 1.75rem 1.82rem),
+    linear-gradient(to top, rgb(0 28 20 / 76%), transparent 72%);
+}
+
+.heroTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgb(247 243 230 / 76%);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.heroCenter {
+  width: min(58rem, 100%);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(1.8rem, 5vh, 3.4rem);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 7vh, 5rem);
+}
+
+.logoStage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+}
+
+.logoStage::before {
+  position: absolute;
+  z-index: -1;
+  width: 84%;
+  aspect-ratio: 1;
+  content: "";
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(247 243 230 / 22%), rgb(225 181 45 / 9%) 42%, transparent 69%);
+  filter: blur(0.8rem);
+}
+
+.brandLogo {
+  width: min(72vw, 29rem);
+  height: auto;
+  filter: drop-shadow(0 1.4rem 1.8rem rgb(0 18 13 / 48%));
+}
+
+.heroActions {
+  width: min(48rem, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.heroAction {
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: clamp(0.78rem, 1.6vw, 0.94rem);
+  font-weight: 950;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  box-shadow: inset 0 -0.22rem 0 rgb(0 28 20 / 18%);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.heroAction:hover,
+.heroAction:focus-visible {
+  transform: translateY(-2px);
+  background: var(--gold);
+}
+
+.anchorTarget {
+  scroll-margin-top: 1rem;
+}
+
+.gamesSection {
+  background:
+    linear-gradient(90deg, transparent 49.85%, rgb(247 243 230 / 5%) 50%, transparent 50.15%),
+    var(--ink);
+}
+
+.section {
+  width: min(72rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: clamp(4.5rem, 10vw, 8rem);
+}
+
+.sectionHeader {
+  margin-bottom: clamp(1.8rem, 5vw, 3rem);
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  margin-top: 0.4rem;
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 950;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.gameStage {
+  padding: clamp(1.2rem, 5vw, 3rem) 0;
+  border-block: 1px solid rgb(247 243 230 / 18%);
+}
+
+.gameTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.35rem, 2vw, 1rem);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.gameTab,
+.actionButton,
+.choiceButton {
+  min-height: 3rem;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.gameTab {
+  padding: 0.85rem 0.4rem;
+  border-bottom: 0.16rem solid rgb(247 243 230 / 14%);
+  background: transparent;
+  color: #91aa9c;
+}
+
+.gameTabActive {
+  border-bottom-color: var(--gold);
+  color: var(--cream);
+}
+
+.gameBody {
+  min-height: 21rem;
+  display: grid;
+  align-content: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.gameKicker {
+  color: var(--gold);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gameTitle {
+  margin-top: 0.55rem;
+  font-size: clamp(2.7rem, 9vw, 5.2rem);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.gameCopy {
+  max-width: 38rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+
+.choiceButton {
+  padding: 1rem;
+  background: var(--cream);
+  color: var(--ink);
+  text-align: left;
+}
+
+.choiceButton:hover,
+.choiceButton:focus-visible,
+.actionButton:hover,
+.actionButton:focus-visible {
+  transform: translateY(-2px);
+}
+
+.choiceButton:disabled {
+  cursor: default;
+  opacity: 0.58;
+  transform: none;
+}
+
+.actionButton {
+  width: fit-content;
+  margin-top: 1.5rem;
+  padding: 0.85rem 1.2rem;
+  background: var(--red);
+  color: #fff;
+}
+
+.gameStatus {
+  margin-top: 1rem;
+  color: var(--gold);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.reactionPad {
+  min-height: 11rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  border: 0;
+  background: var(--red);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.reactionReady {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 0 2.5rem rgb(225 181 45 / 40%);
+}
+
+.specialsSection {
+  background:
+    linear-gradient(150deg, rgb(11 139 89 / 14%), transparent 46%),
+    var(--deep-green);
+}
+
+.specialsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 2.5rem;
+}
+
+.specialRow {
+  padding-block: 1.2rem;
+  border-bottom: 1px solid rgb(247 243 230 / 16%);
+}
+
+.specialDay {
+  color: var(--gold);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.specialTitle {
+  margin-top: 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.specialDetail,
+.specialStatus {
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.specialStatus {
+  color: #edb4b8;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(2.5rem, 7vw, 6rem);
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.menuPrice {
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.cocktailList {
+  margin-top: 0.7rem;
+}
+
+.cocktailList p {
+  padding-block: 0.9rem;
+  border-bottom: 1px solid rgb(247 243 230 / 14%);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.responsibleNote {
+  margin-top: 1.7rem;
+  padding-left: 0.9rem;
+  border-left: 0.16rem solid var(--gold);
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem clamp(1rem, 4vw, 3.5rem) 3rem;
+  background: #00130d;
+  color: #82998b;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.heroAction:focus-visible,
+.gameTab:focus-visible,
+.actionButton:focus-visible,
+.choiceButton:focus-visible,
+.reactionPad:focus-visible {
+  outline: 0.2rem solid var(--gold);
+  outline-offset: 0.2rem;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-inline: 0.9rem;
+  }
+
+  .heroTopline {
+    align-items: flex-start;
+    font-size: 0.55rem;
+  }
+
+  .heroTopline span:last-child {
+    max-width: 9.5rem;
+    text-align: right;
+  }
+
+  .heroCenter {
+    gap: 1.7rem;
+    padding-block: 1.6rem 2.1rem;
+  }
+
+  .brandLogo {
+    width: min(75vw, 20rem);
+  }
+
+  .heroActions {
+    grid-template-columns: 1fr;
+    gap: 0.42rem;
+  }
+
+  .heroAction {
+    min-height: 3.75rem;
+  }
+
+  .gameTabs {
+    gap: 0.25rem;
+  }
+
+  .gameTab {
+    font-size: 0.57rem;
+    letter-spacing: 0.06em;
+  }
+
+  .choiceGrid,
+  .specialsGrid,
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+    line-height: 1.55;
+  }
+}
+
+@media (max-height: 720px) and (max-width: 720px) {
+  .brandLogo {
+    width: min(58vw, 15rem);
+  }
+
+  .heroCenter {
+    gap: 1rem;
+    padding-block: 1rem;
+  }
+
+  .heroAction {
+    min-height: 3.2rem;
+    padding-block: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroAction,
+  .gameTab,
+  .actionButton,
+  .choiceButton {
+    transition: none;
+  }
+}
