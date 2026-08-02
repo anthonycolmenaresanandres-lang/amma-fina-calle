@@ -1901,3 +1901,10 @@ Blocked:
 - Code: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass. Browser consoles contain no errors; only the expected local-only Vercel Analytics script log appears.
 - Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\` contains phone, desktop, motion, reduced-motion, focus, and server artifacts.
 - Scope: only the Las Palmas demo presentation and operations records changed. Menu data/media, Guest Notes behavior, game engine/config, table routes/behavior, Client OS, Supabase, Stripe, POS, customer data, secrets, live QR destinations, and production remain untouched.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas minimal logo-first landing
+
+- Delivered: feature commit `18ef60b` is pushed to draft PR #200 from `codex/las-palmas-minimal-landing-20260802` into production `main`.
+- Remote gate: GitHub `web`, Vercel, and Vercel Preview Comments pass. Exact-head deployment `5714443705` is Ready at `https://amma-fina-calle-r5fs430s4.vercel.app/demo/las-palmas` and protected by Vercel SSO with `X-Robots-Tag: noindex`.
+- Review state: the draft PR is cleanly mergeable. Anthony can review the SSO-authenticated preview; production `https://finacalleos.com/demo/las-palmas` remains unchanged.
+- Next: Anthony either requests revisions or explicitly approves PR #200 for production. Do not merge the Las Palmas PR before that approval.

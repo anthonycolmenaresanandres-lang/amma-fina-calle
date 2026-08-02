@@ -208,9 +208,9 @@ No task is live until it appears below this line with a current PASS condition.
 
 **Result:** PR #167 merged on 2026-07-20 as `10be3ef`; GitHub currently reports the PR merged. The stale open queue state was corrected during the 2026-08-02 Las Palmas check-in.
 
-## [ ] 15 - Simplify the Las Palmas owner-review landing
+## [x] 15 - Simplify the Las Palmas owner-review landing
 
-**State:** IN PROGRESS
+**State:** DONE
 **Codex effort:** MEDIUM
 **Authority:** Anthony directly approved the AJ Gator's production merge and requested the same minimal landing treatment for the Las Palmas menu on 2026-08-02, overriding the stale queue order for this scoped task.
 **Branch base:** `codex/las-palmas-minimal-landing-20260802`, created from current production `origin/main` at `bb0cb42` in a clean sibling worktree.
@@ -218,6 +218,8 @@ No task is live until it appears below this line with a current PASS condition.
 **Boundaries:** No Supabase, Stripe, POS, Client OS, customer data, secrets, menu/pricing/media edits, game engine/config, table behavior, live QR changes, or production merge. AJ Gator's release logging may be carried as operations-only history.
 **PASS:** The phone first viewport contains only minimal status, the registered logo/motion, and Menu, Game, Table actions; all three destinations work; the motion completes and reverses; reduced motion, keyboard focus, responsive layout, menu/photo counts, notices, metadata, targeted lint, types, production build, and browser checks pass; a draft review PR is open.
 **STOP:** Stop before the Las Palmas production merge. Stop and report if the registered logo, motion, menu, media, game, table preview, Guest Notes, approval labels, or protected surfaces regress.
+
+**Result:** Feature commit `18ef60b` is pushed to draft PR #200. Local lint, types, production build, responsive/motion/reduced-motion/focus/content/destination checks pass; GitHub `web`, Vercel, and Vercel Preview Comments checks pass. The Ready preview is Vercel-SSO protected. Production is unchanged pending Anthony's explicit approval of PR #200.
 
 ## [ ] 4 - Make the owner portal installable and organize the optimization backlog
 
