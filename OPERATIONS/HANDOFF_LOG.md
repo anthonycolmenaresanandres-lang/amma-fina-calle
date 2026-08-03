@@ -1950,3 +1950,30 @@ Blocked:
 - Effect: the Las Palmas landing's Menu action now opens the restaurant's current official Lynnhaven PDF in a separate tab. The curated owner-review proof below the landing remains available and unchanged.
 - Scope: no menu data, price, photo, Guest Notes, motion, game/table behavior, Supabase, Stripe, POS, Client OS, secret, customer data, QR destination, contact, merge, or production change was made.
 - Next: Anthony reviews PR #201 and explicitly approves or requests revisions. Do not merge before that approval.
+### [CHECK-IN] Codex - 2026-08-03 - restaurant demos release and two-QR proof package
+Picking up:
+- Release the approved Las Palmas current-menu correction and shared restaurant-hub polish, including the Gators landing experience.
+- Build a print-ready two-QR leave-behind: personalized Gators demo plus transparent local proof.
+Authority:
+- Anthony explicitly approved push and merge of the restaurant work and requested the QR print/proof package.
+Boundaries:
+- No secrets, access changes, payments, POS, database writes, external sends, or unsupported performance claims.
+- The Colattao analytics are historical traffic evidence only: 2,874 visitors and 4,599 page views in the owner-verified first 30-day production window.
+
+### [RELEASE GATE] Codex - 2026-08-03 - restaurant demos and QR proof package
+Released before this package:
+- PR #201 merged the Las Palmas current official-menu link.
+- PR #202 merged the shared restaurant-hub visual polish, including Gators and Las Palmas; remote CI and Vercel checks were green after rebasing on current main.
+Package verification:
+- Targeted ESLint: pass.
+- `tsc --noEmit`: pass.
+- Next.js production build: pass.
+- `git diff --check`: pass with generated PDF/PNG files marked binary.
+- 390 x 844 browser checks: proof page, Gators demo, and Las Palmas demo rendered with zero horizontal overflow and no framework error overlay.
+- PDF visual inspection: pass; one US Letter page, clear hierarchy, no clipping.
+- Both QR codes decoded from the rendered PDF to their intended live destinations.
+- Sales asset scorer: 70/100, field-ready, no blocking issues; directional checklist only, not a conversion prediction.
+Next:
+- Push the proof-package branch, open and merge its PR under Anthony's explicit approval, then verify both production QR destinations.
+Blocked:
+- None for publication. Client approval remains pending; table service, setup, printing, payments, and POS are not included in the $150 monthly menu-plus-game line.
