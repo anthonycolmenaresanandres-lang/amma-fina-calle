@@ -2015,3 +2015,14 @@ Next:
 - Commit, push, merge after remote checks, then deliver the black-and-white PDF for printing.
 Blocked:
 - None for the print asset. Client approval remains required before calling the prospect demo official.
+
+### [CHECK-OUT] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind released
+Did:
+- Merged PR #206 to production main with the printer-safe black-and-white companion PDF, three QR image assets, grayscale logo treatment, reproducible builder option, source copy, and evidence boundaries.
+Verified final:
+- One Letter page; grayscale-only render; all three QRs decoded from the 200-DPI page; all destinations returned HTTP 200.
+- Original color two-QR handout remains preserved.
+Next:
+- Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
+Blocked:
+- None for printing. Client approval is still required before representing the demo as official.
