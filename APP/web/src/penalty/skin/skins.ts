@@ -146,6 +146,40 @@ export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
   kickerFit: { scale: 2.4, offsetXPct: -0.2 },
 };
 
+// A.J. Gator's (prospect demo — PENDING CLIENT APPROVAL, linked only from the
+// unlisted Holland Road hub). Sports-bar palette pulled from the demo hub: ink
+// pitch-black green, field greens, cream goal, red keeper, gold accent. The
+// logo overlay is the client's real official logo file (never AI-generated);
+// kicker/keeper/ball stay engine primitives until the owner approves art.
+const ajGatorsColors: PenaltyColors = {
+  bg: 0x001c14,
+  sky: 0x033d2d,
+  grass: 0x08734c,
+  grassLine: 0x0b8b59,
+  goalFrame: 0xf7f3e6,
+  net: 0xe9e0c8,
+  ball: 0xfdfdfd,
+  ballSpot: 0x001c14,
+  keeper: 0xc82037,
+  keeperAccent: 0x5e0f1a,
+  accent: 0xe1b52d,
+  goalText: "#8fe6a8",
+  saveText: "#ff8a6b",
+  missText: "#f4d35e",
+  text: "#f7f3e6",
+};
+
+export const AJGATORS_PENALTY_SKIN: PenaltySkin = {
+  id: "ajgators",
+  displayName: "A.J. Gator's",
+  brandName: "A.J. Gator's Penalty Shootout",
+  skinName: "Sports Bar Shootout",
+  colors: ajGatorsColors,
+  assets: {
+    logo: "/assets/aj-gators/aj-gators-logo-official.png",
+  },
+};
+
 export const STADIUM_PENALTY_SKIN: PenaltySkin = {
   id: "stadium",
   displayName: "Stadium",
@@ -163,6 +197,7 @@ export const PENALTY_SKINS: PenaltySkin[] = [
   DEFAULT_PENALTY_SKIN,
   COLATTAO_PENALTY_SKIN,
   LASPALMAS_PENALTY_SKIN,
+  AJGATORS_PENALTY_SKIN,
   STADIUM_PENALTY_SKIN,
 ];
 
