@@ -1941,3 +1941,11 @@ Task: Stop Odyssey Daily; pivot to the AnchorFrame news Gemini pipeline (Anthony
 - Regression boundary: representative `/demo/aj-gators`, `/owner/colattao`, `/customers`, and `/m/colattao` routes retain HTTP 200 responses. No Supabase, Stripe, POS, Client OS, customer data, secret, QR target, menu/media, game-engine, or table-behavior change was made.
 - Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\production-mobile.png` and `production-menu-final.png` capture the verified production result.
 - Next: use `https://finacalleos.com/demo/las-palmas` as the live Las Palmas proof-of-concept and QR destination; future client-approved content or integration work remains a separate scoped change.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-08-03 — Gemini workflow verdict test**
+Task: Anthony wants to eliminate the uncertainty about whether the Gemini video workflow works at all. Designed a 3-test isolation matrix for Codex (all free, all within plan §8 stop rules):
+- Test A: Gemini text-to-video, fictional anchor, no upload. Proves whether video generation works at all in this account.
+- Test B: generate a fictional-anchor image inside Gemini, then animate that image in-app. Isolates "uploading" vs "in-app" image sources.
+- Test C: regenerate the Step 0 generic mock in ChatGPT (already-approved rerun), upload to Gemini, animate. Isolates the uploaded-photoreal-person policy.
+Verdict rule: C works → Gemini stays in the pipeline (likeness still goes through Runway/Veo API). A/B work but C refused → Gemini web cannot animate our uploaded keyframes at all → eliminate it from the pipeline; motion goes Runway (paid, wired) or Veo API (paid, needs Anthony key). A refused → Gemini video is unavailable to this account entirely → eliminate.
