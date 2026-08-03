@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
 import {
   lasPalmasLynnhavenMenuSections,
   lasPalmasLynnhavenMenuSourcePreview,
@@ -28,6 +29,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Brand type matched to the original sign: "Las Palmas" is tall white serif
+// display lettering, so the whole page runs on Playfair Display. This also
+// backs the --font-playfair variable the silver-palm motion title already
+// references (it was silently falling back to Georgia before).
+const palmasSerif = Playfair_Display({
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-playfair",
+});
+
 function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
@@ -37,7 +50,9 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
   const notice = lasPalmasLynnhavenMenuSourcePreview.prominentNotice;
 
   return (
-    <main className="min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 text-[#f2ead6] sm:px-8">
+    <main
+      className={`${palmasSerif.variable} min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 font-[family-name:var(--font-playfair),Georgia,serif] text-[#f2ead6] sm:px-8`}
+    >
       <div className="mx-auto w-full max-w-2xl">
         <header>
           <LasPalmasSilverPalmMotion />
@@ -53,7 +68,7 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
             <a
               key={section.name}
               href={`#sec-${slugify(section.name)}`}
-              className="shrink-0 border border-[#a9b8a9]/25 px-3.5 py-1.5 text-xs font-medium text-[#cfd8c8] transition hover:border-[#dfe3e6]/70 hover:text-[#f3f5f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6]"
+              className="inline-flex min-h-11 shrink-0 items-center rounded-[3px] border-[1.5px] border-[#a9b8a9]/40 px-4 text-sm font-semibold tracking-[0.04em] text-[#cfd8c8] shadow-[2px_2px_0_rgba(213,50,45,0.55)] transition hover:-translate-x-px hover:-translate-y-px hover:border-[#dfe3e6]/80 hover:text-[#f3f5f6] hover:shadow-[3px_3px_0_rgba(213,50,45,0.8)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6] motion-reduce:transition-none"
             >
               {section.name}
             </a>

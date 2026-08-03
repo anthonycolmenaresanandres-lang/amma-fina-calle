@@ -11,7 +11,7 @@
   overflow-x: clip;
   background: var(--ink);
   color: var(--cream);
-  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-gator-body), "Segoe UI", sans-serif;
 }
 
 .skipLink {
@@ -125,27 +125,63 @@
   gap: 0.55rem;
 }
 
+/* Inked plates: comic-panel buttons in the house palette — solid ink outline,
+   hard offset shadow, and a press that physically drops INTO the shadow.
+   Halftone dots surface only on hover (the wink, not the costume). */
 .heroAction {
+  position: relative;
   min-height: 4.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  gap: 0.55rem;
   padding: 1rem 1.15rem;
-  background: var(--cream);
+  background: linear-gradient(180deg, #fffdf4 0%, var(--cream) 55%, #eee5cc 100%);
   color: var(--ink);
-  font-size: clamp(0.78rem, 1.6vw, 0.94rem);
-  font-weight: 950;
-  letter-spacing: 0.09em;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(1.4rem, 3.4vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  box-shadow: inset 0 -0.22rem 0 rgb(0 28 20 / 18%);
-  transition: background-color 150ms ease, transform 150ms ease;
+  border: 2px solid var(--ink);
+  border-radius: 0.4rem;
+  box-shadow: 0.3rem 0.3rem 0 var(--gold), 0.3rem 0.3rem 0 2px var(--ink);
+  transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.heroAction::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(rgb(0 28 20 / 26%) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  pointer-events: none;
 }
 
 .heroAction:hover,
 .heroAction:focus-visible {
-  transform: translateY(-2px);
-  background: var(--gold);
+  transform: translate(-2px, -2px);
+  box-shadow: 0.45rem 0.45rem 0 var(--gold), 0.45rem 0.45rem 0 2px var(--ink);
+}
+
+.heroAction:hover::after,
+.heroAction:focus-visible::after {
+  opacity: 1;
+}
+
+.heroAction:active {
+  transform: translate(0.3rem, 0.3rem);
+  box-shadow: 0 0 0 var(--gold), 0 0 0 0 var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroAction,
+  .heroAction::after {
+    transition: none;
+  }
 }
 
 .anchorTarget {
@@ -179,10 +215,11 @@
 
 .sectionTitle {
   margin-top: 0.4rem;
-  font-size: clamp(3.5rem, 12vw, 8rem);
-  font-weight: 950;
-  letter-spacing: -0.07em;
-  line-height: 0.82;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(3.2rem, 11vw, 7.2rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
   text-transform: uppercase;
 }
 
@@ -201,27 +238,39 @@
 .gameTab,
 .actionButton,
 .choiceButton {
-  min-height: 3rem;
-  border: 0;
+  min-height: 3.2rem;
   cursor: pointer;
   font: inherit;
-  font-size: 0.67rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-align: center;
   text-transform: uppercase;
-  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+  border-radius: 0.35rem;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
 }
 
+/* Tabs: ghost plates that ink in when chosen — the active game reads like the
+   selected panel of a comic page. */
 .gameTab {
   padding: 0.85rem 0.4rem;
-  border-bottom: 0.16rem solid rgb(247 243 230 / 14%);
+  border: 2px solid rgb(247 243 230 / 22%);
   background: transparent;
   color: #91aa9c;
 }
 
-.gameTabActive {
-  border-bottom-color: var(--gold);
+.gameTab:hover {
+  border-color: rgb(247 243 230 / 55%);
   color: var(--cream);
+}
+
+.gameTabActive,
+.gameTabActive:hover {
+  border-color: var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--gold);
 }
 
 .gameBody {
@@ -243,10 +292,11 @@
 
 .gameTitle {
   margin-top: 0.55rem;
-  font-size: clamp(2.7rem, 9vw, 5.2rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(2.5rem, 8.5vw, 4.8rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.98;
   text-transform: uppercase;
 }
 
@@ -268,20 +318,33 @@
   padding: 1rem;
   background: var(--cream);
   color: var(--ink);
-  text-align: left;
+  border: 2px solid var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--deep-green);
 }
 
 .choiceButton:hover,
 .choiceButton:focus-visible,
 .actionButton:hover,
 .actionButton:focus-visible {
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
+}
+
+.choiceButton:hover,
+.choiceButton:focus-visible {
+  box-shadow: 0.34rem 0.34rem 0 var(--field-bright);
+}
+
+.choiceButton:active,
+.actionButton:active {
+  transform: translate(0.22rem, 0.22rem);
+  box-shadow: 0 0 0 transparent;
 }
 
 .choiceButton:disabled {
   cursor: default;
   opacity: 0.58;
   transform: none;
+  box-shadow: 0.22rem 0.22rem 0 rgb(3 61 45 / 45%);
 }
 
 .actionButton {
@@ -290,6 +353,13 @@
   padding: 0.85rem 1.2rem;
   background: var(--red);
   color: #fff;
+  border: 2px solid var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--gold);
+}
+
+.actionButton:hover,
+.actionButton:focus-visible {
+  box-shadow: 0.34rem 0.34rem 0 var(--gold);
 }
 
 .gameStatus {
@@ -308,9 +378,10 @@
   color: #fff;
   cursor: pointer;
   font: inherit;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
   font-size: clamp(2.5rem, 10vw, 5.5rem);
-  font-weight: 950;
-  letter-spacing: -0.04em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
@@ -326,42 +397,97 @@
     var(--deep-green);
 }
 
-.specialsGrid {
+.commentsSection {
+  background:
+    linear-gradient(160deg, rgb(200 32 55 / 9%), transparent 44%),
+    var(--ink);
+}
+
+/* Promo board: a specials wall, not a data table. Each promotion is an
+   editorial poster row — day tag, huge cartoon title, and ONE gold deal
+   sticker slapped on at a slight tilt (the comic accent). Heavy ink rules
+   separate rows; no boxes-in-boxes. */
+.promoBoard {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 2.5rem;
+  gap: 0 3.5rem;
 }
 
-.specialRow {
-  padding-block: 1.2rem;
-  border-bottom: 1px solid rgb(247 243 230 / 16%);
+.promoRow {
+  padding-block: 1.7rem;
+  border-bottom: 2px solid rgb(247 243 230 / 18%);
 }
 
-.specialDay {
+.promoDay {
   color: var(--gold);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 0.64rem;
+  font-size: 0.68rem;
   font-weight: 900;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
-.specialTitle {
-  margin-top: 0.3rem;
-  font-size: 1.2rem;
-  font-weight: 900;
+.promoHeadline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  margin-top: 0.55rem;
 }
 
-.specialDetail,
-.specialStatus {
-  margin-top: 0.35rem;
+.promoTitle {
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(1.9rem, 5vw, 2.9rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.promoDeal {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 2px solid var(--ink);
+  border-radius: 0.4rem;
+  box-shadow: 0.22rem 0.22rem 0 rgb(0 28 20 / 85%);
+  transform: rotate(-2deg);
+}
+
+.promoRow:nth-child(even) .promoDeal {
+  transform: rotate(2deg);
+}
+
+.promoDetail {
+  max-width: 34rem;
+  margin-top: 0.6rem;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.promoStatus {
+  margin-top: 1.2rem;
+  color: #edb4b8;
+  font-size: 0.74rem;
+  font-style: italic;
   line-height: 1.5;
 }
 
-.specialStatus {
-  color: #edb4b8;
+.featureGrid .promoTitle {
+  font-size: clamp(1.5rem, 3.6vw, 2rem);
+}
+
+.featureGrid .promoDeal {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
 }
 
 .featureGrid {
@@ -453,7 +579,8 @@
   }
 
   .heroAction {
-    min-height: 3.75rem;
+    min-height: 4rem;
+    font-size: 1.45rem;
   }
 
   .gameTabs {
@@ -461,12 +588,12 @@
   }
 
   .gameTab {
-    font-size: 0.57rem;
-    letter-spacing: 0.06em;
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
   }
 
   .choiceGrid,
-  .specialsGrid,
+  .promoBoard,
   .featureGrid {
     grid-template-columns: 1fr;
   }
