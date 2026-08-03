@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./portal.module.css";
 
-type GameKey = "trivia" | "picks" | "reflex";
+type GameKey = "trivia" | "picks" | "reflex" | "penalty";
 
 const triviaQuestions = [
   {
@@ -245,10 +245,27 @@ function ReflexGame(): React.JSX.Element {
   );
 }
 
+function PenaltyPromo(): React.JSX.Element {
+  return (
+    <div className={styles.gameBody}>
+      <p className={styles.gameKicker}>Full game · Gator colors</p>
+      <h3 className={styles.gameTitle}>Penalty shootout</h3>
+      <p className={styles.gameCopy}>
+        Five shots from the spot against a diving keeper, in A.J. Gator&apos;s green and gold.
+        Three keeper levels, street to pro. Best score at the table wins bragging rights only.
+      </p>
+      <a className={styles.actionButton} href="/penalty-shootout?skin=ajgators">
+        Play the shootout
+      </a>
+    </div>
+  );
+}
+
 const games: Array<{ key: GameKey; label: string }> = [
   { key: "trivia", label: "Sports trivia" },
   { key: "picks", label: "Points-only picks" },
   { key: "reflex", label: "Reflex challenge" },
+  { key: "penalty", label: "Penalty shootout" },
 ];
 
 export default function GameHub(): React.JSX.Element {
@@ -273,6 +290,7 @@ export default function GameHub(): React.JSX.Element {
       {activeGame === "trivia" ? <TriviaGame /> : null}
       {activeGame === "picks" ? <PicksGame /> : null}
       {activeGame === "reflex" ? <ReflexGame /> : null}
+      {activeGame === "penalty" ? <PenaltyPromo /> : null}
 
     </div>
   );

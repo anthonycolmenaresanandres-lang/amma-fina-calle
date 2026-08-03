@@ -24,7 +24,7 @@ export default function PenaltyClient({
   const [selectedInput, setSelectedInput] = useState<InputMode>("tap");
   const [selectedLevel, setSelectedLevel] = useState<PenaltyLevel | null>(null);
   const [replayKey, setReplayKey] = useState(0);
-  const isProspectDemo = selectedSkin.id === "laspalmas";
+  const isProspectDemo = selectedSkin.id === "laspalmas" || selectedSkin.id === "ajgators";
 
   useEffect(() => {
     if (!selectedLevel || !mountRef.current || gameRef.current || typeof window === "undefined") {
