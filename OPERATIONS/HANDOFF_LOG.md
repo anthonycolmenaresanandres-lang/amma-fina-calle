@@ -1993,3 +1993,25 @@ Next:
 - Print the PDF at actual size or fit-to-page; use the private tracker to record whether the owner scans, requests a review, or declines.
 Blocked:
 - Client approval is still required before representing the demo as official or activating table service.
+### [CHECK-IN] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind
+Picking up:
+- Create a printer-safe black-and-white companion to the released Gators leave-behind.
+- Add a third QR to the Fina Calle landing page and one short, brand-safe QR joke.
+Authority:
+- Anthony directly requested the revision and previously authorized the restaurant sales-material release workflow.
+Boundaries:
+- Preserve the color two-QR sheet; do not change any live destination, product route, pricing boundary, client-approval label, payment/POS state, access, or secret.
+- Three QR choices must remain clearly labeled so the extra code does not create decision ambiguity.
+
+### [RELEASE GATE] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind
+Verified:
+- Final artifact is one US Letter page and renders in grayscale only; no color-channel variance remained after the QR ink correction.
+- Visual inspection found no clipping, overlap, broken glyphs, or unreadable hierarchy.
+- All three QR codes decoded from the 200-DPI rendered PDF to the personalized demo, verified local proof, and Fina Calle landing page.
+- PDF text extraction preserved the price, package scope, historical traffic caveat, pending-client label, and joke.
+- Sales asset scorer returned field-ready with no blocking issues; 70/100 is a directional checklist, not a conversion forecast.
+- Python syntax check and `git diff --check` passed.
+Next:
+- Commit, push, merge after remote checks, then deliver the black-and-white PDF for printing.
+Blocked:
+- None for the print asset. Client approval remains required before calling the prospect demo official.
