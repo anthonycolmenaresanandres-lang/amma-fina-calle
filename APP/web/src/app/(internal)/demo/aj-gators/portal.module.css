@@ -125,27 +125,62 @@
   gap: 0.55rem;
 }
 
+/* Inked plates: comic-panel buttons in the house palette — solid ink outline,
+   hard offset shadow, and a press that physically drops INTO the shadow.
+   Halftone dots surface only on hover (the wink, not the costume). */
 .heroAction {
+  position: relative;
   min-height: 4.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem 1.15rem;
-  background: var(--cream);
+  background: linear-gradient(180deg, #fffdf4 0%, var(--cream) 55%, #eee5cc 100%);
   color: var(--ink);
   font-size: clamp(0.78rem, 1.6vw, 0.94rem);
   font-weight: 950;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  box-shadow: inset 0 -0.22rem 0 rgb(0 28 20 / 18%);
-  transition: background-color 150ms ease, transform 150ms ease;
+  border: 2px solid var(--ink);
+  border-radius: 0.4rem;
+  box-shadow: 0.3rem 0.3rem 0 var(--gold), 0.3rem 0.3rem 0 2px var(--ink);
+  transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.heroAction::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(rgb(0 28 20 / 26%) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  pointer-events: none;
 }
 
 .heroAction:hover,
 .heroAction:focus-visible {
-  transform: translateY(-2px);
-  background: var(--gold);
+  transform: translate(-2px, -2px);
+  box-shadow: 0.45rem 0.45rem 0 var(--gold), 0.45rem 0.45rem 0 2px var(--ink);
+}
+
+.heroAction:hover::after,
+.heroAction:focus-visible::after {
+  opacity: 1;
+}
+
+.heroAction:active {
+  transform: translate(0.3rem, 0.3rem);
+  box-shadow: 0 0 0 var(--gold), 0 0 0 0 var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroAction,
+  .heroAction::after {
+    transition: none;
+  }
 }
 
 .anchorTarget {
@@ -202,26 +237,36 @@
 .actionButton,
 .choiceButton {
   min-height: 3rem;
-  border: 0;
   cursor: pointer;
   font: inherit;
   font-size: 0.67rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+  border-radius: 0.35rem;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
 }
 
+/* Tabs: ghost plates that ink in when chosen — the active game reads like the
+   selected panel of a comic page. */
 .gameTab {
   padding: 0.85rem 0.4rem;
-  border-bottom: 0.16rem solid rgb(247 243 230 / 14%);
+  border: 2px solid rgb(247 243 230 / 22%);
   background: transparent;
   color: #91aa9c;
 }
 
-.gameTabActive {
-  border-bottom-color: var(--gold);
+.gameTab:hover {
+  border-color: rgb(247 243 230 / 55%);
   color: var(--cream);
+}
+
+.gameTabActive,
+.gameTabActive:hover {
+  border-color: var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--gold);
 }
 
 .gameBody {
@@ -269,19 +314,33 @@
   background: var(--cream);
   color: var(--ink);
   text-align: left;
+  border: 2px solid var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--deep-green);
 }
 
 .choiceButton:hover,
 .choiceButton:focus-visible,
 .actionButton:hover,
 .actionButton:focus-visible {
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
+}
+
+.choiceButton:hover,
+.choiceButton:focus-visible {
+  box-shadow: 0.34rem 0.34rem 0 var(--field-bright);
+}
+
+.choiceButton:active,
+.actionButton:active {
+  transform: translate(0.22rem, 0.22rem);
+  box-shadow: 0 0 0 transparent;
 }
 
 .choiceButton:disabled {
   cursor: default;
   opacity: 0.58;
   transform: none;
+  box-shadow: 0.22rem 0.22rem 0 rgb(3 61 45 / 45%);
 }
 
 .actionButton {
@@ -290,6 +349,13 @@
   padding: 0.85rem 1.2rem;
   background: var(--red);
   color: #fff;
+  border: 2px solid var(--ink);
+  box-shadow: 0.22rem 0.22rem 0 var(--gold);
+}
+
+.actionButton:hover,
+.actionButton:focus-visible {
+  box-shadow: 0.34rem 0.34rem 0 var(--gold);
 }
 
 .gameStatus {

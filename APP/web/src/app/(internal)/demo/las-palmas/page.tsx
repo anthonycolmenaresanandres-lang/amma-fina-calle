@@ -53,7 +53,7 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
             <a
               key={section.name}
               href={`#sec-${slugify(section.name)}`}
-              className="shrink-0 border border-[#a9b8a9]/25 px-3.5 py-1.5 text-xs font-medium text-[#cfd8c8] transition hover:border-[#dfe3e6]/70 hover:text-[#f3f5f6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6]"
+              className="inline-flex min-h-11 shrink-0 items-center rounded-[3px] border-[1.5px] border-[#a9b8a9]/40 px-3.5 text-xs font-medium text-[#cfd8c8] shadow-[2px_2px_0_rgba(213,50,45,0.55)] transition hover:-translate-x-px hover:-translate-y-px hover:border-[#dfe3e6]/80 hover:text-[#f3f5f6] hover:shadow-[3px_3px_0_rgba(213,50,45,0.8)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6] motion-reduce:transition-none"
             >
               {section.name}
             </a>

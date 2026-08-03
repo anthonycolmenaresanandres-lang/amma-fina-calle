@@ -175,6 +175,9 @@
   text-indent: 0.19em;
 }
 
+/* Inked plates, Las Palmas register: hairline silver outlines on glass, with ONE
+   bold move — a hard deep-red offset shadow (the comic ink) that the button drops
+   into when pressed. Elegance first; the comic is an accent, not a costume. */
 .primaryActions {
   position: absolute;
   z-index: 9;
@@ -183,13 +186,10 @@
   left: 18px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
   max-width: 460px;
   min-height: 46px;
   margin-inline: auto;
-  border-top: 1px solid rgb(222 227 230 / 50%);
-  border-bottom: 1px solid rgb(222 227 230 / 50%);
-  background: rgb(6 19 13 / 72%);
-  backdrop-filter: blur(8px);
 }
 
 .primaryAction {
@@ -203,18 +203,34 @@
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  border: 1.5px solid rgb(223 227 230 / 72%);
+  border-radius: 4px;
+  background: rgb(6 19 13 / 78%);
+  backdrop-filter: blur(8px);
+  box-shadow: 3px 3px 0 rgb(213 50 45 / 88%);
   transition:
     background-color 160ms ease,
-    color 160ms ease;
-}
-
-.primaryAction + .primaryAction {
-  border-left: 1px solid rgb(222 227 230 / 24%);
+    color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .primaryAction:hover {
-  background: rgb(213 50 45 / 76%);
+  background: rgb(213 50 45 / 88%);
   color: #fff8ee;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgb(223 227 230 / 82%);
+}
+
+.primaryAction:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryAction {
+    transition: none;
+  }
 }
 
 .primaryAction:focus-visible {
