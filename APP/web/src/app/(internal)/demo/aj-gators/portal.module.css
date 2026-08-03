@@ -11,7 +11,7 @@
   overflow-x: clip;
   background: var(--ink);
   color: var(--cream);
-  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-gator-body), "Segoe UI", sans-serif;
 }
 
 .skipLink {
@@ -133,14 +133,15 @@
   min-height: 4.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  gap: 0.55rem;
   padding: 1rem 1.15rem;
   background: linear-gradient(180deg, #fffdf4 0%, var(--cream) 55%, #eee5cc 100%);
   color: var(--ink);
-  font-size: clamp(0.78rem, 1.6vw, 0.94rem);
-  font-weight: 950;
-  letter-spacing: 0.09em;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  font-weight: 400;
+  letter-spacing: 0.045em;
   text-transform: uppercase;
   border: 2px solid var(--ink);
   border-radius: 0.4rem;
@@ -214,10 +215,11 @@
 
 .sectionTitle {
   margin-top: 0.4rem;
-  font-size: clamp(3.5rem, 12vw, 8rem);
-  font-weight: 950;
-  letter-spacing: -0.07em;
-  line-height: 0.82;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(3.2rem, 11vw, 7.2rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
   text-transform: uppercase;
 }
 
@@ -236,12 +238,14 @@
 .gameTab,
 .actionButton,
 .choiceButton {
-  min-height: 3rem;
+  min-height: 3.2rem;
   cursor: pointer;
   font: inherit;
-  font-size: 0.67rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-align: center;
   text-transform: uppercase;
   border-radius: 0.35rem;
   transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
@@ -288,10 +292,11 @@
 
 .gameTitle {
   margin-top: 0.55rem;
-  font-size: clamp(2.7rem, 9vw, 5.2rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: clamp(2.5rem, 8.5vw, 4.8rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.98;
   text-transform: uppercase;
 }
 
@@ -313,7 +318,6 @@
   padding: 1rem;
   background: var(--cream);
   color: var(--ink);
-  text-align: left;
   border: 2px solid var(--ink);
   box-shadow: 0.22rem 0.22rem 0 var(--deep-green);
 }
@@ -374,9 +378,10 @@
   color: #fff;
   cursor: pointer;
   font: inherit;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
   font-size: clamp(2.5rem, 10vw, 5.5rem);
-  font-weight: 950;
-  letter-spacing: -0.04em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
@@ -414,8 +419,10 @@
 
 .specialTitle {
   margin-top: 0.3rem;
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-family: var(--font-gator-display), var(--font-gator-body), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .specialDetail,
@@ -519,7 +526,8 @@
   }
 
   .heroAction {
-    min-height: 3.75rem;
+    min-height: 4rem;
+    font-size: 1.2rem;
   }
 
   .gameTabs {
@@ -527,8 +535,8 @@
   }
 
   .gameTab {
-    font-size: 0.57rem;
-    letter-spacing: 0.06em;
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
   }
 
   .choiceGrid,

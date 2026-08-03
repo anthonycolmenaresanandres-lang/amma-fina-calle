@@ -1,8 +1,26 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Baloo_2, Luckiest_Guy } from "next/font/google";
 import GameHub from "./GameHub";
 import { cocktailFeatures, seasonalSpecials, weeklySpecials } from "./menu-data";
 import styles from "./portal.module.css";
+
+// Brand type matched to the official logo: "Gator's" is bouncy chunky cartoon
+// display lettering, so headings + buttons use Luckiest Guy (single 400 weight)
+// and running text uses Baloo 2, the readable rounded cousin of the same voice.
+const gatorDisplay = Luckiest_Guy({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-gator-display",
+});
+
+const gatorBody = Baloo_2({
+  subsets: ["latin"],
+  weight: "variable",
+  display: "swap",
+  variable: "--font-gator-body",
+});
 
 const liveMenuUrl = "https://www.gatorssportsbar.com/currentmenu?menu=a-j-gators-menu";
 
@@ -23,7 +41,7 @@ export const metadata: Metadata = {
 
 export default function AjGatorsDemoPage(): React.JSX.Element {
   return (
-    <main className={styles.portal}>
+    <main className={`${gatorDisplay.variable} ${gatorBody.variable} ${styles.portal}`}>
       <a className={styles.skipLink} href="#actions">Skip to actions</a>
 
       <header className={styles.hero}>

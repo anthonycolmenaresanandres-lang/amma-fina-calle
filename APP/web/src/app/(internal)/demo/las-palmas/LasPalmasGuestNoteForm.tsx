@@ -85,7 +85,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
       <p className="text-center text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#dfe3e6]">
         Guest Notes
       </p>
-      <h2 className="mt-2 text-center font-serif text-3xl tracking-[0.06em] text-[#f7f1e0]">
+      <h2 className="mt-2 text-center text-3xl font-bold tracking-[0.06em] text-[#f7f1e0]">
         Deja tu nota
       </h2>
       <p className="mx-auto mt-2 max-w-sm text-center text-sm leading-6 text-[#a9b8a9]">
@@ -196,7 +196,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full rounded-[4px] border-[1.5px] border-[#06130d] bg-[#dfe3e6] px-5 py-3 text-xs font-bold uppercase tracking-[0.22em] text-[#06130d] shadow-[3px_3px_0_rgba(213,50,45,0.88)] transition hover:-translate-x-px hover:-translate-y-px hover:bg-[#f4f6f7] hover:shadow-[4px_4px_0_rgba(213,50,45,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-[3px_3px_0_rgba(169,184,169,0.4)] disabled:hover:translate-x-0 disabled:hover:translate-y-0 motion-reduce:transition-none"
+            className="w-full rounded-[4px] border-[1.5px] border-[#06130d] bg-[#dfe3e6] px-5 py-3.5 text-center text-sm font-bold uppercase tracking-[0.16em] text-[#06130d] shadow-[3px_3px_0_rgba(213,50,45,0.88)] transition hover:-translate-x-px hover:-translate-y-px hover:bg-[#f4f6f7] hover:shadow-[4px_4px_0_rgba(213,50,45,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-[3px_3px_0_rgba(169,184,169,0.4)] disabled:hover:translate-x-0 disabled:hover:translate-y-0 motion-reduce:transition-none"
           >
             {status === "loading" ? "Sending..." : "Send guest note"}
           </button>

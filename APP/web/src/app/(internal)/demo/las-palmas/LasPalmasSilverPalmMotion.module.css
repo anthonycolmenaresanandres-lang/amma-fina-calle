@@ -187,8 +187,8 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  max-width: 460px;
-  min-height: 46px;
+  max-width: 480px;
+  min-height: 52px;
   margin-inline: auto;
 }
 
@@ -196,12 +196,13 @@
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 46px;
+  min-height: 52px;
   place-items: center;
   color: #f2ead6;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(0.84rem, 2.4vw, 0.98rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   border: 1.5px solid rgb(223 227 230 / 72%);
   border-radius: 4px;
@@ -271,7 +272,7 @@
   }
 
   .primaryAction {
-    letter-spacing: 0.13em;
+    letter-spacing: 0.08em;
   }
 }
 
