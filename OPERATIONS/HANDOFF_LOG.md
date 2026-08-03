@@ -1977,3 +1977,19 @@ Next:
 - Push the proof-package branch, open and merge its PR under Anthony's explicit approval, then verify both production QR destinations.
 Blocked:
 - None for publication. Client approval remains pending; table service, setup, printing, payments, and POS are not included in the $150 monthly menu-plus-game line.
+
+### [CHECK-OUT] Codex - 2026-08-03 - restaurant demos and two-QR proof package live
+Did:
+- Merged PR #201 (current official-menu correction), PR #202 (shared restaurant-hub polish), PR #204 (two-QR leave-behind plus verified local-proof page), and PR #203 (Gators penalty-shootout skin and hub link).
+- Published a US Letter leave-behind with one QR to the personalized Gators demo and one QR to the local proof page.
+Production evidence:
+- `/case-studies/colattao` returned HTTP 200 and contained 2,874 visitors plus 4,599 page views.
+- `/demo/aj-gators` returned HTTP 200, contained the penalty-shootout option, and preserved `noindex`.
+- `/penalty-shootout?skin=ajgators` returned HTTP 200.
+- Both QR codes decoded from the final rendered PDF to their intended production URLs.
+State:
+- Release complete. The unrelated stopped-newsroom PR #197 remains unmerged because it is outside the approved restaurant scope.
+Next:
+- Print the PDF at actual size or fit-to-page; use the private tracker to record whether the owner scans, requests a review, or declines.
+Blocked:
+- Client approval is still required before representing the demo as official or activating table service.
