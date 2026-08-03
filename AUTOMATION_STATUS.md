@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-02 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green.** Three changes since the 08-02 morning run, all on amma: **#199 merged** (AJ Gator's demo refocused into a menu/games/promotions hub — Anthony merged it) and **#200 merged** (simplify Las Palmas demo landing — Anthony), which advanced `main` `54620ae` → `bb0cb42` (#199) → `21d032c` (#200) → `15edd95` (Clone docs "Log Las Palmas production release", current tip); and **new draft #201 opened** (point the Las Palmas landing Menu action at the restaurant's own official Lynnhaven menu PDF — `CI — web` ✅, Vercel Ready, **held as a draft**). No red builds anywhere; nothing needed fixing. Other default branches unchanged — vbfh master `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — all re-verified via API. **VBFH Daily Run stays GREEN** — today's run **08-02 13:35 UTC SUCCEEDED (~fourteen in a row)**. `CI — web` on main ✅ (08-02 14:25 UTC, the #200 push; 13:35 UTC the #199 push); vbfh CI ✅ (master push 07-30 12:54 UTC); voice-gateway CI path-filtered (no recent run — nothing touched its paths). No newly opened human review comments (only Vercel bot on #201), no merge-conflict/base-branch notices anywhere. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone.
+**Last updated:** 2026-08-03 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green.** **Nothing changed since the 08-02 evening run** — no new merges, no new PRs, no new human review comments, no CI failures anywhere. `main` unchanged at `15edd95`; vbfh master `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — all re-verified via API. Both open drafts still held & green: **#201** (Las Palmas Menu → official Lynnhaven PDF, `CI — web` ✅ / Vercel Ready) and **#197** (Odyssey Daily Day 06, docs-only, Vercel Ready). **VBFH Daily Run stays GREEN** — latest run **08-02 13:35 UTC SUCCEEDED (~fourteen in a row)**; the 08-03 run had not yet fired at check time (fires ~13:35–14:17 UTC). `CI — web` on main ✅ (08-02 14:25 UTC, the #200 push); vbfh CI ✅ (master push 07-30 12:54 UTC); voice-gateway CI path-filtered (no recent run — nothing touched its paths). No new review comments (only the Vercel bot on #201/#197), no merge-conflict/base-branch notices anywhere. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -57,7 +57,7 @@ dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-02, evening)
+## Build health (as of 2026-08-03, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
@@ -148,6 +148,15 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-03 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
+  changed and nothing needed fixing.** No new merges, PRs, or human review comments since the 08-02 evening
+  run. `main` unchanged at `15edd95`; vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37` — all
+  re-verified via API. Both open drafts still held & green (#201 Las Palmas menu-link `CI — web` ✅;
+  #197 Odyssey Day-06 docs, Vercel Ready). **VBFH Daily Run — latest 08-02 13:35 UTC ✅ (~fourteen in a
+  row); today's 08-03 run not yet fired at check time.** `CI — web` on main ✅ (08-02 14:25 UTC). Only
+  Vercel-bot comments on the drafts; no merge-conflict/base-branch notices. #29 stays closed. Branch cleanup
+  still 403-blocked (awaiting Anthony's local paste). Standing items for Anthony unchanged (SMTP secrets,
+  Runway credits Day 06, image-QA routine decision, grant submission, the #201 draft decision, branch cleanup).
 - **2026-08-02 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **Checked, all four repos green,
   nothing needed fixing.** Three changes since the morning run, all amma: **#199 merged by Anthony**
   (AJ Gator's landing-hub refocus, squash `bb0cb42`), **#200 merged by Anthony** (simplify Las Palmas
