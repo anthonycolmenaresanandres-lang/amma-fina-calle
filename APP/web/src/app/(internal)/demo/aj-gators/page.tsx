@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Baloo_2, Luckiest_Guy } from "next/font/google";
 import GameHub from "./GameHub";
-import { cocktailFeatures, seasonalSpecials, weeklySpecials } from "./menu-data";
+import GuestNoteForm from "./GuestNoteForm";
+import { cocktailFeatures, seasonalSpecials, weeklySpecials, weeklySpecialsStatus } from "./menu-data";
 import styles from "./portal.module.css";
 
 // Brand type matched to the official logo: "Gator's" is bouncy chunky cartoon
@@ -62,56 +63,49 @@ export default function AjGatorsDemoPage(): React.JSX.Element {
           </div>
           <nav id="actions" className={styles.heroActions} aria-label="Guest portal">
             <a className={styles.heroAction} href={liveMenuUrl} target="_blank" rel="noreferrer">
-              <span>Menu</span><span aria-hidden="true">↗</span>
-            </a>
-            <a className={styles.heroAction} href="#games">
-              <span>Games</span><span aria-hidden="true">↓</span>
+              Menu
             </a>
             <a className={styles.heroAction} href="#specials">
-              <span>Promotions</span><span aria-hidden="true">↓</span>
+              Promotions
+            </a>
+            <a className={styles.heroAction} href="#games">
+              Games
             </a>
           </nav>
         </div>
       </header>
 
-      <section id="games" className={`${styles.anchorTarget} ${styles.gamesSection}`} aria-labelledby="games-title">
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.eyebrow}>Pick one</p>
-            <h2 id="games-title" className={styles.sectionTitle}>Games</h2>
-          </div>
-          <GameHub />
-        </div>
-      </section>
-
       <section id="specials" className={`${styles.anchorTarget} ${styles.specialsSection}`} aria-labelledby="specials-title">
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
-            <p className={styles.eyebrow}>Holland Road</p>
+            <p className={styles.eyebrow}>This week on Holland Road</p>
             <h2 id="specials-title" className={styles.sectionTitle}>Promotions</h2>
           </div>
 
-          <div className={styles.specialsGrid}>
+          <div className={styles.promoBoard}>
             {weeklySpecials.map((special) => (
-              <article key={special.day} className={styles.specialRow}>
-                <p className={styles.specialDay}>{special.day}</p>
-                <h3 className={styles.specialTitle}>{special.title}</h3>
-                <p className={styles.specialDetail}>{special.detail}</p>
-                <p className={styles.specialStatus}>{special.status}</p>
+              <article key={special.day} className={styles.promoRow}>
+                <p className={styles.promoDay}>{special.day}</p>
+                <div className={styles.promoHeadline}>
+                  <h3 className={styles.promoTitle}>{special.title}</h3>
+                  <strong className={styles.promoDeal}>{special.deal}</strong>
+                </div>
+                <p className={styles.promoDetail}>{special.detail}</p>
               </article>
             ))}
           </div>
+          <p className={styles.promoStatus}>{weeklySpecialsStatus}</p>
 
           <div className={styles.featureGrid}>
             <div>
               <p className={styles.eyebrow}>Seasonal</p>
               {seasonalSpecials.map((special) => (
-                <article key={special.title} className={styles.specialRow}>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h3 className={styles.specialTitle}>{special.title}</h3>
-                    <strong className={styles.menuPrice}>{special.price}</strong>
+                <article key={special.title} className={styles.promoRow}>
+                  <div className={styles.promoHeadline}>
+                    <h3 className={styles.promoTitle}>{special.title}</h3>
+                    <strong className={styles.promoDeal}>{special.price}</strong>
                   </div>
-                  <p className={styles.specialDetail}>{special.detail}</p>
+                  <p className={styles.promoDetail}>{special.detail}</p>
                 </article>
               ))}
             </div>
@@ -124,6 +118,26 @@ export default function AjGatorsDemoPage(): React.JSX.Element {
               <p className={styles.responsibleNote}>Owner confirmation required. No alcohol rewards.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section id="games" className={`${styles.anchorTarget} ${styles.gamesSection}`} aria-labelledby="games-title">
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <p className={styles.eyebrow}>Pick one</p>
+            <h2 id="games-title" className={styles.sectionTitle}>Games</h2>
+          </div>
+          <GameHub />
+        </div>
+      </section>
+
+      <section id="comments" className={`${styles.anchorTarget} ${styles.commentsSection}`} aria-labelledby="comments-title">
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <p className={styles.eyebrow}>Tell us</p>
+            <h2 id="comments-title" className={styles.sectionTitle}>Leave a comment</h2>
+          </div>
+          <GuestNoteForm />
         </div>
       </section>
 
