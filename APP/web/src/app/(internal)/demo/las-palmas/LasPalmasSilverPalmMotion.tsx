@@ -17,6 +17,8 @@ type ArtworkSample = {
 
 const LOGO_PATH =
   "/assets/laspalmas/brand/las-palmas-original-sign-v1.png?v=20260726b";
+const OFFICIAL_MENU_URL =
+  "https://irp.cdn-website.com/1508c02f/files/uploaded/Las_Palmas_2-_3_-_4_Menu_2025.pdf";
 
 const clamp = (value: number, minimum = 0, maximum = 1) =>
   Math.min(maximum, Math.max(minimum, value));
@@ -473,9 +475,14 @@ export default function LasPalmasSilverPalmMotion(): React.JSX.Element {
           </h2>
         </div>
         <nav className={styles.primaryActions} aria-label="Las Palmas guest portal">
-          <Link href="#menu" className={styles.primaryAction}>
+          <a
+            href={OFFICIAL_MENU_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.primaryAction}
+          >
             Menu
-          </Link>
+          </a>
           <Link
             href="/penalty-shootout?skin=laspalmas"
             className={styles.primaryAction}
