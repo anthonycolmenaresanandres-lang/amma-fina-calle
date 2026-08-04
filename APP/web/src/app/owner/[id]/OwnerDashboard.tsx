@@ -9,8 +9,6 @@ import {
   Image as ImageIcon,
   LogOut,
   Megaphone,
-  Paperclip,
-  Plus,
   Star,
   Upload,
   UtensilsCrossed,
@@ -36,6 +34,7 @@ import type { PaymentNotice, ZelleInstructions } from "@/lib/zelle/types";
 import AskBar from "./AskBar";
 import BillingCard from "./BillingCard";
 import ZellePaymentCard from "./ZellePaymentCard";
+import styles from "./owner-portal.module.css";
 
 const COLATTAO_MENU_URL = "https://colattao-cafe-rush.vercel.app/menu";
 
@@ -126,13 +125,13 @@ function StatCard({
   };
 
   return (
-    <div className={cn("rounded-2xl border p-4", tones[tone])}>
+    <div className={cn(styles.statCard, tones[tone])}>
       <p className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#7f8a91]">
         {icon}
         {label}
       </p>
-      <p className="mt-2 text-2xl font-semibold text-[#f4f6f7]">{value}</p>
-      <p className="mt-1 text-xs leading-5 text-[#aeb7bd]">{detail}</p>
+      <p className={styles.statValue}>{value}</p>
+      <p className={styles.statDetail}>{detail}</p>
     </div>
   );
 }
@@ -159,36 +158,37 @@ function CommandOverview({
       <SectionHeading
         tone="accent"
         icon={<Gauge size={13} strokeWidth={1.75} aria-hidden />}
-        hint="live controls"
+        hint="live"
       >
-        Command status
+        <span className={styles.frameNumber}>03</span>
+        Live
       </SectionHeading>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className={styles.statusGrid}>
         <StatCard
           label="Menu"
           value={`${liveItems}/${totalItems}`}
-          detail="items currently visible to customers"
+          detail="visible"
           icon={<UtensilsCrossed size={12} strokeWidth={1.75} aria-hidden />}
           tone="success"
         />
         <StatCard
           label="Photos"
           value={String(missingPhotos)}
-          detail="items still missing customer-facing photos"
+          detail="missing"
           icon={<ImageIcon size={12} strokeWidth={1.75} aria-hidden />}
           tone={missingPhotos > 0 ? "gold" : "success"}
         />
         <StatCard
           label="86 list"
           value={String(unavailableItems)}
-          detail="items hidden until brought back"
+          detail="hidden"
           icon={<EyeOff size={12} strokeWidth={1.75} aria-hidden />}
           tone={unavailableItems > 0 ? "danger" : "neutral"}
         />
         <StatCard
           label="Campaigns"
           value={String(livePromos)}
-          detail="promos currently marked live"
+          detail="live"
           icon={<Megaphone size={12} strokeWidth={1.75} aria-hidden />}
           tone={livePromos > 0 ? "gold" : "neutral"}
         />
@@ -196,37 +196,15 @@ function CommandOverview({
       <div className="mt-4 flex flex-wrap gap-2">
         <ButtonLink href={publicMenuHref(restaurantId)} variant="accent">
           <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-          View live menu
+          Live menu
         </ButtonLink>
         {siteUrl ? (
           <ButtonLink href={siteUrl} variant="ghost">
             <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-            Open public site
+            Public site
           </ButtonLink>
         ) : null}
       </div>
-    </Panel>
-  );
-}
-
-function SeasonalOpportunity({ prompt }: { prompt: string }) {
-  return (
-    <Panel className="relative overflow-hidden border-[#7fd1a2]/20">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_88%_-30%,rgba(127,209,162,0.14),transparent_46%)]" />
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#9fe5bd]">
-          Coming up - Summer
-        </p>
-        <StatusPill tone="accent">From Fina Calle</StatusPill>
-      </div>
-      <h2 className="mt-2 text-xl font-semibold text-[#f4f6f7]">Summer is here</h2>
-      <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        The fastest move is to push colder drinks and lighter food first. Use the Request Desk
-        above with a direct ask like <span className="text-[#eef2f4]">{prompt}</span>.
-      </p>
-      <p className="mt-3 text-[0.68rem] uppercase tracking-[0.14em] text-[#7f8a91]">
-        Owner confirms before anything goes live
-      </p>
     </Panel>
   );
 }
@@ -263,8 +241,8 @@ function FeaturedSlot({
   readOnly: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-white/[0.07] bg-[#0b0f12]/70 p-3.5">
-      <div className="flex gap-3.5">
+    <div className={cn(styles.itemCard, "border border-white/[0.07] p-3.5")}>
+      <div className={styles.itemLayout}>
         {item.photo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -278,7 +256,7 @@ function FeaturedSlot({
           </div>
         )}
 
-        <div className="min-w-0 flex-1">
+        <div className={styles.itemContent}>
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-[#eef2f4]">{item.name}</p>
@@ -321,9 +299,9 @@ function FeaturedSlot({
                   key={size.label}
                   action={updateItemSizePrice.bind(null, restaurantId, item.id, size.label)}
                   readOnly={readOnly}
-                  className="flex items-center gap-2"
+                  className={styles.priceRow}
                 >
-                  <span className="w-16 shrink-0 text-[0.7rem] font-medium uppercase tracking-[0.1em] text-[#9aa3a9]">
+                  <span className={styles.sizeLabel}>
                     {size.label}
                   </span>
                   <span className="text-sm text-[#7f8a91]">$</span>
@@ -348,7 +326,7 @@ function FeaturedSlot({
             <Editable
               action={updateItemText.bind(null, restaurantId, item.id, "price")}
               readOnly={readOnly}
-              className="mt-2 flex items-center gap-2"
+              className={cn(styles.priceRow, "mt-2")}
             >
               <span className="text-sm text-[#7f8a91]">$</span>
               <Field
@@ -386,6 +364,7 @@ function FeaturedSlot({
           <input
             name="image"
             type="file"
+            aria-label={`Upload photo for ${item.name}`}
             accept="image/jpeg,image/png,image/webp"
             className="block max-w-[12rem] text-xs text-[#c8d0d4] file:mr-2 file:rounded-full file:border-0 file:bg-[#4f9dff] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#04121f]"
           />
@@ -412,6 +391,15 @@ const FIELD_LABELS: Record<string, string> = {
   close_time: "closing time",
   is_closed: "open/closed",
 };
+
+const OWNER_SECTIONS = [
+  { number: "01", label: "Request", href: "#owner-request" },
+  { number: "02", label: "Menu", href: "#owner-menu" },
+  { number: "03", label: "Live", href: "#owner-live" },
+  { number: "04", label: "Campaigns", href: "#owner-campaigns" },
+  { number: "05", label: "Billing", href: "#owner-billing" },
+  { number: "06", label: "History", href: "#owner-history" },
+] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
 function fieldLabel(name: string): string {
@@ -449,31 +437,32 @@ export default function OwnerDashboard({
   const missingPhotos = allItems.filter((item) => !item.photo_url).length;
   const livePromos = data.promos.filter((promo) => promo.is_active).length;
   const suggestedPrompts = getSuggestedPrompts(allItems);
-  const seasonalPrompt = suggestedPrompts[suggestedPrompts.length - 1] ?? "feature iced drinks this weekend";
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-5">
-      {/* Header */}
-      <header className="flex flex-wrap items-center justify-between gap-4 px-1">
-        <div className="flex flex-col gap-2">
-          <Eyebrow>Owner dashboard</Eyebrow>
-          {data.logo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={data.logo}
-              alt={data.businessName}
-              className="h-11 w-auto select-none sm:h-12"
-            />
-          ) : (
-            <h1 className="text-xl font-semibold leading-tight text-[#f4f6f7]">
-              {data.businessName}
-            </h1>
-          )}
+    <div className={styles.dashboard}>
+      <header className={styles.masthead}>
+        <div className={styles.brandBlock}>
+          <Eyebrow>Private owner portal</Eyebrow>
+          <div className={styles.brandLockup}>
+            {data.logo ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={data.logo}
+                  alt=""
+                  className={styles.brandLogo}
+                />
+                <h1 className="sr-only">{data.businessName}</h1>
+              </>
+            ) : (
+              <h1 className={styles.brandName}>{data.businessName}</h1>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={styles.utilityActions}>
           <ButtonLink href={publicMenuHref(data.restaurantId)} variant="ghost">
             <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-            View menu
+            Menu
           </ButtonLink>
           {readOnly ? (
             <Button variant="subtle" disabled>
@@ -491,8 +480,109 @@ export default function OwnerDashboard({
         </div>
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <aside className="space-y-5 lg:sticky lg:top-6">
+      <nav className={styles.sectionIndex} aria-label="Owner portal sections">
+        <p className={styles.indexCaption}>Jump to</p>
+        <ol className={styles.indexList}>
+          {OWNER_SECTIONS.map((section) => (
+            <li key={section.href}>
+              <a className={styles.indexLink} href={section.href}>
+                <span className={styles.indexNumber} aria-hidden="true">
+                  {section.number}
+                </span>
+                <span>{section.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div className={styles.board}>
+        <section
+          id="owner-request"
+          aria-label="Request"
+          tabIndex={-1}
+          className={cn(styles.requestFrame, styles.sectionAnchor)}
+        >
+          <AskBar
+            restaurantId={data.restaurantId}
+            items={allItems.map((item) => ({
+              name: item.name,
+              price: item.price,
+              is_available: item.is_available,
+            }))}
+            demo={readOnly}
+            suggestedPrompts={suggestedPrompts}
+          />
+        </section>
+
+        <section
+          id="owner-menu"
+          aria-label="Menu"
+          tabIndex={-1}
+          className={cn(styles.menuFrame, styles.sectionAnchor)}
+        >
+          <Panel>
+            <SectionHeading
+              tone="accent"
+              icon={<Star size={13} strokeWidth={1.75} aria-hidden />}
+              hint={`${allItems.length} items`}
+            >
+              <span className={styles.frameNumber}>02</span>
+              Quick edits
+            </SectionHeading>
+            <p className="mt-3 text-sm text-[#aeb7bd]">
+              Price · photo · availability. Saved changes go live immediately.
+            </p>
+            {featured.length > 0 ? (
+              <div className="mt-4 space-y-3">
+                {featured.map((item) => (
+                  <FeaturedSlot
+                    key={item.id}
+                    restaurantId={data.restaurantId}
+                    item={item}
+                    readOnly={readOnly}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="mt-4 text-sm text-[#aeb7bd]">No menu items yet.</p>
+            )}
+
+            {allItems.length > featured.length ? (
+              <details>
+                <summary className={styles.menuSummary}>
+                  All items ({allItems.length})
+                </summary>
+                <div className="mt-3 space-y-5">
+                  {data.categories.map((category) => (
+                    <div key={category.id}>
+                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
+                        {category.name}
+                      </p>
+                      <div className="mt-2 space-y-3">
+                        {category.items.map((item) => (
+                          <FeaturedSlot
+                            key={item.id}
+                            restaurantId={data.restaurantId}
+                            item={{ ...item, category: category.name }}
+                            readOnly={readOnly}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            ) : null}
+          </Panel>
+        </section>
+
+        <section
+          id="owner-live"
+          aria-label="Live status"
+          tabIndex={-1}
+          className={cn(styles.statusFrame, styles.sectionAnchor)}
+        >
           <CommandOverview
             restaurantId={data.restaurantId}
             siteUrl={data.siteUrl}
@@ -502,6 +592,56 @@ export default function OwnerDashboard({
             unavailableItems={unavailableItems}
             livePromos={livePromos}
           />
+        </section>
+
+        <section
+          id="owner-campaigns"
+          aria-label="Campaigns"
+          tabIndex={-1}
+          className={cn(styles.campaignFrame, styles.sectionAnchor)}
+        >
+          <Panel>
+            <SectionHeading
+              tone="accent"
+              icon={<Megaphone size={13} strokeWidth={1.75} aria-hidden />}
+              hint={`${livePromos}/${data.promos.length} live`}
+            >
+              <span className={styles.frameNumber}>04</span>
+              Campaigns
+            </SectionHeading>
+            <div className="mt-4 space-y-2">
+              {data.promos.length === 0 ? (
+                <p className="text-sm text-[#aeb7bd]">No campaigns yet.</p>
+              ) : (
+                data.promos.map((promo) => (
+                  <div
+                    key={promo.id}
+                    className={cn(
+                      styles.rowCard,
+                      "flex items-center justify-between gap-3 border border-white/[0.06] px-3.5 py-2.5",
+                    )}
+                  >
+                    <p className="min-w-0 truncate text-sm text-[#eef2f4]">{promo.text}</p>
+                    <StatusPill tone={promo.is_active ? "success" : "neutral"}>
+                      {promo.is_active ? "Live" : "Off"}
+                    </StatusPill>
+                  </div>
+                ))
+              )}
+            </div>
+          </Panel>
+        </section>
+
+        <section
+          id="owner-billing"
+          tabIndex={-1}
+          className={cn(styles.moneyFrame, styles.sectionAnchor)}
+          aria-labelledby="owner-billing-heading"
+        >
+          <h2 id="owner-billing-heading" className={styles.frameLabel}>
+            <span className={styles.frameNumber}>05</span>
+            Billing
+          </h2>
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
@@ -518,157 +658,49 @@ export default function OwnerDashboard({
               readOnly={readOnly}
             />
           ) : null}
-          <AskBar
-            restaurantId={data.restaurantId}
-            items={allItems.map((it) => ({
-              name: it.name,
-              price: it.price,
-              is_available: it.is_available,
-            }))}
-            demo={readOnly}
-            suggestedPrompts={suggestedPrompts}
-          />
-          <SeasonalOpportunity prompt={seasonalPrompt} />
-        </aside>
+        </section>
 
-        <div className="space-y-5">
-
-      {/* Featured items — price + photo the customer sees */}
-      <Panel>
-        <SectionHeading
-          tone="accent"
-          icon={<Star size={13} strokeWidth={1.75} aria-hidden />}
-          hint={`${allItems.length} on menu`}
+        <section
+          id="owner-history"
+          aria-label="History"
+          tabIndex={-1}
+          className={cn(styles.activityFrame, styles.sectionAnchor)}
         >
-          Featured items
-        </SectionHeading>
-        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
-          Your key items — change the price or upload a photo and it updates your live menu right
-          away. For anything else, just ask above.
-        </p>
-        {featured.length > 0 ? (
-          <div className="mt-4 space-y-3">
-            {featured.map((item) => (
-              <FeaturedSlot
-                key={item.id}
-                restaurantId={data.restaurantId}
-                item={item}
-                readOnly={readOnly}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-4 text-sm text-[#aeb7bd]">No menu items yet.</p>
-        )}
-
-        {allItems.length > featured.length ? (
-          <details className="group mt-3">
-            <summary className="cursor-pointer list-none text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#cfd6da]/70 transition hover:text-white">
-              Manage all items ({allItems.length}) — price &amp; photos →
-            </summary>
-            <div className="mt-3 space-y-5">
-              {data.categories.map((cat) => (
-                <div key={cat.id}>
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
-                    {cat.name}
-                  </p>
-                  <div className="mt-2 space-y-3">
-                    {cat.items.map((it) => (
-                      <FeaturedSlot
-                        key={it.id}
-                        restaurantId={data.restaurantId}
-                        item={{ ...it, category: cat.name }}
-                        readOnly={readOnly}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </details>
-        ) : null}
-      </Panel>
-
-      {/* Campaigns */}
-      <Panel>
-        <SectionHeading
-          tone="accent"
-          icon={<Megaphone size={13} strokeWidth={1.75} aria-hidden />}
-          hint={`${data.promos.length} active`}
-        >
-          Campaigns
-        </SectionHeading>
-        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
-          Promotions and seasonal pushes. Start one by asking above, or approve a “Coming up”
-          proposal.
-        </p>
-        <div className="mt-4 space-y-2">
-          {data.promos.map((promo) => (
-            <div
-              key={promo.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-[#0b0f12]/70 px-3.5 py-2.5"
+          <Panel>
+            <SectionHeading
+              tone="accent"
+              icon={<History size={13} strokeWidth={1.75} aria-hidden />}
             >
-              <p className="min-w-0 truncate text-sm text-[#eef2f4]">{promo.text}</p>
-              <StatusPill tone={promo.is_active ? "success" : "neutral"}>
-                {promo.is_active ? "Live" : "Off"}
-              </StatusPill>
-            </div>
-          ))}
-          <Button variant="ghost" className="mt-1 w-full sm:w-auto" disabled={readOnly}>
-            <Plus size={14} strokeWidth={1.75} aria-hidden />
-            New campaign
-          </Button>
-        </div>
-      </Panel>
-
-      {/* Attach (bigger changes → review) */}
-      <Panel className="border-dashed border-white/12 bg-white/[0.015]">
-        <p className="flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#4f9dff]">
-          <Paperclip size={12} strokeWidth={1.75} aria-hidden />
-          Bigger change?
-        </p>
-        <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">
-          A whole new menu, a new design, or a photo? Attach it and the Fina Calle team takes it
-          from there.
-        </p>
-        <Button variant="ghost" className="mt-4" disabled={readOnly}>
-          <Paperclip size={14} strokeWidth={1.75} aria-hidden />
-          Attach a file
-        </Button>
-      </Panel>
-
-      {/* Recent activity */}
-      <Panel>
-        <SectionHeading tone="accent" icon={<History size={13} strokeWidth={1.75} aria-hidden />}>
-          Recent activity
-        </SectionHeading>
-        {data.audit.length === 0 ? (
-          <p className="mt-4 text-sm text-[#aeb7bd]">No changes recorded yet.</p>
-        ) : (
-          <ul className="mt-4 space-y-2">
-            {data.audit.map((entry) => (
-              <li
-                key={entry.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-3.5 py-2.5 text-sm"
-              >
-                <span className="text-[#c8d0d4]">
-                  {fieldLabel(entry.field_name)} → {entry.new_value ?? "—"}
-                </span>
-                <span className="shrink-0 text-[0.7rem] text-[#7f8a91]">
-                  {timeAgo(entry.created_at)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Panel>
-
-        </div>
+              <span className={styles.frameNumber}>06</span>
+              History
+            </SectionHeading>
+            {data.audit.length === 0 ? (
+              <p className="mt-4 text-sm text-[#aeb7bd]">Nothing yet.</p>
+            ) : (
+              <ul className="mt-4 space-y-2">
+                {data.audit.map((entry) => (
+                  <li
+                    key={entry.id}
+                    className={cn(
+                      styles.rowCard,
+                      "flex items-center justify-between gap-3 border border-white/[0.05] px-3.5 py-2.5 text-sm",
+                    )}
+                  >
+                    <span className="text-[#c8d0d4]">
+                      {fieldLabel(entry.field_name)} → {entry.new_value ?? "—"}
+                    </span>
+                    <span className="shrink-0 text-[0.7rem] text-[#7f8a91]">
+                      {timeAgo(entry.created_at)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Panel>
+        </section>
       </div>
 
-      <p className="px-1 pb-2 text-center text-[0.62rem] uppercase tracking-[0.18em] text-[#7f8a91]/70">
-        Fina Calle OS
-      </p>
+      <p className={styles.footerMark}>Fina Calle OS · Private workspace</p>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
 } from "@/lib/owner/request-desk/actions";
 import { Loader2, Send, Sparkles } from "lucide-react";
 import { Chip, Panel, buttonClass, cn } from "@/components/ui";
+import styles from "./owner-portal.module.css";
 
 /**
  * The AI Request Desk — the owner's primary surface. Type a change in plain
@@ -133,31 +134,29 @@ export default function AskBar({
   }
 
   return (
-    <Panel className="relative overflow-hidden border-[#4f9dff]/18">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(79,157,255,0.16),transparent_44%)]" />
-      <p className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#4f9dff]">
+    <Panel className={styles.requestSurface}>
+      <p className={styles.requestKicker}>
+        <span className={styles.frameNumber}>01</span>
         <Sparkles size={13} strokeWidth={2} aria-hidden />
-        AI Request Desk
+        Request desk
       </p>
-      <h2 className="mt-2 text-2xl font-semibold text-[#f4f6f7]">Ask for any change</h2>
-      <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        Just say it — “86 the Flan Latte”, “change the Mocha to $8”. You preview and confirm
-        before anything goes live.
-      </p>
+      <h2 className={styles.requestTitle}>Make a change.</h2>
+      <p className={styles.requestIntro}>Type it. Preview it. Confirm it.</p>
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (interactive) analyze(text);
         }}
-        className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#4f9dff]/55 focus-within:ring-2 focus-within:ring-[#4f9dff]/20"
+        className={styles.requestForm}
       >
         <Sparkles size={15} strokeWidth={1.75} aria-hidden className="shrink-0 text-[#4f9dff]/80" />
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           disabled={!interactive || pending}
-          placeholder="What would you like to change today?"
+          autoComplete="off"
+          placeholder="What should change…"
           className="min-w-0 flex-1 bg-transparent text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none disabled:opacity-70"
           aria-label="Ask for a change"
         />
@@ -165,7 +164,10 @@ export default function AskBar({
           type="submit"
           disabled={!interactive || !text.trim() || pending}
           aria-label="Send"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f9dff] text-[#04121f] shadow-[0_8px_20px_-8px_rgba(79,157,255,0.75)] transition hover:bg-[#7ab8ff] disabled:cursor-not-allowed disabled:opacity-50"
+          className={cn(
+            styles.requestSubmit,
+            "flex shrink-0 items-center justify-center transition hover:bg-[#8bbcff] disabled:cursor-not-allowed disabled:opacity-50",
+          )}
         >
           {pending ? (
             <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
@@ -176,7 +178,7 @@ export default function AskBar({
       </form>
 
       {!result && !done ? (
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className={styles.promptList}>
           {chips.map((c) =>
             interactive ? (
               <button
@@ -187,19 +189,28 @@ export default function AskBar({
                   setText(c);
                   analyze(c);
                 }}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-[#c8d0d4] transition hover:border-[#4f9dff]/50 hover:text-white disabled:opacity-50"
+                className={cn(
+                  styles.promptButton,
+                  "px-3 py-1.5 transition hover:border-[#78aef8] hover:text-white disabled:opacity-50",
+                )}
               >
                 {c}
               </button>
             ) : (
-              <Chip key={c}>{c}</Chip>
+              <Chip key={c} className={styles.promptButton}>{c}</Chip>
             ),
           )}
         </div>
       ) : null}
 
       {result?.kind === "apply" ? (
-        <div className="mt-3 rounded-2xl border border-[#4f9dff]/30 bg-[#4f9dff]/8 px-4 py-3">
+        <div
+          aria-live="polite"
+          className={cn(
+            styles.responseCard,
+            "mt-3 border border-[#4f9dff]/30 bg-[#4f9dff]/8 px-4 py-3",
+          )}
+        >
           <p className="text-sm font-semibold text-[#bfdcff]">{result.title}</p>
           <p className="mt-1 text-sm text-[#cfe0f5]/90">{result.detail}</p>
           <div className="mt-3 flex gap-2">
@@ -214,7 +225,13 @@ export default function AskBar({
       ) : null}
 
       {result?.kind === "review" ? (
-        <div className="mt-3 rounded-2xl border border-white/12 bg-white/[0.03] px-4 py-3">
+        <div
+          aria-live="polite"
+          className={cn(
+            styles.responseCard,
+            "mt-3 border border-white/12 bg-white/[0.03] px-4 py-3",
+          )}
+        >
           <p className="text-sm text-[#c8d0d4]">{result.reason}</p>
           <div className="mt-3 flex gap-2">
             <button type="button" onClick={confirm} disabled={pending} className={buttonClass("primary")}>
@@ -228,7 +245,13 @@ export default function AskBar({
       ) : null}
 
       {done ? (
-        <div className={cn("mt-3 flex items-center justify-between gap-3 rounded-2xl border px-4 py-3", "border-[#7fd1a2]/35 bg-[#173a2b]/45 text-[#bdf0d4]")}>
+        <div
+          aria-live="polite"
+          className={cn(
+            styles.responseCard,
+            "mt-3 flex items-center justify-between gap-3 border border-[#7fd1a2]/35 bg-[#173a2b]/45 px-4 py-3 text-[#bdf0d4]",
+          )}
+        >
           <p className="text-sm font-medium">{done}</p>
           <button type="button" onClick={reset} className={buttonClass("ghost", "shrink-0")}>
             Done

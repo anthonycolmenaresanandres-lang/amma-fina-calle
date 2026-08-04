@@ -18,6 +18,68 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-04 19:53 EDT - Owner portal production release
+
+- Authority: Anthony explicitly approved merge of the reviewed owner-portal comic redesign and prioritized section index.
+- State: branch `codex/owner-portal-comic-20260804` is clean at `422ac7e`, exactly two commits ahead of current `origin/main` (`559f616`), and no pull request exists. `origin/main` is an ancestor, so no rebase is required.
+- Release lock: publish this exact reviewed owner presentation through a ready PR, require green remote checks, verify the PR head immediately before an exact-head merge, then confirm the production deployment and live `/owner/colattao` auth-gated route.
+- Boundaries: no authentication, action, payment, database, menu-data, API, access, secret, `/owner-preview`, customer-contact, or unrelated protected-surface change. Do not bypass a failed check or weakened branch protection.
+- Evidence carried forward: targeted ESLint, `tsc --noEmit`, owner-app self-test, production build, `git diff --check`, six-link navigation, reduced-motion, keyboard, and 320/390/1440 browser gates passed on the reviewed head.
+
+### [CHECK-OUT] Codex - 2026-08-04 19:24 EDT - Owner feature priority and section index
+
+- Did: reordered the shared owner dashboard to `Request -> Menu -> Live -> Campaigns -> Billing -> History` and added a connected 6-link order-ticket index with native anchors, matching numbers, focusable targets, scroll margin, and target highlighting.
+- State now: all 6 links set the correct hash, focus the correct section, and keep it visible; the index is a 2 × 3 grid at 320/390 px and one row at 1440 px with exact viewport width and no browser page errors.
+- Quality: targeted ESLint, `tsc --noEmit`, owner-app self-test, final Next.js production build, `git diff --check`, keyboard focus, reduced motion, and independent review pass. Photo-upload naming and async auth announcements were also corrected without behavior changes.
+- Evidence: `C:\Dev\amma\evidence\owner-portal-comic-20260804\QA_REPORT.md` plus `index-order-full-320x800.png`, `index-order-full-390x844-r02.png`, and `index-order-full-1440x900-r02.png`.
+- Next / handoff to: Anthony - review the local index/order evidence and authorize a push/preview PR only if approved.
+- Blocked on Anthony: push, PR, preview publication, merge, deploy, and production approval.
+
+### [RELEASE GATE] Codex - 2026-08-04 19:24 EDT - Owner index local review
+
+- Scope remained presentation, semantic navigation, and ARIA metadata inside shared `/owner/[id]`; every existing action binding, form, auth boundary, billing/Zelle condition, tenant rule, menu URL, and read-only path is unchanged.
+- The first desktop pass exposed a large empty Campaigns gutter; the final layout uses full-width Campaigns, responsive Billing cards, and full-width History with no unresolved visual finding.
+- Boundary: local follow-up commit only. No push, PR, merge, deploy, production publication, access change, customer contact, or payment action.
+
+### [CHECK-IN] Codex - 2026-08-04 19:12 EDT - Owner feature priority and section index
+
+- Authority: Anthony requested a restaurant-owner-interest feature order and a polished working index menu for the owner portal.
+- State: continuing the clean local branch `codex/owner-portal-comic-20260804`, one commit ahead of `origin/main`; production and the canonical checkout remain untouched.
+- Priority lock: `01 Request -> 02 Menu -> 03 Live -> 04 Campaigns -> 05 Billing -> 06 History`. Broad and direct operating changes come before passive status; campaigns, service billing, and audit follow.
+- Index lock: one route-scoped, connected order-ticket rail beneath the masthead with six native anchor links, semantic section IDs, 44 px targets, visible focus, scroll margin, and a fully visible mobile grid.
+- Boundaries: presentation/order/navigation only. Preserve every owner action, form, auth boundary, billing/Zelle qualifier, tenant rule, menu URL, and read-only path. No push, PR, merge, deploy, or production change.
+- Plan: reorder semantic DOM and grid areas, style the index, verify all six links by keyboard and click at mobile/desktop widths, rerun code gates, and stop at a local commit.
+
+### [CHECK-OUT] Codex - 2026-08-04 17:26 EDT - Shared owner-portal comic redesign
+
+- Did: redesigned the shared `/owner/[id]` experience as a high-contrast, minimal-copy comic command center; placed Request Desk first; preserved tenant logo/name behavior and all existing auth, request, billing, payment, and menu actions.
+- State now: signed-out, reset, setup, long-name, authenticated read-only, safe request-preview, keyboard-focus, reduced-motion, 320/390/1440 responsive, and representative route-smoke checks pass. The temporary QA route is deleted.
+- Evidence: `C:\Dev\amma\evidence\owner-portal-comic-20260804\QA_REPORT.md` and its referenced screenshots.
+- Next / handoff to: Anthony - review the local evidence and authorize a push/preview PR only if the visual direction is approved.
+- Blocked on Anthony: push, PR, preview publication, merge, deploy, and production approval.
+
+### [RELEASE GATE] Codex - 2026-08-04 17:26 EDT - Owner portal local review
+
+- Code: targeted ESLint, `tsc --noEmit`, owner-app manifest self-test, Next.js 16.2.11 production build, and `git diff --check` pass after deleting the temporary QA route.
+- Browser: production hydration and password visibility pass; layouts equal viewport width at 320, 390, and 1440 px; every 320 px Quick Edit number input and Save control is fully visible; no Next error overlay or page errors; skip navigation, Sapphire focus treatment, reduced motion, and deterministic read-only request preview pass.
+- Route safety: `/owner/colattao`, its manifest and icon, `/`, `/m/colattao`, `/customers`, and `/conquest` returned local production HTTP 200. No protected route or server-action implementation changed.
+- Boundary: local review commit only. No push, PR, merge, deploy, production publication, access change, customer contact, or payment action.
+
+### [CHECK-IN] Codex - 2026-08-04 16:39 EDT - Shared owner-portal comic redesign
+
+- Authority: Anthony requested a planned and executed redesign of all shared owner portals using the public landing page principles: minimal words, high contrast, and comic-book styling.
+- State: clean isolated branch `codex/owner-portal-comic-20260804` from current `origin/main` at `559f616`; canonical checkout remains untouched.
+- Scope: presentation and concise interface copy inside shared `/owner/[id]` states only. Preserve tenant logo/name substitution and all authentication, authorization, request, billing, payment, menu, and data behavior.
+- Exclusions: public landing, `/m`, `/owner-preview`, customers, APIs, route handlers, manifests/icons, database, secrets, access, push, PR, merge, deploy, and production.
+- Plan: derive route-scoped tokens and hierarchy from the live landing implementation; implement an action-first command layout; verify signed-out, reset, authenticated, responsive, focus, reduced-motion, lint, types, build, and browser behavior; stop with a local review handoff.
+
+### [DESIGN LOCK] Codex - 2026-08-04 16:39 EDT - Owner command hierarchy
+
+- Visual system: landing-derived Ink, Paper, Gold, and Sapphire; Bodoni Moda display moments; Geist controls; Geist Mono issue labels; restrained halftone and registration-line texture.
+- Order: restaurant identity -> `01 / Make a change` -> `02 / Now` -> `03 / Quick edits` -> `04 / Campaigns` -> `05 / Money` -> `06 / Recent changes`.
+- Signature: a numbered counter strip with angular frames and hard offset shadows. No speech bubbles, novelty fonts, particles, invented workflow status, or decorative motion.
+- Copy boundary: remove redundant seasonal/attachment promotion and shorten operational guidance; retain every security, confirmation, billing, payment-verification, and customer-impact qualifier.
+
 ## [CHECK-OUT] Codex - 2026-08-01 - A.J. Gator's landing hub review ready
 
 - Delivered: commit `3104c58` is pushed on `codex/aj-gators-landing-hub-20260801`; draft PR #199 targets `main` and passed GitHub web CI, Vercel deployment, and Vercel Preview Comments on that exact head.

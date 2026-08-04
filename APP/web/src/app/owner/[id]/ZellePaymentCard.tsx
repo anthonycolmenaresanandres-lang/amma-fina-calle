@@ -52,7 +52,7 @@ export default function ZellePaymentCard({
         Pay with Zelle
       </SectionHeading>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Use the Bank of America recipient below. Reporting a payment starts AMMA review; it does not mark your account paid.
+        Use the Bank of America recipient below. Report only — AMMA verifies before marking paid.
       </p>
 
       {instructions.configured ? (

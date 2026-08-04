@@ -259,3 +259,31 @@ No task is live until it appears below this line with a current PASS condition.
 **STOP:** Stop before push, PR, merge, deploy, production access, App Store submission, service-worker caching, secret entry, access change, customer communication, or payment action. Report any conflict before editing protected owner or billing behavior.
 
 **Result:** Local commit prepared on `codex/owner-portal-app-20260718`. Manifest self-test, targeted ESLint, `tsc --noEmit`, and two production builds pass. Local production verification confirms tenant manifest linkage, four standard/maskable icon entries, 192/512 PNG output, 320/390 px no-overflow rendering, no browser error overlay, owner `Cache-Control: private, no-cache, no-store`, and public-only caching for manifest/icons. No service worker, database, access, billing, push, PR, merge, deploy, or production change was made.
+
+## [x] 18 - Redesign the shared owner portal as a comic command center
+
+**State:** DONE
+**Codex effort:** HIGH
+**Authority:** Anthony requested planning and execution of a shared owner-portal visual update on 2026-08-04 using the public landing page principles: minimal words, high contrast, and restrained comic-book styling.
+**Branch base:** `codex/owner-portal-comic-20260804`, created from current production `origin/main` at `559f616` in a clean sibling worktree.
+**Scope:** Update only the shared `/owner/[id]` presentation and concise interface copy for its signed-out, password-reset, authenticated dashboard, request, billing, and payment states. Use route-scoped styling so every tenant receives the same system while retaining its own restaurant name and logo.
+**Design direction:** Ink/Paper contrast with Gold and Sapphire registration accents; Bodoni Moda display type with Geist UI text; angular editorial panels, numbered workflow sections, halftone texture, and direct action-first hierarchy. Keep comic references restrained and operational rather than novelty-driven.
+**Boundaries:** No authentication, authorization, server action, database, billing/payment logic, menu data, tenant isolation, API, manifest/icon, customer, public landing, `/m`, `/owner-preview`, secret, access, push, PR, merge, deploy, or production change.
+**PASS:** All owner tenants inherit one route-scoped visual system; signed-out, reset, setup, unauthorized, loading/action-result, and authenticated states remain truthful and functional; words are materially reduced without removing security/payment meaning; 320 px, 390 px, and desktop layouts have no overflow; keyboard focus, contrast, reduced motion, targeted lint, TypeScript, production build, and browser checks pass.
+**STOP:** Stop before push, PR, merge, deploy, or production publication. Stop and report if implementation requires auth, billing, data, route, or protected-surface behavior changes.
+
+**Result:** Completed locally on `codex/owner-portal-comic-20260804`. The shared owner route now uses one tenant-aware, route-scoped comic command system with the Request Desk first, concise operational copy, logo substitution, responsive angular panels, visible keyboard focus, and reduced-motion support. Signed-out, reset, setup, long-name, authenticated read-only, request-preview, and representative protected-route states were browser-verified at 320, 390, and 1440 px. Targeted ESLint, `tsc --noEmit`, owner-app self-test, final production build, and `git diff --check` pass. The temporary QA route was removed. No auth, authorization, action, database, billing/payment logic, menu, API, manifest/icon, customer, landing, `/m`, `/owner-preview`, push, PR, merge, deploy, or production change was made.
+
+## [x] 19 - Prioritize owner features and add a section index
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony requested a restaurant-owner-interest feature order and a polished index menu with working section links on 2026-08-04.
+**Branch base:** Continue `codex/owner-portal-comic-20260804` after local redesign commit `2f9feb2`; production remains unchanged.
+**Scope:** Reorder only the authenticated shared `/owner/[id]` dashboard to Request, Menu, Live, Campaigns, Billing, and History; add a route-scoped semantic section index with native anchor links and matching section IDs.
+**Design direction:** A connected restaurant order-ticket rail beneath the owner masthead, using the existing Ink/Paper/Gold/Sapphire comic system. Six compact links remain fully visible, keyboard reachable, and consistent with the numbered content sections.
+**Boundaries:** Preserve every form, action binding, auth boundary, payment qualifier, tenant condition, menu URL, and read-only behavior. No shared UI/global CSS, route, API, database, manifest/icon, landing, `/m`, `/owner-preview`, push, PR, merge, deploy, or production change.
+**PASS:** DOM, visual order, numbers, labels, index links, and section IDs agree; every link lands on the correct section; 320/390/1440 layouts have no page overflow; anchors, focus, reduced motion, lint, types, owner self-test, production build, and browser checks pass.
+**STOP:** Stop before push, PR, merge, deploy, or production publication. Stop if reordering requires any action, auth, payment, menu-data, or route behavior change.
+
+**Result:** Completed and release-authorized on `codex/owner-portal-comic-20260804`. The dashboard now follows Request, Menu, Live, Campaigns, Billing, and History in both DOM and visual order. A connected order-ticket index exposes 6 native links to unique focusable section targets; every link sets the expected hash, focuses its target, and leaves it visible. The index is 2 × 3 at 320/390 px and one row at 1440 px with zero page overflow. Targeted ESLint, `tsc --noEmit`, owner-app self-test, final production build, `git diff --check`, reduced-motion, keyboard, browser-error, and independent implementation review gates pass. Photo-upload naming and async auth-message announcements were corrected without changing behavior. Anthony explicitly approved merge on 2026-08-04; final PR, merge, deployment, and live-route evidence are recorded in the release handoff and delivery response.
