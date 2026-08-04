@@ -18,6 +18,14 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-04 19:53 EDT - Owner portal production release
+
+- Authority: Anthony explicitly approved merge of the reviewed owner-portal comic redesign and prioritized section index.
+- State: branch `codex/owner-portal-comic-20260804` is clean at `422ac7e`, exactly two commits ahead of current `origin/main` (`559f616`), and no pull request exists. `origin/main` is an ancestor, so no rebase is required.
+- Release lock: publish this exact reviewed owner presentation through a ready PR, require green remote checks, verify the PR head immediately before an exact-head merge, then confirm the production deployment and live `/owner/colattao` auth-gated route.
+- Boundaries: no authentication, action, payment, database, menu-data, API, access, secret, `/owner-preview`, customer-contact, or unrelated protected-surface change. Do not bypass a failed check or weakened branch protection.
+- Evidence carried forward: targeted ESLint, `tsc --noEmit`, owner-app self-test, production build, `git diff --check`, six-link navigation, reduced-motion, keyboard, and 320/390/1440 browser gates passed on the reviewed head.
+
 ### [CHECK-OUT] Codex - 2026-08-04 19:24 EDT - Owner feature priority and section index
 
 - Did: reordered the shared owner dashboard to `Request -> Menu -> Live -> Campaigns -> Billing -> History` and added a connected 6-link order-ticket index with native anchors, matching numbers, focusable targets, scroll margin, and target highlighting.
