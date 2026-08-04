@@ -273,3 +273,17 @@ No task is live until it appears below this line with a current PASS condition.
 **STOP:** Stop before push, PR, merge, deploy, or production publication. Stop and report if implementation requires auth, billing, data, route, or protected-surface behavior changes.
 
 **Result:** Completed locally on `codex/owner-portal-comic-20260804`. The shared owner route now uses one tenant-aware, route-scoped comic command system with the Request Desk first, concise operational copy, logo substitution, responsive angular panels, visible keyboard focus, and reduced-motion support. Signed-out, reset, setup, long-name, authenticated read-only, request-preview, and representative protected-route states were browser-verified at 320, 390, and 1440 px. Targeted ESLint, `tsc --noEmit`, owner-app self-test, final production build, and `git diff --check` pass. The temporary QA route was removed. No auth, authorization, action, database, billing/payment logic, menu, API, manifest/icon, customer, landing, `/m`, `/owner-preview`, push, PR, merge, deploy, or production change was made.
+
+## [x] 19 - Prioritize owner features and add a section index
+
+**State:** DONE
+**Codex effort:** MEDIUM
+**Authority:** Anthony requested a restaurant-owner-interest feature order and a polished index menu with working section links on 2026-08-04.
+**Branch base:** Continue `codex/owner-portal-comic-20260804` after local redesign commit `2f9feb2`; production remains unchanged.
+**Scope:** Reorder only the authenticated shared `/owner/[id]` dashboard to Request, Menu, Live, Campaigns, Billing, and History; add a route-scoped semantic section index with native anchor links and matching section IDs.
+**Design direction:** A connected restaurant order-ticket rail beneath the owner masthead, using the existing Ink/Paper/Gold/Sapphire comic system. Six compact links remain fully visible, keyboard reachable, and consistent with the numbered content sections.
+**Boundaries:** Preserve every form, action binding, auth boundary, payment qualifier, tenant condition, menu URL, and read-only behavior. No shared UI/global CSS, route, API, database, manifest/icon, landing, `/m`, `/owner-preview`, push, PR, merge, deploy, or production change.
+**PASS:** DOM, visual order, numbers, labels, index links, and section IDs agree; every link lands on the correct section; 320/390/1440 layouts have no page overflow; anchors, focus, reduced motion, lint, types, owner self-test, production build, and browser checks pass.
+**STOP:** Stop before push, PR, merge, deploy, or production publication. Stop if reordering requires any action, auth, payment, menu-data, or route behavior change.
+
+**Result:** Completed locally on `codex/owner-portal-comic-20260804`. The dashboard now follows Request, Menu, Live, Campaigns, Billing, and History in both DOM and visual order. A connected order-ticket index exposes 6 native links to unique focusable section targets; every link sets the expected hash, focuses its target, and leaves it visible. The index is 2 × 3 at 320/390 px and one row at 1440 px with zero page overflow. Targeted ESLint, `tsc --noEmit`, owner-app self-test, final production build, `git diff --check`, reduced-motion, keyboard, browser-error, and independent implementation review gates pass. Photo-upload naming and async auth-message announcements were corrected without changing behavior. No temporary QA route, action/auth/payment/data change, push, PR, merge, deploy, or production change was made.

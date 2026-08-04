@@ -18,6 +18,30 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-08-04 19:24 EDT - Owner feature priority and section index
+
+- Did: reordered the shared owner dashboard to `Request -> Menu -> Live -> Campaigns -> Billing -> History` and added a connected 6-link order-ticket index with native anchors, matching numbers, focusable targets, scroll margin, and target highlighting.
+- State now: all 6 links set the correct hash, focus the correct section, and keep it visible; the index is a 2 × 3 grid at 320/390 px and one row at 1440 px with exact viewport width and no browser page errors.
+- Quality: targeted ESLint, `tsc --noEmit`, owner-app self-test, final Next.js production build, `git diff --check`, keyboard focus, reduced motion, and independent review pass. Photo-upload naming and async auth announcements were also corrected without behavior changes.
+- Evidence: `C:\Dev\amma\evidence\owner-portal-comic-20260804\QA_REPORT.md` plus `index-order-full-320x800.png`, `index-order-full-390x844-r02.png`, and `index-order-full-1440x900-r02.png`.
+- Next / handoff to: Anthony - review the local index/order evidence and authorize a push/preview PR only if approved.
+- Blocked on Anthony: push, PR, preview publication, merge, deploy, and production approval.
+
+### [RELEASE GATE] Codex - 2026-08-04 19:24 EDT - Owner index local review
+
+- Scope remained presentation, semantic navigation, and ARIA metadata inside shared `/owner/[id]`; every existing action binding, form, auth boundary, billing/Zelle condition, tenant rule, menu URL, and read-only path is unchanged.
+- The first desktop pass exposed a large empty Campaigns gutter; the final layout uses full-width Campaigns, responsive Billing cards, and full-width History with no unresolved visual finding.
+- Boundary: local follow-up commit only. No push, PR, merge, deploy, production publication, access change, customer contact, or payment action.
+
+### [CHECK-IN] Codex - 2026-08-04 19:12 EDT - Owner feature priority and section index
+
+- Authority: Anthony requested a restaurant-owner-interest feature order and a polished working index menu for the owner portal.
+- State: continuing the clean local branch `codex/owner-portal-comic-20260804`, one commit ahead of `origin/main`; production and the canonical checkout remain untouched.
+- Priority lock: `01 Request -> 02 Menu -> 03 Live -> 04 Campaigns -> 05 Billing -> 06 History`. Broad and direct operating changes come before passive status; campaigns, service billing, and audit follow.
+- Index lock: one route-scoped, connected order-ticket rail beneath the masthead with six native anchor links, semantic section IDs, 44 px targets, visible focus, scroll margin, and a fully visible mobile grid.
+- Boundaries: presentation/order/navigation only. Preserve every owner action, form, auth boundary, billing/Zelle qualifier, tenant rule, menu URL, and read-only path. No push, PR, merge, deploy, or production change.
+- Plan: reorder semantic DOM and grid areas, style the index, verify all six links by keyboard and click at mobile/desktop widths, rerun code gates, and stop at a local commit.
+
 ### [CHECK-OUT] Codex - 2026-08-04 17:26 EDT - Shared owner-portal comic redesign
 
 - Did: redesigned the shared `/owner/[id]` experience as a high-contrast, minimal-copy comic command center; placed Request Desk first; preserved tenant logo/name behavior and all existing auth, request, billing, payment, and menu actions.

@@ -163,6 +163,115 @@
   border-bottom: 1px solid rgba(230, 223, 211, 0.26);
 }
 
+.sectionIndex {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.7fr) minmax(0, 5.3fr);
+  isolation: isolate;
+  margin-bottom: 1.35rem;
+  border: 2px solid rgba(230, 223, 211, 0.32);
+  background: #050709;
+  box-shadow:
+    4px 4px 0 rgba(120, 174, 248, 0.24),
+    8px 8px 0 rgba(0, 0, 0, 0.72);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.sectionIndex::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--owner-gold) 0 24%,
+    var(--owner-sapphire) 24% 72%,
+    var(--owner-paper) 72% 100%
+  );
+  content: "";
+}
+
+.indexCaption {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-right: 1px solid rgba(230, 223, 211, 0.22);
+  color: var(--owner-gold);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.indexList {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  background: rgba(230, 223, 211, 0.16);
+  list-style: none;
+}
+
+.indexList > li {
+  min-width: 0;
+  background: #050709;
+}
+
+.indexLink {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 58px;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.72rem;
+  color: var(--owner-paper);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    transform 140ms ease;
+}
+
+.indexLink:hover {
+  background: rgba(120, 174, 248, 0.12);
+  color: var(--owner-porcelain);
+  transform: translateY(-1px);
+}
+
+.indexLink:active {
+  transform: translateY(0);
+}
+
+.indexLink:focus-visible {
+  outline-offset: -4px !important;
+  background: rgba(120, 174, 248, 0.16);
+  color: var(--owner-porcelain);
+}
+
+.indexNumber {
+  flex: none;
+  color: var(--owner-sapphire);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+}
+
+.indexLink:hover .indexNumber {
+  color: var(--owner-gold);
+}
+
 .brandBlock {
   display: grid;
   min-width: 0;
@@ -206,9 +315,10 @@
   display: grid;
   grid-template-columns: minmax(0, 1.14fr) minmax(20rem, 0.86fr);
   grid-template-areas:
-    "request status"
-    "menu money"
-    "campaign money"
+    "request menu"
+    "status menu"
+    "campaign campaign"
+    "money money"
     "activity activity";
   gap: 1.25rem;
   align-items: start;
@@ -233,6 +343,7 @@
 .moneyFrame {
   display: grid;
   grid-area: money;
+  grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
   gap: 1.25rem;
 }
 
@@ -240,8 +351,21 @@
   grid-area: activity;
 }
 
+.sectionAnchor {
+  scroll-margin-block-start: 1rem;
+}
+
+.sectionAnchor:target :global(.fc-panel) {
+  border-color: rgba(200, 170, 114, 0.7) !important;
+}
+
+.sectionAnchor:target > .frameLabel {
+  color: var(--owner-gold);
+}
+
 .frameLabel {
   display: flex;
+  grid-column: 1 / -1;
   align-items: center;
   gap: 0.55rem;
   margin: 0 0 -0.35rem;
@@ -476,12 +600,27 @@ details[open] > .menuSummary::after {
 }
 
 @media (max-width: 960px) {
+  .sectionIndex {
+    display: block;
+  }
+
+  .indexCaption {
+    min-height: 44px;
+    padding-block: 0.65rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(230, 223, 211, 0.22);
+  }
+
+  .indexList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .board {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "request"
-      "status"
       "menu"
+      "status"
       "campaign"
       "money"
       "activity";
@@ -523,6 +662,15 @@ details[open] > .menuSummary::after {
     margin-bottom: 1rem;
   }
 
+  .indexList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .indexLink {
+    min-height: 48px;
+    padding-inline: 0.8rem;
+  }
+
   .brandLockup {
     align-items: flex-end;
   }
@@ -555,6 +703,10 @@ details[open] > .menuSummary::after {
   .board,
   .moneyFrame {
     gap: 1rem;
+  }
+
+  .moneyFrame {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .frameLabel {

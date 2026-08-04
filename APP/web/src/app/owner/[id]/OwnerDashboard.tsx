@@ -160,8 +160,8 @@ function CommandOverview({
         icon={<Gauge size={13} strokeWidth={1.75} aria-hidden />}
         hint="live"
       >
-        <span className={styles.frameNumber}>02</span>
-        Now
+        <span className={styles.frameNumber}>03</span>
+        Live
       </SectionHeading>
       <div className={styles.statusGrid}>
         <StatCard
@@ -364,6 +364,7 @@ function FeaturedSlot({
           <input
             name="image"
             type="file"
+            aria-label={`Upload photo for ${item.name}`}
             accept="image/jpeg,image/png,image/webp"
             className="block max-w-[12rem] text-xs text-[#c8d0d4] file:mr-2 file:rounded-full file:border-0 file:bg-[#4f9dff] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#04121f]"
           />
@@ -390,6 +391,15 @@ const FIELD_LABELS: Record<string, string> = {
   close_time: "closing time",
   is_closed: "open/closed",
 };
+
+const OWNER_SECTIONS = [
+  { number: "01", label: "Request", href: "#owner-request" },
+  { number: "02", label: "Menu", href: "#owner-menu" },
+  { number: "03", label: "Live", href: "#owner-live" },
+  { number: "04", label: "Campaigns", href: "#owner-campaigns" },
+  { number: "05", label: "Billing", href: "#owner-billing" },
+  { number: "06", label: "History", href: "#owner-history" },
+] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
 function fieldLabel(name: string): string {
@@ -470,8 +480,29 @@ export default function OwnerDashboard({
         </div>
       </header>
 
+      <nav className={styles.sectionIndex} aria-label="Owner portal sections">
+        <p className={styles.indexCaption}>Jump to</p>
+        <ol className={styles.indexList}>
+          {OWNER_SECTIONS.map((section) => (
+            <li key={section.href}>
+              <a className={styles.indexLink} href={section.href}>
+                <span className={styles.indexNumber} aria-hidden="true">
+                  {section.number}
+                </span>
+                <span>{section.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       <div className={styles.board}>
-        <div className={styles.requestFrame}>
+        <section
+          id="owner-request"
+          aria-label="Request"
+          tabIndex={-1}
+          className={cn(styles.requestFrame, styles.sectionAnchor)}
+        >
           <AskBar
             restaurantId={data.restaurantId}
             items={allItems.map((item) => ({
@@ -482,28 +513,21 @@ export default function OwnerDashboard({
             demo={readOnly}
             suggestedPrompts={suggestedPrompts}
           />
-        </div>
+        </section>
 
-        <div className={styles.statusFrame}>
-          <CommandOverview
-            restaurantId={data.restaurantId}
-            siteUrl={data.siteUrl}
-            totalItems={allItems.length}
-            liveItems={liveItems}
-            missingPhotos={missingPhotos}
-            unavailableItems={unavailableItems}
-            livePromos={livePromos}
-          />
-        </div>
-
-        <div className={styles.menuFrame}>
+        <section
+          id="owner-menu"
+          aria-label="Menu"
+          tabIndex={-1}
+          className={cn(styles.menuFrame, styles.sectionAnchor)}
+        >
           <Panel>
             <SectionHeading
               tone="accent"
               icon={<Star size={13} strokeWidth={1.75} aria-hidden />}
               hint={`${allItems.length} items`}
             >
-              <span className={styles.frameNumber}>03</span>
+              <span className={styles.frameNumber}>02</span>
               Quick edits
             </SectionHeading>
             <p className="mt-3 text-sm text-[#aeb7bd]">
@@ -551,9 +575,31 @@ export default function OwnerDashboard({
               </details>
             ) : null}
           </Panel>
-        </div>
+        </section>
 
-        <div className={styles.campaignFrame}>
+        <section
+          id="owner-live"
+          aria-label="Live status"
+          tabIndex={-1}
+          className={cn(styles.statusFrame, styles.sectionAnchor)}
+        >
+          <CommandOverview
+            restaurantId={data.restaurantId}
+            siteUrl={data.siteUrl}
+            totalItems={allItems.length}
+            liveItems={liveItems}
+            missingPhotos={missingPhotos}
+            unavailableItems={unavailableItems}
+            livePromos={livePromos}
+          />
+        </section>
+
+        <section
+          id="owner-campaigns"
+          aria-label="Campaigns"
+          tabIndex={-1}
+          className={cn(styles.campaignFrame, styles.sectionAnchor)}
+        >
           <Panel>
             <SectionHeading
               tone="accent"
@@ -584,13 +630,18 @@ export default function OwnerDashboard({
               )}
             </div>
           </Panel>
-        </div>
+        </section>
 
-        <section className={styles.moneyFrame} aria-labelledby="owner-money-heading">
-          <p id="owner-money-heading" className={styles.frameLabel}>
+        <section
+          id="owner-billing"
+          tabIndex={-1}
+          className={cn(styles.moneyFrame, styles.sectionAnchor)}
+          aria-labelledby="owner-billing-heading"
+        >
+          <h2 id="owner-billing-heading" className={styles.frameLabel}>
             <span className={styles.frameNumber}>05</span>
-            Money
-          </p>
+            Billing
+          </h2>
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
@@ -609,14 +660,19 @@ export default function OwnerDashboard({
           ) : null}
         </section>
 
-        <div className={styles.activityFrame}>
+        <section
+          id="owner-history"
+          aria-label="History"
+          tabIndex={-1}
+          className={cn(styles.activityFrame, styles.sectionAnchor)}
+        >
           <Panel>
             <SectionHeading
               tone="accent"
               icon={<History size={13} strokeWidth={1.75} aria-hidden />}
             >
               <span className={styles.frameNumber}>06</span>
-              Recent changes
+              History
             </SectionHeading>
             {data.audit.length === 0 ? (
               <p className="mt-4 text-sm text-[#aeb7bd]">Nothing yet.</p>
@@ -641,7 +697,7 @@ export default function OwnerDashboard({
               </ul>
             )}
           </Panel>
-        </div>
+        </section>
       </div>
 
       <p className={styles.footerMark}>Fina Calle OS · Private workspace</p>

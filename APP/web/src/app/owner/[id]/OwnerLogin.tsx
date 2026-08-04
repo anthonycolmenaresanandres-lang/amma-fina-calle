@@ -105,6 +105,8 @@ export default function OwnerLogin({
 
       {state.message ? (
         <p
+          role={state.ok ? "status" : "alert"}
+          aria-live="polite"
           className={`mt-4 rounded-xl border px-3 py-2 text-center text-sm font-medium ${
             state.ok
               ? "border-[#4f9dff]/30 bg-[#4f9dff]/10 text-[#bfdcff]"
