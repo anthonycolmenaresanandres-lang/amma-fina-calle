@@ -2,8 +2,9 @@
 
 import { useActionState, useState } from "react";
 import { Eye, EyeOff, Loader2, LockKeyhole, ShieldCheck } from "lucide-react";
-import { Eyebrow } from "@/components/ui";
+import { Eyebrow, cn } from "@/components/ui";
 import { signInOwnerWithPassword, type ActionState } from "@/lib/owner/actions";
+import styles from "./owner-portal.module.css";
 
 const initialState: ActionState = { ok: false, message: "" };
 
@@ -21,14 +22,14 @@ export default function OwnerLogin({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="fc-panel mx-auto min-w-0 w-full max-w-md overflow-hidden p-5 sm:p-8">
-      <Eyebrow>Owner sign-in</Eyebrow>
+    <div className={cn("fc-panel mx-auto min-w-0 w-full", styles.authFrame)}>
+      <Eyebrow>Private portal</Eyebrow>
       <h1 className="mt-4 break-words text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">
         {businessName}
       </h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Use the email and password assigned to this restaurant. Your session stays
-        signed in on this device until you sign out.
+        Use the email and password assigned to this restaurant. This device stays signed in until
+        you sign out.
       </p>
 
       {notice ? (
@@ -50,7 +51,8 @@ export default function OwnerLogin({
           type="email"
           required
           autoComplete="email"
-          placeholder="you@email.com"
+          spellCheck={false}
+          placeholder="you@example.com…"
           className="min-w-0 max-w-full w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
         />
 
@@ -69,7 +71,7 @@ export default function OwnerLogin({
             minLength={4}
             maxLength={200}
             autoComplete="current-password"
-            placeholder="Your password"
+            placeholder="Your password…"
             className="min-w-0 w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 pr-12 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
           />
           <button
@@ -90,7 +92,7 @@ export default function OwnerLogin({
           {pending ? (
             <>
               <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
-              Signing in...
+              Signing in…
             </>
           ) : (
             <>

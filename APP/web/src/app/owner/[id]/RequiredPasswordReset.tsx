@@ -2,11 +2,12 @@
 
 import { useActionState, useState } from "react";
 import { Eye, EyeOff, KeyRound, Loader2, ShieldCheck } from "lucide-react";
-import { Eyebrow } from "@/components/ui";
+import { Eyebrow, cn } from "@/components/ui";
 import {
   completeRequiredPasswordReset,
   type ActionState,
 } from "@/lib/owner/actions";
+import styles from "./owner-portal.module.css";
 
 const initialState: ActionState = { ok: false, message: "" };
 
@@ -67,14 +68,13 @@ export default function RequiredPasswordReset({
   const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
-    <div className="fc-panel mx-auto min-w-0 w-full max-w-md overflow-hidden p-5 sm:p-8">
+    <div className={cn("fc-panel mx-auto min-w-0 w-full", styles.authFrame)}>
       <Eyebrow>First sign-in</Eyebrow>
       <h1 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">
-        Create your private password
+        Set your password.
       </h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Before opening {businessName}, replace the temporary password for {email}.
-        Portal tools stay locked until this is complete.
+        Secure {businessName} for {email}. Tools unlock after this step.
       </p>
 
       <form action={formAction} className="mt-6 space-y-4">
@@ -99,9 +99,13 @@ export default function RequiredPasswordReset({
           className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#04121f] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
         >
           {pending ? (
-            <><Loader2 size={15} aria-hidden className="animate-spin" /> Saving...</>
+            <>
+              <Loader2 size={15} aria-hidden className="animate-spin" /> Saving…
+            </>
           ) : (
-            <><KeyRound size={15} aria-hidden /> Save and open portal</>
+            <>
+              <KeyRound size={15} aria-hidden /> Save and open portal
+            </>
           )}
         </button>
       </form>
