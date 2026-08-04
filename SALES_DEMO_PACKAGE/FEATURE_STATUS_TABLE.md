@@ -22,6 +22,11 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 | Build/update request intake | `/request-update` (homepage CTA "Request a Build"; live route) |
 | R&D page (honest roadmap) | `/rd` owner-verified PASS |
 
+### Historical verified traffic proof
+
+- One live cafe experience recorded **2,874 visitors** and **4,599 page views** in its first 30-day Vercel Production Analytics window.
+- This is a business-owner-verified historical screenshot, not a live dashboard and not proof of QR scans, customers, revenue, conversion, retention, or sales lift.
+
 ## 🧪 Demo / R&D (real, but label as research/demo — not a finished client product)
 | Item | Note |
 |---|---|

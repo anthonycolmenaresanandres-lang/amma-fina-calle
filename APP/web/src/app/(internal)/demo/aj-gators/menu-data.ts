@@ -194,12 +194,16 @@ export const menuSections: MenuSection[] = [
   },
 ];
 
+// `deal` is the poster call-out, quoted directly from the transcribed detail —
+// never a claim that isn't already in `detail`.
 export const weeklySpecials = [
-  { day: "Monday", title: "Burger Day", detail: "$3 off burgers · all day", status: "Official Holland Road listing · pending owner approval" },
-  { day: "Tuesday", title: "Two's Day", detail: "Two burgers or sandwiches with sides and non-alcoholic beverages for $22.22", status: "Official Holland Road listing · pending owner approval" },
-  { day: "Wednesday", title: "Apps + Trivia", detail: "Discounted appetizers · trivia from 7–9 PM", status: "Official Holland Road listing · pending owner approval" },
-  { day: "Thursday", title: "Wing It", detail: "Six traditional wings for $6", status: "Official Holland Road listing · pending owner approval" },
+  { day: "Monday", title: "Burger Day", deal: "$3 off", detail: "$3 off burgers · all day", status: "Official Holland Road listing · pending owner approval" },
+  { day: "Tuesday", title: "Two's Day", deal: "2 for $22.22", detail: "Two burgers or sandwiches with sides and non-alcoholic beverages for $22.22", status: "Official Holland Road listing · pending owner approval" },
+  { day: "Wednesday", title: "Apps + Trivia", deal: "7–9 PM", detail: "Discounted appetizers · trivia from 7–9 PM", status: "Official Holland Road listing · pending owner approval" },
+  { day: "Thursday", title: "Wing It", deal: "6 for $6", detail: "Six traditional wings for $6", status: "Official Holland Road listing · pending owner approval" },
 ] as const;
+
+export const weeklySpecialsStatus = "Official Holland Road listings · every promotion pending owner approval.";
 
 export const seasonalSpecials = [
   {

@@ -1949,3 +1949,101 @@ Task: Anthony wants to eliminate the uncertainty about whether the Gemini video 
 - Test B: generate a fictional-anchor image inside Gemini, then animate that image in-app. Isolates "uploading" vs "in-app" image sources.
 - Test C: regenerate the Step 0 generic mock in ChatGPT (already-approved rerun), upload to Gemini, animate. Isolates the uploaded-photoreal-person policy.
 Verdict rule: C works → Gemini stays in the pipeline (likeness still goes through Runway/Veo API). A/B work but C refused → Gemini web cannot animate our uploaded keyframes at all → eliminate it from the pipeline; motion goes Runway (paid, wired) or Veo API (paid, needs Anthony key). A refused → Gemini video is unavailable to this account entirely → eliminate.
+## [CHECK-IN] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Authority: Anthony requested that the Las Palmas menu use the current original restaurant menu.
+- Verified source: the current official Las Palmas Lynnhaven website links `Menu Las Palmas Lynnhaven` directly to `https://irp.cdn-website.com/1508c02f/files/uploaded/Las_Palmas_2-_3_-_4_Menu_2025.pdf`; the linked PDF is 14 pages and publicly reachable.
+- Branch: `codex/las-palmas-original-menu-20260802` from current `origin/main` at `15edd95`, isolated in `C:\Dev\amma\worktrees\las-palmas-original-menu-20260802`.
+- Scope: update only the first-viewport Menu action to open that official menu in a separate tab. Preserve the local owner-review proof below the landing, the logo-to-`MENU` motion, Game, Table, Guest Notes, notices, and metadata.
+- Hard stops: no menu transcription or asset/data edit, integration/payment/POS/Client OS work, customer data, secrets, QR target change, customer contact, or production merge. Push a draft PR only after targeted code and browser gates pass.
+
+## [RELEASE GATE] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Source: the menu PDF linked from the current official Las Palmas Lynnhaven website returns HTTP 200 with `Content-Type: application/pdf`.
+- Landing: at 390 x 844, Menu points to the exact official PDF with `target=_blank` and `rel=noreferrer`; Game and Table retain their exact internal destinations. All three targets remain 46 px tall and horizontal overflow is zero.
+- Motion/content: the 500-particle sequence remains `logo` at `0.000`, `transform` at `0.567`, `menu-dock` at `1.000`, and reverses to `logo`; the existing 39 owner-review disclosures, notices, Guest Notes, and noindex metadata remain present.
+- Code: targeted ESLint, `tsc --noEmit`, Next.js 16.2.11 production build, and `git diff --check` pass. GitHub `web`, Vercel, and Vercel Preview Comments pass on exact head `0f2bfa5`.
+- Evidence: `C:\Dev\amma\evidence\las-palmas-original-menu-20260802\mobile.png` captures the verified phone layout.
+
+## [CHECK-OUT] Codex - 2026-08-02 - Las Palmas current original menu link
+
+- Delivered: commit `0f2bfa5` is pushed to draft PR #201 from `codex/las-palmas-original-menu-20260802` into production `main`.
+- Effect: the Las Palmas landing's Menu action now opens the restaurant's current official Lynnhaven PDF in a separate tab. The curated owner-review proof below the landing remains available and unchanged.
+- Scope: no menu data, price, photo, Guest Notes, motion, game/table behavior, Supabase, Stripe, POS, Client OS, secret, customer data, QR destination, contact, merge, or production change was made.
+- Next: Anthony reviews PR #201 and explicitly approves or requests revisions. Do not merge before that approval.
+### [CHECK-IN] Codex - 2026-08-03 - restaurant demos release and two-QR proof package
+Picking up:
+- Release the approved Las Palmas current-menu correction and shared restaurant-hub polish, including the Gators landing experience.
+- Build a print-ready two-QR leave-behind: personalized Gators demo plus transparent local proof.
+Authority:
+- Anthony explicitly approved push and merge of the restaurant work and requested the QR print/proof package.
+Boundaries:
+- No secrets, access changes, payments, POS, database writes, external sends, or unsupported performance claims.
+- The Colattao analytics are historical traffic evidence only: 2,874 visitors and 4,599 page views in the owner-verified first 30-day production window.
+
+### [RELEASE GATE] Codex - 2026-08-03 - restaurant demos and QR proof package
+Released before this package:
+- PR #201 merged the Las Palmas current official-menu link.
+- PR #202 merged the shared restaurant-hub visual polish, including Gators and Las Palmas; remote CI and Vercel checks were green after rebasing on current main.
+Package verification:
+- Targeted ESLint: pass.
+- `tsc --noEmit`: pass.
+- Next.js production build: pass.
+- `git diff --check`: pass with generated PDF/PNG files marked binary.
+- 390 x 844 browser checks: proof page, Gators demo, and Las Palmas demo rendered with zero horizontal overflow and no framework error overlay.
+- PDF visual inspection: pass; one US Letter page, clear hierarchy, no clipping.
+- Both QR codes decoded from the rendered PDF to their intended live destinations.
+- Sales asset scorer: 70/100, field-ready, no blocking issues; directional checklist only, not a conversion prediction.
+Next:
+- Push the proof-package branch, open and merge its PR under Anthony's explicit approval, then verify both production QR destinations.
+Blocked:
+- None for publication. Client approval remains pending; table service, setup, printing, payments, and POS are not included in the $150 monthly menu-plus-game line.
+
+### [CHECK-OUT] Codex - 2026-08-03 - restaurant demos and two-QR proof package live
+Did:
+- Merged PR #201 (current official-menu correction), PR #202 (shared restaurant-hub polish), PR #204 (two-QR leave-behind plus verified local-proof page), and PR #203 (Gators penalty-shootout skin and hub link).
+- Published a US Letter leave-behind with one QR to the personalized Gators demo and one QR to the local proof page.
+Production evidence:
+- `/case-studies/colattao` returned HTTP 200 and contained 2,874 visitors plus 4,599 page views.
+- `/demo/aj-gators` returned HTTP 200, contained the penalty-shootout option, and preserved `noindex`.
+- `/penalty-shootout?skin=ajgators` returned HTTP 200.
+- Both QR codes decoded from the final rendered PDF to their intended production URLs.
+State:
+- Release complete. The unrelated stopped-newsroom PR #197 remains unmerged because it is outside the approved restaurant scope.
+Next:
+- Print the PDF at actual size or fit-to-page; use the private tracker to record whether the owner scans, requests a review, or declines.
+Blocked:
+- Client approval is still required before representing the demo as official or activating table service.
+### [CHECK-IN] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind
+Picking up:
+- Create a printer-safe black-and-white companion to the released Gators leave-behind.
+- Add a third QR to the Fina Calle landing page and one short, brand-safe QR joke.
+Authority:
+- Anthony directly requested the revision and previously authorized the restaurant sales-material release workflow.
+Boundaries:
+- Preserve the color two-QR sheet; do not change any live destination, product route, pricing boundary, client-approval label, payment/POS state, access, or secret.
+- Three QR choices must remain clearly labeled so the extra code does not create decision ambiguity.
+
+### [RELEASE GATE] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind
+Verified:
+- Final artifact is one US Letter page and renders in grayscale only; no color-channel variance remained after the QR ink correction.
+- Visual inspection found no clipping, overlap, broken glyphs, or unreadable hierarchy.
+- All three QR codes decoded from the 200-DPI rendered PDF to the personalized demo, verified local proof, and Fina Calle landing page.
+- PDF text extraction preserved the price, package scope, historical traffic caveat, pending-client label, and joke.
+- Sales asset scorer returned field-ready with no blocking issues; 70/100 is a directional checklist, not a conversion forecast.
+- Python syntax check and `git diff --check` passed.
+Next:
+- Commit, push, merge after remote checks, then deliver the black-and-white PDF for printing.
+Blocked:
+- None for the print asset. Client approval remains required before calling the prospect demo official.
+
+### [CHECK-OUT] Codex - 2026-08-03 - black-and-white three-QR Gators leave-behind released
+Did:
+- Merged PR #206 to production main with the printer-safe black-and-white companion PDF, three QR image assets, grayscale logo treatment, reproducible builder option, source copy, and evidence boundaries.
+Verified final:
+- One Letter page; grayscale-only render; all three QRs decoded from the 200-DPI page; all destinations returned HTTP 200.
+- Original color two-QR handout remains preserved.
+Next:
+- Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
+Blocked:
+- None for printing. Client approval is still required before representing the demo as official.
