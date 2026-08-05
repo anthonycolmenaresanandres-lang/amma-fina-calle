@@ -18,6 +18,27 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 09:16 EDT - Merge owner Request Desk release
+
+- Authority: Anthony stopped the preview-only flow and explicitly directed Codex to merge the completed changes.
+- State: local branch `codex/owner-request-intake-20260805` contains the reviewed implementation at `61e5aa8` and its completed handoff at `118b750`; production has not changed yet.
+- Release lock: commit the current operational log only, fetch current `origin/main`, revalidate the exact diff and head, push this branch, open a ready PR, require green checks, merge only the verified head, then verify Vercel production and `/owner/colattao`.
+- Boundaries: no migration, secret/access change, customer contact, or unrelated surface change. Stop on a base conflict, failed check, or head mismatch.
+
+### [CHECK-OUT] Codex - 2026-08-05 09:16 EDT - Stop owner preview attempt
+
+- Did: stopped the local preview command when Anthony redirected the task to merge.
+- State now: the incomplete preview record was not promoted or presented as a review link; production remained untouched.
+- Next / handoff to: Codex - execute the explicitly approved exact-head merge workflow.
+- Blocked on Anthony: none.
+
+### [CHECK-IN] Codex - 2026-08-05 09:09 EDT - Publish owner Request Desk preview
+
+- Authority: Anthony explicitly requested a preview link for the completed owner Request Desk branch.
+- State: clean local branch `codex/owner-request-intake-20260805` at `118b750`, two commits ahead of `origin/main`; production remains untouched.
+- Scope: publish this exact branch to a new Vercel Preview deployment and verify the auth-gated `/owner/colattao` route. No production promotion, merge, migration, access change, or customer contact.
+- Pass: deployment reports Ready, the direct owner URL responds, and the preview is recorded here for review.
+
 ### [CHECK-OUT] Codex - 2026-08-05 08:23 EDT - Complete owner Request Desk intake
 
 - Did: made the shared Request Desk the complete owner intake with a 4,000-character brief, up to five validated supporting files, sequential authenticated uploads, exact progress/partial-failure reporting, retry retention, and unsaved-draft protection.
