@@ -18,6 +18,23 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-08-05 08:23 EDT - Complete owner Request Desk intake
+
+- Did: made the shared Request Desk the complete owner intake with a 4,000-character brief, up to five validated supporting files, sequential authenticated uploads, exact progress/partial-failure reporting, retry retention, and unsaved-draft protection.
+- Campaigns: removed the owner index/section/metric/query/history surface and campaign auto-apply; campaign language now routes conservatively to team review. Public `/m` promo data and records remain unchanged.
+- Security: every upload proves authenticated tenant and request ownership, checks exact origin, limits each file to 4,000,000 bytes, requires JPG/PNG/WebP/PDF MIME-extension-signature agreement, namespaces each of five slots by request UUID, and uses the existing server-only admin client only after authorization.
+- Quality: request and owner self-tests, targeted ESLint, `tsc --noEmit`, final Next 16.2.11 production build, `git diff --check`, unauthenticated/cross-origin 403 checks, browser QA at 320/390/1440, and independent UI/security reviews pass.
+- Evidence: `C:\Dev\amma\evidence\owner-request-intake-20260805\report.md`; implementation commit `61e5aa8`.
+- State now: local branch `codex/owner-request-intake-20260805`; production and the dirty canonical checkout are untouched.
+- Next / handoff to: Anthony - review the local evidence and explicitly authorize any push, PR, preview, merge, deploy, or production publication.
+- Blocked on Anthony: all remote publication and production actions.
+
+### [RELEASE GATE] Codex - 2026-08-05 08:23 EDT - Owner request intake local review
+
+- Scoped release is ready for review; the temporary QA route is deleted and `/owner-preview` remains absent.
+- Known pre-existing backlog: the public anonymous request/storage RPCs are not database-global enforcers of the new owner five-file policy. The new owner route is authoritative and safe; hardening those legacy public RPCs requires a separately approved migration.
+- Boundary: no migration, secret/access change, customer contact, push, PR, merge, deploy, or production publication occurred.
+
 ### [CHECK-IN] Codex - 2026-08-05 07:41 EDT - Complete owner Request Desk intake
 
 - Authority: Anthony requested that the Request Desk become the source for owner requests, accept up to five supporting files, gather the complete brief, and remove live Campaigns for now.
