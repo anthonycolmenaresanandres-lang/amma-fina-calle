@@ -142,9 +142,15 @@
 }
 
 .portal h1,
-.portal h2:not([class*="uppercase"]) {
-  font-family: var(--font-owner-display), Georgia, serif;
+.portal h2 {
+  font-family: var(--font-owner-display), Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
   text-wrap: balance;
+}
+
+.portal h2[class*="uppercase"] {
+  font-size: 1rem;
 }
 
 .dashboard {
@@ -165,8 +171,7 @@
 
 .sectionIndex {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(7rem, 0.7fr) minmax(0, 5.3fr);
+  display: block;
   isolation: isolate;
   margin-bottom: 1.35rem;
   border: 2px solid rgba(230, 223, 211, 0.32);
@@ -193,24 +198,9 @@
   content: "";
 }
 
-.indexCaption {
-  display: flex;
-  min-height: 58px;
-  align-items: center;
-  margin: 0;
-  padding: 0.8rem 1rem;
-  border-right: 1px solid rgba(230, 223, 211, 0.22);
-  color: var(--owner-gold);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
 .indexList {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   margin: 0;
   padding: 0;
@@ -232,10 +222,10 @@
   gap: 0.55rem;
   padding: 0.65rem 0.72rem;
   color: var(--owner-paper);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.66rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
+  font-family: var(--font-owner-display), Impact, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   text-decoration: none;
   text-transform: uppercase;
   transition:
@@ -297,11 +287,11 @@
   min-width: 0;
   margin: 0;
   color: var(--owner-porcelain);
-  font-family: var(--font-owner-display), Georgia, serif;
-  font-size: clamp(1.55rem, 4vw, 2.7rem);
-  font-weight: 600;
+  font-family: var(--font-owner-display), Impact, sans-serif;
+  font-size: clamp(1.8rem, 4.4vw, 3rem);
+  font-weight: 400;
   line-height: 0.98;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .utilityActions {
@@ -313,26 +303,17 @@
 
 .board {
   display: grid;
-  grid-template-columns: minmax(0, 1.14fr) minmax(20rem, 0.86fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "request request"
-    "menu status"
-    "money money"
-    "activity activity";
+    "request"
+    "money"
+    "activity";
   gap: 1.25rem;
   align-items: start;
 }
 
 .requestFrame {
   grid-area: request;
-}
-
-.statusFrame {
-  grid-area: status;
-}
-
-.menuFrame {
-  grid-area: menu;
 }
 
 .moneyFrame {
@@ -365,10 +346,10 @@
   gap: 0.55rem;
   margin: 0 0 -0.35rem;
   color: var(--owner-muted);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: var(--font-owner-display), Impact, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
@@ -418,9 +399,9 @@
 .requestTitle {
   margin-top: 0.7rem;
   color: var(--owner-porcelain);
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
   line-height: 0.94;
-  letter-spacing: -0.045em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -430,16 +411,6 @@
   font-size: 0.9rem;
   line-height: 1.55;
   text-wrap: pretty;
-}
-
-.requestChecklist {
-  margin-top: 0.65rem;
-  color: var(--owner-sapphire);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.68rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .requestForm {
@@ -659,26 +630,6 @@
   background: #8bbcff;
 }
 
-.promptList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-}
-
-.promptButton {
-  border: 1px solid rgba(230, 223, 211, 0.22);
-  background: rgba(255, 255, 255, 0.025);
-  color: var(--owner-paper);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.7rem;
-}
-
-.promptButton:hover {
-  border-color: var(--owner-sapphire);
-  color: var(--owner-porcelain);
-}
-
 .responseCard {
   display: grid;
   gap: 0.7rem;
@@ -736,94 +687,15 @@
   font-size: 0.7rem;
 }
 
-.statusGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
-  margin-top: 1rem;
-}
-
-.statCard {
-  min-width: 0;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 0.2rem;
-  padding: 0.9rem;
-  background: #080b0f;
-  box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.025);
-}
-
-.statValue {
-  margin-top: 0.5rem;
-  color: var(--owner-porcelain);
-  font-family: var(--font-owner-display), Georgia, serif;
-  font-size: 2rem;
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-
-.statDetail {
-  margin-top: 0.3rem;
-  color: var(--owner-muted);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.itemCard,
 .rowCard {
   border-radius: 0.25rem !important;
   background: rgba(2, 3, 4, 0.68) !important;
 }
 
-.itemLayout {
-  display: flex;
-  gap: 0.875rem;
-}
-
-.itemContent {
+.historyValue {
   min-width: 0;
-  flex: 1;
-}
-
-.priceRow {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sizeLabel {
-  width: 4rem;
-  flex-shrink: 0;
-  color: #9aa3a9;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.menuSummary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.9rem;
-  padding: 0.25rem 0.7rem;
-  border: 1px solid rgba(230, 223, 211, 0.18);
-  color: var(--owner-paper) !important;
-  font-family: var(--font-geist-mono), monospace;
-}
-
-.menuSummary::after {
-  color: var(--owner-sapphire);
-  font-size: 1rem;
-  content: "+";
-}
-
-details[open] > .menuSummary::after {
-  content: "−";
+  color: #c8d0d4;
+  overflow-wrap: anywhere;
 }
 
 .authFrame {
@@ -853,37 +725,6 @@ details[open] > .menuSummary::after {
   letter-spacing: 0.18em;
   text-align: center;
   text-transform: uppercase;
-}
-
-@media (max-width: 960px) {
-  .sectionIndex {
-    display: block;
-  }
-
-  .indexCaption {
-    min-height: 44px;
-    padding-block: 0.65rem;
-    border-right: 0;
-    border-bottom: 1px solid rgba(230, 223, 211, 0.22);
-  }
-
-  .indexList {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .indexList > li:last-child {
-    grid-column: span 2;
-  }
-
-  .board {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "request"
-      "menu"
-      "status"
-      "money"
-      "activity";
-  }
 }
 
 @media (max-width: 680px) {
@@ -919,14 +760,6 @@ details[open] > .menuSummary::after {
     align-items: start;
     gap: 1rem;
     margin-bottom: 1rem;
-  }
-
-  .indexList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .indexList > li:last-child {
-    grid-column: 1 / -1;
   }
 
   .indexLink {
@@ -997,41 +830,17 @@ details[open] > .menuSummary::after {
     justify-self: stretch;
   }
 
-  .promptList {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .promptButton {
-    width: 100%;
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .statCard {
-    border-width: 2px;
-    padding: 0.8rem;
-  }
-
-  .statValue {
-    font-size: 2.15rem;
-  }
-
-  .priceRow {
-    display: grid;
-    grid-template-columns: auto minmax(4.5rem, 6rem) auto;
-    justify-content: start;
-  }
-
-  .sizeLabel {
-    grid-column: 1 / -1;
-    width: auto;
-  }
 }
 
 @media (max-width: 350px) {
   .portal {
     padding-inline: 0.75rem;
+  }
+
+  .indexLink {
+    gap: 0.35rem;
+    padding-inline: 0.45rem;
+    font-size: 1rem;
   }
 
   .brandLockup {
@@ -1043,13 +852,6 @@ details[open] > .menuSummary::after {
     max-width: 9rem;
   }
 
-  .itemLayout {
-    flex-direction: column;
-  }
-
-  .promptList {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

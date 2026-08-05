@@ -138,7 +138,16 @@ const triageSource = readFileSync(
 );
 
 assert.doesNotMatch(dashboardSource, /owner-campaigns|label="Campaigns"|data\.promos|livePromos/);
+assert.doesNotMatch(
+  dashboardSource,
+  /Quick edits|owner-menu|owner-live|CommandOverview|FeaturedSlot|setItemAvailability/,
+);
+assert.match(dashboardSource, /number: "01", label: "Request"/);
+assert.match(dashboardSource, /number: "02", label: "Billing"/);
+assert.match(dashboardSource, /number: "03", label: "History"/);
+assert.match(dashboardSource, /COLATTAO_MENU_URL/);
 assert.doesNotMatch(ownerPageSource, /promosRes|type Promo/);
+assert.match(ownerPageSource, /Lilita_One/);
 assert.match(ownerPageSource, /\.neq\("table_name", "promos"\)/);
 assert.doesNotMatch(requestMenuSource, /\.from\("promos"\)|promosRes/);
 assert.doesNotMatch(triageSource, /tryPromo|"promos"/);
@@ -148,6 +157,7 @@ assert.match(uploadRouteSource, /hasOwnerRequestFileSignature/);
 assert.match(uploadRouteSource, /new URL\(request\.url\)\.origin/);
 assert.match(askBarSource, /maxLength=\{OWNER_REQUEST_MAX_TEXT_LENGTH\}/);
 assert.match(askBarSource, /files\.length >= OWNER_REQUEST_MAX_FILES/);
+assert.doesNotMatch(askBarSource, /DEFAULT_CHIPS|suggestedPrompts|Quick request examples/);
 assert.match(intakeSource, /getSupabaseAdmin\(\)/);
 assert.match(intakeSource, /\.from\("change_request_attachments"\)/);
 assert.match(intakeSource, /\.remove\(\[path\]\)/);

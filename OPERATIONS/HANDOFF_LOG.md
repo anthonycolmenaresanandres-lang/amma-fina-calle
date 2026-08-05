@@ -18,6 +18,28 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 18:04 EDT - Merge simplified owner portal
+
+- Authority: Anthony explicitly directed Codex to merge the completed simplified owner-portal release.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` contains the verified implementation at `d9d2151` and local release record at `97520bd`; current known production base is `origin/main` at `8fede5a` before the required fetch.
+- Release lock: fetch current `origin/main`, stop on base or scope conflict, commit this authorization record, push the exact branch, open a ready PR, require green checks, merge only the verified head, wait for the resulting Vercel production deployment, then verify `https://finacalleos.com/owner/colattao` and representative protected-route health.
+- Boundaries: no new feature, auth/access, request action, billing/Zelle, menu data, API, database, secret, customer contact, or `/owner-preview` change. Stop on an unexpected head, diff, check, deployment, alias, or live-route result.
+
+### [CHECK-OUT] Codex - 2026-08-05 09:55 EDT - Simplify owner portal surface
+
+- Did: committed `d9d2151`, removing Quick Edits, the per-tenant Live box, and store-specific request chips; reduced the dashboard to Request, Billing, History; preserved the header Menu destination and complete Request Desk; restored bold comic display type with Lilita One and readable Geist body text.
+- State now: request/owner self-tests, targeted ESLint, TypeScript, final Next production build, `git diff --check`, independent scope review, and 1440/390/320 browser verification pass. All three anchors work and focus their targets; controls remain at least 44 px; 320 px navigation and long history values fit without page overflow; the temporary QA route is removed. Evidence is in `C:\Dev\amma\evidence\owner-portal-simplify-20260805`.
+- Next / handoff to: Anthony - review the local release gate; a new explicit approval is required before push, PR, merge, deploy, or production publication.
+- Blocked on Anthony: production release approval only.
+
+### [CHECK-IN] Codex - 2026-08-05 09:29 EDT - Simplify owner portal surface
+
+- Authority: Anthony requested removal of Quick Edits and the per-store Live box, plus shorter copy and a stronger comic typography hierarchy.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` from current production `origin/main` at `8fede5a`; the dirty canonical checkout and prior owner worktrees remain untouched.
+- Design lock: Request, Billing, History only; retain the public Menu header link; use a bold comic display face with readable Geist body text, fewer duplicate labels, strong ink/paper contrast, and the existing gold/sapphire registration accents.
+- Boundaries: presentation and removal of direct-edit/status rendering only. Preserve Request Desk behavior, billing/Zelle, authentication, menu data, tenant isolation, and protected routes. No push, PR, merge, deploy, or production change.
+- Plan: remove the two panels and their dead UI code, reflow and renumber the remaining sections, reduce copy, verify accessibility/responsiveness/build, and stop at a local release gate.
+
 ### [CHECK-IN] Codex - 2026-08-05 09:16 EDT - Merge owner Request Desk release
 
 - Authority: Anthony stopped the preview-only flow and explicitly directed Codex to merge the completed changes.
