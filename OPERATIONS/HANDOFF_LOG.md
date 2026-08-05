@@ -18,6 +18,13 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-08-05 09:55 EDT - Simplify owner portal surface
+
+- Did: committed `d9d2151`, removing Quick Edits, the per-tenant Live box, and store-specific request chips; reduced the dashboard to Request, Billing, History; preserved the header Menu destination and complete Request Desk; restored bold comic display type with Lilita One and readable Geist body text.
+- State now: request/owner self-tests, targeted ESLint, TypeScript, final Next production build, `git diff --check`, independent scope review, and 1440/390/320 browser verification pass. All three anchors work and focus their targets; controls remain at least 44 px; 320 px navigation and long history values fit without page overflow; the temporary QA route is removed. Evidence is in `C:\Dev\amma\evidence\owner-portal-simplify-20260805`.
+- Next / handoff to: Anthony - review the local release gate; a new explicit approval is required before push, PR, merge, deploy, or production publication.
+- Blocked on Anthony: production release approval only.
+
 ### [CHECK-IN] Codex - 2026-08-05 09:29 EDT - Simplify owner portal surface
 
 - Authority: Anthony requested removal of Quick Edits and the per-store Live box, plus shorter copy and a stronger comic typography hierarchy.
