@@ -8,7 +8,6 @@ import {
   History,
   Image as ImageIcon,
   LogOut,
-  Megaphone,
   Star,
   Upload,
   UtensilsCrossed,
@@ -26,7 +25,6 @@ import {
   Field,
   Panel,
   SectionHeading,
-  StatusPill,
   cn,
 } from "@/components/ui";
 import type { BillingSummary } from "@/lib/billing/types";
@@ -56,8 +54,6 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
-export type Promo = { id: string; text: string; is_active: boolean };
-
 export type AuditEntry = {
   id: string;
   actor_email: string | null;
@@ -75,7 +71,6 @@ export type DashboardData = {
   email: string;
   logo?: string | null;
   categories: MenuCategory[];
-  promos: Promo[];
   audit: AuditEntry[];
   billing?: BillingSummary;
   billingNotice?: string | null;
@@ -100,7 +95,7 @@ function getSuggestedPrompts(items: Array<MenuItem & { category: string }>): str
     available ? `86 ${available.name}` : "",
     unavailable ? `bring back ${unavailable.name}` : "",
     priced ? `change ${priced.name} to $8` : "",
-    "feature iced drinks this weekend",
+    "add a new menu item",
   ]);
 }
 
@@ -143,7 +138,6 @@ function CommandOverview({
   liveItems,
   missingPhotos,
   unavailableItems,
-  livePromos,
 }: {
   restaurantId: string;
   siteUrl: string | null;
@@ -151,7 +145,6 @@ function CommandOverview({
   liveItems: number;
   missingPhotos: number;
   unavailableItems: number;
-  livePromos: number;
 }) {
   return (
     <Panel>
@@ -184,13 +177,6 @@ function CommandOverview({
           detail="hidden"
           icon={<EyeOff size={12} strokeWidth={1.75} aria-hidden />}
           tone={unavailableItems > 0 ? "danger" : "neutral"}
-        />
-        <StatCard
-          label="Campaigns"
-          value={String(livePromos)}
-          detail="live"
-          icon={<Megaphone size={12} strokeWidth={1.75} aria-hidden />}
-          tone={livePromos > 0 ? "gold" : "neutral"}
         />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
@@ -386,7 +372,6 @@ const FIELD_LABELS: Record<string, string> = {
   name: "name",
   description: "description",
   is_available: "availability",
-  text: "promo",
   open_time: "opening time",
   close_time: "closing time",
   is_closed: "open/closed",
@@ -396,9 +381,8 @@ const OWNER_SECTIONS = [
   { number: "01", label: "Request", href: "#owner-request" },
   { number: "02", label: "Menu", href: "#owner-menu" },
   { number: "03", label: "Live", href: "#owner-live" },
-  { number: "04", label: "Campaigns", href: "#owner-campaigns" },
-  { number: "05", label: "Billing", href: "#owner-billing" },
-  { number: "06", label: "History", href: "#owner-history" },
+  { number: "04", label: "Billing", href: "#owner-billing" },
+  { number: "05", label: "History", href: "#owner-history" },
 ] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
@@ -435,7 +419,6 @@ export default function OwnerDashboard({
   const liveItems = allItems.filter((item) => item.is_available).length;
   const unavailableItems = allItems.length - liveItems;
   const missingPhotos = allItems.filter((item) => !item.photo_url).length;
-  const livePromos = data.promos.filter((promo) => promo.is_active).length;
   const suggestedPrompts = getSuggestedPrompts(allItems);
 
   return (
@@ -590,46 +573,7 @@ export default function OwnerDashboard({
             liveItems={liveItems}
             missingPhotos={missingPhotos}
             unavailableItems={unavailableItems}
-            livePromos={livePromos}
           />
-        </section>
-
-        <section
-          id="owner-campaigns"
-          aria-label="Campaigns"
-          tabIndex={-1}
-          className={cn(styles.campaignFrame, styles.sectionAnchor)}
-        >
-          <Panel>
-            <SectionHeading
-              tone="accent"
-              icon={<Megaphone size={13} strokeWidth={1.75} aria-hidden />}
-              hint={`${livePromos}/${data.promos.length} live`}
-            >
-              <span className={styles.frameNumber}>04</span>
-              Campaigns
-            </SectionHeading>
-            <div className="mt-4 space-y-2">
-              {data.promos.length === 0 ? (
-                <p className="text-sm text-[#aeb7bd]">No campaigns yet.</p>
-              ) : (
-                data.promos.map((promo) => (
-                  <div
-                    key={promo.id}
-                    className={cn(
-                      styles.rowCard,
-                      "flex items-center justify-between gap-3 border border-white/[0.06] px-3.5 py-2.5",
-                    )}
-                  >
-                    <p className="min-w-0 truncate text-sm text-[#eef2f4]">{promo.text}</p>
-                    <StatusPill tone={promo.is_active ? "success" : "neutral"}>
-                      {promo.is_active ? "Live" : "Off"}
-                    </StatusPill>
-                  </div>
-                ))
-              )}
-            </div>
-          </Panel>
         </section>
 
         <section
@@ -639,7 +583,7 @@ export default function OwnerDashboard({
           aria-labelledby="owner-billing-heading"
         >
           <h2 id="owner-billing-heading" className={styles.frameLabel}>
-            <span className={styles.frameNumber}>05</span>
+            <span className={styles.frameNumber}>04</span>
             Billing
           </h2>
           {data.billing ? (
@@ -671,7 +615,7 @@ export default function OwnerDashboard({
               tone="accent"
               icon={<History size={13} strokeWidth={1.75} aria-hidden />}
             >
-              <span className={styles.frameNumber}>06</span>
+              <span className={styles.frameNumber}>05</span>
               History
             </SectionHeading>
             {data.audit.length === 0 ? (

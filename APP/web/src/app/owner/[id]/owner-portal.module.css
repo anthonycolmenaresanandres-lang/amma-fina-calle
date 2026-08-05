@@ -210,7 +210,7 @@
 
 .indexList {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
   margin: 0;
   padding: 0;
@@ -315,9 +315,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.14fr) minmax(20rem, 0.86fr);
   grid-template-areas:
-    "request menu"
-    "status menu"
-    "campaign campaign"
+    "request request"
+    "menu status"
     "money money"
     "activity activity";
   gap: 1.25rem;
@@ -334,10 +333,6 @@
 
 .menuFrame {
   grid-area: menu;
-}
-
-.campaignFrame {
-  grid-area: campaign;
 }
 
 .moneyFrame {
@@ -426,6 +421,7 @@
   font-size: clamp(2rem, 5vw, 3.25rem);
   line-height: 0.94;
   letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
 .requestIntro {
@@ -433,14 +429,26 @@
   color: var(--owner-muted);
   font-size: 0.9rem;
   line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.requestChecklist {
+  margin-top: 0.65rem;
+  color: var(--owner-sapphire);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .requestForm {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
+  align-items: start;
+  gap: 0.9rem;
   margin-top: 1.2rem;
-  padding: 0.45rem 0.45rem 0.45rem 0.9rem;
+  padding: 0.9rem;
   border: 2px solid rgba(230, 223, 211, 0.32);
   border-radius: 0.25rem;
   background: #050709;
@@ -451,13 +459,204 @@
   border-color: var(--owner-sapphire);
 }
 
-.requestSubmit {
+.briefField {
+  min-width: 0;
+}
+
+.briefLabelRow,
+.fileDockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--owner-paper);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.briefLabelRow span,
+.fileDockHeader strong {
+  flex: none;
+  color: var(--owner-sapphire);
+  font-variant-numeric: tabular-nums;
+}
+
+.briefTextarea {
+  width: 100%;
+  min-height: 10.5rem;
+  margin-top: 0.55rem;
+  resize: vertical;
+  border: 1px solid rgba(230, 223, 211, 0.22);
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--owner-porcelain);
+  padding: 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  outline: none;
+}
+
+.briefTextarea::placeholder {
+  color: #7f8a91;
+}
+
+.briefTextarea:focus-visible {
+  border-color: var(--owner-sapphire);
+  box-shadow: inset 3px 0 0 var(--owner-sapphire);
+}
+
+.fileDock {
+  min-width: 0;
+  border: 1px solid rgba(230, 223, 211, 0.22);
+  border-radius: 0.2rem;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.fileDockHeader > span {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.fileDock > p:not(.fileError) {
+  margin-top: 0.4rem;
+  color: var(--owner-muted);
+  font-size: 0.72rem;
+}
+
+.filePicker {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(120, 174, 248, 0.55);
+  border-radius: 0.2rem;
+  background: rgba(120, 174, 248, 0.1);
+  color: #d9e9ff;
+  cursor: pointer;
+  padding: 0.6rem 0.85rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.filePicker:hover {
+  background: rgba(120, 174, 248, 0.18);
+}
+
+.filePicker:focus-within {
+  outline: 2px solid var(--owner-sapphire);
+  outline-offset: 2px;
+}
+
+.filePicker input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.filePickerDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.filePickerDisabled input {
+  cursor: not-allowed;
+}
+
+.filePickerDisabled:hover {
+  background: rgba(120, 174, 248, 0.1);
+}
+
+.fileList {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fileList li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 0.45rem;
+  border-top: 1px solid rgba(230, 223, 211, 0.12);
+  color: var(--owner-paper);
+  font-size: 0.72rem;
+}
+
+.fileName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  color: var(--owner-muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  white-space: nowrap;
+}
+
+.fileList button {
+  display: inline-flex;
   width: 44px;
   height: 44px;
-  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--owner-muted);
+}
+
+.fileList button:hover {
+  color: var(--owner-porcelain);
+}
+
+.fileError {
+  min-height: 1.1rem;
+  margin-top: 0.45rem;
+  color: #ffad9f;
+  font-size: 0.7rem;
+}
+
+.requestSubmit {
+  display: inline-flex;
+  min-height: 44px;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
   background: var(--owner-sapphire);
   color: var(--owner-ink);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   box-shadow: 3px 3px 0 rgba(200, 170, 114, 0.55);
+}
+
+.requestSubmit:hover:not(:disabled) {
+  background: #8bbcff;
 }
 
 .promptList {
@@ -475,14 +674,71 @@
   font-size: 0.7rem;
 }
 
+.promptButton:hover {
+  border-color: var(--owner-sapphire);
+  color: var(--owner-porcelain);
+}
+
 .responseCard {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+  padding: 0.9rem 1rem;
   border-width: 2px !important;
+  border-style: solid;
   border-radius: 0.25rem !important;
+  color: var(--owner-paper);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.responseApply {
+  border-color: rgba(79, 157, 255, 0.35);
+  background: rgba(79, 157, 255, 0.08);
+}
+
+.responseReview {
+  border-color: rgba(230, 223, 211, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.responseError,
+.responseWarning {
+  border-color: rgba(255, 174, 82, 0.48);
+  background: rgba(92, 56, 14, 0.35);
+  color: #ffd49c;
+}
+
+.responseSuccess {
+  border-color: rgba(127, 209, 162, 0.4);
+  background: rgba(23, 58, 43, 0.45);
+  color: #bdf0d4;
+}
+
+.responseTitle {
+  color: #bfdcff;
+  font-weight: 700;
+}
+
+.responseActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.uploadStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  color: var(--owner-sapphire);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.7rem;
 }
 
 .statusGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.65rem;
   margin-top: 1rem;
 }
@@ -615,13 +871,16 @@ details[open] > .menuSummary::after {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .indexList > li:last-child {
+    grid-column: span 2;
+  }
+
   .board {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "request"
       "menu"
       "status"
-      "campaign"
       "money"
       "activity";
   }
@@ -664,6 +923,10 @@ details[open] > .menuSummary::after {
 
   .indexList {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .indexList > li:last-child {
+    grid-column: 1 / -1;
   }
 
   .indexLink {
@@ -724,8 +987,14 @@ details[open] > .menuSummary::after {
   }
 
   .requestForm {
-    padding-left: 0.7rem;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0.7rem;
     border-width: 3px;
+  }
+
+  .requestSubmit {
+    width: 100%;
+    justify-self: stretch;
   }
 
   .promptList {

@@ -18,6 +18,54 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 09:16 EDT - Merge owner Request Desk release
+
+- Authority: Anthony stopped the preview-only flow and explicitly directed Codex to merge the completed changes.
+- State: local branch `codex/owner-request-intake-20260805` contains the reviewed implementation at `61e5aa8` and its completed handoff at `118b750`; production has not changed yet.
+- Release lock: commit the current operational log only, fetch current `origin/main`, revalidate the exact diff and head, push this branch, open a ready PR, require green checks, merge only the verified head, then verify Vercel production and `/owner/colattao`.
+- Boundaries: no migration, secret/access change, customer contact, or unrelated surface change. Stop on a base conflict, failed check, or head mismatch.
+
+### [CHECK-OUT] Codex - 2026-08-05 09:16 EDT - Stop owner preview attempt
+
+- Did: stopped the local preview command when Anthony redirected the task to merge.
+- State now: the incomplete preview record was not promoted or presented as a review link; production remained untouched.
+- Next / handoff to: Codex - execute the explicitly approved exact-head merge workflow.
+- Blocked on Anthony: none.
+
+### [CHECK-IN] Codex - 2026-08-05 09:09 EDT - Publish owner Request Desk preview
+
+- Authority: Anthony explicitly requested a preview link for the completed owner Request Desk branch.
+- State: clean local branch `codex/owner-request-intake-20260805` at `118b750`, two commits ahead of `origin/main`; production remains untouched.
+- Scope: publish this exact branch to a new Vercel Preview deployment and verify the auth-gated `/owner/colattao` route. No production promotion, merge, migration, access change, or customer contact.
+- Pass: deployment reports Ready, the direct owner URL responds, and the preview is recorded here for review.
+
+### [CHECK-OUT] Codex - 2026-08-05 08:23 EDT - Complete owner Request Desk intake
+
+- Did: made the shared Request Desk the complete owner intake with a 4,000-character brief, up to five validated supporting files, sequential authenticated uploads, exact progress/partial-failure reporting, retry retention, and unsaved-draft protection.
+- Campaigns: removed the owner index/section/metric/query/history surface and campaign auto-apply; campaign language now routes conservatively to team review. Public `/m` promo data and records remain unchanged.
+- Security: every upload proves authenticated tenant and request ownership, checks exact origin, limits each file to 4,000,000 bytes, requires JPG/PNG/WebP/PDF MIME-extension-signature agreement, namespaces each of five slots by request UUID, and uses the existing server-only admin client only after authorization.
+- Quality: request and owner self-tests, targeted ESLint, `tsc --noEmit`, final Next 16.2.11 production build, `git diff --check`, unauthenticated/cross-origin 403 checks, browser QA at 320/390/1440, and independent UI/security reviews pass.
+- Evidence: `C:\Dev\amma\evidence\owner-request-intake-20260805\report.md`; implementation commit `61e5aa8`.
+- State now: local branch `codex/owner-request-intake-20260805`; production and the dirty canonical checkout are untouched.
+- Next / handoff to: Anthony - review the local evidence and explicitly authorize any push, PR, preview, merge, deploy, or production publication.
+- Blocked on Anthony: all remote publication and production actions.
+
+### [RELEASE GATE] Codex - 2026-08-05 08:23 EDT - Owner request intake local review
+
+- Scoped release is ready for review; the temporary QA route is deleted and `/owner-preview` remains absent.
+- Known pre-existing backlog: the public anonymous request/storage RPCs are not database-global enforcers of the new owner five-file policy. The new owner route is authoritative and safe; hardening those legacy public RPCs requires a separately approved migration.
+- Boundary: no migration, secret/access change, customer contact, push, PR, merge, deploy, or production publication occurred.
+
+### [CHECK-IN] Codex - 2026-08-05 07:41 EDT - Complete owner Request Desk intake
+
+- Authority: Anthony requested that the Request Desk become the source for owner requests, accept up to five supporting files, gather the complete brief, and remove live Campaigns for now.
+- State: clean isolated branch `codex/owner-request-intake-20260805` from current production `origin/main` at `d57ddb6`; the dirty canonical checkout and prior owner worktree remain untouched.
+- Intake lock: one 4,000-character brief covering what, where, exact details, and deadline; up to five JPG/PNG/WebP/PDF files at 4,000,000 bytes each. Files upload one at a time through an authenticated owner route because Vercel Functions cap each request at 4.5 MB.
+- Campaign lock: remove Campaigns from the owner index, dashboard, Live metrics, owner data query, and Request Desk auto-apply triage. Preserve the separate `03 Live` menu-status section and public-menu promo data.
+- Security: every action and upload re-authorizes the owner for the restaurant; an upload reference must belong to that restaurant; deterministic slots `0` through `4` enforce five files without a migration; MIME, extension, and file signature must agree; the server-only admin client records and cleans up owner attachments in the existing private request bucket after authorization.
+- Boundaries: no migration, secret, access, billing/payment, public `/m`, campaign-record deletion, `/owner-preview`, customer contact, push, PR, merge, deploy, or production change.
+- Plan: implement the intake contract and five-section layout, add deterministic self-tests, verify responsive/browser behavior and protected routes, then stop at a local commit for Anthony.
+
 ### [CHECK-IN] Codex - 2026-08-04 19:53 EDT - Owner portal production release
 
 - Authority: Anthony explicitly approved merge of the reviewed owner-portal comic redesign and prioritized section index.

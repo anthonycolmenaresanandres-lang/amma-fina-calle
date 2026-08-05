@@ -1,6 +1,3 @@
-import "server-only";
-import { EDITABLE_FIELDS } from "@/lib/owner/rail";
-
 /**
  * Deterministic triage for the AI Request Desk (Phase 0 — NO model, NO OpenAI).
  *
@@ -23,7 +20,6 @@ import { EDITABLE_FIELDS } from "@/lib/owner/rail";
  *   - menu item name         "rename the Mocha to Mocha Clásico"
  *   - menu item description  "set the latte description to Smooth and bright"
  *   - menu category name     "rename the Espresso category to Coffee"
- *   - promo text / on-off    "change the promo to 2x1 Tuesdays", "turn off the promo"
  *   - hours open/close/closed"Sunday open at 8:00 am", "mark Monday closed"
  */
 
@@ -48,11 +44,6 @@ export interface SnapCategory {
   id: string;
   name: string;
 }
-export interface SnapPromo {
-  id: string;
-  text: string;
-  isActive: boolean;
-}
 export interface SnapHours {
   id: string;
   dayOfWeek: number;
@@ -65,7 +56,6 @@ export interface MenuSnapshot {
   businessName: string;
   items: SnapItem[];
   categories: SnapCategory[];
-  promos: SnapPromo[];
   hours: SnapHours[];
 }
 
@@ -73,7 +63,15 @@ export interface MenuSnapshot {
 // Result shape
 // ---------------------------------------------------------------------------
 
-export type EditableTable = "menu_items" | "menu_categories" | "promos" | "hours";
+export type EditableTable = "menu_items" | "menu_categories" | "hours";
+
+// Narrow local mirror of the database write rail. Keeping this parser pure
+// makes its safety decisions deterministic and directly testable.
+const EDITABLE_FIELDS: Record<EditableTable, readonly string[]> = {
+  menu_items: ["name", "description", "price", "is_available", "photo_url"],
+  menu_categories: ["name"],
+  hours: ["open_time", "close_time", "is_closed"],
+};
 
 export interface ChangeProposal {
   table: EditableTable;
@@ -306,6 +304,7 @@ const REMOVE_WORDS = [
   "off the menu", "no longer offer", "discontinue",
 ];
 const PHOTO_WORDS = ["photo", "picture", "image", "logo", "headshot", "upload a pic"];
+const CAMPAIGN_SIGNAL = /\b(promo|promotion|campaign|special|deal|discount|coupon|offer|banner)\b/;
 
 // ---------------------------------------------------------------------------
 // L2 apply detectors — each returns a confident proposal, a review for the
@@ -495,32 +494,6 @@ function tryCategoryRename(raw: string, lower: string, snap: MenuSnapshot): Tria
   return applyResult("menu_categories", "name", r.row.id, `${r.row.name} category`, "name", r.row.name, newName, newName);
 }
 
-function tryPromo(raw: string, lower: string, snap: MenuSnapshot): TriageResult | null {
-  if (!/\b(promo|promotion|special|deal|banner)\b/.test(lower)) return null;
-  if (snap.promos.length === 0) {
-    return review("There’s no promo to change yet — the AMMA team can add one.", "Menu/content update", "Normal");
-  }
-  if (snap.promos.length > 1) {
-    return review("You have more than one promo — tell the AMMA team which to change.", "Question for AMMA", "Normal");
-  }
-  const promo = snap.promos[0];
-  const turnOff = /\b(turn off|disable|deactivate|pause|stop|hide)\b/.test(lower);
-  const turnOn = /\b(turn on|enable|activate|resume|show)\b/.test(lower);
-  if (turnOff || turnOn) {
-    const next = turnOn ? "true" : "false";
-    return applyResult(
-      "promos", "is_active", promo.id,
-      "Promo", "status",
-      promo.isActive ? "On" : "Off",
-      next === "true" ? "On" : "Off",
-      next,
-    );
-  }
-  const newText = valueAfterMarker(raw, ["to", "say", "read"]);
-  if (!newText) return review("Tell me the new promo text.", "Question for AMMA", "Normal");
-  return applyResult("promos", "text", promo.id, "Promo", "text", promo.text, newText, newText);
-}
-
 function tryHours(raw: string, lower: string, snap: MenuSnapshot): TriageResult | null {
   const hasHourSignal = /\b(hour|hours|open|opens|opening|close|closes|closing|closed|reopen)\b/.test(lower);
   if (!hasHourSignal) return null;
@@ -576,6 +549,13 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
   if (matchesAny(lower, OUTAGE_WORDS)) {
     return review("This looks like an outage or something broken — escalating to the AMMA team as urgent.", "Operational support", "Urgent");
   }
+  if (CAMPAIGN_SIGNAL.test(lower)) {
+    return review(
+      "Promotional changes are paused. The AMMA team will review this request.",
+      "Menu/content update",
+      "Normal",
+    );
+  }
 
   // 2. Structural changes the rail can't do (insert/delete) — review.
   if (matchesAny(lower, REMOVE_WORDS)) {
@@ -589,9 +569,13 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
     return review("Adding a new item needs the AMMA team in this version.", "Menu/content update", "Normal");
   }
 
-  // 3. Photos — no file can be attached from the text bar.
+  // 3. Photos — route through review so the owner can attach the new asset.
   if (matchesAny(lower, PHOTO_WORDS)) {
-    return review("To change a photo, use the “Upload photo” button on the item below.", "Image/file upload", "Normal");
+    return review(
+      "Attach the new file here and tell the AMMA team where it should appear.",
+      "Image/file upload",
+      "Normal",
+    );
   }
 
   // 4. Confident single-field edits (each falls through to review if unsure).
@@ -602,7 +586,6 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
     tryRenameItem(raw, lower, snap) ??
     tryItemDescription(raw, lower, snap) ??
     tryCategoryRename(raw, lower, snap) ??
-    tryPromo(raw, lower, snap) ??
     tryHours(raw, lower, snap) ??
     review(
       "I couldn’t confidently match that to a safe edit, so I’ve prepared it for the AMMA team.",

@@ -1,4 +1,6 @@
 import "server-only";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured, REQUEST_UPLOAD_BUCKET } from "@/lib/supabase/config";
 
@@ -12,6 +14,7 @@ export type ChangeRequestPayload = {
   sourcePage: string;
   referenceId: string;
   filesReceived: number;
+  filesExpected?: number;
 };
 
 /**
@@ -78,6 +81,137 @@ function sanitizeBase(input: string): string {
   );
 }
 
+async function storeAttachmentAtPath(
+  supabase: SupabaseClient,
+  referenceId: string,
+  file: File,
+  path: string,
+): Promise<boolean> {
+  if (!path.startsWith(`${referenceId}/`) || path.includes("..")) return false;
+
+  const { error: uploadError } = await supabase.storage
+    .from(REQUEST_UPLOAD_BUCKET)
+    .upload(path, file, { contentType: file.type, upsert: false });
+  if (uploadError) {
+    console.error("[customer-requests] upload failed", uploadError.message);
+    return false;
+  }
+
+  // Private bucket: record only bucket + path. The admin inbox mints a
+  // short-lived signed URL at read time; no public URL is ever stored.
+  const { error: recordError } = await supabase.rpc("add_change_request_attachment", {
+    p_reference_id: referenceId,
+    p_bucket: REQUEST_UPLOAD_BUCKET,
+    p_path: path,
+    p_file_name: file.name.slice(0, 200),
+    p_content_type: file.type,
+    p_byte_size: file.size,
+  });
+  if (recordError) {
+    console.error("[customer-requests] attachment record failed", recordError.message);
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Store one owner attachment after the Route Handler has authenticated the
+ * owner and proved the request belongs to that restaurant. The existing
+ * server-only admin client lets this path write metadata directly and clean up
+ * an orphaned object without broadening any browser or database permissions.
+ */
+export async function storeOwnerRequestAttachment(
+  requestId: string,
+  referenceId: string,
+  file: File,
+  path: string,
+): Promise<{ stored: boolean }> {
+  if (!isSupabaseConfigured) return { stored: false };
+  if (
+    !path.startsWith(`${referenceId}/${requestId}/owner-`) ||
+    path.includes("..")
+  ) {
+    return { stored: false };
+  }
+
+  try {
+    const supabase = getSupabaseAdmin();
+    const findMetadata = () =>
+      supabase
+        .from("change_request_attachments")
+        .select("id")
+        .eq("request_id", requestId)
+        .eq("path", path)
+        .limit(1);
+
+    const { data: existingMetadata, error: existingMetadataError } = await findMetadata();
+    if (existingMetadataError) {
+      console.error("[owner-request] metadata check failed", existingMetadataError.message);
+      return { stored: false };
+    }
+    if (existingMetadata?.length) return { stored: true };
+
+    const upload = () =>
+      supabase.storage
+        .from(REQUEST_UPLOAD_BUCKET)
+        .upload(path, file, { contentType: file.type, upsert: false });
+
+    let { error: uploadError } = await upload();
+    if (uploadError) {
+      // A lost HTTP response can make a successful prior upload look failed.
+      const { data: metadataAfterConflict, error: conflictMetadataError } = await findMetadata();
+      if (conflictMetadataError) {
+        console.error("[owner-request] metadata recheck failed", conflictMetadataError.message);
+        return { stored: false };
+      }
+      if (metadataAfterConflict?.length) return { stored: true };
+
+      // No metadata means the object is an orphan from an interrupted write.
+      const { error: cleanupError } = await supabase.storage
+        .from(REQUEST_UPLOAD_BUCKET)
+        .remove([path]);
+      if (cleanupError) {
+        console.error("[owner-request] orphan cleanup failed", cleanupError.message);
+        return { stored: false };
+      }
+      ({ error: uploadError } = await upload());
+    }
+    if (uploadError) {
+      console.error("[owner-request] upload failed", uploadError.message);
+      return { stored: false };
+    }
+
+    const { error: recordError } = await supabase
+      .from("change_request_attachments")
+      .insert({
+        request_id: requestId,
+        reference_id: referenceId,
+        bucket: REQUEST_UPLOAD_BUCKET,
+        path,
+        public_url: null,
+        file_name: file.name.slice(0, 200),
+        content_type: file.type,
+        byte_size: file.size,
+      });
+    if (recordError) {
+      console.error("[owner-request] attachment record failed", recordError.message);
+      const { error: cleanupError } = await supabase.storage
+        .from(REQUEST_UPLOAD_BUCKET)
+        .remove([path]);
+      if (cleanupError) {
+        console.error("[owner-request] orphan cleanup failed", cleanupError.message);
+      }
+      return { stored: false };
+    }
+
+    return { stored: true };
+  } catch (error) {
+    console.error("[owner-request] attachment storage threw", error);
+    return { stored: false };
+  }
+}
+
 /**
  * Upload already-validated intake files to the request-uploads bucket and
  * record each as an attachment via add_change_request_attachment. Keyed by the
@@ -101,30 +235,7 @@ export async function storeRequestAttachments(
       const stamp = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
       const path = `${referenceId}/${sanitizeBase(file.name)}-${stamp}.${ext}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from(REQUEST_UPLOAD_BUCKET)
-        .upload(path, file, { contentType: file.type, upsert: false });
-      if (uploadError) {
-        console.error("[customer-requests] upload failed", uploadError.message);
-        continue;
-      }
-
-      // Private bucket: record only bucket + path. The admin inbox mints a
-      // short-lived signed URL at read time; no public URL is ever stored.
-      const { error: recordError } = await supabase.rpc("add_change_request_attachment", {
-        p_reference_id: referenceId,
-        p_bucket: REQUEST_UPLOAD_BUCKET,
-        p_path: path,
-        p_file_name: file.name.slice(0, 200),
-        p_content_type: file.type,
-        p_byte_size: file.size,
-      });
-      if (recordError) {
-        console.error("[customer-requests] attachment record failed", recordError.message);
-        continue;
-      }
-
-      stored += 1;
+      if (await storeAttachmentAtPath(supabase, referenceId, file, path)) stored += 1;
     }
 
     return { stored };
@@ -160,7 +271,10 @@ export async function sendChangeRequestEmail(
     `Contact: ${payload.contactName} (${payload.contactInfo})`,
     `Type: ${payload.requestType}`,
     `Priority: ${payload.priority}`,
-    `Files attached: ${payload.filesReceived}`,
+    `Files received: ${payload.filesReceived}`,
+    ...(payload.filesExpected === undefined
+      ? []
+      : [`Supporting files selected: ${payload.filesExpected} (uploads follow this saved request)`]),
     `Source: ${payload.sourcePage}`,
     "",
     "Message:",

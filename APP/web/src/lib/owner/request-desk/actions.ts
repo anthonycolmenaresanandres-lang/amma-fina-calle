@@ -5,10 +5,12 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { applyOwnerChange, applyOwnerSizePrice } from "@/lib/owner/rail";
 import { sendChangeRequestEmail } from "@/lib/requests/intake";
+import {
+  OWNER_REQUEST_MAX_FILES,
+  OWNER_REQUEST_MAX_TEXT_LENGTH,
+} from "./files";
 import { readOwnerMenu } from "./menu";
 import { triageRequest } from "./triage";
-
-const MAX_LEN = 400;
 
 /** What the client renders for an apply preview — display strings only, never authority. */
 export type DeskProposalView = {
@@ -31,7 +33,16 @@ export type DeskResultState =
   | { phase: "error"; message: string };
 
 function readText(formData: FormData): string {
-  return String(formData.get("text") ?? "").trim().slice(0, MAX_LEN);
+  return String(formData.get("text") ?? "")
+    .trim()
+    .slice(0, OWNER_REQUEST_MAX_TEXT_LENGTH);
+}
+
+function readFileCount(formData: FormData): number | null {
+  const count = Number(formData.get("fileCount") ?? 0);
+  return Number.isInteger(count) && count >= 0 && count <= OWNER_REQUEST_MAX_FILES
+    ? count
+    : null;
 }
 
 async function requireOwner(restaurantId: string): Promise<{ email: string }> {
@@ -58,6 +69,10 @@ export async function triageOwnerRequest(
 ): Promise<DeskTriageState> {
   const text = readText(formData);
   if (!text) return { phase: "error", message: "Type what you’d like to change." };
+  const fileCount = readFileCount(formData);
+  if (fileCount === null) {
+    return { phase: "error", message: `Add up to ${OWNER_REQUEST_MAX_FILES} files.` };
+  }
 
   try {
     await requireOwner(restaurantId);
@@ -66,6 +81,16 @@ export async function triageOwnerRequest(
 
     const snapshot = await readOwnerMenu(supabase, restaurantId);
     const result = triageRequest(text, snapshot);
+
+    // Attachments always require human review. A text-only interpretation must
+    // never auto-apply while silently dropping the owner's supporting files.
+    if (fileCount > 0) {
+      return {
+        phase: "review",
+        text,
+        reason: "Files attached. The AMMA team will review the complete request before anything changes.",
+      };
+    }
 
     if (result.decision === "apply") {
       const p = result.proposal;
@@ -150,6 +175,10 @@ export async function sendOwnerReview(
 ): Promise<DeskResultState> {
   const text = readText(formData);
   if (!text) return { phase: "error", message: "Nothing to send." };
+  const fileCount = readFileCount(formData);
+  if (fileCount === null) {
+    return { phase: "error", message: `Add up to ${OWNER_REQUEST_MAX_FILES} files.` };
+  }
 
   try {
     const { email } = await requireOwner(restaurantId);
@@ -163,8 +192,8 @@ export async function sendOwnerReview(
         ? result.review
         : { reason: "Owner change request.", requestType: "Question for AMMA" as const, priority: "Normal" as const };
 
-    const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}`;
-    const message = `[AI Request Desk] ${review.reason}\n\nOwner typed: "${text}"`;
+    const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const message = `[Request Desk] ${review.reason}\n\nOwner brief:\n${text}`;
     const sourcePage = `/owner/${restaurantId}`;
 
     const { error } = await supabase.rpc("submit_change_request", {
@@ -191,6 +220,7 @@ export async function sendOwnerReview(
       sourcePage,
       referenceId,
       filesReceived: 0,
+      filesExpected: fileCount,
     });
 
     return { phase: "sent", message: "Sent to the AMMA team. They’ll follow up.", referenceId };
