@@ -23,7 +23,6 @@ import OwnerDashboard, {
   type AuditEntry,
   type DashboardData,
   type MenuCategory,
-  type Promo,
 } from "./OwnerDashboard";
 import styles from "./owner-portal.module.css";
 
@@ -229,7 +228,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const [restaurantRes, categoriesRes, itemsRes, promosRes, auditRes] = await Promise.all([
+  const [restaurantRes, categoriesRes, itemsRes, auditRes] = await Promise.all([
     supabase
       .from("restaurants")
       .select("id, business_name, site_url, plan, billing_status")
@@ -241,11 +240,11 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
       .select("id, category_id, name, description, price, photo_url, is_available, sizes, sort_order")
       .eq("restaurant_id", id)
       .order("sort_order"),
-    supabase.from("promos").select("id, text, is_active").eq("restaurant_id", id).order("sort_order"),
     supabase
       .from("audit_log")
       .select("id, actor_email, table_name, field_name, old_value, new_value, created_at")
       .eq("restaurant_id", id)
+      .neq("table_name", "promos")
       .order("created_at", { ascending: false })
       .limit(12),
   ]);
@@ -302,7 +301,6 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     email: ctx.email,
     logo: getBrandAssets(id).logo ?? null,
     categories,
-    promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
     billing,
     billingNotice,

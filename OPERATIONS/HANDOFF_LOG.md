@@ -18,6 +18,16 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 07:41 EDT - Complete owner Request Desk intake
+
+- Authority: Anthony requested that the Request Desk become the source for owner requests, accept up to five supporting files, gather the complete brief, and remove live Campaigns for now.
+- State: clean isolated branch `codex/owner-request-intake-20260805` from current production `origin/main` at `d57ddb6`; the dirty canonical checkout and prior owner worktree remain untouched.
+- Intake lock: one 4,000-character brief covering what, where, exact details, and deadline; up to five JPG/PNG/WebP/PDF files at 4,000,000 bytes each. Files upload one at a time through an authenticated owner route because Vercel Functions cap each request at 4.5 MB.
+- Campaign lock: remove Campaigns from the owner index, dashboard, Live metrics, owner data query, and Request Desk auto-apply triage. Preserve the separate `03 Live` menu-status section and public-menu promo data.
+- Security: every action and upload re-authorizes the owner for the restaurant; an upload reference must belong to that restaurant; deterministic slots `0` through `4` enforce five files without a migration; MIME, extension, and file signature must agree; the server-only admin client records and cleans up owner attachments in the existing private request bucket after authorization.
+- Boundaries: no migration, secret, access, billing/payment, public `/m`, campaign-record deletion, `/owner-preview`, customer contact, push, PR, merge, deploy, or production change.
+- Plan: implement the intake contract and five-section layout, add deterministic self-tests, verify responsive/browser behavior and protected routes, then stop at a local commit for Anthony.
+
 ### [CHECK-IN] Codex - 2026-08-04 19:53 EDT - Owner portal production release
 
 - Authority: Anthony explicitly approved merge of the reviewed owner-portal comic redesign and prioritized section index.
