@@ -11,7 +11,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { Chip, Panel, buttonClass, cn } from "@/components/ui";
+import { Panel, buttonClass, cn } from "@/components/ui";
 import {
   confirmOwnerRequest,
   sendOwnerReview,
@@ -86,18 +86,14 @@ function parse(text: string, items: Item[]): Result {
   };
 }
 
-const DEFAULT_CHIPS = ["86 the Flan Latte", "change Mocha to $8", "bring back Cortado"];
-
 export default function AskBar({
   items,
   demo = false,
   restaurantId,
-  suggestedPrompts,
 }: {
   items: Item[];
   demo?: boolean;
   restaurantId?: string;
-  suggestedPrompts?: string[];
 }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -113,7 +109,6 @@ export default function AskBar({
   const [pending, startTransition] = useTransition();
 
   const interactive = demo || Boolean(restaurantId);
-  const chips = suggestedPrompts?.length ? suggestedPrompts : DEFAULT_CHIPS;
 
   useEffect(() => {
     if (!text.trim() && files.length === 0 && !retryUpload) return;
@@ -326,13 +321,10 @@ export default function AskBar({
       <p className={styles.requestKicker}>
         <span className={styles.frameNumber}>01</span>
         <Sparkles size={13} strokeWidth={2} aria-hidden />
-        Request desk
+        Request
       </p>
-      <h2 className={styles.requestTitle}>Send the full brief.</h2>
-      <p className={styles.requestIntro}>
-        Tell us what you need, where it goes, exact details, and the deadline.
-      </p>
-      <p className={styles.requestChecklist}>What · Where · Details · Deadline</p>
+      <h2 className={styles.requestTitle}>What do you need?</h2>
+      <p className={styles.requestIntro}>What · Where · Details · Deadline</p>
 
       <form
         onSubmit={(event) => {
@@ -343,7 +335,7 @@ export default function AskBar({
       >
         <div className={styles.briefField}>
           <div className={styles.briefLabelRow}>
-            <label htmlFor="owner-request-brief">Complete brief</label>
+            <label htmlFor="owner-request-brief">Details</label>
             <span>{text.length}/{OWNER_REQUEST_MAX_TEXT_LENGTH}</span>
           </div>
           <textarea
@@ -357,7 +349,7 @@ export default function AskBar({
             disabled={!interactive || pending}
             autoComplete="off"
             maxLength={OWNER_REQUEST_MAX_TEXT_LENGTH}
-            placeholder="Example: Replace the dinner menu cover with the attached logo by Friday. Use the exact headline…"
+            placeholder="Example: Replace the dinner cover with the attached logo by Friday…"
             className={styles.briefTextarea}
           />
         </div>
@@ -366,11 +358,11 @@ export default function AskBar({
           <div className={styles.fileDockHeader}>
             <span>
               <Paperclip size={14} strokeWidth={2} aria-hidden />
-              Supporting files
+              Files
             </span>
             <strong>{files.length}/{OWNER_REQUEST_MAX_FILES}</strong>
           </div>
-          <p>JPG, PNG, WebP, or PDF · 4 MB each</p>
+          <p>JPG · PNG · WEBP · PDF · 4&nbsp;MB each</p>
           <label
             className={cn(
               styles.filePicker,
@@ -433,29 +425,6 @@ export default function AskBar({
           Review request
         </button>
       </form>
-
-      {!result && !done ? (
-        <div className={styles.promptList} aria-label="Quick request examples">
-          {chips.map((chip) =>
-            interactive ? (
-              <button
-                key={chip}
-                type="button"
-                disabled={pending}
-                onClick={() => {
-                  setText(chip);
-                  analyze(chip);
-                }}
-                className={cn(styles.promptButton, "px-3 py-1.5 transition disabled:opacity-50")}
-              >
-                {chip}
-              </button>
-            ) : (
-              <Chip key={chip} className={styles.promptButton}>{chip}</Chip>
-            ),
-          )}
-        </div>
-      ) : null}
 
       {result?.kind === "apply" ? (
         <div aria-live="polite" className={cn(styles.responseCard, styles.responseApply)}>

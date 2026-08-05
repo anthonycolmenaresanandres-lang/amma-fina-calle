@@ -301,3 +301,14 @@ No task is live until it appears below this line with a current PASS condition.
 **STOP:** Stop before push, PR, merge, deploy, migration, secret/access change, or production publication. Stop and report if the authenticated owner/reference boundary cannot be proven.
 
 **Result:** Completed locally in `61e5aa8`. The Request Desk now captures one 4,000-character complete brief and up to five JPG/PNG/WebP/PDF files, persists the request first, uploads each file through an exact-origin authenticated route, verifies tenant/reference ownership, namespaces storage by authoritative request UUID, checks 4,000,000-byte/MIME/extension/signature limits, and preserves failed files for truthful retry. Campaigns is removed from owner navigation, rendering, metrics, data reads, history, and auto-apply; public `/m` promo behavior is untouched. Five linked sections and 320/390/1440 browser layouts pass with no overflow. Request/owner self-tests, targeted ESLint, TypeScript, final Next production build, anonymous/cross-origin denial checks, `git diff --check`, and independent UI/security reviews pass. Evidence: `C:\Dev\amma\evidence\owner-request-intake-20260805\report.md`. No push, PR, merge, deploy, or production change was made.
+
+## [ ] 21 - Simplify the owner portal to request, billing, and history
+
+**State:** IN PROGRESS
+**Codex effort:** MEDIUM
+**Authority:** Anthony directly requested this follow-up on 2026-08-05, overriding the normal Claude-only queue-writing rule for this scoped task.
+**Branch base:** `codex/owner-portal-simplify-20260805`, created from current production `origin/main` at `8fede5a` in a clean sibling worktree.
+**Scope:** Remove the owner Quick Edits panel and per-store Live status panel; retain the public Menu header link and complete Request Desk; reduce duplicate interface copy; replace the fashion-serif display face with a bold comic display face; reorganize the index and board as Request, Billing, History.
+**Boundaries:** No authentication, request behavior, billing/Zelle behavior, menu data, server action, API, database, public `/m`, campaign record, `/owner-preview`, access, secret, customer contact, push, PR, merge, deploy, or production change.
+**PASS:** Quick Edits and Live are absent from rendering, index, direct-edit imports, derived status work, and layout; Request/Billing/History numbering and links agree; the public Menu link remains; copy is materially shorter; display type is bold comic while body copy stays readable; 320/390/1440 layouts have no overflow; targeted lint, types, self-tests, build, guideline review, and browser checks pass.
+**STOP:** Stop before push, PR, merge, deploy, or production publication. Stop if removal requires changing request, billing, authentication, menu-data, or tenant behavior.

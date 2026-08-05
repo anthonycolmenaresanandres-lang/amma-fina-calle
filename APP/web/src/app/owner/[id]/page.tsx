@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Bodoni_Moda } from "next/font/google";
+import { Lilita_One } from "next/font/google";
 import { ShieldX, Wrench } from "lucide-react";
 import { Eyebrow, cn } from "@/components/ui";
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -26,10 +26,9 @@ import OwnerDashboard, {
 } from "./OwnerDashboard";
 import styles from "./owner-portal.module.css";
 
-const display = Bodoni_Moda({
+const display = Lilita_One({
   subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
+  weight: "400",
   display: "swap",
   variable: "--font-owner-display",
 });
@@ -51,7 +50,7 @@ function Shell({
   return (
     <main className={cn("fc-bg", styles.portal, display.variable)}>
       <a href="#owner-main" className={styles.skipLink}>
-        Skip to owner tools
+        Skip to tools
       </a>
       <div className="fc-grain" aria-hidden />
       <div className="fc-vignette" aria-hidden />
@@ -77,11 +76,11 @@ function SetupNotice() {
         <Wrench size={18} strokeWidth={1.75} aria-hidden />
       </span>
       <div className="mt-4 flex justify-center">
-        <Eyebrow>Owner portal</Eyebrow>
+        <Eyebrow>Owner</Eyebrow>
       </div>
       <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Owner access is being connected. Contact AMMA for a menu or billing change.
+        Access isn&apos;t ready. Contact AMMA.
       </p>
     </div>
   );

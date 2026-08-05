@@ -18,6 +18,14 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 09:29 EDT - Simplify owner portal surface
+
+- Authority: Anthony requested removal of Quick Edits and the per-store Live box, plus shorter copy and a stronger comic typography hierarchy.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` from current production `origin/main` at `8fede5a`; the dirty canonical checkout and prior owner worktrees remain untouched.
+- Design lock: Request, Billing, History only; retain the public Menu header link; use a bold comic display face with readable Geist body text, fewer duplicate labels, strong ink/paper contrast, and the existing gold/sapphire registration accents.
+- Boundaries: presentation and removal of direct-edit/status rendering only. Preserve Request Desk behavior, billing/Zelle, authentication, menu data, tenant isolation, and protected routes. No push, PR, merge, deploy, or production change.
+- Plan: remove the two panels and their dead UI code, reflow and renumber the remaining sections, reduce copy, verify accessibility/responsiveness/build, and stop at a local release gate.
+
 ### [CHECK-IN] Codex - 2026-08-05 09:16 EDT - Merge owner Request Desk release
 
 - Authority: Anthony stopped the preview-only flow and explicitly directed Codex to merge the completed changes.
