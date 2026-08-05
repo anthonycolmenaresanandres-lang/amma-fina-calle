@@ -304,7 +304,7 @@ No task is live until it appears below this line with a current PASS condition.
 
 ## [x] 21 - Simplify the owner portal to request, billing, and history
 
-**State:** DONE - RELEASE AUTHORIZED
+**State:** DONE - PRODUCTION
 **Codex effort:** MEDIUM
 **Authority:** Anthony directly requested this follow-up on 2026-08-05, overriding the normal Claude-only queue-writing rule for this scoped task, and explicitly authorized its production merge later that day.
 **Branch base:** `codex/owner-portal-simplify-20260805`, created from current production `origin/main` at `8fede5a` in a clean sibling worktree.
@@ -314,3 +314,5 @@ No task is live until it appears below this line with a current PASS condition.
 **STOP:** Stop on an unexpected head, base, diff, check, deployment, alias, or live-route result. Stop if release requires changing request, billing, authentication, menu-data, tenant behavior, or any protected surface.
 
 **Result:** Completed locally in `d9d2151`. Quick Edits, the tenant-specific Live box, and per-store request shortcut chips are removed; the shared owner surface now follows Request, Billing, History while retaining the Colattao/public Menu header link and the complete five-file Request Desk. Lilita One supplies the bold comic display hierarchy while Geist remains on operational copy and controls. Native section links focus the correct targets; 320/390/1440 browser checks pass with one-row navigation, 44 px controls, long-history wrapping, no horizontal overflow, and no browser errors. Request/owner self-tests, targeted ESLint, TypeScript, the final Next production build, `git diff --check`, current interface-guideline review, and independent scope review pass. The temporary QA route was removed. No auth, request action, billing/Zelle, menu data, API, database, `/owner-preview`, push, PR, merge, deploy, or production change was made. Evidence: `C:\Dev\amma\evidence\owner-portal-simplify-20260805`.
+
+**Production release:** Ready PR #210 was squash-merged under the exact verified head lock as `f85098e`. GitHub CI and Vercel checks passed; the Vercel production deployment completed successfully at `https://amma-fina-calle-5ozdz6dad.vercel.app` and the `finacalleos.com` alias serves the release. Live verification confirms `/owner/colattao` returns the expected private Colattao sign-in at HTTP 200 with no browser errors or horizontal overflow, `/m/colattao` remains HTTP 200, and held `/owner-preview` remains HTTP 404.

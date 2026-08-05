@@ -18,6 +18,13 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-08-05 18:11 EDT - Merge simplified owner portal
+
+- Did: pushed exact head `2e3e409`, opened ready PR #210, required green GitHub CI and Vercel checks, then squash-merged under the expected-head lock as production commit `f85098e`.
+- State now: the Vercel production deployment at `https://amma-fina-calle-5ozdz6dad.vercel.app` completed successfully and `finacalleos.com` serves the release. Live `/owner/colattao` returns the expected private Colattao sign-in at HTTP 200 with no browser errors or horizontal overflow; `/m/colattao` remains HTTP 200; held `/owner-preview` remains HTTP 404. Production evidence is in `C:\Dev\amma\evidence\owner-portal-simplify-20260805\production-login-390.png`.
+- Next / handoff to: normal owner-portal operations; use Request Desk as the source of owner changes.
+- Blocked on Anthony: none.
+
 ### [CHECK-IN] Codex - 2026-08-05 18:04 EDT - Merge simplified owner portal
 
 - Authority: Anthony explicitly directed Codex to merge the completed simplified owner-portal release.
