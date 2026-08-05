@@ -304,13 +304,13 @@ No task is live until it appears below this line with a current PASS condition.
 
 ## [x] 21 - Simplify the owner portal to request, billing, and history
 
-**State:** DONE - LOCAL RELEASE GATE
+**State:** DONE - RELEASE AUTHORIZED
 **Codex effort:** MEDIUM
-**Authority:** Anthony directly requested this follow-up on 2026-08-05, overriding the normal Claude-only queue-writing rule for this scoped task.
+**Authority:** Anthony directly requested this follow-up on 2026-08-05, overriding the normal Claude-only queue-writing rule for this scoped task, and explicitly authorized its production merge later that day.
 **Branch base:** `codex/owner-portal-simplify-20260805`, created from current production `origin/main` at `8fede5a` in a clean sibling worktree.
 **Scope:** Remove the owner Quick Edits panel and per-store Live status panel; retain the public Menu header link and complete Request Desk; reduce duplicate interface copy; replace the fashion-serif display face with a bold comic display face; reorganize the index and board as Request, Billing, History.
-**Boundaries:** No authentication, request behavior, billing/Zelle behavior, menu data, server action, API, database, public `/m`, campaign record, `/owner-preview`, access, secret, customer contact, push, PR, merge, deploy, or production change.
+**Boundaries:** No authentication, request behavior, billing/Zelle behavior, menu data, server action, API, database, public `/m`, campaign record, `/owner-preview`, access, secret, or customer contact change. Production release is limited to the exact verified owner-portal diff authorized by Anthony.
 **PASS:** Quick Edits and Live are absent from rendering, index, direct-edit imports, derived status work, and layout; Request/Billing/History numbering and links agree; the public Menu link remains; copy is materially shorter; display type is bold comic while body copy stays readable; 320/390/1440 layouts have no overflow; targeted lint, types, self-tests, build, guideline review, and browser checks pass.
-**STOP:** Stop before push, PR, merge, deploy, or production publication. Stop if removal requires changing request, billing, authentication, menu-data, or tenant behavior.
+**STOP:** Stop on an unexpected head, base, diff, check, deployment, alias, or live-route result. Stop if release requires changing request, billing, authentication, menu-data, tenant behavior, or any protected surface.
 
 **Result:** Completed locally in `d9d2151`. Quick Edits, the tenant-specific Live box, and per-store request shortcut chips are removed; the shared owner surface now follows Request, Billing, History while retaining the Colattao/public Menu header link and the complete five-file Request Desk. Lilita One supplies the bold comic display hierarchy while Geist remains on operational copy and controls. Native section links focus the correct targets; 320/390/1440 browser checks pass with one-row navigation, 44 px controls, long-history wrapping, no horizontal overflow, and no browser errors. Request/owner self-tests, targeted ESLint, TypeScript, the final Next production build, `git diff --check`, current interface-guideline review, and independent scope review pass. The temporary QA route was removed. No auth, request action, billing/Zelle, menu data, API, database, `/owner-preview`, push, PR, merge, deploy, or production change was made. Evidence: `C:\Dev\amma\evidence\owner-portal-simplify-20260805`.

@@ -18,6 +18,13 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-IN] Codex - 2026-08-05 18:04 EDT - Merge simplified owner portal
+
+- Authority: Anthony explicitly directed Codex to merge the completed simplified owner-portal release.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` contains the verified implementation at `d9d2151` and local release record at `97520bd`; current known production base is `origin/main` at `8fede5a` before the required fetch.
+- Release lock: fetch current `origin/main`, stop on base or scope conflict, commit this authorization record, push the exact branch, open a ready PR, require green checks, merge only the verified head, wait for the resulting Vercel production deployment, then verify `https://finacalleos.com/owner/colattao` and representative protected-route health.
+- Boundaries: no new feature, auth/access, request action, billing/Zelle, menu data, API, database, secret, customer contact, or `/owner-preview` change. Stop on an unexpected head, diff, check, deployment, alias, or live-route result.
+
 ### [CHECK-OUT] Codex - 2026-08-05 09:55 EDT - Simplify owner portal surface
 
 - Did: committed `d9d2151`, removing Quick Edits, the per-tenant Live box, and store-specific request chips; reduced the dashboard to Request, Billing, History; preserved the header Menu destination and complete Request Desk; restored bold comic display type with Lilita One and readable Geist body text.
