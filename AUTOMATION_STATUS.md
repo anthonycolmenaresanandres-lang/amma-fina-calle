@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-05 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green.** **One change since the 08-05 morning run: Anthony self-merged amma #209 "Centralize owner requests and remove campaign surface" (08-05 13:19 UTC), moving `main` `d57ddb6` → `8fede5a`.** It reworks the `/owner/[id]` Request Desk into the canonical owner intake (4,000-char brief + up to five JPG/PNG/WebP/PDF attachments, tenant-scoped validation/persistence) and removes the Campaigns surface from the owner portal; the public menu and existing promo records are preserved. It touches a hard-guardrail protected route + owner data flow, but it was **Anthony's own merge** (PR lists auth/tenant-scope, self-tests, ESLint, tsc, prod build, 320/390/1440 QA, and independent UI + security review), so **no caretaker action needed** — just logged. `CI — web` ✅ on the merge (run #134, 08-05 13:19 UTC). No new human review comments and no other new PRs/merges/closes. Other default branches unchanged this run: vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — all re-verified via API. Only open PR: **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held). **VBFH Daily Run stays GREEN** — latest **08-05 14:17 UTC SUCCEEDED (run #63, ~seventeen in a row)**. vbfh CI ✅ (master push 07-30). voice-gateway CI path-filtered (nothing touched its paths). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **`claude/las-palmas-menu-game-59vtbg` is the open #197 head — kept OUT of the delete set (deleting it would close #197).**
+**Last updated:** 2026-08-06 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green.** **Two changes since the 08-05 evening run: Anthony self-merged amma #210 "Simplify owner portal to request, billing, and history" (08-05 22:08 UTC) and #211 "Record simplified owner portal production release" (08-05 22:13 UTC, docs-only), moving `main` `8fede5a` → `f85098e` → `e3b98e5`.** #210 trims the `/owner/[id]` portal to Request Desk + Billing + History + public Menu link (removes Quick Edits, the per-store Live box, and store-specific request shortcuts; restores bold comic display type) **without changing auth, request, billing, or menu behavior**; #211 is a documentation-only release record (application code unchanged). #210 touches a hard-guardrail protected route but was **Anthony's own merge** with the PR affirming unchanged auth/request/billing/menu behavior, so **no caretaker action needed** — just logged. `CI — web` ✅ on the #210 merge (run #135, 08-05 22:08 UTC, sha `f85098e`). No new human review comments (only the Vercel bot on #197) and no other new PRs/merges/closes. Other default branches unchanged this run: vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — all re-verified via API. Only open PR: **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held). **VBFH Daily Run stays GREEN** — latest **08-05 14:17 UTC SUCCEEDED (run #63, ~seventeen in a row)**; the 08-06 ~14:00-UTC run had not yet fired at check time. vbfh CI ✅ (master push 07-30). voice-gateway CI path-filtered (nothing touched its paths). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **`claude/las-palmas-menu-game-59vtbg` is the open #197 head — kept OUT of the delete set (deleting it would close #197).**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -44,21 +44,23 @@ _No longer on the list:_ **#201 draft decision — DONE** (Anthony merged it, La
 official Lynnhaven PDF). The AJ Gator's / Las Palmas visual wave (#202 inked-plate CTAs, #203 penalty-shootout
 skin, #204/#205 QR proof leave-behinds, #206/#207 B&W QR handouts) all merged by Anthony.
 
-_Resolved / no action:_ **VBFH Daily Run stays GREEN** — 08-04 14:24 UTC run #62 succeeded (~sixteen in a row).
-Everything Anthony merged in the 08-03 wave (#201–#207) is his own call; all CI green post-merge. Earlier merged
-history (AJ Gator's Holland Road #198/#199, Las Palmas simplify #200, owner portal #162, EscapeTheBomb #1,
-the 07-30 wave #189/#180/#161/#196 + vbfh #7, and all prior waves) stays merged. Superseded drafts closed
-07-23 (#169/#173/#177) and #168/#4 stay closed. **#29 stays closed** (07-18) — the standing "AI Request Desk"
-adopt-and-rebase-or-close decision remains Anthony's; caretaker does not act. shadow-engineer-rpa dormant (07-09).
+_Resolved / no action:_ **VBFH Daily Run stays GREEN** — 08-05 14:17 UTC run #63 succeeded (~seventeen in a row).
+The owner-portal wave Anthony merged himself (#208 redesign, #209 centralize requests / remove campaigns, #210
+simplify, #211 docs release) is his own call on protected routes; all CI green post-merge. Earlier merged
+history (AJ Gator's Holland Road #198/#199, Las Palmas simplify #200, the #201–#207 wave, owner portal #162,
+EscapeTheBomb #1, the 07-30 wave #189/#180/#161/#196 + vbfh #7, and all prior waves) stays merged. Superseded
+drafts closed 07-23 (#169/#173/#177) and #168/#4 stay closed. **#29 stays closed** (07-18) — the standing "AI
+Request Desk" adopt-and-rebase-or-close decision remains Anthony's; caretaker does not act. shadow-engineer-rpa
+dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-05, evening)
+## Build health (as of 2026-08-06, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8fede5a`** (**#209** centralize owner requests / remove campaigns surface, Anthony's own merge). Latest `CI — web` on main ✅ (**08-05 13:19 UTC, run #134, on the #209 merge**). #209 touches `/owner/[id]` intake + owner data (protected route) but was Anthony's own merge with auth/tenant-scope, security review, and full QA per the PR body; no caretaker action. voice-gateway CI path-filtered (no recent run). One open draft (#197 docs) has Vercel Ready, **held**. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Today's scheduled run **08-05 14:17 UTC SUCCEEDED (run #63)** (07-21…08-05 all ✅ — ~**seventeen green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`e3b98e5`** (**#211** docs release, on top of **#210** owner-portal simplify, Anthony's own merges). Latest `CI — web` on main ✅ (**08-05 22:08 UTC, run #135, on the #210 merge `f85098e`**; #211 is docs-only, path-filtered). #210 trims `/owner/[id]` (protected route) to Request/Billing/History but was Anthony's own merge affirming unchanged auth/request/billing/menu behavior; no caretaker action. voice-gateway CI path-filtered (no recent run). One open draft (#197 docs) has Vercel Ready, **held**. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest scheduled run **08-05 14:17 UTC SUCCEEDED (run #63)** (07-21…08-05 all ✅ — ~**seventeen green in a row**); the 08-06 ~14:00-UTC run had not yet fired at check time. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -71,22 +73,29 @@ adopt-and-rebase-or-close decision remains Anthony's; caretaker does not act. sh
 
 ## Merged / closed since last run (all amma, all merged by Anthony)
 
-- **#209 — "Centralize owner requests and remove campaign surface."** Merge `8fede5a` (current main tip). Squash of
-  `codex/owner-request-intake-20260805`, opened + self-merged by Anthony 08-05 13:19 UTC. Makes the `/owner/[id]`
-  Request Desk the canonical owner intake (4,000-char brief + up to five JPG/PNG/WebP/PDF attachments with
-  authenticated tenant-scoped validation, persistence, retry handling, truthful upload status) and **removes the
-  Campaigns surface** from the owner portal nav/metrics/queries/history/auto-apply. Public menu + existing
-  promotional records preserved. Touches a hard-guardrail protected route + owner data flow, but **it was
-  Anthony's own merge** — PR lists auth/tenant-scope, owner self-tests, ESLint, `tsc --noEmit`, Next prod build,
-  320/390/1440 QA, and independent UI + security review — so no caretaker action. `CI — web` ✅ (run #134).
-  1305+/273−, 14 files, 3 commits.
+- **#211 — "Record simplified owner portal production release."** Merge `e3b98e5` (current main tip).
+  Opened + self-merged by Anthony 08-05 22:13 UTC. **Documentation only** — marks the owner-portal
+  simplification complete in production and preserves its verified PR/deployment/route-health/handoff
+  evidence; application code unchanged. Docs path-filtered (no `CI — web` run needed). No caretaker action.
+- **#210 — "Simplify owner portal to request, billing, and history."** Merge `f85098e`. Opened +
+  self-merged by Anthony 08-05 22:08 UTC. Removes Quick Edits, the per-store Live box, and store-specific
+  request shortcuts from `/owner/[id]`; keeps the complete Request Desk, Billing, History, and public Menu
+  link; restores bold comic display typography **without changing auth, request, billing, or menu behavior**.
+  Touches a hard-guardrail protected route but **it was Anthony's own merge** with that affirmation in the PR
+  body, so no caretaker action. `CI — web` ✅ (run #135).
 
 ### Earlier merged
 
+- **#209 — "Centralize owner requests and remove campaign surface."** Merge `8fede5a`. Squash of
+  `codex/owner-request-intake-20260805`, opened + self-merged by Anthony 08-05 13:19 UTC. Makes the `/owner/[id]`
+  Request Desk the canonical owner intake (4,000-char brief + up to five JPG/PNG/WebP/PDF attachments with
+  authenticated tenant-scoped validation, persistence, retry handling, truthful upload status) and **removes the
+  Campaigns surface** from the owner portal. Public menu + existing promotional records preserved. Anthony's own
+  merge with auth/tenant-scope + independent security review per the PR body. `CI — web` ✅ (run #134).
 - **#208 — "Redesign shared owner portal command center."** Merge `d57ddb6`. Squash of
   `codex/owner-portal-comic-20260804`, self-merged by Anthony 08-04 23:58 UTC. Presentation/accessibility-only
   redesign of `/owner/[id]` — the PR body affirms auth, authorization, actions, billing/Zelle, DB behavior, menu
-  data, API routes, and tenant isolation all unchanged. `CI — web` ✅ (run #132). 1221+/254−, 9 files.
+  data, API routes, and tenant isolation all unchanged. `CI — web` ✅ (run #132).
 
 ### Earlier merged (08-03 wave)
 
@@ -95,11 +104,9 @@ adopt-and-rebase-or-close decision remains Anthony's; caretaker does not act. sh
 - **#205 — "Log restaurant QR proof production closeout."** Merge `b9c3fac`. Docs closeout.
 - **#204 — "Add two-QR Gators leave-behind and verified local proof."** Merge `4c0138a`. Sales leave-behind + proof.
 - **#203 — "A.J. Gator's penalty shootout: hub game tab + branded skin."** Merge `1e9503b`. New color-only
-  `ajgators` penalty skin (sports-bar palette), client's real official logo as the **only** asset overlay,
-  kicker/keeper/ball stay engine primitives pending owner-approved art, same pending-approval banner as the
-  Las Palmas prospect skin; Holland Road hub gains a 4th game tab → `/penalty-shootout?skin=ajgators`.
-  **Guardrail-compliant** (non-human primitives, approved logo overlay only, primitive fallback preserved).
-  `CI — web` ✅.
+  `ajgators` penalty skin, client's real official logo as the **only** asset overlay, kicker/keeper/ball stay
+  engine primitives pending owner-approved art, pending-approval banner, Holland Road hub gains a 4th game tab.
+  **Guardrail-compliant** (non-human primitives, approved logo overlay only, primitive fallback preserved). `CI — web` ✅.
 - **#202 — "Inked-plate buttons — premium comic-book CTAs for both restaurant hubs."** Merge `7ba7b04`. `CI — web` ✅.
 - **#201 — "Link Las Palmas to its current official menu."** Merge `84ed044`. The held draft — Anthony merged
   it; Las Palmas landing Menu action now opens the official Lynnhaven PDF (new tab). PR affirms no QR target,
@@ -127,7 +134,8 @@ Anthony has approved deletion, but the session git proxy returns **HTTP 403 on a
 commands below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`,
 `automation/status`, `claude/*` caretaker branches, **the open #197 head `claude/las-palmas-menu-game-59vtbg`**
 (deleting it would close the open draft), unmerged `voice/*` (Anthony's judgment) and the unproven
-squash-merged exploration sets. The five #201–#207 heads are now merged and safe to add.
+squash-merged exploration sets. The #201–#207 heads are merged and safe. The #208–#211
+codex heads (`codex/owner-portal-comic-20260804`, `codex/owner-request-intake-20260805`) are also now merged.
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -139,7 +147,8 @@ git -C amma-fina-calle push origin --delete \
   claude/escape-bomb-dc-plan-n6bfj5 feat/las-palmas-lynnhaven-table-os \
   codex/aj-gators-landing-hub-20260801 codex/las-palmas-original-menu-20260802 \
   claude/restaurant-hub-buttons claude/aj-gators-shootout \
-  codex/qr-proof-release-20260803 codex/aj-gators-bw-qr-20260803
+  codex/qr-proof-release-20260803 codex/aj-gators-bw-qr-20260803 \
+  codex/owner-portal-comic-20260804 codex/owner-request-intake-20260805
 ```
 **vbfh-media-engine** (verified merged or closed-superseded):
 ```
@@ -151,69 +160,53 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-06 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing.** Two changes since the 08-05 evening run: **Anthony self-merged amma #210 "Simplify owner portal to
+  request, billing, and history"** (08-05 22:08 UTC, `8fede5a → f85098e`) and **#211 "Record simplified owner
+  portal production release"** (08-05 22:13 UTC docs-only, `f85098e → e3b98e5`). #210 trims `/owner/[id]` to
+  Request Desk + Billing + History + public Menu link (removes Quick Edits, per-store Live box, store-specific
+  request shortcuts; restores bold comic type) **without changing auth, request, billing, or menu behavior**;
+  #211 is a docs-only release record (app code unchanged). #210 touches a hard-guardrail protected route but is
+  his own merge with that affirmation in the PR body, so **no caretaker action**, logged only. `CI — web` ✅ on
+  the #210 merge (run #135). No new human review comments (only the Vercel bot on #197), no other new
+  PRs/merges/closes. Other default branches unchanged & re-verified: vbfh `e21077d`, shadow `5113ce5`,
+  EscapeTheBomb `eee6a37`. Only open PR still amma **#197** (draft, docs-only, held). **VBFH Daily Run stays
+  GREEN** — latest **08-05 14:17 UTC ✅ (run #63, ~seventeen in a row)**; the 08-06 ~14:00-UTC run had not yet
+  fired at check time. vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still
+  403-blocked (awaiting Anthony's local paste; #208–#211 codex heads added to the set). Standing items for
+  Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-05 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** One change since the 08-05 morning run: **Anthony self-merged amma #209 "Centralize owner requests and
   remove campaign surface"** (08-05 13:19 UTC), `main` **`d57ddb6` → `8fede5a`**. Reworks the `/owner/[id]` Request
   Desk into the canonical owner intake (4,000-char brief + up to five image/PDF attachments, tenant-scoped
-  validation/persistence) and removes the Campaigns surface; public menu + promo records preserved. Touches a
-  hard-guardrail protected route + owner data, but his own merge with auth/tenant-scope + independent security
-  review per the PR body, so **no caretaker action**, logged only. `CI — web` ✅ on the merge (run #134). No new
-  human review comments (only the Vercel bot on #197), no other new PRs/merges/closes. Other default branches
-  unchanged & re-verified: vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. Only open PR still amma
-  **#197** (draft, docs-only, held). **VBFH Daily Run stays GREEN** — latest **08-05 14:17 UTC ✅ (run #63,
-  ~seventeen in a row)**. vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still
-  403-blocked (awaiting Anthony's local paste). Standing items for Anthony unchanged (SMTP secrets, Runway credits
-  Day 06, image-QA routine decision, grant submission, branch cleanup).
-- **2026-08-05 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** One change since the 08-04 evening run: **Anthony self-merged amma #208 "Redesign shared owner portal
-  command center"** (08-04 23:58 UTC), `main` **`559f616` → `d57ddb6`**. Presentation/accessibility-only redesign
-  of `/owner/[id]` — the PR body affirms auth, authorization, actions, billing/Zelle, DB behavior, menu data, API
-  routes, and tenant isolation are all unchanged; his own action on a protected route, so **no caretaker action**,
-  logged only. `CI — web` ✅ on the merge (run #132). No new human review comments (only the Vercel bot on #197),
-  no other new PRs/merges/closes. Other default branches unchanged & re-verified: vbfh `e21077d`, shadow `5113ce5`,
+  validation/persistence) and removes the Campaigns surface; public menu + promo records preserved. His own merge
+  with auth/tenant-scope + independent security review per the PR body, so **no caretaker action**, logged only.
+  `CI — web` ✅ on the merge (run #134). No new human review comments (only the Vercel bot on #197), no other new
+  PRs/merges/closes. Other default branches unchanged & re-verified: vbfh `e21077d`, shadow `5113ce5`,
   EscapeTheBomb `eee6a37`. Only open PR still amma **#197** (draft, docs-only, held). **VBFH Daily Run stays
-  GREEN** — latest **08-04 14:24 UTC ✅ (run #62)**; the 08-05 ~14:00-UTC run had not yet fired at check time.
-  vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still 403-blocked (awaiting
-  Anthony's local paste). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA
-  routine decision, grant submission, branch cleanup).
-- **2026-08-04 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Only change since the 08-04 morning run: the **VBFH Daily Run fired 08-04 14:24 UTC and SUCCEEDED
-  (run #62, ~sixteen green in a row)** — the morning run had checked before it fired. No new PRs, merges/closes,
-  or human review comments; last human activity remains Anthony's #201–#207 merge wave (already logged). Default
-  branches all unchanged & re-verified: `main` **`559f616`**, vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb
-  `eee6a37`. Only open PR still amma **#197** (draft, docs-only, held; only a Vercel-bot redeploy comment, no
-  human review comments). `CI — web` on main ✅, vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays
-  closed. Branch cleanup still 403-blocked (awaiting Anthony's local paste). Standing items for Anthony unchanged
-  (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
-- **2026-08-04 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing changed
-  and nothing needed fixing.** No new PRs, merges/closes, or human review comments since the 08-03 evening run
-  (last activity was Anthony's #201–#207 merge wave, already logged). `main` unchanged at **`559f616`**; vbfh
-  `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37` — all re-verified. Only open PR still amma **#197** (draft,
-  docs-only, held; only a Vercel-bot redeploy comment 08-04 04:26 UTC, no human review comments). **VBFH Daily
-  Run stays GREEN** — latest **08-03 14:47 UTC ✅**; the 08-04 ~14:00-UTC run had not yet fired at check time.
-  No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still 403-blocked (awaiting Anthony's
-  local paste). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine
-  decision, grant submission, branch cleanup).
-- **2026-08-03 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Busy amma afternoon: **seven PRs #201–#207 all merged by Anthony himself** — #201 Las Palmas
-  menu-link (the held draft, `84ed044`), #202 inked-plate CTAs (`7ba7b04`), #203 A.J. Gator's penalty-shootout
-  skin (`1e9503b`, guardrail-compliant: color-only, engine primitives, real logo overlay only, pending-approval
-  banner), #204/#205 QR proof leave-behinds (`4c0138a`/`b9c3fac`), #206/#207 B&W QR handouts (`100831d`/`559f616`).
-  main `15edd95` → `559f616`. `CI — web` ✅ on every code merge (#205–#207 docs/binary path-filtered). Other
-  default branches unchanged (vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`). **VBFH Daily Run
-  08-03 14:47 UTC ✅ (~fifteen in a row).** Only open PR amma #197 (draft) held; only a Vercel-bot comment,
-  no human review comments. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still
-  403-blocked (awaiting Anthony's local paste; five #201–#207 heads added, and **corrected a prior-list error
-  — removed the open #197 head `claude/las-palmas-menu-game-59vtbg` from the delete set**). Standing items for
-  Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
-- **2026-08-03 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing changed
-  and nothing needed fixing.** No new merges/PRs/human review comments since 08-02 evening. `main` at `15edd95`;
-  vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. Both open drafts (#201, #197) held & green. **VBFH
-  Daily Run — 08-02 13:35 UTC ✅**; 08-03 run not yet fired at check time. Branch cleanup 403-blocked.
-- **2026-08-02 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All green. Three amma changes: #199
-  merged (`bb0cb42`), #200 merged (`21d032c` + docs `15edd95`), new draft #201 opened. VBFH Daily Run 08-02 ✅.
-- **2026-08-02 (morning) — Twice-daily check-in (`claude-opus-4-8`):** All green. #198 merged (`54620ae`),
-  new draft #199 opened. VBFH Daily Run 08-01 ✅. Branch cleanup 403-blocked.
+  GREEN** — latest **08-05 14:17 UTC ✅ (run #63)**. vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays
+  closed. Branch cleanup still 403-blocked. Standing items unchanged.
+- **2026-08-05 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green.** Change:
+  Anthony self-merged amma #208 "Redesign shared owner portal command center" (08-04 23:58 UTC), `559f616 →
+  d57ddb6`; presentation/accessibility-only, all behavior unchanged per PR body, his own action → logged only.
+  `CI — web` ✅ (run #132). Other default branches unchanged. VBFH Daily Run 08-04 14:24 UTC ✅ (run #62); 08-05
+  run not yet fired at check. Only open PR #197 (draft, held). Branch cleanup 403-blocked.
+- **2026-08-04 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four green; nothing needed fixing.**
+  Only change: VBFH Daily Run 08-04 14:24 UTC SUCCEEDED (run #62). No new PRs/merges/closes/human review comments.
+  Default branches unchanged. #197 draft held. Branch cleanup 403-blocked.
+- **2026-08-04 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four green; nothing changed.**
+  No new PRs/merges/closes/human review comments. `main` `559f616`. VBFH Daily Run 08-03 14:47 UTC ✅; 08-04 run
+  not yet fired at check. #197 draft held. Branch cleanup 403-blocked.
+- **2026-08-03 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four green.** Busy amma afternoon:
+  **seven PRs #201–#207 all merged by Anthony himself** (Las Palmas menu-link, inked-plate CTAs, A.J. Gator's
+  penalty-shootout skin [guardrail-compliant], QR proof leave-behinds, B&W QR handouts). main `15edd95` →
+  `559f616`. `CI — web` ✅ on every code merge. VBFH Daily Run 08-03 14:47 UTC ✅. #197 draft held.
+- **2026-08-03 (morning) — Twice-daily check-in (`claude-opus-4-8`):** All green; nothing changed. `main`
+  `15edd95`. Both open drafts (#201, #197) held & green. VBFH Daily Run 08-02 13:35 UTC ✅.
+- **2026-08-02 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All green. #199 merged (`bb0cb42`), #200
+  merged (`21d032c` + `15edd95`), new draft #201 opened. VBFH Daily Run 08-02 ✅.
+- **2026-08-02 (morning) — Twice-daily check-in (`claude-opus-4-8`):** All green. #198 merged (`54620ae`), new
+  draft #199 opened. VBFH Daily Run 08-01 ✅. Branch cleanup 403-blocked.
 - **2026-08-01 (evening / morning) — Twice-daily check-ins (`claude-opus-4-8`):** All green, nothing changed
   except VBFH Daily Run firing green (08-01 13:35 UTC ✅; 07-31 14:17 UTC ✅). #197 draft held; #29 closed.
 - **2026-07-31 (evening / morning) — Twice-daily check-ins (`claude-opus-4-8`):** All green. Only change:
