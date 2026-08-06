@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-06 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green.** **Two changes since the 08-05 evening run: Anthony self-merged amma #210 "Simplify owner portal to request, billing, and history" (08-05 22:08 UTC) and #211 "Record simplified owner portal production release" (08-05 22:13 UTC, docs-only), moving `main` `8fede5a` → `f85098e` → `e3b98e5`.** #210 trims the `/owner/[id]` portal to Request Desk + Billing + History + public Menu link (removes Quick Edits, the per-store Live box, and store-specific request shortcuts; restores bold comic display type) **without changing auth, request, billing, or menu behavior**; #211 is a documentation-only release record (application code unchanged). #210 touches a hard-guardrail protected route but was **Anthony's own merge** with the PR affirming unchanged auth/request/billing/menu behavior, so **no caretaker action needed** — just logged. `CI — web` ✅ on the #210 merge (run #135, 08-05 22:08 UTC, sha `f85098e`). No new human review comments (only the Vercel bot on #197) and no other new PRs/merges/closes. Other default branches unchanged this run: vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — all re-verified via API. Only open PR: **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held). **VBFH Daily Run stays GREEN** — latest **08-05 14:17 UTC SUCCEEDED (run #63, ~seventeen in a row)**; the 08-06 ~14:00-UTC run had not yet fired at check time. vbfh CI ✅ (master push 07-30). voice-gateway CI path-filtered (nothing touched its paths). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **`claude/las-palmas-menu-game-59vtbg` is the open #197 head — kept OUT of the delete set (deleting it would close #197).**
+**Last updated:** 2026-08-06 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** **One change since the 08-06 morning run: the 08-06 ~14:00-UTC VBFH Daily Run has now fired and SUCCEEDED (14:20 UTC, ~eighteen green in a row)** — morning run noted it hadn't fired yet. No new PRs, merges, closes, or human review comments anywhere. All four default branches unchanged and re-verified via API this run: amma `e3b98e5` (#211), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). Only open PR: **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held — its only comment is still the Vercel bot). **VBFH Daily Run stays GREEN** — latest **08-06 14:20 UTC SUCCEEDED**. vbfh CI ✅ (master push 07-30). voice-gateway CI path-filtered (nothing touched its paths). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **`claude/las-palmas-menu-game-59vtbg` is the open #197 head — kept OUT of the delete set (deleting it would close #197).**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -55,12 +55,12 @@ dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-06, morning)
+## Build health (as of 2026-08-06, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`e3b98e5`** (**#211** docs release, on top of **#210** owner-portal simplify, Anthony's own merges). Latest `CI — web` on main ✅ (**08-05 22:08 UTC, run #135, on the #210 merge `f85098e`**; #211 is docs-only, path-filtered). #210 trims `/owner/[id]` (protected route) to Request/Billing/History but was Anthony's own merge affirming unchanged auth/request/billing/menu behavior; no caretaker action. voice-gateway CI path-filtered (no recent run). One open draft (#197 docs) has Vercel Ready, **held**. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest scheduled run **08-05 14:17 UTC SUCCEEDED (run #63)** (07-21…08-05 all ✅ — ~**seventeen green in a row**); the 08-06 ~14:00-UTC run had not yet fired at check time. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest scheduled run **08-06 14:20 UTC SUCCEEDED** (07-21…08-06 all ✅ — ~**eighteen green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -160,6 +160,15 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-06 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing, nothing to hand Anthony that wasn't already pending.** Only change since the 08-06 morning run: the
+  **08-06 ~14:00-UTC VBFH Daily Run has now fired and SUCCEEDED (14:20 UTC, ~eighteen green in a row)** — the
+  morning run had noted it hadn't fired yet. No new PRs, merges, closes, or human review comments in any of the
+  four repos. All default branches unchanged & re-verified via API: amma `e3b98e5` (#211), vbfh `e21077d` (#7),
+  shadow `5113ce5`, EscapeTheBomb `eee6a37`. Only open PR still amma **#197** (draft, docs-only, held; only the
+  Vercel bot comment). vbfh CI ✅. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still
+  403-blocked (awaiting Anthony's local paste). Standing items for Anthony unchanged (SMTP secrets, Runway
+  credits Day 06, image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-06 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** Two changes since the 08-05 evening run: **Anthony self-merged amma #210 "Simplify owner portal to
   request, billing, and history"** (08-05 22:08 UTC, `8fede5a → f85098e`) and **#211 "Record simplified owner
