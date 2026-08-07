@@ -22,7 +22,7 @@
   },
   {
     "id": "vbfh-info",
-    "phoneNumbers": [],
+    "phoneNumbers": ["+1 757 666 0078"],
     "connector": "proposeconfirm",
     "tools": ["take_message"],
     "voice": "marin",
@@ -58,7 +58,7 @@
   },
   {
     "id": "larissa-offgrid",
-    "phoneNumbers": ["+1 757 666 0078"],
+    "phoneNumbers": [],
     "connector": "proposeconfirm",
     "tools": ["take_message"],
     "voice": "marin",
