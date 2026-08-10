@@ -1,0 +1,22 @@
+# Table Duel room server on Render.
+#
+#   Render → New → Blueprint → point at this repo, root: services/table-duel
+#
+# No secrets and no disk: rooms live in memory and vanish when the table leaves,
+# so a restart costs at most one in-progress round. The starter plan is chosen
+# because the free tier sleeps after inactivity — a sleeping room server means a
+# guest scans the QR and waits ~30s for the first round. Downgrade to free if
+# that trade is acceptable while testing.
+services:
+  - type: web
+    name: table-duel
+    runtime: node
+    rootDir: services/table-duel
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8080"
