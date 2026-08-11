@@ -3,9 +3,12 @@
 Copy this file for each new restaurant and fill it in. Then use these values to find-and-replace
 the `{{FIELDS}}` across the copied CORE files. One profile = one customized package.
 
+> Pricing (from $199/month) and contact (Anthony Colmenares Sanandres ·
+> anthonycolmenaresanandres@gmail.com) are already baked in — nothing to fill there.
+
 ---
 
-## Fill this in
+## Fill this in (per restaurant)
 
 - **Restaurant name:** ______________________
 - **Owner / decision-maker:** ______________________
@@ -14,17 +17,6 @@ the `{{FIELDS}}` across the copied CORE files. One profile = one customized pack
 - **Instagram handle** (optional): ______________________
 - **Preferred language** (EN / ES): ______________________
 - **Their demo/pilot URL** (blank until built): ______________________
-
-### Rep contact (goes on the cover + next steps)
-- **Rep name:** ______________________
-- **Rep phone / WhatsApp:** ______________________
-- **Rep email:** ______________________
-
-### Quote (stay within published ranges)
-- **Recommended package** (Starter / Premium / Custom): ______________________
-- **Setup quoted:** ______________________
-- **Monthly quoted:** ______________________
-- **Pilot offered?** (terms): ______________________
 
 ### Intake collected on the visit (internal — do not print for the owner)
 - **Current menu** (photo/link): ______________________

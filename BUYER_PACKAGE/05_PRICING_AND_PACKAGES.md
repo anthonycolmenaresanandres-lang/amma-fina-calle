@@ -1,53 +1,33 @@
-# Pricing & packages
+# Pricing
 
-Simple, predictable, and in writing. Pick the level that fits — most owners start with a pilot.
-
----
-
-## The packages
-
-### Starter
-- **Setup:** $300–$500 (one time)
-- **Monthly maintenance:** $35–$75
-- Best for: a clean branded menu + QR + owner page, up and running.
-
-### Premium
-- **Setup:** $750–$1,200 (one time)
-- **Monthly maintenance:** $100–$200
-- Best for: a more customized branded experience and a fuller mini-game skin.
-
-### Custom
-- **Quote-based** — for special scope, timeline, or requests.
-
-> **Monthly maintenance always includes:** small menu updates, copy/text updates, uptime checks,
-> QR link support, and basic owner support.
+Simple and predictable. One monthly price, in writing — no setup maze, no surprises.
 
 ---
 
-## Start with a pilot (recommended)
+## Starting from $199/month
 
-Most owners begin with a **small, reversible pilot** so you can see real customers using it in your
-store before committing to a full package:
+- **Month-to-month.** No long lock-in.
+- **Everything to run it is included:** your branded menu page, QR + signage flow, branded
+  mini-game experience, your private owner page, and ongoing support (small menu/copy updates,
+  uptime checks, QR link support).
+- **In writing before we start.** Whatever we agree to is written down first — no preselected
+  extras, no surprise recurring charges.
 
-- **Low or free pilot setup**
-- **~$50/month** while you evaluate
-- Printing/signage/sticker production billed separately only if you want it
-
-No long lock-in to try it. If it's not for you, you stop — clean and simple.
-
----
-
-## Your quote
-
-*(Filled in per restaurant — see `CUSTOMIZE/RESTAURANT_PROFILE.md`)*
-
-- **Recommended package:** {{QUOTED_PACKAGE}}
-- **Setup:** {{QUOTED_SETUP}}
-- **Monthly:** {{QUOTED_MONTHLY}}
-- **Pilot option:** {{QUOTED_PILOT}}
+*"From $199/month" is the starting point; a larger or more custom build is quoted in writing.*
 
 ---
 
-> **No hidden terms.** Setup is one-time, monthly is monthly, add-ons are optional and quoted
-> separately. Whatever we agree to is written down before anything starts — no preselected extras,
-> no surprise recurring charges.
+## Optional add-ons (only if you want them, quoted separately)
+
+- Sticker design package
+- Printed QR stands
+- Menu cleanup and restructuring
+- Monthly analytics report
+- Seasonal game-copy updates
+- Future loyalty / reward expansion (a planned module, not built yet)
+
+---
+
+> **No hidden terms.** The monthly is the monthly; add-ons are optional and quoted on their own.
+> Start month-to-month and see real customers using it in your store before you commit to anything
+> longer.

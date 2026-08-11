@@ -10,8 +10,8 @@ You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy
 1. **Duplicate the folder.** Copy the whole `BUYER_PACKAGE/` folder to a new folder named for the
    restaurant, e.g. `BUYER_PACKAGE_LasPalmas/`. Work in the copy, never the master.
 
-2. **Fill the profile.** Open `CUSTOMIZE/RESTAURANT_PROFILE.md` and complete the fields. Keep the
-   quote inside the published ranges in `05_PRICING_AND_PACKAGES.md`.
+2. **Fill the profile.** Open `CUSTOMIZE/RESTAURANT_PROFILE.md` and complete the fields. Pricing
+   (from $199/month) and contact are already fixed — nothing to quote.
 
 3. **Find-and-replace the fields.** Across the copied CORE files (`01`–`09`), replace each
    `{{FIELD}}` with the value from the profile. Full list in `MERGE_FIELDS.md`. In most editors:
@@ -30,21 +30,21 @@ You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy
    - [ ] No stray `{{ }}` left anywhere.
    - [ ] Every claim still matches `SALES_DEMO_PACKAGE/FEATURE_STATUS_TABLE.md` (you didn't add
          payments, POS, ordering, AI, loyalty, or guaranteed results).
-   - [ ] The quote is within the published ranges.
+   - [ ] Pricing still reads "from $199/month" (you didn't reintroduce old numbers).
    - [ ] Any live link you included actually loads on your phone.
 
 ---
 
 ## What NOT to change (keep consistent for everyone)
 
-- The benefits, how-it-works, what's-included, pricing ranges, proof, and FAQ **wording**.
+- The benefits, how-it-works, what's-included, **pricing (from $199/month)**, proof, and FAQ **wording**.
 - The three demo URLs (`finacalleos.com`, `/m/colattao`, `/penalty-shootout`).
 - The honest boundaries — the "what this is not" and "we don't collect data" lines are the trust
   anchors. They stay in.
 
 ## What DOES change (per restaurant)
 
-- The `{{MERGE_FIELDS}}` only: names, contact, their demo link (once real), and the quote.
+- The `{{MERGE_FIELDS}}` only: restaurant name, owner name, type, and their demo link (once real).
 
 ---
 

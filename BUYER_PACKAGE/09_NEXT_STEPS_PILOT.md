@@ -12,8 +12,8 @@ If it's a fit, here's the simple, low-risk way to begin. No big commitment to tr
 4. **You go live in-store** and see real customers using it.
 5. **We check in** — you keep it, adjust it, or stop. Your call.
 
-**Pilot terms:** low or free setup, ~$50/month while you evaluate, printing/signage optional.
-Nothing hidden, nothing locked in.
+**Terms:** starting from **$199/month**, month-to-month — everything to run it included, printing/
+signage optional. Nothing hidden, nothing locked in.
 
 ---
 
@@ -29,7 +29,7 @@ Nothing hidden, nothing locked in.
 
 ## Let's set it up
 
-**{{REP_NAME}}** · {{REP_PHONE}} · {{REP_EMAIL}}
+**Anthony Colmenares Sanandres** · anthonycolmenaresanandres@gmail.com
 Fina Calle OS · finacalleos.com · Instagram **@fina_calle**
 
 **See it live again anytime:** finacalleos.com/m/colattao

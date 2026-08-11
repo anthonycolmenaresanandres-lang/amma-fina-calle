@@ -21,7 +21,7 @@ consistent for every restaurant, with a thin layer you customize per business.
 | 02 | `02_BENEFITS_ONE_PAGER.md` | The benefits at a glance (bilingual) | ✅ yes |
 | 03 | `03_HOW_IT_WORKS.md` | One QR → menu + game + owner page | ✅ yes |
 | 04 | `04_WHAT_YOU_GET.md` | What's included, in plain terms | ✅ yes |
-| 05 | `05_PRICING_AND_PACKAGES.md` | Starter / Premium / Custom + pilot | ✅ yes |
+| 05 | `05_PRICING_AND_PACKAGES.md` | Simple monthly price (from $199/mo) | ✅ yes |
 | 06 | `06_SEE_IT_LIVE.md` | The 3 live demo links + QR codes | ✅ yes |
 | 07 | `07_PROOF_COLATTAO.md` | Real live client story | ✅ yes |
 | 08 | `08_FAQ.md` | Honest answers to common questions | ✅ yes |

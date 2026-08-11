@@ -1,6 +1,6 @@
 # Welcome, {{RESTAURANT_NAME}}
 
-*A note from {{REP_NAME}}, Fina Calle*
+*A note from Anthony Colmenares Sanandres, Fina Calle*
 
 ---
 
@@ -24,7 +24,7 @@ made just for you are your name, your demo link, and your quote. If it's a fit, 
 **small, reversible pilot** so you see real customers using it in your store before committing.
 
 Talk soon,
-**{{REP_NAME}}** · {{REP_PHONE}} · {{REP_EMAIL}}
+**Anthony Colmenares Sanandres** · anthonycolmenaresanandres@gmail.com
 Fina Calle OS · finacalleos.com · @fina_calle
 
 ---
@@ -50,5 +50,5 @@ solo para usted es su nombre, su enlace de demostración y su cotización. Si en
 comprometerse.
 
 Un saludo,
-**{{REP_NAME}}** · {{REP_PHONE}} · {{REP_EMAIL}}
+**Anthony Colmenares Sanandres** · anthonycolmenaresanandres@gmail.com
 Fina Calle OS · finacalleos.com · @fina_calle

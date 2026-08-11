@@ -32,12 +32,12 @@ enlace. Actualizar su menú es tan simple como entrar a su página de dueño, y 
 cambios por usted cada mes.
 
 ### "How much is it?"
-**EN:** There are Starter and Premium options depending on how custom you want it, plus a predictable
-monthly maintenance. Most owners start with a simple pilot so you see real customers using it before
-committing. Your exact numbers are in the pricing page — in writing.
-**ES:** Hay opciones Starter y Premium según qué tan personalizado lo quiera, más un mantenimiento
-mensual predecible. La mayoría empieza con un piloto simple para ver clientes reales antes de
-comprometerse. Sus números exactos están en la página de precios — por escrito.
+**EN:** It starts at **$199/month**, month-to-month — everything to run it is included, no long
+lock-in. A larger or more custom build is quoted in writing. You start monthly and see real
+customers using it before committing to anything longer.
+**ES:** Empieza en **$199/mes**, mes a mes — todo lo necesario para usarlo está incluido, sin amarre
+largo. Un proyecto más grande o personalizado se cotiza por escrito. Empieza mensual y ve clientes
+reales usándolo antes de comprometerse a algo más largo.
 
 ### "Do you collect my customers' data?"
 **EN:** No. The customer experience collects no names, emails, or payment info. If you ever want
