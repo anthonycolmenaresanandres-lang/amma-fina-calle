@@ -12,6 +12,14 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
+⏰ **REMINDER (you asked me on 08-11 to remind you today, 08-12): Restaurant Buyer Package — review & approve.**
+   Draft **PR #216** (`amma-fina-calle`, branch `claude/blissful-darwin-phv15u`) is the buyer-facing folder
+   for restaurant owners (menu-QR product). Already updated per your 08-11 notes: **pricing is now flat
+   "from $199/month"** (tiers/setup/$50-pilot removed) and **your contact is baked in** (Anthony Colmenares
+   Sanandres · anthonycolmenaresanandres@gmail.com). **What's left is your call:** (a) review the copy and
+   merge when happy; (b) tell me if you want it rendered into a **polished branded PDF packet** as the actual
+   print/email leave-behind. Reply on either and I'll finish it.
+
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
    `EMAIL_TO` = `anthonycolmenaresanandres@gmail.com` · `EMAIL_FROM` = `anthonycolmenaresanandres@gmail.com`
