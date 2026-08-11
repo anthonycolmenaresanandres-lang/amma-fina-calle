@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-10 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** Two things changed since the 08-10 morning run: (1) the **08-10 VBFH Daily Run fired and SUCCEEDED (13:16 UTC), run #68 — ~twenty-two green in a row**; (2) a **new draft PR opened — amma #215 "Table Duel"** (a same-table hidden-fleet phone game). #215 is additive/guardrail-clean (new `services/table-duel` in-memory WebSocket server + `/table-duel` client route + a 5th A.J. Gator's game tab; no Supabase/Stripe/protected routes/secrets/customer data; non-human "fleet" art; free play only), CI green (`web` ✅ + Vercel ✅), **but it is a draft authored by Anthony → held, not caretaker-merged.** All default branches unchanged & re-verified via API: amma `main` `5b02d0d` (#214 voice tester-back-to-vbfh), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). Open PRs: **#215** (Table Duel, draft, green, held) and **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held). vbfh CI ✅ (master push 07-30); amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main. No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **`claude/las-palmas-menu-game-59vtbg` (#197 head) and `claude/table-duel` (#215 head) are kept OUT of the delete set (deleting either would close its open draft).**
+**Last updated:** 2026-08-11 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** One thing changed since the 08-10 evening run: a **new draft PR opened — amma #216 "Restaurant Buyer Package"** (a buyer-facing `BUYER_PACKAGE/` folder for restaurant owners: 14 markdown files — cover letter, benefits, how-it-works, pricing, proof, FAQ, next-steps + a CUSTOMIZE merge-field kit). It is **docs/marketing only** — no code, no protected routes, no Supabase/Stripe/secrets/customer data; pricing is flat "from $199/month" and Anthony's contact is baked in. **Vercel Ready ✅**, but it is a **draft authored by Anthony → held, not caretaker-merged.** All default branches unchanged & re-verified via API: amma `main` `5b02d0d` (#214 voice tester-back-to-vbfh), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). Open PRs: **#216** (Buyer Package, draft, Vercel Ready, held), **#215** (Table Duel, draft, green, held) and **#197** (Odyssey Daily Day 06, docs-only draft, Vercel Ready, held). vbfh CI ✅ (master push 07-30); amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main. VBFH Daily Run latest 08-10 13:16 UTC ✅ (08-11 run not yet fired at check time). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **The three open PR heads (`claude/blissful-darwin-phv15u` #216, `claude/table-duel` #215, `claude/las-palmas-menu-game-59vtbg` #197) are kept OUT of the delete set (deleting any would close its open draft).**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,13 +12,13 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-⏰ **REMINDER (you asked me on 08-11 to remind you today, 08-12): Restaurant Buyer Package — review & approve.**
+⏰ **Restaurant Buyer Package — your review & merge call (draft PR #216).**
    Draft **PR #216** (`amma-fina-calle`, branch `claude/blissful-darwin-phv15u`) is the buyer-facing folder
-   for restaurant owners (menu-QR product). Already updated per your 08-11 notes: **pricing is now flat
-   "from $199/month"** (tiers/setup/$50-pilot removed) and **your contact is baked in** (Anthony Colmenares
-   Sanandres · anthonycolmenaresanandres@gmail.com). **What's left is your call:** (a) review the copy and
-   merge when happy; (b) tell me if you want it rendered into a **polished branded PDF packet** as the actual
-   print/email leave-behind. Reply on either and I'll finish it.
+   for restaurant owners (menu-QR product). Already flat **"from $199/month"** pricing and **your contact
+   baked in** (Anthony Colmenares Sanandres · anthonycolmenaresanandres@gmail.com). Docs-only, Vercel Ready,
+   guardrail-clean. **What's left is your call:** (a) review the copy and merge when happy; (b) tell me if you
+   want it rendered into a **polished branded PDF packet** as the actual print/email leave-behind. Reply on
+   either and I'll finish it. (Held as your own draft — I don't auto-merge it.)
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
@@ -46,13 +46,13 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
     `git push --delete` returns **HTTP 403 from the session's git proxy** (server-side, regardless of
     permission), and the GitHub tooling here has no branch-delete API. The refreshed safe-to-delete set is
     in the paste-ready commands below (includes the five branches from #201–#207, and **excludes** the
-    open #197 head); they'll run fine from your local clone.
+    three open draft heads #216/#215/#197); they'll run fine from your local clone.
 
 _No longer on the list:_ **#201 draft decision — DONE** (Anthony merged it, Las Palmas Menu now points at the
 official Lynnhaven PDF). The AJ Gator's / Las Palmas visual wave (#202 inked-plate CTAs, #203 penalty-shootout
 skin, #204/#205 QR proof leave-behinds, #206/#207 B&W QR handouts) all merged by Anthony.
 
-_Resolved / no action:_ **VBFH Daily Run stays GREEN** — 08-09 12:57 UTC run succeeded (~twenty-one in a row).
+_Resolved / no action:_ **VBFH Daily Run stays GREEN** — 08-10 13:16 UTC run succeeded (~twenty-two in a row).
 The voice-gateway personality wave Anthony merged himself (#212 French volleyball, #213 Larissa
 off-grid, #214 tester-back-to-vbfh) is config-only, all CI green post-merge, his own call. The earlier
 owner-portal wave (#208 redesign, #209 centralize requests / remove campaigns, #210 simplify, #211 docs
@@ -65,24 +65,32 @@ dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-10, evening)
+## Build health (as of 2026-08-11, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`5b02d0d`** (**#214** voice tester-back-to-vbfh, on top of **#213** Larissa off-grid + **#212** French volleyball personality, all Anthony's own merges). Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**, on the #214 merge). `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). Two open drafts held: **#215** Table Duel (`web` CI ✅ + Vercel ✅) and **#197** docs (Vercel Ready). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest scheduled run **08-10 13:16 UTC SUCCEEDED (run #68)** (07-21…08-10 all ✅ — ~**twenty-two green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`5b02d0d`** (**#214** voice tester-back-to-vbfh, on top of **#213** Larissa off-grid + **#212** French volleyball personality, all Anthony's own merges). Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**, on the #214 merge). `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). Three open drafts held: **#216** Buyer Package (docs, Vercel Ready), **#215** Table Duel (`web` CI ✅ + Vercel ✅) and **#197** docs (Vercel Ready). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest scheduled run **08-10 13:16 UTC SUCCEEDED (run #68)** (07-21…08-10 all ✅ — ~**twenty-two green in a row**); the 08-11 run had not fired at check time. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
-- **amma #215 (draft) — "Table Duel: same-table hidden-fleet game for 2–6 phones."** NEW, opened
-  08-10 15:53 UTC. Head `claude/table-duel`. Adds `services/table-duel` (in-memory WebSocket room
-  server — no DB, no disk, no secrets, no customer data; rooms vanish when the table leaves), a
-  `/table-duel` phone client, and a 5th "Table duel" tab in the A.J. Gator's game picker. 14 files,
-  +2392/−2. `web` CI ✅ + Vercel ✅; `mergeable_state: clean`. Guardrail-clean (additive route, non-human
-  "fleet" art, free play only, no wagers). **Held — it's a draft authored by Anthony.** Nothing to fix.
-  Deploy step (Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` in Vercel) is Anthony's to run when ready.
+- **amma #216 (draft, docs-only) — "Restaurant Buyer Package — consistent core + per-restaurant customization."**
+  NEW, opened 08-11 00:40 UTC. Head `claude/blissful-darwin-phv15u`. Adds a `BUYER_PACKAGE/` folder of 14
+  markdown files: a bilingual (EN/ES) buyer-facing set (cover letter, benefits one-pager, how-it-works,
+  what-you-get, pricing "from $199/month", see-it-live QR page, Colattao proof, FAQ, next-steps/pilot) plus a
+  `CUSTOMIZE/` merge-field kit (how-to, restaurant profile, master field list). **No code, no protected routes,
+  no Supabase/Stripe/secrets/customer data** — pure sales collateral; every claim scoped to verified live
+  features. **Vercel Ready ✅** (only the Vercel bot has commented). **Held — it's a draft authored by Anthony.**
+  Nothing to fix. His call: merge, or ask for a branded PDF packet render.
+- **amma #215 (draft) — "Table Duel: same-table hidden-fleet game for 2–6 phones."** Opened 08-10 15:53 UTC.
+  Head `claude/table-duel`. Adds `services/table-duel` (in-memory WebSocket room server — no DB, no disk, no
+  secrets, no customer data; rooms vanish when the table leaves), a `/table-duel` phone client, and a 5th
+  "Table duel" tab in the A.J. Gator's game picker. 14 files, +2392/−2. `web` CI ✅ + Vercel ✅;
+  `mergeable_state: clean`. Guardrail-clean (additive route, non-human "fleet" art, free play only, no wagers).
+  **Held — it's a draft authored by Anthony.** Nothing to fix. Deploy step (Render blueprint +
+  `NEXT_PUBLIC_TABLE_DUEL_WS` in Vercel) is Anthony's to run when ready.
 - **amma #197 (draft, docs-only) — "Odyssey Daily log — Day 06 blocked (Runway pool still empty)."**
   Opened 07-30; Day-06 continuation of the merged #189 series. Head `claude/las-palmas-menu-game-59vtbg`.
   Vercel preview Ready/green; no `CI — web` (docs-only, path-filtered). **Held — it's a draft.** Nothing to fix.
@@ -90,8 +98,8 @@ dormant (07-09).
 
 ## Merged / closed since last run
 
-- **Nothing.** No PRs merged or closed in any of the four repos since the 08-09 evening run. Last merge
-  remains amma **#214** (`5b02d0d`, 08-07 11:16 UTC). (New draft #215 opened but not merged.)
+- **Nothing.** No PRs merged or closed in any of the four repos since the 08-10 evening run. Last merge
+  remains amma **#214** (`5b02d0d`, 08-07 11:16 UTC). (New draft #216 opened but not merged.)
 
 ### Earlier merged
 
@@ -132,9 +140,9 @@ dormant (07-09).
 Anthony has approved deletion, but the session git proxy returns **HTTP 403 on any `push --delete`**
 (server-side block, independent of permission), and the GitHub tooling here has no branch-delete API. The
 commands below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`,
-`automation/status`, `claude/*` caretaker branches, **the open #215 head `claude/table-duel`** and
-**the open #197 head `claude/las-palmas-menu-game-59vtbg`** (deleting either closes its open draft),
-unmerged `voice/*` (Anthony's judgment) and the unproven
+`automation/status`, `claude/*` caretaker branches, **the three open draft heads `claude/blissful-darwin-phv15u`
+(#216), `claude/table-duel` (#215) and `claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any closes its
+open draft), unmerged `voice/*` (Anthony's judgment) and the unproven
 squash-merged exploration sets. The #201–#207 heads are merged and safe. The #208–#211
 codex heads (`codex/owner-portal-comic-20260804`, `codex/owner-request-intake-20260805`) are also merged.
 The #212–#214 voice heads (`voice/volleyball-fr`, `voice/larissa-offgrid`, `voice/vbfh-return`) are now merged too.
@@ -163,6 +171,21 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-11 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
+  needed fixing.** One change since the 08-10 evening run: a **new draft PR amma #216 "Restaurant Buyer
+  Package"** opened 08-11 00:40 UTC — a `BUYER_PACKAGE/` folder of 14 bilingual (EN/ES) markdown files (cover
+  letter, benefits, how-it-works, what-you-get, pricing "from $199/month", see-it-live QR page, Colattao
+  proof, FAQ, next-steps + a CUSTOMIZE merge-field kit). **Docs/marketing only — no code, no protected routes,
+  no Supabase/Stripe/secrets/customer data**; Vercel Ready ✅, only the Vercel bot has commented. **A draft
+  authored by Anthony → held, not caretaker-merged** (his call: merge, or ask for a branded PDF render).
+  No new merges, closes, or human review comments elsewhere. Default branches unchanged & re-verified via API:
+  amma `5b02d0d` (#214), vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web`
+  ✅ (main run #136, 08-05) + `CI — voice-gateway` ✅ (main run #13, 08-07). vbfh CI ✅ (master push 07-30).
+  **VBFH Daily Run** — latest **08-10 13:16 UTC ✅** (~twenty-two green in a row); the 08-11 run had not
+  fired at check time. No merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still
+  403-blocked (awaiting Anthony's local paste; all three open draft heads #216/#215/#197 excluded). Standing
+  items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant
+  submission, branch cleanup).
 - **2026-08-10 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
   needed fixing.** Two changes since the 08-10 morning run: (1) the **08-10 VBFH Daily Run fired and
   SUCCEEDED (13:16 UTC, run #68), ~twenty-two green in a row** (07-21…08-10); (2) a **new draft PR
@@ -197,32 +220,14 @@ git -C vbfh-media-engine push origin --delete \
   for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-09 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
   changed and nothing needed fixing.** No new PRs, merges, closes, or human review comments in any of the four
-  repos since the 08-08 evening run. All default branches unchanged & re-verified via API: amma `5b02d0d` (#214),
-  vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37`. Only open PR still amma **#197** (draft,
-  docs-only, held; only the Vercel bot comment). amma `CI — web` ✅ (main run #136, 08-05) + `CI — voice-gateway`
-  ✅ (main run #13, 08-07). **VBFH Daily Run** — latest **08-08 12:55 UTC ✅** (~twenty green in a row); the
-  08-09 run had not fired at check time. vbfh CI ✅ (master push 07-30). No merge-conflict/base-branch notices.
-  #29 stays closed. Branch cleanup still 403-blocked (awaiting Anthony's local paste). Standing items for
-  Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
-- **2026-08-08 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
-  changed and nothing needed fixing.** Only change since the 08-08 morning run: the **08-08 VBFH Daily Run
-  fired and SUCCEEDED (12:55 UTC), ~twenty green in a row**. No new PRs, merges, closes, or human review
-  comments in any of the four repos. Default branches unchanged (amma `5b02d0d`, vbfh `e21077d`, shadow
-  `5113ce5`, EscapeTheBomb `eee6a37`). Only open PR amma **#197** (draft, held). #29 stays closed. Branch
-  cleanup still 403-blocked. Standing items for Anthony unchanged.
-- **2026-08-08 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing
-  changed and nothing needed fixing.** No new PRs, merges, closes, or human review comments since the 08-07
-  evening run. Default branches unchanged. Only open PR amma **#197** (draft, held). VBFH Daily Run — latest
-  08-07 13:12 UTC ✅; 08-08 run not yet fired at check. #29 stays closed. Branch cleanup still 403-blocked.
-- **2026-08-07 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Only change since the 08-07 morning run: the **08-07 VBFH Daily Run fired and SUCCEEDED (13:12 UTC)**.
-  No new PRs, merges, closes, or human review comments. Default branches unchanged. #197 held. #29 stays closed.
-  Branch cleanup still 403-blocked. Standing items unchanged.
-- **2026-08-07 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green.** Anthony
-  self-merged three voice-gateway PRs in amma — **#212** French volleyball (08-07 10:37 UTC), **#213** Larissa
-  off-grid (08-07 11:05 UTC), **#214** tester-back-to-vbfh (08-07 11:16 UTC). amma `main` **`e3b98e5` →
-  `5b02d0d`**. All three voice-gateway config only, his own merges → **no caretaker action, logged only**.
-  `CI — voice-gateway` ✅ (runs #9/#11/#13). VBFH Daily Run 08-06 14:20 UTC ✅. #197 held.
+  repos since the 08-08 evening run. Only open PR still amma **#197** (draft, held). VBFH Daily Run latest
+  08-08 12:55 UTC ✅. #29 stays closed. Branch cleanup still 403-blocked.
+- **2026-08-08 (evening / morning) — Twice-daily check-ins (`claude-opus-4-8`):** **All four green.** 08-08
+  VBFH Daily Run ✅ (12:55 UTC). No new PRs/merges/closes/review comments. #197 held. #29 stays closed.
+- **2026-08-07 (evening / morning) — Twice-daily check-ins (`claude-opus-4-8`):** **All four green.** 08-07
+  VBFH Daily Run ✅. Anthony self-merged three voice-gateway PRs — **#212** French volleyball, **#213** Larissa
+  off-grid, **#214** tester-back-to-vbfh (amma `main` `e3b98e5 → 5b02d0d`); config-only, his own merges →
+  logged only. `CI — voice-gateway` ✅ (runs #9/#11/#13). #197 held.
 - **2026-08-06 (evening / morning) — Twice-daily check-ins (`claude-opus-4-8`):** **All four green.** Anthony
   self-merged amma #210 "Simplify owner portal" (`8fede5a → f85098e`) and #211 docs release (`f85098e →
   e3b98e5`); protected route but his own merge with unchanged-behavior affirmation → logged only. `CI — web` ✅
