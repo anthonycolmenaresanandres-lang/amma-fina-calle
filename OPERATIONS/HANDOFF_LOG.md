@@ -1989,6 +1989,20 @@ Blocked:
 - Live motion: 390 x 844 production QA verified `LAS PALMAS` at progress `0.000`, reversible scroll transformation, and `MENU` at progress `1.000`; document width remains within the viewport and the browser console is clean.
 - Live table preview: `/table/las-palmas-lynnhaven/1` returns HTTP 200 and still states that no requests or orders are sent. Table-service activation, staff routing, ordering, payment, and POS remain pending owner workflow confirmation.
 - State: the requested green/silver presentation is live. Menu data, enhanced media, game engine/config, Client OS, Supabase, Stripe, POS, secrets, customer data, and unrelated routes were not changed.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-07-30 ~22:10 UTC**
+Task: Stop Odyssey Daily; pivot to the AnchorFrame news Gemini pipeline (Anthony's call).
+**CHECK-OUT — same session**
+- Odyssey Daily stopped: 14:00 UTC daily trigger disabled (kept, re-enable to resume); stop entry appended to STUDIO/ODYSSEY_DAILY/DAILY_LOG.md; PR #197 updated (Day 06 blocked + program stopped). Shipped total: 1 clip (ody-s001-d01-t1.mp4).
+- Pivot target confirmed from repo docs: AnchorFrame Daily (news-anchor plates), Gemini web = the free motion path. Verified constraint stands (SKILLS/ANCHORFRAME_MOTION_GENERATION): cloud egress 403s gemini.google.com, so Gemini runs only on Anthony's machine (Codex or Anthony manually). Last state: Step 2 motion proof blocked at Codex Chrome extension file upload — fix is chrome://extensions → Codex → "Allow access to file URLs" ON, then rerun with the locked motion prompt.
+- Next: Anthony flips the Chrome toggle (or runs the 3-minute manual Gemini path), Codex reruns Step 2, output saved to C:\Users\antho\OneDrive\Desktop\AnchorFrame\out\anchorOne_motion_proof_v1.mp4, hand back here for QA.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-07-31 — AnchorFrame Step 2 refusal triage**
+- Codex report: Gemini web (Crear vídeo, 9:16) refused image-to-video on anchorOne_likeness_v2.png with the generic "I can't generate that video" message. Codex correctly stopped per plan §8 — no retries, no rewording, no output.
+- Read: the trigger is almost certainly the uploaded photorealistic-person keyframe (real-person likeness policy in the consumer Gemini app), not the prompt wording. Plan already predicted this: "Platform may refuse... treat a refusal as an expected outcome; do not reword around it."
+- Decision standing: we do NOT engineer prompts to evade a safety refusal (plan §8 + handoff hard rules). Compliant options handed to Anthony: (A) isolation test with the generic mock keyframe, (B) Veo via the official Gemini API where person-generation is an explicit documented setting, (C) Runway (already wired from cloud) once credits are topped up.
 ## [CHECK-IN] Codex - 2026-08-02 - AJ Gator's minimal logo-first landing
 
 - Authority: Anthony requested the existing AJ Gator's Holland Road owner-review landing be reduced to almost no copy, place the restaurant's exact logo at the center, and present simple Menu, Games, and Promotions actions.
@@ -2067,6 +2081,13 @@ Blocked:
 - Evidence: `C:\Dev\amma\evidence\las-palmas-minimal-landing-20260802\production-mobile.png` and `production-menu-final.png` capture the verified production result.
 - Next: use `https://finacalleos.com/demo/las-palmas` as the live Las Palmas proof-of-concept and QR destination; future client-approved content or integration work remains a separate scoped change.
 
+---
+**CHECK-IN — Claude (cloud) — 2026-08-03 — Gemini workflow verdict test**
+Task: Anthony wants to eliminate the uncertainty about whether the Gemini video workflow works at all. Designed a 3-test isolation matrix for Codex (all free, all within plan §8 stop rules):
+- Test A: Gemini text-to-video, fictional anchor, no upload. Proves whether video generation works at all in this account.
+- Test B: generate a fictional-anchor image inside Gemini, then animate that image in-app. Isolates "uploading" vs "in-app" image sources.
+- Test C: regenerate the Step 0 generic mock in ChatGPT (already-approved rerun), upload to Gemini, animate. Isolates the uploaded-photoreal-person policy.
+Verdict rule: C works → Gemini stays in the pipeline (likeness still goes through Runway/Veo API). A/B work but C refused → Gemini web cannot animate our uploaded keyframes at all → eliminate it from the pipeline; motion goes Runway (paid, wired) or Veo API (paid, needs Anthony key). A refused → Gemini video is unavailable to this account entirely → eliminate.
 ## [CHECK-IN] Codex - 2026-08-02 - Las Palmas current original menu link
 
 - Authority: Anthony requested that the Las Palmas menu use the current original restaurant menu.
@@ -2165,3 +2186,11 @@ Next:
 - Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
 Blocked:
 - None for printing. Client approval is still required before representing the demo as official.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-08-05 — Las Palmas hero: wind palms replace the scroll morph**
+- Authority: Anthony — "remove the menu Las Palmas movement and replace it by palm trees that move as if the wind was hitting them."
+- Change: deleted `LasPalmasSilverPalmMotion` (scroll-driven logo→MENU particle morph) and added `LasPalmasWindPalms` — a canvas grove of six procedural palms bending in a continuous sine-gust wind field behind the approved sign. No scroll choreography; the sticky/extra-tall shell is gone, so the hero is a single screen again.
+- Preserved: the exact approved sign as native image content (never redrawn on canvas), the `las-palmas-menu-heading` anchor the section nav labels itself by, the sr-only h1, status line, MENU dock, and the Menu/Game/Table actions.
+- Guardrails: no Client OS routes, Supabase, Stripe, POS, secrets, customer data, menu data, or game engine touched. QR destination `/demo/las-palmas` unchanged.
+- Verified: typecheck clean; production build clean; Playwright QA at 390x844 and 1280x900 — `data-motion-state="wind"`, 6 palms, canvas pixel hash changes across frames (motion proven), no horizontal overflow, no page errors. `prefers-reduced-motion` renders one static painted frame (`data-motion-state="static"`), no rAF loop. Frames also pause via IntersectionObserver + visibilitychange.

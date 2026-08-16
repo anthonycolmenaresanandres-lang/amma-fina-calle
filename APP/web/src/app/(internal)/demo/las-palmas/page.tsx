@@ -6,16 +6,16 @@ import {
   lasPalmasLynnhavenMenuSourcePreview,
 } from "@/table-os/menu/las-palmas-lynnhaven";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
-import LasPalmasSilverPalmMotion from "./LasPalmasSilverPalmMotion";
+import LasPalmasWindPalms from "./LasPalmasWindPalms";
 
 // Las Palmas prospect demo menu — PENDING CLIENT APPROVAL, unlinked + noindex.
 // Static preview only: it reuses the curated public-source Lynnhaven dataset
 // (single source of truth in src/table-os/menu/las-palmas-lynnhaven.ts) and
 // never touches Supabase or the Client OS routes (/m, /owner, /customers).
 // Visual direction: the original green cantina system with Anthony's supplied
-// red sign isolated from its beach background. Silver palms resolve into the
-// permanent semantic menu dock. Menu + game + table preview remain one
-// pending-approval prospect experience.
+// red sign isolated from its beach background. A grove of palms bends in a live
+// wind behind the sign — ambient motion, no scroll choreography. Menu + game +
+// table preview remain one pending-approval prospect experience.
 
 export const metadata: Metadata = {
   title: "Las Palmas · Menu concept | Fina Calle OS",
@@ -55,7 +55,7 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
     >
       <div className="mx-auto w-full max-w-2xl">
         <header>
-          <LasPalmasSilverPalmMotion />
+          <LasPalmasWindPalms />
         </header>
 
         <nav
