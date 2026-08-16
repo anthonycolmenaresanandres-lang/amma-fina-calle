@@ -2186,3 +2186,11 @@ Next:
 - Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
 Blocked:
 - None for printing. Client approval is still required before representing the demo as official.
+
+---
+**CHECK-IN — Claude (cloud) — 2026-08-05 — Las Palmas hero: wind palms replace the scroll morph**
+- Authority: Anthony — "remove the menu Las Palmas movement and replace it by palm trees that move as if the wind was hitting them."
+- Change: deleted `LasPalmasSilverPalmMotion` (scroll-driven logo→MENU particle morph) and added `LasPalmasWindPalms` — a canvas grove of six procedural palms bending in a continuous sine-gust wind field behind the approved sign. No scroll choreography; the sticky/extra-tall shell is gone, so the hero is a single screen again.
+- Preserved: the exact approved sign as native image content (never redrawn on canvas), the `las-palmas-menu-heading` anchor the section nav labels itself by, the sr-only h1, status line, MENU dock, and the Menu/Game/Table actions.
+- Guardrails: no Client OS routes, Supabase, Stripe, POS, secrets, customer data, menu data, or game engine touched. QR destination `/demo/las-palmas` unchanged.
+- Verified: typecheck clean; production build clean; Playwright QA at 390x844 and 1280x900 — `data-motion-state="wind"`, 6 palms, canvas pixel hash changes across frames (motion proven), no horizontal overflow, no page errors. `prefers-reduced-motion` renders one static painted frame (`data-motion-state="static"`), no rAF loop. Frames also pause via IntersectionObserver + visibilitychange.
