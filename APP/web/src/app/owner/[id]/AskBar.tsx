@@ -1,208 +1,436 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import {
+  FileText,
+  Loader2,
+  Paperclip,
+  Send,
+  Sparkles,
+  Upload,
+  X,
+} from "lucide-react";
+import { Panel, buttonClass, cn } from "@/components/ui";
 import {
   confirmOwnerRequest,
   sendOwnerReview,
   triageOwnerRequest,
 } from "@/lib/owner/request-desk/actions";
-import { Loader2, Send, Sparkles } from "lucide-react";
-import { Chip, Panel, buttonClass, cn } from "@/components/ui";
-
-/**
- * The AI Request Desk — the owner's primary surface. Type a change in plain
- * words → instant preview → confirm → "live on your menu."
- *
- * Live (`demo=false`, signed-in dashboard): calls the server triage/confirm
- * actions, which apply through the audited `apply_owner_change` rail or file a
- * `change_request`. Demo (`demo=true`, login-free preview): a deterministic
- * client matcher so the experience is fully playable without auth.
- */
+import {
+  OWNER_REQUEST_FILE_ACCEPT,
+  OWNER_REQUEST_MAX_FILES,
+  OWNER_REQUEST_MAX_TEXT_LENGTH,
+  validateOwnerRequestFiles,
+} from "@/lib/owner/request-desk/files";
+import styles from "./owner-portal.module.css";
 
 type Item = { name: string; price: number | string; is_available: boolean };
 
 type Result =
   | { kind: "apply"; title: string; detail: string }
   | { kind: "review"; reason: string }
+  | { kind: "error"; message: string }
   | null;
 
-function money(v: number | string) {
-  const n = Number(v);
-  return Number.isFinite(n) && n > 0 ? `$${n.toFixed(2)}` : "Ask";
+type UploadTarget = { file: File; slot: number };
+type RetryUpload = {
+  referenceId: string;
+  files: UploadTarget[];
+  uploaded: number;
+  total: number;
+};
+type Done = { tone: "success" | "warning"; message: string } | null;
+
+function money(value: number | string) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? `$${parsed.toFixed(2)}` : "Ask";
 }
 
-// Demo-only deterministic matcher (mirrors the server triage's headline cases).
+function fileSize(bytes: number) {
+  return bytes >= 1_000_000
+    ? `${(bytes / 1_000_000).toFixed(1)} MB`
+    : `${Math.max(1, Math.round(bytes / 1_000))} KB`;
+}
+
+// Demo-only deterministic matcher. The server repeats every live decision.
 function parse(text: string, items: Item[]): Result {
-  const t = ` ${text.toLowerCase().trim()} `;
-  if (!t.trim()) return null;
-  const found = items.find((it) => t.includes(it.name.toLowerCase()));
-  if (found && /\b(86|sold out|out of|hide|unavailable|we.?re out|ran out)\b/.test(t)) {
-    return { kind: "apply", title: `86 “${found.name}”`, detail: "It disappears from your live menu until you bring it back." };
+  const normalized = ` ${text.toLowerCase().trim()} `;
+  if (!normalized.trim()) return null;
+  const found = items.find((item) => normalized.includes(item.name.toLowerCase()));
+  if (found && /\b(86|sold out|out of|hide|unavailable|we.?re out|ran out)\b/.test(normalized)) {
+    return {
+      kind: "apply",
+      title: `86 “${found.name}”`,
+      detail: "It disappears from your live menu until you bring it back.",
+    };
   }
-  if (found && /\b(bring back|back on|available again|show|un.?86)\b/.test(t)) {
-    return { kind: "apply", title: `Bring back “${found.name}”`, detail: "It returns to your live menu right away." };
+  if (found && /\b(bring back|back on|available again|show|un.?86)\b/.test(normalized)) {
+    return {
+      kind: "apply",
+      title: `Bring back “${found.name}”`,
+      detail: "It returns to your live menu right away.",
+    };
   }
-  const priceMatch = t.match(/\$?\s*(\d+(?:\.\d{1,2})?)/);
-  if (found && priceMatch && /(\$|\bto\b|\bprice\b|\bnow\b|\bmake\b|dollar)/.test(t)) {
-    return { kind: "apply", title: `Change “${found.name}” price`, detail: `${money(found.price)} → $${Number(priceMatch[1]).toFixed(2)} — live on your menu.` };
+  const priceMatch = normalized.match(/\$?\s*(\d+(?:\.\d{1,2})?)/);
+  if (found && priceMatch && /(\$|\bto\b|\bprice\b|\bnow\b|\bmake\b|dollar)/.test(normalized)) {
+    return {
+      kind: "apply",
+      title: `Change “${found.name}” price`,
+      detail: `${money(found.price)} → $${Number(priceMatch[1]).toFixed(2)} — live on your menu.`,
+    };
   }
-  return { kind: "review", reason: "I’ll pass this to the Fina Calle team — they’ll handle it and follow up." };
+  return {
+    kind: "review",
+    reason: "The Fina Calle team will review the complete brief before anything changes.",
+  };
 }
-
-const DEFAULT_CHIPS = ["86 the Flan Latte", "change Mocha to $8", "bring back Cortado"];
 
 export default function AskBar({
   items,
   demo = false,
   restaurantId,
-  suggestedPrompts,
 }: {
   items: Item[];
   demo?: boolean;
   restaurantId?: string;
-  suggestedPrompts?: string[];
 }) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState("");
+  const [submittedFiles, setSubmittedFiles] = useState<File[]>([]);
   const [result, setResult] = useState<Result>(null);
-  const [done, setDone] = useState<string | null>(null);
+  const [done, setDone] = useState<Done>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null);
+  const [retryUpload, setRetryUpload] = useState<RetryUpload | null>(null);
   const [pending, startTransition] = useTransition();
 
   const interactive = demo || Boolean(restaurantId);
-  const chips = suggestedPrompts?.length ? suggestedPrompts : DEFAULT_CHIPS;
 
-  function analyze(value: string) {
-    if (!value.trim()) return;
+  useEffect(() => {
+    if (!text.trim() && files.length === 0 && !retryUpload) return;
+    const protectDraft = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = true;
+    };
+    window.addEventListener("beforeunload", protectDraft);
+    return () => window.removeEventListener("beforeunload", protectDraft);
+  }, [files.length, retryUpload, text]);
+
+  function clearDraft() {
+    setText("");
+    setFiles([]);
+    setSubmitted("");
+    setSubmittedFiles([]);
+    setFileError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function reset() {
+    clearDraft();
+    setResult(null);
     setDone(null);
-    setSubmitted(value);
-    if (demo) {
-      setResult(parse(value, items));
+    setRetryUpload(null);
+    setUploadProgress(null);
+  }
+
+  function invalidatePreview() {
+    setResult(null);
+    setDone(null);
+    setRetryUpload(null);
+    setUploadProgress(null);
+  }
+
+  function chooseFiles(nextFiles: File[]) {
+    const next = [...files, ...nextFiles];
+    const error = validateOwnerRequestFiles(next);
+    if (error) {
+      setFileError(error);
+      invalidatePreview();
+      if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
+    setFiles(next);
+    setFileError(null);
+    invalidatePreview();
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function removeFile(index: number) {
+    setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index));
+    setFileError(null);
+    invalidatePreview();
+  }
+
+  function analyze(value: string) {
+    if (!value.trim() || fileError) return;
+    const fileSnapshot = [...files];
+    setDone(null);
+    setRetryUpload(null);
+    setSubmitted(value);
+    setSubmittedFiles(fileSnapshot);
+
+    if (demo) {
+      setResult(
+        fileSnapshot.length > 0
+          ? {
+              kind: "review",
+              reason: "Files attached. The team will review the complete request before anything changes.",
+            }
+          : parse(value, items),
+      );
+      return;
+    }
+
     startTransition(async () => {
-      const fd = new FormData();
-      fd.set("text", value);
-      const s = await triageOwnerRequest(restaurantId ?? "", { phase: "idle" }, fd);
-      if (s.phase === "apply") {
+      const formData = new FormData();
+      formData.set("text", value);
+      formData.set("fileCount", String(fileSnapshot.length));
+      const state = await triageOwnerRequest(restaurantId ?? "", { phase: "idle" }, formData);
+      if (state.phase === "apply") {
         setResult({
           kind: "apply",
-          title: `${s.proposal.entityLabel} · ${s.proposal.fieldLabel}`,
-          detail: `${s.proposal.currentDisplay} → ${s.proposal.newDisplay} — live on your menu.`,
+          title: `${state.proposal.entityLabel} · ${state.proposal.fieldLabel}`,
+          detail: `${state.proposal.currentDisplay} → ${state.proposal.newDisplay} — live on your menu.`,
         });
-      } else if (s.phase === "review") {
-        setResult({ kind: "review", reason: s.reason });
-      } else if (s.phase === "error") {
-        setResult({ kind: "review", reason: s.message });
+      } else if (state.phase === "review") {
+        setResult({ kind: "review", reason: state.reason });
+      } else if (state.phase === "error") {
+        setResult({ kind: "error", message: state.message });
       } else {
         setResult(null);
       }
     });
   }
 
-  function reset() {
-    setText("");
-    setSubmitted("");
+  async function uploadFiles(
+    referenceId: string,
+    targets: UploadTarget[],
+    total: number,
+    uploadedBefore = 0,
+  ) {
+    let uploaded = uploadedBefore;
+    const failed: UploadTarget[] = [];
+
+    for (const [index, target] of targets.entries()) {
+      setUploadProgress(`Uploading ${Math.min(total, uploadedBefore + index + 1)} of ${total}…`);
+      const formData = new FormData();
+      formData.set("slot", String(target.slot));
+      formData.set("file", target.file);
+      try {
+        const response = await fetch(
+          `/api/owner/${encodeURIComponent(restaurantId ?? "")}/requests/${encodeURIComponent(referenceId)}/attachments`,
+          { method: "POST", body: formData },
+        );
+        if (response.ok) uploaded += 1;
+        else failed.push(target);
+      } catch {
+        failed.push(target);
+      }
+    }
+
+    setUploadProgress(null);
     setResult(null);
-    setDone(null);
+    clearDraft();
+    if (failed.length > 0) {
+      setRetryUpload({ referenceId, files: failed, uploaded, total });
+      setDone({
+        tone: "warning",
+        message: `Request ${referenceId} is saved. ${uploaded}/${total} files attached. Retry the missing ${failed.length === 1 ? "file" : "files"}.`,
+      });
+      return;
+    }
+
+    setRetryUpload(null);
+    setDone({
+      tone: "success",
+      message: `Request ${referenceId} sent with ${total} ${total === 1 ? "file" : "files"}.`,
+    });
   }
 
   function confirm() {
     const kind = result?.kind;
+    if (kind !== "apply" && kind !== "review") return;
+
     if (demo) {
-      setDone(kind === "apply" ? "✓ Done — it’s live on your menu. Customers see it now." : "✓ Sent to the Fina Calle team. You’ll hear back.");
+      setDone({
+        tone: "success",
+        message:
+          kind === "apply"
+            ? "Demo complete — the menu change is ready."
+            : `Demo request ready${submittedFiles.length ? ` with ${submittedFiles.length} files` : ""}.`,
+      });
       setResult(null);
-      setText("");
+      clearDraft();
       return;
     }
+
     startTransition(async () => {
-      const fd = new FormData();
-      fd.set("text", submitted);
-      if (kind === "apply") {
-        const r = await confirmOwnerRequest(restaurantId ?? "", { phase: "idle" }, fd);
-        setDone(r.phase === "applied" ? `✓ ${r.message} Customers see it now.` : r.phase === "error" ? r.message : "Done.");
-        if (r.phase === "applied") router.refresh();
-      } else {
-        const r = await sendOwnerReview(restaurantId ?? "", { phase: "idle" }, fd);
-        setDone(r.phase === "sent" ? "✓ Sent to the Fina Calle team. You’ll hear back." : r.phase === "error" ? r.message : "Sent.");
+      const formData = new FormData();
+      formData.set("text", submitted);
+      formData.set("fileCount", String(submittedFiles.length));
+
+      if (kind === "apply" && submittedFiles.length === 0) {
+        const state = await confirmOwnerRequest(restaurantId ?? "", { phase: "idle" }, formData);
+        if (state.phase === "applied") {
+          setDone({ tone: "success", message: `${state.message} Customers see it now.` });
+          setResult(null);
+          clearDraft();
+          router.refresh();
+        } else if (state.phase === "error") {
+          setResult({ kind: "error", message: state.message });
+        }
+        return;
       }
-      setResult(null);
-      setText("");
+
+      const state = await sendOwnerReview(restaurantId ?? "", { phase: "idle" }, formData);
+      if (state.phase === "error") {
+        setResult({ kind: "error", message: state.message });
+        return;
+      }
+      if (state.phase !== "sent") return;
+
+      const targets = submittedFiles.map((file, slot) => ({ file, slot }));
+      if (targets.length === 0) {
+        setDone({ tone: "success", message: `Request ${state.referenceId} sent to the team.` });
+        setResult(null);
+        clearDraft();
+        return;
+      }
+      await uploadFiles(state.referenceId, targets, targets.length);
+    });
+  }
+
+  function retryFiles() {
+    if (!retryUpload) return;
+    startTransition(async () => {
+      await uploadFiles(
+        retryUpload.referenceId,
+        retryUpload.files,
+        retryUpload.total,
+        retryUpload.uploaded,
+      );
     });
   }
 
   return (
-    <Panel className="relative overflow-hidden border-[#4f9dff]/18">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-20%,rgba(79,157,255,0.16),transparent_44%)]" />
-      <p className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-[#4f9dff]">
+    <Panel className={styles.requestSurface}>
+      <p className={styles.requestKicker}>
+        <span className={styles.frameNumber}>01</span>
         <Sparkles size={13} strokeWidth={2} aria-hidden />
-        AI Request Desk
+        Request
       </p>
-      <h2 className="mt-2 text-2xl font-semibold text-[#f4f6f7]">Ask for any change</h2>
-      <p className="mt-2 max-w-xl text-sm leading-6 text-[#aeb7bd]">
-        Just say it — “86 the Flan Latte”, “change the Mocha to $8”. You preview and confirm
-        before anything goes live.
-      </p>
+      <h2 className={styles.requestTitle}>What do you need?</h2>
+      <p className={styles.requestIntro}>What · Where · Details · Deadline</p>
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          event.preventDefault();
           if (interactive) analyze(text);
         }}
-        className="mt-4 flex items-center gap-2 rounded-full border border-white/14 bg-[#0e1316] py-2 pl-4 pr-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition focus-within:border-[#4f9dff]/55 focus-within:ring-2 focus-within:ring-[#4f9dff]/20"
+        className={styles.requestForm}
       >
-        <Sparkles size={15} strokeWidth={1.75} aria-hidden className="shrink-0 text-[#4f9dff]/80" />
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          disabled={!interactive || pending}
-          placeholder="What would you like to change today?"
-          className="min-w-0 flex-1 bg-transparent text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none disabled:opacity-70"
-          aria-label="Ask for a change"
-        />
+        <div className={styles.briefField}>
+          <div className={styles.briefLabelRow}>
+            <label htmlFor="owner-request-brief">Details</label>
+            <span>{text.length}/{OWNER_REQUEST_MAX_TEXT_LENGTH}</span>
+          </div>
+          <textarea
+            id="owner-request-brief"
+            name="text"
+            value={text}
+            onChange={(event) => {
+              setText(event.target.value);
+              invalidatePreview();
+            }}
+            disabled={!interactive || pending}
+            autoComplete="off"
+            maxLength={OWNER_REQUEST_MAX_TEXT_LENGTH}
+            placeholder="Example: Replace the dinner cover with the attached logo by Friday…"
+            className={styles.briefTextarea}
+          />
+        </div>
+
+        <div className={styles.fileDock}>
+          <div className={styles.fileDockHeader}>
+            <span>
+              <Paperclip size={14} strokeWidth={2} aria-hidden />
+              Files
+            </span>
+            <strong>{files.length}/{OWNER_REQUEST_MAX_FILES}</strong>
+          </div>
+          <p>JPG · PNG · WEBP · PDF · 4&nbsp;MB each</p>
+          <label
+            className={cn(
+              styles.filePicker,
+              (!interactive || pending || files.length >= OWNER_REQUEST_MAX_FILES) &&
+                styles.filePickerDisabled,
+            )}
+          >
+            <Upload size={14} strokeWidth={2} aria-hidden />
+            Add files
+            <input
+              ref={fileInputRef}
+              type="file"
+              name="files"
+              multiple
+              accept={OWNER_REQUEST_FILE_ACCEPT}
+              disabled={!interactive || pending || files.length >= OWNER_REQUEST_MAX_FILES}
+              onChange={(event) => chooseFiles(Array.from(event.currentTarget.files ?? []))}
+              aria-describedby="owner-request-file-help owner-request-file-error"
+            />
+          </label>
+          <span id="owner-request-file-help" className="sr-only">
+            Add up to five JPG, PNG, WebP, or PDF files. Each file can be up to 4 MB.
+          </span>
+
+          {files.length > 0 ? (
+            <ul className={styles.fileList} aria-label="Selected files">
+              {files.map((file, index) => (
+                <li key={`${file.name}-${file.size}-${file.lastModified}-${index}`}>
+                  <FileText size={15} strokeWidth={1.8} aria-hidden />
+                  <span className={styles.fileName} title={file.name}>{file.name}</span>
+                  <span className={styles.fileSize}>{fileSize(file.size)}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    disabled={pending}
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <X size={15} strokeWidth={2} aria-hidden />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <p id="owner-request-file-error" role="alert" className={styles.fileError}>
+            {fileError}
+          </p>
+        </div>
+
         <button
           type="submit"
-          disabled={!interactive || !text.trim() || pending}
-          aria-label="Send"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f9dff] text-[#04121f] shadow-[0_8px_20px_-8px_rgba(79,157,255,0.75)] transition hover:bg-[#7ab8ff] disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={!interactive || !text.trim() || Boolean(fileError) || pending}
+          className={cn(styles.requestSubmit, "transition disabled:cursor-not-allowed disabled:opacity-50")}
         >
-          {pending ? (
+          {pending && !result ? (
             <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
           ) : (
             <Send size={15} strokeWidth={2} aria-hidden />
           )}
+          Review request
         </button>
       </form>
 
-      {!result && !done ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {chips.map((c) =>
-            interactive ? (
-              <button
-                key={c}
-                type="button"
-                disabled={pending}
-                onClick={() => {
-                  setText(c);
-                  analyze(c);
-                }}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-[#c8d0d4] transition hover:border-[#4f9dff]/50 hover:text-white disabled:opacity-50"
-              >
-                {c}
-              </button>
-            ) : (
-              <Chip key={c}>{c}</Chip>
-            ),
-          )}
-        </div>
-      ) : null}
-
       {result?.kind === "apply" ? (
-        <div className="mt-3 rounded-2xl border border-[#4f9dff]/30 bg-[#4f9dff]/8 px-4 py-3">
-          <p className="text-sm font-semibold text-[#bfdcff]">{result.title}</p>
-          <p className="mt-1 text-sm text-[#cfe0f5]/90">{result.detail}</p>
-          <div className="mt-3 flex gap-2">
+        <div aria-live="polite" className={cn(styles.responseCard, styles.responseApply)}>
+          <p className={styles.responseTitle}>{result.title}</p>
+          <p>{result.detail}</p>
+          <div className={styles.responseActions}>
             <button type="button" onClick={confirm} disabled={pending} className={buttonClass("primary")}>
               {pending ? "Applying…" : "Confirm change"}
             </button>
@@ -214,11 +442,11 @@ export default function AskBar({
       ) : null}
 
       {result?.kind === "review" ? (
-        <div className="mt-3 rounded-2xl border border-white/12 bg-white/[0.03] px-4 py-3">
-          <p className="text-sm text-[#c8d0d4]">{result.reason}</p>
-          <div className="mt-3 flex gap-2">
+        <div aria-live="polite" className={cn(styles.responseCard, styles.responseReview)}>
+          <p>{result.reason}</p>
+          <div className={styles.responseActions}>
             <button type="button" onClick={confirm} disabled={pending} className={buttonClass("primary")}>
-              {pending ? "Sending…" : "Send to the team"}
+              {pending ? "Sending…" : "Send request"}
             </button>
             <button type="button" onClick={reset} disabled={pending} className={buttonClass("ghost")}>
               Cancel
@@ -227,12 +455,41 @@ export default function AskBar({
         </div>
       ) : null}
 
-      {done ? (
-        <div className={cn("mt-3 flex items-center justify-between gap-3 rounded-2xl border px-4 py-3", "border-[#7fd1a2]/35 bg-[#173a2b]/45 text-[#bdf0d4]")}>
-          <p className="text-sm font-medium">{done}</p>
-          <button type="button" onClick={reset} className={buttonClass("ghost", "shrink-0")}>
-            Done
+      {result?.kind === "error" ? (
+        <div role="alert" className={cn(styles.responseCard, styles.responseError)}>
+          <p>{result.message}</p>
+          <button type="button" onClick={() => setResult(null)} className={buttonClass("ghost")}>
+            Edit request
           </button>
+        </div>
+      ) : null}
+
+      {uploadProgress ? (
+        <p role="status" className={styles.uploadStatus}>
+          <Loader2 size={14} strokeWidth={2} aria-hidden className="animate-spin" />
+          {uploadProgress}
+        </p>
+      ) : null}
+
+      {done ? (
+        <div
+          aria-live="polite"
+          className={cn(
+            styles.responseCard,
+            done.tone === "warning" ? styles.responseWarning : styles.responseSuccess,
+          )}
+        >
+          <p>{done.message}</p>
+          <div className={styles.responseActions}>
+            {retryUpload ? (
+              <button type="button" onClick={retryFiles} disabled={pending} className={buttonClass("primary")}>
+                {pending ? "Retrying…" : "Retry files"}
+              </button>
+            ) : null}
+            <button type="button" onClick={reset} disabled={pending} className={buttonClass("ghost")}>
+              Done
+            </button>
+          </div>
         </div>
       ) : null}
     </Panel>

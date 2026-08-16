@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Lilita_One } from "next/font/google";
 import { ShieldX, Wrench } from "lucide-react";
 import { Eyebrow, cn } from "@/components/ui";
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -22,8 +23,15 @@ import OwnerDashboard, {
   type AuditEntry,
   type DashboardData,
   type MenuCategory,
-  type Promo,
 } from "./OwnerDashboard";
+import styles from "./owner-portal.module.css";
+
+const display = Lilita_One({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-owner-display",
+});
 
 export const dynamic = "force-dynamic";
 
@@ -40,12 +48,18 @@ function Shell({
   center?: boolean;
 }) {
   return (
-    <main className="fc-bg relative isolate flex min-h-dvh min-w-0 flex-col overflow-x-clip px-4 py-8 text-[#f4f6f7] sm:px-8 sm:py-10">
+    <main className={cn("fc-bg", styles.portal, display.variable)}>
+      <a href="#owner-main" className={styles.skipLink}>
+        Skip to tools
+      </a>
       <div className="fc-grain" aria-hidden />
       <div className="fc-vignette" aria-hidden />
       <div
+        id="owner-main"
+        tabIndex={-1}
         className={cn(
-          "relative z-[1] mx-auto flex min-h-[calc(100dvh-5rem)] min-w-0 w-full max-w-7xl flex-1 flex-col",
+          styles.shellContent,
+          "mx-auto flex min-h-[calc(100dvh-5rem)] max-w-7xl flex-1 flex-col",
           center && "justify-center",
         )}
       >
@@ -57,17 +71,16 @@ function Shell({
 
 function SetupNotice() {
   return (
-    <div className="fc-panel mx-auto w-full max-w-md p-6 text-center">
-      <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#4f9dff]/35 bg-[#4f9dff]/10 text-[#bfdcff]">
+    <div className={cn("fc-panel mx-auto w-full text-center", styles.authFrame)}>
+      <span className={cn("mx-auto flex h-11 w-11 items-center justify-center border border-[#4f9dff]/35 bg-[#4f9dff]/10 text-[#bfdcff]", styles.authIcon)}>
         <Wrench size={18} strokeWidth={1.75} aria-hidden />
       </span>
       <div className="mt-4 flex justify-center">
-        <Eyebrow>Owner portal</Eyebrow>
+        <Eyebrow>Owner</Eyebrow>
       </div>
       <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
       <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Secure owner access is being connected. Contact AMMA if you need a menu or
-        billing change before sign-in is available.
+        Access isn&apos;t ready. Contact AMMA.
       </p>
     </div>
   );
@@ -114,7 +127,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export function generateViewport(): Viewport {
   return {
     colorScheme: "dark",
-    themeColor: "#4f9dff",
+    themeColor: "#020304",
   };
 }
 
@@ -164,8 +177,8 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   if (ctx.state === "unauthorized") {
     return (
       <Shell center>
-        <div className="fc-panel mx-auto w-full max-w-md p-6 text-center">
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f]">
+        <div className={cn("fc-panel mx-auto w-full text-center", styles.authFrame)}>
+          <span className={cn("mx-auto flex h-11 w-11 items-center justify-center border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f]", styles.authIcon)}>
             <ShieldX size={18} strokeWidth={1.75} aria-hidden />
           </span>
           <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Not authorized</h1>
@@ -214,7 +227,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const [restaurantRes, categoriesRes, itemsRes, promosRes, auditRes] = await Promise.all([
+  const [restaurantRes, categoriesRes, itemsRes, auditRes] = await Promise.all([
     supabase
       .from("restaurants")
       .select("id, business_name, site_url, plan, billing_status")
@@ -226,11 +239,11 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
       .select("id, category_id, name, description, price, photo_url, is_available, sizes, sort_order")
       .eq("restaurant_id", id)
       .order("sort_order"),
-    supabase.from("promos").select("id, text, is_active").eq("restaurant_id", id).order("sort_order"),
     supabase
       .from("audit_log")
       .select("id, actor_email, table_name, field_name, old_value, new_value, created_at")
       .eq("restaurant_id", id)
+      .neq("table_name", "promos")
       .order("created_at", { ascending: false })
       .limit(12),
   ]);
@@ -287,7 +300,6 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     email: ctx.email,
     logo: getBrandAssets(id).logo ?? null,
     categories,
-    promos: (promosRes.data as Promo[] | null) ?? [],
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
     billing,
     billingNotice,

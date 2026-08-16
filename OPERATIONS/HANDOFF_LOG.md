@@ -18,6 +18,145 @@ Blocked on Anthony: <human-only steps, or "none">
 
 ---
 
+### [CHECK-OUT] Codex - 2026-08-05 18:11 EDT - Merge simplified owner portal
+
+- Did: pushed exact head `2e3e409`, opened ready PR #210, required green GitHub CI and Vercel checks, then squash-merged under the expected-head lock as production commit `f85098e`.
+- State now: the Vercel production deployment at `https://amma-fina-calle-5ozdz6dad.vercel.app` completed successfully and `finacalleos.com` serves the release. Live `/owner/colattao` returns the expected private Colattao sign-in at HTTP 200 with no browser errors or horizontal overflow; `/m/colattao` remains HTTP 200; held `/owner-preview` remains HTTP 404. Production evidence is in `C:\Dev\amma\evidence\owner-portal-simplify-20260805\production-login-390.png`.
+- Next / handoff to: normal owner-portal operations; use Request Desk as the source of owner changes.
+- Blocked on Anthony: none.
+
+### [CHECK-IN] Codex - 2026-08-05 18:04 EDT - Merge simplified owner portal
+
+- Authority: Anthony explicitly directed Codex to merge the completed simplified owner-portal release.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` contains the verified implementation at `d9d2151` and local release record at `97520bd`; current known production base is `origin/main` at `8fede5a` before the required fetch.
+- Release lock: fetch current `origin/main`, stop on base or scope conflict, commit this authorization record, push the exact branch, open a ready PR, require green checks, merge only the verified head, wait for the resulting Vercel production deployment, then verify `https://finacalleos.com/owner/colattao` and representative protected-route health.
+- Boundaries: no new feature, auth/access, request action, billing/Zelle, menu data, API, database, secret, customer contact, or `/owner-preview` change. Stop on an unexpected head, diff, check, deployment, alias, or live-route result.
+
+### [CHECK-OUT] Codex - 2026-08-05 09:55 EDT - Simplify owner portal surface
+
+- Did: committed `d9d2151`, removing Quick Edits, the per-tenant Live box, and store-specific request chips; reduced the dashboard to Request, Billing, History; preserved the header Menu destination and complete Request Desk; restored bold comic display type with Lilita One and readable Geist body text.
+- State now: request/owner self-tests, targeted ESLint, TypeScript, final Next production build, `git diff --check`, independent scope review, and 1440/390/320 browser verification pass. All three anchors work and focus their targets; controls remain at least 44 px; 320 px navigation and long history values fit without page overflow; the temporary QA route is removed. Evidence is in `C:\Dev\amma\evidence\owner-portal-simplify-20260805`.
+- Next / handoff to: Anthony - review the local release gate; a new explicit approval is required before push, PR, merge, deploy, or production publication.
+- Blocked on Anthony: production release approval only.
+
+### [CHECK-IN] Codex - 2026-08-05 09:29 EDT - Simplify owner portal surface
+
+- Authority: Anthony requested removal of Quick Edits and the per-store Live box, plus shorter copy and a stronger comic typography hierarchy.
+- State: clean isolated branch `codex/owner-portal-simplify-20260805` from current production `origin/main` at `8fede5a`; the dirty canonical checkout and prior owner worktrees remain untouched.
+- Design lock: Request, Billing, History only; retain the public Menu header link; use a bold comic display face with readable Geist body text, fewer duplicate labels, strong ink/paper contrast, and the existing gold/sapphire registration accents.
+- Boundaries: presentation and removal of direct-edit/status rendering only. Preserve Request Desk behavior, billing/Zelle, authentication, menu data, tenant isolation, and protected routes. No push, PR, merge, deploy, or production change.
+- Plan: remove the two panels and their dead UI code, reflow and renumber the remaining sections, reduce copy, verify accessibility/responsiveness/build, and stop at a local release gate.
+
+### [CHECK-IN] Codex - 2026-08-05 09:16 EDT - Merge owner Request Desk release
+
+- Authority: Anthony stopped the preview-only flow and explicitly directed Codex to merge the completed changes.
+- State: local branch `codex/owner-request-intake-20260805` contains the reviewed implementation at `61e5aa8` and its completed handoff at `118b750`; production has not changed yet.
+- Release lock: commit the current operational log only, fetch current `origin/main`, revalidate the exact diff and head, push this branch, open a ready PR, require green checks, merge only the verified head, then verify Vercel production and `/owner/colattao`.
+- Boundaries: no migration, secret/access change, customer contact, or unrelated surface change. Stop on a base conflict, failed check, or head mismatch.
+
+### [CHECK-OUT] Codex - 2026-08-05 09:16 EDT - Stop owner preview attempt
+
+- Did: stopped the local preview command when Anthony redirected the task to merge.
+- State now: the incomplete preview record was not promoted or presented as a review link; production remained untouched.
+- Next / handoff to: Codex - execute the explicitly approved exact-head merge workflow.
+- Blocked on Anthony: none.
+
+### [CHECK-IN] Codex - 2026-08-05 09:09 EDT - Publish owner Request Desk preview
+
+- Authority: Anthony explicitly requested a preview link for the completed owner Request Desk branch.
+- State: clean local branch `codex/owner-request-intake-20260805` at `118b750`, two commits ahead of `origin/main`; production remains untouched.
+- Scope: publish this exact branch to a new Vercel Preview deployment and verify the auth-gated `/owner/colattao` route. No production promotion, merge, migration, access change, or customer contact.
+- Pass: deployment reports Ready, the direct owner URL responds, and the preview is recorded here for review.
+
+### [CHECK-OUT] Codex - 2026-08-05 08:23 EDT - Complete owner Request Desk intake
+
+- Did: made the shared Request Desk the complete owner intake with a 4,000-character brief, up to five validated supporting files, sequential authenticated uploads, exact progress/partial-failure reporting, retry retention, and unsaved-draft protection.
+- Campaigns: removed the owner index/section/metric/query/history surface and campaign auto-apply; campaign language now routes conservatively to team review. Public `/m` promo data and records remain unchanged.
+- Security: every upload proves authenticated tenant and request ownership, checks exact origin, limits each file to 4,000,000 bytes, requires JPG/PNG/WebP/PDF MIME-extension-signature agreement, namespaces each of five slots by request UUID, and uses the existing server-only admin client only after authorization.
+- Quality: request and owner self-tests, targeted ESLint, `tsc --noEmit`, final Next 16.2.11 production build, `git diff --check`, unauthenticated/cross-origin 403 checks, browser QA at 320/390/1440, and independent UI/security reviews pass.
+- Evidence: `C:\Dev\amma\evidence\owner-request-intake-20260805\report.md`; implementation commit `61e5aa8`.
+- State now: local branch `codex/owner-request-intake-20260805`; production and the dirty canonical checkout are untouched.
+- Next / handoff to: Anthony - review the local evidence and explicitly authorize any push, PR, preview, merge, deploy, or production publication.
+- Blocked on Anthony: all remote publication and production actions.
+
+### [RELEASE GATE] Codex - 2026-08-05 08:23 EDT - Owner request intake local review
+
+- Scoped release is ready for review; the temporary QA route is deleted and `/owner-preview` remains absent.
+- Known pre-existing backlog: the public anonymous request/storage RPCs are not database-global enforcers of the new owner five-file policy. The new owner route is authoritative and safe; hardening those legacy public RPCs requires a separately approved migration.
+- Boundary: no migration, secret/access change, customer contact, push, PR, merge, deploy, or production publication occurred.
+
+### [CHECK-IN] Codex - 2026-08-05 07:41 EDT - Complete owner Request Desk intake
+
+- Authority: Anthony requested that the Request Desk become the source for owner requests, accept up to five supporting files, gather the complete brief, and remove live Campaigns for now.
+- State: clean isolated branch `codex/owner-request-intake-20260805` from current production `origin/main` at `d57ddb6`; the dirty canonical checkout and prior owner worktree remain untouched.
+- Intake lock: one 4,000-character brief covering what, where, exact details, and deadline; up to five JPG/PNG/WebP/PDF files at 4,000,000 bytes each. Files upload one at a time through an authenticated owner route because Vercel Functions cap each request at 4.5 MB.
+- Campaign lock: remove Campaigns from the owner index, dashboard, Live metrics, owner data query, and Request Desk auto-apply triage. Preserve the separate `03 Live` menu-status section and public-menu promo data.
+- Security: every action and upload re-authorizes the owner for the restaurant; an upload reference must belong to that restaurant; deterministic slots `0` through `4` enforce five files without a migration; MIME, extension, and file signature must agree; the server-only admin client records and cleans up owner attachments in the existing private request bucket after authorization.
+- Boundaries: no migration, secret, access, billing/payment, public `/m`, campaign-record deletion, `/owner-preview`, customer contact, push, PR, merge, deploy, or production change.
+- Plan: implement the intake contract and five-section layout, add deterministic self-tests, verify responsive/browser behavior and protected routes, then stop at a local commit for Anthony.
+
+### [CHECK-IN] Codex - 2026-08-04 19:53 EDT - Owner portal production release
+
+- Authority: Anthony explicitly approved merge of the reviewed owner-portal comic redesign and prioritized section index.
+- State: branch `codex/owner-portal-comic-20260804` is clean at `422ac7e`, exactly two commits ahead of current `origin/main` (`559f616`), and no pull request exists. `origin/main` is an ancestor, so no rebase is required.
+- Release lock: publish this exact reviewed owner presentation through a ready PR, require green remote checks, verify the PR head immediately before an exact-head merge, then confirm the production deployment and live `/owner/colattao` auth-gated route.
+- Boundaries: no authentication, action, payment, database, menu-data, API, access, secret, `/owner-preview`, customer-contact, or unrelated protected-surface change. Do not bypass a failed check or weakened branch protection.
+- Evidence carried forward: targeted ESLint, `tsc --noEmit`, owner-app self-test, production build, `git diff --check`, six-link navigation, reduced-motion, keyboard, and 320/390/1440 browser gates passed on the reviewed head.
+
+### [CHECK-OUT] Codex - 2026-08-04 19:24 EDT - Owner feature priority and section index
+
+- Did: reordered the shared owner dashboard to `Request -> Menu -> Live -> Campaigns -> Billing -> History` and added a connected 6-link order-ticket index with native anchors, matching numbers, focusable targets, scroll margin, and target highlighting.
+- State now: all 6 links set the correct hash, focus the correct section, and keep it visible; the index is a 2 × 3 grid at 320/390 px and one row at 1440 px with exact viewport width and no browser page errors.
+- Quality: targeted ESLint, `tsc --noEmit`, owner-app self-test, final Next.js production build, `git diff --check`, keyboard focus, reduced motion, and independent review pass. Photo-upload naming and async auth announcements were also corrected without behavior changes.
+- Evidence: `C:\Dev\amma\evidence\owner-portal-comic-20260804\QA_REPORT.md` plus `index-order-full-320x800.png`, `index-order-full-390x844-r02.png`, and `index-order-full-1440x900-r02.png`.
+- Next / handoff to: Anthony - review the local index/order evidence and authorize a push/preview PR only if approved.
+- Blocked on Anthony: push, PR, preview publication, merge, deploy, and production approval.
+
+### [RELEASE GATE] Codex - 2026-08-04 19:24 EDT - Owner index local review
+
+- Scope remained presentation, semantic navigation, and ARIA metadata inside shared `/owner/[id]`; every existing action binding, form, auth boundary, billing/Zelle condition, tenant rule, menu URL, and read-only path is unchanged.
+- The first desktop pass exposed a large empty Campaigns gutter; the final layout uses full-width Campaigns, responsive Billing cards, and full-width History with no unresolved visual finding.
+- Boundary: local follow-up commit only. No push, PR, merge, deploy, production publication, access change, customer contact, or payment action.
+
+### [CHECK-IN] Codex - 2026-08-04 19:12 EDT - Owner feature priority and section index
+
+- Authority: Anthony requested a restaurant-owner-interest feature order and a polished working index menu for the owner portal.
+- State: continuing the clean local branch `codex/owner-portal-comic-20260804`, one commit ahead of `origin/main`; production and the canonical checkout remain untouched.
+- Priority lock: `01 Request -> 02 Menu -> 03 Live -> 04 Campaigns -> 05 Billing -> 06 History`. Broad and direct operating changes come before passive status; campaigns, service billing, and audit follow.
+- Index lock: one route-scoped, connected order-ticket rail beneath the masthead with six native anchor links, semantic section IDs, 44 px targets, visible focus, scroll margin, and a fully visible mobile grid.
+- Boundaries: presentation/order/navigation only. Preserve every owner action, form, auth boundary, billing/Zelle qualifier, tenant rule, menu URL, and read-only path. No push, PR, merge, deploy, or production change.
+- Plan: reorder semantic DOM and grid areas, style the index, verify all six links by keyboard and click at mobile/desktop widths, rerun code gates, and stop at a local commit.
+
+### [CHECK-OUT] Codex - 2026-08-04 17:26 EDT - Shared owner-portal comic redesign
+
+- Did: redesigned the shared `/owner/[id]` experience as a high-contrast, minimal-copy comic command center; placed Request Desk first; preserved tenant logo/name behavior and all existing auth, request, billing, payment, and menu actions.
+- State now: signed-out, reset, setup, long-name, authenticated read-only, safe request-preview, keyboard-focus, reduced-motion, 320/390/1440 responsive, and representative route-smoke checks pass. The temporary QA route is deleted.
+- Evidence: `C:\Dev\amma\evidence\owner-portal-comic-20260804\QA_REPORT.md` and its referenced screenshots.
+- Next / handoff to: Anthony - review the local evidence and authorize a push/preview PR only if the visual direction is approved.
+- Blocked on Anthony: push, PR, preview publication, merge, deploy, and production approval.
+
+### [RELEASE GATE] Codex - 2026-08-04 17:26 EDT - Owner portal local review
+
+- Code: targeted ESLint, `tsc --noEmit`, owner-app manifest self-test, Next.js 16.2.11 production build, and `git diff --check` pass after deleting the temporary QA route.
+- Browser: production hydration and password visibility pass; layouts equal viewport width at 320, 390, and 1440 px; every 320 px Quick Edit number input and Save control is fully visible; no Next error overlay or page errors; skip navigation, Sapphire focus treatment, reduced motion, and deterministic read-only request preview pass.
+- Route safety: `/owner/colattao`, its manifest and icon, `/`, `/m/colattao`, `/customers`, and `/conquest` returned local production HTTP 200. No protected route or server-action implementation changed.
+- Boundary: local review commit only. No push, PR, merge, deploy, production publication, access change, customer contact, or payment action.
+
+### [CHECK-IN] Codex - 2026-08-04 16:39 EDT - Shared owner-portal comic redesign
+
+- Authority: Anthony requested a planned and executed redesign of all shared owner portals using the public landing page principles: minimal words, high contrast, and comic-book styling.
+- State: clean isolated branch `codex/owner-portal-comic-20260804` from current `origin/main` at `559f616`; canonical checkout remains untouched.
+- Scope: presentation and concise interface copy inside shared `/owner/[id]` states only. Preserve tenant logo/name substitution and all authentication, authorization, request, billing, payment, menu, and data behavior.
+- Exclusions: public landing, `/m`, `/owner-preview`, customers, APIs, route handlers, manifests/icons, database, secrets, access, push, PR, merge, deploy, and production.
+- Plan: derive route-scoped tokens and hierarchy from the live landing implementation; implement an action-first command layout; verify signed-out, reset, authenticated, responsive, focus, reduced-motion, lint, types, build, and browser behavior; stop with a local review handoff.
+
+### [DESIGN LOCK] Codex - 2026-08-04 16:39 EDT - Owner command hierarchy
+
+- Visual system: landing-derived Ink, Paper, Gold, and Sapphire; Bodoni Moda display moments; Geist controls; Geist Mono issue labels; restrained halftone and registration-line texture.
+- Order: restaurant identity -> `01 / Make a change` -> `02 / Now` -> `03 / Quick edits` -> `04 / Campaigns` -> `05 / Money` -> `06 / Recent changes`.
+- Signature: a numbered counter strip with angular frames and hard offset shadows. No speech bubbles, novelty fonts, particles, invented workflow status, or decorative motion.
+- Copy boundary: remove redundant seasonal/attachment promotion and shorten operational guidance; retain every security, confirmation, billing, payment-verification, and customer-impact qualifier.
+
 ## [CHECK-OUT] Codex - 2026-08-01 - A.J. Gator's landing hub review ready
 
 - Delivered: commit `3104c58` is pushed on `codex/aj-gators-landing-hub-20260801`; draft PR #199 targets `main` and passed GitHub web CI, Vercel deployment, and Vercel Preview Comments on that exact head.
