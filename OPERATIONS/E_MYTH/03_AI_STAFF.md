@@ -4,6 +4,11 @@ _One AI personality per position in `02_POSITION_CONTRACTS.md`. Each entry is th
 build spec for that agent: its mandate, the ledger it owns, the real tools it
 uses, what it must refuse, and when it wakes up._
 
+> **⚠ REVISION 2 — read `05_SAFETY_CORRECTIONS.md` first.** It overrides this file
+> wherever they conflict: Mecánico is dark not live, Aduana is deterministic-first,
+> ledgers are git-backed, connectors are probed per run, and approvals are bound to
+> an artifact hash.
+
 ## House rules — inherited by every agent, no exceptions
 
 Every agent below carries these clauses in its system instructions. They are not
@@ -211,10 +216,14 @@ in this plan — it is documenting work the factory has already done by hand.**
 | **Refuses** | merging; deploying; changing env/config or secrets; disabling, skipping, or quarantining a test to get green |
 | **Escalates** | a red check that reproduces on the base branch; any advisory rated high/critical; any fix that would require a reserved action |
 
-**Status: partially live.** `AUTOMATION_STATUS.md` documents this exact autonomy
-already running twice daily — fix + push + draft PRs allowed, merging always
-Anthony's call. This is the proof the model works; the other ten agents are the
-same pattern applied to the other departments.
+**⚠ R2 — status corrected to DARK.** Revision 1 called this "partially live" on
+the strength of `AUTOMATION_STATUS.md` describing a twice-daily routine. Repository
+evidence contradicts that: the file declares "Updated on each scheduled run" and
+has been modified **exactly once in its history**, by unrelated PR #164 on
+2026-07-19. Across 82 commits since 2026-07-09 there is no caretaker-authored
+trace. The routine is `configured 2026-07-08`; whether it has ever executed again
+is **unknown**. Mecánico is **dark** until it writes its own heartbeat (`05` §2),
+and it is not proof that the model works.
 
 ---
 
@@ -235,9 +244,16 @@ same pattern applied to the other departments.
 | **Refuses** | fixing the work itself; passing an artifact with an unevidenced claim; passing anything with an AI-generated logo or a changed QR destination |
 | **Escalates** | a defect class seen three times → filed to the Optimization Register as a station design flaw |
 
-**Design note:** Aduana is the single most important agent for "AI works without
-me." It is what allows Anthony to trust the digest: **only inspected work reaches
-his queue.** Build it before scaling any other agent's autonomy.
+**⚠ R2 — this design note is WITHDRAWN.** Making an LLM the load-bearing control
+over LLM output creates common-mode failure: correlated blind spots, shared
+prompt-injection susceptibility, and a reviewer that can hallucinate a PASS.
+
+**Corrected design (`05` §7):** Aduana is three tiers. **Tier 1** is
+deterministic code — path allow-lists, QR byte-comparison, image hash provenance,
+secret scanning, claim-envelope parsing, code gates — and **only Tier 1 can
+block**. **Tier 2** is AI review on a *different model family*, which may HALT but
+may never PASS on its own. **Tier 3** is owner sampling of 10% of passed
+artifacts. A validator that cannot run is a HALT, never a PASS.
 
 ---
 
@@ -249,7 +265,7 @@ his queue.** Build it before scaling any other agent's autonomy.
 | | |
 |---|---|
 | **Position** | Analyst / Kaizen Officer (§11) |
-| **Owns the ledger** | traffic ledger, funnel event schema, outcomes log (`~/.codex/state/amma-business-intelligence/outcomes.jsonl`), the founder-labor KPI |
+| **Owns the ledger** | ⚠ R2 — all durable ledgers live in `OPERATIONS/LEDGERS/` **in git** (`05` §5): traffic, funnel schema, `outcomes.jsonl`, founder-labor KPI. The container-local `~/.codex/state/…` path is a scratch cache only and is destroyed between runs — never a source of truth |
 | **Reads** | Vercel analytics, Supabase aggregates (non-PII), every department ledger, the Optimization Register |
 | **Tools/skills** | `vercel-dash-report`, `dataviz`, `route_business_work.py record|report`, Supabase MCP (read-only), Vercel MCP |
 | **Wakes** | daily 16:00 (ledger ingest), Friday 16:00 (weekly report), monthly (register re-rank) |

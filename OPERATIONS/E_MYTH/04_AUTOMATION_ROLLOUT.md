@@ -12,10 +12,10 @@ already in use in this workspace; the work is to point them at the org chart.
 
 | Part | What it is | Already proven by |
 |---|---|---|
-| **The clock** | Claude Code **Routines** — scheduled sessions that fire on cron into a fresh cloud container, with push + email summaries | the twice-daily caretaker routine documented in `AUTOMATION_STATUS.md` (verified) |
+| **The clock** | Claude Code **Routines** — scheduled sessions that fire on cron into a fresh cloud container, with push + email summaries | ⚠ R2 — the caretaker routine is `configured 2026-07-08`; whether it has executed since is **unknown**. `AUTOMATION_STATUS.md` claims per-run updates and has been modified once ever, by unrelated PR #164. **Not** proof of a working clock |
 | **The jigs** | **Skills** — deterministic, versioned instructions the agent must follow (`amma-business-intelligence`, `amma-sales-conversion`, `frontend-design`, `web-design-guidelines`, `amma-video-game-visuals`, `vercel-dash-report`) | the required-skill routing already mandated in `CLAUDE.md` (verified) |
 | **The memory** | **Ledgers in git** — `HANDOFF_LOG.md`, `CODEX_QUEUE.md`, `AUTOMATION_STATUS.md`, the Optimization Register, `outcomes.jsonl` | the CHECK-IN / RELEASE GATE / CHECK-OUT protocol already running (verified) |
-| **The hands** | **MCP connectors** — GitHub, Vercel, Supabase, Gmail, Calendar, Drive, Slack, Resend, Docusign, Figma | connected and available in session (verified) |
+| **The hands** | **MCP connectors** — GitHub, Vercel, Supabase, Gmail, Calendar, Drive, Slack, Resend, Docusign, Figma | ⚠ R2 — connector presence is **session-scoped and volatile** (Google Calendar flapped mid-session). Probe per run and fail closed (`05` §4); never assume from a document |
 
 **Why this matters for "works without me":** Routines fire into cloud containers.
 The factory does not need Anthony's laptop on, his terminal open, or his
@@ -69,18 +69,24 @@ budget** instead of an open-ended demand on his day.
 One notification at 17:00. Every line is pre-inspected by Aduana, pre-packaged by
 Mayordomo, and answerable in **one word**.
 
+⚠ R2 — the format below is superseded by the **bound-token** digest in `05` §3.
+A bare "yes" authorizes nothing: every decision carries an artifact hash, an
+exact counterparty or commit, and a single-use token that expires in 24h.
+
 ```
 FINA CALLE — DAILY DIGEST · Tue 2026-08-18 · constraint: revenue conversion
 
 DECISIONS (4)
-  1. MERGE   Las Palmas menu correction — PR #201 · all gates green · rollback ready
-             → reply: 1 yes / 1 no
-  2. SEND    AJ Gator's follow-up (day 3) — draft ready, bilingual, offer ID FC-149
-             → reply: 2 yes / 2 edit
-  3. PUBLISH Colattao case study refresh — cites owner-verified 2,874 / 4,599 only
-             → reply: 3 yes / 3 no
-  4. MONEY   Colattao invoice #14 — exact steps prepared, 3 clicks, $149
-             → reply: 4 done (after you do it)
+  1. MERGE   Las Palmas menu correction · PR #201
+             commit 0f2bfa5c1d3e9a77 (locked) · diff sha256:9c1f…4ab2
+             → reply: approve M-7F3A          (expires 2026-08-19 17:00)
+  2. SEND    AJ Gator's follow-up (day 3) · to: owner@ajgators… · offer FC-149
+             body sha256:2e77…10bc
+             → reply: approve S-B412
+  3. PUBLISH Colattao case study · cites owner-verified 2,874 / 4,599 only
+             → reply: approve P-9C05
+  4. MONEY   Colattao invoice #14 · payee Colattao · $149.00 USD
+             → reply: approve $-4D18  (then execute; agent never charges)
 
 DONE WITHOUT YOU (11)          [no action — read or skip]
   · 6 new qualified prospects sourced and ranked
@@ -124,7 +130,16 @@ event, a customer escalation, or money at risk. Everything else waits for 17:00.
 
 ---
 
-## 4. Rollout — five phases, each one shippable on its own
+## 4. Rollout
+
+> **⚠ R2 — SUPERSEDED.** The phases below assumed a live caretaker and an
+> AI-based inspector. Both assumptions are withdrawn. Use the corrected rollout in
+> `05_SAFETY_CORRECTIONS.md` §9: truth correction → ratify → instrumentation →
+> read-only canary with fault injection → draft autonomy → autonomy earned per
+> agent by measurement → Stripe read-only last. Phase 0 below is unchanged and
+> still blocking; Phases 1–4 are retained only as the record of Revision 1.
+
+### Revision 1 phases (historical)
 
 Ordered by the constraint each phase relieves, not by ease. Each phase ends with a
 verifiable PASS condition.
@@ -225,7 +240,7 @@ verified baseline of *"not yet measured"* today, which is itself the finding.
 | Requests with a complete timestamp lifecycle | Conserje (7.1) | unknown | 100% |
 | Guardrail/brand/honesty violations reaching a customer | Aduana (10.2–10.6) | unknown | **0** |
 | Verified outcome samples | Brújula (11.4) | **0** | ≥3 per workflow |
-| Clients with visible ROI proof | Brújula (11.2) | 0 | 100% |
+| Clients with visible **engagement activity** ⚠ R2 — not "ROI"; ROI needs POS revenue data Fina Calle does not touch, and stays **unknown** (`05` §8) | Brújula (11.2) | 0 | 100% |
 
 ---
 

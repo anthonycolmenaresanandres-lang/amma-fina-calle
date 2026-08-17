@@ -10,10 +10,21 @@ an organizational chart of **positions**, a **Position Contract** for each one, 
 **AI personality** that holds it, and a **scheduled runtime** that runs the whole
 thing on a clock instead of on the owner's attention.
 
+> ## ⚠ Revision 2 — read `05_SAFETY_CORRECTIONS.md` first
+>
+> Adversarial review of `3dadb98` upheld seven defects in the automation plan.
+> The **organizational analysis is unaffected** — twelve positions, the contracts,
+> the departments, the eight reserved actions and the 11-of-12 diagnosis all stand.
+> What changed is the automation runway: the caretaker is **dark**, not live;
+> ledgers move into git; approvals bind to an artifact hash; the inspector becomes
+> deterministic-first; and "ROI" is corrected to "engagement activity."
+> **File 05 overrides files 01–04 wherever they conflict.**
+
 ## Read in this order
 
 | File | What it answers |
 |---|---|
+| [`05_SAFETY_CORRECTIONS.md`](05_SAFETY_CORRECTIONS.md) | **Read first.** The seven upheld defects, the corrected rollout, and the adversarial gate |
 | [`01_ORGANIZATION.md`](01_ORGANIZATION.md) | Primary Aim · Strategic Objective · the org chart · the 10 departments · the 8 things that can never be automated |
 | [`02_POSITION_CONTRACTS.md`](02_POSITION_CONTRACTS.md) | **The list of responsibilities** — every position's result, accountabilities, KPI, and automation grade (A1–A4) |
 | [`03_AI_STAFF.md`](03_AI_STAFF.md) | The 11 AI personalities: mandate, ledger, tools, refusal rules, wake schedule |

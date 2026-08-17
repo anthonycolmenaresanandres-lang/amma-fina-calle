@@ -2208,3 +2208,30 @@ Standing unknowns carried into production (not converted to zero):
 - Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
 Owner items still open after this merge:
 - Ratify the Primary Aim and the Strategic Objective (Phase 0); authorize the Stripe connector.
+
+### [CHECK-IN] Claude - 2026-08-17 - E-Myth Revision 2 safety corrections
+Authority:
+- Anthony returned an adversarial review of merged `3dadb98` / PR head `d89937f` finding the automation plan not yet safe to execute, and asked for a truth-correction plus a hardened design.
+Findings scored against repository evidence:
+- Upheld (7): unsupported liveness claim; volatile connector availability treated as durable; container-local outcomes log used as memory; A2 acknowledgement contradicting the universal no-send rule; merge grades inconsistent between A3 and the reserved A4 list; AI-only inspection creating common-mode failure; engagement activity mislabeled ROI.
+- Upheld and understated (1): the caretaker liveness claim. `AUTOMATION_STATUS.md` declares per-run updates and has been modified exactly once in its history, by unrelated PR #164 on 2026-07-19. Across 82 commits since 2026-07-09 there is no caretaker-authored trace. Corrected from "partially live" to dark.
+- Correct in principle, false in specifics (1): Resend, DocuSign, and Supabase are currently exposed and their schemas loaded during this review. The durable point stands because Google Calendar disconnected and reconnected inside this session, so connector presence is session-scoped and volatile.
+- Unresolved (1): the claim that a withdrawn image constraint was reinstated. Every image constraint in Revision 1 traces to the current `CLAUDE.md` hard guardrails on `main`; no withdrawal appears in `CLAUDE.md`, `AI_HONESTY_PROTOCOL.md`, or this log. Recorded as unknown pending the exact constraint and its withdrawing artifact. The guardrail stays until then.
+Boundaries:
+- Documentation only. No product, data, integration, secret, access, billing, customer-contact, QR-destination, or production change.
+
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 2 published
+Did:
+- Added `OPERATIONS/E_MYTH/05_SAFETY_CORRECTIONS.md`, which overrides files 01-04 where they conflict: the liveness rule that closes the class of error behind finding 1; artifact-hash approval tokens with expiry, single use, and replay refusal; a runtime capability contract that probes per run and fails closed; git-backed append-only ledgers with idempotency keys, leases, and replay protection; evidence envelopes carrying source, observation time, hash, freshness, and sensitivity; a three-tier ADUANA where only deterministic validators may block and AI review runs on a different model family and may never PASS alone; the activity-versus-ROI correction; and a corrected rollout with a fault-injecting canary and per-agent earned autonomy.
+- Applied inline `R2` corrections to 01, 02, 03, 04, and README so no file can be followed in isolation.
+Strengthened beyond the review:
+- Made the 100-test gate falsifiable with a defined corpus and a pass criterion that counts a silent failure as a failure.
+- Replaced the ten-run canary with twenty runs of which at least six carry injected faults, because happy-path runs of a system that never met a defect prove nothing.
+- Bound autonomy to thirty consecutive clean runs per agent with automatic demotion on any escaped defect, and capped every customer-facing or money-touching action at A3 permanently.
+- Decoupled CONTADOR from Stripe so cash hygiene starts immediately on a manual-entry ledger.
+Standing unknowns (not converted to zero):
+- Whether the caretaker has ever executed since 2026-07-08; Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours; per-client ROI, which is not computable without POS revenue data.
+Next:
+- Anthony ratifies the Primary Aim and Strategic Objective, names the withdrawn image constraint, and authorizes Stripe read-only when Phase 5 is reached.
+Blocked:
+- No agent autonomy expands until the adversarial gate passes 100/100 with zero fabrications and zero silent failures.

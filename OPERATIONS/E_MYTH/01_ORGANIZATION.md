@@ -159,13 +159,19 @@ Doing that with current evidence:
 | Production | Claude/Codex, **Anthony-triggered**, Anthony approves each merge | verified |
 | Client Success | **Anthony** | verified |
 | Finance & Admin | **Anthony** | verified |
-| Platform / Reliability | **partially systematized** — twice-daily caretaker routine exists (fix + push + draft PR; merge is Anthony's) | verified |
+| Platform / Reliability | ⚠ R2 — **dark, not systematized.** A caretaker routine was configured 2026-07-08; no evidence it has executed since (see `05` §1.1) | configured / execution **unknown** |
 | Quality & Brand Integrity | **Anthony** as final eye; gates exist in code (lint, tsc, build, phone QA, logo rules) | verified |
 | Intelligence & Learning | **nobody** — the outcome log has **zero verified samples** | verified |
 
-**Diagnosis:** Anthony's name is in 11 of 12 boxes. One box (Platform) is
-genuinely systematized. One box (Intelligence) is empty, which is why MRR, churn,
-CAC and demo→close are all *unknown* — nobody holds the position that would know.
+**Diagnosis:** Anthony's name is in 11 of 12 boxes. One box (Intelligence) is
+empty, which is why MRR, churn, CAC and demo→close are all *unknown* — nobody
+holds the position that would know.
+
+⚠ **R2 correction:** Revision 1 said Platform was "genuinely systematized." It is
+not — that box is **dark**: configured, never demonstrably run (`05` §1.1). The
+diagnosis is therefore worse than first stated: **zero of twelve** boxes are
+systematized today. This does not weaken the case for the org chart; it removes
+the false comfort that one box was already solved.
 
 **That is the whole problem, and it is now visible and finite.** The rest of this
 document is the box-by-box replacement plan.

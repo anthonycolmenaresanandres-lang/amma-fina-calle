@@ -5,6 +5,12 @@ Contract is not a job description: it states the **result** the position exists 
 produce, the **work** accountable for producing it, and the **standard** by which
 it is judged. It is signed by whoever holds the position — human or agent._
 
+> **⚠ REVISION 2 — `05_SAFETY_CORRECTIONS.md` overrides this file where they
+> conflict.** Corrected here: 7.2 acknowledgements are A3 not A2 (an
+> acknowledgement is a send); 0.6, 3.9 and 6.8 merges are A4 not A3 (the reserved
+> list is authoritative); 11.2 measures engagement activity, not ROI. Lines
+> carrying ⚠ R2 were changed after review.
+
 ## Automation grades (applied to every accountability line)
 
 | Grade | Meaning | Owner involvement |
@@ -30,7 +36,7 @@ Objective, and irreversible decisions are made deliberately rather than by drift
 | 0.3 | Enter secrets, rotate credentials, grant/revoke access | A4 | overdue access reviews |
 | 0.4 | Authorize money in/out; sign contracts; commit price | A4 | exceptions aged >7 days |
 | 0.5 | Own first human contact and the client relationship | A4 | prospects contacted / week |
-| 0.6 | Approve merge to `main` and production publish | A3→A4 | merge-ready PRs aged >48h |
+| 0.6 | Approve merge to `main` and production publish | A4 ⚠ R2 | merge-ready PRs aged >48h |
 | 0.7 | Re-rank the Optimization Register monthly | A3 | one P0 constraint named per month |
 
 **Standard:** Anthony touches the business through the digest and the weekly
@@ -103,7 +109,7 @@ exists on a live `noindex` URL — produced without Anthony touching it.
 | 3.6 | Run the browser gate: 390×844 and 1440×900, zero horizontal overflow, clean console, all images load | A1 | gates passed pre-handoff |
 | 3.7 | Produce the leave-behind (QR sheet, color + printer-safe B/W) | A3 | leave-behinds ready per demo |
 | 3.8 | Push to a **draft PR** with evidence captures; hand to Aduana | A2 | draft PRs opened |
-| 3.9 | Merge the demo to production | **A3** | Anthony's one-word approval |
+| 3.9 | Merge the demo to production | **A4** ⚠ R2 | Anthony executes with a bound token |
 
 **Standard:** Time from "prospect named" to "draft demo PR with evidence" is the
 position's headline number — **target ≤4 hours unattended.** Nothing published
@@ -173,7 +179,7 @@ merge-ready, with zero founder bespoke labor.
 | 6.5 | **Never change a URL a physical QR points to** (Colattao → `colattao-cafe-rush.vercel.app/menu`) | A1 | QR-destination changes (target 0) |
 | 6.6 | Run code gates: targeted ESLint, `tsc --noEmit`, production build, `git diff --check` | A1 | gate pass rate |
 | 6.7 | Capture evidence (mobile + desktop + motion + reduced-motion) and attach to the PR | A1 | PRs with complete evidence |
-| 6.8 | Open the draft PR; hand to Aduana, then to Anthony for merge | A2→A3 | days from scope to merge-ready |
+| 6.8 | Open the draft PR; hand to Aduana, then to Anthony for merge | A2→**A4** ⚠ R2 | days from scope to merge-ready |
 | 6.9 | Touch Supabase, Stripe, POS, Client OS routes, secrets, or customer data | **A4** | reserved — never by agent |
 
 **Standard:** ≤5 business days from signed scope to verified live portal. Every
@@ -191,7 +197,7 @@ Anthony being the help desk.
 | # | Accountability | Grade | KPI |
 |---|---|---|---|
 | 7.1 | Instrument every owner request: received → acknowledged → assigned → due → completed → confirmed | A1 | requests with complete timestamps |
-| 7.2 | Acknowledge inbound requests within the SLA window | A2 | median acknowledgement time |
+| 7.2 | Draft the acknowledgement for every inbound request within the SLA window | A3 ⚠ R2 | median acknowledgement time |
 | 7.3 | Execute in-scope changes (menu items, hours, promos, copy) through the normal gated path | A2 | in-scope changes / requests |
 | 7.4 | Run the onboarding checklist: tenant id, brand assets, owner access record, billing record, stable URLs, mobile/authorization/isolation checks, owner confirmation | A3 | onboardings with all gates evidenced |
 | 7.5 | Produce each client's monthly value review from **their own** verified engagement data | A3 | reviews delivered / clients |
@@ -291,7 +297,7 @@ the factory gets cheaper and faster with each client.
 | # | Accountability | Grade | KPI |
 |---|---|---|---|
 | 11.1 | Define anonymous, PII-free funnel events: proof view, CTA, request, successful owner action | A3 | events defined and shipped |
-| 11.2 | Build the per-client engagement dashboard (scans, plays, redemptions, repeat-visit proxy) — the plan's stated "most important missing piece" | A3 | clients with visible ROI proof |
+| 11.2 | Build the per-client **engagement activity** dashboard (scans, plays, redemptions, repeat-visit proxy). ⚠ R2 — this is activity, **not ROI**; see `05` §8 | A3 | clients with visible engagement activity |
 | 11.3 | Ingest Vercel analytics into the traffic ledger (`vercel-dash-report` skill) | A1 | ledger entries / reporting period |
 | 11.4 | Record **verified** outcomes to the routing log (`route_business_work.py record`) — never a prediction | A1 | verified samples (currently **0**) |
 | 11.5 | Report weekly: stage conversion **with sample size**, blocker aging, constraint movement | A2 | reports with valid sample sizes |
