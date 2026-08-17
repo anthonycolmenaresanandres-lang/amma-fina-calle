@@ -2278,3 +2278,24 @@ Picking up:
 Boundaries:
 - Documentation only. Preserve the current image guardrails. No product, data, integration, secret, access, billing, customer contact, QR destination, merge, deployment, or production change.
 - Keep PR #218 draft and stop if its remote head changes before push.
+
+### [CHECK-OUT] Codex - 2026-08-17 - E-Myth Revision 4 pushed to draft PR #218
+Did:
+- Replaced Revision 3 at exact reviewed head `ff0cb1f` with evidence-bound Revision 4 content commit `0810f86` on the existing draft PR branch.
+- Retracted the R2 wrong-ref/dark diagnosis and the R3 `344` divergence, `96` check-in, May start, and “unaided” recovery claims. Reproducible results are main-only `138`, status-only `74`, `74` status-file commits, and the 2026-07-08 to 2026-08-17 observed span.
+- Separated observed status publishing from scheduler liveness, safety certification, and earned autonomy.
+Safety design:
+- Added an owner-approved schedule manifest, signed scheduler/worker/watchdog events, an independent watchdog, an atomic source event store with one sanitized git publisher, and fail-closed missing-input behavior.
+- Bound approvals to authenticated payloads and private single-use tokens; Anthony still executes every A4 action.
+- Restricted unattended live observation to preregistered unauthenticated public URLs. Private, authenticated, billing, request-submitting, state-changing, protected-route, Stripe/POS/Supabase, customer-data, merge, publish, send, and access actions remain owner-executed.
+- Defined a falsifiable 100-case corpus (65 negative, 35 positive), independent review/sampling, fault-injected canaries, and capability-level promotion with reset/demotion rules.
+Verification:
+- Exact scope: seven documentation files only. `git diff --check`, local Markdown links, added-line secret/PII scan, evidence recomputation, and corpus totals passed.
+- Independent runtime and governance audits passed after their blocking findings were corrected.
+State:
+- PR #218 is open, draft, and mergeable at content head `0810f86`; production `main` remains `3dadb98`.
+- No merge, deployment, customer send, connector authorization, Stripe access, private-data access, product route, QR, Supabase, POS, or production change occurred.
+Next:
+- Anthony reviews draft PR #218. If accepted, ratify the Primary Aim and Strategic Objective; generic offline safety primitives may proceed before ratification, but live scheduling, canaries, and autonomy promotion may not.
+Blocked:
+- This PR is a design and control specification, not runtime implementation. Stripe remains unauthorized, and customer/money/protected actions remain owner-executed.
