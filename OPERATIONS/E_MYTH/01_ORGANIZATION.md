@@ -159,7 +159,7 @@ Doing that with current evidence:
 | Production | Claude/Codex, **Anthony-triggered**, Anthony approves each merge | verified |
 | Client Success | **Anthony** | verified |
 | Finance & Admin | **Anthony** | verified |
-| Platform / Reliability | ⚠ R2 — **dark, not systematized.** A caretaker routine was configured 2026-07-08; no evidence it has executed since (see `05` §1.1) | configured / execution **unknown** |
+| Platform / Reliability | ⚠ R3 — **active, maturity unproven.** The caretaker runs twice daily on the `automation/status` branch: 344 commits, 96 status check-ins, 2026-05-31 → 2026-08-17, latest `faa42b6`. It recovered a corrupted dashboard on 08-17 unaided. Run-completion and silent-failure rates are unmeasured | active (verified) / maturity **unknown** |
 | Quality & Brand Integrity | **Anthony** as final eye; gates exist in code (lint, tsc, build, phone QA, logo rules) | verified |
 | Intelligence & Learning | **nobody** — the outcome log has **zero verified samples** | verified |
 
@@ -167,11 +167,11 @@ Doing that with current evidence:
 empty, which is why MRR, churn, CAC and demo→close are all *unknown* — nobody
 holds the position that would know.
 
-⚠ **R2 correction:** Revision 1 said Platform was "genuinely systematized." It is
-not — that box is **dark**: configured, never demonstrably run (`05` §1.1). The
-diagnosis is therefore worse than first stated: **zero of twelve** boxes are
-systematized today. This does not weaken the case for the org chart; it removes
-the false comfort that one box was already solved.
+⚠ **R3 correction (supersedes R2):** Revision 2 claimed this box was "dark" and
+the count "zero of twelve." **That was false**, produced by searching `main` in a
+clone holding 2 of 138 remote heads — the caretaker's telemetry lives on
+`automation/status`. The count stands at **1 of 12**, with the label sharpened:
+Platform is **active, maturity unproven**. See `05` §0–§1.
 
 **That is the whole problem, and it is now visible and finite.** The rest of this
 document is the box-by-box replacement plan.

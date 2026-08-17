@@ -2235,3 +2235,37 @@ Next:
 - Anthony ratifies the Primary Aim and Strategic Objective, names the withdrawn image constraint, and authorizes Stripe read-only when Phase 5 is reached.
 Blocked:
 - No agent autonomy expands until the adversarial gate passes 100/100 with zero fabrications and zero silent failures.
+
+### [CHECK-IN] Claude - 2026-08-17 - E-Myth Revision 3, retraction of the R2 liveness claim
+Authority:
+- Anthony returned a second review holding PR #218 unmerged because its central correction searched `main` rather than the automation source-of-truth branch.
+Verification performed before accepting:
+- `git ls-remote --heads origin` returns 138 heads; the local clone held 2. `refs/heads/automation/status` exists at `faa42b6`, matching the cited commit exactly.
+- `origin/automation/status` carries 344 commits not in `main`, 96 of which record status check-ins, twice daily from 2026-05-31 to 2026-08-17.
+- Failure evidence confirmed: `3d2932a` (08-16 17:47) overwrote `AUTOMATION_STATUS.md` with a stray path line; `faa42b6` (08-17 12:53) detected the corruption, recovered the file from `b80cc86`, and rolled it forward with 236 insertions, while also recording that amma `main` had moved to `3dadb98`.
+- Commit-count note: the review stated 74 status commits; the measured figure is 96. The delta is a counting-rule difference and is not disputed.
+Retraction:
+- Revision 2's claim that the caretaker was dark, and its derived "zero of twelve systematized" diagnosis, are false and withdrawn in full. The cause was searching the default branch for telemetry that is deliberately kept off it, then labeling the result confidently.
+Boundaries:
+- Documentation only. No product, data, integration, secret, access, billing, customer-contact, QR-destination, or production change. Stripe remains unauthorized by direction.
+
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 3 published to PR #218
+Did:
+- Rewrote `OPERATIONS/E_MYTH/05_SAFETY_CORRECTIONS.md` as Revision 3 and corrected every propagated "dark" marker in 01, 03, 04, and README.
+Corrected label:
+- Platform is active on an isolated telemetry branch; reliability and control maturity remain unproven. Box count returns to 1 of 12.
+Adopted from review:
+- Liveness now requires STARTED plus a terminal COMPLETED or FAILED record, adding a `crashed` state for runs that start and vanish, which Revision 2 could not express.
+- Telemetry stays off `main` as immutable write-once per-run receipts; the single mutable JSONL and the file-based lease design are withdrawn, the 08-16 corruption being the empirical case against them.
+- Private cash, customer, and prospect data stay outside git; only opaque reference-and-state pairs are committed. Revision 2's placement of cash and request ledgers in git is withdrawn as contradicting the repository PII guardrail.
+- The adversarial gate gains 35 positive controls against 65 negative, so an agent that halts on everything now fails; false HALTs count as failures alongside fabrications and silent failures.
+New rule added beyond the review:
+- A discovery rule requiring the complete ref topology to be enumerated, and the queried ref named, before any live/dark/stale label may be applied. Liveness claims must carry `refs_enumerated` and `ref_queried` in their evidence envelope. Both errors in this thread, the overclaim and the underclaim, came from confident labels over partial evidence, and this closes that class.
+Defect 8:
+- Retracted by Anthony. Current `CLAUDE.md` image guardrails remain in force unchanged.
+Standing unknowns:
+- Caretaker run-completion rate, silent no-op rate, and whether the 08-17 recovery generalizes; Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours; per-client ROI, which is not computable without POS revenue data.
+Next:
+- Anthony reviews revised PR #218. Ratification of the Primary Aim and Strategic Objective stays blocked behind that review by his direction.
+Blocked:
+- No merge, no ratification, no Stripe authorization until Revision 3 is accepted.

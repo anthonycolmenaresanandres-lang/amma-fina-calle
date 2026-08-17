@@ -216,14 +216,20 @@ in this plan — it is documenting work the factory has already done by hand.**
 | **Refuses** | merging; deploying; changing env/config or secrets; disabling, skipping, or quarantining a test to get green |
 | **Escalates** | a red check that reproduces on the base branch; any advisory rated high/critical; any fix that would require a reserved action |
 
-**⚠ R2 — status corrected to DARK.** Revision 1 called this "partially live" on
-the strength of `AUTOMATION_STATUS.md` describing a twice-daily routine. Repository
-evidence contradicts that: the file declares "Updated on each scheduled run" and
-has been modified **exactly once in its history**, by unrelated PR #164 on
-2026-07-19. Across 82 commits since 2026-07-09 there is no caretaker-authored
-trace. The routine is `configured 2026-07-08`; whether it has ever executed again
-is **unknown**. Mecánico is **dark** until it writes its own heartbeat (`05` §2),
-and it is not proof that the model works.
+**⚠ R3 — status is ACTIVE, maturity unproven.** (Revision 2 claimed "dark"; that
+was **false** and is withdrawn — it searched `AUTOMATION_STATUS.md` on `main`,
+but the caretaker's telemetry lives on the `automation/status` branch.)
+
+Verified 2026-08-17 on `origin/automation/status`: **344 commits** not in `main`,
+**96** recording status check-ins, twice daily from 2026-05-31 to 2026-08-17,
+latest `faa42b6`. On 08-16 a run truncated the dashboard; on 08-17 the next run
+**detected the corruption, recovered it from `b80cc86`, and rolled forward
+unaided** (236 insertions).
+
+So Mecánico is the one position with a real operating record — and it is not yet
+mature. Unmeasured: run-completion rate, silent no-op rate, whether recovery
+generalizes. It emits no terminal `COMPLETED`/`FAILED` record, so its `crashed`
+rate is **unknown** (`05` §2.1). Harden it; do not rebuild it.
 
 ---
 
@@ -265,7 +271,7 @@ artifacts. A validator that cannot run is a HALT, never a PASS.
 | | |
 |---|---|
 | **Position** | Analyst / Kaizen Officer (§11) |
-| **Owns the ledger** | ⚠ R2 — all durable ledgers live in `OPERATIONS/LEDGERS/` **in git** (`05` §5): traffic, funnel schema, `outcomes.jsonl`, founder-labor KPI. The container-local `~/.codex/state/…` path is a scratch cache only and is destroyed between runs — never a source of truth |
+| **Owns the ledger** | ⚠ R3 — **immutable per-run receipts on the `automation/status` branch**, not one mutable JSONL and not on `main` (`05` §5). Aggregates are rebuilt by replaying receipts. Cash amounts, customer requests, and prospect PII stay **outside git**; only opaque `{ref, state}` pairs are committed. The container-local `~/.codex/state/…` path is scratch only — destroyed between runs, never a source of truth |
 | **Reads** | Vercel analytics, Supabase aggregates (non-PII), every department ledger, the Optimization Register |
 | **Tools/skills** | `vercel-dash-report`, `dataviz`, `route_business_work.py record|report`, Supabase MCP (read-only), Vercel MCP |
 | **Wakes** | daily 16:00 (ledger ingest), Friday 16:00 (weekly report), monthly (register re-rank) |

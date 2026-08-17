@@ -10,14 +10,23 @@ an organizational chart of **positions**, a **Position Contract** for each one, 
 **AI personality** that holds it, and a **scheduled runtime** that runs the whole
 thing on a clock instead of on the owner's attention.
 
-> ## ⚠ Revision 2 — read `05_SAFETY_CORRECTIONS.md` first
+> ## ⚠ Revision 3 — read `05_SAFETY_CORRECTIONS.md` first
 >
-> Adversarial review of `3dadb98` upheld seven defects in the automation plan.
-> The **organizational analysis is unaffected** — twelve positions, the contracts,
-> the departments, the eight reserved actions and the 11-of-12 diagnosis all stand.
-> What changed is the automation runway: the caretaker is **dark**, not live;
-> ledgers move into git; approvals bind to an artifact hash; the inspector becomes
-> deterministic-first; and "ROI" is corrected to "engagement activity."
+> Two rounds of adversarial review. The **organizational analysis is unaffected**
+> — twelve positions, the contracts, the departments, the eight reserved actions
+> and the diagnosis all stand across all three revisions.
+>
+> The automation runway was corrected twice, in opposite directions. R1
+> overclaimed (called the caretaker live on a document's say-so). R2 underclaimed
+> (called it **dark** after searching only `main`). **R3 is the verified position:
+> the caretaker is ACTIVE on the `automation/status` branch — 344 commits, 96
+> check-ins, twice daily since May, latest `faa42b6` — and its reliability is
+> UNPROVEN.** Also in R3: liveness needs a terminal record, telemetry stays off
+> `main` as immutable per-run receipts, private data never enters git, the
+> adversarial gate gained positive controls so "halt everything" cannot pass,
+> approvals bind to an artifact hash, the inspector is deterministic-first, and
+> "ROI" is corrected to "engagement activity."
+>
 > **File 05 overrides files 01–04 wherever they conflict.**
 
 ## Read in this order
