@@ -2190,3 +2190,21 @@ Next:
 - Anthony ratifies the Primary Aim and Strategic Objective (Phase 0, ~15 minutes), then Phase 1 builds ADUANA (inspection gate) and BRUJULA (instrumentation) before any further autonomy is granted.
 Blocked:
 - Nothing for documentation. Stripe authorization blocks the Finance position's live evidence.
+
+### [RELEASE GATE] Claude - 2026-08-17 - E-Myth organizational layer production release
+Authority:
+- Anthony explicitly approved the merge on 2026-08-17 with `merge`.
+Exact pre-release state:
+- Draft PR #217 is cleanly mergeable from tested head `7aa9c0b` into production base `5b02d0d`.
+- Checks are green on the exact head; the only PR comment is the Vercel bot status. No review comments are open.
+- Diff is 6 files, additions only: `OPERATIONS/E_MYTH/README.md`, `01_ORGANIZATION.md`, `02_POSITION_CONTRACTS.md`, `03_AI_STAFF.md`, `04_AUTOMATION_ROLLOUT.md`, and this log.
+Release sequence:
+- Commit this authorization record to the PR branch, require checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, then verify production `main`.
+Scope confirmation:
+- Documentation only. No product route, menu data, media, game engine or config, Client OS, Supabase, Stripe, POS, secret, customer data, QR destination, pricing, or customer-facing surface has any diff.
+Hard stop:
+- No product or visual change, no data/integration/payment/POS/access/secret work, no customer contact. Stop on the first branch, check, or merge divergence.
+Standing unknowns carried into production (not converted to zero):
+- Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
+Owner items still open after this merge:
+- Ratify the Primary Aim and the Strategic Objective (Phase 0); authorize the Stripe connector.
