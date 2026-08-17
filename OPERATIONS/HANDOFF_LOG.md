@@ -2165,3 +2165,46 @@ Next:
 - Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
 Blocked:
 - None for printing. Client approval is still required before representing the demo as official.
+
+### [CHECK-IN] Claude - 2026-08-17 - E-Myth organizational layer
+Picking up:
+- Anthony requested the E-Myth technique be applied to AMMA Ventures / Fina Calle: departments, positions, a list of responsibilities, and a plan to have AI personalities perform them with minimum owner input.
+Authority:
+- Direct owner request. Documentation-only scope.
+Boundaries:
+- No product, data, integration, secret, access, billing, customer-contact, or production change.
+- Every material fact labeled verified / inference / unknown per the Optimization Register; no unknown converted to zero.
+
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth organizational layer delivered
+Did:
+- Added `OPERATIONS/E_MYTH/` with four documents: organizational strategy (Primary Aim, Strategic Objective, org chart, 10 departments, the 8 permanently-reserved owner actions), position contracts (12 positions with accountabilities, KPIs, and A1-A4 automation grades), the AI staff spec (11 agent personalities with mandates, ledgers, tools, refusal rules, wake schedules), and the automation rollout plan (runtime, daily shift, Owner Input Budget, 5 phases, verified capability gaps).
+Grounded in:
+- `BUSINESS/AMMA_VENTURES_BUSINESS_PLAN.md` (Managerial Factory thesis, founder-labor KPI, risk register), `OPERATIONS/AMMA_OPTIMIZATION_REGISTER.md` (four owner roles, evidence labels, approval gates), `AUTOMATION_STATUS.md` (the live twice-daily caretaker autonomy model), `AI_HONESTY_PROTOCOL.md`, `GROWTH/AMMA_CLIENT_ACQUISITION_LOOP.md`, and the Las Palmas / AJ Gator's demo records in this log.
+Key finding:
+- Anthony holds 11 of 12 org-chart positions. Platform is the one systematized box; Intelligence is empty, which is why MRR, churn, CAC, and demo-to-close are all unknown.
+Recorded unknowns (not converted to zero):
+- Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
+Verified gaps:
+- Stripe, Canva, and Runway connectors are not authorized in session, so no agent can read live billing state. The outcomes log holds zero verified samples. Twelve open PRs carry unrouted owner decisions.
+Next:
+- Anthony ratifies the Primary Aim and Strategic Objective (Phase 0, ~15 minutes), then Phase 1 builds ADUANA (inspection gate) and BRUJULA (instrumentation) before any further autonomy is granted.
+Blocked:
+- Nothing for documentation. Stripe authorization blocks the Finance position's live evidence.
+
+### [RELEASE GATE] Claude - 2026-08-17 - E-Myth organizational layer production release
+Authority:
+- Anthony explicitly approved the merge on 2026-08-17 with `merge`.
+Exact pre-release state:
+- Draft PR #217 is cleanly mergeable from tested head `7aa9c0b` into production base `5b02d0d`.
+- Checks are green on the exact head; the only PR comment is the Vercel bot status. No review comments are open.
+- Diff is 6 files, additions only: `OPERATIONS/E_MYTH/README.md`, `01_ORGANIZATION.md`, `02_POSITION_CONTRACTS.md`, `03_AI_STAFF.md`, `04_AUTOMATION_ROLLOUT.md`, and this log.
+Release sequence:
+- Commit this authorization record to the PR branch, require checks on the new exact head, mark the PR ready, squash-merge with an exact-head lock, then verify production `main`.
+Scope confirmation:
+- Documentation only. No product route, menu data, media, game engine or config, Client OS, Supabase, Stripe, POS, secret, customer data, QR destination, pricing, or customer-facing surface has any diff.
+Hard stop:
+- No product or visual change, no data/integration/payment/POS/access/secret work, no customer contact. Stop on the first branch, check, or merge divergence.
+Standing unknowns carried into production (not converted to zero):
+- Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
+Owner items still open after this merge:
+- Ratify the Primary Aim and the Strategic Objective (Phase 0); authorize the Stripe connector.
