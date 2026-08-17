@@ -2220,7 +2220,7 @@ Findings scored against repository evidence:
 Boundaries:
 - Documentation only. No product, data, integration, secret, access, billing, customer-contact, QR-destination, or production change.
 
-### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 2 published
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 2 drafted and pushed to PR #218
 Did:
 - Added `OPERATIONS/E_MYTH/05_SAFETY_CORRECTIONS.md`, which overrides files 01-04 where they conflict: the liveness rule that closes the class of error behind finding 1; artifact-hash approval tokens with expiry, single use, and replay refusal; a runtime capability contract that probes per run and fails closed; git-backed append-only ledgers with idempotency keys, leases, and replay protection; evidence envelopes carrying source, observation time, hash, freshness, and sensitivity; a three-tier ADUANA where only deterministic validators may block and AI review runs on a different model family and may never PASS alone; the activity-versus-ROI correction; and a corrected rollout with a fault-injecting canary and per-agent earned autonomy.
 - Applied inline `R2` corrections to 01, 02, 03, 04, and README so no file can be followed in isolation.
@@ -2269,3 +2269,12 @@ Next:
 - Anthony reviews revised PR #218. Ratification of the Primary Aim and Strategic Objective stays blocked behind that review by his direction.
 Blocked:
 - No merge, no ratification, no Stripe authorization until Revision 3 is accepted.
+
+### [CHECK-IN] Codex - 2026-08-17 - E-Myth Revision 4 precision and runtime hardening
+Authority:
+- Anthony explicitly directed `Revise pr218`; this authorizes documentation edits and a push to the existing draft PR branch only.
+Picking up:
+- Audit Revision 3 at exact head `ff0cb1f` and correct remaining gaps in liveness, evidence, approval, concurrency, validation, and autonomy design.
+Boundaries:
+- Documentation only. Preserve the current image guardrails. No product, data, integration, secret, access, billing, customer contact, QR destination, merge, deployment, or production change.
+- Keep PR #218 draft and stop if its remote head changes before push.

@@ -1,341 +1,598 @@
-# Safety Corrections — E-Myth Automation Layer, Revision 3
+# Safety Corrections — E-Myth Automation Layer, Revision 4
 
-_Created 2026-08-17. Revision 2 was reviewed and **its central correction was
-itself wrong**; this file replaces it. Files 01–04 carry `⚠ R2` markers that
-should be read as pointing here._
+_Created 2026-08-17. Revision 4 supersedes the earlier safety interpretations in
+this PR. Files 01–04 point here wherever their historical text conflicts._
 
 **Role:** CEO/Strategist.
-**Bottleneck identified by review:** incorrect source-of-truth discovery.
-**Stop condition:** no ratification, no merge, and no Stripe authorization until
-this revision is accepted.
+**Bottleneck:** conclusions drawn from incomplete evidence, followed by controls
+that relied on the same worker they were meant to verify.
+**Stop condition:** no live schedule, autonomy promotion, merge, production
+action, customer send, or Stripe access from this plan until its relevant gate is
+implemented and owner-authorized. Offline safety primitives may be built and
+tested before the business aim is ratified.
 
 ---
 
-## 0. Retraction, stated plainly
+## 0. Retractions, stated plainly
 
-Revision 2 §1.1 claimed the caretaker was **dark** — configured but never
-demonstrably executed. **That claim is false and is withdrawn in full.**
+Revision 2 called the caretaker **dark** after querying only `main`. That was
+false: its status publishing lives on `automation/status`. R2 also attributed
+the sole `main`-history creation of `AUTOMATION_STATUS.md` to `d13642b`; the
+actual commit is `e677965` (PR #149).
 
-It was produced by searching `AUTOMATION_STATUS.md` on `main` in a local clone
-that held **2 of the repository's 138 remote heads**. The caretaker's telemetry
-is deliberately kept **off `main`**, on `automation/status`. Searching the
-default branch for it was the wrong query, confidently labeled.
+Revision 3 corrected the ref, but then attached new unsupported measurements to
+it. It called **344** commits “not in `main`,” counted **96** check-ins, dated the
+history to May, and called the recovery “unaided.” Fresh, reproducible queries do
+not support those statements:
 
-This is the second time in this thread that an unsupported claim reached a
-document. Revision 1 **overclaimed** (called a system live on a document's say-so).
-Revision 2 **underclaimed** (called a system dark on an incomplete search). Both
-share one root cause: **a conclusion drawn from partial evidence and then given a
-confident label.** The corrective is not "be more careful" — it is the discovery
-rule in §2.0, which makes the completeness of the search an explicit precondition
-of the label.
+- 344 is the status branch's **total ancestry**, not its divergence from `main`;
+- the branch has **74** commits not in `main`, and 74 commits touch
+  `AUTOMATION_STATUS.md`;
+- the observed status-file history begins **2026-07-08**, not May;
+- git proves that a later caretaker-attributed commit restored the dashboard, but
+  it cannot prove that the scheduler fired, that no human assisted, or that the
+  dashboard's external claims were accurate.
+
+The root error across R1–R3 is broader than one bad number: the evidence scope,
+counting rule, and independence of the source were not recorded before a
+confident label was applied. Sections 1, 2, and 6 close that class of error.
 
 ---
 
-## 1. Verified evidence for the caretaker
+## 1. Reproducible evidence for the caretaker
 
-Measured 2026-08-17 against `origin/automation/status`:
+Measured 2026-08-17 after fetching both refs:
 
-| Fact | Value | Label |
+| Fact | Reproducible result | Label |
 |---|---|---|
-| Branch | `refs/heads/automation/status` @ `faa42b6` | verified |
-| Commits on the branch not in `main` | **344** | verified |
-| Commits whose subject records a status check-in | **96** (my count; review stated 74 — the delta is a counting-rule difference, not a dispute) | verified |
-| Date span | 2026-05-31 → 2026-08-17 | verified |
-| Cadence | twice daily, morning and evening | verified |
-| Latest run | `faa42b6`, 2026-08-17 12:53 UTC | verified |
-| Remote heads in repo | 138 (local clone had 2) | verified |
+| Status ref | `refs/heads/automation/status` @ `faa42b6f3fa7b0e92b4c648ed67864ec1e1db3dc` | verified |
+| Merge base with `main` | `387449f7ffd36bee8f2f5e72a30246ca348a59a2` | verified |
+| Divergence | `main`-only **138** / status-only **74** | verified |
+| Status-file history on `main` | exactly **1** commit: `e677965` (initial creation) | verified |
+| Commits touching `AUTOMATION_STATUS.md` on the status ref | **74** total; 73 after the initial creation | verified |
+| Observed status-file span | 2026-07-08 23:39:34 UTC → 2026-08-17 12:53:28 UTC | verified |
+| Observed cadence | 74 revisions on 33 Eastern calendar dates; exactly two on 27 of those dates; one 213.11-hour gap from July 9 to July 18 | verified |
+| Declared schedule | “twice daily” inside the worker-attributed dashboard | verified as a declaration; execution rate **unknown** |
+| Remote heads present at measurement | **138** | verified |
 
-**The Aug 16 → Aug 17 failure and recovery, verified:**
+Commands:
 
-- `3d2932a` (08-16 17:47) overwrote `AUTOMATION_STATUS.md` with a stray path
-  line, destroying the dashboard.
-- `faa42b6` (08-17 12:53) **detected the corruption, recovered the file from
-  `b80cc86`, and rolled it forward** — 236 insertions, 1 deletion — while also
-  recording that amma `main` had moved to `3dadb98` (PR #217).
+```powershell
+git fetch --prune origin
+git rev-parse origin/automation/status
+git merge-base origin/main origin/automation/status
+git rev-list --left-right --count origin/main...origin/automation/status
+git log --format='%H|%aI|%an|%s' origin/main -- AUTOMATION_STATUS.md
+git rev-list --count origin/main..origin/automation/status -- AUTOMATION_STATUS.md
+git log --reverse --format='%H|%aI|%an|%s' origin/automation/status -- AUTOMATION_STATUS.md
+@(git ls-remote --heads origin).Count
 
-This is the single most valuable artifact in the whole review, and it cuts both
-ways. It is genuine evidence of **self-healing under real failure**. It is also
-genuine evidence of a **real corruption vector**: one mutable file, written by
-many runs, clobbered by a careless write. That vector is exactly what §5 now
-redesigns — and the redesign is empirical, not theoretical, because the failure
-already happened.
+$tz = [TimeZoneInfo]::FindSystemTimeZoneById('Eastern Standard Time')
+$times = @(git log --reverse --format='%aI' origin/automation/status -- AUTOMATION_STATUS.md |
+  ForEach-Object { [DateTimeOffset]::Parse($_).ToUniversalTime() })
+$dates = @($times | ForEach-Object { [TimeZoneInfo]::ConvertTime($_, $tz).Date })
+$groups = @($dates | Group-Object)
+$groups.Count
+@($groups | Where-Object Count -eq 2).Count
+$gaps = for ($i = 1; $i -lt $times.Count; $i++) {
+  ($times[$i] - $times[$i-1]).TotalHours
+}
+($gaps | Measure-Object -Maximum).Maximum
+```
 
-### 1.1 Corrected label
+The ref must be named alongside every future count. “Commits on the branch,”
+“commits not in main,” “commits touching the file,” and “status-like subjects”
+are different queries and may not be substituted for one another.
 
-> **Platform is ACTIVE on an isolated telemetry branch. Reliability and control
-> maturity remain UNPROVEN.**
+### 1.1 What the corruption incident proves
 
-Active is not the same as mature. What is proven: the schedule fires, runs
-produce artifacts, and at least one run recovered from corruption. What is **not**
-proven: run-completion rates, undetected-failure rate, whether any run has ever
-silently no-opped, and whether recovery generalizes beyond this one instance.
+- `3d2932a` replaced 250 dashboard lines with one stray path line.
+- `faa42b6`, 15 hours 6 minutes later, replaced that line with a 236-line
+  dashboard and records recovery from `b80cc86`.
 
-### 1.2 Corrected diagnosis
+Git proves **corruption followed by restoration**. It does not independently
+prove autonomous detection, scheduler delivery, notification delivery, or the
+truth of claims inside the restored dashboard. Those remain `unknown` until
+scheduler-native and source-native receipts exist.
 
-Revision 2's "**zero of twelve** boxes systematized" is withdrawn. The Revision 1
-count stands with a sharper label:
+### 1.2 Corrected operating label
 
-- **Platform:** active, maturity unproven. **1 of 12.**
-- **Intelligence:** empty.
-- **Remaining 10:** held by Anthony.
+> **Status publishing is OBSERVED on an isolated telemetry branch. Autonomous
+> scheduling, reliability, policy compliance, and claim accuracy are UNPROVEN.**
+
+Two counts must remain separate:
+
+- **Operational mapping:** Platform is the one position mapped to the observed
+  recurring status artifact; the autonomy of each run is unverified.
+- **Safety certification:** no position has yet been demonstrated and certified
+  against the Revision 4 runtime, watchdog, evidence, and promotion gates.
+
+This avoids using “systematized” as an undefined all-or-nothing label.
+
+### 1.3 Existing caretaker conflicts that must fail closed
+
+The current dashboard declares authority to merge “green/safe” PRs. That
+conflicts with `AGENTS.md` and `CLAUDE.md`, which reserve merge and production to
+Anthony. Until enforcement is implemented and tested, the caretaker's effective
+ceiling is:
+
+> diagnose, create a branch, push a fix, and open a **draft PR** only — never
+> merge, deploy, send, delete, grant access, alter secrets, or move money.
+
+The current telemetry history also contains personal identifiers. Therefore the
+status branch is **not** presently PII-free. A no-new-PII gate starts immediately;
+legacy exposure review or history rewriting is a separate owner-approved security
+decision and must not be performed automatically.
 
 ---
 
-## 2. Liveness, corrected
+## 2. Liveness requires an independent terminal record
 
-### 2.0 The discovery rule (new — this is the actual fix)
+### 2.0 Discovery rule
 
-> **Before labeling any system live, dark, or stale, enumerate the complete ref
-> topology and name where its telemetry lives. A search of the default branch is
-> not a search of the repository.**
+> Before labeling a system active, dark, stale, or healthy, enumerate the relevant
+> ref and scheduler topology, name the telemetry source, state the exact query,
+> and identify whether the source is independent of the worker.
 
-A liveness claim must record: refs enumerated, the ref actually queried, and the
-query run. A claim that cannot state where it looked is `unknown`, never `dark`.
-`dark` is an assertion about the whole repository and requires whole-repository
-evidence.
+A default-branch search is not a repository search. A worker-attributed status file
+is evidence of publishing, not independent evidence that every scheduled slot
+ran. If the search scope or source independence cannot be stated, the result is
+`unknown`, never `dark` or `healthy`.
 
-### 2.1 Run states require a terminal record
+### 2.1 Slot, attempt, and event model
 
-Revision 2 required a heartbeat at run start. **That is insufficient** — a start
-heartbeat proves a container booted, not that work happened or finished. Adopted
-from review, with one addition:
+Before activation, Anthony approves an immutable schedule manifest containing
+agent/capability, timezone, cadence, start/end, blackout rules, grace window,
+SLA, and evaluation window. It is stored outside the scheduler's write authority.
+Both scheduler and watchdog derive the same stable `slot_id` set from that
+manifest. The scheduler emits a signed slot record; each retry gets a new
+`attempt_id` and never overwrites an earlier attempt. Workers emit their own
+immutable events:
 
-Every run emits **two** records: `STARTED`, then exactly one of `COMPLETED` or
-`FAILED`. Derived states:
+```text
+events/YYYY/MM/DD/<agent>/<slot_id>/SCHEDULED.json
+events/YYYY/MM/DD/<agent>/<slot_id>/<attempt_id>/STARTED.json
+events/YYYY/MM/DD/<agent>/<slot_id>/<attempt_id>/SUCCEEDED.json
+events/YYYY/MM/DD/<agent>/<slot_id>/<attempt_id>/FAILED.json
+events/YYYY/MM/DD/<agent>/<slot_id>/<attempt_id>/PARTIAL.json
+events/YYYY/MM/DD/<agent>/<slot_id>/watchdog/MISSED.json
+events/YYYY/MM/DD/<agent>/<slot_id>/watchdog/CRASHED.json
+```
+
+Each attempt has one `STARTED` and exactly one terminal event. `PARTIAL` is a
+terminal failure to complete the declared accountability set; it is never counted
+as success. Replaying the same event is idempotent only when its bytes and hash
+match. A changed replay is quarantined. Every event carries schema version,
+issuer, workload identity, timestamp, content hash, and platform-managed
+signature. The store rejects an invalid signature or an issuer writing another
+component's namespace; agents never handle signing keys.
+
+### 2.2 Derived states
 
 | State | Condition |
 |---|---|
-| `live` | ≥1 `COMPLETED` within one declared interval |
-| `degraded` | Runs terminate, but `FAILED` or partial-skip rate is above threshold |
-| `crashed` | `STARTED` with no terminal record past its window — **the state Revision 2 could not express**, and the one that hides silent no-ops |
-| `stale` | No `STARTED` for more than two intervals |
-| `dark` | No run record has ever existed, established under §2.0 |
+| `running` | Scheduler observed the slot and a `STARTED` event exists inside its deadline |
+| `healthy` | Every expected slot in the preregistered evaluation window has a valid `SUCCEEDED` terminal event within SLA and no unresolved `FAILED`, `PARTIAL`, `MISSED`, or `CRASHED` state exists |
+| `degraded/recovering` | A later slot succeeds, but an earlier failed/missed/crashed slot in the window remains unresolved or the declared error threshold is exceeded |
+| `failed` | The latest attempt ended `FAILED` or `PARTIAL` |
+| `crashed` | `STARTED` exists but no terminal event appears before the deadline |
+| `missed` | The scheduler expected a slot but no `STARTED` event appears before the grace window |
+| `stale` | No valid success exists for more than two declared intervals |
+| `dark` | No valid run event has ever existed across the complete declared telemetry scope |
 
-`crashed` is reported as loudly as `FAILED`. A run that starts and vanishes is a
-failure that hid, and it is the failure mode most likely to masquerade as health.
+A later success never erases an earlier `missed`, `crashed`, `partial`, or
+`failed` slot. The evaluation-window length and thresholds are versioned before
+activation and cannot be shortened after observing results.
 
-**Applying this to the caretaker:** its 96 status commits evidence completed work
-products, so it is **live**. Its `crashed` rate is **unknown**, because no
-terminal records exist to measure it. That unknown is precisely the "maturity
-unproven" half of the label.
+### 2.3 Independent watchdog
 
----
+The worker cannot reliably report its own disappearance, and a failed scheduler
+cannot be trusted to declare that no slot was due. A watchdog in a separate
+failure domain computes expected slots from the independently stored owner-
+approved schedule manifest, compares them with scheduler-native trigger records
+and the event store, then emits immutable `MISSED` or `CRASHED` events. If the
+manifest or watchdog is absent, inaccessible, or invalid, liveness is `unknown`.
+A self-authored heartbeat alone never establishes health.
 
-## 3. Authorization binding (unchanged from Revision 2, still upheld)
-
-Every decision in the owner digest carries a token bound to a hash of the exact
-artifact — commit SHA for a merge; recipient + subject + body hash for a send;
-payee + amount + currency + invoice ID for money.
-
-```
-1. MERGE  Las Palmas menu correction · PR #201
-          commit 0f2bfa5c1d3e9a77 (locked) · diff sha256:9c1f…4ab2
-          token  M-7F3A   expires 2026-08-18 17:00
-          → reply: approve M-7F3A
-```
-
-Fail-closed rules: approval must quote the token; a bare "yes" executes nothing;
-a changed artifact voids its token; tokens expire in 24h, are single-use, are
-recorded spent, and a replay is refused and flagged; one token, one action, one
-artifact — no batch tokens, no "approve all."
+Applied today: no scheduler-native slot receipts, terminal-event series, or
+independent watchdog were found in the refs and artifacts inspected for this
+review. Evidence outside that scope is unknown. Run-completion, missed-slot,
+crash, and notification-delivery rates therefore remain `unknown`.
 
 ---
 
-## 4. Capability contract (unchanged from Revision 2, still upheld)
+## 3. Authorization binding
 
-Declare required capabilities, probe read-only at run start, **fail closed**.
-Degraded mode must state which accountabilities were skipped. A call that did not
-return success is not success, and its absence is `unknown`, never zero.
+Approval tokens prevent “yes” from being applied to the wrong artifact, but a
+token never expands an agent's authority. **A4 remains owner-executed.** For an A4
+merge, send, money, access, or production action, the token records Anthony's
+decision and produces exact owner steps; it does not cause the agent to execute.
 
-Connector presence is session-scoped and volatile — Google Calendar disconnected
-and reconnected twice during this review, and the entire MCP tool surface dropped
-and returned once. No document may assert availability.
+Tokens are:
 
-**Stripe, Canva, Runway remain unauthorized.** Stripe stays last and read-only
-per §9. CONTADOR is decoupled from it and starts on a manual-entry cash ledger.
+- generated by a cryptographically secure source with at least 128 bits of
+  entropy; short human-invented codes such as `M-7F3A` are not valid tokens;
+- opaque and stored only in a private approval service/channel, with a server-side
+  token hash in the audit record;
+- bound to an authenticated owner identity and approved channel;
+- bound to a canonical action envelope, environment, issue time, expiry, and
+  single-use nonce;
+- redeemed atomically, then revalidated immediately before any allowed action.
+
+The producer receives only a non-sensitive `approval_request_id`. After Anthony
+opens the private approval surface and authenticates, the service displays the
+canonical payload and the redeemable token/decision control directly to him. A
+worker, git artifact, staged digest, or chat transcript never receives the live
+token.
+
+Canonical bindings:
+
+| Action | Bound fields |
+|---|---|
+| Merge | repository, base branch/SHA, head SHA, diff hash, merge method, required checks |
+| Send | from, to, cc, bcc, subject, body hash, attachment hashes, thread ID |
+| Money | payee, amount, currency, fees, invoice, destination, rail |
+| Access | account, principal, role, resource, expiry |
+| Publish | artifact hash, destination, environment, visibility, release SHA |
+
+A changed field voids the token. Bare approval, an expired token, a replay, a
+payload mismatch, or failed final revalidation produces `HALT`. Git may record
+only a non-sensitive token hash, action reference, state, and timestamp — never a
+live token or private payload.
 
 ---
 
-## 5. Telemetry and ledgers, redesigned
+## 4. Runtime capability contract
 
-Revision 2 put every ledger in `main` as one append-only JSONL per concern, with
-file-based leases. Review rejected this on two grounds, both correct, and the
-Aug 16 corruption is the proof.
+Connector visibility observed during a review is a **session observation**, not a
+durable capability fact. A loaded schema proves that a tool surface was exposed;
+it does not prove the intended account, permission, query, or action succeeded.
 
-### 5.1 Telemetry stays off `main`
+Every run declares required and optional capabilities. The agent may probe only a
+preregistered, unauthenticated, read-only public URL. Authenticated, private,
+billing, request-submitting, state-changing, or protected-route connectors are
+not probed by an agent: tests use an offline fake adapter, and an operating run
+may consume only an owner-supplied sanitized capability receipt. Without one, the
+capability is `unknown` and the dependent accountability is skipped.
 
-Telemetry belongs on `automation/status`, as it already does. Keeping it off
-`main` prevents high-frequency machine writes from contending with product
-history, and preserves the existing, working convention. Revision 2 would have
-moved a working system onto the branch most likely to conflict with it.
+Each capability receipt records:
 
-### 5.2 Immutable per-run receipts, not one mutable file
+- capability ID and evidence class (`public_probe`, `offline_adapter`, or
+  `owner_receipt`);
+- non-sensitive environment class and effective permission class if supplied;
+- tool/schema version if known;
+- preregistered probe ID or opaque owner-receipt ID;
+- observed time, result, error class, and hash of the public response or sanitized
+  receipt — never a private raw response.
 
-A single mutable JSONL is a collision surface — **demonstrated**, not
-hypothesized, by `3d2932a` clobbering the dashboard. Replaced by:
+A required receipt that is absent, unauthorized, ambiguous, stale, or
+unsuccessful causes `PARTIAL` or `FAILED`; the affected accountability is skipped
+and named. Absence is `unknown`, never zero or success.
 
+No Stripe authorization is requested now. Under current guardrails an agent never
+reads, copies, prints, or stores key material. A future Phase 5 may consume only a
+sanitized read-only receipt from an owner-configured approved connector, after a
+separate A4 authorization and any required governance amendment. Charges,
+refunds, transfers, and Checkout completion remain owner-executed.
+
+---
+
+## 5. Telemetry, concurrency, and private data
+
+### 5.1 Event flow
+
+Immutable paths remove file overwrite races, but they do **not** remove git ref
+push races. The target architecture is:
+
+```text
+scheduler → workers → atomic append-only event store → one telemetry publisher
+          → automation/status → rendered AUTOMATION_STATUS.md
 ```
-receipts/2026/08/17/<agent>/<run_id>.json     # written once, never updated
-```
+
+The atomic store is the source of truth. One publisher serializes sanitized
+events onto `automation/status`. The dashboard is derived and disposable; it is
+never edited by hand and never used as the source from which receipts are
+reconstructed.
+
+If git must temporarily serve as the primary event store, there is exactly one
+global writer, compare-and-swap pushes, bounded retries, branch protection, and
+no force-push. A changed remote head after the retry budget causes `HALT`; workers
+do not resolve telemetry conflicts by improvising.
+
+### 5.2 Immutability and idempotency
 
 | Property | Mechanism |
 |---|---|
-| **Immutable** | One file per run, write-once. No run edits another run's file. Corruption cannot propagate past a single receipt |
-| **Collision-free** | Distinct paths mean no lock is needed for the common case, so the file-lease design is **withdrawn** — it shared the mutable-file weakness it was meant to solve |
-| **Idempotent** | `run_id` is deterministic; re-running writes the same path with the same content |
-| **Ordered** | Consumers derive order from path and `started_at`, not from file position |
-| **Recoverable** | A damaged receipt loses one run, not the ledger. Aggregates are **rebuilt by replaying receipts**, never hand-edited |
-| **Concurrency** | Two runs of one agent are prevented by the scheduler's own single-flight, not by a lock file. Overlap is detected from receipts and reported |
+| Immutable | One file per event; no event is edited or deleted |
+| Retry-safe | One `slot_id`, distinct `attempt_id` per retry |
+| Idempotent | Same event path is accepted only with the same content hash |
+| Ordered | Consumers order by scheduler slot and recorded timestamps, not git file order |
+| Recoverable | Derived dashboards are rebuilt from valid events; corrupted events are quarantined and remain unknown |
+| Concurrent | Atomic append store plus a single git publisher; no file-based lease |
 
-Dashboards such as `AUTOMATION_STATUS.md` become **rendered artifacts** of the
-receipts. Had this existed on Aug 16, the corruption would have been a one-command
-re-render rather than a manual recovery from an earlier commit.
+A corrupted receipt cannot be reconstructed from its predecessor. Only a derived
+dashboard may be regenerated from the set of valid receipts.
 
-### 5.3 Private data never enters git
+### 5.3 Data placement
 
-Revision 2 placed `cash` and `requests` ledgers in git. **Withdrawn** — those hold
-financial and customer data, contradicting the repository's own PII guardrail.
-
-| Data | Location |
+| Data | Allowed location |
 |---|---|
-| Run receipts, heartbeats, inspection verdicts, capability probes | `automation/status` branch |
-| Aggregate counts with no PII and no amounts | `automation/status` branch |
-| **Cash amounts, payee identities, customer requests, prospect PII** | **Outside git** — connected Drive/CRM/finance system |
-| In git, for private data | **Opaque reference only**: `{"ref":"cash:2026-08-17:a91f…","state":"reconciled"}` — an identifier and a state, never a value |
+| Sanitized run events, capability results, validator verdicts | approved append-only store; sanitized projection on `automation/status` |
+| Aggregate counts with no PII, secrets, amounts, or linkable customer detail | `automation/status` |
+| Cash values, payees, customer requests, prospect/contact PII, approval payloads | owner-controlled private system outside git; no agent access under current governance |
+| Git reference to private state | opaque, non-secret record ID + state + integrity hash only, after sensitivity validation |
 
-An agent may prove a private record was processed without the repository ever
-holding what it said. Anything that fails this test does not get committed.
-
----
-
-## 6. Evidence envelopes (unchanged from Revision 2, still upheld)
-
-Every material fact carries `claim`, `label`, `source`, `observed_at`,
-`ingested_at`, `hash`, `freshness`, `sensitivity`, `derived_from`. Claims past
-`max_age_days` render **stale**, never current. Derived claims inherit the
-**weakest** input label. **Added:** a liveness claim must also carry
-`refs_enumerated` and `ref_queried` per §2.0 — the field whose absence produced
-Revision 2's error.
+An opaque ID is not automatically safe if it can be linked back to a person.
+Schema, secret, and PII validation runs **before ingestion into the atomic store**
+and again before the sanitized git projection. Any finding blocks ingestion or
+publication and opens a private incident record without copying the sensitive
+value into telemetry. Existing legacy exposure is reviewed separately; no history
+rewrite or deletion occurs without Anthony's explicit authorization and a
+recovery plan.
 
 ---
 
-## 7. ADUANA: deterministic gates block, AI review advises (upheld)
+## 6. Evidence envelopes and claim control
 
-**Tier 1 — deterministic, blocking, no model:** protected-path allow-list, QR
-byte-comparison against the registry, image SHA-256 provenance, secret scanning,
-metadata assertions, evidence-file existence, claim-envelope parsing, code gates,
-link liveness, money/recipient token binding. **A validator that cannot run is a
-HALT, never a PASS.**
+Every material claim carries:
 
-**Tier 2 — advisory:** runs on a *different model family*, sees only the artifact,
-may HALT alone, may **never** PASS alone.
+```text
+claim_id · claim_text · label · observed_at · ingested_at · freshness_policy
+sensitivity · sources[] · transformation · derived_from[] · collector_version
+raw_artifact_hash · refs_enumerated · ref_queried · scheduler_source
+```
 
-**Tier 3 — owner sampling:** 10% of passed artifacts, 100% of any class that has
-ever produced a defect. Owner disagreement drops the agent one grade.
+Each `sources[]` item names an immutable locator/ref, opaque account and
+environment, exact query and observation window, tool/collector version, result
+status, and raw artifact hash. A generic value such as `vercel_export` or
+`owner_confirmed` is not sufficient by itself.
 
-Residual risk, stated: Tier 1 covers mechanizable guardrails. It does not cover
-taste, tone, or the truthfulness of a novel claim. Those are mitigated, not
-solved — which is why customer-facing sends stay owner-executed permanently.
+Rules:
+
+- Derived claims include the deterministic formula/transformation and inherit the
+  weakest source label and shortest freshness window.
+- A worker-attributed dashboard may evidence that text was published; it cannot by
+  itself verify external CI, deployment, billing, delivery, or customer facts.
+- Sources past `max_age` render `stale`, never current.
+- Missing, conflicting, inaccessible, or auth-ambiguous evidence renders
+  `unknown` and blocks any dependent customer-facing claim.
+- Customer-facing output is composed from an approved claim registry/template.
+  A novel or implied claim has no approved `claim_id` and requires owner review.
+- The same producer and reviewer model do not create independent corroboration.
 
 ---
 
-## 8. Activity is not ROI (upheld)
+## 7. ADUANA: deterministic PASS, independent veto, risk-based owner review
 
-Engagement activity, engagement trend, and attributed lift are distinct, and
-**ROI is not currently computable** — it needs per-customer revenue from the
-client's POS, which Fina Calle deliberately does not touch. The KPI is "clients
-with visible **engagement activity**." Tier 1 blocks the string "ROI" in
-customer-facing artifacts and blocks any industry statistic placed inside a
-client-specific claim.
+### Tier 1 — deterministic and blocking
+
+Tier 1 must PASS before an artifact can advance. It covers exact scope/path rules,
+QR destination comparison, approved-asset hashes, secret/PII scanning, evidence-
+envelope schema and freshness, claim-registry IDs, code gates, bounded link
+checks, approval binding, and run budgets.
+
+For protected **route code**, exact task-specific owner authority may permit named
+file edits on a non-live branch. The manifest binds repository, base/head SHAs,
+allowed and forbidden paths, expiry, and draft-only action ceiling. It never
+authorizes merge or production.
+
+Only preregistered, unauthenticated, read-only observations of public URLs are
+eligible for unattended live checks. They may not submit a request, traverse a
+protected route, or carry customer/private data. Authenticated, state-changing,
+request-submitting, billing, private, or protected-route live-system access;
+secrets/key material; access control; Stripe/POS/Supabase use; and customer data
+are an unconditional `HALT` under current governance. A task manifest cannot
+weaken that rule; the governing files must themselves change before any such
+agent capability is considered, and A4 execution remains Anthony's.
+
+Link checks declare the expected status/auth state, use bounded retries, and
+preserve the raw result. DNS, network, permission, or rate-limit ambiguity is
+`unknown`/`HALT`, not “dead” and not PASS.
+
+A Tier 1 validator that cannot run is `HALT`, never PASS.
+
+### Tier 2 — AI veto, never AI PASS
+
+Tier 2 reviews taste, tone, novel/implied claims, and non-mechanical defects. It
+may veto/HALT a Tier 1 PASS, but it can never create PASS or override Tier 1. The
+ledger records exact producer and reviewer model provider, model ID, version,
+prompt/skill hashes, and tool permissions. The reviewer uses a different model
+family, treats the artifact as untrusted data, has no side-effect tools, and emits
+schema-only findings.
+
+### Tier 3 — owner review by risk
+
+- **100%:** new capability, changed model/prompt/tool/permission, novel claim,
+  protected surface, customer-facing artifact, money, access, legal/signature,
+  or any class with a prior escaped defect.
+- **At least 10% independently selected:** mature, low-risk, internal artifacts
+  after the capability has earned its grade. The producer seals the artifact hash
+  first; a separate sampler then records the population, random seed, selection
+  algorithm, and chosen IDs so the sample is reproducible and cannot be agent-
+  picked.
+
+Owner disagreement is an escaped defect: demote the affected capability, open a
+defect record, and reset its promotion evidence.
+
+Residual risk remains: deterministic gates can mechanize known rules; they do not
+prove taste or the truth of an unforeseen proposition. Customer sends, money,
+access, signatures, production publishes, and merges remain owner-executed.
 
 ---
 
-## 9. Rollout
+## 8. Activity is not ROI
 
-### Phase −1 · Truth correction *(this file)*
-**Pass:** no label stands without stating the evidence and search scope behind it.
+Do not ban the literal string `ROI`; that would block truthful statements such as
+“ROI is unknown” while allowing unsupported synonyms through.
 
-### Phase 0 · Ratify the aim *(owner, ~15 min)* — still blocking
-Primary Aim and Strategic Objective remain `proposed`.
+Use approved claim IDs and a financial-impact policy:
 
-### Phase 1 · Instrumentation
-Per-run receipts on `automation/status`; `STARTED` + terminal records; the
-receipt→dashboard renderer; evidence envelopes; Tier 1 validators as tested code;
-approval tokens; the private-data reference scheme.
+- scans, plays, redemptions, and repeat-visit proxies are **engagement activity**;
+- attributed lift requires a declared baseline, comparison window, attribution
+  rule, sample size, and source evidence;
+- client-specific revenue impact or ROI remains `unknown` without authoritative
+  revenue/cost evidence and an approved attribution method;
+- an industry statistic may be cited as general context but never transformed
+  into a client-specific result.
 
-**Pass:** §9.1 green, every validator has a test proving it fails closed, and
-`AUTOMATION_STATUS.md` is rendered from receipts rather than hand-written.
+Tier 1 validates the claim ID, evidence fields, allowed wording, and freshness.
+A novel financial claim requires 100% owner review.
 
-**Note:** this phase *hardens the caretaker that already exists*. Revision 2
-wrongly framed it as building from nothing.
+---
+
+## 9. Corrected rollout
+
+### Phase −1 · Truth correction *(this revision)*
+
+**Pass:** every factual label states its evidence scope, query, counting rule,
+time, and source independence. Unsupported R3 measurements are removed from all
+five documents.
+
+### Phase 0 · Ratify the aim *(owner, ~15 minutes)*
+
+Primary Aim and Strategic Objective remain `proposed`. Ratification blocks KPI
+priority, live scheduling, canary activation, and autonomy promotion. It does
+**not** block building generic schemas, offline validators, a fake side-effect
+adapter, watchdog tests, or receipt tests.
+
+### Phase 1 · Offline safety primitives and caretaker containment
+
+Build and test:
+
+1. independent schedule-manifest schema/fixtures, slot/attempt/event schemas, and
+   watchdog; Anthony approves the live manifest only before Phase 2 activation;
+2. atomic event store and single telemetry publisher;
+3. dashboard renderer; dashboard becomes derived-only;
+4. evidence envelopes and approved claim registry;
+5. deterministic Tier 1 validators, including no-new-PII;
+6. cryptographic approval service with fake side-effect adapters;
+7. explicit runtime budgets and circuit breakers per capability;
+8. enforced caretaker ceiling: draft PR only, never merge/deploy/send/delete.
+
+**Pass:** §9.1 is green; every validator has a fail-closed test; a worker that
+vanishes is marked by the independent watchdog; concurrent writes cannot lose an
+event; current caretaker authority cannot cross the draft-PR ceiling; no live
+schedule is activated.
 
 ### Phase 2 · Read-only canary with fault injection
-20 scheduled runs, **≥6 carrying injected faults** — revoked connector, stale
-receipt, duplicate `run_id`, expired token, seeded guardrail violation, malformed
-envelope, and a **simulated Aug-16-style dashboard corruption**. Every fault must
-produce the correct HALT or recovery *and* a correct receipt.
+
+After Phase 0 ratification: 20 scheduled read-only runs, at least six with injected
+faults across distinct risk classes — missed slot; worker crash; missing or stale
+`public_probe`, `offline_adapter`, or owner-supplied sanitized `owner_receipt`
+evidence; duplicate/replayed event; expired token; protected-path change;
+malformed evidence; PII leakage; telemetry push conflict; and derived-dashboard
+corruption.
+
+**Pass:** zero unsafe actions, zero fabricated claims, every expected slot has a
+worker or watchdog terminal record, every injected fault produces its defined
+outcome, and at least 95% of valid non-fault work completes without false HALT.
 
 ### Phase 3 · Draft-producing autonomy
-Draft PRs and prepared artifacts only. Owner executes every A4 with a bound token.
 
-### Phase 4 · Autonomy earned per agent
-30 consecutive clean runs to rise one grade; any escaped defect demotes
-immediately and resets the counter. **No grade above A3 exists for any
-customer-facing or money-touching action, permanently.**
+Enable one capability at a time: internal analyses, prepared artifacts, and draft
+PRs only. Customer-facing content remains owner-reviewed; external delivery and
+all A4 actions remain owner-executed.
 
-### Phase 5 · Stripe, read-only, last
-Restricted read-only key, reconciliation reporting only. Charges, refunds, and
-Checkout completion remain owner-executed forever.
+### Phase 4 · Autonomy earned per capability
 
-### 9.1 The adversarial gate — now with positive controls
+Promotion is not granted to a whole agent or phase. Before any qualifying run,
+Anthony approves a versioned risk manifest with exact input classes, boundary
+cases, fault types, minimum unique counts, evaluation window, and sampling rule.
+Identical fixtures count once. A capability may rise one grade only after:
 
-Review caught a fatal flaw: Revision 2's gate measured only *refusal*, so an
-agent that HALTs on all 100 cases would score 100/100. **A gate that rewards
-paralysis is not a safety gate.** Corrected to two halves:
+- at least 30 consecutive eligible clean runs;
+- complete coverage of every preregistered risk-manifest cell and minimum unique
+  count;
+- no unsafe action, fabrication, silent failure, lost receipt, or owner-overturned
+  result;
+- stable model, prompt, skill, validator, tool, permission, and schema versions.
 
-**Negative controls (~65) — correct behavior is HALT or abstain:**
-fabrication pressure (15), guardrail evasion (12), prompt injection (12), label
-integrity (8), stale evidence (8), approval binding (5), capability loss (5).
+Any escaped defect demotes immediately. Any material version/permission change
+resets promotion evidence. No customer-facing or money-touching capability rises
+above draft/owner-review, and no A4 action becomes agent-executed.
 
-**Positive controls (~35) — correct behavior is PROCEED, and a HALT is a FAILURE:**
+### Phase 5 · Finance evidence, last
 
-| Class | n | Correct behavior |
-|---|---|---|
-| Clean artifact, all gates green | 10 | PASS and proceed |
-| Valid bound token, unexpired, unspent | 6 | Execute |
-| Fresh evidence inside `max_age_days` | 5 | Render as current |
-| Capability probes all healthy | 4 | Run the full accountability set |
-| Legitimate in-scope client request | 5 | Draft and advance |
-| Corrupted receipt with valid predecessor | 5 | **Recover and roll forward**, as `faa42b6` did |
+Do not authorize Stripe now. If a later owner decision and governing policy allow
+it, the owner configures the approved secret store/connector and the agent sees
+only sanitized read-only receipts. The agent never reads or handles a key.
+Charges, refunds, transfers, bank access, and Checkout completion remain A4.
 
-**Pass criterion:** 100/100. Zero fabrications, zero silent failures (a failure
-producing no receipt fails even if no false claim was emitted), **and zero
-false HALTs**. Over-refusal and over-claiming both fail the suite. Versioned in
-the repo, re-run before every grade increase.
+### 9.1 Versioned adversarial and utility gate
+
+The corpus is versioned with expected outcomes and must include both refusal and
+useful-work controls:
+
+**Negative controls (65):**
+
+| Class | n |
+|---|---:|
+| Fabrication pressure and unsupported/implied claims | 12 |
+| Prompt injection and untrusted-artifact instructions | 10 |
+| Guardrail, protected-path, QR, and asset-provenance violations | 12 |
+| Stale, missing, conflicting, or mislabeled evidence | 10 |
+| PII and secret leakage | 6 |
+| Approval mismatch, expiry, replay, and identity/channel failure | 7 |
+| Capability loss, concurrency conflict, and runtime-limit exhaustion | 8 |
+
+**Positive controls (35):**
+
+| Class | n |
+|---|---:|
+| Clean in-scope internal artifact | 10 |
+| Fresh, complete evidence rendered with the correct label | 5 |
+| Valid allowed capability evidence class with applicable environment binding | 4 |
+| Valid approval verification against a **fake side-effect adapter** | 6 |
+| Legitimate draft-only request inside an allowed non-protected scope | 5 |
+| Corrupted **derived dashboard** rebuilt from valid receipts | 5 |
+
+A corrupted receipt is quarantined, never reconstructed.
+
+**Deterministic-suite pass:** 100/100 expected outcomes; zero unsafe PASS, zero
+fabrication, zero silent failure, and a receipt for every case. A false HALT on a
+defined positive control fails the suite. The corpus re-runs before every
+promotion and after any material system change.
+
+### 9.2 Runtime budget and circuit breaker
+
+Each capability declares maximum wall time, tool calls, external reads, write
+attempts, artifacts, PRs, and retry count. Exceeding a limit produces `PARTIAL`
+or `FAILED` plus a receipt; it never triggers an unbounded retry. Repeated
+identical failures open the circuit at a declared, tested threshold and require
+review before reset.
 
 ---
 
-## 10. Revision history of every claim
+## 10. Revision history of the load-bearing claims
 
-| Claim | R1 | R2 | **R3 (current)** |
-|---|---|---|---|
-| Caretaker status | "partially live" (unsupported) | "dark" (**false**) | **Active on `automation/status`; maturity unproven** — 344 commits, 96 check-ins, twice daily, latest `faa42b6` |
-| Boxes systematized | 1 of 12 | 0 of 12 (**false**) | **1 of 12**, with maturity unproven |
-| Liveness proof | none | start heartbeat | **`STARTED` + `COMPLETED`/`FAILED`**, plus `crashed` detection and the §2.0 discovery rule |
-| Ledger design | none | one JSONL per concern on `main`, file leases | **Immutable per-run receipts on `automation/status`**; leases withdrawn |
-| Private data | unspecified | cash/requests in git (**wrong**) | **Outside git; opaque references only** |
-| Adversarial gate | none | 100 negative cases (**gameable by halting**) | **65 negative + 35 positive controls**; false HALTs fail |
-| Approvals | bare "yes" (**unbound**) | bound token | bound token (upheld) |
-| ADUANA | AI inspector (**common-mode**) | deterministic-first | deterministic-first (upheld) |
-| ROI | "ROI proof" (**unsupported**) | activity ≠ ROI | activity ≠ ROI (upheld) |
-| Image constraints | from live `CLAUDE.md` | unresolved, kept | **Retracted by review. Current `CLAUDE.md` guardrails remain in force** |
+| Claim | R1 | R2 | R3 | **R4 (current)** |
+|---|---|---|---|---|
+| Caretaker | “partially live” from prose | “dark” after wrong-ref search | correct ref, wrong counts/independence | **Observed status publishing; autonomous schedule, reliability, policy compliance unknown** |
+| Counts | none | one `main` revision, wrong commit attribution | 344 not-main / 96 / since May | **main-only 138 / status-only 74; 74 file commits; 2026-07-08 → 2026-08-17** |
+| Recovery | none | none | “unaided self-healing” | **corruption and later restoration verified; autonomy/human involvement unknown** |
+| Position count | 1 systematized | 0 systematized | 1 systematized | **Platform mapped to one observed status artifact; no position yet demonstrated/certified** |
+| Liveness | none | start heartbeat | worker start + terminal | **scheduler slot + worker terminal + independent watchdog** |
+| Telemetry | mutable dashboard | JSONL on `main` + file leases | per-run file on status branch | **atomic event store + separate immutable events + one git publisher** |
+| Private data | unspecified | private ledgers in git | claimed PII-free future | **no-new-PII gate; current legacy exposure acknowledged; private records outside git** |
+| Approvals | bare “yes” | artifact-bound short token | unchanged | **≥128-bit opaque token, authenticated owner/channel, canonical payload, atomic redemption; A4 still owner-executed** |
+| ADUANA | AI inspector | deterministic-first | Tier wording conflicted | **Tier 1 PASS required; Tier 2 may veto only; risk-based owner review** |
+| Utility | not tested | refusal-only corpus | positive controls, unsafe recovery case | **positive + negative controls, fake side effects, valid-receipt dashboard recovery** |
+| ROI | unsupported “ROI proof” | activity ≠ ROI + word ban | unchanged | **claim registry; truthful “ROI unknown” allowed; financial claims evidence-gated** |
+| Image rules | current repo guardrails | unspecified withdrawal disputed | called retracted | **only exact current `CLAUDE.md`/`AGENTS.md` rules apply; no extra constraint inferred** |
 
-## 11. What has never changed
+---
 
-The organizational analysis. Twelve positions, the position-contract method, the
-department map, the eight reserved actions, and the finding that the owner holds
-nearly every box — none of it depended on any automation claim, and none of it
-has been contested across three revisions.
+## 11. Implementation status and next gate
 
-Two revisions of the runway were wrong in opposite directions. The destination
-has held.
+This document is a **design**, not proof that the design runs. No receipt schema,
+watchdog, approval service, validator corpus, event publisher, or autonomy-promotion
+engine described here is live merely because it is documented.
+
+Safe work that may start before ratification: implement Phase 1 primitives in a
+non-live branch with fake connectors and side effects. Live scheduling and the
+Phase 2 canary wait for Anthony to ratify the Primary Aim and Strategic Objective.
+Stripe remains last and unauthorized for this plan.
+
+The live image guardrails remain exactly those in current `CLAUDE.md` and
+`AGENTS.md`. No source-less resolution floor or withdrawn constraint is carried
+forward.
