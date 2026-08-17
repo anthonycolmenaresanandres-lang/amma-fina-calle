@@ -45,7 +45,7 @@ def build() -> Path:
     logo = ROOT / "APP" / "web" / "public" / "assets" / "aj-gators" / "aj-gators-logo-official.png"
     c.drawImage(ImageReader(str(logo)), width / 2 - 52, height - 132, 104, 104, preserveAspectRatio=True, mask="auto")
     draw_centered(c, "YOUR MENU. THEIR PHONE.", height - 164, 25, "#F6F1E8")
-    draw_centered(c, "MORE REASONS TO STAY.", height - 195, 25, "#E1B52D")
+    draw_centered(c, "MENU. GAMES. ONE SCAN.", height - 195, 25, "#E1B52D")
     draw_centered(c, "MENU  +  3 GAMES  +  PROMOTIONS", height - 224, 11, "#B9C8BF")
 
     qr_size = 146
@@ -65,10 +65,10 @@ def build() -> Path:
     c.drawCentredString(left_x + qr_size / 2, qr_y - 42, "finacalleos.com/demo/aj-gators")
     c.drawCentredString(right_x + qr_size / 2, qr_y - 42, "finacalleos.com/case-studies/colattao")
 
-    draw_centered(c, "$150 / MONTH / LOCATION", 236, 24, "#E1B52D")
+    draw_centered(c, "STARTING AT $199 / MONTH / LOCATION", 236, 20, "#E1B52D")
     draw_centered(c, "MENU + GAME PACKAGE", 214, 10, "#F6F1E8")
-    draw_centered(c, "No guest app. We handle setup and support.", 194, 9, "#B9C8BF", "Helvetica")
-    draw_centered(c, "Table service, setup and printing are scoped separately.", 180, 8, "#829089", "Helvetica")
+    draw_centered(c, "No guest app. We handle hosting and link support.", 194, 9, "#B9C8BF", "Helvetica")
+    draw_centered(c, "Setup, table service, printing and custom work are separate.", 180, 8, "#829089", "Helvetica")
 
     c.setStrokeColor(HexColor("#E1B52D"))
     c.line(84, 163, width - 84, 163)
@@ -106,7 +106,7 @@ def build_black_white() -> Path:
 
     c.drawImage(ImageReader(str(bw_logo)), width / 2 - 43, height - 108, 86, 86, preserveAspectRatio=True, mask="auto")
     draw_centered(c, "YOUR MENU. THEIR PHONE.", height - 139, 23, "#000000")
-    draw_centered(c, "MORE REASONS TO STAY.", height - 168, 23, "#000000")
+    draw_centered(c, "MENU. GAMES. ONE SCAN.", height - 168, 23, "#000000")
     draw_centered(c, "MENU  +  GAMES  +  PROMOTIONS", height - 193, 10, "#333333")
 
     qr_size = 112
@@ -135,10 +135,10 @@ def build_black_white() -> Path:
 
     c.setStrokeColor(HexColor("#000000"))
     c.line(70, 306, width - 70, 306)
-    draw_centered(c, "$150 / MONTH / LOCATION", 273, 23, "#000000")
+    draw_centered(c, "STARTING AT $199 / MONTH / LOCATION", 273, 19, "#000000")
     draw_centered(c, "MENU + GAME PACKAGE", 252, 10, "#000000")
-    draw_centered(c, "No guest app. We handle setup and support.", 232, 9, "#333333", "Helvetica")
-    draw_centered(c, "Table service, setup and printing are scoped separately.", 217, 8, "#555555", "Helvetica")
+    draw_centered(c, "No guest app. We handle hosting and link support.", 232, 9, "#333333", "Helvetica")
+    draw_centered(c, "Setup, table service, printing and custom work are separate.", 217, 8, "#555555", "Helvetica")
 
     c.line(70, 192, width - 70, 192)
     draw_centered(c, "2,874 VISITORS   |   4,599 PAGE VIEWS", 160, 17, "#000000")

@@ -1,54 +1,29 @@
-# Welcome, {{RESTAURANT_NAME}}
+# {{RESTAURANT_NAME}}
 
-*A note from Anthony Colmenares Sanandres, Fina Calle*
+## One QR. Your menu. A playable experience.
 
----
+**We handle the tech.**
 
-## ENGLISH
+### Starting at $199/month per location
 
-Hi {{OWNER_NAME}},
+Your guests scan once to open a mobile menu and an optional playable experience. Nothing to download. You receive private owner access; Fina Calle handles hosting and link support.
 
-Thanks for taking a look. You already run a great {{RESTAURANT_TYPE}} — this isn't about changing
-any of that. It's about what happens on your customer's phone the moment they sit down.
-
-With **one QR code**, your customers get a clean digital menu, a fun branded mini-game while they
-wait, and a smoother first impression — all on their own phone, nothing to download. And **we
-handle the tech**: setup, hosting, and the link. You get a private page to update your own menu
-whenever you want.
-
-You don't have to take my word for it. It's **already live for a real local café, Colattao** —
-you can scan it and try it yourself (see "See it live" inside).
-
-Everything in this folder is the same honest information every restaurant gets. The only things
-made just for you are your name, your demo link, and your quote. If it's a fit, we start with a
-**small, reversible pilot** so you see real customers using it in your store before committing.
-
-Talk soon,
-**Anthony Colmenares Sanandres** · anthonycolmenaresanandres@gmail.com
-Fina Calle OS · finacalleos.com · @fina_calle
+**See the proof:** `finacalleos.com/m/colattao`
+**Next step:** Request the $199/month plan in writing.
 
 ---
 
-## ESPAÑOL
+# {{RESTAURANT_NAME}}
 
-Hola {{OWNER_NAME}},
+## Un QR. Su menú. Una experiencia jugable.
 
-Gracias por darse un momento. Usted ya maneja un gran {{RESTAURANT_TYPE}} — esto no cambia nada de
-eso. Se trata de lo que pasa en el celular de su cliente en el momento en que se sienta.
+**Nosotros manejamos la tecnología.**
 
-Con **un solo código QR**, sus clientes reciben un menú digital limpio, un mini-juego con su marca
-mientras esperan, y una mejor primera impresión — todo en su propio celular, sin descargar nada. Y
-**nosotros nos encargamos de la tecnología**: instalación, hosting y el enlace. Usted recibe una
-página privada para actualizar su propio menú cuando quiera.
+### Desde $199 al mes por local
 
-No tiene que creerme solo por mi palabra. **Ya está en vivo para un café local real, Colattao** —
-puede escanearlo y probarlo usted mismo (vea "Véalo en vivo" adentro).
+Sus clientes escanean una vez para abrir un menú móvil y una experiencia jugable opcional. No tienen que descargar nada. Usted recibe acceso privado; Fina Calle maneja el hosting y el soporte del enlace.
 
-Todo en esta carpeta es la misma información honesta que recibe cada restaurante. Lo único hecho
-solo para usted es su nombre, su enlace de demostración y su cotización. Si encaja, empezamos con un
-**piloto pequeño y reversible** para que vea clientes reales usándolo en su local antes de
-comprometerse.
+**Vea la prueba:** `finacalleos.com/m/colattao`
+**Próximo paso:** Solicite por escrito el plan de $199 al mes.
 
-Un saludo,
-**Anthony Colmenares Sanandres** · anthonycolmenaresanandres@gmail.com
-Fina Calle OS · finacalleos.com · @fina_calle
+**Fina Calle OS** · `finacalleos.com` · `@fina_calle`

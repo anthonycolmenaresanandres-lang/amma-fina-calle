@@ -1,33 +1,24 @@
-# Pricing
+# Starting at $199/month per location
 
-Simple and predictable. One monthly price, in writing — no setup maze, no surprises.
+## Base plan
 
----
+- Branded mobile menu.
+- One stable QR destination and print-ready QR file.
+- One existing playable module, approved and verified before launch.
+- Private owner access.
+- Hosting and link support.
+- Routine menu/copy support within the written scope.
 
-## Starting from $199/month
+## Written before approval
 
-- **Month-to-month.** No long lock-in.
-- **Everything to run it is included:** your branded menu page, QR + signage flow, branded
-  mini-game experience, your private owner page, and ongoing support (small menu/copy updates,
-  uptime checks, QR link support).
-- **In writing before we start.** Whatever we agree to is written down first — no preselected
-  extras, no surprise recurring charges.
+The proposal confirms setup, launch timing, update limits, recurring terms, and any custom work. No add-on is automatic.
 
-*"From $199/month" is the starting point; a larger or more custom build is quoted in writing.*
+## Separately quoted
 
----
+Printing, table-specific service, weekly promotions, analytics reports, custom game work, photography, social posting, ads, and other custom requests.
 
-## Optional add-ons (only if you want them, quoted separately)
+## Not part of this plan
 
-- Sticker design package
-- Printed QR stands
-- Menu cleanup and restructuring
-- Monthly analytics report
-- Seasonal game-copy updates
-- Future loyalty / reward expansion (a planned module, not built yet)
+Ordering, payments, checkout, POS integration, customer accounts, loyalty, personal-data collection, AI automation, or guaranteed results.
 
----
-
-> **No hidden terms.** The monthly is the monthly; add-ons are optional and quoted on their own.
-> Start month-to-month and see real customers using it in your store before you commit to anything
-> longer.
+**Next step:** Request the $199/month plan in writing.

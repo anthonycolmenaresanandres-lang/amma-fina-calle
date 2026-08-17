@@ -1,4 +1,4 @@
-# How to customize a package (≈5 minutes)
+# How to customize the short package
 
 The goal: every restaurant gets the **same honest story**, personalized with just their details.
 You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy.
@@ -10,37 +10,37 @@ You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy
 1. **Duplicate the folder.** Copy the whole `BUYER_PACKAGE/` folder to a new folder named for the
    restaurant, e.g. `BUYER_PACKAGE_LasPalmas/`. Work in the copy, never the master.
 
-2. **Fill the profile.** Open `CUSTOMIZE/RESTAURANT_PROFILE.md` and complete the fields. Pricing
-   (from $199/month) and contact are already fixed — nothing to quote.
+2. **Fill the profile.** Open `CUSTOMIZE/RESTAURANT_PROFILE.md` and complete only verified fields.
+   The starting price is fixed at **$199/month per location**; setup and custom work still require a written scope.
 
-3. **Find-and-replace the fields.** Across the copied CORE files (`01`–`09`), replace each
+3. **Find-and-replace the fields.** Across the copied files, replace each
    `{{FIELD}}` with the value from the profile. Full list in `MERGE_FIELDS.md`. In most editors:
    *Edit → Find & Replace → replace in folder.*
    - Leave `{{DEMO_URL}}` blank/omit until that restaurant's pilot page actually loads.
    - Drop optional fields (`{{CITY}}`, `{{IG_HANDLE}}`) if you don't have them — don't guess.
 
-4. **Add the QR images.** In `06_SEE_IT_LIVE.md`, drop a QR into each box (see the instructions at
-   the top of that file). The three demo URLs are the same for everyone.
+4. **Add and test QR images.** Use the exact destinations in `06_SEE_IT_LIVE.md`. Decode every QR
+   from the final PDF or image before printing. Never change a physical QR destination casually.
 
-5. **Export the buyer-facing files.** Turn `01`–`09` into PDFs (or print them). Those nine files are
-   the leave-behind. **Do not** include the `CUSTOMIZE/` folder, the internal honesty notes, or the
-   `SALES_DEMO_PACKAGE/` rep tools — those stay with you.
+5. **Export the short handoff.** Use `01`, `05`, and `06`. Add `08` only if the owner wants the FAQ.
+   Keep `CUSTOMIZE/` and `SALES_DEMO_PACKAGE/` internal.
 
 6. **Sanity check before handing it over:**
    - [ ] No stray `{{ }}` left anywhere.
    - [ ] Every claim still matches `SALES_DEMO_PACKAGE/FEATURE_STATUS_TABLE.md` (you didn't add
          payments, POS, ordering, AI, loyalty, or guaranteed results).
-   - [ ] Pricing still reads "from $199/month" (you didn't reintroduce old numbers).
+   - [ ] Pricing reads "starting at $199/month per location."
+   - [ ] Setup, printing, table service, promotions, analytics reports, and custom work remain separate.
    - [ ] Any live link you included actually loads on your phone.
 
 ---
 
 ## What NOT to change (keep consistent for everyone)
 
-- The benefits, how-it-works, what's-included, **pricing (from $199/month)**, proof, and FAQ **wording**.
+- The promise, **$199/month per location starting price**, scope boundaries, proof, and CTA.
 - The three demo URLs (`finacalleos.com`, `/m/colattao`, `/penalty-shootout`).
-- The honest boundaries — the "what this is not" and "we don't collect data" lines are the trust
-  anchors. They stay in.
+- The honest boundaries. Do not add ordering, payments, POS, personal-data collection, AI, loyalty,
+  custom-game promises, or guaranteed results.
 
 ## What DOES change (per restaurant)
 

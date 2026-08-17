@@ -1,33 +1,20 @@
-# Proof: a real live café
+# Verified local proof
 
-The strongest thing we can show you isn't a promise — it's a **working example** you can open
-right now.
+## Live product
 
----
+Colattao's live menu is available at `https://finacalleos.com/m/colattao`. It proves the menu experience is real and reachable.
 
-## Colattao — live on Fina Calle OS
+## Historical traffic
 
-**Colattao** is a real local café running on our platform today. It's our flagship example of
-exactly what a restaurant gets.
+One verified 30-day Vercel Production Analytics screenshot recorded:
 
-**What's live and real:**
-- A **branded digital menu** — business name, categories, items with real prices, hours, and promos.
-- A **private, secure owner sign-in** so the owner can manage their own menu.
-- The **branded mini-game** engagement layer (our game engine, skinned per client).
+- **2,874 visitors**
+- **4,599 page views**
 
-**Try it yourself:** `https://finacalleos.com/m/colattao`
+These are historical website-traffic figures. They are **not** QR scans, unique customers, revenue, conversions, retention, or sales lift.
 
----
+## Separate demo proof
 
-## Why this matters for {{RESTAURANT_NAME}}
+The playable game engine is demonstrated at `https://finacalleos.com/penalty-shootout`. A buyer's selected module must be approved and verified before launch.
 
-- **It's proven, not theoretical.** You're looking at a live page, not a mockup.
-- **It shows the exact shape of your build** — your menu, your brand, your QR, your owner page.
-- **It's honest.** What you see live is what we say is live. Anything we'd add for you is scoped
-  and written down first.
-
----
-
-> **What we don't claim.** We won't tell you Colattao's numbers, sales lift, or customer behavior —
-> we don't measure or promise those, and we won't invent them. The proof we stand on is simple and
-> checkable: **it's real, it's live, and you can open it on your phone.**
+We do not promise business outcomes. We show what is live, label what is a demo, and put new work in writing.

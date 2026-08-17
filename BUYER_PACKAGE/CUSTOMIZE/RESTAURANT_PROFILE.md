@@ -3,7 +3,7 @@
 Copy this file for each new restaurant and fill it in. Then use these values to find-and-replace
 the `{{FIELDS}}` across the copied CORE files. One profile = one customized package.
 
-> Pricing (from $199/month) and contact (Anthony Colmenares Sanandres ·
+> Starting price ($199/month per location) and contact (Anthony Colmenares Sanandres ·
 > anthonycolmenaresanandres@gmail.com) are already baked in — nothing to fill there.
 
 ---
@@ -17,6 +17,8 @@ the `{{FIELDS}}` across the copied CORE files. One profile = one customized pack
 - **Instagram handle** (optional): ______________________
 - **Preferred language** (EN / ES): ______________________
 - **Their demo/pilot URL** (blank until built): ______________________
+- **Existing game module requested** (not custom mechanics): ______________________
+- **Written setup/custom scope needed:** ______________________
 
 ### Intake collected on the visit (internal — do not print for the owner)
 - **Current menu** (photo/link): ______________________

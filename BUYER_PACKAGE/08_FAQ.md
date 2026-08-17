@@ -1,62 +1,34 @@
 # Common questions
 
-Honest answers to what owners usually ask. (EN / ES)
+## “I already have a menu.”
+
+Good. We can link to it or build the agreed mobile menu experience. The goal is one useful QR destination, not unnecessary replacement work.
+
+## “Is this a website?”
+
+It is a focused mobile experience for the menu, an approved playable module, and owner access. It does not have to replace the restaurant's website or Instagram.
+
+## “How much?”
+
+**Starting at $199/month per location.** Setup and custom work are priced separately in writing.
+
+## “What game do I get?”
+
+The demo proves the engine. The written proposal identifies the existing module included for your location. Custom game art or mechanics are separate.
+
+## “Does it include ordering or payments?”
+
+No. Ordering, payments, checkout, POS, and table service are not included in the base plan.
+
+## “What happens next?”
+
+Ask for the $199/month plan in writing. You can review the scope, terms, exclusions, and next date before approving anything.
 
 ---
 
-### "I already have a menu."
-**EN:** This doesn't replace your paper menu — it's a *branded digital experience* behind one QR:
-a clean menu, a mini-game so customers engage, and a page you update yourself. It's already live for
-Colattao — want to see?
-**ES:** Esto no reemplaza su menú de papel — es una *experiencia digital con su marca* detrás de un
-QR: menú limpio, un mini-juego para que el cliente interactúe, y una página que usted actualiza. Ya
-está en vivo para Colattao — ¿se lo muestro?
+## Respuestas rápidas
 
-### "I only use Instagram."
-**EN:** Keep Instagram — it brings attention. This is what happens *in your store*: the QR turns a
-scan into a branded experience plus your menu. Instagram out, Fina Calle in-store.
-**ES:** Siga con Instagram — atrae atención. Esto es lo que pasa *dentro de su local*: el QR
-convierte un escaneo en una experiencia con marca y su menú. Instagram afuera, Fina Calle adentro.
-
-### "I don't need a website."
-**EN:** Agreed — this isn't a website and doesn't replace one. It's an in-store engagement layer most
-websites don't cover: menu + mini-game + owner page, all from one QR.
-**ES:** De acuerdo — esto no es una web ni la reemplaza. Es una capa de interacción en el local que
-la mayoría de las webs no cubren: menú + mini-juego + página de dueño, todo desde un QR.
-
-### "I'm not technical."
-**EN:** That's the whole point — *we handle the tech.* Setup, hosting, the link. Updating your menu
-is as simple as logging into your owner page, and we also do small updates for you each month.
-**ES:** De eso se trata — *nosotros nos encargamos de la tecnología.* Instalación, hosting, el
-enlace. Actualizar su menú es tan simple como entrar a su página de dueño, y hacemos pequeños
-cambios por usted cada mes.
-
-### "How much is it?"
-**EN:** It starts at **$199/month**, month-to-month — everything to run it is included, no long
-lock-in. A larger or more custom build is quoted in writing. You start monthly and see real
-customers using it before committing to anything longer.
-**ES:** Empieza en **$199/mes**, mes a mes — todo lo necesario para usarlo está incluido, sin amarre
-largo. Un proyecto más grande o personalizado se cotiza por escrito. Empieza mensual y ve clientes
-reales usándolo antes de comprometerse a algo más largo.
-
-### "Do you collect my customers' data?"
-**EN:** No. The customer experience collects no names, emails, or payment info. If you ever want
-optional anonymous, traffic-level analytics, that's a setup choice we agree to in writing — never
-personal data.
-**ES:** No. La experiencia del cliente no recolecta nombres, correos ni datos de pago. Si algún día
-quiere analíticas anónimas de tráfico (opcional), es una elección de instalación que acordamos por
-escrito — nunca datos personales.
-
-### "What if I want to stop?"
-**EN:** Start with a pilot, no long lock-in. If it's not for you, you stop. Setup is one-time,
-monthly is monthly, add-ons are optional — all written down before we start.
-**ES:** Empiece con un piloto, sin amarre largo. Si no es para usted, lo detiene. La instalación es
-única, el mensual es mensual, los extras son opcionales — todo por escrito antes de empezar.
-
-### "I had a bad experience with websites before."
-**EN:** Fair — that's why we keep this light. No big rebuild, no headaches: one QR, a clean menu, a
-fun mini-game, and a page you control. And it's proven live with a local café — a working example,
-not a promise.
-**ES:** Entendible — por eso lo mantenemos liviano. Sin reconstrucción grande, sin dolores de cabeza:
-un QR, un menú limpio, un mini-juego, y una página que usted controla. Y está probado en vivo con un
-café local — un ejemplo que funciona, no una promesa.
+- **Precio:** desde **$199 al mes por local**.
+- **Incluye:** menú móvil, un QR estable, un módulo jugable existente, acceso privado y soporte acordado.
+- **Por separado:** instalación, impresión, servicio por mesa, promociones, informes y trabajo personalizado.
+- **No incluye:** pedidos, pagos, POS ni resultados garantizados.

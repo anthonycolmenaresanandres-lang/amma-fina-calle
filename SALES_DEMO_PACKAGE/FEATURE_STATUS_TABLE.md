@@ -17,7 +17,7 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 | Live digital menu for a real client (Colattao): items, prices, hours, promos | `/m/colattao` owner-verified PASS; route reads menu/categories/hours/promos |
 | Owner portal **secure sign-in** (per-restaurant, email) | `/owner/colattao` owner-verified PASS; OwnerLogin + auth gate in code |
 | Owner self-edit dashboard (menu items, prices, promos) for an authorized, signed-in owner | `/owner/[id]` OwnerDashboard in code (behind login) |
-| Branded mini-game — **Penalty Shootout V1**, playable (3 keepers, 5 shots) | `/penalty-shootout` merged (PR #6, ac6f6cf) + owner-verified PASS |
+| Playable game engine — **Penalty Shootout V1** (3 keepers, 5 shots) | `/penalty-shootout` merged (PR #6, ac6f6cf) + owner-verified PASS |
 | Second playable game demo — Conquest | `/conquest` (homepage CTA "Play Conquest Demo"; in production build) |
 | Build/update request intake | `/request-update` (homepage CTA "Request a Build"; live route) |
 | R&D page (honest roadmap) | `/rd` owner-verified PASS |
@@ -76,9 +76,10 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 
 ---
 
-### Pricing (verified — PRICING_AND_OFFER.md)
-- **Starter:** setup $300–$500 · monthly $35–$75
-- **Premium:** setup $750–$1,200 · monthly $100–$200
-- **Custom:** quote-based
-- **Pilot (first-client friendly):** low or free setup + ~$50/month
-- **Monthly maintenance includes:** small menu/copy updates, uptime checks, QR link support, basic owner support.
+### Pricing (current offer lock)
+
+- **Base:** starting at **$199/month per location**.
+- **Written scope required:** setup, launch timing, update limits, and recurring terms are confirmed before approval.
+- **Separately scoped:** printing, table-specific service, promotions, analytics reports, custom game work, and other custom work.
+- **Base support:** hosting, link support, and routine menu/copy support within the written scope.
+- Source: `SALES_DEMO_PACKAGE/CORE_OFFER_199.md` and `CASE_STUDIES/COLATTAO/DOCS/PRICING_AND_OFFER.md`.

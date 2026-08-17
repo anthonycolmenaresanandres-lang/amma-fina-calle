@@ -2165,3 +2165,54 @@ Next:
 - Print at Actual Size or Fit to Page and record which QR the owner chooses plus any dated next action.
 Blocked:
 - None for printing. Client approval is still required before representing the demo as official.
+
+### [CHECK-IN] Codex - 2026-08-17 - simplify advertising and standardize the $199 monthly floor
+Picking up:
+- Continue draft PR #216 rather than create a competing buyer package.
+- Reduce buyer-facing copy to one promise, one verified proof path, one offer, and one voluntary next action.
+- Audit customer-facing sales sources and generated leave-behinds for prices below the new $199/month starting point.
+Authority:
+- Anthony directly requested that all advertising be simplified by a branding expert and that pricing start at $199.
+Interpretation:
+- Treat $199 as the starting monthly price because the existing materials sell recurring managed service; setup and custom work remain separately scoped in writing.
+Boundaries:
+- No customer contact, sending, printing, QR destination changes, live product edits, secrets, access, payment/POS work, merge, deployment, or production publication.
+- Preserve historical analytics as historical traffic proof only; do not convert it into sales, scan, conversion, or revenue claims.
+Stop:
+- Stop before merge or publication. Report any source/generated-artifact mismatch that cannot be safely regenerated.
+
+### [RELEASE GATE] Codex - 2026-08-17 - simplified $199 advertising package
+
+Verified:
+- Canonical offer now reads: `One QR. Your menu. A playable experience. We handle the tech.`
+- Buyer-facing starting price is `$199/month per location`; setup, printing, table service, promotions, analytics reports, and custom work remain separately scoped in writing.
+- Default buyer handoff reduced to three pieces: personalized front page, written price/scope, and verified QR proof.
+- AJ Gator's color and black-and-white PDFs and four personalized prospect PDFs were regenerated from their tracked builders.
+- Final PDF extraction found `$199` and no `$150` in all six individual PDFs.
+- Every QR decoded from the final PDF render to its unchanged destination.
+- Nine referenced live routes returned HTTP 200.
+- Sales asset scorer reported field-ready with no blocking issues for the bilingual one-page copy, buyer front page, and AJ Gator's leave-behind copy.
+- Python builder compilation, manifest JSON parse, and `git diff --check` passed.
+
+Held:
+- Legacy `restaurant-depot-flyer-letter.pdf/.png` remain explicitly marked do-not-distribute because they have no deterministic source builder and contain claims outside the current offer.
+- Historical handoff prices and internal financial-model assumptions remain historical/internal; they are not current advertising.
+- No customer contact, printing, QR destination change, live product edit, merge, deployment, or production publication occurred.
+
+### [CHECK-OUT] Codex - 2026-08-17 - $199 advertising simplification ready in draft PR #216
+
+Did:
+- Added one canonical offer source and one advertising asset-status index.
+- Simplified the full restaurant buyer package, sales script, objections, field card, prospect offers, and bilingual flyer copy.
+- Updated the Las Palmas internal pilot floor from `$150/month` to `$199/month` while preserving its higher custom anchor.
+- Regenerated and visually inspected current QR-ready restaurant PDFs and personalized PNG renders.
+
+State:
+- Ready for review on draft PR #216 after commit/push.
+- Merge and publication remain closed.
+
+Next:
+- Anthony reviews the simplified wording and $199 scope, then explicitly approves or rejects merge.
+
+Blocked:
+- None for draft review. Physical printing and client distribution require a separate decision.

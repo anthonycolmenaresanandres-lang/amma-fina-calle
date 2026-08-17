@@ -1,60 +1,40 @@
-# Your menu, but make it unforgettable
+# One useful scan
 
-**Not just a QR menu — a branded digital experience for {{RESTAURANT_NAME}}.**
+## For guests
 
----
+- Mobile menu.
+- Optional playable experience.
+- No app or account required for the live menu and game demo.
 
-## ENGLISH
+## For the owner
 
-### One QR code gives your customers
-- A clean **digital menu** — items, prices, hours, promos
-- A fun **branded mini-game** while they wait
-- All on their phone — **nothing to download**
+- Private owner sign-in.
+- Menu-update access.
+- Hosting and link support handled by Fina Calle.
 
-### For you, the owner
-- A **private page to update your own menu**
-- **We handle the tech** — setup, hosting, the link
-- Lightweight, mobile-first, **no headaches**
+## Verified proof
 
-### Why it matters
-- **Simple to run.** You don't install anything or manage a server — we do.
-- **Proven, not promised.** It's already live for a real local café (Colattao). Scan it yourself.
-- **Respectful of your customers.** **No data collection** — no names, no emails, no payment info.
-- **Low risk to try.** Start with a small pilot and see real customers using it in your store.
+- Live client menu: `finacalleos.com/m/colattao`
+- Playable engine demo: `finacalleos.com/penalty-shootout`
 
-### Already live for a real local café
-See it now → **finacalleos.com/m/colattao**
+## Offer
 
-**Fina Calle OS** · **finacalleos.com** · Instagram **@fina_calle**
+**Starting at $199/month per location.** Setup and custom work are quoted separately in writing.
 
 ---
 
-## ESPAÑOL
+# Un escaneo útil
 
-### Un solo código QR le da a sus clientes
-- Un **menú digital** limpio — productos, precios, horario, promociones
-- Un **mini-juego con su marca** mientras esperan
-- Todo en el celular — **nada que descargar**
+## Para el cliente
 
-### Para usted, el dueño
-- Una **página privada para actualizar su propio menú**
-- **Nosotros nos encargamos de la tecnología** — instalación, hosting, el enlace
-- Liviano, mobile-first, **sin dolores de cabeza**
+- Menú móvil.
+- Experiencia jugable opcional.
+- Sin aplicación ni cuenta para el menú y la demo del juego.
 
-### Por qué importa
-- **Fácil de usar.** Usted no instala nada ni administra un servidor — lo hacemos nosotros.
-- **Probado, no prometido.** Ya está en vivo para un café local real (Colattao). Escanéelo usted mismo.
-- **Respeta a sus clientes.** **Sin recolección de datos** — sin nombres, correos ni datos de pago.
-- **Bajo riesgo para probar.** Empiece con un piloto pequeño y vea clientes reales usándolo en su local.
+## Para el dueño
 
-### Ya está en vivo para un café local real
-Véalo ahora → **finacalleos.com/m/colattao**
+- Acceso privado.
+- Control para actualizar el menú.
+- Hosting y soporte del enlace manejados por Fina Calle.
 
-**Fina Calle OS** · **finacalleos.com** · Instagram **@fina_calle**
-
----
-
-> **Honesty note (kept out of the buyer's copy — for the rep):** everything above is a verified
-> live feature. Do **not** add payments, online ordering, POS, loyalty, AI, or "more sales
-> guaranteed" — none are live. The feedback box and basic anonymous analytics are **setup
-> deliverables**, not shown as live on the Colattao page today.
+**Desde $199 al mes por local.** La instalación y el trabajo personalizado se cotizan por separado y por escrito.

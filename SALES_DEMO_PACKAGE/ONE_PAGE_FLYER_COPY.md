@@ -1,73 +1,62 @@
-# One-Page Flyer Copy (Bilingual)
+# One-Page Flyer Copy — Bilingual
 
-> Copy only — no design. No fake claims. Simple restaurant-owner language.
-> Everything here maps to verified live features. Includes finacalleos.com.
+## English
 
----
+# ONE QR.
 
-## ENGLISH
+## YOUR MENU. A PLAYABLE EXPERIENCE.
 
-**Headline:**
-Give customers more than a static QR screen.
+**WE HANDLE THE TECH.**
 
-**Subhead:**
-Not just a QR menu — a branded digital experience for your restaurant.
+- Mobile menu
+- Existing playable module
+- Private owner access
+- Hosting and link support
 
-**See one working system:**
-- A clean **digital menu** — items, prices, hours, promos
-- A playable **mini-game demo** that can be brand-skinned after approval
-- All on their phone — nothing to download
+## STARTING AT $199/MONTH PER LOCATION
 
-**For you, the owner:**
-- A **private page to update your own menu**
-- **We handle the tech** — setup, hosting, the link
-- Lightweight, mobile-first, no headaches
+Setup, printing, table service, promotions, analytics reports, and custom work are quoted separately in writing.
 
-**Already live for a real local café:**
-See it now → **finacalleos.com/m/colattao**
+**Verified local proof**
 
-**No personal customer information is required for the live menu or game demo.**
-Anonymous analytics can be scoped separately and explained in writing.
+2,874 visitors · 4,599 page views
+Historical first 30-day website traffic — not QR scans, sales, or revenue.
 
-**Scan the live example. If it fits, ask for a written pilot plan.**
+**Scan the live menu. Request the $199/month plan in writing.**
 
-**Fina Calle OS** · **finacalleos.com** · Instagram **@fina_calle**
+`finacalleos.com/m/colattao` · `finacalleos.com` · `@fina_calle`
 
 ---
 
-## ESPAÑOL
+## Español
 
-**Título:**
-Ofrezca más que una pantalla QR estática.
+# UN QR.
 
-**Subtítulo:**
-No es solo un menú QR — es una experiencia digital con la marca de su restaurante.
+## SU MENÚ. UNA EXPERIENCIA JUGABLE.
 
-**Vea un sistema que ya funciona:**
-- Un **menú digital** limpio — productos, precios, horario, promociones
-- Una **demo jugable de mini-juego** que puede adaptarse a su marca después de aprobar el diseño
-- Todo en el celular — nada que descargar
+**NOSOTROS MANEJAMOS LA TECNOLOGÍA.**
 
-**Para usted, el dueño:**
-- Una **página privada para actualizar su propio menú**
-- **Nosotros nos encargamos de la tecnología** — instalación, hosting, el enlace
-- Liviano, mobile-first, sin dolores de cabeza
+- Menú móvil
+- Módulo jugable existente
+- Acceso privado para el dueño
+- Hosting y soporte del enlace
 
-**Ya está en vivo para un café local real:**
-Véalo ahora → **finacalleos.com/m/colattao**
+## DESDE $199 AL MES POR LOCAL
 
-**La demo del menú y el juego no requiere información personal del cliente.**
-Las analíticas anónimas se pueden definir por separado y explicar por escrito.
+La instalación, impresión, servicio por mesa, promociones, informes y trabajo personalizado se cotizan por separado y por escrito.
 
-**Escanee el ejemplo en vivo. Si encaja, pida un plan piloto por escrito.**
+**Prueba local verificada**
 
-**Fina Calle OS** · **finacalleos.com** · Instagram **@fina_calle**
+2,874 visitantes · 4,599 vistas de página
+Tráfico histórico de los primeros 30 días — no son escaneos QR, ventas ni ingresos.
 
----
+**Escanee el menú en vivo. Solicite por escrito el plan de $199 al mes.**
 
-### Flyer rules (for whoever designs it)
-- Do NOT add: payments, online ordering, POS, unsupported sales outcomes, AI, or loyalty —
-  none are live. (See FEATURE_STATUS_TABLE.md.)
-- Keep the live proof link visible: **finacalleos.com/m/colattao**.
-- Use one CTA only: scan the proof, then request a written pilot plan.
-- Tone: modern, simple, "we handle the tech."
+`finacalleos.com/m/colattao` · `finacalleos.com` · `@fina_calle`
+
+## Design rules
+
+- One centered message path: promise → proof → price → action.
+- Generous open space; avoid boxed sections and dense feature lists.
+- Label the game as an existing playable module or engine demo until approved and verified.
+- Do not add ordering, payments, POS, AI, loyalty, personal-data collection, urgency, or unsupported results.

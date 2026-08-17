@@ -1,46 +1,25 @@
 # What you get
 
-Plain and honest — here's exactly what's included, what's an add-on, and what we don't do.
+## Base scope — starting at $199/month per location
 
----
+- Branded mobile menu using owner-approved content.
+- One stable location QR destination and print-ready QR file.
+- One existing playable game module, selected and verified before launch.
+- Private owner sign-in and menu-update access.
+- Hosting, link support, and routine menu/copy support within the written scope.
 
-## ✅ Included in your setup
-- **Branded digital menu page** — your items, prices, hours, and promos.
-- **QR code + signage flow** — so one scan lands your customers on your menu.
-- **Branded mini-game experience** — the engagement layer, skinned toward your brand.
-- **Your private owner page** — secure email sign-in to update your own menu.
-- **A clear "request an update" workflow** — for anything you'd rather hand to us.
-- **Restaurant-specific configuration** — your branding, your menu data, your links.
+## Quoted separately
 
-*Optional as part of setup (depending on your package):* a simple **customer feedback box** and
-**basic anonymous, traffic-level analytics**. These are setup deliverables we can include — not
-something we claim is already running on another restaurant's page.
+- Setup beyond the written base scope.
+- Printing and table-specific QR routing.
+- Weekly promotions and analytics reports.
+- Custom game art or mechanics.
+- Photography, social posting, ads, or other custom work.
 
-## 🔁 Included in monthly maintenance
-- Small **menu updates** (items, prices)
-- **Copy/text** updates
-- **Uptime checks** — we keep it online
-- **QR link support** — if anything about the link needs attention
-- **Basic owner support** — a real person to ask
+## Not included
 
-## ➕ Optional add-ons (scoped separately)
-- Sticker design package
-- Printed QR stands
-- Menu cleanup and restructuring
-- Monthly analytics report
-- Seasonal game-copy updates
-- Future loyalty / reward expansion (a planned module, not built yet)
+- Ordering, payments, checkout, or POS integration.
+- Customer accounts, loyalty systems, or personal-data collection.
+- AI automation or guaranteed traffic, engagement, sales, or revenue.
 
-## 🚫 What this is not (so there are no surprises)
-- Not payment processing or checkout
-- Not a POS integration
-- Not online ordering
-- Not a full website rebuild
-- Not a backend loyalty database
-- Not customer personal-data collection (unless separately scoped and agreed in writing)
-
----
-
-> **Why we spell out the "not."** We'd rather you trust every "yes" on this page. Everything in the
-> "Included" lists maps to something real and working. If we ever say we'll build something new,
-> it goes in writing with its own scope and price first.
+Everything is confirmed in writing before approval.
