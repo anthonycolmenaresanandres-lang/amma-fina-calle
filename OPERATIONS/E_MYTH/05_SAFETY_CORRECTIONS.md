@@ -54,6 +54,12 @@ Measured 2026-08-17 after fetching both refs:
 | Observed cadence | 74 revisions on 33 Eastern calendar dates; exactly two on 27 of those dates; one 213.11-hour gap from July 9 to July 18 | verified |
 | Declared schedule | “twice daily” inside the worker-attributed dashboard | verified as a declaration; execution rate **unknown** |
 | Remote heads present at measurement | **138** | verified |
+| Clone completeness at measurement | `git rev-parse --is-shallow-repository` = **false** | verified — **precondition, see §1.4** |
+
+> **Numeric coincidence, recorded so it is not "corrected" later:** `main`-only
+> divergence and remote-head count are both **138**. They are different
+> measurements that happen to share a value. Neither may be substituted for the
+> other.
 
 Commands:
 
@@ -83,6 +89,44 @@ $gaps = for ($i = 1; $i -lt $times.Count; $i++) {
 The ref must be named alongside every future count. “Commits on the branch,”
 “commits not in main,” “commits touching the file,” and “status-like subjects”
 are different queries and may not be substituted for one another.
+
+### 1.4 Clone completeness is a precondition, not a detail
+
+R4's figures were independently re-derived and **confirmed exactly** — merge base
+`387449f`, divergence 138/74, creation commit `e677965` (PR #149), 74 file
+commits. The re-derivation first produced *contradictory* results, and the cause
+is a failure mode none of R1–R4 had named:
+
+> **A shallow clone answers ancestry questions confidently and wrongly.**
+
+In a shallow clone (`git rev-parse --is-shallow-repository` = `true`),
+`git merge-base` reported **no common ancestor**, `rev-list --count` returned
+truncated totals, and `git log -- <file>` attributed the file's entire prior
+history to the **shallow boundary commit** rather than its real creator. None of
+these emit a warning or a non-zero exit. Every one of them looks like a finding.
+
+This is the mechanism behind R2's two headline errors: "the caretaker is dark"
+and "`AUTOMATION_STATUS.md` was touched once, by `d13642b`." The file was in fact
+created by `e677965`; `d13642b` was merely where the truncated history stopped.
+
+**Rule.** Any claim about history, ancestry, counts, authorship, first/last
+occurrence, or liveness must first assert clone completeness, and carry it in the
+evidence envelope:
+
+```json
+{ "is_shallow": false, "refs_enumerated": 138, "ref_queried": "origin/automation/status",
+  "query": "git rev-list --count origin/main..origin/automation/status -- AUTOMATION_STATUS.md",
+  "counting_rule": "commits touching the file within the divergence" }
+```
+
+If completeness cannot be asserted, the result is `unknown` — never `dark`,
+`healthy`, `once`, or `never`. **A Tier 1 validator enforces this**: a history
+claim without `is_shallow: false` is a HALT.
+
+**Why this belongs in a safety document.** The whole design assumes agents verify
+before asserting. A shallow working copy defeats that assumption *silently*, and
+it is the default in ephemeral cloud containers — exactly where every scheduled
+agent in this plan will run.
 
 ### 1.1 What the corruption incident proves
 

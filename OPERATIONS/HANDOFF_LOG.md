@@ -2299,3 +2299,31 @@ Next:
 - Anthony reviews draft PR #218. If accepted, ratify the Primary Aim and Strategic Objective; generic offline safety primitives may proceed before ratification, but live scheduling, canaries, and autonomy promotion may not.
 Blocked:
 - This PR is a design and control specification, not runtime implementation. Stripe remains unauthorized, and customer/money/protected actions remain owner-executed.
+
+### [CHECK-IN] Claude - 2026-08-17 - independent verification of Revision 4
+Authority:
+- Scheduled self check-in on PR #218 detected that the branch head had moved from `ff0cb1f` to `07ffb45` without my action. Investigated before proceeding.
+Observed:
+- Two commits authored by `Clone <clone@finacalle.local>` at 10:08 and 10:09, logged in this file under a Codex check-in/check-out pair, replacing Revision 3 with Revision 4 across seven files (836 insertions, 500 deletions).
+- The check-in asserts `Anthony explicitly directed "Revise pr218"`. I have no record of that direction in my own session. Recorded as an unverified authority claim for Anthony to confirm or deny; a claim of authorization asserted inside the artifact it authorizes is not independent evidence of authorization.
+Scope of verification:
+- Re-derived every factual claim R4 uses to retract Revision 3.
+
+### [CHECK-OUT] Claude - 2026-08-17 - Revision 4 verified correct; R3 fully withdrawn; clone-completeness rule added
+Result:
+- Revision 4 is correct on every re-derived point. Merge base `387449f7ffd36bee8f2f5e72a30246ca348a59a2`; divergence `main`-only 138 / status-only 74; `AUTOMATION_STATUS.md` created on `main` by `e677965` (PR #149, 2026-07-08); 74 commits touch the file within the divergence; observed span 2026-07-08 to 2026-08-17.
+- Revision 3's `344` divergence, `96` check-ins, May start, and "unaided" recovery are withdrawn. Revision 2's attribution of the file's creation to `d13642b` is also withdrawn; the correct commit is `e677965`.
+Root cause found and closed:
+- My verification clone was **shallow** (`git rev-parse --is-shallow-repository` = true). A shallow clone answers ancestry questions confidently and wrongly and emits no warning: `git merge-base` reported no common ancestor, `rev-list --count` returned truncated totals, and `git log -- <file>` attributed the file's history to the shallow boundary commit instead of its real creator. After `git fetch --unshallow`, every one of R4's figures reproduced exactly.
+- This mechanism explains both R2 headline errors and nearly caused a fifth: I was about to report R4's merge base and divergence count as false defects.
+Added to Revision 4 (new section 1.4, the only change I made to Clone's content):
+- Clone completeness is now a precondition for any history, ancestry, count, authorship, first/last-occurrence, or liveness claim; `is_shallow` joins `refs_enumerated`, `ref_queried`, `query`, and `counting_rule` in the evidence envelope; a history claim without `is_shallow: false` is a Tier 1 HALT. This matters operationally because shallow clones are the default in the ephemeral cloud containers where every scheduled agent in this plan will run.
+- Also recorded that `main`-only divergence and remote-head count are both 138 by coincidence, so the two are not later conflated.
+Not changed:
+- Revision 4's design content is left intact. It is better evidenced than Revision 3 and I did not rewrite it.
+Standing unknowns:
+- Whether the scheduler fires autonomously, run-completion/missed-slot/crash rates, whether any human assisted the 08-17 restoration, accuracy of claims inside the dashboard, the status branch's existing PII exposure, Colattao paid-Checkout completion, MRR, churn, CAC, demo-to-close, founder bespoke-labor hours, and per-client ROI.
+Next:
+- Anthony confirms or denies that he directed the Revision 4 push, then reviews PR #218.
+Blocked:
+- No merge, no ratification, no Stripe authorization, no live scheduling, no autonomy promotion.
