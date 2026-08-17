@@ -200,7 +200,7 @@ These are real blockers found in the current environment. They are listed as
 |---|---|---|---|
 | **Stripe connector not authorized** in session | Contador cannot read live billing; Colattao paid-Checkout stays **unknown** | Anthony authorizes the Stripe connector in claude.ai connector settings | Anthony (A4) |
 | **Canva and Runway not authorized** | Pregonero limited to the Remotion/FFmpeg/Pixelorama stack (which is sufficient today) | authorize only if a gap appears | Anthony (A4) |
-| **Vercel account showed no projects** (as of the 2026-07-08 caretaker run — may be stale) | deploy status could not be watched from the automated session | confirm which Vercel login owns the projects and connect it | Anthony (A4) |
+| ~~Vercel account showed no projects~~ — **resolved 2026-08-17** | none; the `amma-fina-calle` Vercel project is connected to the GitHub repo and posts preview deployments on PRs (verified on PR #217) | none — the 2026-07-08 caretaker note is stale; Mecánico can watch deploys | — |
 | **Outcomes log holds 0 verified samples** | routing cannot learn; every conversion KPI is **unknown** | Phase 1 (Brújula) | Brújula |
 | **No per-client engagement instrumentation** | ROI is unprovable to clients — the plan's own #2 risk | Phase 1 | Brújula |
 | **12 open PRs awaiting owner decisions** on amma-fina-calle | decision debt accumulating outside any digest | route the backlog through the first digest as a batch | Mayordomo (A3) |
