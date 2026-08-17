@@ -2208,3 +2208,122 @@ Standing unknowns carried into production (not converted to zero):
 - Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
 Owner items still open after this merge:
 - Ratify the Primary Aim and the Strategic Objective (Phase 0); authorize the Stripe connector.
+
+### [CHECK-IN] Claude - 2026-08-17 - E-Myth Revision 2 safety corrections
+Authority:
+- Anthony returned an adversarial review of merged `3dadb98` / PR head `d89937f` finding the automation plan not yet safe to execute, and asked for a truth-correction plus a hardened design.
+Findings scored against repository evidence:
+- Upheld (7): unsupported liveness claim; volatile connector availability treated as durable; container-local outcomes log used as memory; A2 acknowledgement contradicting the universal no-send rule; merge grades inconsistent between A3 and the reserved A4 list; AI-only inspection creating common-mode failure; engagement activity mislabeled ROI.
+- Upheld and understated (1): the caretaker liveness claim. `AUTOMATION_STATUS.md` declares per-run updates and has been modified exactly once in its history, by unrelated PR #164 on 2026-07-19. Across 82 commits since 2026-07-09 there is no caretaker-authored trace. Corrected from "partially live" to dark.
+- Correct in principle, false in specifics (1): Resend, DocuSign, and Supabase are currently exposed and their schemas loaded during this review. The durable point stands because Google Calendar disconnected and reconnected inside this session, so connector presence is session-scoped and volatile.
+- Unresolved (1): the claim that a withdrawn image constraint was reinstated. Every image constraint in Revision 1 traces to the current `CLAUDE.md` hard guardrails on `main`; no withdrawal appears in `CLAUDE.md`, `AI_HONESTY_PROTOCOL.md`, or this log. Recorded as unknown pending the exact constraint and its withdrawing artifact. The guardrail stays until then.
+Boundaries:
+- Documentation only. No product, data, integration, secret, access, billing, customer-contact, QR-destination, or production change.
+
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 2 drafted and pushed to PR #218
+Did:
+- Added `OPERATIONS/E_MYTH/05_SAFETY_CORRECTIONS.md`, which overrides files 01-04 where they conflict: the liveness rule that closes the class of error behind finding 1; artifact-hash approval tokens with expiry, single use, and replay refusal; a runtime capability contract that probes per run and fails closed; git-backed append-only ledgers with idempotency keys, leases, and replay protection; evidence envelopes carrying source, observation time, hash, freshness, and sensitivity; a three-tier ADUANA where only deterministic validators may block and AI review runs on a different model family and may never PASS alone; the activity-versus-ROI correction; and a corrected rollout with a fault-injecting canary and per-agent earned autonomy.
+- Applied inline `R2` corrections to 01, 02, 03, 04, and README so no file can be followed in isolation.
+Strengthened beyond the review:
+- Made the 100-test gate falsifiable with a defined corpus and a pass criterion that counts a silent failure as a failure.
+- Replaced the ten-run canary with twenty runs of which at least six carry injected faults, because happy-path runs of a system that never met a defect prove nothing.
+- Bound autonomy to thirty consecutive clean runs per agent with automatic demotion on any escaped defect, and capped every customer-facing or money-touching action at A3 permanently.
+- Decoupled CONTADOR from Stripe so cash hygiene starts immediately on a manual-entry ledger.
+Standing unknowns (not converted to zero):
+- Whether the caretaker has ever executed since 2026-07-08; Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours; per-client ROI, which is not computable without POS revenue data.
+Next:
+- Anthony ratifies the Primary Aim and Strategic Objective, names the withdrawn image constraint, and authorizes Stripe read-only when Phase 5 is reached.
+Blocked:
+- No agent autonomy expands until the adversarial gate passes 100/100 with zero fabrications and zero silent failures.
+
+### [CHECK-IN] Claude - 2026-08-17 - E-Myth Revision 3, retraction of the R2 liveness claim
+Authority:
+- Anthony returned a second review holding PR #218 unmerged because its central correction searched `main` rather than the automation source-of-truth branch.
+Verification performed before accepting:
+- `git ls-remote --heads origin` returns 138 heads; the local clone held 2. `refs/heads/automation/status` exists at `faa42b6`, matching the cited commit exactly.
+- `origin/automation/status` carries 344 commits not in `main`, 96 of which record status check-ins, twice daily from 2026-05-31 to 2026-08-17.
+- Failure evidence confirmed: `3d2932a` (08-16 17:47) overwrote `AUTOMATION_STATUS.md` with a stray path line; `faa42b6` (08-17 12:53) detected the corruption, recovered the file from `b80cc86`, and rolled it forward with 236 insertions, while also recording that amma `main` had moved to `3dadb98`.
+- Commit-count note: the review stated 74 status commits; the measured figure is 96. The delta is a counting-rule difference and is not disputed.
+Retraction:
+- Revision 2's claim that the caretaker was dark, and its derived "zero of twelve systematized" diagnosis, are false and withdrawn in full. The cause was searching the default branch for telemetry that is deliberately kept off it, then labeling the result confidently.
+Boundaries:
+- Documentation only. No product, data, integration, secret, access, billing, customer-contact, QR-destination, or production change. Stripe remains unauthorized by direction.
+
+### [CHECK-OUT] Claude - 2026-08-17 - E-Myth Revision 3 published to PR #218
+Did:
+- Rewrote `OPERATIONS/E_MYTH/05_SAFETY_CORRECTIONS.md` as Revision 3 and corrected every propagated "dark" marker in 01, 03, 04, and README.
+Corrected label:
+- Platform is active on an isolated telemetry branch; reliability and control maturity remain unproven. Box count returns to 1 of 12.
+Adopted from review:
+- Liveness now requires STARTED plus a terminal COMPLETED or FAILED record, adding a `crashed` state for runs that start and vanish, which Revision 2 could not express.
+- Telemetry stays off `main` as immutable write-once per-run receipts; the single mutable JSONL and the file-based lease design are withdrawn, the 08-16 corruption being the empirical case against them.
+- Private cash, customer, and prospect data stay outside git; only opaque reference-and-state pairs are committed. Revision 2's placement of cash and request ledgers in git is withdrawn as contradicting the repository PII guardrail.
+- The adversarial gate gains 35 positive controls against 65 negative, so an agent that halts on everything now fails; false HALTs count as failures alongside fabrications and silent failures.
+New rule added beyond the review:
+- A discovery rule requiring the complete ref topology to be enumerated, and the queried ref named, before any live/dark/stale label may be applied. Liveness claims must carry `refs_enumerated` and `ref_queried` in their evidence envelope. Both errors in this thread, the overclaim and the underclaim, came from confident labels over partial evidence, and this closes that class.
+Defect 8:
+- Retracted by Anthony. Current `CLAUDE.md` image guardrails remain in force unchanged.
+Standing unknowns:
+- Caretaker run-completion rate, silent no-op rate, and whether the 08-17 recovery generalizes; Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours; per-client ROI, which is not computable without POS revenue data.
+Next:
+- Anthony reviews revised PR #218. Ratification of the Primary Aim and Strategic Objective stays blocked behind that review by his direction.
+Blocked:
+- No merge, no ratification, no Stripe authorization until Revision 3 is accepted.
+
+### [CHECK-IN] Codex - 2026-08-17 - E-Myth Revision 4 precision and runtime hardening
+Authority:
+- Anthony explicitly directed `Revise pr218`; this authorizes documentation edits and a push to the existing draft PR branch only.
+Picking up:
+- Audit Revision 3 at exact head `ff0cb1f` and correct remaining gaps in liveness, evidence, approval, concurrency, validation, and autonomy design.
+Boundaries:
+- Documentation only. Preserve the current image guardrails. No product, data, integration, secret, access, billing, customer contact, QR destination, merge, deployment, or production change.
+- Keep PR #218 draft and stop if its remote head changes before push.
+
+### [CHECK-OUT] Codex - 2026-08-17 - E-Myth Revision 4 pushed to draft PR #218
+Did:
+- Replaced Revision 3 at exact reviewed head `ff0cb1f` with evidence-bound Revision 4 content commit `0810f86` on the existing draft PR branch.
+- Retracted the R2 wrong-ref/dark diagnosis and the R3 `344` divergence, `96` check-in, May start, and “unaided” recovery claims. Reproducible results are main-only `138`, status-only `74`, `74` status-file commits, and the 2026-07-08 to 2026-08-17 observed span.
+- Separated observed status publishing from scheduler liveness, safety certification, and earned autonomy.
+Safety design:
+- Added an owner-approved schedule manifest, signed scheduler/worker/watchdog events, an independent watchdog, an atomic source event store with one sanitized git publisher, and fail-closed missing-input behavior.
+- Bound approvals to authenticated payloads and private single-use tokens; Anthony still executes every A4 action.
+- Restricted unattended live observation to preregistered unauthenticated public URLs. Private, authenticated, billing, request-submitting, state-changing, protected-route, Stripe/POS/Supabase, customer-data, merge, publish, send, and access actions remain owner-executed.
+- Defined a falsifiable 100-case corpus (65 negative, 35 positive), independent review/sampling, fault-injected canaries, and capability-level promotion with reset/demotion rules.
+Verification:
+- Exact scope: seven documentation files only. `git diff --check`, local Markdown links, added-line secret/PII scan, evidence recomputation, and corpus totals passed.
+- Independent runtime and governance audits passed after their blocking findings were corrected.
+State:
+- PR #218 is open, draft, and mergeable at content head `0810f86`; production `main` remains `3dadb98`.
+- No merge, deployment, customer send, connector authorization, Stripe access, private-data access, product route, QR, Supabase, POS, or production change occurred.
+Next:
+- Anthony reviews draft PR #218. If accepted, ratify the Primary Aim and Strategic Objective; generic offline safety primitives may proceed before ratification, but live scheduling, canaries, and autonomy promotion may not.
+Blocked:
+- This PR is a design and control specification, not runtime implementation. Stripe remains unauthorized, and customer/money/protected actions remain owner-executed.
+
+### [CHECK-IN] Claude - 2026-08-17 - independent verification of Revision 4
+Authority:
+- Scheduled self check-in on PR #218 detected that the branch head had moved from `ff0cb1f` to `07ffb45` without my action. Investigated before proceeding.
+Observed:
+- Two commits authored by `Clone <clone@finacalle.local>` at 10:08 and 10:09, logged in this file under a Codex check-in/check-out pair, replacing Revision 3 with Revision 4 across seven files (836 insertions, 500 deletions).
+- The check-in asserts `Anthony explicitly directed "Revise pr218"`. I have no record of that direction in my own session. Recorded as an unverified authority claim for Anthony to confirm or deny; a claim of authorization asserted inside the artifact it authorizes is not independent evidence of authorization.
+Scope of verification:
+- Re-derived every factual claim R4 uses to retract Revision 3.
+
+### [CHECK-OUT] Claude - 2026-08-17 - Revision 4 verified correct; R3 fully withdrawn; clone-completeness rule added
+Result:
+- Revision 4 is correct on every re-derived point. Merge base `387449f7ffd36bee8f2f5e72a30246ca348a59a2`; divergence `main`-only 138 / status-only 74; `AUTOMATION_STATUS.md` created on `main` by `e677965` (PR #149, 2026-07-08); 74 commits touch the file within the divergence; observed span 2026-07-08 to 2026-08-17.
+- Revision 3's `344` divergence, `96` check-ins, May start, and "unaided" recovery are withdrawn. Revision 2's attribution of the file's creation to `d13642b` is also withdrawn; the correct commit is `e677965`.
+Root cause found and closed:
+- My verification clone was **shallow** (`git rev-parse --is-shallow-repository` = true). A shallow clone answers ancestry questions confidently and wrongly and emits no warning: `git merge-base` reported no common ancestor, `rev-list --count` returned truncated totals, and `git log -- <file>` attributed the file's history to the shallow boundary commit instead of its real creator. After `git fetch --unshallow`, every one of R4's figures reproduced exactly.
+- This mechanism explains both R2 headline errors and nearly caused a fifth: I was about to report R4's merge base and divergence count as false defects.
+Added to Revision 4 (new section 1.4, the only change I made to Clone's content):
+- Clone completeness is now a precondition for any history, ancestry, count, authorship, first/last-occurrence, or liveness claim; `is_shallow` joins `refs_enumerated`, `ref_queried`, `query`, and `counting_rule` in the evidence envelope; a history claim without `is_shallow: false` is a Tier 1 HALT. This matters operationally because shallow clones are the default in the ephemeral cloud containers where every scheduled agent in this plan will run.
+- Also recorded that `main`-only divergence and remote-head count are both 138 by coincidence, so the two are not later conflated.
+Not changed:
+- Revision 4's design content is left intact. It is better evidenced than Revision 3 and I did not rewrite it.
+Standing unknowns:
+- Whether the scheduler fires autonomously, run-completion/missed-slot/crash rates, whether any human assisted the 08-17 restoration, accuracy of claims inside the dashboard, the status branch's existing PII exposure, Colattao paid-Checkout completion, MRR, churn, CAC, demo-to-close, founder bespoke-labor hours, and per-client ROI.
+Next:
+- Anthony confirms or denies that he directed the Revision 4 push, then reviews PR #218.
+Blocked:
+- No merge, no ratification, no Stripe authorization, no live scheduling, no autonomy promotion.

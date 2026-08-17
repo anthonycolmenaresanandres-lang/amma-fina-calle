@@ -2,7 +2,8 @@
 
 _Created 2026-08-17. Applies Michael Gerber's E-Myth organizational method to
 AMMA Ventures LLC (DBA Fina Calle). Companion files: `02_POSITION_CONTRACTS.md`,
-`03_AI_STAFF.md`, `04_AUTOMATION_ROLLOUT.md`._
+`03_AI_STAFF.md`, `04_AUTOMATION_ROLLOUT.md`, and the controlling safety design
+in `05_SAFETY_CORRECTIONS.md`._
 
 Evidence labels used throughout: **verified** (supported by this repo, a connected
 account, or a measured result), **inference** (plausible, needs a controlled test),
@@ -47,8 +48,8 @@ sends/publishes, and production merges to you. `AI_HONESTY_PROTOCOL.md` forbids
 any agent from inventing a fact to fill a gap. The Optimization Register forbids
 converting an unknown into a result. So the goal is not zero owner input; the
 goal is a **bounded, batched, predictable owner input budget** — a known number
-of decisions per day, each one answerable in a word, each one genuinely yours to
-make. The design below drives toward that, and states the floor explicitly in
+of decisions per day, each one presented as a payload-bound approve/deny choice,
+each one genuinely yours to make. The design below drives toward that, and states the floor explicitly in
 §5. Everything else gets automated.
 
 ---
@@ -67,7 +68,8 @@ would violate the honesty protocol.
 
 Evidence for the proposal: the business plan's own stated KPI (founder bespoke
 labor → zero) and its stated risk #1. **Owner action: confirm, or replace the
-sentence.** Everything downstream inherits from it.
+sentence.** Business targets, KPI priority, and live activation inherit from it;
+generic offline safety primitives do not.
 
 ## 2. The Strategic Objective (the business, measurable)
 
@@ -84,9 +86,9 @@ by when, at what quality — so that every position can be judged against it.
 | Prospects in owner-review demo | Las Palmas (Lynnhaven), AJ Gator's (Holland Road) — live, `noindex`, client approval pending | verified |
 | Price band researched | $59–149/mo vs. Toast-tier $185–379/mo all-in | verified |
 | Local density | ~350 independent restaurants in Virginia Beach; Hampton Roads multiplies it | verified |
-| MRR, churn, CAC, demo→close rate | no dataset exists | **unknown** |
+| MRR, churn, CAC, demo→close rate | no authoritative finance/conversion dataset inspected | **unknown** |
 
-**PROPOSED Strategic Objective (inference — one-word confirm or edit the numbers):**
+**PROPOSED Strategic Objective (inference — explicitly confirm or edit the numbers):**
 
 > By **2027-08-01**, Fina Calle serves **20 paying independent restaurant clients**
 > in Hampton Roads at a blended **$149/mo + setup**, delivered to the standard that
@@ -97,7 +99,7 @@ by when, at what quality — so that every position can be judged against it.
 
 Why these four clauses: they are, in order, the revenue standard, the delivery
 standard, the factory standard (the thing that makes it a business and not a job),
-and the ROI standard the plan itself calls "the most important missing piece."
+and the engagement-evidence standard the plan calls "the most important missing piece."
 The 45-minute clause is the one this whole document is engineered to deliver.
 
 ---
@@ -159,13 +161,19 @@ Doing that with current evidence:
 | Production | Claude/Codex, **Anthony-triggered**, Anthony approves each merge | verified |
 | Client Success | **Anthony** | verified |
 | Finance & Admin | **Anthony** | verified |
-| Platform / Reliability | **partially systematized** — twice-daily caretaker routine exists (fix + push + draft PR; merge is Anthony's) | verified |
+| Platform / Reliability | ⚠ R4 — recurring status publishing is observed on `automation/status`: 74 branch-exclusive commits touch `AUTOMATION_STATUS.md`, 2026-07-08 → 2026-08-17, latest `faa42b6`. Scheduler autonomy, terminal-run rate, notification delivery, policy compliance, and claim accuracy are unproven | publishing **verified** / operations **unknown** |
 | Quality & Brand Integrity | **Anthony** as final eye; gates exist in code (lint, tsc, build, phone QA, logo rules) | verified |
-| Intelligence & Learning | **nobody** — the outcome log has **zero verified samples** | verified |
+| Intelligence & Learning | **nobody** owns a durable shared ledger. The 2026-08-17 local router report contains 21 tool-labeled verified outcomes, but the store is machine-local and does not establish MRR, churn, CAC, or demo→close | local count **verified** / business KPIs **unknown** |
 
-**Diagnosis:** Anthony's name is in 11 of 12 boxes. One box (Platform) is
-genuinely systematized. One box (Intelligence) is empty, which is why MRR, churn,
-CAC and demo→close are all *unknown* — nobody holds the position that would know.
+**Diagnosis:** Anthony's name is in 11 of 12 boxes. One box (Intelligence) is
+empty, which is why MRR, churn, CAC and demo→close are all *unknown* — nobody
+holds the position that would know.
+
+⚠ **R4 correction (supersedes R2–R3):** Revision 2's “dark” diagnosis came from
+searching the wrong ref. Revision 3 found the ref but miscounted its history and
+treated worker-attributed status as independent runtime proof. Platform is mapped
+to the one observed recurring status artifact; no position has yet been
+demonstrated and certified under the runtime and watchdog gates in `05` §0–§2.
 
 **That is the whole problem, and it is now visible and finite.** The rest of this
 document is the box-by-box replacement plan.
@@ -216,9 +224,10 @@ from caution about AI capability.
 | 7 | Merging to `main` / publishing to production | Irreversible customer-facing state |
 | 8 | Approving a claim about a customer's results | Honesty protocol — an unverified claim is never generated |
 
-**Everything not on this list is a candidate for automation.** The design target is
-that these eight arrive as **batched, pre-packaged, one-word decisions** rather
-than as work. See `04_AUTOMATION_ROLLOUT.md` §3, "The Owner Input Budget."
+**Everything not on this list is a candidate for automation.** The design target
+is that these eight arrive as batched, pre-packaged, authenticated and payload-
+bound decisions rather than research work. For every A4 item Anthony still
+performs the action. See `04_AUTOMATION_ROLLOUT.md` §3.
 
 ---
 
