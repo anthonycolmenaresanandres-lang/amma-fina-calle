@@ -6,6 +6,24 @@ This packet captures the minimum assets and business context required to transla
 
 No AI generation should begin until required assets are approved or intentionally waived.
 
+Operational delivery follows `OPERATIONS/SOPS/RESTAURANT_199_DELIVERY_STANDARD.md` and `OPERATIONS/templates/RESTAURANT_199_DELIVERY_CHECKLIST.md`. Keep every completed packet in the approved private client record; never commit client PII, credentials, payment data, or signed approvals.
+
+## Commercial and Access Scope
+
+```txt
+LOCATION COUNT:
+MONTHLY PRICE: $199 per location / approved written exception
+SETUP LINE:
+BILLING START DATE:
+SELECTED EXISTING GAME:
+GUEST DESTINATION:
+SAFE TENANT ID:
+OWNER DESTINATION: https://finacalleos.com/owner/{safe-tenant-id}
+INITIAL AUTHORIZED ACCOUNT DELIVERY: included / approved exception
+PRINT LANE: digital files only / AMMA-managed / client-managed
+PHYSICAL PRINT BUDGET / QUANTITY: approved / pending / N/A
+```
+
 ## Restaurant Profile
 
 ```txt

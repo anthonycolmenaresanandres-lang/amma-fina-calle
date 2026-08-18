@@ -15,14 +15,15 @@ The written proposal defines setup, launch timing, update limits, and recurring 
 ## Base scope
 
 - Branded mobile menu using owner-approved content.
-- One stable location QR destination and a print-ready QR file.
+- One stable guest destination and a print-ready guest QR file.
 - One existing playable game module, selected and verified before launch.
-- Private owner sign-in and menu-update access.
+- One private owner portal for the location, initial authorized account delivery, and a print-ready back-office owner QR.
 - Hosting, link support, and routine menu/copy support within the written scope.
 
 ## Not included in the base scope
 
-- Physical printing.
+- Physical printing; print-ready QR files remain included.
+- Additional owner users or custom training beyond the written launch scope.
 - Table-specific routing or staff requests.
 - Ordering, payments, checkout, or POS integration.
 - Customer accounts, personal-data collection, or loyalty systems.
@@ -43,4 +44,8 @@ The written proposal defines setup, launch timing, update limits, and recurring 
 - `cta_id`: `C-WRITTEN-199-01`
 - `offer_id`: `O-199-LOCATION-01`
 
-Stop if a buyer believes a demo is already their finished product or believes ordering, payments, POS, table service, printing, or custom game development is included.
+Stop if a buyer believes a demo is already their finished product or believes ordering, payments, POS, table service, physical printing, additional account work, or custom game development is included.
+
+## Delivery standard
+
+After written approval, use `OPERATIONS/SOPS/RESTAURANT_199_DELIVERY_STANDARD.md`. No launch is complete until the menu, selected existing game, guest QR, owner access, optional print delivery, and recurring start have verified acceptance evidence.

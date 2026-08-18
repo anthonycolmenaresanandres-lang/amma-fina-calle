@@ -21,6 +21,8 @@ Use this page before sharing or printing any sales material.
 
 Every current offer starts at **$199/month per location**. Setup, printing, table-specific service, promotions, analytics reports, and custom work remain separately scoped in writing.
 
+The included launch baseline is one owner-approved mobile menu, one stable guest QR file, one existing verified game module, one private owner portal with initial authorized account delivery, and one print-ready back-office owner QR. Physical printing remains separately approved and priced.
+
 ## Do not distribute
 
 - `restaurant-depot-flyer-letter.pdf`

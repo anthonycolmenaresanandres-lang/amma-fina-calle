@@ -15,11 +15,13 @@ Give the owner only these three pieces unless they ask for more:
 
 Use `08_FAQ.md` when the owner asks questions. The other numbered files are optional detail, not required reading.
 
+After the owner approves the written scope, use `10_DELIVERY_AND_HANDOFF.md` as the concise launch handoff. Internal delivery follows `OPERATIONS/SOPS/RESTAURANT_199_DELIVERY_STANDARD.md`.
+
 ## Customize safely
 
 - Replace only the approved `{{MERGE_FIELDS}}`.
 - Keep **$199/month per location** as the starting price.
-- Keep setup, printing, table service, promotions, analytics reports, and custom work separately scoped in writing.
+- Keep physical printing, table service, promotions, analytics reports, additional account work, and custom work separately scoped in writing.
 - Label the game as a **playable engine demo** until the restaurant's selected module is approved and verified.
 - Never add ordering, payments, POS, AI, loyalty, or guaranteed results.
 - Test every QR and live link before printing.

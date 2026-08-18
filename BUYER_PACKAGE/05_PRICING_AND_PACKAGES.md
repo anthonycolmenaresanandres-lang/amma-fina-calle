@@ -3,9 +3,9 @@
 ## Base plan
 
 - Branded mobile menu.
-- One stable QR destination and print-ready QR file.
+- One stable guest destination and print-ready guest QR file.
 - One existing playable module, approved and verified before launch.
-- Private owner access.
+- One private owner portal, initial authorized account delivery, and a print-ready back-office owner QR.
 - Hosting and link support.
 - Routine menu/copy support within the written scope.
 
@@ -15,7 +15,7 @@ The proposal confirms setup, launch timing, update limits, recurring terms, and 
 
 ## Separately quoted
 
-Printing, table-specific service, weekly promotions, analytics reports, custom game work, photography, social posting, ads, and other custom requests.
+Physical printing, table-specific service, additional owner users or training, weekly promotions, analytics reports, custom game work, photography, social posting, ads, and other custom requests.
 
 ## Not part of this plan
 

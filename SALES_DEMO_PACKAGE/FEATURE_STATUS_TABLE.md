@@ -79,7 +79,8 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 ### Pricing (current offer lock)
 
 - **Base:** starting at **$199/month per location**.
+- **Included delivery:** one verified existing game module, one private owner portal, initial authorized account delivery, and print-ready guest/back-office QR files.
 - **Written scope required:** setup, launch timing, update limits, and recurring terms are confirmed before approval.
-- **Separately scoped:** printing, table-specific service, promotions, analytics reports, custom game work, and other custom work.
+- **Separately scoped:** physical printing, table-specific service, additional users/training, promotions, analytics reports, custom game work, and other custom work.
 - **Base support:** hosting, link support, and routine menu/copy support within the written scope.
 - Source: `SALES_DEMO_PACKAGE/CORE_OFFER_199.md` and `CASE_STUDIES/COLATTAO/DOCS/PRICING_AND_OFFER.md`.

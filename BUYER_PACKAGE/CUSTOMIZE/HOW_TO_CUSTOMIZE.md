@@ -11,7 +11,7 @@ You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy
    restaurant, e.g. `BUYER_PACKAGE_LasPalmas/`. Work in the copy, never the master.
 
 2. **Fill the profile.** Open `CUSTOMIZE/RESTAURANT_PROFILE.md` and complete only verified fields.
-   The starting price is fixed at **$199/month per location**; setup and custom work still require a written scope.
+   The starting price is fixed at **$199/month per location**. One existing verified game and initial owner-account delivery are included; setup, physical printing, additional account work, and custom work still require a written scope.
 
 3. **Find-and-replace the fields.** Across the copied files, replace each
    `{{FIELD}}` with the value from the profile. Full list in `MERGE_FIELDS.md`. In most editors:
@@ -23,14 +23,15 @@ You are only ever changing the `{{MERGE_FIELDS}}` — never the surrounding copy
    from the final PDF or image before printing. Never change a physical QR destination casually.
 
 5. **Export the short handoff.** Use `01`, `05`, and `06`. Add `08` only if the owner wants the FAQ.
-   Keep `CUSTOMIZE/` and `SALES_DEMO_PACKAGE/` internal.
+   After written approval, use `10` for launch delivery. Keep `CUSTOMIZE/` and `SALES_DEMO_PACKAGE/` internal.
 
 6. **Sanity check before handing it over:**
    - [ ] No stray `{{ }}` left anywhere.
    - [ ] Every claim still matches `SALES_DEMO_PACKAGE/FEATURE_STATUS_TABLE.md` (you didn't add
          payments, POS, ordering, AI, loyalty, or guaranteed results).
    - [ ] Pricing reads "starting at $199/month per location."
-   - [ ] Setup, printing, table service, promotions, analytics reports, and custom work remain separate.
+   - [ ] One existing game and initial owner-account delivery are included.
+   - [ ] Setup outside the written base, physical printing, additional users/training, table service, promotions, analytics reports, and custom work remain separate.
    - [ ] Any live link you included actually loads on your phone.
 
 ---

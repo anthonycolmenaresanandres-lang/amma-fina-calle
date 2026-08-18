@@ -19,7 +19,7 @@ identical for everyone.
 ## Already baked in (don't need to change)
 
 - **Starting price** is fixed: **$199/month per location** (see `05_PRICING_AND_PACKAGES.md`).
-  Setup, recurring terms, and custom work are still confirmed in the written proposal.
+  One existing verified game and initial owner-account delivery are included. Setup, recurring terms, physical printing, additional account work, and custom work are still confirmed in the written proposal.
 - **Contact** is fixed: **Anthony Colmenares Sanandres · anthonycolmenaresanandres@gmail.com**
   (already in the cover letter and next-steps).
 

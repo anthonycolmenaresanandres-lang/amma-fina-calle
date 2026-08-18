@@ -2259,3 +2259,99 @@ Standing unknowns carried into production (not converted to zero):
 - Colattao paid-Checkout completion; MRR; churn; CAC; demo-to-close rate; founder bespoke-labor hours.
 Owner items still open after this merge:
 - Ratify the Primary Aim and the Strategic Objective (Phase 0); authorize the Stripe connector.
+
+### [CHECK-IN] Codex - 2026-08-17 17:35 EDT - Daily Closeout
+
+Picking up:
+- Run the deterministic Daily Closeout from current queue, handoff, connected inbox/calendar, release, and learning evidence.
+- Record only verified non-PII outcomes; keep missing funnel and cash actuals unknown.
+
+### [DAILY CLOSEOUT] Codex - 2026-08-17 17:38 EDT - $199 package ready; release decision is the constraint
+
+Verified:
+- Router selected `executive_review`, Anthony role `CEO/Strategist`, and installed specialist `kpi-reporting` with high confidence.
+- Draft PR #216 is open, cleanly mergeable, and has passing Vercel checks at head `3ace4d4`.
+- The simplified sales package uses a `$199/month per location` starting price; six generated PDFs contain `$199` and no `$150`, and their QR destinations were verified unchanged.
+- Connected Gmail showed six relevant automated/project messages today; none supplied authoritative funnel or cash actuals. The calendar showed two events, neither identified by the connected evidence as an AMMA operating block.
+- One non-PII `executive_review` outcome was recorded. Learning remains `keep_monitoring`; no routing change is authorized or applied.
+
+Unknown - do not convert to zero:
+- Prospects contacted, demos shown, follow-ups, proposals, closes, cash collected, objections, loss reasons, and dated next actions.
+- Current Stripe cash position, MRR, churn, CAC, and demo-to-close rate.
+
+Bottleneck / tomorrow:
+- Bottleneck: the verified field-ready offer is waiting on one owner release decision while authoritative field exposure records remain absent.
+- Required role: `CEO/Strategist`.
+- First action: approve or reject draft PR #216 before producing more collateral; if approved, record each subsequent exposure in the private tracker.
+- KPI: one explicit PR decision plus one dated tracker entry for every actual field exposure; 30-minute finish line.
+
+Stop / approvals:
+- No prospect contact, send, printing, spend, access, secret, merge, deploy, or production change without Anthony's explicit approval.
+
+### [MORNING COMMAND] Codex - 2026-08-18 08:30 EDT - decide the $199 sales standard
+
+Checkpoint:
+- Deterministic route: `morning_command`, high confidence; Anthony role `CEO/Strategist`; installed specialist `gather-business-context`.
+
+Verified:
+- Canonical queue has no active READY, IN PROGRESS, or BLOCKED item.
+- Draft PR #216 remains open, cleanly mergeable, and green on Vercel at the verified head.
+- Five open pull requests are drafts; four are clean and one is dirty.
+- Public landing, live menu, and game routes returned HTTP 200.
+- Connected Gmail contained one relevant Vercel-related message before this checkpoint without a detected failure/payment signal. Today's calendar contained one five-minute event after the proposed first work block; connected evidence did not identify it as an AMMA operating block.
+- Learning remains `keep_monitoring`; no routing change is authorized or applied.
+
+Bottleneck / outcome:
+- Bottleneck: the current field-ready offer is waiting on one owner release decision, while starting new collateral would increase decision inventory.
+- 90-minute outcome: accept, revise once, or reject the `$199/month per location` standard and leave one dated decision ready for the Revenue Power Hour.
+
+Actions:
+1. Review `SALES_DEMO_PACKAGE/CORE_OFFER_199.md` and `BUYER_PACKAGE/00_START_HERE_INDEX.md`.
+2. Compare draft PR #216 against `SALES_DEMO_PACKAGE/FEATURE_STATUS_TABLE.md`; choose approve, one exact revision, or reject.
+3. If approved, prepare one exposure row in `SALES_DEMO_PACKAGE/CONVERSION_EXPERIMENT_LOG_TEMPLATE.csv`; do not contact anyone during this block.
+
+KPI / finish line:
+- KPI: one explicit PR #216 decision and one prepared experiment row by 10:00 EDT.
+
+Unknown / stop:
+- Funnel actuals, cash position, MRR, churn, CAC, and paid-Checkout status remain unknown.
+- Stop before merge, deploy, production, sending, customer contact, printing, spending, access, or secrets without Anthony's explicit approval.
+
+### [CHECK-IN] Codex - 2026-08-18 - standardize $199 client delivery
+
+Picking up:
+- Lock the approved starting offer at `$199/month per location` with one existing verified game and the restaurant's private owner account.
+- Build one repeatable intake-to-launch SOP covering scope, menu/game delivery, customer and owner QR files, optional physical printing, account handoff, acceptance evidence, and support transition.
+
+Authority:
+- Anthony confirmed the monthly starting price and requested the standardized printing and account-delivery process.
+
+Boundaries:
+- Documentation, templates, buyer-package alignment, and draft PR update only.
+- No filled client PII, credentials, account creation, access change, billing activation, customer contact, printing purchase, QR destination change, merge, deploy, or production mutation.
+- Reuse one existing verified game module; do not promise new custom art or mechanics in the base plan.
+
+Stop:
+- Stop before merge/publication and at any unknown identity, scope, QR destination, print proof, access, payment, or acceptance state.
+
+### [RELEASE GATE] Codex - 2026-08-18 08:50 EDT - $199 delivery standard
+
+Verified:
+- The base scope is aligned across the core offer, buyer package, feature-status table, onboarding template, and delivery handoff: one mobile menu, one stable guest QR, one existing verified game, one private owner portal, initial authorized account delivery, and print-ready guest/back-office QR files.
+- Physical printing, table service, additional users/training, custom game work, promotions, analytics reports, ordering/payment/POS, and other custom work remain separately scoped.
+- The G0-G8 SOP, repeatable checklist, QR print-order/QA record, and customer-facing handoff are present and internally linked.
+- Active package/template scope contains no `$150` price; changed documentation contains no detected live/test key, service-role token, JWT, or private-key marker; `git diff --check` passed apart from line-ending notices.
+
+### [CHECK-OUT] Codex - 2026-08-18 08:50 EDT - $199 delivery standard ready for review
+
+Did:
+- Standardized written scope, authoritative intake, review/release, live QA, QR printing, secure account provisioning, owner delivery, acceptance, support, and reorder controls.
+- Added blank, credential-safe templates; aligned the buyer package and active sales claims to the approved `$199/month per location` starting offer.
+
+State / next:
+- Documentation-only draft is ready to commit and push to draft PR #216 for Anthony's review.
+- After review, Anthony may approve merge/publication; the first client remains a controlled field test and requires its own written scope, print quote/proof, authorized account recipient, and production/access approvals.
+
+Blocked / stop:
+- Setup fee, print vendor/quantity/cost, recurring start date, and client-specific selections remain proposal fields, not assumed defaults.
+- No account was created, no credential handled, no print ordered, no customer contacted, no billing activated, and no merge/deploy performed.

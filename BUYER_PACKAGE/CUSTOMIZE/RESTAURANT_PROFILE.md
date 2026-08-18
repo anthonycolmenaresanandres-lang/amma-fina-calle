@@ -18,6 +18,8 @@ the `{{FIELDS}}` across the copied CORE files. One profile = one customized pack
 - **Preferred language** (EN / ES): ______________________
 - **Their demo/pilot URL** (blank until built): ______________________
 - **Existing game module requested** (not custom mechanics): ______________________
+- **Authorized owner-account recipient verified privately** (yes / no): ______________________
+- **Print lane** (digital only / client-managed / Fina Calle-managed): ______________________
 - **Written setup/custom scope needed:** ______________________
 
 ### Intake collected on the visit (internal — do not print for the owner)
