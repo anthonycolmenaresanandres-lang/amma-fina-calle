@@ -82,16 +82,17 @@ by when, at what quality — so that every position can be judged against it.
 |---|---|---|
 | First live client — Colattao | Live; case study published at `/case-studies/colattao` | verified |
 | Colattao first 30-day production window | 2,874 visitors · 4,599 page views (owner-verified) | verified |
-| Colattao plan | $149/month documented; **paid Checkout completion** | verified / **unknown** |
+| Colattao plan | $149/month documented — an existing client rate predating the offer lock, kept as a historical record; **paid Checkout completion** | verified / **unknown** |
+| Current offer lock ⚠ R5 | **starting at $199/month per location; setup and custom work separate** — merged to production `main` by Anthony in PR #216 (`4905a36`, 2026-08-18 13:19 UTC) | verified |
 | Prospects in owner-review demo | Las Palmas (Lynnhaven), AJ Gator's (Holland Road) — live, `noindex`, client approval pending | verified |
-| Price band researched | $59–149/mo vs. Toast-tier $185–379/mo all-in | verified |
+| Price band researched | $59–149/mo vs. Toast-tier $185–379/mo all-in — market research only, **superseded as guidance** by the $199 offer lock | verified (as research) |
 | Local density | ~350 independent restaurants in Virginia Beach; Hampton Roads multiplies it | verified |
 | MRR, churn, CAC, demo→close rate | no authoritative finance/conversion dataset inspected | **unknown** |
 
 **PROPOSED Strategic Objective (inference — explicitly confirm or edit the numbers):**
 
 > By **2027-08-01**, Fina Calle serves **20 paying independent restaurant clients**
-> in Hampton Roads at a blended **$149/mo + setup**, delivered to the standard that
+> in Hampton Roads at the locked **$199/mo per location + setup**, delivered to the standard that
 > **a new signed client reaches a verified live portal in ≤5 business days** with
 > **zero founder bespoke production labor**, and every client has **per-client
 > engagement proof** (scans, plays, redemptions) visible in their own dashboard.

@@ -2327,3 +2327,22 @@ Next:
 - Anthony confirms or denies that he directed the Revision 4 push, then reviews PR #218.
 Blocked:
 - No merge, no ratification, no Stripe authorization, no live scheduling, no autonomy promotion.
+
+### [CHECK-OUT] Claude - 2026-08-18 - price anchors corrected after the $199 offer lock merged
+Trigger:
+- Scheduled check-in found production `main` had moved from `3dadb98` to `4905a36`: Anthony merged PR #216 "Standardize $199 restaurant offer and client delivery" himself at 2026-08-18 13:19 UTC, 52 files.
+Verified new offer:
+- `SALES_DEMO_CHECKLIST.md` now reads "Know the offer lock: starting at $199/month per location; setup and custom work separate", and the same wording appears in the English and Spanish talk tracks on `main`.
+Stale claim found and corrected in PR #218 (`OPERATIONS/E_MYTH/01_ORGANIZATION.md`, the only remaining file carrying it):
+- The Strategic Objective targeted a blended $149/mo; it now reads the locked $199/mo per location plus setup.
+- Added a verified anchor row recording the offer lock and its exact source commit.
+- The researched $59-149 band is retained but relabeled market research only, superseded as guidance.
+Deliberately NOT changed:
+- Colattao's $149/month stays, annotated as an existing client rate predating the lock. It is a historical record of what one client pays, not the current offer, and overwriting it would destroy evidence rather than correct it.
+Caretaker observations (cron `43 12,21` UTC):
+- Both 2026-08-18 slots fired: `bcdc114` at 12:49 UTC and `a8388bb` at 21:49 UTC. Each touched only `AUTOMATION_STATUS.md`.
+- Each again held new drafts rather than merging them (#220 Instagram DM ordering plan, #221 Order Drop demo). The draft-exemption safety property now has three consecutive positive observations (08-17 evening, 08-18 midday, 08-18 evening). Three is a count, not yet a rate.
+PR state:
+- #218 open, draft, mergeable clean at `5f87431` before this commit. #219 open, draft, `mergeable_state: clean` against the moved base; both checks were green on `2075f81`.
+Blocked, unchanged:
+- No merge, no ratification, no Stripe authorization, no live scheduling, no autonomy promotion, no change to the caretaker's owner-approved autonomy level.
