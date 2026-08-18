@@ -1,57 +1,39 @@
-# A.J. Gator's Holland Road - QR Landing Offer
+# A.J. Gator's Holland Road — QR Landing Offer
 
 Status: prospect concept; pending client approval.
 
-## Why this fits the current workflow
+## One promise
 
-A.J. Gator's already maintains a live online menu. The opportunity is not to replace it: one QR can send guests to that menu, three playable games, and an owner-controlled promotion board without requiring an app download or a POS change. This is a working proposal to validate with the owner, not a claim about their priorities or results.
+**One QR. Your menu. Three playable experiences. We handle the tech.**
 
-Verified proof: the unlisted Holland Road portal is live for review, its official-menu link works, and all three points-only games have passed phone and desktop interaction checks.
+The review portal links to A.J. Gator's existing online menu and includes three points-only games. The portal and games are live for owner review; owner approval and final terms are unknown.
 
-Evidence posture:
+## Starting at $199/month per location
 
-- Known: an official online menu exists; the review portal and three games work.
-- Inferred: a single menu/game/promotion landing page may be useful; confirm this with the owner.
-- Missing: owner approval, preferred promotion cadence, content approver, and final commercial terms.
+- One stable QR destination and mobile landing page.
+- Link to the owner-maintained menu.
+- Three existing points-only games.
+- Initial owner-approved promotion board.
+- Hosting, link support, and one routine copy update within the written scope.
 
-## Base - $150 per month, per location
+## Separately quoted
 
-- One stable QR destination and branded mobile landing page.
-- A prominent link to A.J. Gator's owner-maintained live menu.
-- Three playable, points-only games: sports trivia, fictional picks, and reflex challenge.
-- A promotions area with the initial owner-approved weekly board.
-- Hosting, uptime checks, QR destination support, and one small monthly copy correction.
+Setup beyond the base scope, weekly promotion management, table-specific routing, printing, photography, social posting, ads, custom games, and analytics reports.
 
-Not included: ordering, payments, POS integration, prizes, customer accounts, table service, social posting, photography, or ad spend.
+## Not included
 
-## Managed weekly promotions - add $75 per month
+Ordering, payments, POS, prizes, customer accounts, staff requests, personal-data collection, or guaranteed results.
 
-- Up to one owner-approved promotion change per week, maximum four per month.
-- Headline, offer details, dates, and one supplied image when available.
-- Scheduled removal or replacement of expired offers.
-- The printed QR stays unchanged.
+## Owner decision
 
-The restaurant supplies the final offer, dates, restrictions, price, and approval. AMMA does not publish an unapproved promotion or promise traffic, sales, or redemption results.
+Request the **$199/month plan in writing**, ask a question, or say not now. Nothing is activated or published until the owner approves the written scope.
 
-## First-30-day review
+## Experiment record
 
-Review QR availability, menu-link availability, game-function checks, approved promotion changes completed, and update turnaround. These operating checks do not imply a sales or customer-behavior result.
-
-## Clear owner decision
-
-- Core portal: $150 per month.
-- Core portal plus managed weekly promotions: $225 per month.
-- Table-specific service remains a separately scoped second wave with its own setup fee.
-
-Owner next step: choose `core`, `core + weekly promotions`, `questions`, or `not now`. Nothing is activated and no promotion is published until the owner approves the written scope and content.
-
-## One-variable field test
-
-- `hook_id`: `aj_existing_menu_one_qr_v1`
-- `proof_id`: `aj_live_hub_three_games_v1`
-- `cta_id`: `aj_choose_package_v1`
-- `offer_id`: `aj_150_weekly75_v1`
-- Variable: show the managed weekly promotion option versus the $150 core package alone.
-- Primary metric: owner selects a package or a dated next review.
-- Guardrail metric: owner can accurately state what is and is not included.
-- Stop rule: stop using the offer if the owner believes ordering, payments, POS, prizes, or unapproved promotions are included.
+- `hook_id`: `H-MENU-CONTROL-01`
+- `proof_id`: `P-AJ-LIVE-HUB-THREE-GAMES-01`
+- `cta_id`: `C-WRITTEN-199-01`
+- `offer_id`: `O-199-LOCATION-01`
+- Primary metric: owner accepts a dated review or requests the written plan.
+- Guardrail: owner can accurately state what is and is not included.
+- Stop: retire the offer if the owner believes ordering, payments, POS, prizes, table service, or custom game work is included.

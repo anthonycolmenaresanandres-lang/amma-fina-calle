@@ -50,10 +50,10 @@
 │                       │
 └───────────────────────┘
 ```
-- **EN:** "A playable branded mini-game demo — pick a keeper, take five shots."
+- **EN:** "A playable game-engine demo — pick a keeper, take five shots."
 - **ES:** "Un demo jugable de mini-juego con marca — elija un portero y tire cinco penales."
 - Proves: the engagement layer is real and fun. *Honest framing:* it's a playable **demo of the
-  game engine** — a client version would carry **their** brand. Not a finished client game.
+  game engine** — not a finished client game. Custom art or mechanics require a separate scope.
 
 ---
 

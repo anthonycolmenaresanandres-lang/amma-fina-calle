@@ -1,59 +1,38 @@
 # Pricing and Offer
 
-## 1. What the Client Gets
-- Branded mini-game experience tailored to the business identity.
-- Digital menu page.
-- QR signage flow for easy in-store access.
-- Owner presentation page for business-facing overview.
-- Feedback box for customer comments.
-- Basic anonymous analytics (traffic-level insights).
-- Clear update request workflow for ongoing edits.
+## Core offer
 
-## 2. Suggested Packages
-### Starter
-- Setup fee: $300-$500
-- Monthly maintenance: $35-$75
+**One QR. Your menu. A playable experience. We handle the tech.**
 
-### Premium
-- Setup fee: $750-$1,200
-- Monthly maintenance: $100-$200
+**Starting at $199/month per location.**
 
-### Custom
-- Quote-based (scope, timeline, and special requests)
+The written proposal defines setup, launch timing, update limits, and recurring terms before approval.
 
-## 3. Upsells
-- Sticker design package
-- Printed QR stands
-- Menu cleanup and restructuring
-- Monthly analytics report
-- Seasonal game copy updates
-- Future loyalty/reward feature expansion
+## Included in the base scope
 
-## 4. What Is Included in Monthly Maintenance
-- Small menu updates
-- Copy/text updates
-- Uptime checks
-- QR link support
-- Basic owner support
+- Branded mobile menu using owner-approved content.
+- One stable location QR destination and a print-ready QR file.
+- One existing playable game module, selected and verified before launch.
+- Private owner sign-in and menu-update access.
+- Hosting, link support, and routine menu/copy support within the written scope.
 
-## 5. What Is Not Included
-- Full website rebuild
-- Payment processing setup
-- POS integration
-- Backend loyalty database
-- Customer personal data collection unless separately scoped
+## Separately scoped and priced
 
-## 6. Suggested Colattao First-Client Price
-Use friendly pilot pricing to reduce launch friction and prove value quickly.
+- Setup beyond the written base scope.
+- Physical printing and table-specific QR routing.
+- Weekly promotion management and analytics reports.
+- Menu restructuring, photography, social posting, or ad work.
+- Custom game art, mechanics, rewards, or loyalty expansion.
 
-Recommended structure:
-- Low setup fee or free pilot setup
-- $50/month maintenance
-- Optional separate charge for printing/signage/sticker production
+## Not included
 
-This keeps entry costs approachable while establishing recurring service value.
+- Ordering, payments, checkout, or POS integration.
+- Customer accounts or personal-data collection.
+- Full website rebuilds or AI automation.
+- Guaranteed traffic, engagement, sales, or revenue results.
 
-## 7. Sales Positioning
-"This is not just a QR menu. It is a branded digital customer experience."
+## Sales positioning
 
-Use this message to frame the offer as customer engagement + brand experience, not just a static utility page.
+Show the live Colattao menu, label the game as a playable engine demo, and show only the owner sign-in screen. Then ask one voluntary question: **“Would you like the $199/month plan in writing?”**
+
+Do not describe setup, cancellation, custom work, or add-ons as included until the written proposal says so.

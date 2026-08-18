@@ -1,68 +1,41 @@
-# Objection Handling — Restaurants (EN / ES)
+# Restaurant Objections — Short Answers
 
-> Grounded in SALES_SCRIPT.md §6, PRICING_AND_OFFER.md, OWNER_DEMO_SCRIPT_ES.
-> Stay honest: never promise payments, POS, online ordering, AI, or guaranteed sales.
+Ask: **“Is the concern mainly fit, time, price, or trust?”** Answer only the concern the owner states.
 
-Before answering, ask one diagnostic question: **“Is the concern mainly time, fit, price, or trust?”** Record only what the owner states. Do not infer a personality, fear, or hidden motivation. Answer the stated concern, show one relevant proof, and ask for one next action.
+## “I already have a menu.”
 
----
+**EN:** “Good. We can link to it or build the agreed mobile menu. The goal is one useful QR destination, not unnecessary replacement work.”
 
-## "I already have a menu"
-**EN:** "Perfect — this isn't a paper-menu replacement. It's a *branded digital experience*
-behind one QR: a clean menu plus a playable mini-game demo, and a page where
-you update it yourself. It's already live for Colattao — want to see?"
-**ES:** "Perfecto — esto no reemplaza su menú de papel. Es una *experiencia digital con su
-marca* detrás de un QR: menú limpio más una demo jugable de mini-juego, y una
-página donde usted lo actualiza. Ya está en vivo para Colattao — ¿se lo muestro?"
+**ES:** “Perfecto. Podemos enlazarlo o crear el menú móvil acordado. La meta es un QR útil, no reemplazar algo sin necesidad.”
 
-## "I only use Instagram"
-**EN:** "Great — keep Instagram. Instagram brings attention; this is what happens *in your store*.
-The QR turns a scan into a branded experience and your menu. They work together — Instagram out,
-Fina Calle in-store."
-**ES:** "Excelente — siga con Instagram. Instagram atrae atención; esto es lo que pasa *dentro
-de su local*. El QR convierte un escaneo en una experiencia con marca y su menú. Se complementan
-— Instagram afuera, Fina Calle adentro."
+## “I use Instagram or a website.”
 
-## "I don't need a website"
-**EN:** "Agreed — this isn't a website and doesn't replace one. It's an in-store engagement layer
-most websites don't cover: menu + mini-game + an owner page, all from one QR."
-**ES:** "De acuerdo — esto no es una página web ni la reemplaza. Es una capa de interacción en el
-local que la mayoría de las webs no cubren: menú + mini-juego + página de dueño, todo desde un QR."
+**EN:** “Keep it. Fina Calle is the focused in-store phone experience; it does not have to replace your other channels.”
 
-## "I'm not technical"
-**EN:** "That's the whole point — *we handle the tech.* Setup, hosting, the link. Updating your
-menu is as simple as logging into your owner page, and we also do small updates for you each month."
-**ES:** "De eso se trata — *nosotros nos encargamos de la tecnología.* Instalación, hosting, el
-enlace. Actualizar su menú es tan simple como entrar a su página de dueño, y además hacemos
-pequeños cambios por usted cada mes."
+**ES:** “Consérvelo. Fina Calle es la experiencia enfocada dentro del local; no tiene que reemplazar sus otros canales.”
 
-## "How much?"
-**EN:** "There are Starter and Premium options depending on how custom you want it, plus a
-predictable monthly maintenance. A bounded pilot is available so you can evaluate the fit before
-a larger commitment. I'll put the exact numbers and recurring terms in writing for you."
-**ES:** "Hay opciones Starter y Premium según qué tan personalizado lo quiera, más un mantenimiento
-mensual predecible. Hay un piloto con alcance limitado para evaluar si encaja antes de un compromiso
-mayor. Le paso por escrito los números exactos y los términos recurrentes."
-*(Reference figures: FEATURE_STATUS_TABLE.md / PRICING_AND_OFFER.md. Don't improvise high numbers.)*
+## “I am not technical.”
 
-## "Maybe later"
-**EN:** "No problem — I'll keep it on standby for your next promo cycle. Can I leave you the live
-demo (finacalleos.com/m/colattao) and check back in a couple weeks?"
-**ES:** "Sin problema — lo dejo en espera para su próxima campaña. ¿Le dejo la demo en vivo
-(finacalleos.com/m/colattao) y le escribo en un par de semanas?"
+**EN:** “We handle hosting and link support. You receive private owner access, and the written scope explains who handles each update.”
 
-## "I had a bad experience with websites"
-**EN:** "Totally fair — that's exactly why we keep this light. No big rebuild, no headaches: one
-QR, a clean menu, a fun mini-game, and a page you control. And it's already proven live with a
-local café, Colattao — not a promise, a working example."
-**ES:** "Muy entendible — por eso lo mantenemos liviano. Sin reconstrucción grande, sin dolores de
-cabeza: un QR, un menú limpio, un mini-juego, y una página que usted controla. Y ya está probado en
-vivo con un café local, Colattao — no es una promesa, es un ejemplo que funciona."
+**ES:** “Nosotros manejamos el hosting y el soporte del enlace. Usted recibe acceso privado, y el alcance escrito explica quién hace cada cambio.”
 
----
+## “How much?”
 
-### Guardrails for every objection
-- Don't counter with payments/POS/online-ordering/AI/guaranteed-sales claims.
-- When in doubt, fall back to the proof: **finacalleos.com/m/colattao** (real, live).
-- "We handle the tech" + "no headache" is your anchor tone.
-- Never use a diagnostic answer to pressure the owner; use it only to choose relevant proof.
+**EN:** “Starting at **$199/month per location**. Setup and custom work are quoted separately. You review the scope, recurring terms, and exclusions before deciding.”
+
+**ES:** “Desde **$199 al mes por local**. La instalación y el trabajo personalizado se cotizan por separado. Usted revisa el alcance, los términos y las exclusiones antes de decidir.”
+
+## “Maybe later.”
+
+**EN:** “No problem. Keep the live proof. Would you like a dated check-in, or should I close the loop?”
+
+**ES:** “Sin problema. Guarde la prueba en vivo. ¿Prefiere una fecha para revisarlo o cerramos por ahora?”
+
+## “I do not trust website vendors.”
+
+**EN:** “Fair. I will show one live menu, one labeled demo, and the written boundaries. You can review them before approving anything.”
+
+**ES:** “Es válido. Le mostraré un menú en vivo, una demo identificada y los límites por escrito. Puede revisarlos antes de aprobar.”
+
+Never add urgency, hidden terms, ordering, payments, POS, custom-game promises, personal-data claims, or guaranteed results.

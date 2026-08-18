@@ -10,13 +10,16 @@ Your private [Business Name] owner portal is ready:
 
 Sign in with **[Owner Email]** and the temporary password AMMA provides through a separate, verified channel. The first time you sign in, the portal will require you to create your own private password before any account tools open.
 
+Your launch package also includes an internal owner QR that points to the same portal URL. The QR is only a shortcut to the sign-in page; it contains no password and does not grant access by itself.
+
 Use the portal to:
 
-- review your menu and business information;
-- request menu, image, price, or availability changes;
-- check request progress;
+- submit one complete menu, image, price, hours, or availability request with supporting files;
+- review request history and status;
 - view billing status and recurring-payment options;
 - report a Zelle payment when that option is available for your account.
+
+After creating your private password, please confirm that the portal shows the correct business and expected sections.
 
 For security, do not share your login, save it on a public device, or email your password. Sign out when using a shared computer. AMMA will never ask you to send us your private password.
 
@@ -30,6 +33,7 @@ Need help? Reply to this email or contact [AMMA Support Phone/Email].
 
 - Replace every bracketed field.
 - Verify the recipient matches the restaurant’s `owner_emails` record.
+- Verify the owner QR decodes to the exact canonical HTTPS owner URL and contains no credential, email, token, session, PII, or tracking query.
 - Never include the temporary password in this email.
 - Deliver the temporary password separately.
 - Confirm the account has `owner_password_reset_required: true` before sending.

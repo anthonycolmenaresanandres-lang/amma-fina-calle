@@ -74,9 +74,8 @@ Recolecte siempre: **nombre, WhatsApp/teléfono, Instagram del negocio, mejor ho
 ---
 
 ## 8. Precio (si lo preguntan — NO empiece por aquí)
-"Hay opción Starter y Premium según qué tan personalizado, más un mantenimiento mensual
-predecible. Para empezar suele ser un piloto sencillo. Le paso el detalle por escrito."
-(Cifras de referencia en `FEATURE_STATUS_TABLE.md` / PRICING_AND_OFFER.md. No improvise números altos.)
+"Empieza en **$199 al mes por local**. La instalación y el trabajo personalizado se cotizan
+por separado. Le entrego el alcance, los términos recurrentes y las exclusiones por escrito."
 
 ---
 
@@ -85,4 +84,4 @@ predecible. Para empezar suele ser un piloto sencillo. Le paso el detalle por es
 - ❌ "Garantiza más ventas" → nunca garantice resultados.
 - ❌ "Recoge datos de sus clientes" → no, y es un punto de venta a favor.
 - ❌ No muestre /customers a un prospecto.
-- ✅ Sí diga: "menú digital + mini-juego con marca + página de dueño, ya en vivo para Colattao."
+- ✅ Sí diga: "menú en vivo + demo jugable identificada + acceso privado de dueño."
