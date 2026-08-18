@@ -2355,3 +2355,22 @@ State / next:
 Blocked / stop:
 - Setup fee, print vendor/quantity/cost, recurring start date, and client-specific selections remain proposal fields, not assumed defaults.
 - No account was created, no credential handled, no print ordered, no customer contacted, no billing activated, and no merge/deploy performed.
+
+### [RELEASE GATE] Codex - 2026-08-18 09:16 EDT - merge PR #216
+
+Authority:
+- Anthony explicitly authorized the production merge with `Merge` on 2026-08-18.
+
+Exact pre-release state:
+- Draft PR #216 is open, cleanly mergeable into `main`, and its reviewed content head is `e03ee68b36c501c64bca5a6c51ea635a207b166d`.
+- The diff is sales/operations documentation, two print-asset generator scripts, and regenerated print assets; `APP/web` has no diff.
+- Vercel and Vercel Preview Comments are green; there are no reviews, requested changes, or unresolved review comments.
+- `git diff --check`, Python in-memory compilation for both changed generators, ESLint, `tsc --noEmit`, and the Next.js production build pass. ESLint reports seven pre-existing warnings and zero errors.
+
+Release scope:
+- Commit this authorization record, require green checks on the resulting exact head, mark PR #216 ready, and squash-merge only PR #216 into `main`.
+- After merge, verify GitHub reports the PR merged and `origin/main` contains the resulting merge commit.
+
+Hard stop:
+- Stop before remediation on any head change, failed check, conflict, new review objection, unexpected application/protected-surface diff, or merge divergence.
+- No customer contact, printing purchase, account/access action, billing activation, credential handling, or unrelated production mutation.
