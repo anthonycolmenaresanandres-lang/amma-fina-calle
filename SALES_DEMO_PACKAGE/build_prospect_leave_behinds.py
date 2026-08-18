@@ -186,12 +186,12 @@ def draw_sheet(record: dict[str, Any], fonts: dict[str, str]) -> Path:
     centered(page, "SCAN NOW  /  ESCANEE AHORA", 333, fonts["body_bold"], 7.2, accent, 0.5)
     centered(page, record["demo_url"].replace("https://", ""), 317, fonts["body"], 6.5, MUTED_LIGHT)
 
-    centered(page, "MENU + BRANDED GAME", 269, fonts["body_bold"], 8.2, MUTED_DARK, 1.0)
-    centered(page, "$150", 213, fonts["display"], 49, INK)
-    centered(page, "PER MONTH  /  PER LOCATION", 190, fonts["body_bold"], 8.6, MUTED_DARK, 0.8)
+    centered(page, "MENU + PLAYABLE MODULE", 269, fonts["body_bold"], 8.2, MUTED_DARK, 1.0)
+    centered(page, "$199", 213, fonts["display"], 49, INK)
+    centered(page, "STARTING MONTHLY  /  PER LOCATION", 190, fonts["body_bold"], 8.6, MUTED_DARK, 0.8)
     centered(
         page,
-        "MOBILE MENU  /  GAME  /  HOSTING  /  ROUTINE UPDATES",
+        "MOBILE MENU  /  EXISTING GAME  /  HOSTING  /  LINK SUPPORT",
         167,
         fonts["body_bold"],
         7.3,
@@ -204,10 +204,10 @@ def draw_sheet(record: dict[str, Any], fonts: dict[str, str]) -> Path:
     centered(page, record["offer_note"], 130, fonts["body_bold"], 7.2, MUTED_DARK, 0.65)
 
     if record["table_offer"]:
-        centered(page, "$300 SETUP + $5 / TABLE / MONTH", 105, fonts["display"], 16, INK, 0.05)
+        centered(page, "TABLE SERVICE: WRITTEN QUOTE", 105, fonts["display"], 16, INK, 0.05)
         centered(
             page,
-            "STABLE TABLE QR FILES  /  MENU + GAME  /  LAUNCH TESTING",
+            "TABLE-SPECIFIC QR  /  LAUNCH TESTING  /  PRINTING SEPARATE",
             87,
             fonts["body_bold"],
             6.5,
@@ -228,7 +228,7 @@ def draw_sheet(record: dict[str, Any], fonts: dict[str, str]) -> Path:
 
     centered(
         page,
-        "ORDER / PAY / STAFF REQUESTS / POS REQUIRE A SEPARATE OWNER + PROVIDER SCOPE.",
+        "ORDER / PAY / STAFF REQUESTS / POS ARE NOT INCLUDED IN THE BASE PLAN.",
         62,
         fonts["body_bold"],
         6.2,
@@ -237,7 +237,7 @@ def draw_sheet(record: dict[str, Any], fonts: dict[str, str]) -> Path:
     )
     centered(
         page,
-        "ANTHONY RETURNS WEDNESDAY  /  15-MINUTE REVIEW  /  NO OBLIGATION",
+        "15-MINUTE OWNER REVIEW  /  WRITTEN SCOPE  /  NO OBLIGATION",
         39,
         fonts["body_bold"],
         7.0,
