@@ -24,6 +24,13 @@ Reusable modules planned for AMMA/Fina Calle:
   checks) built and unit-tested in `services/voice-gateway/src/checkin/`, but not wired
   into any live phone/chat tool; real go-live is blocked on the client's booking-system
   API access, which has no committed timeline — planned/in development only)
+- Instagram DM Ordering / Order Core (PLANNED — plan `INSTAGRAM_DM_ORDERING_PLAN.md`;
+  turns a client's Instagram DMs into a commission-free ordering channel. Key decision: build
+  a transport-agnostic **Order Core** with hosted Stripe Connect checkout first — it earns from
+  QR/link-in-bio with no Meta dependency — then attach Instagram DM as one transport. Meta's
+  "Order Food" button is a closed partner list and is not available to AMMA; out-of-window
+  order-status DMs are impossible since the 2026-04-27 message-tag deprecation, so status goes
+  by SMS/email. Nothing built; blocked on Anthony for the Meta app, Stripe Connect, and pricing)
 - Fina Calle SoundGate (R&D — concept `FINA_CALLE_SOUNDGATE_CONCEPT.md`; human turn-taking
   layer for the phone assistant: listen/wait/ignore-noise/stop/ask-to-repeat. First slice
   shipped in `services/voice-gateway` — the `bargeInMinMs` barge-in debounce over the
