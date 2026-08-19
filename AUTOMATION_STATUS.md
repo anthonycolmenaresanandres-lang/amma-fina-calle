@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-19 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** One change since the 08-18 evening run, on amma: **draft PR #218 ("E-Myth Revision 4") got one new docs-only commit** — `e1b1fbe` (08-18 22:03 UTC, authored by "Claude"/Opus 5): _"docs(e-myth): correct price anchors after the $199 offer lock merged."_ It updates `OPERATIONS/E_MYTH/01_ORGANIZATION.md`'s Strategic Objective from a blended ~$149/mo to the now-live locked **$199/mo per location + setup** (via merged #216), adds a verified anchor row citing the source commit, relabels the researched $59–149 band as market-research-only, and **deliberately preserves Colattao's $149/mo** as an annotated existing-client rate (historical record, not the current offer). Docs-only, guardrail-clean (no code/route/Supabase/Stripe/POS/secret/customer/QR change); Vercel Ready ✅, `mergeable_state: clean`; path-filtered so no `CI — web`/`CI — voice-gateway` run (expected). #218 now **6 commits**; **still held as Anthony's draft — not caretaker-merged**, and its **open governance question is unchanged** (the earlier Revision-4 commits authored by "Clone"). **No new merges to `main`** (still **`4905a364`**, #216), **no new PRs**, **no new human review comments** (only Vercel-bot; #218 was the only PR whose `updated_at` moved). **VBFH Daily Run: latest completed 08-18 (12:52 UTC, run #76) SUCCEEDED** — ~**thirty** green in a row (07-21…08-18); the 08-19 run had not yet fired at check time (before its ~12:5x UTC schedule) — expected, will re-verify next run. Other default branches unchanged & re-verified via API: vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅ (master push 07-30); amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs). No merge-conflict/base-branch notices. **#218's governance question stays open** (unchanged — see below). **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
+**Last updated:** 2026-08-19 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** **Nothing changed since the 08-19 morning run** except one confirmation: **the 08-19 VBFH Daily Run has now fired and SUCCEEDED** — completed **08-19 12:53 UTC (run #77)**, `conclusion: success` — which the morning check (run before the ~12:5x UTC schedule) could not yet confirm. That extends the streak to **~thirty-one green in a row** (07-21…08-19). No new merges to `main` (still **`4905a364`**, #216), **no new PRs**, **no new commits on any default branch**, **no new review comments** (no draft's `updated_at` moved since the morning run — #218's `e1b1fbe` price-anchor commit was already logged then). The six open drafts (#221, #220, #219, #218, #215, #197) are all still Vercel Ready ✅ and held as Anthony's drafts — none caretaker-merged. #218's **open governance question is unchanged** (its earlier Revision-4 commits authored by "Clone"). Default branches re-verified via API this run: amma `4905a364` (#216), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅ (master push 07-30); amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs); all six PR check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -32,9 +32,9 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    That direction isn't recorded in the session that opened the PR, and `CLAUDE.md` scopes Clone to **watching**,
    not authoring. A claim of authorization written inside the artifact it authorizes isn't independent proof.
    **Did you direct that revision?** If yes, it's fine and it stays a held draft for your merge call. If no,
-   you may want to close it / reset the branch. I've taken no action either way. _(A new docs-only price-anchor
-   commit `e1b1fbe` landed on this branch 08-18 22:03 UTC — authored by "Claude", not "Clone" — correcting the
-   E_MYTH doc to the locked $199 offer; it does not change the governance question above.)_
+   you may want to close it / reset the branch. I've taken no action either way. _(The docs-only price-anchor
+   commit `e1b1fbe` — authored by "Claude", not "Clone" — correcting the E_MYTH doc to the locked $199 offer
+   does not change the governance question above.)_
 
 🆕 **Demo redesign — your review & merge call (draft PR #219 "Las Palmas lotería hero").**
    This is a direct answer to your *"the demos look ugly and unoriginal"* critique. Draft **PR #219**
@@ -101,8 +101,8 @@ skin, #204/#205 QR proof leave-behinds, #206/#207 B&W QR handouts) all merged by
 _Resolved / no action:_ **#217 "E-Myth organizational layer" merged 08-17** — documentation only
 (`OPERATIONS/E_MYTH/01_ORGANIZATION.md`…`04_AUTOMATION_ROLLOUT.md`), explicitly "no product, data,
 integration, secret, access, billing, customer-contact, QR-destination, or production change," approved by
-Anthony in the PR body → his own merge, no caretaker action. **VBFH Daily Run stays GREEN** — 08-18 12:52 UTC
-run #76 succeeded (~thirty in a row). The voice-gateway personality wave
+Anthony in the PR body → his own merge, no caretaker action. **VBFH Daily Run stays GREEN** — 08-19 12:53 UTC
+run #77 succeeded (~thirty-one in a row). The voice-gateway personality wave
 Anthony merged himself (#212 French volleyball, #213 Larissa off-grid, #214 tester-back-to-vbfh) is
 config-only, all CI green post-merge, his own call. The earlier owner-portal wave (#208 redesign, #209
 centralize requests / remove campaigns, #210 simplify, #211 docs release) is his own call on protected routes;
@@ -114,12 +114,12 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-19, morning)
+## Build health (as of 2026-08-19, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since. Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, **+1 new docs commit `e1b1fbe` since last run**), **#215** Table Duel (`web` CI ✅) and **#197** docs. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-18 12:52 UTC SUCCEEDED (run #76)** (07-21…08-18 all ✅ — ~**thirty green in a row**); the 08-19 run had not fired at check time (before ~12:5x UTC), will re-verify next run. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since. Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No draft's `updated_at` moved since the 08-19 morning run. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-19 12:53 UTC SUCCEEDED (run #77)** (07-21…08-19 all ✅ — ~**thirty-one green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -156,7 +156,7 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
   **Vercel Ready ✅**, `mergeable_state: clean`. **Held — draft.** Nothing to fix; Anthony's review/merge call.
 - **amma #218 (draft, docs-only) — "ops: E-Myth Revision 4 — evidence-bound automation controls."** Opened
   08-17 12:47 UTC. Head `claude/e-myth-ai-automation-gcetx0`. Documentation only under `OPERATIONS/E_MYTH`
-  (five docs + README) + `OPERATIONS/HANDOFF_LOG.md`; **now 6 commits** — latest **`e1b1fbe`** (08-18 22:03 UTC,
+  (five docs + README) + `OPERATIONS/HANDOFF_LOG.md`; **6 commits** — latest **`e1b1fbe`** (08-18 22:03 UTC,
   authored by "Claude"/Opus 5): _"docs(e-myth): correct price anchors after the $199 offer lock merged,"_ which
   updates `01_ORGANIZATION.md`'s Strategic Objective from a blended ~$149/mo to the now-live locked **$199/mo
   per location + setup**, adds a verified anchor row, relabels the $59–149 band as market-research-only, and
@@ -266,6 +266,20 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-19 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing. Nothing changed since the 08-19 morning run** except one confirmation: **the 08-19 VBFH Daily Run
+  fired and SUCCEEDED** — completed **08-19 12:53 UTC (run #77), `conclusion: success`** — which the morning
+  check (run before the ~12:5x UTC schedule) could not yet confirm; the streak is now ~**thirty-one green in a
+  row** (07-21…08-19). **No new merges to `main`** (still `4905a364`, #216), **no new PRs**, **no new commits
+  on any default branch**, **no new review comments** (no draft's `updated_at` moved since the morning run —
+  #218's `e1b1fbe` price-anchor commit was already logged then). Default branches re-verified via API this run:
+  amma `4905a364`, vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI —
+  voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅
+  on all six); vbfh CI ✅ (master push 07-30). shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to
+  verify. No merge-conflict/base-branch notices. #218's governance question stays open (unchanged). #29 stays
+  closed. Branch cleanup still 403-blocked (awaiting Anthony's local paste; the six open draft heads
+  #221/#220/#219/#218/#215/#197 excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
+  Day 06, image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-19 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** One change since the 08-18 evening run, on amma: **draft PR #218 ("E-Myth Revision 4") got one new
   docs-only commit** — `e1b1fbe` (08-18 22:03 UTC, authored by "Claude"/Opus 5): _"docs(e-myth): correct price
