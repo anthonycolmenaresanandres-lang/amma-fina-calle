@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-20 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing. Nothing changed since the 08-19 evening run.** No new merges to `main` (still **`4905a364`**, #216 — re-verified via API this run), **no new PRs** (same six open drafts), **no new commits on any default branch**, **no new review comments** (no draft's `updated_at` has moved since 08-18 — the newest is #218's `e1b1fbe` at 08-18 22:04, already logged). The six open drafts (#221, #220, #219, #218, #215, #197) are all still Vercel Ready ✅ and held as Anthony's drafts — none caretaker-merged. #218's **open governance question is unchanged**. Default branches re-verified via API this run: amma `4905a364` (#216), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs); all six PR check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **VBFH Daily Run stays GREEN** — latest completed **08-19 12:53 UTC (run #77) SUCCEEDED**; the 08-20 run had not yet fired at check time (before the ~12:5x UTC schedule) and will be re-verified next run — streak stands at **~thirty-one green in a row** (07-21…08-19). **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
+**Last updated:** 2026-08-20 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** Two changes since the 08-20 morning run, both on amma and both benign: **(1) one new *open* draft PR, held — #222** "feat(cafe-rush): reusable catch game with Colattao design as the standard" (opened 08-20 18:06 UTC; 6 files, +1062; `web` CI ✅ + Vercel Ready ✅; `mergeable_state: clean`; guardrail-clean — see below); **(2) the 08-20 VBFH Daily Run fired and SUCCEEDED** (run #78, 08-20 12:55 UTC), which the morning check (run before the schedule) could not yet confirm — the streak is now **~thirty-two green in a row** (07-21…08-20). No new merges to `main` (still **`4905a364`**, #216 — re-verified via API this run), **no new commits on any other default branch**, **no new review comments** (no other draft's `updated_at` has moved since 08-18). The **seven** open drafts (#222, #221, #220, #219, #218, #215, #197) are all still Vercel Ready ✅ and held as Anthony's drafts — none caretaker-merged. #218's **open governance question is unchanged**. Default branches re-verified via API this run: amma `4905a364` (#216), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs); all seven PR check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The seven open PR heads (#222, #221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -11,6 +11,21 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 ---
 
 ## 👉 What Anthony needs to do right now
+
+🆕 **New demo for review — Café Rush catch game (draft PR #222).**
+   Draft **PR #222** (`amma-fina-calle`, branch `claude/blissful-darwin-gfrwfd`) answers your direction
+   *"make Colattao the design standard and customize Las Palmas and A.J. Gator's to match it."* Because the
+   live Colattao Café Rush game lives in a **separate app** (`colattao-cafe-rush.vercel.app`) whose physical
+   QR must not change and which this repo can't reach, the buildable answer is a **native, reusable catch
+   game** inside Fina Calle (same "frozen engine + layered skin" pattern as Penalty Shootout): a new
+   internal, unlinked, `noindex` `/cafe-rush` route with four skins — **Colattao** (the standard:
+   parchment/gold/espresso), plus **Las Palmas** and **A.J. Gator's** re-skinned to match, both flagged
+   *prospect / pending client approval*. **Guardrail-clean:** NEW additive route (no rename/migration),
+   **Colattao's in-store QR still points to `colattao-cafe-rush.vercel.app/menu` — unchanged**; no Client OS
+   route, Supabase, Stripe, POS, secret, or customer data; all falling items are **primitive-drawn vectors**
+   (no 404 possible), no client logos generated. `web` CI ✅, Vercel Ready ✅, `mergeable_state: clean`.
+   **Held as your draft — I don't auto-merge it.** Your call: open the preview
+   (`/cafe-rush?skin=colattao|laspalmas|ajgators`) and merge if you like it, or tell me what to change.
 
 🆕 **New plan for review — Instagram DM ordering (draft PR #220, docs-only, no decision forced now).**
    Draft **PR #220** (`amma-fina-calle`, branch `claude/instagram-dm-ordering-m8i210`) answers your question of
@@ -47,7 +62,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    **Held as your draft — I don't auto-merge it.** Your call: view the preview and merge if you like it, or
    tell me what to change.
 
-🆕 **New demo for review — Order Drop (draft PR #221, "#220 slice").**
+🆕 **Demo for review — Order Drop (draft PR #221, "#220 slice").**
    Draft **PR #221** (`amma-fina-calle`, branch `claude/blissful-darwin-gtt3su`) is the lightest, ship-this-week
    slice of the #220 plan: a static prospect demo where a Colattao **Churro Latte** promo hands the customer
    straight to **Uber Eats** (where payment + delivery already exist) — "2 taps from post to placed order," no
@@ -86,7 +101,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
     `git push --delete` returns **HTTP 403 from the session's git proxy** (server-side, regardless of
     permission), and the GitHub tooling here has no branch-delete API. The refreshed safe-to-delete set is
     in the paste-ready commands below (includes the five branches from #201–#207, and **excludes** the
-    six open draft heads #221/#220/#219/#218/#215/#197); they'll run fine from your local clone.
+    seven open draft heads #222/#221/#220/#219/#218/#215/#197); they'll run fine from your local clone.
     (#216's head `claude/blissful-darwin-phv15u` is now merged — safe to delete, but left off the list until
     the set is re-verified next run.)
 
@@ -101,8 +116,7 @@ skin, #204/#205 QR proof leave-behinds, #206/#207 B&W QR handouts) all merged by
 _Resolved / no action:_ **#217 "E-Myth organizational layer" merged 08-17** — documentation only
 (`OPERATIONS/E_MYTH/01_ORGANIZATION.md`…`04_AUTOMATION_ROLLOUT.md`), explicitly "no product, data,
 integration, secret, access, billing, customer-contact, QR-destination, or production change," approved by
-Anthony in the PR body → his own merge, no caretaker action. **VBFH Daily Run stays GREEN** — 08-19 12:53 UTC
-run #77 succeeded (~thirty-one in a row). The voice-gateway personality wave
+Anthony in the PR body → his own merge, no caretaker action. The voice-gateway personality wave
 Anthony merged himself (#212 French volleyball, #213 Larissa off-grid, #214 tester-back-to-vbfh) is
 config-only, all CI green post-merge, his own call. The earlier owner-portal wave (#208 redesign, #209
 centralize requests / remove campaigns, #210 simplify, #211 docs release) is his own call on protected routes;
@@ -114,17 +128,29 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-20, morning)
+## Build health (as of 2026-08-20, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since (re-verified via API this run). Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No draft's `updated_at` has moved since 08-18. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-19 12:53 UTC SUCCEEDED (run #77)** (07-21…08-19 all ✅ — ~**thirty-one green in a row**); the 08-20 run had not fired at check time (before ~12:5x UTC), will re-verify next run. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since (re-verified via API this run). Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing merged since touched web paths). **Seven** open drafts held, all Vercel Ready ✅: **#222** Café Rush catch game (`web` CI ✅, product UI, guardrail-clean, NEW this run), **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No other draft's `updated_at` has moved since 08-18. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-20 12:55 UTC SUCCEEDED (run #78)** (07-21…08-20 all ✅ — ~**thirty-two green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
+- **amma #222 (draft) — "feat(cafe-rush): reusable catch game with Colattao design as the standard."**
+  Opened 08-20 18:06 UTC. Head `claude/blissful-darwin-gfrwfd`. 6 files (+1062): new `APP/web/src/caferush/`
+  engine (`types.ts`, `config.ts`, `skins.ts`, `CafeRushScene.ts` — mirrors `src/penalty/`) + new internal,
+  unlinked, `noindex` `/cafe-rush` route (`page.tsx`, `CafeRushClient.tsx`). A reusable "catch the falling
+  items" mini-game with a frozen engine + four layered skins: **Colattao** (the design standard —
+  parchment/gold/espresso from the verified Colattao menu system), plus **Las Palmas** and **A.J. Gator's**
+  re-skinned to match, both `prospect: true` (render "Pending client approval · Demo only"). **Guardrail-clean:**
+  NEW additive route (not a rename/migration); **Colattao's in-store QR still points to
+  `colattao-cafe-rush.vercel.app/menu` — unchanged**; no Client OS route (`/m`,`/owner`,`/customers`),
+  Supabase, Stripe, POS, secret, or customer data; every falling item + catcher is a **primitive-drawn vector**
+  (no image asset → no 404 possible), no client logos generated. **`web` CI ✅**, **Vercel Ready ✅**,
+  `mergeable_state: clean`. **Held — draft** (product UI, Anthony's review/merge call). Nothing to fix.
 - **amma #221 (draft) — "feat(demo): Order Drop — one-item Instagram → Uber Eats seamless flow (#220 slice)."**
   Opened 08-18. Head `claude/blissful-darwin-gtt3su`. 3 files (+1299), all under
   `APP/web/src/app/(internal)/demo/order-drop/` (`page.tsx`, `OrderDropDemo.tsx`, `order-drop.module.css`).
@@ -180,7 +206,7 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
 
 ## Merged / closed since last run
 
-**None.** No merges or closes since the 08-19 evening run. `main` stays at **`4905a364`** (#216, merged by
+**None.** No merges or closes since the 08-20 morning run. `main` stays at **`4905a364`** (#216, merged by
 Anthony 08-18 13:19 UTC). See "Earlier merged" for the standing history.
 
 ### Earlier merged
@@ -233,14 +259,15 @@ Anthony 08-18 13:19 UTC). See "Earlier merged" for the standing history.
 Anthony has approved deletion, but the session git proxy returns **HTTP 403 on any `push --delete`**
 (server-side block, independent of permission), and the GitHub tooling here has no branch-delete API. The
 commands below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`,
-`automation/status`, `claude/*` caretaker branches, **the six open draft heads `claude/instagram-dm-ordering-m8i210`
-(#220), `claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218),
-`claude/blissful-darwin-gtt3su` (#221), `claude/table-duel` (#215) and `claude/las-palmas-menu-game-59vtbg`
-(#197)** (deleting any closes its open draft), unmerged `voice/*` (Anthony's judgment) and the unproven
-squash-merged exploration sets. The #201–#207 heads are merged and safe. The #208–#211
-codex heads (`codex/owner-portal-comic-20260804`, `codex/owner-request-intake-20260805`) are also merged.
-The #212–#214 voice heads (`voice/volleyball-fr`, `voice/larissa-offgrid`, `voice/vbfh-return`) are now merged too.
-The #216 head `claude/blissful-darwin-phv15u` is merged and safe (left off the list below until re-verified).
+`automation/status`, `claude/*` caretaker branches, **the seven open draft heads `claude/blissful-darwin-gfrwfd`
+(#222), `claude/instagram-dm-ordering-m8i210` (#220), `claude/las-palmas-loteria-hero` (#219),
+`claude/e-myth-ai-automation-gcetx0` (#218), `claude/blissful-darwin-gtt3su` (#221), `claude/table-duel` (#215)
+and `claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any closes its open draft), unmerged `voice/*`
+(Anthony's judgment) and the unproven squash-merged exploration sets. The #201–#207 heads are merged and safe.
+The #208–#211 codex heads (`codex/owner-portal-comic-20260804`, `codex/owner-request-intake-20260805`) are also
+merged. The #212–#214 voice heads (`voice/volleyball-fr`, `voice/larissa-offgrid`, `voice/vbfh-return`) are now
+merged too. The #216 head `claude/blissful-darwin-phv15u` is merged and safe (left off the list below until
+re-verified).
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -266,49 +293,50 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-20 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing.** Two benign changes since the 08-20 morning run, both on amma: **(1) one new *open* draft PR, held —
+  #222** "feat(cafe-rush): reusable catch game with Colattao design as the standard" (08-20 18:06 UTC; 6 files
+  under `APP/web/src/caferush/` + `/cafe-rush` route, +1062; a reusable Phaser catch game with Colattao as the
+  design standard + Las Palmas/A.J. Gator's prospect skins; `web` CI ✅ + Vercel Ready ✅; `mergeable_state:
+  clean`; **guardrail-clean** — NEW additive `/cafe-rush` route, unlinked + `noindex`, **Colattao in-store QR
+  unchanged** (`colattao-cafe-rush.vercel.app/menu`), no Client OS/Supabase/Stripe/POS/secret/customer data,
+  primitive art / no client logos, prospect skins carry pending-approval banner). Held as Anthony's draft — not
+  caretaker-merged. **(2) the 08-20 VBFH Daily Run fired and SUCCEEDED** — run #78, 08-20 12:55 UTC,
+  `conclusion: success` — which the morning check (run before the ~12:5x UTC schedule) could not yet confirm;
+  streak now ~**thirty-two green in a row** (07-21…08-20). **No new merges to `main`** (still `4905a364`, #216 —
+  re-verified via API), **no new commits on any other default branch**, **no new review comments** (no other
+  draft's `updated_at` has moved since 08-18). Default branches re-verified via API: amma `4905a364`, vbfh
+  `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all
+  seven open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all seven); vbfh CI ✅
+  (master push 07-30). shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No
+  merge-conflict/base-branch notices. #218's governance question stays open (unchanged). #29 stays closed.
+  Branch cleanup still 403-blocked (awaiting Anthony's local paste; the seven open draft heads excluded).
+  Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant
+  submission, branch cleanup).
 - **2026-08-20 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing. Nothing changed since the 08-19 evening run.** **No new merges to `main`** (still `4905a364`, #216 —
-  re-verified via API), **no new PRs** (same six open drafts #221/#220/#219/#218/#215/#197), **no new commits on
-  any default branch**, **no new review comments** (no draft's `updated_at` has moved since 08-18; the newest is
-  #218's `e1b1fbe` at 08-18 22:04, already logged). Default branches re-verified via API: amma `4905a364`, vbfh
-  `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all
-  six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all six); vbfh CI ✅ (master
-  push 07-30). **VBFH Daily Run: latest completed 08-19 12:53 UTC (run #77) SUCCEEDED** — ~thirty-one green in a
-  row; the 08-20 run had not fired at check time (before ~12:5x UTC), will re-verify next run. shadow &
-  EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices. #218's
-  governance question stays open (unchanged). #29 stays closed. Branch cleanup still 403-blocked (awaiting
-  Anthony's local paste; the six open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets,
-  Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
+  re-verified via API), **no new PRs** (six open drafts #221/#220/#219/#218/#215/#197 at that time), **no new
+  commits on any default branch**, **no new review comments**. Default branches re-verified via API. amma
+  `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green; vbfh CI ✅ (master push
+  07-30). **VBFH Daily Run: latest completed 08-19 12:53 UTC (run #77) SUCCEEDED**; the 08-20 run had not fired
+  at check time (before ~12:5x UTC). #218's governance question stayed open. #29 stays closed. Branch cleanup
+  still 403-blocked.
 - **2026-08-19 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing. Nothing changed since the 08-19 morning run** except one confirmation: **the 08-19 VBFH Daily Run
   fired and SUCCEEDED** — completed **08-19 12:53 UTC (run #77), `conclusion: success`** — which the morning
-  check (run before the ~12:5x UTC schedule) could not yet confirm; the streak is now ~**thirty-one green in a
-  row** (07-21…08-19). **No new merges to `main`** (still `4905a364`, #216), **no new PRs**, **no new commits
-  on any default branch**, **no new review comments** (#218's `e1b1fbe` price-anchor commit was already logged
-  in the morning run). amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green;
-  vbfh CI ✅. #218's governance question stays open. #29 stays closed. Branch cleanup still 403-blocked.
-- **2026-08-19 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** One change since the 08-18 evening run, on amma: **draft PR #218 ("E-Myth Revision 4") got one new
-  docs-only commit** — `e1b1fbe` (08-18 22:03 UTC, authored by "Claude"/Opus 5): _"docs(e-myth): correct price
-  anchors after the $199 offer lock merged."_ Docs-only, guardrail-clean, Vercel Ready ✅; path-filtered so no
-  CI run. #218 is now 6 commits; **still held as Anthony's draft**, governance question **unchanged**. No new
-  merges to `main`, no new PRs, no new human review comments. **VBFH Daily Run #76 (08-18) SUCCEEDED**; the
-  08-19 run had not fired at check time. amma `CI — web` ✅ + `CI — voice-gateway` ✅; vbfh CI ✅. #29 stays
-  closed. Branch cleanup 403-blocked.
-- **2026-08-18 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Two changes, both on amma: **(1) Anthony merged #216** "Standardize $199 restaurant offer and
-  client delivery" to `main` (**`3dadb98` → `4905a364`**, 08-18 13:19 UTC) — 30 Markdown files, docs-only,
-  guardrail-clean, his own approved merge; path-filtered so no CI run. **(2) One new *open* draft PR, held:
-  #221** "Order Drop" — 3 files under `.../demo/order-drop/` (+1299), static/unlinked/`noindex`, `web` CI ✅ +
-  Vercel Ready ✅, guardrail-clean. **VBFH Daily Run #76 SUCCEEDED.** No new human review comments; no
-  merge-conflict/base-branch notices. #218's governance question stays open. #29 stays closed. 403-blocked.
-- **2026-08-18 (midday) & 2026-08-17 (both) — earlier twice-daily check-ins (`claude-opus-4-8`):** All four
-  green; nothing needed fixing. New *open* drafts opened & held on amma: **#220** Instagram DM ordering plan
-  (docs-only), **#219** lotería hero, **#218** E-Myth Rev 4 (docs-only; **carries the open "Clone"-authored
-  governance question** surfaced to Anthony). Anthony merged **#217 "E-Myth organizational layer"** to `main`
-  (`3dadb98`, 08-17 12:18 UTC, docs-only, his own merge). VBFH Daily Runs #74/#75 SUCCEEDED. Also restored this
-  dashboard file after an 08-16 evening status commit overwrote it with a stray path line. #29 stays closed;
-  branch cleanup 403-blocked.
+  check (run before the ~12:5x UTC schedule) could not yet confirm. **No new merges to `main`** (still
+  `4905a364`, #216), **no new PRs**, **no new commits on any default branch**, **no new review comments**. amma
+  `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green; vbfh CI ✅. #218's
+  governance question stays open. #29 stays closed. Branch cleanup still 403-blocked.
+- **2026-08-19 (morning) & 2026-08-18 (both) & 2026-08-17 (both) — earlier twice-daily check-ins
+  (`claude-opus-4-8`):** All four green throughout; nothing needed fixing. New *open* drafts opened & held on
+  amma across these runs: **#221** Order Drop (08-18 evening), **#220** Instagram DM ordering plan (docs-only),
+  **#219** lotería hero, **#218** E-Myth Rev 4 (docs-only; **carries the open "Clone"-authored governance
+  question** surfaced to Anthony; got docs-only price-anchor commit `e1b1fbe` on 08-18). Anthony merged **#216**
+  "$199 offer / Buyer Package" (`4905a364`, 08-18 13:19 UTC, docs-only) and **#217 "E-Myth organizational
+  layer"** (`3dadb98`, 08-17 12:18 UTC, docs-only) to `main` — both his own merges. VBFH Daily Runs #74/#75/#76
+  SUCCEEDED. Also restored this dashboard file after an 08-16 evening status commit overwrote it with a stray
+  path line. #29 stays closed; branch cleanup 403-blocked.
 - **2026-08-16 & 2026-08-15 & prior — earlier twice-daily check-ins (`claude-opus-4-8`):** All four green
   throughout; nothing changed and nothing needed fixing. VBFH Daily Runs green every day (08-16 #74, 08-15 #73,
   08-14 #72, 08-13 #71, 08-12 #70, 08-11 #69, 08-10 #68). Drafts opened & held: **#216 "Restaurant Buyer
