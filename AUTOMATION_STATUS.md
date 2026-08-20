@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-19 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** **Nothing changed since the 08-19 morning run** except one confirmation: **the 08-19 VBFH Daily Run has now fired and SUCCEEDED** — completed **08-19 12:53 UTC (run #77)**, `conclusion: success` — which the morning check (run before the ~12:5x UTC schedule) could not yet confirm. That extends the streak to **~thirty-one green in a row** (07-21…08-19). No new merges to `main` (still **`4905a364`**, #216), **no new PRs**, **no new commits on any default branch**, **no new review comments** (no draft's `updated_at` moved since the morning run — #218's `e1b1fbe` price-anchor commit was already logged then). The six open drafts (#221, #220, #219, #218, #215, #197) are all still Vercel Ready ✅ and held as Anthony's drafts — none caretaker-merged. #218's **open governance question is unchanged** (its earlier Revision-4 commits authored by "Clone"). Default branches re-verified via API this run: amma `4905a364` (#216), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅ (master push 07-30); amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs); all six PR check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
+**Last updated:** 2026-08-20 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing. Nothing changed since the 08-19 evening run.** No new merges to `main` (still **`4905a364`**, #216 — re-verified via API this run), **no new PRs** (same six open drafts), **no new commits on any default branch**, **no new review comments** (no draft's `updated_at` has moved since 08-18 — the newest is #218's `e1b1fbe` at 08-18 22:04, already logged). The six open drafts (#221, #220, #219, #218, #215, #197) are all still Vercel Ready ✅ and held as Anthony's drafts — none caretaker-merged. #218's **open governance question is unchanged**. Default branches re-verified via API this run: amma `4905a364` (#216), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main (latest runs); all six PR check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **VBFH Daily Run stays GREEN** — latest completed **08-19 12:53 UTC (run #77) SUCCEEDED**; the 08-20 run had not yet fired at check time (before the ~12:5x UTC schedule) and will be re-verified next run — streak stands at **~thirty-one green in a row** (07-21…08-19). **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft); #216's head is merged.**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -114,12 +114,12 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
 
 ---
 
-## Build health (as of 2026-08-19, evening)
+## Build health (as of 2026-08-20, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since. Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No draft's `updated_at` moved since the 08-19 morning run. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-19 12:53 UTC SUCCEEDED (run #77)** (07-21…08-19 all ✅ — ~**thirty-one green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4905a364`** (**#216** "$199 offer / Buyer Package / client delivery," 30 Markdown files, Anthony's own approved merge, 08-18 13:19 UTC). No new merge since (re-verified via API this run). Docs-only path-filtered → no new `CI — web`/`CI — voice-gateway` run, expected. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**); `CI — web` last ✅ **08-05 22:08 UTC run #136** (nothing since touched web paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No draft's `updated_at` has moved since 08-18. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-19 12:53 UTC SUCCEEDED (run #77)** (07-21…08-19 all ✅ — ~**thirty-one green in a row**); the 08-20 run had not fired at check time (before ~12:5x UTC), will re-verify next run. The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -180,7 +180,7 @@ caretaker does not act. shadow-engineer-rpa dormant (07-09).
 
 ## Merged / closed since last run
 
-**None.** No merges or closes since the 08-18 evening run. `main` stays at **`4905a364`** (#216, merged by
+**None.** No merges or closes since the 08-19 evening run. `main` stays at **`4905a364`** (#216, merged by
 Anthony 08-18 13:19 UTC). See "Earlier merged" for the standing history.
 
 ### Earlier merged
@@ -266,80 +266,52 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-20 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing. Nothing changed since the 08-19 evening run.** **No new merges to `main`** (still `4905a364`, #216 —
+  re-verified via API), **no new PRs** (same six open drafts #221/#220/#219/#218/#215/#197), **no new commits on
+  any default branch**, **no new review comments** (no draft's `updated_at` has moved since 08-18; the newest is
+  #218's `e1b1fbe` at 08-18 22:04, already logged). Default branches re-verified via API: amma `4905a364`, vbfh
+  `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all
+  six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all six); vbfh CI ✅ (master
+  push 07-30). **VBFH Daily Run: latest completed 08-19 12:53 UTC (run #77) SUCCEEDED** — ~thirty-one green in a
+  row; the 08-20 run had not fired at check time (before ~12:5x UTC), will re-verify next run. shadow &
+  EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices. #218's
+  governance question stays open (unchanged). #29 stays closed. Branch cleanup still 403-blocked (awaiting
+  Anthony's local paste; the six open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets,
+  Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-19 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing. Nothing changed since the 08-19 morning run** except one confirmation: **the 08-19 VBFH Daily Run
   fired and SUCCEEDED** — completed **08-19 12:53 UTC (run #77), `conclusion: success`** — which the morning
   check (run before the ~12:5x UTC schedule) could not yet confirm; the streak is now ~**thirty-one green in a
   row** (07-21…08-19). **No new merges to `main`** (still `4905a364`, #216), **no new PRs**, **no new commits
-  on any default branch**, **no new review comments** (no draft's `updated_at` moved since the morning run —
-  #218's `e1b1fbe` price-anchor commit was already logged then). Default branches re-verified via API this run:
-  amma `4905a364`, vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI —
-  voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅
-  on all six); vbfh CI ✅ (master push 07-30). shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to
-  verify. No merge-conflict/base-branch notices. #218's governance question stays open (unchanged). #29 stays
-  closed. Branch cleanup still 403-blocked (awaiting Anthony's local paste; the six open draft heads
-  #221/#220/#219/#218/#215/#197 excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
-  Day 06, image-QA routine decision, grant submission, branch cleanup).
+  on any default branch**, **no new review comments** (#218's `e1b1fbe` price-anchor commit was already logged
+  in the morning run). amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green;
+  vbfh CI ✅. #218's governance question stays open. #29 stays closed. Branch cleanup still 403-blocked.
 - **2026-08-19 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** One change since the 08-18 evening run, on amma: **draft PR #218 ("E-Myth Revision 4") got one new
   docs-only commit** — `e1b1fbe` (08-18 22:03 UTC, authored by "Claude"/Opus 5): _"docs(e-myth): correct price
-  anchors after the $199 offer lock merged."_ It corrects `OPERATIONS/E_MYTH/01_ORGANIZATION.md`'s Strategic
-  Objective from a blended ~$149/mo to the now-live locked **$199/mo per location + setup** (via merged #216),
-  adds a verified anchor row, relabels the $59–149 band as market-research-only, and preserves Colattao's
-  $149/mo as an annotated existing-client rate. Docs-only, guardrail-clean, Vercel Ready ✅, `mergeable_state:
-  clean`; path-filtered so no CI run (expected). #218 is now 6 commits; **still held as Anthony's draft — not
-  caretaker-merged**, and its open governance question (earlier "Clone"-authored R4 commits) is **unchanged**.
-  **No new merges to `main`** (still `4905a364`, #216), **no new PRs**, **no new human review comments** (only
-  Vercel-bot; #218 was the only PR whose `updated_at` moved). **VBFH Daily Run: latest completed 08-18 (12:52
-  UTC, run #76) SUCCEEDED** — ~thirty green in a row; the 08-19 run had not fired at check time (before ~12:5x
-  UTC), will re-verify next run. Other default branches unchanged & re-verified via API: vbfh `e21077d` (#7),
-  shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; vbfh CI ✅
-  (master push 07-30). shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No
-  merge-conflict/base-branch notices. #29 stays closed. Branch cleanup still 403-blocked (awaiting Anthony's
-  local paste; the six open draft heads #221/#220/#219/#218/#215/#197 excluded). Standing items for Anthony
-  unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup).
+  anchors after the $199 offer lock merged."_ Docs-only, guardrail-clean, Vercel Ready ✅; path-filtered so no
+  CI run. #218 is now 6 commits; **still held as Anthony's draft**, governance question **unchanged**. No new
+  merges to `main`, no new PRs, no new human review comments. **VBFH Daily Run #76 (08-18) SUCCEEDED**; the
+  08-19 run had not fired at check time. amma `CI — web` ✅ + `CI — voice-gateway` ✅; vbfh CI ✅. #29 stays
+  closed. Branch cleanup 403-blocked.
 - **2026-08-18 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Two changes since the 08-18 midday run, both on amma: **(1) Anthony merged #216** "Standardize $199
-  restaurant offer and client delivery" to `main` (**`3dadb98` → `4905a364`**, 08-18 13:19 UTC) — 30 Markdown
-  files, docs-only, guardrail-clean, his own approved merge → no caretaker action; path-filtered so no CI run.
-  **(2) One new *open* draft PR, held (not caretaker-merged): #221** "feat(demo): Order Drop — one-item Instagram
-  → Uber Eats seamless flow (#220 slice)" — 3 files under `APP/web/src/app/(internal)/demo/order-drop/` (+1299),
-  a static/unlinked/`noindex` prospect demo. `web` CI ✅ + Vercel Ready ✅ / `mergeable_state: clean`, guardrail-
-  clean. **VBFH Daily Run 08-18 (12:52 UTC, run #76) SUCCEEDED** — ~thirty green in a row. Other default branches
-  unchanged & re-verified via API. amma `CI — web` ✅ + `CI — voice-gateway` ✅ on main; vbfh CI ✅ (master push
-  07-30). No new human review comments; no merge-conflict/base-branch notices. #218's governance question stays
-  open. #29 stays closed. Branch cleanup still 403-blocked.
-- **2026-08-18 (midday) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** One change since the 08-17 evening run: **one new *open* draft PR on amma, held: #220** "plan:
-  Instagram DM ordering module — Order Core plan + premortem" — 3 documentation files (+464, 1 commit),
-  guardrail-clean (nothing built or connected), Vercel Ready ✅. Raises two plan-stage decisions for Anthony
-  (Stripe Connect direct-charge model; confirm applied Supabase migration state) before any P0 code — surfaced,
-  not urgent. **VBFH Daily Run #75 (08-17 12:50 UTC) SUCCEEDED**; the 08-18 run had not fired at check time.
-  No merges/closes since 08-17 evening; default branches unchanged & re-verified. amma `CI — web` ✅ + `CI —
-  voice-gateway` ✅; vbfh CI ✅. #218's governance question stays open. #29 stays closed. Branch cleanup 403-blocked.
-- **2026-08-17 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
-  fixing.** Two new *open* draft PRs since midday, both on amma, both held: **#219** "Las Palmas lotería hero"
-  (product UI, guardrail-clean) and **#218** "E-Myth Revision 4" (7 docs-only files). **#218 carries an open
-  governance question surfaced to Anthony** (R4 commits authored by "Clone" asserting Anthony directed *"Revise
-  pr218"*, not independently recorded, outside Clone's watch-only scope — flagged, no action). **VBFH Daily Run
-  #75 (08-17 12:50 UTC) confirmed SUCCEEDED.** No merges/closes since midday; default branches unchanged &
-  re-verified. amma `CI — web` ✅ + `CI — voice-gateway` ✅; vbfh CI ✅. #29 stays closed. Branch cleanup 403-blocked.
-- **2026-08-17 (midday) — Twice-daily check-in (`claude-opus-4-8`):** All four green; nothing needed fixing.
-  Anthony merged **amma #217 "E-Myth organizational layer"** to `main` (`3dadb98`, 08-17 12:18 UTC) —
-  documentation only, his own approved merge → no caretaker action. VBFH Daily Run #74 (08-16) SUCCEEDED, #75
-  in progress at check time. Three open drafts held (#216/#215/#197). Default branches re-verified. Also
-  restored this dashboard file after an 08-16 evening commit had overwritten it with a stray path line.
-  #29 stays closed. Branch cleanup 403-blocked.
-- **2026-08-16 (evening) — Twice-daily check-in (`claude-opus-4-8`):** All four green; the **08-16 VBFH Daily
-  Run fired and SUCCEEDED (12:45 UTC, run #74)**. Three open drafts held (#216/#215/#197); default branches
-  unchanged. #29 stays closed; branch cleanup 403-blocked. _(That run's status commit `3d2932a` corrupted this
-  file to a single path line; the 08-17 midday run restored it — see above.)_
-- **2026-08-16 (morning) & 2026-08-15 — earlier twice-daily check-ins (`claude-opus-4-8`):** All four green
-  throughout; nothing changed and nothing needed fixing. Three open drafts held (#216/#215/#197). VBFH Daily
-  Runs green (08-15 run #73). Default branches unchanged. #29 stays closed; branch cleanup 403-blocked.
-- **2026-08-14 & prior — earlier twice-daily check-ins (`claude-opus-4-8`):** All four green throughout.
-  VBFH Daily Runs green every day (08-14 run #72, 08-13 #71, 08-12 #70, 08-11 #69, 08-10 #68). New drafts
-  opened & held: **#216 "Restaurant Buyer Package"** (08-11) and **#215 "Table Duel"** (08-10). Merge waves
-  logged above (voice #212–#214; owner-portal #208–#211; the #201–#207 wave; #198–#200; the 07-30 wave
-  #162/#189/#180/#161/#196 + EscapeTheBomb #1 + vbfh #7). #29 stays closed throughout. _(Full per-run detail
-  retained in git history; trimmed here for length.)_
+  fixing.** Two changes, both on amma: **(1) Anthony merged #216** "Standardize $199 restaurant offer and
+  client delivery" to `main` (**`3dadb98` → `4905a364`**, 08-18 13:19 UTC) — 30 Markdown files, docs-only,
+  guardrail-clean, his own approved merge; path-filtered so no CI run. **(2) One new *open* draft PR, held:
+  #221** "Order Drop" — 3 files under `.../demo/order-drop/` (+1299), static/unlinked/`noindex`, `web` CI ✅ +
+  Vercel Ready ✅, guardrail-clean. **VBFH Daily Run #76 SUCCEEDED.** No new human review comments; no
+  merge-conflict/base-branch notices. #218's governance question stays open. #29 stays closed. 403-blocked.
+- **2026-08-18 (midday) & 2026-08-17 (both) — earlier twice-daily check-ins (`claude-opus-4-8`):** All four
+  green; nothing needed fixing. New *open* drafts opened & held on amma: **#220** Instagram DM ordering plan
+  (docs-only), **#219** lotería hero, **#218** E-Myth Rev 4 (docs-only; **carries the open "Clone"-authored
+  governance question** surfaced to Anthony). Anthony merged **#217 "E-Myth organizational layer"** to `main`
+  (`3dadb98`, 08-17 12:18 UTC, docs-only, his own merge). VBFH Daily Runs #74/#75 SUCCEEDED. Also restored this
+  dashboard file after an 08-16 evening status commit overwrote it with a stray path line. #29 stays closed;
+  branch cleanup 403-blocked.
+- **2026-08-16 & 2026-08-15 & prior — earlier twice-daily check-ins (`claude-opus-4-8`):** All four green
+  throughout; nothing changed and nothing needed fixing. VBFH Daily Runs green every day (08-16 #74, 08-15 #73,
+  08-14 #72, 08-13 #71, 08-12 #70, 08-11 #69, 08-10 #68). Drafts opened & held: **#216 "Restaurant Buyer
+  Package"** (08-11) and **#215 "Table Duel"** (08-10). Merge waves logged above (voice #212–#214; owner-portal
+  #208–#211; the #201–#207 wave; #198–#200; the 07-30 wave #162/#189/#180/#161/#196 + EscapeTheBomb #1 + vbfh
+  #7). #29 stays closed throughout. _(Full per-run detail retained in git history; trimmed here for length.)_
