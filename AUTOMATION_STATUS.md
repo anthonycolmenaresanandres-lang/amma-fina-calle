@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-21 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** One change since the 08-20 evening run, on amma and benign: **Anthony merged draft PR #222** "feat(cafe-rush): reusable catch game with Colattao design as the standard" to `main` (merge commit **`13492161`**, 08-20 21:54 UTC; 6 files, +1062; his own merge). `CI — web` **run #142 on `main` SUCCEEDED** post-merge; `main` tip moves `4905a364` (#216) → **`13492161`** (#222). That drops the held-draft count from seven to **six** (#221, #220, #219, #218, #215, #197 — all still Vercel Ready ✅, none caretaker-merged). **The 08-21 VBFH Daily Run had not fired yet** at check time (it runs ~12:5x UTC); latest completed is **run #78 (08-20 12:55 UTC) SUCCEEDED** — streak **~thirty-three green** (07-21…08-20). **No new commits on any other default branch**, **no new review comments** (no open draft's `updated_at` has moved since 08-18). Default branches re-verified via API this run: amma **`13492161`** (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ (run #142) + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **#222's head `claude/blissful-darwin-gfrwfd` is now merged** (safe to delete; left off the list until re-verified next run). **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft).**
+**Last updated:** 2026-08-21 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** One change since the 08-21 morning run, and it's the routine's own good news: **the 08-21 VBFH Daily Run fired and SUCCEEDED** (**run #79**, 08-21 12:54 UTC) — streak now **~thirty-four green** (07-21…08-21). Nothing else moved: **no new merges to `main`** (still **`13492161`**, #222), **no new/closed PRs** since the morning run, **no new commits on any other default branch**, **no new review comments** (no open draft's `updated_at` has moved since 08-18). Six open drafts still held (#221, #220, #219, #218, #215, #197 — all Vercel Ready ✅, none caretaker-merged). Default branches re-verified via API this run: amma **`13492161`** (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ (run #142) + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **#222's head `claude/blissful-darwin-gfrwfd` is merged** (safe to delete; left off the list until re-verified). **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft).**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -77,12 +77,12 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-08-21, morning)
+## Build health (as of 2026-08-21, evening)
 
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`13492161`** (**#222** "Café Rush catch game," 6 files / +1062, Anthony's own merge, 08-20 21:54 UTC). **`CI — web` run #142 ✅** on this merge commit. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No open draft's `updated_at` has moved since 08-18. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-20 12:55 UTC SUCCEEDED (run #78)** (07-21…08-20 all ✅ — ~**thirty-three green in a row**); the 08-21 run had not fired at check time (before ~12:5x UTC). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). **VBFH Daily Run — GREEN.** Latest completed scheduled run **08-21 12:54 UTC SUCCEEDED (run #79)** (07-21…08-21 all ✅ — ~**thirty-four green in a row**). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -188,6 +188,18 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-21 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing.** One change since the 08-21 morning run, and it's the routine's own good news: **the 08-21 VBFH Daily
+  Run fired and SUCCEEDED** (**run #79**, 08-21 12:54 UTC) — streak now ~**thirty-four green** (07-21…08-21).
+  Nothing else moved: no new merges to `main` (still **`13492161`**, #222), no new/closed PRs since the morning
+  run, no new commits on any other default branch, no new review comments (no open draft's `updated_at` moved
+  since 08-18). Six open drafts still held (#221/#220/#219/#218/#215/#197, all Vercel Ready ✅). Default branches
+  re-verified via API: amma `13492161`, vbfh `e21077d`, shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma
+  `CI — web` ✅ (#142) + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green; vbfh CI ✅.
+  shadow & EscapeTheBomb have no CI workflows — nothing to verify. No merge-conflict/base-branch notices. #218's
+  governance question stays open (unchanged). #29 stays closed. Branch cleanup still 403-blocked (the six open
+  draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA
+  routine decision, grant submission, branch cleanup).
 - **2026-08-21 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** One change since the 08-20 evening run, on amma: **Anthony merged draft PR #222** "Café Rush catch
   game" to `main` (merge `13492161`, 08-20 21:54 UTC; his own merge; product UI, guardrail-clean — NEW additive
