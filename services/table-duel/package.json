@@ -1,0 +1,22 @@
+{
+  "name": "table-duel-server",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Table Duel room server — in-memory WebSocket rooms for the table-vs-table grid game. No database, no secrets, no customer data.",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "test": "tsx src/game.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
