@@ -6,6 +6,7 @@ import {
   lasPalmasLynnhavenMenuSourcePreview,
 } from "@/table-os/menu/las-palmas-lynnhaven";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
+import LasPalmasLoteria from "./LasPalmasLoteria";
 import LasPalmasSilverPalmMotion from "./LasPalmasSilverPalmMotion";
 
 // Las Palmas prospect demo menu — PENDING CLIENT APPROVAL, unlinked + noindex.
@@ -54,6 +55,8 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
       className={`${palmasSerif.variable} min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 font-[family-name:var(--font-playfair),Georgia,serif] text-[#f2ead6] sm:px-8`}
     >
       <div className="mx-auto w-full max-w-2xl">
+        <LasPalmasLoteria />
+
         <header>
           <LasPalmasSilverPalmMotion />
         </header>
