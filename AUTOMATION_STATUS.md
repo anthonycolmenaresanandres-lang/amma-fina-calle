@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-21 (evening — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing.** One change since the 08-21 morning run, and it's the routine's own good news: **the 08-21 VBFH Daily Run fired and SUCCEEDED** (**run #79**, 08-21 12:54 UTC) — streak now **~thirty-four green** (07-21…08-21). Nothing else moved: **no new merges to `main`** (still **`13492161`**, #222), **no new/closed PRs** since the morning run, **no new commits on any other default branch**, **no new review comments** (no open draft's `updated_at` has moved since 08-18). Six open drafts still held (#221, #220, #219, #218, #215, #197 — all Vercel Ready ✅, none caretaker-merged). Default branches re-verified via API this run: amma **`13492161`** (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ (run #142) + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **#222's head `claude/blissful-darwin-gfrwfd` is merged** (safe to delete; left off the list until re-verified). **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft).**
+**Last updated:** 2026-08-22 (morning — twice-daily check-in, `claude-opus-4-8`). **All four repos green; nothing needed fixing; nothing changed since the 08-21 evening run.** No new merges to `main` (still **`13492161`**, #222), no new/closed PRs, no new commits on any other default branch, no new review comments (no open draft's `updated_at` has moved since 08-18). Six open drafts still held (#221, #220, #219, #218, #215, #197 — all Vercel Ready ✅, none caretaker-merged). Default branches re-verified via API this run: amma **`13492161`** (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). vbfh CI ✅; amma `CI — web` ✅ (run #142) + `CI — voice-gateway` ✅ on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). **VBFH Daily Run: latest completed 08-21 12:54 UTC (run #79) SUCCEEDED**; the 08-22 run had not yet fired at check time (12:45 UTC, before the ~12:5x UTC schedule) — streak ~**thirty-four green** (07-21…08-21). No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **#222's head `claude/blissful-darwin-gfrwfd` is merged** (safe to delete; left off the list until re-verified). **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft).**
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -77,7 +77,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-08-21, evening)
+## Build health (as of 2026-08-22, morning)
 
 | Repo | Build/CI | State |
 |---|---|---|
@@ -188,6 +188,18 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-08-22 (morning) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
+  fixing; nothing changed since the 08-21 evening run.** No new merges to `main` (still **`13492161`**, #222),
+  no new/closed PRs, no new commits on any other default branch, no new review comments (no open draft's
+  `updated_at` has moved since 08-18). Six open drafts still held (#221/#220/#219/#218/#215/#197, all Vercel
+  Ready ✅). Default branches re-verified via API: amma `13492161`, vbfh `e21077d`, shadow `5113ce5`,
+  EscapeTheBomb `eee6a37`. amma `CI — web` ✅ (#142) + `CI — voice-gateway` ✅ on main; all six open-draft
+  check-runs green; vbfh CI ✅. **VBFH Daily Run: latest completed 08-21 12:54 UTC (run #79) SUCCEEDED**; the
+  08-22 run had not fired at check time (12:45 UTC, before its ~12:5x UTC schedule) — streak ~**thirty-four
+  green**. shadow & EscapeTheBomb have no CI workflows — nothing to verify. No merge-conflict/base-branch
+  notices. #218's governance question stays open (unchanged). #29 stays closed. Branch cleanup still 403-blocked
+  (the six open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06,
+  image-QA routine decision, grant submission, branch cleanup).
 - **2026-08-21 (evening) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green; nothing needed
   fixing.** One change since the 08-21 morning run, and it's the routine's own good news: **the 08-21 VBFH Daily
   Run fired and SUCCEEDED** (**run #79**, 08-21 12:54 UTC) — streak now ~**thirty-four green** (07-21…08-21).
