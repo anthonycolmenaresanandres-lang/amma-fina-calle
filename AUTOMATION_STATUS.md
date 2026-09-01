@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-01 (morning, ~12:50 UTC — twice-daily check-in, `claude-opus-4-8`). **⚠️ GitHub API is down this run — the read-only token returns `401 Bad credentials` on every repository-scoped call** (list PRs, workflow/CI status, review comments, file reads, search all fail; only `get_me`, the token's own identity, still works). **Git-over-HTTPS still works fully** (fetch/pull/push authenticate normally via the separate git credential injection), so I verified default branches directly from git and refreshed this dashboard as usual. **What git confirms: no default branch moved since the 08-31 evening run** — amma `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) are all byte-identical to last run, so **nothing merged, closed, or pushed to any `main`/`master`.** **What I could NOT verify this run (API-only):** the 09-01 VBFH Daily Run result, live PR check-run / Vercel statuses, and any new PR review comments. Their last-known-good state (08-31 evening) was all-green; treat that as stale, not confirmed, until the token is restored. Six open drafts (#221/#220/#219/#218/#215/#197) unchanged on their heads per git. No merge-conflict/base-branch notices received. Branch deletion remains blocked (proxy 403); the six open PR heads stay OUT of the delete set.
+**Last updated:** 2026-09-01 (evening, ~21:45 UTC — twice-daily check-in, `claude-opus-4-8`). **✅ GitHub API access is RESTORED** — the `401 Bad credentials` outage seen on the 09-01 morning run has cleared; every repository-scoped call (list PRs, Actions/CI, check-runs, comments, file reads) succeeds again, so live CI/PR monitoring is back to full. **All four repos re-verified GREEN this run.** Freshly confirmed via API: **the 09-01 VBFH Daily Run (#90) fired and SUCCEEDED** (16:18→16:20 UTC — the item the morning outage couldn't check); amma `main` **`13492161`** (#222) green — `CI — web` #142 ✅, `CI — voice-gateway` #13 ✅; all six open drafts (#221/#220/#219/#218/#215/#197) still held, unchanged since 08-18, Vercel Ready ✅, no new review comments (PR #218 carries only the Vercel bot comment). Default-branch tips unchanged vs. last run — vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) — so **nothing merged, closed, or pushed to any `main`/`master`.** No merge-conflict/base-branch notices received. Branch deletion remains blocked (proxy 403); the six open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,14 +12,10 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🔴 **Reconnect the caretaker's GitHub access — the API token stopped working (started this run, 09-01).**
-   The caretaker's GitHub read/write API is returning **"Bad credentials"** on every repo call, so this run I
-   could NOT check the VBFH Daily Run, any PR's CI/preview status, or new review comments — only confirm (via
-   git) that no branch actually moved. This usually means the GitHub connection needs re-authorizing:
-   claude.ai → **Settings → Connectors → GitHub → reconnect** (if you're the org owner, access is granted at
-   `claude.ai/admin-settings/claude-tag`). One click on your side restores full monitoring; until then the
-   twice-daily check is running blind on CI/PRs (git-level fetch/push still works, so branch/merge tracking is
-   unaffected). _Why it matters: while this is down I can't catch a red build or a failed Daily Run for you._
+✅ **GitHub access is back — nothing to do here.** The `401 Bad credentials` outage from the 09-01 morning run
+   has cleared on its own; full CI/PR monitoring is restored and everything re-verified green this run (incl. the
+   09-01 VBFH Daily Run #90 ✅ the outage couldn't confirm). No reconnect needed. Left here only so you know the
+   earlier "reconnect GitHub" alert is resolved.
 
 ⚠️ **Governance question inside draft PR #218 — please confirm or deny (no action taken).**
    Draft **PR #218** ("E-Myth Revision 4", docs-only under `OPERATIONS/E_MYTH` + `HANDOFF_LOG.md`,
@@ -86,18 +82,16 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-01, morning)
+## Build health (as of 2026-09-01, evening)
 
-> **⚠️ CI/PR columns below are last-known-good (08-31 evening), NOT re-verified this run.** The GitHub API
-> token is returning `401 Bad credentials`, so live check-run / Daily-Run / review-comment status could not be
-> read on 09-01. What *is* freshly confirmed via git: every default-branch tip is unchanged, so no merge or
-> push regressed any `main`/`master`. Statuses will be re-verified once the GitHub connection is restored
-> (top action item).
+> **✅ All columns below re-verified live this run** — the GitHub API outage cleared, so check-runs, Daily-Run
+> result, and review comments were all read directly (not carried forward). Every default-branch tip is
+> unchanged and every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`13492161`** (**#222** "Café Rush catch game," 6 files / +1062, Anthony's own merge, 08-20 21:54 UTC). **`CI — web` run #142 ✅** on this merge commit. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No open draft's `updated_at` has moved since 08-18. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅, run #21); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **08-31 18:58:52 UTC SUCCEEDED (run #89)** — fired inside the known late-scheduler window after the morning check (12:46 UTC) had noted it hadn't yet fired. Every run 07-21…08-31 that fired was ✅ (~forty-one-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅, run #21); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-01 16:20:23 UTC SUCCEEDED (run #90)** — re-confirmed live now the API is back. Every run 07-21…09-01 that fired was ✅ (~forty-two-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -138,11 +132,11 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-- **No default branch moved since the 08-31 evening run** (git-confirmed): amma `13492161` (#222), vbfh
-  `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — all byte-identical, so **nothing merged or pushed
-  to any `main`/`master`.** _PR-level_ activity (any close, new open, or review comment) could **not** be
-  checked this run because the GitHub API is returning `401 Bad credentials`; it will be reconciled next run
-  once the connection is restored. The 09-01 VBFH Daily Run result is likewise unverified this run.
+- **Nothing merged, closed, opened, or pushed since the last run** — re-verified live via API now the outage
+  cleared: amma `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — all
+  unchanged. No new/closed PRs, no new review comments on the six open drafts (updated_at unchanged since
+  08-18). The one PR-level item the morning outage had left unconfirmed — the **09-01 VBFH Daily Run** — is now
+  confirmed **fired and SUCCEEDED (run #90, 16:20 UTC)**.
 
 ### Earlier merged
 
@@ -203,6 +197,18 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-01 (evening, ~21:45 UTC) — Twice-daily check-in (`claude-opus-4-8`) — ✅ API RESTORED, all green:**
+  The `401 Bad credentials` GitHub API outage from this morning's run has **cleared** — every repository-scoped
+  call succeeds again, so live CI/PR monitoring is fully back. Re-verified everything the morning run had to
+  carry forward as stale: **all four repos green.** The item the outage specifically couldn't check — the
+  **09-01 VBFH Daily Run — is confirmed fired and SUCCEEDED (run #90, 16:18→16:20 UTC).** amma `main` still
+  `13492161` (#222); `CI — web` #142 ✅ + `CI — voice-gateway` #13 ✅. Six open drafts still held
+  (#221/#220/#219/#218/#215/#197), unchanged since 08-18, Vercel Ready ✅, no new review comments (PR #218 has
+  only the Vercel bot comment). Default branches re-verified via API + git: amma `13492161`, vbfh `e21077d`,
+  shadow `5113ce5`, EscapeTheBomb `eee6a37` — nothing merged/closed/opened/pushed since last run. No
+  merge-conflict/base-branch notices. **Removed the "reconnect GitHub" top action item** (self-resolved).
+  Standing items unchanged (#218 governance question, SMTP secrets, Runway credits Day 06, image-QA routine
+  decision, grant submission, branch cleanup 403-blocked, #29 stays closed).
 - **2026-09-01 (morning, ~12:50 UTC) — Twice-daily check-in (`claude-opus-4-8`) — ⚠️ GitHub API OUTAGE:**
   The GitHub API token began returning **`401 Bad credentials`** on every repository-scoped call (list PRs,
   Actions/workflow runs, check-runs, file reads, search) — only `get_me` (identity) succeeds. Proxy is healthy
