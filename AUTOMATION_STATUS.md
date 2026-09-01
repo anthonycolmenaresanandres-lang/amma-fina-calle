@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-08-31 (evening, ~19:15 UTC — twice-daily check-in, `claude-opus-4-8`). **All four repos' code is green and nothing needed fixing.** The only change since the 08-31 morning run is the routine's own good news: the **08-31 VBFH Daily Run (#89) fired and SUCCEEDED** (18:57:32 → 18:58:52 UTC) — the morning check had noted it hadn't yet fired at 12:46 UTC; it landed inside the known late-scheduler window. Nothing else moved: no new merges to `main` (still **`13492161`**, #222), no new/closed PRs, no new commits on any other default branch, no new review comments (no open draft's `updated_at` has moved since 08-18). Six open drafts still held (#221, #220, #219, #218, #215, #197 — all Vercel Ready ✅, none caretaker-merged). Default branches re-verified via API this run: amma **`13492161`** (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (run #142) + `CI — voice-gateway` ✅ (run #13, unchanged — nothing merged to main since 08-20) on main; all six open-draft check-runs green (`web` ✅ where path-triggered, Vercel Ready ✅ on all). vbfh CI ✅ (master run #21). **VBFH Daily Run — GREEN, ~forty-one-day streak.** No merge-conflict/base-branch notices. **Branch deletion still blocked** — the environment's git proxy returns HTTP 403 on any `push --delete`; the paste-set below is for Anthony's local clone. **The six open PR heads (#221, #220, #219, #218, #215, #197) are kept OUT of the delete set (deleting any would close its open draft).**
+**Last updated:** 2026-09-01 (morning, ~12:50 UTC — twice-daily check-in, `claude-opus-4-8`). **⚠️ GitHub API is down this run — the read-only token returns `401 Bad credentials` on every repository-scoped call** (list PRs, workflow/CI status, review comments, file reads, search all fail; only `get_me`, the token's own identity, still works). **Git-over-HTTPS still works fully** (fetch/pull/push authenticate normally via the separate git credential injection), so I verified default branches directly from git and refreshed this dashboard as usual. **What git confirms: no default branch moved since the 08-31 evening run** — amma `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (#1) are all byte-identical to last run, so **nothing merged, closed, or pushed to any `main`/`master`.** **What I could NOT verify this run (API-only):** the 09-01 VBFH Daily Run result, live PR check-run / Vercel statuses, and any new PR review comments. Their last-known-good state (08-31 evening) was all-green; treat that as stale, not confirmed, until the token is restored. Six open drafts (#221/#220/#219/#218/#215/#197) unchanged on their heads per git. No merge-conflict/base-branch notices received. Branch deletion remains blocked (proxy 403); the six open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -11,6 +11,15 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 ---
 
 ## 👉 What Anthony needs to do right now
+
+🔴 **Reconnect the caretaker's GitHub access — the API token stopped working (started this run, 09-01).**
+   The caretaker's GitHub read/write API is returning **"Bad credentials"** on every repo call, so this run I
+   could NOT check the VBFH Daily Run, any PR's CI/preview status, or new review comments — only confirm (via
+   git) that no branch actually moved. This usually means the GitHub connection needs re-authorizing:
+   claude.ai → **Settings → Connectors → GitHub → reconnect** (if you're the org owner, access is granted at
+   `claude.ai/admin-settings/claude-tag`). One click on your side restores full monitoring; until then the
+   twice-daily check is running blind on CI/PRs (git-level fetch/push still works, so branch/merge tracking is
+   unaffected). _Why it matters: while this is down I can't catch a red build or a failed Daily Run for you._
 
 ⚠️ **Governance question inside draft PR #218 — please confirm or deny (no action taken).**
    Draft **PR #218** ("E-Myth Revision 4", docs-only under `OPERATIONS/E_MYTH` + `HANDOFF_LOG.md`,
@@ -77,7 +86,13 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-08-31, evening)
+## Build health (as of 2026-09-01, morning)
+
+> **⚠️ CI/PR columns below are last-known-good (08-31 evening), NOT re-verified this run.** The GitHub API
+> token is returning `401 Bad credentials`, so live check-run / Daily-Run / review-comment status could not be
+> read on 09-01. What *is* freshly confirmed via git: every default-branch tip is unchanged, so no merge or
+> push regressed any `main`/`master`. Statuses will be re-verified once the GitHub connection is restored
+> (top action item).
 
 | Repo | Build/CI | State |
 |---|---|---|
@@ -123,9 +138,11 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-- **Nothing merged or closed since the 08-31 morning run.** `main` unchanged at **`13492161`** (#222); no new
-  commits on any default branch; no PR opened, closed, or merged; no new review comments. All four repos green.
-  Latest completed VBFH Daily Run is now **#89** (08-31 18:58:52 UTC, SUCCEEDED) — fired after the morning check.
+- **No default branch moved since the 08-31 evening run** (git-confirmed): amma `13492161` (#222), vbfh
+  `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — all byte-identical, so **nothing merged or pushed
+  to any `main`/`master`.** _PR-level_ activity (any close, new open, or review comment) could **not** be
+  checked this run because the GitHub API is returning `401 Bad credentials`; it will be reconciled next run
+  once the connection is restored. The 09-01 VBFH Daily Run result is likewise unverified this run.
 
 ### Earlier merged
 
@@ -186,6 +203,19 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-01 (morning, ~12:50 UTC) — Twice-daily check-in (`claude-opus-4-8`) — ⚠️ GitHub API OUTAGE:**
+  The GitHub API token began returning **`401 Bad credentials`** on every repository-scoped call (list PRs,
+  Actions/workflow runs, check-runs, file reads, search) — only `get_me` (identity) succeeds. Proxy is healthy
+  (no relay failures) and **git-over-HTTPS still authenticates fully** (fetch/pull/push work via the separate
+  git credential injection), confirming this is a GitHub API-token/authorization problem, not a network one.
+  Worked around it with direct git inspection: **every default-branch tip is unchanged vs. the 08-31 evening
+  run** — amma `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — so nothing
+  merged/closed/pushed to any `main`/`master`, and no merge-conflict/base-branch notices arrived. **Could not
+  verify this run (API-only):** 09-01 VBFH Daily Run result, PR check-run/Vercel statuses, new PR review
+  comments — all carried forward as last-known-good (08-31 evening = green) but explicitly stale. Dashboard
+  refreshed and pushed via git. **Added top action item: Anthony to reconnect GitHub (Settings → Connectors).**
+  All prior standing items unchanged (#218 governance question, SMTP secrets, Runway credits Day 06, image-QA
+  routine decision, grant submission, branch cleanup 403-blocked, #29 stays closed).
 - **2026-08-31 (evening, ~19:15 UTC) — Twice-daily check-in (`claude-opus-4-8`):** **All four repos green;
   nothing needed fixing.** The only change since the 08-31 morning run is the routine's own good news: the
   **08-31 VBFH Daily Run (#89) fired and SUCCEEDED** (18:57:32 → 18:58:52 UTC) — the morning check had noted it
