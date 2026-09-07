@@ -16,7 +16,7 @@
 - [ ] Use the approved current flyer only. Do not distribute an older PDF/PNG with placeholder contact information or unsupported retention/loyalty claims.
 - [ ] Field card in your pocket (REP_FIELD_CARD_ES.md).
 - [ ] Re-read FEATURE_STATUS_TABLE.md — know what's live vs not.
-- [ ] Know the pricing ranges (don't improvise high numbers).
+- [ ] Know the offer lock: starting at $199/month per location; setup and custom work separate.
 - [ ] Choose one `hook_id`, one `proof_id`, one `cta_id`, and one `offer_id` for this interaction.
 
 ## B. What to show (in order)

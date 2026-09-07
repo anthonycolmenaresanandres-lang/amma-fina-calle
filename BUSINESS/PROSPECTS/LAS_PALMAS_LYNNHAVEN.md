@@ -94,7 +94,7 @@ Write down the exact POS name, model/provider, number of tablets/printers, table
 Ask for a seven-day owner-reviewed pilot at a small set of tables, then expand after staff feedback.
 
 - Recommended anchor: **$1,500 setup + $250/month**
-- Limited pilot floor: **$900 setup + $150/month**
+- Limited pilot floor: **$900 setup + $199/month**
 - Include: permanent table routes, QR package, menu/service layer, current ordering handoff, table game, staff workflow configuration, launch QA, and one revision round.
 - Exclude until confirmed: POS write-back, payment processing, loyalty migration, marketplace replacement, hardware, and unapproved logo/photo work.
 

@@ -16,9 +16,9 @@
 - **Don't promise:** Don't claim live online ordering, payments, or a feedback box *on this page* — the live menu shows menu/hours/promos. (Feedback box & analytics are part of the package setup, not visible on this page today — see `FEATURE_STATUS_TABLE.md`.)
 
 ## 3. `https://finacalleos.com/penalty-shootout`  🎮 ENGAGEMENT
-- **What it proves:** The branded **mini-game** layer is real and playable — pick a keeper (Street/Club/Pro), take 5 shots, GOAL/SAVED/MISS, score + rating. Mobile-first.
+- **What it proves:** The **game engine** is real and playable — pick a keeper (Street/Club/Pro), take 5 shots, GOAL/SAVED/MISS, score + rating. Mobile-first.
 - **Say:** "Here's the kind of fun layer we add so customers engage instead of glancing and leaving. Take five shots." (Hand them the phone.)
-- **Honest framing:** It's a **playable demo of the game engine** (game R&D). A client version would be skinned with *their* brand. Don't present it as Colattao's finished production game.
+- **Honest framing:** It's a **playable demo of the game engine** (game R&D). The written proposal must name the existing module included; custom art or mechanics are separate. Don't present it as a finished client game.
 - **Don't promise:** Don't promise a specific custom game is already built for the prospect.
 - *(Optional second game: `https://finacalleos.com/conquest` is another live playable game demo.)*
 

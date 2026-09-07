@@ -6,11 +6,9 @@
 ## 2. 60-Second Pitch
 "I help local businesses turn a basic QR menu into a branded digital experience. The working Colattao example has a live digital menu and a secure owner sign-in for updates. I can also show a playable mini-game engine demo; a client-branded version requires separate design approval. QR signage, a feedback box, and anonymous analytics can be scoped as setup deliverables, but they are not claimed as live on Colattao. I will put the pilot scope, timeline, price, and recurring terms in writing."
 
-## 3. Pain Points to Mention
-- Boring QR menus that feel generic.
-- Customers do not engage beyond one quick glance.
-- Businesses post online but do not capture attention in-store.
-- No easy workflow for quick updates.
+## 3. Recognition prompts
+- Ask whether updates, in-store experience, or setup simplicity matters most.
+- Repeat only the priority the owner states; do not invent a pain point.
 
 ## 4. Core Offer
 - Live digital menu
@@ -36,7 +34,7 @@
 "That is the point. I handle setup and provide a simple update workflow for quick edits."
 
 ### "How much does it cost?"
-"There are starter and premium options depending on customization depth, plus predictable monthly maintenance for updates and support."
+"It starts at $199/month per location. Setup and custom work are quoted separately. I will put the scope, recurring terms, and exclusions in writing before you decide."
 
 ## 7. Closing Line
 "If this fits the priority you named, should I send you a written pilot plan by tomorrow?"

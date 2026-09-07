@@ -32,7 +32,7 @@ If the priority is unknown, ask: **“What matters more right now: making menu u
 | Time / simplicity | “You should not have to wait on a developer for a price change.” | Owner sign-in and self-edit workflow | Request a written setup outline |
 | Brand / differentiation | “You want the scan to feel like your business, not a generic page.” | Colattao menu plus the playable game engine demo | Approve a private visual mock |
 | Trust / skepticism | “You want to see what is real before discussing a package.” | Live Colattao menu and feature-status table | Review a written pilot scope |
-| Price / risk | “You need the cost and boundaries before committing.” | Published ranges and exclusions | Request a fixed written quote |
+| Price / risk | “You need the cost and boundaries before committing.” | $199 starting price and written exclusions | Request the $199/month plan in writing |
 | Customer experience | “You want a more useful in-store scan.” | Live menu plus clearly labeled game demo | Test a bounded pilot |
 
 ## Experiment discipline
