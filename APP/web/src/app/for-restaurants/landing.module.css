@@ -1,0 +1,294 @@
+/* Ad landing page. Same editorial register as the live site — ink ground, one
+   gold accent, a Bodoni display face — kept deliberately quiet so the only loud
+   things on the page are the headline and the single action. */
+
+.page {
+  --ink: #171717;
+  --paper: #f1f4f5;
+  --gold: #d8b36d;
+  --gold-light: #e3c17d;
+  --muted: #a4acaf;
+  min-height: 100dvh;
+  padding: 0 clamp(1.15rem, 5vw, 2.5rem) 4rem;
+  background:
+    radial-gradient(120% 70% at 10% 0%, #23211e 0%, transparent 55%),
+    var(--ink);
+  color: var(--paper);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.hero {
+  width: min(46rem, 100%);
+  margin-inline: auto;
+  padding-block: clamp(3.5rem, 12vh, 7rem) clamp(2.5rem, 7vh, 4rem);
+}
+
+.kicker {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.headline {
+  margin-top: 1.4rem;
+  font-family: var(--font-fc-display), Georgia, serif;
+  font-size: clamp(2.9rem, 9vw, 5.2rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.headline em {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.lede {
+  max-width: 34rem;
+  margin-top: 1.5rem;
+  color: #ccd2d4;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.price {
+  margin-top: 1.5rem;
+  color: var(--paper);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.price strong {
+  color: var(--gold);
+  font-size: 1.25rem;
+}
+
+.cta {
+  display: inline-block;
+  min-height: 3.25rem;
+  margin-top: 2.2rem;
+  padding: 1rem 1.6rem;
+  background: var(--gold);
+  color: #17140d;
+  font-size: 1.02rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0.3rem;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.ctaNote {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.section {
+  width: min(46rem, 100%);
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 7vh, 4rem);
+  border-top: 1px solid rgb(241 244 245 / 12%);
+}
+
+.sectionTitle {
+  font-family: var(--font-fc-display), Georgia, serif;
+  font-size: clamp(1.7rem, 4.5vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.proofList {
+  margin-top: 1.4rem;
+  list-style: none;
+}
+
+.proofRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  padding-block: 0.95rem;
+  border-bottom: 1px solid rgb(241 244 245 / 8%);
+}
+
+.proofLink {
+  color: var(--paper);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgb(216 179 109 / 60%);
+  text-underline-offset: 0.3em;
+}
+
+.proofLink:hover,
+.proofLink:focus-visible {
+  color: var(--gold-light);
+}
+
+.proofNote {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.8rem 2.5rem;
+  margin-top: 1.6rem;
+}
+
+.itemTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.itemBody {
+  margin-top: 0.5rem;
+  color: #bcc3c6;
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.honesty {
+  margin-top: 2.2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--gold);
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.form {
+  margin-top: 1.8rem;
+}
+
+.field {
+  margin-bottom: 1.1rem;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0 1.1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.optional {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.9rem;
+  background: #100f0e;
+  color: var(--paper);
+  font: inherit;
+  font-size: 1rem;
+  border: 1px solid rgb(241 244 245 / 22%);
+  border-radius: 0.25rem;
+}
+
+.input:focus-visible {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.submit {
+  width: 100%;
+  min-height: 3.4rem;
+  margin-top: 0.5rem;
+  padding: 1rem 1.4rem;
+  background: var(--gold);
+  color: #17140d;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 700;
+  border: 0;
+  border-radius: 0.3rem;
+  transition: background-color 160ms ease;
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  background: var(--gold-light);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.formNote {
+  margin-top: 0.9rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.success {
+  margin-top: 1.8rem;
+  padding: 1.1rem 1.2rem;
+  border-left: 3px solid var(--gold);
+  background: rgb(216 179 109 / 10%);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.error {
+  margin-bottom: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid #d9534f;
+  background: rgb(217 83 79 / 12%);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  width: min(46rem, 100%);
+  margin-inline: auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgb(241 244 245 / 12%);
+  color: rgb(164 172 175 / 75%);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cta:focus-visible,
+.submit:focus-visible,
+.proofLink:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .submit {
+    transition: none;
+  }
+}
