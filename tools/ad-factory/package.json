@@ -1,0 +1,14 @@
+{
+  "name": "fina-calle-ad-factory",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Renders Fina Calle OS ad creative from HTML templates to platform-sized PNGs. Deterministic, offline, no AI-generated art.",
+  "scripts": {
+    "build": "node render.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.49.0",
+    "qrcode": "^1.5.4"
+  }
+}

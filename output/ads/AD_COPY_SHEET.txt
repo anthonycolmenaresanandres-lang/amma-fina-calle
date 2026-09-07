@@ -1,0 +1,23 @@
+Fina Calle OS — ad copy sheet (2026-09-07)
+Landing page: https://finacalleos.com/for-restaurants
+
+[a-one-scan] Pain: paper menus go stale the moment prices change
+  Virginia Beach restaurants
+  Your menu, one scan away.
+  Change a price at 9am. Every table sees it at 9:01.
+  Live today for a local café.
+  CTA: See a real one · $199/month month-to-month
+
+[b-flat-price] Price: flat, no setup fee, cancel anytime
+  QR menus, built for you
+  $199 a month. That's the whole price.
+  No setup fee. No contract. Cancel any month.
+  Built and hosted for you.
+  CTA: See what's included · $199/month month-to-month
+
+[c-table-game] Differentiator: the menu people actually stay on
+  More than a menu
+  The menu they play with.
+  Your menu, plus a game your guests play at the table.
+  Playable demo — no signup.
+  CTA: Play the demo · $199/month month-to-month
