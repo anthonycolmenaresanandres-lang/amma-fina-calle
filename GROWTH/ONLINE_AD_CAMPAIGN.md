@@ -59,6 +59,19 @@ Never in an ad, on the landing page, or in any variant:
 - fake urgency, fake scarcity, countdowns, invented testimonials
 - a client's name, logo, photo or menu without that client's written permission
 
+### Client permission — open gate
+
+The creative leads with **Colattao's real product photograph and logo** and
+credits them as a live Fina Calle menu. Using a client's product to sell *our*
+service is a different use than building their menu, so it needs **Colattao's
+written OK before the campaign runs** — a text or email saying they are fine
+with it is enough, kept with the campaign notes. Until that exists the images
+stay unpublished.
+
+If Colattao declines, the fallback is the type-only creative (the first version
+of `tools/ad-factory/render.mjs`, recoverable from git history) or a photograph
+of an asset we own outright.
+
 The landing page states plainly what the product does **not** do. That is
 deliberate: a restaurant owner who has been burned by a "digital menu" upsell
 recognises the boundary and trusts the rest of the page more.
@@ -74,8 +87,15 @@ node render.mjs --variant b-flat-price       # just one angle
 ```
 
 Output lands in `output/ads/`. It is deterministic HTML painted by the installed
-Chromium — no AI-generated art, no stock licensing, no client photography, and
-no network call. Re-running gives the same files.
+Chromium — no AI-generated art, no stock licensing, no network call. Re-running
+gives the same files.
+
+The photograph carrying each ad is **real Colattao product photography** with
+their real logo as the credit mark, taken from the approved asset registry and
+already in use on the live site. Never AI-generated, never stock. It runs only
+once Colattao agrees — see the permission gate in §3. Each placement gets its
+own proportions rather than one design scaled down, so the square, portrait,
+story and landscape frames each read properly.
 
 Three variants, deliberately different **angles** rather than reworded twins, so
 a test result means something:
