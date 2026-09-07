@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-07 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing; nothing changed since the 09-06 afternoon run.** No new merges to `main` (still **`13492161`**, #222), no new/closed/opened PRs (none closed since 08-20), no new commits on any other default branch, no new review comments (no open draft's `updated_at` moved since 08-18). Six open drafts still held (#221/#220/#219/#218/#215/#197, all Vercel Ready ✅). Default-branch tips re-verified via API unchanged — amma `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#142) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21). VBFH Daily Run latest completed **#95** (09-06 15:11 UTC SUCCEEDED); the **09-07 run had not yet fired at check time** — normal late-scheduler window, not a miss. No merge-conflict/base-branch notices received. Branch deletion remains blocked (proxy 403); the six open PR heads stay OUT of the delete set.
+**Last updated:** 2026-09-07 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Movement this run was all **Anthony's own** — he self-merged **three** amma PRs to `main` and closed one draft, so `main` advanced **`13492161` (#222) → `26dd0426` (#224)** with `CI — web` #150 ✅ on the new tip. Merged (all by Anthony): **#215** Table Duel (same-table websocket game — additive `/table-duel` route + `services/table-duel`, guardrail-clean), **#223** Online ad campaign (ad factory + `/for-restaurants` landing), **#224** intake-endpoint fix (Anthony's own follow-up correcting a `400 invalid_request_type` bug he shipped in #223 — verified 200 + `next build` clean). Closed unmerged: **#220** Instagram DM ordering plan (docs-only draft). Held-draft count 6 → **4** (#221/#219/#218/#197, all Vercel Ready ✅). Default-branch tips: amma **`26dd0426`** (#224), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#150) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21). **VBFH Daily Run — the 09-07 run fired and SUCCEEDED (run #96, 17:33→17:34 UTC)** — the morning run's "hadn't-fired-yet" note was not a miss. No merge-conflict/base-branch notices received; no new review comments on the 4 open drafts (no `updated_at` moved since 08-18). Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -23,18 +23,16 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    commit `e1b1fbe` — authored by "Claude", not "Clone" — correcting the E_MYTH doc to the locked $199 offer
    does not change the governance question above.)_
 
-🆕 **Three demos + one plan still open for your review & merge call (all held drafts, guardrail-clean):**
+🆕 **Two demos still open for your review & merge call (held drafts, guardrail-clean):**
    - **#221 Order Drop** (`claude/blissful-darwin-gtt3su`) — lightest #220 slice: a Colattao Churro Latte
      promo hands the customer straight to Uber Eats. `web` CI ✅, Vercel Ready ✅.
    - **#219 Las Palmas lotería hero** (`claude/las-palmas-loteria-hero`) — first phone screen is a playable
      penalty shootout minting a lotería card per goal. Vercel Ready ✅.
-   - **#220 Instagram DM ordering plan** (`claude/instagram-dm-ordering-m8i210`, docs-only) — build a
-     transport-agnostic Order Core + hosted Stripe Connect checkout, attach Instagram DM as a later transport.
-     Nothing built/connected. *When you want to move on it,* it needs two decisions (not now): (a) confirm the
-     Stripe Connect direct-charge model; (b) confirm the applied Supabase production-migration state.
-   - **#215 Table Duel** (`claude/table-duel`) — same-table hidden-fleet game for 2–6 phones. `web` CI ✅.
-     Deploy step (Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`) is yours to run when ready.
    Open each preview and merge if you like it, or tell me what to change. **I don't auto-merge your drafts.**
+   _(You cleared the backlog this run: merged **#215 Table Duel** and **#223 Online ad campaign**, and closed
+   the **#220** Instagram DM plan. **#215's deploy step is now live-on-`main` but still needs you** — set the
+   Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` env var for the websocket server, or the `/table-duel` page
+   will say it isn't switched on yet.)_
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
@@ -79,15 +77,15 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-07, morning)
+## Build health (as of 2026-09-07, afternoon)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every default-branch tip is unchanged and every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`13492161`** (**#222** "Café Rush catch game," 6 files / +1062, Anthony's own merge, 08-20 21:54 UTC). **`CI — web` run #142 ✅** on this merge commit. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Six** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#220** Instagram DM ordering plan (docs-only), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits), **#215** Table Duel (`web` CI ✅) and **#197** docs. No open draft's `updated_at` has moved since 08-18. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-06 15:11 UTC SUCCEEDED (run #95)** — the 09-06 run has now fired and passed. Every run 07-21…09-06 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`26dd0426`** (**#224** "Fix ad landing leads rejected by the intake endpoint," 1 file / +5−1, Anthony's own merge, 09-07 17:03 UTC). **`CI — web` run #150 ✅** on this tip. This run Anthony self-merged **#215** Table Duel (websocket game, additive route), **#223** Online ad campaign (ad factory + `/for-restaurants`), and **#224** (his own follow-up fixing a `400 invalid_request_type` bug from #223). Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Four** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. No open draft's `updated_at` has moved since 08-18. |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-07 17:33 UTC SUCCEEDED (run #96)** — the 09-07 run fired and passed. Every run 07-21…09-07 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -100,12 +98,6 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
   Meta, backend, secret, customer data, or QR change; all art original CSS/SVG (no third-party logos); the
   "Uber Eats" screen disclosed in-page as illustrative. **`web` CI ✅**, **Vercel Ready ✅**, `mergeable_state:
   clean`. **Held — draft.** Nothing to fix.
-- **amma #220 (draft, docs-only) — "plan: Instagram DM ordering module — Order Core plan + premortem."**
-  Opened 08-18. Head `claude/instagram-dm-ordering-m8i210`. 3 documentation files (+464). Core decision: build
-  a transport-agnostic **Order Core** + hosted Stripe Connect checkout, attach Instagram DM as one transport
-  later. **Nothing built or connected.** **Vercel Ready ✅**, `mergeable_state: clean`. **Held — draft.** Raises
-  two plan-stage decisions before any P0 code (Stripe Connect direct-charge model; confirm applied Supabase
-  migration state). Nothing to fix.
 - **amma #219 (draft) — "feat(demo): lead Las Palmas with a playable lotería hero."** Opened 08-17. Head
   `claude/las-palmas-loteria-hero`. Replaces the Las Palmas demo's static hero with a first-viewport playable
   penalty shootout that mints a lotería card per goal; 3 files (+744), all inside the Las Palmas demo folder.
@@ -116,11 +108,6 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
   **6 commits** — latest **`e1b1fbe`** (price-anchor correction to the locked $199 offer, authored by "Claude").
   **Vercel Ready ✅**, `mergeable_state: clean`, path-filtered (no CI run). **Held — draft.** ⚠️ **Carries the
   open "Clone"-authored governance question** (see "What Anthony needs to do"). Flagged, no caretaker action.
-- **amma #215 (draft) — "Table Duel: same-table hidden-fleet game for 2–6 phones."** Opened 08-10. Head
-  `claude/table-duel`. Adds `services/table-duel` (in-memory WebSocket room server — no DB/disk/secrets/customer
-  data), a `/table-duel` phone client, and a 5th tab in the A.J. Gator's game picker. 14 files, +2392/−2.
-  `web` CI ✅ + Vercel ✅; `mergeable_state: clean`. Guardrail-clean (additive route, non-human art, free play).
-  **Held — draft.** Deploy step (Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`) is Anthony's to run. Nothing to fix.
 - **amma #197 (draft, docs-only) — "Odyssey Daily log — Day 06 blocked (Runway pool still empty)."**
   Opened 07-30; Day-06 continuation of the merged #189 series. Head `claude/las-palmas-menu-game-59vtbg`.
   Vercel preview Ready/green; no `CI — web` (docs-only, path-filtered). **Held — draft.** Nothing to fix.
@@ -128,10 +115,25 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-- **Nothing merged, closed, opened, or pushed since the last run** — re-verified live via API: amma
-  `13492161` (#222), vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — all unchanged. No
-  new/closed PRs (latest closed is still #222, 08-20), no new review comments on the six open drafts
-  (updated_at unchanged since 08-18). No new movement at all this run.
+- **amma #215 — "Table Duel: same-table hidden-fleet game for 2–6 phones."** Merged by **Anthony**
+  09-07 16:57 UTC. Adds `services/table-duel` (in-memory WebSocket room server — no DB/disk/secrets/customer
+  data), a `/table-duel` phone client, and a 5th A.J. Gator's game-picker tab. **Guardrail-clean** (additive
+  route, non-human art, free play). His own merge → no caretaker action. Deploy step (Render blueprint +
+  `NEXT_PUBLIC_TABLE_DUEL_WS`) is Anthony's to run — carried into the action list.
+- **amma #223 — "Online ad campaign: ad factory, /for-restaurants landing page, and the plan."** Merged by
+  **Anthony** 09-07 16:57 UTC. `tools/ad-factory` (deterministic local ad renders), a new `/for-restaurants`
+  landing page posting to the existing intake endpoint, and `GROWTH/ONLINE_AD_CAMPAIGN.md`. `CI — web` #148 ✅.
+  No spend and no publish without Anthony (by design). His own merge → no caretaker action.
+- **amma #224 — "Fix ad landing leads rejected by the intake endpoint (400 invalid_request_type)."** Merged by
+  **Anthony** 09-07 17:03 UTC (current main tip **`26dd0426`**). His own follow-up fixing a bug he shipped in
+  #223: `LeadForm` sent a non-allowlisted `requestType`, so every ad lead POST returned `400`. Sends the
+  allowlisted `"Question for AMMA"` instead (1 file, +5−1); verified 200 + `next build` clean; `CI — web` #150 ✅.
+  Touches `app/api/customer-requests/route.ts` (intake allowlist only — not a Client OS protected route,
+  Supabase, Stripe, or POS). His own merge → no caretaker action.
+- **amma #220 — "plan: Instagram DM ordering module."** **Closed unmerged** by Anthony 09-07 16:57 UTC
+  (docs-only planning draft; superseded by the direction he took this run). No caretaker action.
+- vbfh / shadow / EscapeTheBomb: nothing merged, closed, opened, or pushed this run — tips `e21077d` (#7),
+  `5113ce5`, `eee6a37` all unchanged.
 
 ### Earlier merged
 
@@ -160,11 +162,13 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 Anthony has approved deletion, but the session git proxy returns **HTTP 403 on any `push --delete`**
 (server-side block, independent of permission), and the GitHub tooling here has no branch-delete API. The
 commands below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`, `automation/status`,
-`claude/*` caretaker branches, **the six open draft heads `claude/blissful-darwin-gtt3su` (#221),
-`claude/instagram-dm-ordering-m8i210` (#220), `claude/las-palmas-loteria-hero` (#219),
-`claude/e-myth-ai-automation-gcetx0` (#218), `claude/table-duel` (#215) and `claude/las-palmas-menu-game-59vtbg`
-(#197)** (deleting any closes its open draft), unmerged `voice/*` (Anthony's judgment) and the unproven
-squash-merged exploration sets. The #201–#207, #208–#211 codex, and #212–#214 voice heads are all merged.
+`claude/*` caretaker branches, **the four remaining open-draft heads `claude/blissful-darwin-gtt3su` (#221),
+`claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218) and
+`claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any closes its open draft), unmerged `voice/*`
+(Anthony's judgment) and the unproven squash-merged exploration sets. The #201–#207, #208–#211 codex, and
+#212–#214 voice heads are all merged. **Newly eligible this run** (no longer open-draft-protected):
+`claude/table-duel` (#215, merged) and `claude/instagram-dm-ordering-m8i210` (#220, closed) — add them to your
+local delete run when you clear the list; still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -190,6 +194,21 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-07 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** All
+  movement was **Anthony's own**: he self-merged **#215** Table Duel, **#223** Online ad campaign, and **#224**
+  (his own follow-up fix for a `400 invalid_request_type` bug he'd shipped in #223), and **closed** the #220
+  Instagram DM plan draft. amma `main` advanced **`13492161` (#222) → `26dd0426` (#224)**; `CI — web` #150 ✅ on
+  the new tip; `CI — voice-gateway` #13 ✅ (untouched). Held-draft count 6 → **4** (#221/#219/#218/#197, Vercel
+  Ready ✅, no `updated_at` movement since 08-18 → no new review comments). **VBFH Daily Run #96 (09-07 17:33 UTC)
+  fired and SUCCEEDED** — the morning run's "hadn't-fired-yet" note was not a miss. Default branches: amma
+  `26dd0426`, vbfh `e21077d` (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37` — the last three unchanged. shadow &
+  EscapeTheBomb have no CI workflows — nothing to verify. No merge-conflict/base-branch notices; GitHub API
+  healthy all run. #224 touches only the intake allowlist (not a hard-guardrail route/Supabase/Stripe/POS) and
+  is Anthony's own merge → no caretaker action. #218 governance question stays open; #29 stays closed (07-18);
+  branch cleanup still 403-blocked (open draft heads excluded). Standing items for Anthony unchanged (SMTP
+  secrets, Runway credits Day 06, image-QA routine decision, grant submission, branch cleanup) **plus** the new
+  **#215 Table Duel deploy step** (Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`). No push notification sent —
+  green run, and everything that changed was Anthony's own already-green work, so nothing new needs him.
 - **2026-09-07 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
   changed since the 09-06 afternoon run.** No new merges to `main` (still **`13492161`**, #222), no new/closed/
   opened PRs, no new commits on any other default branch, no new review comments (no open draft's `updated_at`
