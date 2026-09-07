@@ -27,7 +27,11 @@ export default function LeadForm(): React.JSX.Element {
     formData.set("businessName", business.trim());
     formData.set("contactName", name.trim() || "Not provided");
     formData.set("contactInfo", contact.trim());
-    formData.set("requestType", "New menu enquiry");
+    // Must be one of the intake endpoint's allowed types (see
+    // app/api/customer-requests/route.ts) — anything else is rejected with a
+    // 400 and the lead is lost. The ad-campaign context lives in the message
+    // body and sourcePage instead.
+    formData.set("requestType", "Question for AMMA");
     formData.set("priority", "Normal");
     formData.set(
       "message",
