@@ -2374,3 +2374,19 @@ Release scope:
 Hard stop:
 - Stop before remediation on any head change, failed check, conflict, new review objection, unexpected application/protected-surface diff, or merge divergence.
 - No customer contact, printing purchase, account/access action, billing activation, credential handling, or unrelated production mutation.
+
+### [CHECK-IN] Claude - 2026-08-18 - Instagram DM ordering plan + premortem
+
+- Picking up: Anthony asked whether restaurant ordering can run through Instagram, and for a build plan plus a premortem.
+- State I see: no Instagram work exists anywhere in the repo. `public.orders` does not exist; the catalog is `restaurants` / `menu_categories` / `menu_items` (+`sizes` jsonb) / `hours` / `promos` behind `get_public_menu()` (migrations `0001`, `0007`). Stripe in `APP/web` serves subscription billing only, not customer orders. `services/voice-gateway` is the closest sibling: multi-tenant, draft-first, idempotent, connector-swappable.
+- Boundaries: documentation only. No product route, migration, secret, payment, deploy, or customer contact.
+
+### [CHECK-OUT] Claude - 2026-08-18 - Instagram DM ordering plan delivered
+
+- Did: added `PRODUCT_MODULES/INSTAGRAM_DM_ORDERING_PLAN.md` (v1 plan + 14-item premortem) and registered the module in `PRODUCT_MODULES/MODULE_LIBRARY.md`.
+- Verified externally this session (developers.facebook.com is egress-blocked here, so a human must re-read Meta's own docs before go-live): Instagram's "Order Food" action button is a closed partner list (ChowNow, Grubhub, EatStreet, Uber Eats, ChatFood, OpenTable/Resy/SevenRooms) and is not obtainable by AMMA; the 24-hour standard messaging window resets on each customer message; `HUMAN_AGENT` extends to 7 days but is prohibited on automated messages; **message tags `CONFIRMED_EVENT_UPDATE`, `ACCOUNT_UPDATE`, and `POST_PURCHASE_UPDATE` were deprecated 2026-04-27 and now return error 100**, so out-of-window order-status DMs are not possible; serving client accounts needs Advanced Access to `instagram_business_manage_messages` via App Review plus Business Verification with the app Live.
+- Key decision recorded: build a transport-agnostic Order Core plus hosted Stripe Connect checkout first (earns from QR/link-in-bio with zero Meta dependency), then attach Instagram DM as one transport. Stripe Connect direct charges, restaurant as merchant of record — AMMA never takes custody of order funds.
+- Top premortem risks: F-1 staff never acknowledge the order at the counter; F-2 App Review never lands and was on the critical path; F-3 order status built on the deprecated out-of-window tags; F-4 modifiers/allergies sold without a schema; F-13 escalations landing on the founder.
+- State now: documentation only, zero product diff. Nothing built, nothing connected, no migration written.
+- Next / handoff to: Anthony - decide the Stripe Connect direct-charge model and confirm applied production migration state, then paste the P0 queue entry from §12 into `OPERATIONS/CODEX_QUEUE.md` for Codex.
+- Blocked on Anthony: Meta app creation, Business Verification, App Review, all tokens and secrets, Stripe Connect onboarding, applied-migration confirmation, add-on pricing, pilot client selection.
