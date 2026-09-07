@@ -12,12 +12,12 @@
 // Prints one AD_FACTORY_RESULT line — parse that, not the log.
 
 import { mkdir, writeFile } from "node:fs/promises";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
 import QRCode from "qrcode";
-import { OFFER, SIZES, VARIANTS } from "./campaign.mjs";
+import { OFFER, PRODUCT, SIZES, VARIANTS } from "./campaign.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = path.resolve(HERE, "../../output/ads");
@@ -48,6 +48,18 @@ function resolveChromium() {
   return found;
 }
 
+/**
+ * Inline a repo asset as a data URI. Embedding rather than linking keeps the
+ * render hermetic — no file:// origin rules, no half-painted screenshot.
+ */
+function assetDataUri(relPath) {
+  const abs = path.resolve(HERE, "../..", relPath);
+  if (!existsSync(abs)) throw new Error(`asset not found: ${relPath}`);
+  const ext = path.extname(abs).slice(1).toLowerCase();
+  const mime = ext === "webp" ? "image/webp" : ext === "jpg" || ext === "jpeg" ? "image/jpeg" : "image/png";
+  return `data:${mime};base64,${readFileSync(abs).toString("base64")}`;
+}
+
 function arg(flag) {
   const index = process.argv.indexOf(flag);
   return index === -1 ? null : process.argv[index + 1];
@@ -63,14 +75,27 @@ function arg(flag) {
  * scaling one design down, so the story format is genuinely vertical rather
  * than a square with padding.
  */
-function adHtml({ variant, size, qrDataUri }) {
+function adHtml({ variant, size, qrDataUri, photoUri, logoUri }) {
   const tall = size.h / size.w >= 1.5;
   const wide = size.w / size.h >= 1.6;
   const unit = size.w / 1080; // every measurement scales off the 1080 reference
 
-  const headlineSize = wide ? 92 * unit : tall ? 128 * unit : 116 * unit;
-  const pad = wide ? 74 * unit : 96 * unit;
-  const qrSize = wide ? 200 * unit : tall ? 260 * unit : 236 * unit;
+  // Each placement gets its own proportions rather than one design scaled: the
+  // square is the tightest frame, so the photograph yields space there and the
+  // story format — where there is height to spare — gives it the most.
+  const ratio = size.h / size.w;
+  const shape = wide ? "wide" : ratio >= 1.5 ? "story" : ratio >= 1.15 ? "portrait" : "square";
+  const spec = {
+    wide: { photoShare: 0, headline: 54, qr: 116, pad: 46 },
+    story: { photoShare: 0.5, headline: 104, qr: 220, pad: 76 },
+    portrait: { photoShare: 0.42, headline: 88, qr: 165, pad: 70 },
+    square: { photoShare: 0.36, headline: 78, qr: 145, pad: 64 },
+  }[shape];
+
+  const headlineSize = spec.headline * unit;
+  const pad = spec.pad * unit;
+  const qrSize = spec.qr * unit;
+  const photoShare = spec.photoShare;
 
   return `<!doctype html>
 <html><head><meta charset="utf-8">
@@ -81,17 +106,56 @@ function adHtml({ variant, size, qrDataUri }) {
   body {
     display: flex;
     flex-direction: ${wide ? "row" : "column"};
-    ${wide ? "align-items: center;" : tall ? "justify-content: center;" : "justify-content: space-between;"}
-    gap: ${wide ? 60 * unit : tall ? 150 * unit : 0}px;
-    padding: ${pad}px;
-    background:
-      radial-gradient(120% 90% at 8% 0%, #22201d 0%, transparent 58%),
-      ${INK};
+    background: ${INK};
     color: ${PAPER};
     font-family: Georgia, "Times New Roman", serif;
     overflow: hidden;
   }
-  .stack { display: flex; flex-direction: column; ${wide ? "flex: 1 1 auto;" : ""} }
+  /* The product carries the ad. It gets the top (or the left) of the frame at
+     full bleed, and the type panel sits under it on solid ink so every word
+     stays legible without scrims fighting the photograph. */
+  .photo {
+    position: relative;
+    ${wide ? `width: ${size.w * 0.36}px; height: 100%;` : `width: 100%; height: ${size.h * photoShare}px;`}
+    flex: none;
+    overflow: hidden;
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center ${tall ? 42 : 50}%;
+  }
+  .credit {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: ${14 * unit}px;
+    padding: ${44 * unit}px ${pad}px ${16 * unit}px;
+    background: linear-gradient(to top, rgb(23 23 23 / 92%), transparent);
+    color: #e8ecee;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: ${wide ? 16 * unit : 20 * unit}px;
+    letter-spacing: ${1.2 * unit}px;
+    white-space: nowrap;
+  }
+  .credit img { height: ${26 * unit}px; width: auto; }
+  .panel {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: ${24 * unit}px;
+    min-height: 0;
+    padding: ${pad}px;
+    background:
+      radial-gradient(120% 90% at 8% 0%, #22201d 0%, transparent 58%),
+      ${INK};
+  }
+  .stack { display: flex; flex-direction: column; }
   .kicker {
     color: ${GOLD};
     font-family: "Helvetica Neue", Arial, sans-serif;
@@ -103,7 +167,7 @@ function adHtml({ variant, size, qrDataUri }) {
   .rule {
     width: ${86 * unit}px;
     height: ${3 * unit}px;
-    margin: ${26 * unit}px 0 ${34 * unit}px;
+    margin: ${18 * unit}px 0 ${24 * unit}px;
     background: linear-gradient(90deg, ${GOLD}, ${GOLD_LIGHT});
   }
   h1 {
@@ -116,10 +180,10 @@ function adHtml({ variant, size, qrDataUri }) {
   h1 em { font-style: italic; color: ${GOLD_LIGHT}; }
   .sub {
     max-width: ${wide ? 620 * unit : 860 * unit}px;
-    margin-top: ${30 * unit}px;
+    margin-top: ${22 * unit}px;
     color: #cfd4d6;
-    font-size: ${wide ? 30 * unit : 38 * unit}px;
-    line-height: 1.45;
+    font-size: ${wide ? 26 * unit : 38 * unit}px;
+    line-height: 1.4;
   }
   .foot {
     display: flex;
@@ -140,7 +204,7 @@ function adHtml({ variant, size, qrDataUri }) {
   .footText { display: flex; flex-direction: column; gap: ${10 * unit}px; }
   .cta {
     font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: ${wide ? 30 * unit : 38 * unit}px;
+    font-size: ${wide ? 25 * unit : 38 * unit}px;
     font-weight: 700;
     letter-spacing: ${-0.3 * unit}px;
   }
@@ -152,28 +216,34 @@ function adHtml({ variant, size, qrDataUri }) {
     letter-spacing: ${1.5 * unit}px;
   }
   .proof {
-    margin-top: ${18 * unit}px;
-    padding-left: ${20 * unit}px;
+    margin-top: ${14 * unit}px;
+    padding-left: ${18 * unit}px;
     border-left: ${3 * unit}px solid ${GOLD};
     color: #b9c0c3;
-    font-size: ${wide ? 24 * unit : 30 * unit}px;
+    font-size: ${wide ? 21 * unit : 30 * unit}px;
     font-style: italic;
   }
 </style></head>
 <body>
-  <div class="stack">
-    <div class="kicker">${variant.kicker}</div>
-    <div class="rule"></div>
-    <h1>${variant.headline.replace(/\n/g, "\n")}</h1>
-    <p class="sub">${variant.sub}</p>
-    <p class="proof">${variant.proof}</p>
-  </div>
-  <div class="foot">
-    <div class="qr"><img src="${qrDataUri}" alt=""></div>
-    <div class="footText">
-      <span class="cta">${variant.cta}</span>
-      <span class="cta price">${OFFER.price} · ${OFFER.terms}</span>
-      <span class="meta">${OFFER.site.toUpperCase()}</span>
+  <figure class="photo">
+    <img src="${photoUri}" alt="">
+    <figcaption class="credit"><img src="${logoUri}" alt=""><span>${PRODUCT.credit}</span></figcaption>
+  </figure>
+  <div class="panel">
+    <div class="stack">
+      <div class="kicker">${variant.kicker}</div>
+      <div class="rule"></div>
+      <h1>${variant.headline.replace(/\n/g, "\n")}</h1>
+      <p class="sub">${variant.sub}</p>
+      <p class="proof">${variant.proof}</p>
+    </div>
+    <div class="foot">
+      <div class="qr"><img src="${qrDataUri}" alt=""></div>
+      <div class="footText">
+        <span class="cta">${variant.cta}</span>
+        <span class="cta price">${OFFER.price} · ${OFFER.terms}</span>
+        <span class="meta">${OFFER.site.toUpperCase()}</span>
+      </div>
     </div>
   </div>
 </body></html>`;
@@ -194,6 +264,9 @@ async function main() {
 
   // One QR for the campaign landing page. Generated locally, high error
   // correction so it still scans off a phone screen at an angle.
+  const photoUri = assetDataUri(PRODUCT.image);
+  const logoUri = assetDataUri(PRODUCT.logo);
+
   const qrDataUri = await QRCode.toDataURL(OFFER.landing, {
     errorCorrectionLevel: "H",
     margin: 0,
@@ -213,7 +286,7 @@ async function main() {
           viewport: { width: size.w, height: size.h },
           deviceScaleFactor: 1,
         });
-        await page.setContent(adHtml({ variant, size, qrDataUri }), { waitUntil: "load" });
+        await page.setContent(adHtml({ variant, size, qrDataUri, photoUri, logoUri }), { waitUntil: "load" });
         const file = path.join(OUT_DIR, `${variant.id}-${size.id}.png`);
         await page.screenshot({ path: file, type: "png" });
         await page.close();

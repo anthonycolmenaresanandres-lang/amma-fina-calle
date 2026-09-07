@@ -7,6 +7,19 @@
 // intake. NOT live, never advertise: ordering, payments, POS, loyalty, delivery,
 // analytics dashboards, or any "increase sales by X%" promise.
 
+/**
+ * Real client product photography, already approved and in use on the live
+ * site. Never AI-generated, never stock. Showing a client's product in OUR
+ * advertising needs that client's written permission before launch — see
+ * GROWTH/ONLINE_AD_CAMPAIGN.md §3.
+ */
+export const PRODUCT = {
+  image: "APP/web/public/assets/colattao/colattao-menu-hero-4x5-v1.webp",
+  logo: "APP/web/public/assets/colattao/colattao-logo-cream-1600.png",
+  credit: "Colattao · a live Fina Calle menu",
+  permission: "required from Colattao before this creative runs",
+};
+
 export const OFFER = {
   price: "$199/month",
   terms: "month-to-month",
@@ -27,7 +40,7 @@ export const VARIANTS = [
     kicker: "Virginia Beach restaurants",
     headline: "Your menu,\none scan away.",
     sub: "Change a price at 9am. Every table sees it at 9:01.",
-    proof: "Live today for a local café.",
+    proof: "This café\u2019s menu is live right now.",
     cta: "See a real one",
   },
   {
@@ -36,7 +49,7 @@ export const VARIANTS = [
     kicker: "QR menus, built for you",
     headline: "$199 a month.\nThat's the whole price.",
     sub: "No setup fee. No contract. Cancel any month.",
-    proof: "Built and hosted for you.",
+    proof: "Built, hosted and kept current for you.",
     cta: "See what's included",
   },
   {
@@ -45,7 +58,7 @@ export const VARIANTS = [
     kicker: "More than a menu",
     headline: "The menu\nthey play with.",
     sub: "Your menu, plus a game your guests play at the table.",
-    proof: "Playable demo — no signup.",
+    proof: "Playable demo \u2014 no signup.",
     cta: "Play the demo",
   },
 ];
