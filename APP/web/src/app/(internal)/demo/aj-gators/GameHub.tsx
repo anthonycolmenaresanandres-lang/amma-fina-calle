@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./portal.module.css";
 
-type GameKey = "trivia" | "picks" | "reflex" | "penalty";
+type GameKey = "trivia" | "picks" | "reflex" | "penalty" | "duel";
 
 const triviaQuestions = [
   {
@@ -261,11 +261,29 @@ function PenaltyPromo(): React.JSX.Element {
   );
 }
 
+function TableDuelPromo(): React.JSX.Element {
+  return (
+    <div className={styles.gameBody}>
+      <p className={styles.gameKicker}>2–6 players · own phones</p>
+      <h3 className={styles.gameTitle}>Table duel</h3>
+      <p className={styles.gameCopy}>
+        Everyone at the table hides three boats, then fires at each other blind. One person
+        starts a game and reads out the code; the rest join from their own phones. Last fleet
+        floating wins the table.
+      </p>
+      <a className={styles.actionButton} href="/table-duel?skin=ajgators">
+        Start a table game
+      </a>
+    </div>
+  );
+}
+
 const games: Array<{ key: GameKey; label: string }> = [
   { key: "trivia", label: "Sports trivia" },
   { key: "picks", label: "Points-only picks" },
   { key: "reflex", label: "Reflex challenge" },
   { key: "penalty", label: "Penalty shootout" },
+  { key: "duel", label: "Table duel" },
 ];
 
 export default function GameHub(): React.JSX.Element {
@@ -291,6 +309,7 @@ export default function GameHub(): React.JSX.Element {
       {activeGame === "picks" ? <PicksGame /> : null}
       {activeGame === "reflex" ? <ReflexGame /> : null}
       {activeGame === "penalty" ? <PenaltyPromo /> : null}
+      {activeGame === "duel" ? <TableDuelPromo /> : null}
 
     </div>
   );
