@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-09 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** The only change since the 09-09 morning run is the routine's own good news: the **09-09 VBFH Daily Run (#98, 16:14→16:16 UTC) fired and SUCCEEDED** — confirming the morning run's "hadn't-fired-yet" note was not a miss (runs 07-21…09-09 all ✅, ~fifty-one-day streak). Nothing else moved: no new merges to any `main`/`master` (amma still **`26dd0426`**, #224), no new/closed/opened PRs, no new commits on any default branch, no new review comments (no open draft's `updated_at` moved since 08-18). Default-branch tips all re-verified via API and unchanged: amma **`26dd0426`** (#224), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#150) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **Four** open drafts still held (#221/#219/#218/#197, all Vercel Ready ✅; #221 `web` CI ✅). No merge-conflict/base-branch notices received; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
+**Last updated:** 2026-09-10 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing; nothing changed since the 09-09 afternoon run.** No new merges to any `main`/`master` (amma still **`26dd0426`**, #224), no new/closed/opened PRs, no new commits on any default branch, no new review comments (no open draft's `updated_at` moved since 08-18). Default-branch tips all re-verified via API and unchanged: amma **`26dd0426`** (#224), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#150) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. VBFH Daily Run latest completed **#98** (09-09 16:14→16:16 UTC SUCCEEDED); the **09-10 run had not yet fired at check time** — normal late-scheduler window, not a miss (runs 07-21…09-09 all ✅, ~fifty-two-day streak). **Four** open drafts still held (#221/#219/#218/#197, all Vercel Ready ✅; #221 `web` CI ✅). No merge-conflict/base-branch notices received; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -77,7 +77,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-09, afternoon)
+## Build health (as of 2026-09-10, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every default-branch tip is unchanged and every build is green.
@@ -85,7 +85,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`26dd0426`** (**#224** "Fix ad landing leads rejected by the intake endpoint," 1 file / +5−1, Anthony's own merge, 09-07 17:03 UTC). **`CI — web` run #150 ✅** on this tip. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Four** open drafts held, all Vercel Ready ✅: **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. No open draft's `updated_at` has moved since 08-18. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-09 16:14→16:16 UTC SUCCEEDED (run #98)**. Every run 07-21…09-09 that fired was ✅ (~fifty-one-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-09 16:14→16:16 UTC SUCCEEDED (run #98)**; the 09-10 run had not yet fired at check time (normal late-scheduler window). Every run 07-21…09-09 that fired was ✅ (~fifty-two-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -197,6 +197,19 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-10 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
+  changed since the 09-09 afternoon run.** No new merges to any `main`/`master` (amma still **`26dd0426`**, #224),
+  no new/closed/opened PRs, no new commits on any default branch, no new review comments (no open draft's
+  `updated_at` moved since 08-18). Default branches re-verified via API: amma `26dd0426` (#224), vbfh `e21077d`
+  (#7), shadow `5113ce5`, EscapeTheBomb `eee6a37`. amma `CI — web` ✅ (#150) + `CI — voice-gateway` ✅ (#13) on
+  main; vbfh `CI` ✅ (#21) on master. VBFH Daily Run latest completed **#98** (09-09 16:14 UTC SUCCEEDED); the
+  **09-10 run had not yet fired at check time** — normal late-scheduler window, not a miss. Four open drafts still
+  held (#221/#219/#218/#197, all Vercel Ready ✅; #221 `web` CI ✅). shadow & EscapeTheBomb have no CI workflows —
+  nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question
+  stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the four open draft heads excluded).
+  Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant
+  submission, #215 Table Duel deploy step, branch cleanup). No push notification sent — quiet all-green run,
+  nothing new needing Anthony.
 - **2026-09-09 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** The
   only change since the 09-09 morning run is the routine's own good news: the **09-09 VBFH Daily Run (#98, 16:14→
   16:16 UTC) fired and SUCCEEDED** — confirming the morning run's "hadn't-fired-yet" note was not a miss. Nothing
