@@ -29,8 +29,8 @@ Reusable modules planned for AMMA/Fina Calle:
   client's Instagram to take food orders on three surfaces — the profile Order Food button, the Stories
   FOOD ORDERS sticker (which does NOT consume the single button slot), and the bio link carrying the
   Fina Calle menu. Uses an ordering rail the client already pays for; AMMA is not and cannot become an
-  Instagram ordering partner. Deterministic rail/disclosure router included. Anthony must ratify pricing
-  before anything is quoted; proposal is free inside the $199 plan, $125 one-time for prospects)
+  Instagram ordering partner. Deterministic rail/disclosure router included. No published
+  price — priced per client by Anthony at quote time; never quote a figure from the repo)
 - Instagram DM Ordering / Order Core (PLANNED — plan `INSTAGRAM_DM_ORDERING_PLAN.md`;
   turns a client's Instagram DMs into a commission-free ordering channel. Key decision: build
   a transport-agnostic **Order Core** with hosted Stripe Connect checkout first — it earns from

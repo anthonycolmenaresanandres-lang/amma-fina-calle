@@ -16,7 +16,11 @@
 
 - Rails the client ALREADY pays for:
 - Currently in the action-button slot:
-- Cost to client agreed:  [ ] $0, existing rail   [ ] new cost agreed in writing: $______/mo
+- **Client's ordering-rail cost** (their ChowNow/Square/Toast fee, not AMMA's):
+    [ ] $0 — they already pay for it   [ ] new rail cost agreed in writing: $______/mo
+- **AMMA's fee for this client:** set by Anthony at quote time. Never taken from a rate card
+  or from anything in this repository.
+    [ ] figure received from Anthony in writing   [ ] recorded in the private client record
 - Written scope recorded:  [ ] yes
 
 ## G1 — Decide

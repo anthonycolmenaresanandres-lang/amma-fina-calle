@@ -23,16 +23,28 @@ similar). AMMA cannot join it and must never claim to be on it. The long-game an
 commission problem is the separate Order Core roadmap in
 `PRODUCT_MODULES/INSTAGRAM_DM_ORDERING_PLAN.md`.
 
-## Commercial position (proposal — Anthony decides)
+## Commercial position — no published price
 
-| Audience | Recommendation | Why |
-| --- | --- | --- |
-| Existing $199/month client | **Included, no charge**, delivered during onboarding or as a retention visit | It is 15–30 minutes, it makes the plan visibly useful in week one, and charging separately for settings work is the kind of thing owners resent once they see how simple it was. |
-| Prospect not yet on a plan | **Paid one-time setup, $125**, no plan required | A cheap, fast, real win that earns the meeting for the $199 plan. A foot in the door that is genuinely useful even if they never buy. |
+**This SOP carries no price, and no price is published for this add-on.** Deliberate.
 
-Anthony ratifies or replaces these numbers before either is quoted. Until then, quote
-nothing. Once ratified, add the line to `SALES_DEMO_PACKAGE/CORE_OFFER_199.md` and
-`OPERATIONS/SOPS/RESTAURANT_199_DELIVERY_STANDARD.md` so the offer stays single-sourced.
+Pricing is set **per client, by Anthony, at quote time**, based on what that location can
+comfortably carry — not from a rate card. Two restaurants getting the same 20 minutes of
+work can correctly pay different amounts, because what they are buying is the outcome on
+their Instagram, not the minutes.
+
+Rules for whoever runs this SOP:
+
+- **Never quote a number from this repo.** There isn't one here on purpose. Get the figure
+  from Anthony for that specific client, in writing, before it reaches an owner.
+- **Never imply it is free** to an existing client unless Anthony has said so for that
+  client. "Included" is a pricing decision, not a courtesy you can extend.
+- **Never discount, bundle, or trade it** against other work without Anthony.
+- The cost of the *client's own ordering rail* (their ChowNow, Square, Toast fee) is a
+  separate matter from AMMA's fee, and the two must never be blurred in a conversation
+  with an owner.
+
+Record the agreed figure in the work order and the private client record — never in this
+repository.
 
 ## The three surfaces
 
