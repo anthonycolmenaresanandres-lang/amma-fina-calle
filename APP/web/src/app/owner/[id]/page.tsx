@@ -9,6 +9,8 @@ import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { isSafeRestaurantId, ownerAppPath } from "@/lib/owner/app-manifest";
 import { getBrandAssets } from "@/lib/brand";
+import { LAS_PALMAS_RESTAURANT_ID } from "@/lib/owner/menu-control";
+import { ownerAccountProfile } from "@/lib/owner/account-profile";
 import {
   getBillingNotice,
   getOwnerBillingSummary,
@@ -227,7 +229,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const [restaurantRes, categoriesRes, itemsRes, auditRes] = await Promise.all([
+  const [restaurantRes, categoriesRes, itemsRes, auditRes, accountRes] = await Promise.all([
     supabase
       .from("restaurants")
       .select("id, business_name, site_url, plan, billing_status")
@@ -246,6 +248,10 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
       .neq("table_name", "promos")
       .order("created_at", { ascending: false })
       .limit(12),
+    supabase.from("restaurants")
+      .select("billing_name, contact_name, contact_email, contact_phone, billing_address_line1, billing_address_city, billing_address_state, billing_address_postal_code, billing_address_country")
+      .eq("id", id)
+      .maybeSingle(),
   ]);
 
   type ItemRow = {
@@ -298,6 +304,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     businessName: restaurant?.business_name ?? businessName,
     siteUrl: restaurant?.site_url ?? null,
     email: ctx.email,
+    account: accountRes.error ? null : ownerAccountProfile(accountRes.data),
     logo: getBrandAssets(id).logo ?? null,
     categories,
     audit: (auditRes.data as AuditEntry[] | null) ?? [],
@@ -305,6 +312,9 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     billingNotice,
     paymentNotices,
     zelleInstructions,
+    menuConnectionNotice: id === LAS_PALMAS_RESTAURANT_ID && process.env.LAS_PALMAS_OWNER_MENU_ENABLED !== "true"
+      ? "Guest-menu connection is not activated yet. Saved edits update your menu data, but the guest demo still shows its sample menu. Finish pilot activation before inviting guests."
+      : null,
   };
 
   return (

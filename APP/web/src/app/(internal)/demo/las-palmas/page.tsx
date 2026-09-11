@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
-import {
-  lasPalmasLynnhavenMenuSections,
-  lasPalmasLynnhavenMenuSourcePreview,
-} from "@/table-os/menu/las-palmas-lynnhaven";
+import { getLasPalmasGuestMenu } from "@/lib/owner/las-palmas-menu";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
 import LasPalmasSilverPalmMotion from "./LasPalmasSilverPalmMotion";
 
 // Las Palmas prospect demo menu — PENDING CLIENT APPROVAL, unlinked + noindex.
-// Static preview only: it reuses the curated public-source Lynnhaven dataset
-// (single source of truth in src/table-os/menu/las-palmas-lynnhaven.ts) and
-// never touches Supabase or the Client OS routes (/m, /owner, /customers).
+// Default is the public-source preview. The owner-managed source is opt-in
+// after pilot approval; when enabled, read failures never show stale demo prices.
 // Visual direction: the original green cantina system with Anthony's supplied
 // red sign isolated from its beach background. Silver palms resolve into the
 // permanent semantic menu dock. Menu + game + table preview remain one
@@ -29,6 +25,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 // Brand type matched to the original sign: "Las Palmas" is tall white serif
 // display lettering, so the whole page runs on Playfair Display. This also
 // backs the --font-playfair variable the silver-palm motion title already
@@ -45,9 +43,8 @@ function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-export default function LasPalmasDemoMenuPage(): React.JSX.Element {
-  const sections = lasPalmasLynnhavenMenuSections;
-  const notice = lasPalmasLynnhavenMenuSourcePreview.prominentNotice;
+export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element> {
+  const { sections, notice, state } = await getLasPalmasGuestMenu();
 
   return (
     <main
@@ -83,6 +80,7 @@ export default function LasPalmasDemoMenuPage(): React.JSX.Element {
         </p>
 
         <div className="mt-8 space-y-10">
+          {state === "connected" && sections.length === 0 ? <p className="text-sm text-[#d8cfc1]">No items are currently listed. Please ask staff.</p> : null}
           {sections.map((section) => (
             <section
               key={section.name}

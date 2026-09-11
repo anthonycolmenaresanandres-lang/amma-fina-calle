@@ -107,6 +107,7 @@ const lasPalmasColors: PenaltyColors = {
   net: 0xe3d9bd,
   ball: 0xfdfdfd,
   ballSpot: 0x1c2b22,
+  ballAccent: 0xce2b37,
   keeper: 0xf05b9d,
   keeperAccent: 0x172137,
   accent: 0xe8b45a,
@@ -126,6 +127,8 @@ export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
   // The right-side penalty spot clears both foreground food characters.
   layoutFit: { goalTopPct: 0.23, goalBottomPct: 0.57, postExtensionPct: 0, spotXPct: 0.68 },
   keeperAppearance: { skinTone: 0x75452f, hairColor: 0x171719 },
+  // Larger original Mexico-color ball; presentation only, no collision changes.
+  ballFit: { scale: 1.7 },
   // Owner-supplied die-cut food-mascot stickers (processed from Anthony's
   // uploads 2026-07-25: magenta backdrop flood-filled to alpha, AI sparkle
   // cropped) + fiesta stadium backdrop. All optional — missing file falls

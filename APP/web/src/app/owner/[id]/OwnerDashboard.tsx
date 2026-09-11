@@ -14,11 +14,13 @@ import {
 import type { BillingSummary } from "@/lib/billing/types";
 import type { PaymentNotice, ZelleInstructions } from "@/lib/zelle/types";
 import AskBar from "./AskBar";
+import MenuQuickEdit from "./MenuQuickEdit";
+import { ownerGuestMenuPath } from "@/lib/owner/menu-control";
 import BillingCard from "./BillingCard";
+import AccountInfo from "./AccountInfo";
+import type { OwnerAccountProfile } from "@/lib/owner/account-profile";
 import ZellePaymentCard from "./ZellePaymentCard";
 import styles from "./owner-portal.module.css";
-
-const COLATTAO_MENU_URL = "https://colattao-cafe-rush.vercel.app/menu";
 
 export type ItemSize = { label: string; price: number | string };
 
@@ -60,11 +62,9 @@ export type DashboardData = {
   billingNotice?: string | null;
   paymentNotices?: PaymentNotice[];
   zelleInstructions?: ZelleInstructions;
+  menuConnectionNotice?: string | null;
+  account?: OwnerAccountProfile | null;
 };
-
-function publicMenuHref(restaurantId: string): string {
-  return restaurantId === "colattao" ? COLATTAO_MENU_URL : `/m/${restaurantId}`;
-}
 
 const FIELD_LABELS: Record<string, string> = {
   price: "price",
@@ -77,9 +77,10 @@ const FIELD_LABELS: Record<string, string> = {
 };
 
 const OWNER_SECTIONS = [
-  { number: "01", label: "Request", href: "#owner-request" },
-  { number: "02", label: "Billing", href: "#owner-billing" },
-  { number: "03", label: "History", href: "#owner-history" },
+  { number: "01", label: "Menu", href: "#owner-menu" },
+  { number: "02", label: "Request", href: "#owner-request" },
+  { number: "03", label: "Account", href: "#owner-billing" },
+  { number: "04", label: "History", href: "#owner-history" },
 ] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
@@ -133,7 +134,7 @@ export default function OwnerDashboard({
           </div>
         </div>
         <div className={styles.utilityActions}>
-          <ButtonLink href={publicMenuHref(data.restaurantId)} variant="ghost">
+          <ButtonLink href={ownerGuestMenuPath(data.restaurantId)} variant="ghost">
             <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
             Menu
           </ButtonLink>
@@ -169,6 +170,13 @@ export default function OwnerDashboard({
       </nav>
 
       <div className={styles.board}>
+        <section id="owner-menu" aria-labelledby="owner-menu-heading" tabIndex={-1} className={cn(styles.menuFrame, styles.sectionAnchor)}>
+          <h2 id="owner-menu-heading" className={styles.frameLabel}><span className={styles.frameNumber}>01</span>Menu</h2>
+          {data.menuConnectionNotice ? <p role="status" className="mb-5 border-l-2 border-[#d5b56e] pl-3 text-sm leading-6 text-[#f0d79c]">{data.menuConnectionNotice}</p> : null}
+          {readOnly ? <p className="text-sm text-[#aeb7bd]">Direct menu editing is available only to an authorized owner. This preview does not save changes.</p>
+            : data.restaurantId === "colattao" ? <p className="text-sm leading-6 text-[#aeb7bd]">Your guest menu is on the separate Colattao site. Use Request below for menu changes until direct updates are connected to that site.</p>
+              : <MenuQuickEdit restaurantId={data.restaurantId} categories={data.categories} />}
+        </section>
         <section
           id="owner-request"
           aria-label="Request"
@@ -193,9 +201,10 @@ export default function OwnerDashboard({
           aria-labelledby="owner-billing-heading"
         >
           <h2 id="owner-billing-heading" className={styles.frameLabel}>
-            <span className={styles.frameNumber}>02</span>
-            Billing
+            <span className={styles.frameNumber}>03</span>
+            Account &amp; billing
           </h2>
+          <AccountInfo businessName={data.businessName} email={data.email} profile={data.account ?? null} />
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
@@ -225,7 +234,7 @@ export default function OwnerDashboard({
               tone="accent"
               icon={<History size={13} strokeWidth={1.75} aria-hidden />}
             >
-              <span className={styles.frameNumber}>03</span>
+              <span className={styles.frameNumber}>04</span>
               History
             </SectionHeading>
             {data.audit.length === 0 ? (

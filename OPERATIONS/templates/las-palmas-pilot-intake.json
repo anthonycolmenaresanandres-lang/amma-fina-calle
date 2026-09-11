@@ -1,0 +1,16 @@
+{
+  "status": "DRAFT_NOT_AUTHORIZED",
+  "candidateRestaurantId": "las-palmas-lynnhaven",
+  "locationConfirmed": false,
+  "ownerMenuApproved": false,
+  "privateAccessAuthorizationRecorded": false,
+  "pilotFeeAndTermsApproved": false,
+  "productionReleaseApproved": false,
+  "publicMenuExposureApproved": false,
+  "proposedDurationDays": 14,
+  "startDate": null,
+  "ownerMenuEvidenceReference": null,
+  "privateAccessEvidenceReference": null,
+  "commercialEvidenceReference": null,
+  "note": "References only: never include passwords, tokens, owner emails or phone numbers in this repository. Do not seed the unconfirmed public-source preview. Use the approved menu and existing onboarding controls after all gates pass."
+}

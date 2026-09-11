@@ -140,12 +140,16 @@ const triageSource = readFileSync(
 assert.doesNotMatch(dashboardSource, /owner-campaigns|label="Campaigns"|data\.promos|livePromos/);
 assert.doesNotMatch(
   dashboardSource,
-  /Quick edits|owner-menu|owner-live|CommandOverview|FeaturedSlot|setItemAvailability/,
+  /owner-live|CommandOverview|FeaturedSlot|setItemAvailability/,
 );
-assert.match(dashboardSource, /number: "01", label: "Request"/);
-assert.match(dashboardSource, /number: "02", label: "Billing"/);
-assert.match(dashboardSource, /number: "03", label: "History"/);
-assert.match(dashboardSource, /COLATTAO_MENU_URL/);
+// Anthony requested direct menu control on 2026-09-11; Request remains intact.
+assert.match(dashboardSource, /number: "01", label: "Menu"/);
+assert.match(dashboardSource, /number: "02", label: "Request"/);
+assert.match(dashboardSource, /number: "03", label: "Account"/);
+assert.match(dashboardSource, /number: "04", label: "History"/);
+assert.match(dashboardSource, /MenuQuickEdit/);
+assert.match(dashboardSource, /ownerGuestMenuPath/);
+assert.match(dashboardSource, /readOnly \?/);
 assert.doesNotMatch(ownerPageSource, /promosRes|type Promo/);
 assert.match(ownerPageSource, /Lilita_One/);
 assert.match(ownerPageSource, /\.neq\("table_name", "promos"\)/);

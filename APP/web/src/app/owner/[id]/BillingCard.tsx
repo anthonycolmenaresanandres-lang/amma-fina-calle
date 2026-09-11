@@ -124,7 +124,7 @@ export default function BillingCard({
     billing.status === "past_due" || billing.status === "unpaid"
       ? "Resolve payment"
       : needsCheckout
-        ? "Start recurring billing"
+        ? "Set up automatic payments"
         : "Manage billing";
   const controlsEnabled = billing.actionsEnabled && !readOnly;
 
@@ -135,7 +135,7 @@ export default function BillingCard({
         icon={<CreditCard size={13} strokeWidth={1.75} aria-hidden />}
         hint={billing.recurringEnabled ? "recurring on" : "recurring off"}
       >
-        Billing
+        Automatic payments
       </SectionHeading>
 
       <div className="mt-4 flex min-w-0 flex-wrap items-start justify-between gap-3">
@@ -199,7 +199,16 @@ export default function BillingCard({
         </p>
       ) : null}
 
-      <form action={action} className="mt-4 min-w-0">
+      <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
+        {needsCheckout
+          ? "Continue to secure Stripe checkout to review the amount and schedule before confirming recurring payments. Opening this page does not enroll you."
+          : "Use secure Stripe billing management to review invoices and manage the payment options available for your account."}
+      </p>
+
+      {readOnly ? <div className="mt-4">
+        <Button type="button" variant="subtle" disabled className="w-full whitespace-normal text-center leading-5 sm:w-auto">{actionLabel}</Button>
+        <p className="mt-3 text-xs leading-5 text-[#aeb7bd]">Preview only. Payment actions are disabled; no payment method or subscription will be created.</p>
+      </div> : <form action={action} className="mt-4 min-w-0">
         <Button
           type="submit"
           variant={needsCheckout ? "accent" : "success"}
@@ -209,7 +218,7 @@ export default function BillingCard({
           <CreditCard size={14} strokeWidth={1.75} aria-hidden />
           {controlsEnabled ? actionLabel : "Billing setup pending"}
         </Button>
-      </form>
+      </form>}
 
       {!billing.actionsEnabled ? (
         <p className="mt-3 text-xs leading-5 text-[#7f8a91]">

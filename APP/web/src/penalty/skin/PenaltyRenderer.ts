@@ -20,6 +20,7 @@ import { currentShotNumber, type MatchState } from "../engine/match";
 import { DEFAULT_CAMPAIGN } from "./campaigns";
 import { AD_ZONE_PANEL } from "./backgroundTemplate";
 import { drawHumanKeeper } from "./drawHumanKeeper";
+import { drawTricolorBall } from "./drawTricolorBall";
 
 export type RenderState = {
   layout: Layout;
@@ -705,6 +706,10 @@ export class PenaltyRenderer {
       return;
     }
 
+    if (colors.ballAccent !== undefined) {
+      drawTricolorBall(a, x, y, r, state.ballSpin, 0x006847, colors.ballAccent);
+      return;
+    }
     a.fillStyle(colors.ball, 1);
     a.fillCircle(x, y, r);
     a.fillStyle(colors.ballSpot, 1);
