@@ -2390,3 +2390,20 @@ Hard stop:
 - State now: documentation only, zero product diff. Nothing built, nothing connected, no migration written.
 - Next / handoff to: Anthony - decide the Stripe Connect direct-charge model and confirm applied production migration state, then paste the P0 queue entry from §12 into `OPERATIONS/CODEX_QUEUE.md` for Codex.
 - Blocked on Anthony: Meta app creation, Business Verification, App Review, all tokens and secrets, Stripe Connect onboarding, applied-migration confirmation, add-on pricing, pilot client selection.
+
+### [CHECK-IN] Claude - 2026-09-11 - Instagram Ordering Activation add-on (SOP + skill)
+
+- Picking up: Anthony's correction — the "Order Food" button can be sold as an add-on service even though AMMA cannot be a Meta partner, and he wants a permanent SOP plus an invokable bot so he can say "do this for <restaurant>".
+- State I see: `PRODUCT_MODULES/INSTAGRAM_DM_ORDERING_PLAN.md` is on `main` (merged as `69d760c`) and its §1 overstated the closed partner list as a dead end. `OPERATIONS/SOPS/` holds two SOPs in a gated format; `.claude/skills/` holds the AMMA specialist skills with the SKILL.md + references/ + scripts/ shape.
+- Boundaries: documentation, SOP, and local skill tooling only. No client contact, no pricing quoted, no account or credential action, no product route or Supabase/Stripe change.
+
+### [CHECK-OUT] Claude - 2026-09-11 - Instagram Ordering Activation add-on delivered
+
+- Did: added `OPERATIONS/SOPS/INSTAGRAM_ORDERING_ACTIVATION.md` (G0-G5 gated SOP), `OPERATIONS/templates/INSTAGRAM_ORDERING_WORK_ORDER.md` (blank record), and the `amma-ig-ordering-setup` skill (SKILL.md + `references/partners.json` + deterministic offline `scripts/ig_ordering_workorder.py`). Corrected §1 of the plan doc and added §1a "Two ladders, not one product"; registered the module in `MODULE_LIBRARY.md`.
+- Strategy recorded: the add-on is a configuration service on the client's own rail, not a platform play. Three surfaces, not one — profile button (single contested slot), Stories FOOD ORDERS sticker (does NOT consume the slot, and is re-shareable), and the bio link carrying the Fina Calle menu, so the add-on feeds the core product. Rail rule: prefer a rail the client already pays for; disclose commission in writing for marketplace rails; never sign a client up to a new commission marketplace under this add-on.
+- Verified this session: the button path is Instagram app > Edit Profile > Public Business Information > Action Buttons > Order Food > choose partner > Save; only one action button displays at a time; the Stories FOOD ORDERS sticker is a separate, re-shareable surface; ChowNow is commission-free at roughly $99-149/month per location; Square Online documents adding food-ordering buttons to Facebook and Instagram. Meta's own developer docs remain egress-blocked from this environment, and the partner picker in a client's own app is the only authoritative list.
+- Script verified: three decision branches exercised — existing aligned rail (Square, zero new cost), reservations holding the button slot (button skipped, sticker + bio link only, swap escalated to the owner), and marketplace-only (Uber Eats/DoorDash wired with a written commission disclosure). Offline, no credentials, no network.
+- Hard guardrail written in twice: AMMA never handles the owner's Instagram or Meta password. Screen-share while the owner taps, or owner-granted Meta Business Suite user access. A volunteered password is refused.
+- State now: documentation and local tooling only, zero product diff. No client contacted, no price quoted, no account touched.
+- Next / handoff to: Anthony - ratify or replace the two proposed prices, then the offer line is single-sourced into `SALES_DEMO_PACKAGE/CORE_OFFER_199.md` and the $199 delivery standard.
+- Blocked on Anthony: pricing ratification; any client contact, signup, or account access; the still-open #221 positioning decision (its Uber Eats handoff is Door 1 framing, and must not be pitched as commission-free).
