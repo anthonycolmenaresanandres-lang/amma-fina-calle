@@ -24,6 +24,13 @@ Reusable modules planned for AMMA/Fina Calle:
   checks) built and unit-tested in `services/voice-gateway/src/checkin/`, but not wired
   into any live phone/chat tool; real go-live is blocked on the client's booking-system
   API access, which has no committed timeline — planned/in development only)
+- Instagram Ordering Activation (SELLABLE NOW — SOP `OPERATIONS/SOPS/INSTAGRAM_ORDERING_ACTIVATION.md`,
+  skill `.claude/skills/amma-ig-ordering-setup/`; a 15-30 minute per-location setup service that wires a
+  client's Instagram to take food orders on three surfaces — the profile Order Food button, the Stories
+  FOOD ORDERS sticker (which does NOT consume the single button slot), and the bio link carrying the
+  Fina Calle menu. Uses an ordering rail the client already pays for; AMMA is not and cannot become an
+  Instagram ordering partner. Deterministic rail/disclosure router included. No published
+  price — priced per client by Anthony at quote time; never quote a figure from the repo)
 - Instagram DM Ordering / Order Core (PLANNED — plan `INSTAGRAM_DM_ORDERING_PLAN.md`;
   turns a client's Instagram DMs into a commission-free ordering channel. Key decision: build
   a transport-agnostic **Order Core** with hosted Stripe Connect checkout first — it earns from
