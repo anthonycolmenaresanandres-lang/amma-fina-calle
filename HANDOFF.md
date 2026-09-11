@@ -2,9 +2,10 @@
 
 ## 2026-09-11 - Approved combined release
 IN: Anthony: `great merge all of the changes including the game`. Release authorization covers completed queue items 22 and 23 only; queue item 24 records the release gate.
-STATE: Fresh fetch confirms origin/main and this branch base remain `26dd042`. Reviewed game/workflow changes are local and uncommitted; no PR exists yet. Canonical unrelated work is excluded.
-NEXT: Targeted verification, exact scoped commit/PR, green CI and Vercel preview, expected-head merge, then verify the resulting production revision and live game. No additional API, paid-service, credential, access or protected-surface work.
-PROGRESS: Reviewed/staged exactly 20 approved files. All 18 workflow unit/guard cases and all six refreshed local mobile browser cases pass (`browser-20260911-064722-dfbc5a`). Source/production base remains `26dd042`; package manifests, lockfiles and CI configuration are unchanged. Preparing the PR; CI/Vercel and final exact-head verification remain mandatory before merge.
+STATE: PR #226 merged at 2026-09-11T10:55:00Z after exact-head lock on `771b7d2fdf9f7cfef4b3b06985c2f1764a14ca0b`; resulting main is `1e4d78d982928d49225b7e27494c25b08f75a990`. Main's file tree exactly matches the reviewed release commit. Canonical unrelated work is excluded.
+NEXT: Anthony can review the live game at `https://finacalleos.com/penalty-shootout?skin=laspalmas`. No additional API, paid-service, credential, access or protected-surface work is authorized by this release.
+PROGRESS: Exactly 20 approved files released. All 18 workflow unit/guard cases, all six refreshed local mobile browser cases (`browser-20260911-064722-dfbc5a`), targeted ESLint, GitHub CI and Vercel preview passed. The base remained `26dd042` at merge; package manifests, lockfiles and CI configuration are unchanged.
+OUT: Production deployment `dpl_JCDWm54TwcpMfBkgzXukJkNoeqZ7` is Ready and owns `finacalleos.com` at merge revision `1e4d78d`. Live 390x844 and 320x740 screenshots inspected; grounded posts, pink keeper, one canvas, no horizontal overflow, no page errors, and a real top-left tap scored a goal. `/`, `/demo/las-palmas`, `/owner/colattao` and `/m/colattao` returned 200; `/owner-preview` remained 404. Vercel returned no game-route runtime errors since the merge (short observation window, not a long-term guarantee). Client-approval/demo disclosure remains intact. Product/workflow release complete; this documentation-only closeout changes no application files. Unrelated canonical edits and the original local preview are preserved.
 
 ## 2026-09-10 - Workflow efficiency
 IN: Anthony approved prudent changes from the skills/process review. Queue item 23 defines the scope.

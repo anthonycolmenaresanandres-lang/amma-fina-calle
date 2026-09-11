@@ -1,13 +1,15 @@
 # Codex Queue — canonical live queue
 
-## [ ] 24 - Release the approved Las Palmas game and workflow improvements
+## [x] 24 - Release the approved Las Palmas game and workflow improvements
 
-**State:** RELEASE IN PROGRESS
+**State:** DONE - MERGED AND PRODUCTION VERIFIED
 **Authority:** Anthony explicitly directed on 2026-09-11: `great merge all of the changes including the game`. This authorizes committing, pushing, opening a PR, merging and the existing automatic Vercel production deployment for completed items 22 and 23; it supersedes their local-only release stops for this exact scope.
 **Branch/base:** `codex/las-palmas-goal-keeper-20260910`; fetched `origin/main` still equals `26dd0426c438189efbd8bf8f76629d32031b9d79`.
 **Scope:** The reviewed Las Palmas presentation/keeper changes, workflow scripts and shared routing/licensing documentation, plus release records. Preserve unrelated canonical-checkout edits. No API activation, spending, credentials, access, database, billing, route migration or additional feature work.
 **PASS:** Full scoped diff reviewed; local targeted checks and mobile smoke pass; exact PR head has passing CI/Vercel checks; merge under an expected-head lock; resulting main revision reaches a Ready production deployment with `finacalleos.com`; live game and representative protected-route checks pass.
 **STOP:** Stop on unexpected base/head/diff, check failure, deployment mismatch or protected-surface regression. Do not bypass branch protections or auto-remediate unrelated failures.
+
+**Result:** PR #226 merged with exact-head protection; application release revision `1e4d78d982928d49225b7e27494c25b08f75a990`. Eighteen workflow unit/guard cases, six fresh local mobile checks, scoped ESLint, GitHub CI and Vercel preview passed. Production deployment `dpl_JCDWm54TwcpMfBkgzXukJkNoeqZ7` reached Ready and owns `finacalleos.com`. Live 390px/320px screenshots inspected, actual top-left tap scored a goal, one canvas and no horizontal overflow/page errors. Representative routes returned expected 200/404 statuses; no game-route runtime errors returned in the short post-merge window. Game remains labeled pending client approval/demo only. No unrelated changes, API activation, spending, access or package-manager migration. Subsequent release closeout is documentation only.
 
 ## [x] 23 - Implement prudent workflow-efficiency improvements
 
