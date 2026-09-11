@@ -73,7 +73,8 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 ### Menu-control implementation update — 2026-09-11
 
 - Existing owner update rails: authenticated, tenant-scoped audited changes in source. Do not infer any individual restaurant's activation from source alone.
-- Local implementation: direct field editor with review/save, price/name/description/availability and existing size prices; same-URL Las Palmas menu-data connection gated off by default. This branch is not yet deployed.
+- Code released through PR #228 (`6a01a4b`): direct field editor with review/save, price/name/description/availability and existing size prices; same-URL Las Palmas menu-data connection remains gated off. Las Palmas tenant/account activation is still unverified; its owner URL remains 404. Colattao's separately hosted guest menu stays in Request until a direct connection is verified.
+- Shared account information and optional Stripe automatic-payment setup/management presentation are deployed. This is not evidence of a Las Palmas billing identity, enrolled subscription, approved fee/date or paid invoice. Existing payment actions are reused; no payment was activated by this release.
 - Sales benefit: once a location is connected and verified, owners can update the supported digital-menu fields without calling AMMA or changing the printed QR. Guest pages may need refresh; printed prices do not update themselves. Exact wording and exclusions: `CORE_OFFER_199.md`.
 
 ## 🚫 Explicitly NOT offered as-is (per PRICING_AND_OFFER.md §5 + rules)

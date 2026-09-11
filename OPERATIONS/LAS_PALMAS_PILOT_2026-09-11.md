@@ -1,8 +1,8 @@
 # Las Palmas: menu-control pilot
 
-Status: PREPARED LOCALLY — NOT ACTIVATED, SENT, SCHEDULED OR PRICED AS A FREE OFFER.
+Status: CODE RELEASED; PILOT/ACCOUNT NOT ACTIVATED, SENT, SCHEDULED OR PRICED AS A FREE OFFER.
 
-Release follow-up: Anthony authorized the code merge on 2026-09-11 after adding Colattao-style account information and automatic-payment presentation (queue 26). That approval does not activate the Las Palmas account, guest-menu connection or any recurring charge. The blank intake remains a template, not an approval record.
+Release follow-up: Anthony authorized the code merge on 2026-09-11 after adding Colattao-style account information and automatic-payment presentation (queue 26). PR #228 merged as `6a01a4b`; production deployment `dpl_3hhpgXd1a5VNPhY6CcHrTRVyfPbX` is Ready and assigned to finacalleos.com. That release does not activate the Las Palmas account, guest-menu connection or any recurring charge. The blank intake remains a template, not an approval record.
 
 ## Account information and optional automatic payments
 
@@ -84,7 +84,7 @@ Savings formula, not a result: `(supported edits/month × avoided support minute
 
 ## Resume / approval gates
 
-Location → approved menu → private recipient/role authorization → written pilot fee/date → review/deploy approval → human-controlled tenant/access setup → menu-source activation → real authorized write/readback → final QR proof → contact/placement approval. Stop at the first missing gate. No production access, deployment, import, invitation, printing or customer send has occurred in this task.
+Location → approved menu → private recipient/role authorization → written pilot fee/date → review/deploy approval → human-controlled tenant/access setup → menu-source activation → real authorized write/readback → final QR proof → contact/placement approval. Stop at the first missing gate. Code deployment is now verified; no client provisioning, import, payment enrollment, invitation, printing or customer send has occurred.
 
 ## Local verification and preview
 
@@ -92,4 +92,4 @@ Complete locally: 64 new menu/intake/ball checks, existing owner-app/request sui
 
 Preview: `http://127.0.0.1:3131/pilot/las-palmas`; game: `http://127.0.0.1:3131/penalty-shootout?skin=laspalmas`. The sample workspace requires `LOCAL_PILOT_PREVIEW=1`, rejects non-loopback hosts and Vercel, uses unconfirmed fixtures, and has no persistence. `LAS_PALMAS_OWNER_MENU_ENABLED` remains false. Leave all activation gates in the intake false until individually evidenced.
 
-The default local Turbopack build rejected the shared node_modules junction's filesystem root; `npm.cmd run build -- --webpack` passed without configuration/dependency changes. A normal release CI build, actual authorized owner save/audit/guest readback, cross-tenant denial check, client approval and two-phone QR proof are still required. These local results do not certify live operation.
+The default local Turbopack build rejected the shared node_modules junction's filesystem root; `npm.cmd run build -- --webpack` passed without configuration/dependency changes. Normal hosted CI and Vercel checks have now passed on the exact release; live public routes/game and private Colattao sign-in are verified. Actual authorized owner save/audit/guest readback, cross-tenant denial check, client approval and two-phone QR proof are still required. This code release does not certify live Las Palmas account or payment operation.
