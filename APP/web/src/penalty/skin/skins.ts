@@ -97,7 +97,7 @@ export const COLATTAO_PENALTY_SKIN: PenaltySkin = {
 // Tropical cantina palette: palm-dusk greens with a warm gold accent. The kicker
 // is "El Palmerito", an original Fina Calle non-human palm mascot in a red shirt
 // with white sleeves (generic color scheme only — no club crest or marks). The
-// keeper stays the primitive Sentinel, recolored blue by the campaign kit.
+// keeper is an original fictional Nigerian character in a pink shirt.
 const lasPalmasColors: PenaltyColors = {
   bg: 0x061410,
   sky: 0x11382a,
@@ -107,8 +107,8 @@ const lasPalmasColors: PenaltyColors = {
   net: 0xe3d9bd,
   ball: 0xfdfdfd,
   ballSpot: 0x1c2b22,
-  keeper: 0x1e4fd8,
-  keeperAccent: 0x0c1e4a,
+  keeper: 0xf05b9d,
+  keeperAccent: 0x172137,
   accent: 0xe8b45a,
   goalText: "#8fe6a8",
   saveText: "#ff8a6b",
@@ -122,6 +122,10 @@ export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
   brandName: "Las Palmas Penalty Shootout",
   skinName: "Cantina Shootout",
   colors: lasPalmasColors,
+  // One goal mouth drives the posts, targets, keeper and shot destinations.
+  // The right-side penalty spot clears both foreground food characters.
+  layoutFit: { goalTopPct: 0.23, goalBottomPct: 0.57, postExtensionPct: 0, spotXPct: 0.68 },
+  keeperAppearance: { skinTone: 0x75452f, hairColor: 0x171719 },
   // Owner-supplied die-cut food-mascot stickers (processed from Anthony's
   // uploads 2026-07-25: magenta backdrop flood-filled to alpha, AI sparkle
   // cropped) + fiesta stadium backdrop. All optional — missing file falls
@@ -136,11 +140,8 @@ export const LASPALMAS_PENALTY_SKIN: PenaltySkin = {
   levelKickers: {
     "club-keeper": "/assets/laspalmas/penalty/kicker-laspalmas-quesabirria-v1.webp",
   },
-  // Fiesta backdrop: grass line sits ~0.65 in the art; scale+lift lands it at
-  // ~0.53 on canvas so the crowd/stands fill the behind-goal band and the
-  // keeper dives over grass. Light scrim keeps the papel picado vivid while
-  // the UI stays legible. Cosmetic only — goal geometry is engine-drawn.
-  backgroundFit: { scrim: 0.2, scale: 1.35, offsetYPct: -0.175 },
+  // Anchor the source grass boundary behind the feet/posts even after resize.
+  backgroundFit: { scrim: 0.2, scale: 1.35, pitchLinePct: 0.66 },
   // Same foreground framing as the Colattao striker: big bottom-left figure so
   // the ball on the spot stays clearly visible beside it.
   kickerFit: { scale: 2.4, offsetXPct: -0.2 },

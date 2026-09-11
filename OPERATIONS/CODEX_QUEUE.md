@@ -1,5 +1,36 @@
 # Codex Queue — canonical live queue
 
+## [ ] 24 - Release the approved Las Palmas game and workflow improvements
+
+**State:** RELEASE IN PROGRESS
+**Authority:** Anthony explicitly directed on 2026-09-11: `great merge all of the changes including the game`. This authorizes committing, pushing, opening a PR, merging and the existing automatic Vercel production deployment for completed items 22 and 23; it supersedes their local-only release stops for this exact scope.
+**Branch/base:** `codex/las-palmas-goal-keeper-20260910`; fetched `origin/main` still equals `26dd0426c438189efbd8bf8f76629d32031b9d79`.
+**Scope:** The reviewed Las Palmas presentation/keeper changes, workflow scripts and shared routing/licensing documentation, plus release records. Preserve unrelated canonical-checkout edits. No API activation, spending, credentials, access, database, billing, route migration or additional feature work.
+**PASS:** Full scoped diff reviewed; local targeted checks and mobile smoke pass; exact PR head has passing CI/Vercel checks; merge under an expected-head lock; resulting main revision reaches a Ready production deployment with `finacalleos.com`; live game and representative protected-route checks pass.
+**STOP:** Stop on unexpected base/head/diff, check failure, deployment mismatch or protected-surface regression. Do not bypass branch protections or auto-remediate unrelated failures.
+
+## [x] 23 - Implement prudent workflow-efficiency improvements
+
+**State:** DONE - LOCAL TOOLING; ADOPTION GATES RECORDED
+**Authority:** Anthony's direct 2026-09-10 request: `do all changes that you would find prudent and benefitial`, following the skills/process cost review. This authorizes the scoped local queue addition and implementation.
+**Branch:** Continue `codex/las-palmas-goal-keeper-20260910`; preserve its completed game changes and running preview.
+**Scope:** Shared Codex/Claude skill-routing guidance, reusable local-only browser smoke checks, isolated npm/pnpm comparison, corrected media licensing guidance, and an evidence-based optimization record.
+**PASS:** Guidance stays consistent without removing approval gates; smoke checks pass and reject remote targets; installation comparison records versions, conditions, timings and compatibility limits; no unmeasured savings claims.
+**STOP:** No secrets, access changes, API calls, spending, plugin uninstall, production/CI package-manager switch, push, PR, deploy, merge or customer contact. Batch integration remains held pending credential, data and budget decisions.
+
+**Result:** Codex/Claude share one routing policy; read-only mirror audit found 41 files and 20 identical duplicate-name groups, with no drift; four Node tests and 14 PowerShell guard cases pass. Local browser verifier passes all 3 keeper selections at 320x740 and 390x844, with screenshots inspected and no page errors/overflow. Remotion licensing and historical installation claims corrected. Install pilot recorded npm 160.46s cold / 179.23s warm, then was interrupted before a pnpm install result after responsiveness degraded; reruns now require explicit `-RunPilot`. npm remains unchanged; source package/lock hashes match. Batch integration remains held, not enabled. Commands and evidence limits are in `OPERATIONS/WORKFLOW_EFFICIENCY.md`. No production or external release performed.
+
+## [x] 22 - Ground the Las Palmas goal and add a pink-shirt keeper
+
+**State:** DONE - LOCAL REVIEW
+**Authority:** Anthony directly requested this task on 2026-09-10, authorizing the scoped goal-layout and fictional-human-character change beyond older campaign defaults.
+**Branch base:** `codex/las-palmas-goal-keeper-20260910` from `origin/main` `26dd042`.
+**Scope:** Las Palmas presentation configuration; shared geometry/renderer seams only as needed to align posts, aim targets, keeper, and ball; original fictional dark-skinned keeper with short natural hair and pink shirt. Preserve scoring/AI, other skins, routes, existing brand assets, and protected app surfaces.
+**PASS:** Posts and feet sit on grass; visible ball travels to the moved targets; tap/swipe, all levels, resizing and missing-asset fallback work; before/after mobile captures, targeted lint/types and production build pass.
+**STOP:** No push, deploy, merge, production publication, paid generation, or external upload.
+
+**Result:** Goal frame/keeper/aim targets share the new ground line; fiesta grass remains anchored on resize; the ball starts clear of both kickers; the original fictional dark-skinned keeper uses a pink shirt on all levels. High dives and saved-ball contact use the new character's placement. Passed all six tap targets across three levels, six swipe targets/live arrow, controlled goal/save/miss outcomes, resize during flight, 320px/390px/landscape visuals, missing-asset fallback, 120 cross-skin geometry checks, targeted ESLint, TypeScript and full production build. Built local preview: `http://127.0.0.1:3127/penalty-shootout?skin=laspalmas` (PID 13528). Final 390x844 screenshot inspected; one canvas, no runtime errors or horizontal overflow; 90 frames in 1490 ms. No production release performed.
+
 _Claude writes; Codex executes. This is the only live queue._
 
 Canonical repo: `C:\Dev\amma\amma-fina-calle`

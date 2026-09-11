@@ -2,6 +2,38 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-IN] Codex - 2026-09-11 - Approved combined release
+Authority: Anthony explicitly requested merging all completed changes including the game; queue item 24 records the exact release scope and supersedes prior local-only stops for items 22/23.
+State: Fetched `origin/main` still equals branch base `26dd042`; no existing PR for this branch. The isolated worktree contains only the reviewed game/workflow changes; unrelated dirty canonical work remains excluded.
+Next: Recheck targeted tests, scoped lint and local browser; commit/push one review branch; require green CI/Vercel for the exact head; merge with an expected-head lock and verify the resulting production deployment and live game.
+Boundaries: No new product behavior, API activation, credentials, access, billing/data changes or paid services. Stop on any unexpected diff, check, deployment or protected-route result.
+
+### [CHECK-OUT] Codex - 2026-09-10 - Workflow efficiency
+Did: Consolidated routing guidance into `OPERATIONS/SKILL_ROUTING.md`, referenced by Codex/Claude; added a read-only mirror audit, tested loopback-only mobile game verifier, and opt-in install benchmark; corrected media license/inventory claims and recorded API-cost gates.
+Verified: 41 skill files / 20 identical duplicate-name groups / no text drift; 4 Node tests; 14 PowerShell guard cases; six local browser cases with no page errors/overflow and inspected 320/390 screenshots; unchanged app manifest/lock hashes; clean diff whitespace. Current game presentation preserved.
+Measured: npm 160.46s cold / 179.23s warm under scripts-disabled conditions. pnpm trial interrupted before completed install timing after local responsiveness degraded; no speedup or migration claimed. Benchmark now defaults to no install and requires `-RunPilot` in an idle window.
+State now: Scoped uncommitted operations changes alongside the prior completed game changes on `codex/las-palmas-goal-keeper-20260910`. Canonical dirty checkout unchanged. Existing preview PID 13528 remains in service; new smoke sessions closed. Task-owned benchmark/evidence directories retained; no ongoing install job.
+Next: Anthony reviews the local changes. One-week delivery-time measurement remains a pilot, not a completed savings result. Batch requires credential/data/budget decisions before API-calling code; Remotion eligibility requires actual team/ownership information. No secrets, global skill deletion, paid/API activation, push, PR, merge or deploy.
+
+### [CHECK-IN] Codex - 2026-09-10 - Workflow efficiency
+Picking up: Anthony approved prudent changes following the skills/process review; queue item 23 records the local scope.
+State I see: Existing Las Palmas changes and preview are verified and preserved. The canonical checkout remains dirty on an older branch. This isolated branch is based on `26dd042`; roughly 14.8 GiB free; bundled pnpm 11.19.0 is available.
+Plan: Consolidate routing guidance without deleting installed skills; add local browser regression tooling; benchmark installs in disposable task-owned directories without changing the app lockfile; correct license/cost guidance.
+Next: Implement, run targeted automated tests and local smoke checks, record measured results. API integration, spending, production and external publication remain held.
+
+### [CHECK-OUT] Codex - 2026-09-10 - Las Palmas goal and keeper
+Did: Grounded the goal/keeper/targets together; aligned shot paths and visible ball; added an original fictional dark-skinned Nigerian keeper in pink across all levels; anchored background grass and rebased in-flight coordinates on resize.
+State now: Scoped uncommitted changes on `codex/las-palmas-goal-keeper-20260910`, base `26dd042`. Scoring/keeper AI and other skins retain their baseline. No raster assets or dependencies changed.
+Verified: Six tap zones on all three levels; six swipe zones and real mouse gestures; controlled goals/saves/misses; 390-to-320 in-flight resize; 320/390/landscape captures; real missing-image fallback; 120 geometry checks across five skins/four viewports; targeted lint; TypeScript; production build; final built mobile screenshot. No page errors/overflow; sampled 90 frames in 1490 ms.
+Next / handoff to: Anthony -> review `http://127.0.0.1:3127/penalty-shootout?skin=laspalmas`; local production server PID 13528. Screenshot/report at `C:\Users\antho\Documents\Codex\2026-09-10\give-m\outputs\`.
+Blocked on Anthony: production publication only; no commit/push/PR/deploy/merge performed.
+
+### [CHECK-IN] Codex - 2026-09-10 - Las Palmas goal and keeper
+Picking up: Anthony's direct request to ground the Las Palmas goal, align shots, and create a fictional Nigerian keeper in a pink shirt.
+State I see: Current production source `26dd042`; clean sibling worktree `codex/las-palmas-goal-keeper-20260910`. Canonical dirty edits are preserved. Live 390x844 reference confirms posts/keeper above grass and an obscured resting ball.
+Next: scoped presentation implementation, mobile/fallback/input regression QA, lint/types/build, local preview.
+Blocked: none for local implementation; production publish remains unapproved.
+
 ## Entry format
 
 ```markdown

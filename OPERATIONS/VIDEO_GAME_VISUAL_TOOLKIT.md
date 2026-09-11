@@ -2,7 +2,15 @@
 
 ## Decision
 
-AMMA's free production lane is Remotion + FFmpeg for video and Pixelorama + the existing Phaser 4.1.0 runtime for game visuals. This keeps work reproducible on the current Intel workstation, gives Claude and Codex the same playbook, and avoids subscriptions or a speculative engine migration.
+AMMA's local production lane is Remotion + FFmpeg for video and Pixelorama + the existing Phaser 4.1.0 runtime for game visuals. This keeps work reproducible on the current Intel workstation and gives Claude and Codex the same playbook. Remotion is source-available, not unconditionally free: confirm license eligibility before commercial use or scaling; hosting/render compute is a separate cost.
+
+## License and cost gate - checked 2026-09-10
+
+- Remotion's Free License covers individuals and eligible organizations/teams of up to three people. Commercial organizations of four or more generally need a Company License; collaborators and project ownership can affect the count.
+- Delivering only a finished video does not add the client's headcount; jointly operating or transferring the Remotion project may. Check the actual arrangement rather than assuming AMMA is eligible.
+- Current paid options: Creators $25 per seat/month for qualifying low-volume work; Automators $0.01 per render with a $100/month minimum. Cloud compute is additional. Do not purchase or activate either without Anthony's approval.
+- Team size, project-ownership arrangements and AMMA's current paid-license status are unknown in this review. This document is not proof of license compliance.
+- Sources: [pricing](https://www.remotion.dev/docs/license/pricing), [agency and automation FAQ](https://www.remotion.dev/docs/license/faq). Recheck before a purchase, upgrade or client delivery.
 
 ## Installed tools
 
@@ -18,7 +26,7 @@ Selected official Remotion skills: `mediabunny`, `remotion-captions`, `remotion-
 
 Selected official Phaser skills: `animations`, `filters-and-postfx`, `loading-assets`, `particles`, `render-textures`, `scale-and-responsive`, `sprites-and-images`, and `v4-new-features`.
 
-The official Remotion `remotion-docs` skill was rejected after the installer rated it high risk. `remotion-saas` was excluded because AMMA does not need a hosted rendering product, and the `remotion-best-practices` router was excluded because it bundled both rejected folders. The six direct production skills are all installer-rated low risk with no source-scanner alerts. No application dependency was added.
+Historical standalone-install record: `remotion-docs` and the bundled router were excluded after the installer flagged the then-reviewed package; `remotion-saas` was excluded as out of scope. That snapshot is not a current verdict on a later plugin version or proof of today's inventory. Current discovery also includes the official Remotion plugin. Follow `OPERATIONS/SKILL_ROUTING.md` to select one task-specific, runtime-compatible guide; review the exact version before changing installation policy. This workflow update adds no application dependency.
 
 ## Required workflow
 
