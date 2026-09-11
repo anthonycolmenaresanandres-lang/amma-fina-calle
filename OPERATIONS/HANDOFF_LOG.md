@@ -2,6 +2,12 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-11 - Approved combined release
+Did: Merged the 20-file approved game/workflow release through PR #226 with an expected-head lock on `771b7d2`; resulting main revision `1e4d78d982928d49225b7e27494c25b08f75a990` exactly matches the reviewed file tree.
+Verified: 18 workflow unit/guard cases, six refreshed local mobile cases, targeted ESLint, GitHub CI and Vercel preview passed. Production deployment `dpl_JCDWm54TwcpMfBkgzXukJkNoeqZ7` is Ready and assigned to `finacalleos.com` at that revision. Live 390px and 320px screenshots were inspected; one canvas, no horizontal overflow or page errors, and a real top-left tap scored a goal. Representative routes returned expected statuses: `/`, `/demo/las-palmas`, `/owner/colattao`, `/m/colattao` 200; `/owner-preview` 404. No Vercel game-route runtime errors were returned for the short post-merge observation window.
+State now: Game and workflow improvements are released. Only this documentation closeout follows the verified application release; no package, CI, route, billing, API, credential or access changes. Canonical unrelated dirty work and the existing local preview remain untouched. Client-approval/demo-only disclosure remains because company release approval is not client approval.
+Next: Anthony reviews `https://finacalleos.com/penalty-shootout?skin=laspalmas`. Workflow savings remain unmeasured; pnpm migration and Batch activation remain gated. Screenshots and the release record are in the task's `outputs/` directory. No ongoing monitoring or unattended API job was created.
+
 ### [CHECK-IN] Codex - 2026-09-11 - Approved combined release
 Authority: Anthony explicitly requested merging all completed changes including the game; queue item 24 records the exact release scope and supersedes prior local-only stops for items 22/23.
 State: Fetched `origin/main` still equals branch base `26dd042`; no existing PR for this branch. The isolated worktree contains only the reviewed game/workflow changes; unrelated dirty canonical work remains excluded.
