@@ -1,0 +1,243 @@
+/* Lotería de Las Palmas — playable prospect hero.
+   Palette is the existing cantina system: #06130d / #0b2b1b ground,
+   #dfe3e6 / #aeb5bb silver palms, #f2ead6 card stock, #d5322d sign red.
+   One new hue, lime #A8C43A, is reserved for the ball — the only object
+   the guest touches. */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding-top: 1.4rem;
+}
+
+.marca {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.marca h1 {
+  margin: 0;
+  font-size: clamp(1.3rem, 5.2vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #f2ead6;
+}
+
+.marca h1 em {
+  font-style: normal;
+  color: #aeb5bb;
+}
+
+.lugar {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7d8a91;
+  white-space: nowrap;
+}
+
+/* ---- pitch ---- */
+
+.cancha {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #0b2b1b 0%, #071a11 62%, #06130d 100%);
+  box-shadow: inset 0 0 0 1px rgba(223, 227, 230, 0.13);
+  touch-action: none;
+}
+
+.cancha canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.marcador {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.8rem;
+  left: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7d8a91;
+  pointer-events: none;
+}
+
+.marcador b {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #dfe3e6;
+}
+
+.pista {
+  position: absolute;
+  right: 0;
+  bottom: 0.85rem;
+  left: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #aeb5bb;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.pistaOculta {
+  opacity: 0;
+}
+
+.grito {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2.4rem, 12vw, 3.8rem);
+  letter-spacing: 0.06em;
+  color: #fff8ee;
+  opacity: 0;
+  transform: scale(0.82);
+  pointer-events: none;
+}
+
+.gritoVer {
+  animation: grito 1.15s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+
+.gritoFallo {
+  font-size: clamp(1.4rem, 6.5vw, 2rem);
+  color: #7d8a91;
+}
+
+@keyframes grito {
+  0% { opacity: 0; transform: scale(0.82); }
+  22% { opacity: 1; transform: scale(1.04); }
+  72% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* ---- lotería ---- */
+
+.coleccionTit {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(223, 227, 230, 0.16);
+}
+
+.coleccionTit h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #f2ead6;
+}
+
+.coleccionTit span {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7d8a91;
+}
+
+.cartas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55rem;
+  padding-top: 0.85rem;
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.carta {
+  position: relative;
+  display: flex;
+  aspect-ratio: 3 / 4.4;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #071a11;
+  box-shadow: inset 0 0 0 1px rgba(223, 227, 230, 0.12);
+}
+
+.vacia::after {
+  content: attr(data-n);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: rgba(223, 227, 230, 0.2);
+}
+
+.ganada {
+  background: #f2ead6;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+  animation: voltea 0.55s cubic-bezier(0.3, 0.9, 0.3, 1) both;
+}
+
+@keyframes voltea {
+  0% { opacity: 0; transform: rotateY(-90deg) scale(0.9); }
+  100% { opacity: 1; transform: rotateY(0) scale(1); }
+}
+
+.marco {
+  position: absolute;
+  inset: 3px;
+  border: 1px solid #d5322d;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.num {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.52rem;
+  font-weight: 600;
+  color: #d5322d;
+}
+
+.nombre {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  padding: 0 2px;
+  font-size: 0.53rem;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: #06130d;
+  text-align: center;
+}
+
+.carta svg {
+  width: 62%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gritoVer,
+  .ganada {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
