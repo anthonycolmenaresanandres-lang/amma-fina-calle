@@ -1,0 +1,16 @@
+import assert from "node:assert/strict";
+import type Phaser from "phaser";
+import { drawTricolorBall } from "../src/penalty/skin/drawTricolorBall";
+import { getPenaltySkin } from "../src/penalty/skin/skins";
+const operations: { method: string; values: unknown[] }[] = [];
+const graphics = new Proxy({}, { get: (_target, method) => (...values: unknown[]) => { operations.push({ method: String(method), values }); } }) as Phaser.GameObjects.Graphics;
+for (const radius of [7, 17.24, 24]) for (const spin of [0, 1.4, 15]) drawTricolorBall(graphics, 217, 650, radius, spin, 0x006847, 0xce2b37);
+assert.equal(operations.filter(op => op.method === "save").length, 9);
+assert.equal(operations.filter(op => op.method === "restore").length, 9);
+assert.ok(operations.every(op => op.values.every(value => typeof value !== "number" || Number.isFinite(value))));
+for (const color of [0x006847, 0xce2b37, 0xfffdf5]) assert.ok(operations.some(op => op.method === "fillStyle" && op.values[0] === color));
+assert.equal(getPenaltySkin("laspalmas").ballFit?.scale, 1.7);
+assert.equal(getPenaltySkin("laspalmas").colors.ballAccent, 0xce2b37);
+for (const skin of ["fina-calle", "colattao", "stadium", "ajgators"]) assert.equal(getPenaltySkin(skin).colors.ballAccent, undefined);
+assert.equal(getPenaltySkin("colattao").ballFit?.scale, 2.9);
+console.log("13 ball checks passed: nine radius/spin draws, balanced graphics state, three colors and unaffected other skins. Visual/gameplay checks still required.");

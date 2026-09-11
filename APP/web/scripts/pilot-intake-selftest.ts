@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { PILOT_APPROVAL_GATES, pilotIntakeGaps } from "../src/lib/owner/pilot-intake";
+const draft = JSON.parse(readFileSync("../../OPERATIONS/templates/las-palmas-pilot-intake.json", "utf8"));
+assert.equal(pilotIntakeGaps(draft).length, 10);
+const ready = { ...draft, ...Object.fromEntries(PILOT_APPROVAL_GATES.map(gate => [gate, true])), startDate: "2026-10-01", ownerMenuEvidenceReference: "private/menu-approval", privateAccessEvidenceReference: "private/access-approval", commercialEvidenceReference: "private/terms" };
+assert.deepEqual(pilotIntakeGaps(ready), []);
+for (const gate of PILOT_APPROVAL_GATES) assert.ok(pilotIntakeGaps({ ...ready, [gate]: "true" }).includes(gate));
+assert.ok(pilotIntakeGaps({ ...ready, startDate: "not-a-date" }).includes("agreed start date"));
+assert.ok(pilotIntakeGaps({ ...ready, startDate: "2026-02-31" }).includes("agreed start date"));
+console.log("10 pilot intake checks passed; draft remains blocked on 10 inputs. No activation performed.");

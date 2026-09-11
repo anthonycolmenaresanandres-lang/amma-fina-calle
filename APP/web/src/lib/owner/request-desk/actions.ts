@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { LAS_PALMAS_RESTAURANT_ID } from "../menu-control";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { applyOwnerChange, applyOwnerSizePrice } from "@/lib/owner/rail";
@@ -56,6 +57,7 @@ async function requireOwner(restaurantId: string): Promise<{ email: string }> {
 function revalidateOwner(restaurantId: string) {
   revalidatePath(`/owner/${restaurantId}`);
   revalidatePath(`/m/${restaurantId}`);
+  if (restaurantId === LAS_PALMAS_RESTAURANT_ID) revalidatePath("/demo/las-palmas");
 }
 
 /**

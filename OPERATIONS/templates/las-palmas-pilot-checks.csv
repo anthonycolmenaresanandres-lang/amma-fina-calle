@@ -1,0 +1,6 @@
+checkpoint,observed_at,attempt_id,operation,completed_correctly,assistance_required,elapsed_seconds,guest_value_verified,same_qr_verified,audit_verified,incident,non_pii_evidence_reference
+preflight,,,,,,,,,,,
+launch,,,,,,,,,,,
+day_2,,,,,,,,,,,
+day_7,,,,,,,,,,,
+day_14,,,,,,,,,,,

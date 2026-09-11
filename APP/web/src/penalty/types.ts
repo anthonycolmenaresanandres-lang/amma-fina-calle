@@ -22,6 +22,8 @@ export type PenaltyColors = {
   net: number;
   ball: number;
   ballSpot: number;
+  /** Optional second panel color enables the original tricolor ball primitive. */
+  ballAccent?: number;
   keeper: number;
   keeperAccent: number;
   accent: number;

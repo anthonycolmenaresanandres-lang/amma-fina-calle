@@ -1,5 +1,25 @@
 # Codex Queue — canonical live queue
 
+## [ ] 26 - Add owner account information and automatic-payment presentation, then release
+
+**State:** IN PROGRESS - IMPLEMENTATION AND APPROVED RELEASE GATE
+**Authority:** Anthony explicitly requested merge after the Las Palmas portal includes account information and the automatic-payment option used for Colattao. This authorizes the scoped item 25 implementation plus this follow-up to be committed, pushed, reviewed and merged with the existing automatic production deployment, after verification. It does not authorize client provisioning or payment enrollment.
+**Base:** Continue `codex/las-palmas-pilot-20260911`; fetched `origin/main` remains `2afaf67`. Preserve canonical unrelated edits.
+**Plan:** Reuse shared Colattao billing and account schema, expose only tenant-authorized account/contact/address fields, clarify optional automatic-payment enrollment and management, and expand the local sample preview with pending account/billing information. Do not copy Colattao identity, prices or schedules to Las Palmas. Then test, inspect mobile UI, require green exact-head CI/Vercel checks, merge and verify the live revision/routes.
+**PASS:** Account fields stay behind existing authorization/reset gates; unknown fields are visibly pending/unavailable; automatic-payment controls reuse existing server-side tenant mapping and stay inert in previews; menu/game regressions, scoped lint, production build, screenshots and release checks pass. KPI: one approved deliverable passes its verification gate; Delivery Owner; initial implementation/review time-box 90 minutes, release checks may extend it.
+**STOP:** No secrets, access grants, client database writes, migrations, payment-method entry, Checkout completion, subscription activation, charges, customer contact, printing or unrelated release. Las Palmas location, approved menu, account recipient and commercial terms remain unconfirmed; production menu connection stays off. Stop on unexpected diff/head/base, failed required checks, access/billing leak or deployment mismatch.
+
+## [x] 25 - Prepare Las Palmas pilot, self-service menu and Mexico-themed ball
+
+**State:** DONE - LOCAL IMPLEMENTATION; PILOT/ACCOUNT ACTIVATION HELD
+**Authority:** Anthony requested a Las Palmas pilot, owner portal, clearer self-service menu benefits, a better/lower-cost menu-update workflow, and a Mexican soccer ball in the game on 2026-09-11.
+**Base:** `codex/las-palmas-pilot-20260911`, clean sibling worktree from `origin/main` `2afaf676b7a3e4ae5e2d5d577127fba8fc745492`. Canonical dirty edits and previous preview are preserved.
+**Plan:** (1) Prepare one reversible, measurable pilot and truthful benefit copy; compare existing portal plus stable direct QR with current alternatives. (2) Reuse authorized owner write rails, add clear direct-edit controls, and prepare the correct Las Palmas tenant/menu connection without granting access or activating public-source prices. (3) Add an original Mexico green/white/red ball presentation, preserving gameplay and other skins.
+**PASS:** Targeted validation/auth/adapter tests, draft-only onboarding checks, 320px/390px UI and game screenshots, fallback/input regression, scoped lint and final production build. Record what is built versus what is live and client-approved.
+**STOP:** Venue, confirmed menu, owner identity/access and pilot commercial terms remain unverified until supplied. No secrets, access grants, database changes/migrations, customer contact, QR printing/publication, purchase, API activation, push, PR, merge or deployment. Prior release authorization covered items 22/23 only. Do not publish held `/m` or `/owner-preview` surfaces.
+
+**Result:** Prepared the 14-day pilot, approval-only intake/checks and truthful self-service benefit copy. Added direct existing-item review/save controls on existing authenticated audited rails, default-off Las Palmas menu connection with unavailable-on-error behavior, and a local-only sample workspace. Original green/white/red ball replaces only the Las Palmas primitive ball; gameplay and other skins are unchanged. All 64 new checks, owner-app/request suites, scoped lint, TypeScript and Webpack production build pass; six keeper/mobile cases, real normal/fallback shots and inspected 320/390 editor proofs pass. No live account or authenticated database write was tested or created. Default Turbopack local build hit the shared dependency junction root restriction; normal release CI remains required. No dependencies/configuration, database, held `/m` route, `/owner-preview`, access or production were changed. Local review: `http://127.0.0.1:3131/pilot/las-palmas`. Implementation is uncommitted on the isolated branch; launch awaits the explicit gates above.
+
 ## [x] 24 - Release the approved Las Palmas game and workflow improvements
 
 **State:** DONE - MERGED AND PRODUCTION VERIFIED

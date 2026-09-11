@@ -29,7 +29,7 @@ const systems = [
   {
     code: "S-02",
     name: "QR menu experiences",
-    body: "Fast, branded menu journeys designed for the phone already in your customer’s hand.",
+    body: "A branded digital menu behind one stable QR. After setup, update existing item details, prices and availability from your owner portal—without a call or a new QR print. Guests see saved changes when they open or refresh the connected menu.",
     detail: "Menu · discovery · updates",
   },
   {

@@ -1,0 +1,23 @@
+.editor { color: #eef2f4; max-width: 46rem; min-width: 0; color-scheme: dark; }
+.intro, .empty { color: #c0c9ce; font-size: .95rem; line-height: 1.65; margin-bottom: 1.4rem; }
+.notice { border-left: 3px solid #d5b56e; padding: .6rem .9rem; color: #f0d79c; font-size: .8rem; line-height: 1.5; margin-bottom: 1.25rem; }
+.form fieldset { display: grid; gap: .5rem; border: 0; padding: 0; min-width: 0; }
+.form label { font-size: .8rem; font-weight: 650; margin-top: .6rem; }
+.form input, .form select, .form textarea { width: 100%; min-width: 0; min-height: 46px; background: #10191f; color: #f4f6f7; border: 1px solid #6b7b85; border-radius: .3rem; padding: .7rem .8rem; font: inherit; font-size: 1rem; }
+.form textarea { min-height: 100px; resize: vertical; }
+.editor button { min-height: 44px; padding: .7rem 1rem; background: #bcdcf5; color: #0c1b26; border: 1px solid transparent; border-radius: .3rem; font-size: .85rem; font-weight: 700; cursor: pointer; touch-action: manipulation; }
+.editor button:hover { background: #d4eafd; }
+.editor button:disabled { opacity: .6; cursor: wait; }
+.editor :is(button, input, select, textarea):focus-visible { outline: 3px solid #f0d79c; outline-offset: 3px; }
+.editor .secondary { background: transparent; color: #dce7ee; border-color: #6b7b85; }
+.editor .secondary:hover { background: #1a2b36; }
+.hint { color: #b1bfc8; font-size: .75rem; line-height: 1.6; }
+.error { color: #ffb6ac; font-size: .85rem; line-height: 1.5; }
+.error:empty, .status:empty { display: none; }
+.review { border-top: 1px solid #657a88; margin-top: 1.2rem; padding-top: 1.2rem; }
+.review h3 { font-weight: 700; overflow-wrap: anywhere; }
+.review dl { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1rem 0; }
+.review dt { color: #b1bfc8; font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; }
+.review dd { margin-top: .5rem; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.actions { display: flex; flex-wrap: wrap; gap: .7rem; }
+.status { margin-top: 1rem; color: #ace9c4; font-size: .85rem; line-height: 1.6; }
