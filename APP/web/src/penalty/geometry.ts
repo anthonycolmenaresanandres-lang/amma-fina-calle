@@ -2,7 +2,7 @@
 // the current canvas size. Shared by the scene (positions), input (zone picking),
 // and the renderer (drawing). Extracted verbatim from the V1 scene; behavior identical.
 
-import type { Column, RowBand, ZoneConfig, ZoneId } from "./types";
+import type { Column, PenaltyLayoutFit, RowBand, ZoneConfig, ZoneId } from "./types";
 
 export type Vec2 = { x: number; y: number };
 
@@ -22,6 +22,7 @@ export type Layout = {
   goalRight: number;
   goalTop: number;
   goalBottom: number;
+  goalGroundY: number;
   goalWidth: number;
   goalHeight: number;
   spotX: number;
@@ -33,11 +34,11 @@ export type Layout = {
   keeperLineY: number;
 };
 
-export function computeLayout(w: number, h: number): Layout {
+export function computeLayout(w: number, h: number, fit: PenaltyLayoutFit = {}): Layout {
   const goalLeft = w * 0.13;
   const goalRight = w * 0.87;
-  const goalTop = h * 0.14;
-  const goalBottom = h * 0.42;
+  const goalTop = h * (fit.goalTopPct ?? 0.14);
+  const goalBottom = h * (fit.goalBottomPct ?? 0.42);
 
   return {
     w,
@@ -46,9 +47,10 @@ export function computeLayout(w: number, h: number): Layout {
     goalRight,
     goalTop,
     goalBottom,
+    goalGroundY: goalBottom + h * (fit.postExtensionPct ?? 0.06),
     goalWidth: goalRight - goalLeft,
     goalHeight: goalBottom - goalTop,
-    spotX: w * 0.5,
+    spotX: w * (fit.spotXPct ?? 0.5),
     spotY: h * 0.82,
     ballRadius: Math.max(7, w * 0.026),
     // Height-aware so the six targets never overlap when the goal is short

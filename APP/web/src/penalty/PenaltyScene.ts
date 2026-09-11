@@ -95,7 +95,7 @@ export class PenaltyScene extends Phaser.Scene {
 
   private layout(): Layout {
     const { width, height } = this.scale.gameSize;
-    return computeLayout(width, height);
+    return computeLayout(width, height, this.skin.layoutFit);
   }
 
   // Per-skin texture key (skin id keeps keys unique across skins).
@@ -188,6 +188,7 @@ export class PenaltyScene extends Phaser.Scene {
       this.skin.chrome ?? {},
       this.campaign,
       this.skin.ballFit ?? {},
+      this.skin.keeperAppearance,
     );
 
     const layout = this.layout();
@@ -220,7 +221,27 @@ export class PenaltyScene extends Phaser.Scene {
       });
     }
 
-    this.scale.on("resize", () => {
+    this.scale.on("resize", (_gameSize: unknown, _baseSize: unknown, _displaySize: unknown, previousWidth: number, previousHeight: number) => {
+      if (this.skin.layoutFit && previousWidth > 0 && previousHeight > 0) {
+        const next = this.layout();
+        const resizePoint = (point: Vec2): Vec2 => ({
+          x: point.x * next.w / previousWidth,
+          y: point.y * next.h / previousHeight,
+        });
+        this.ballStart = resizePoint(this.ballStart);
+        this.ballTarget = resizePoint(this.ballTarget);
+        this.ballPos = resizePoint(this.ballPos);
+        this.keeperRest = resizePoint(this.keeperRest);
+        this.keeperTarget = resizePoint(this.keeperTarget);
+        this.keeperPos = resizePoint(this.keeperPos);
+        if (this.aimPreview) {
+          this.aimPreview = {
+            ...this.aimPreview,
+            from: resizePoint(this.aimPreview.from),
+            to: resizePoint(this.aimPreview.to),
+          };
+        }
+      }
       // Positions are recomputed every frame from gameSize, so a resize just
       // needs the resting actors snapped back onto the new goal line.
       if (this.match.phase === "aim" || this.match.phase === "gameover") {
@@ -312,10 +333,16 @@ export class PenaltyScene extends Phaser.Scene {
         : keeperColumn === 2
           ? layout.goalLeft + layout.goalWidth * 0.84
           : layout.w / 2;
-    const rowY = keeperRow === 0 ? layout.goalTop + layout.goalHeight * 0.4 : layout.keeperLineY;
+    const rowY = keeperRow === 0
+      ? layout.goalTop + layout.goalHeight * 0.4 + (this.skin.keeperAppearance ? layout.keeperHeight * 0.8 : 0)
+      : layout.keeperLineY;
     this.keeperRest = { x: layout.w / 2, y: layout.keeperLineY };
     this.keeperPos = { ...this.keeperRest };
     this.keeperTarget = { x: columnX, y: rowY };
+    if (this.skin.keeperAppearance && outcome === "save") {
+      // Intercept in front of the net at chest/glove height, not at the boots.
+      this.ballTarget = { x: columnX, y: rowY - layout.keeperHeight * 1.05 };
+    }
 
     this.match = beginShot(this.match);
     this.phaseTimeMs = 0;
@@ -353,7 +380,9 @@ export class PenaltyScene extends Phaser.Scene {
       this.statusMessage = "GOAL!";
     } else if (outcome === "save") {
       // Park the ball in the keeper's hands for the hold.
-      this.ballPos = { x: this.keeperPos.x, y: this.keeperPos.y };
+      this.ballPos = this.skin.keeperAppearance
+        ? { ...this.ballTarget }
+        : { x: this.keeperPos.x, y: this.keeperPos.y };
       this.statusColor = this.colors.saveText;
       this.statusMessage = "SAVED";
     } else {

@@ -2,6 +2,20 @@
 
 _Canonical improvement backlog for AMMA Ventures / Fina Calle. Updated 2026-07-18._
 
+## 2026-09-10 scoped efficiency update
+
+The older executive-queue evidence below remains dated to its own review; do not treat every row as current. This update changes only the reviewed workflow-efficiency items.
+
+| Priority | Change | Evidence / state | Owner | KPI / gate |
+|---|---|---|---|---|
+| P1 | Shared skill routing and mirror audit | Implemented locally; both agent entrypoints share `SKILL_ROUTING.md`; vendor/global skills preserved | Delivery Owner | repeated instruction reads and avoidable pauses; review before promotion |
+| P1 | Reusable local game smoke checks | Verified locally: 3 keeper levels x 2 mobile viewports; 4 Node tests and 14 PowerShell guard cases; screenshots inspected | Delivery Owner | verification minutes per accepted change; retain manual visual/gameplay acceptance |
+| P1 | npm/pnpm install comparison | npm cold 160.46s / warm 179.23s; pnpm trial interrupted before install result; no migration or savings claim; rerun is opt-in | Delivery Owner | cold/warm install seconds; adoption requires uncontended measurements, version parity and full build/runtime checks |
+| P1 | Nonurgent API batching | Held; no API client or schedule enabled; eligible spend unknown | Finance/Admin | verified cost per accepted output; credential/data/budget decisions required |
+| P1 | Remotion licensing correction | Local toolkit corrected; company eligibility unknown | Finance/Admin | confirmed eligibility before commercial delivery/scale; no purchase authorized |
+
+Commands, evidence limits and one-week pilot: `OPERATIONS/WORKFLOW_EFFICIENCY.md`.
+
 ## Operating rule
 
 Optimize the constraint, not every surface at once. Every item needs an evidence label, one accountable Anthony role, one KPI, and a stop/approval gate. An optimization is not “done” until the measured result is verified; activity and aesthetics alone are not outcomes.
