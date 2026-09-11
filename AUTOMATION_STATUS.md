@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-11 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Two things moved since the 09-10 afternoon run — both **Anthony's own work**, so no caretaker action: (1) amma `main` advanced **`26dd0426`** (#224) → **`1e4d78d`** (**#226** "Ground Las Palmas goal and pink-shirt keeper; streamline workflow checks," his own authorized merge 09-11 10:55 UTC, `CI — web` #152 ✅); (2) a **new open draft #225** ("Instagram Ordering Activation add-on — SOP, skill, and work order," his own, docs + local tooling only, 9 files, guardrail-clean, Vercel Ready ✅, `mergeable_state: clean`) — held for his merge. There are now **five** open drafts (#225/#221/#219/#218/#197). Default-branch tips re-verified via API: amma **`1e4d78d`** (#226), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#152) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN**, latest completed **#99** (09-10 16:05→16:07 UTC SUCCEEDED); the **09-11 run had not yet fired at check time** — normal late-scheduler window, not a miss. No new review comments on the older drafts (no `updated_at` movement since 08-18 on #221/#219/#218/#197). No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
+**Last updated:** 2026-09-11 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Movement since this morning's run is all **Anthony's own work**, so no caretaker action: amma `main` advanced **`1e4d78d`** (#226) → **`220d5fe`** through three of his own Codex/Clone merges — **#227** `2afaf67` ("docs: close out verified Las Palmas and workflow release," 11:03 UTC, docs-only), **#228** `6a01a4b` ("feat(owner): Las Palmas pilot, account and menu controls," 18:35 UTC, `CI — web` #154 ✅) and **#229** `220d5fe` ("docs: close out Las Palmas account and pilot release," 18:43 UTC, docs-only). ⚠️ **#228 touches the protected `/owner/[id]` route** and was **Clone-authored** — but it is **Anthony's own merge**, so it's his call and there is no caretaker action; noted here only for the record (same Clone-authoring pattern flagged on #218). The 09-11 **VBFH Daily Run (#100, 16:09→16:10 UTC) fired and SUCCEEDED** — confirming this morning's "hadn't-fired-yet" note was not a miss. Five open drafts still held (#225/#221/#219/#218/#197), all Vercel Ready ✅; no new review comments (no `updated_at` movement since 08-16…09-11 11:05). Default-branch tips re-verified via API: amma **`220d5fe`** (#229), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#154, on #228 tip) + `CI — voice-gateway` ✅ (#13, nothing merged since touched voice paths) on main; vbfh `CI` ✅ (#21) on master. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -24,7 +24,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    does not change the governance question above.)_
 
 🆕 **Three demos/add-ons still open for your review & merge call (held drafts, guardrail-clean):**
-   - **#225 Instagram Ordering Activation add-on** (`claude/instagram-dm-ordering-m8i210`) — NEW this run.
+   - **#225 Instagram Ordering Activation add-on** (`claude/instagram-dm-ordering-m8i210`).
      Docs + local tooling only (SOP, work-order template, and an invokable `amma-ig-ordering-setup` skill with an
      offline rail-picker script). No price quoted anywhere, no client contacted, no account/credential/route/
      Supabase/Stripe change. `mergeable_state: clean`, Vercel Ready ✅. **Held — your draft.**
@@ -33,11 +33,12 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    - **#219 Las Palmas lotería hero** (`claude/las-palmas-loteria-hero`) — first phone screen is a playable
      penalty shootout minting a lotería card per goal. Vercel Ready ✅.
    Open each preview and merge if you like it, or tell me what to change. **I don't auto-merge your drafts.**
-   _(On 09-11 you merged **#226** — Las Palmas goal/keeper grounding + workflow-check streamlining, your own
-   authorized merge, `CI — web` #152 ✅. Earlier, on 09-07, you merged **#215 Table Duel** and **#223 Online ad
-   campaign** and closed the **#220** Instagram DM plan. **#215's deploy step is still yours** — set the Render
-   blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` env var for the websocket server, or `/table-duel` says it isn't
-   switched on yet.)_
+   _(On 09-11 you merged **#226** (goal/keeper grounding), then **#227**, **#228** (Las Palmas pilot + owner
+   account/menu controls) and **#229** — all your own Codex/Clone merges; `CI — web` #154 ✅. #228 touches the
+   protected `/owner/[id]` route, which is fine as your own merge — noted only for the record. Earlier, on 09-07,
+   you merged **#215 Table Duel** and **#223 Online ad campaign** and closed the **#220** Instagram DM plan.
+   **#215's deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` env var for the
+   websocket server, or `/table-duel` says it isn't switched on yet.)_
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
@@ -82,16 +83,16 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-11, morning)
+## Build health (as of 2026-09-11, afternoon)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
-> all read directly via API. Every default-branch tip is unchanged except amma `main` (Anthony's own #226 merge)
-> and every build is green.
+> all read directly via API. Every default-branch tip is unchanged except amma `main` (Anthony's own #227/#228/#229
+> merges) and every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`1e4d78d`** (**#226** "Ground Las Palmas goal and pink-shirt keeper; streamline workflow checks," 20 files / +696−35, Anthony's own authorized merge, 09-11 10:55 UTC). **`CI — web` run #152 ✅** on this tip. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Five** open drafts held, all Vercel Ready ✅: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean, `mergeable_state: clean`), **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. Older four drafts unchanged (`updated_at` static since 08-18). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-10 16:05→16:07 UTC SUCCEEDED (run #99)**; the **09-11 run had not yet fired at check time** — normal late-scheduler window. Every run 07-21…09-10 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`220d5fe`** (**#229** "docs: close out Las Palmas account and pilot release," 09-11 18:43 UTC, docs-only; Anthony's own Codex/Clone merge). Advanced this run via **#227** `2afaf67` (docs) → **#228** `6a01a4b` (owner Las Palmas pilot/account/menu controls, **`CI — web` #154 ✅**) → **#229** `220d5fe` (docs). ⚠️ #228 touches the protected `/owner/[id]` route and was Clone-authored, but it was Anthony's own merge → no caretaker action. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Five** open drafts held, all Vercel Ready ✅: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean, `mergeable_state: clean`), **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. Older four drafts unchanged (`updated_at` static since 08-16…08-18). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-11 16:09→16:10 UTC SUCCEEDED (run #100)**. Every run 07-21…09-11 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -129,8 +130,22 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
+- **amma #228 — "feat(owner): Las Palmas pilot, account and menu controls" (+ Mexico ball).** Merged by
+  **Anthony** 09-11 18:35 UTC (`6a01a4b`), head `codex/las-palmas-pilot-20260911`, **Clone-authored**.
+  ⚠️ **Touches the protected `/owner/[id]` route** (account + menu controls) — normally a hard-guardrail area the
+  caretaker never acts on. Here it is **Anthony's own merge**, so it is his call and there is **no caretaker
+  action**; recorded for the audit trail only (same Clone-authoring pattern already flagged on #218). `CI — web`
+  #154 ✅ on the merge tip. Its PR (#228) and the paired closeout PRs #227/#229 show `merged:false` in the API but
+  their squash commits are on `main` — the standard Codex squash-merge signature seen on prior waves.
+- **amma #227 / #229 — Las Palmas release closeout (docs).** Merged by **Anthony** 09-11 11:03 UTC (`2afaf67`)
+  and 18:43 UTC (`220d5fe`, current main tip). Documentation-only closeouts recording the verified Las Palmas
+  account + workflow release; Clone-authored, his own merges → no caretaker action. Docs-only, path-filtered (no
+  `CI — web` run expected).
+
+### Earlier merged (09-11 morning)
+
 - **amma #226 — "Ground Las Palmas goal and pink-shirt keeper; streamline workflow checks."** Merged by
-  **Anthony** 09-11 10:55 UTC (current main tip **`1e4d78d`**). 20 files (+696−35), 1 commit, head
+  **Anthony** 09-11 10:55 UTC (`1e4d78d`). 20 files (+696−35), 1 commit, head
   `codex/las-palmas-goal-keeper-20260910`. PR body records **"Anthony explicitly authorized merging all completed
   changes, including the game, on 2026-09-11"** and an expected-head merge lock. Grounds the Las Palmas penalty
   goal/keeper/targets, adds an original fictional vector-drawn keeper skin (preserves other skins + primitive
@@ -219,6 +234,22 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-11 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** All
+  movement since this morning's run was **Anthony's own work** → no caretaker action: amma `main` advanced
+  **`1e4d78d`** (#226) → **`220d5fe`** via three of his own Codex/Clone merges — **#227** `2afaf67` (docs
+  closeout, 11:03 UTC), **#228** `6a01a4b` (owner Las Palmas pilot/account/menu controls, 18:35 UTC, `CI — web`
+  #154 ✅) and **#229** `220d5fe` (docs closeout, 18:43 UTC). **#228 touches the protected `/owner/[id]` route and
+  is Clone-authored** — recorded for the audit trail; as his own merge it is his call, no caretaker action (same
+  pattern flagged on #218). The 09-11 **VBFH Daily Run (#100, 16:09→16:10 UTC) fired and SUCCEEDED**, confirming
+  the morning "hadn't-fired-yet" note was not a miss. Five open drafts still held (#225/#221/#219/#218/#197), all
+  Vercel Ready ✅; no new review comments (no draft `updated_at` movement). Default branches re-verified via API:
+  amma `220d5fe` (#229), vbfh `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma
+  `CI — web` ✅ (#154) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. shadow & EscapeTheBomb
+  have no CI workflows — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run.
+  #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the five open
+  draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA
+  routine decision, grant submission, #215 Table Duel deploy step, branch cleanup). No push notification sent —
+  quiet all-green run; the only movement was Anthony's own merges, nothing new needing him.
 - **2026-09-11 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
   changes since the 09-10 afternoon run, both **Anthony's own work** → no caretaker action: (1) amma `main`
   advanced **`26dd0426`** (#224) → **`1e4d78d`** (**#226** "Ground Las Palmas goal and pink-shirt keeper;
