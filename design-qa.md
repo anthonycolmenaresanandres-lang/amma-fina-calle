@@ -1,6 +1,8 @@
 # Las Palmas Western landing - design QA
 
-## 2026-09-13 follow-up: game hub (local only)
+## 2026-09-13 follow-up: game hub (published and verified)
+
+Production closeout: PR231 /48f86486474384873f752df69d09f0bf6c725cc9 is READY at finacalleos.com. Live390px scrolled menu, footer, lobby and both real character-shot screenshots inspected;320px menu also inspected. Permanent QR unchanged,39 dishes retained. Full deployment evidence is in OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md. The following local QA notes preserve the pre-release evidence and limitations; the former separate release gate was subsequently satisfied under queue31.
 
 Anthony requested a persistent top game invitation, Colattao-style company footer and separate character lobby. Applied the existing Western identity: pine #102d21, cream #f6e9cd, rust #a63f19, ticket gold #edbf75; Alfa Slab One display, Geist utility and Georgia player labels. The signature is an always-present Western game ticket; the standalone lobby centers the two real food mascots. No generated branding, flattened mockup or menu-data rewrite.
 
