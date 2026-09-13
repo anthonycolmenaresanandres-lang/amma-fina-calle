@@ -1,6 +1,6 @@
 # Las Palmas Western QR landing release
 
-Status: implementation complete; browser QA/build/release gates pending.
+Status: implementation and local QA passed; approved exact-head release gate in progress.
 
 ## Authority and invariants
 
@@ -52,9 +52,11 @@ Built-in imagegen only; no separately billed API calls. Optimized with Sharp. No
 
 ## Verification and release gate
 
--95 landing selftests passed at initial implementation, including39 original media paths and39 owner-value invariants.
-- Initial targeted ESLint passed. Final rerun required after later edits.
+-95 landing selftests passed again after final refinement, including39 original media paths and39 owner-value invariants. Owner-menu41 and owner-account13 checks also passed.
+- Final targeted ESLint and full production Webpack build/TypeScript passed. No dependency/configuration changes; local DNS ordering was process-scoped only.
+- Final320/390/1440 screenshots, normalized source comparison,39 dropdowns, keyboard/menu/category actions, reduced motion and intercepted feedback loading/error/success verified. See `design-qa.md` for exact evidence and intentional content-preserving differences.
+- Draft PR #230 application head171c2b50c187be718153b07a074409916b0a925f has passing GitHub CI and Ready Vercel preview. Final documentation commit must independently pass exact-head checks before merge.
 - Source reference images and local screenshots belong in `C:\Dev\amma\evidence\las-palmas-western-20260913`.
-- Complete `design-qa.md`, production build, final tests/lint/diff, exact-head PR checks, scoped merge and live URL/render verification before marking released.
+- `design-qa.md` is passed. Require final exact-head PR checks, scoped merge and live URL/render verification before marking released.
 
 Do not confuse a successful build or HTTP200 with visual verification or restaurant approval.

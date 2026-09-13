@@ -2,6 +2,12 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [RELEASE GATE] Codex - 2026-09-13 - Las Palmas Western QR landing
+Authority: Anthony explicitly requested making the selected new Las Palmas design live at the current QR, then retried. Scope remains queue29 only.
+Verified: Final local production Webpack build/TypeScript, scoped ESLint,95 landing +41 menu +13 account checks pass. Final320/390/1440 captures and same-size reference comparison inspected; bold slab typography and lower original-photo crop corrected the identified visual gaps. Native39 dropdowns, keyboard, anchors, narrow rows/form, reduced motion and fully intercepted loading/error/success tests pass. `design-qa.md` passed. No real request sent.
+State: PR #230 application head171c2b50c187be718153b07a074409916b0a925f has green CI and Ready preview. No reviews or inline comments. Production remains220d5fe at dpl_9DExiqYUEcPQcG5GeuQZfSGdebfE. Final documentation commit follows without application changes.
+Next: Require all exact final-head checks green and unchanged main/base/scope, mark ready and squash-merge PR230 with head lock, verify deployment metadata owns finacalleos.com at merge SHA, then live HTTP/render/menu/representative held routes. Stop on any unexpected diff, changed head, check failure, review objection or deployment mismatch. No access, billing, database, menu activation, printing or customer-send actions.
+
 ### [PROGRESS] Codex - 2026-09-13 - Responsive/form pass and visual refinement
 Verified: Independent Chromium320/390/1440 screenshots inspected with matching viewport/scroll width, readable price rows, native focus and no horizontal page overflow. Aborted local feedback request retains message and renders an alert; stubbed200 renders Fina Calle success. In-app paused POST shows disabled Sending state and aria-busy; fulfilled locally and interception cleared. No real request sent. Reduced-motion chevron transition0s; normal mode restored.
 Refinement: Same-size reference/implementation comparison found the initial font too ornate/light and hero too tall. Changed to Alfa Slab One, compacted mobile header and lowered photo crop to reveal the dish. Final lint and95 landing checks pass. Fresh production build and refreshed screenshots pending; draft PR remains unreleased.
