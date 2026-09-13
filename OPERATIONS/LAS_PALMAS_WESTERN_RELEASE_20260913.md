@@ -1,6 +1,6 @@
 # Las Palmas Western QR landing release
 
-Status: implementation and local QA passed; approved exact-head release gate in progress.
+Status: LIVE - PR #230 merged and production verified September13,2026.
 
 ## Authority and invariants
 
@@ -60,3 +60,12 @@ Built-in imagegen only; no separately billed API calls. Optimized with Sharp. No
 - `design-qa.md` is passed. Require final exact-head PR checks, scoped merge and live URL/render verification before marking released.
 
 Do not confuse a successful build or HTTP200 with visual verification or restaurant approval.
+
+## Production result
+
+- Approved PR #230 merged2026-09-13T18:13:16Z with expected head8d133569dc9995ed124886faddbbc887c974344f. Application revision: d381e0912038145cc91aa2ceeb31e305cdaf4ba9; application tree matches the verified head exactly.
+- Vercel productiondpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ is Ready at that revision and ownsfinacalleos.com. Production GitHub CI passed.
+- Exact QR GET:200, zero redirects, effective URL unchanged. Canonical matches,39 disclosures, correct new headline/font and palm/wood styles.
+- Live in-app and independent390px captures inspected. On-page menu/keyboard expansion shows lunch/dinner qualifiers; original dropdown image loads640px. No horizontal overflow or browser errors. Evidence: `live-iab.png`, `live-390.png` in the stated evidence directory.
+- Game and Colattao owner routes200; Las Palmas owner, `/m/las-palmas`, `/owner-preview`, `/pilot/las-palmas`404. These checks do not establish authenticated account access, restaurant certification or physical QR scanning.
+- Production release complete. This post-release closeout is documentation only, committed locally separately; no extra production deployment or external message required. Original print/archive task remains untouched.

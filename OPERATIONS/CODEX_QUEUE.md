@@ -1,13 +1,34 @@
 # Codex Queue — canonical live queue
 
-## [ ] 29 - Las Palmas Western landing at permanent QR
+## [ ] 31 - Release approved Las Palmas game hub at permanent QR
 
-**State:** LOCAL QA PASSED - APPROVED EXACT-HEAD RELEASE GATE
+**State:** IN PROGRESS - APPROVED RELEASE CHECKS
+**Authority:** Anthony replied `yes` on2026-09-13 to the explicit request to run release checks and make queue30 live at the existing QR. This authorizes scoped commit/push/PR/merge and the established Vercel automatic deployment; it supersedes queue30's local-only publication stop for this implementation only.
+**Scope/base:** Release reviewed application commit `da74082`, plus prior Western documentation closeout and these release records, from `codex/las-palmas-game-hub-20260913`. Remote main reverified `d381e0912038145cc91aa2ceeb31e305cdaf4ba9`; worktree clean. Shared engine/rules/legacy route, all39 menu items, owner/account/billing/backend/dependencies unchanged.
+**PASS:** Scoped diff and local evidence reviewed; targeted tests/lint refreshed; exact-head PR CI/Vercel checks green; expected-head squash merge; production Ready deployment ownsfinacalleos.com at merge SHA; live exact QR/no redirects, persistent invitation/footer, dedicated lobby, both real characters and representative held-route checks verified.
+**STOP:** Unexpected diff/base/head, failed required check, unsafe fallback or deployment mismatch. No secrets, access, account/menu activation, database/migration, billing/charges, real feedback, client send or QR/print changes. Never bypass branch protection.
+**Rollback:** Preserve last verified production deployment `dpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ` (d381e09); report a release fault and use only the scoped prior presentation revision if rollback is needed. Never weaken data or access gates.
+
+## [x] 30 - Las Palmas persistent game invitation and dedicated character lobby
+
+**State:** DONE - VERIFIED LOCAL PREVIEW; RELEASE AWAITS APPROVAL
+**Authority:** Anthony requested research, strategy, plan, then implementation of a persistent top game invitation, Colattao-style Fina Calle footer, and a clean separate character-selection game landing on 2026-09-13.
+**Base:** Existing clean Western worktree, new branch `codex/las-palmas-game-hub-20260913` from `2a3ec8a` (documentation closeout atop production `d381e09`). Preserve prior closeout and unrelated canonical edits.
+**Plan:** See `OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md`. Reuse the two existing playable mascots and frozen Phaser engine; no new dependency, generated branding, or backend.
+**PASS:** Same permanent QR and 39 dishes; persistent game/menu navigation without obscured focus; linked original Fina Calle emblem; separate fast lobby with both real character selections; existing levels/input/fallback/replay work; targeted tests/lint, production build, mobile/desktop screenshots and legacy game smoke pass.
+**STOP:** Local preview only. No push/PR/merge/production, database, billing, access, menu activation, real form send, asset regeneration or QR reprint. Stop for conflicting source state or failed safety gates.
+**Result:** Persistent game ticket, direct original Fina Calle emblem/footer, and /play/las-palmas two-character lobby implemented. Final production build/TypeScript, scoped lint,114 targeted checks and36 dedicated browser assertions pass.320/390/1440 screenshots inspected; all six character/difficulty combinations, real tap/swipe, five-shot result/replay, keyboard selection/return, loading failure/retry and missing-art fallback verified. Legacy compatibility cases verified across runs, with the missing390px Pro case passing isolated real-shot/no-error/no-overflow checks; consolidated harness connection failures remain recorded, not relabeled. No shared engine, menu data, dependencies or private/account routes changed.
+**Next:** Anthony reviews http://127.0.0.1:3137/demo/las-palmas and http://127.0.0.1:3137/play/las-palmas. Local production server remains running. New scoped release approval and exact-head CI/deployment verification required; current printed QR and production remain unchanged.
+
+## [x] 29 - Las Palmas Western landing at permanent QR
+
+**State:** DONE - MERGED AND LIVE; RESTAURANT MENU APPROVAL STILL HELD
 **Authority:** Anthony selected first Western design with palms and second accordion, requested preserving menu items and public-source checking, and explicitly requested publishing at the current QR on 2026-09-13.
 **Scope:** Only Las Palmas presentation, static preview price qualifiers, tests and release evidence. Preserve all 39 dishes, original logo/food, exact `/demo/las-palmas` route, game, approval notices and connected-menu behavior. On-page menu CTA, separate full PDF, native readable dropdowns, safe general menu (no fixed Table 1 link), clear Fina Calle feedback recipient.
 **PASS:** 320/390px and desktop screenshots inspected against selected visual;39 dishes and protected routes verified; menu/category/keyboard interactions and feedback states checked without live submissions; targeted ESLint/tests, production build and diff checks pass; exact PR head green before approved release; live QR response and rendering verified after.
 **STOP:** Any failing gate, unexpected diff or source conflict. No access, owner/service activation, billing, migration, printing, send, unsupported restaurant approval or unrelated production work.
-**Next:** Final checks on PR #230 documentation head, exact-head squash merge, then verify Ready production revision/alias and live QR rendering. Local build/TypeScript, targeted ESLint,149 checks,320/390/1440 visual QA and intercepted feedback states passed. Separate unmerged print/archive work remains in las-palmas-table-tent-20260912.
+**Result:** PR #230 squash-merged under head lock8d133569dc9995ed124886faddbbc887c974344f, yielding application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9. Local build/TypeScript, targeted ESLint,149 checks,320/390/1440 visual QA and intercepted feedback states passed. GitHub preview and production CI passed. Production deploymentdpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ is Ready and ownsfinacalleos.com at that revision. Exact QR returns200 with zero redirects,39 dishes, new visual/font/canonical; live dropdown/photo and keyboard checked, no page overflow or browser errors. Game and Colattao owner200; Las Palmas owner, held/m, owner-preview and local pilot404. No access/billing/database/activation or real customer submission. No QR artwork changed or reprint needed for this URL-preserving release.
+**Next:** Anthony/restaurant confirmation of the current menu/location and later separately approved onboarding remain outside this presentation release. Post-release closeout is a local documentation-only commit; separate unmerged print/archive work remains in las-palmas-table-tent-20260912.
 
 ## [x] 26 - Add owner account information and automatic-payment presentation, then release
 

@@ -32,7 +32,7 @@ test("unknown owner category preserved", () => assert.equal(previewSectionLabel(
 test("official PDF contract", () => assert.equal(OFFICIAL_MENU_URL, "https://irp.cdn-website.com/1508c02f/files/uploaded/Las_Palmas_2-_3_-_4_Menu_2025.pdf"));
 const page = readFileSync("src/app/(internal)/demo/las-palmas/page.tsx", "utf8");
 test("permanent canonical and on-page menu", () => { assert.match(page, /canonical: "\/demo\/las-palmas"/); assert.match(page, /href="#menu"/); assert.match(page, /id="menu"/); });
-test("game retained, no Table 1 or private route routing", () => { assert.match(page, /\/penalty-shootout\?skin=laspalmas/); assert.doesNotMatch(page, /href="\/(table|owner|owner-preview|m)\//); });
+test("dedicated game retained, no Table 1 or private route routing", () => { assert.match(page, /\/play\/las-palmas/); assert.doesNotMatch(page, /href="\/(table|owner|owner-preview|m)\//); });
 test("native menu expansion and preview-only qualifiers", () => { assert.match(page, /<details/); assert.match(page, /<summary>/); assert.match(page, /previewItemDetails\(item, isPreview\)/); });
 test("empty/unavailable states handled without fallback prices", () => { assert.match(page, /sections.length === 0/); assert.match(page, /state === "unavailable"/); });
 test("approval and noindex retained", () => { assert.match(page, /awaiting restaurant approval/); assert.match(page, /index: false, follow: false/); });

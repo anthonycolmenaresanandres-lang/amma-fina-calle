@@ -6,6 +6,7 @@ import { ArrowUp, ChevronDown, ChevronRight, FileText, Gamepad2, TreePalm, Utens
 import { getLasPalmasGuestMenu } from "@/lib/owner/las-palmas-menu";
 import { OFFICIAL_MENU_URL, previewItemDetails, previewSectionLabel } from "./menu-presentation";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
+import FinaCalleFooter from "@/components/FinaCalleFooter";
 import styles from "./LasPalmasWestern.module.css";
 
 // The printed QR contract is permanent. This visual release does not activate
@@ -30,6 +31,13 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
     <main className={western.variable + " " + styles.page} id="top">
       <a className={styles.skipLink} href="#menu">Skip to menu</a>
       <div className={styles.shell}>
+        <aside className={styles.gameBar} aria-label="Las Palmas game">
+          <Link href="/play/las-palmas" prefetch={false} className={styles.gameInvitation}>
+            <Gamepad2 aria-hidden="true" />
+            <span><small>Five shots. Big bragging rights.</small><strong>Cantina Shootout</strong></span>
+            <span className={styles.playPill}>Play <ChevronRight aria-hidden="true" /></span>
+          </Link>
+        </aside>
         <header className={styles.hero}>
           <div className={styles.heroTop}>
           <div className={styles.brandRow}>
@@ -49,7 +57,7 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
           <div className={styles.actions}>
             <a className={styles.menuButton} href="#menu"><UtensilsCrossed aria-hidden="true" /><span>View menu</span><ChevronRight aria-hidden="true" /></a>
             <div className={styles.secondaryActions}>
-              <Link href="/penalty-shootout?skin=laspalmas" prefetch={false}><Gamepad2 aria-hidden="true" /><span>Play the game</span></Link>
+              <Link href="/play/las-palmas" prefetch={false}><Gamepad2 aria-hidden="true" /><span>Pick your player</span></Link>
               <a href={OFFICIAL_MENU_URL} target="_blank" rel="noopener noreferrer"><FileText aria-hidden="true" /><span>Full menu PDF<span className={styles.srOnly}> (opens a new tab)</span></span></a>
             </div>
           </div>
@@ -111,6 +119,7 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
           <LasPalmasGuestNoteForm />
           <footer className={styles.footer}><TreePalm aria-hidden="true" /><p>Las Palmas · Lynnhaven<br /><span>Menu preview by Fina Calle</span></p><a href="#top">Back to top <ArrowUp aria-hidden="true" /></a></footer>
         </div>
+        <FinaCalleFooter />
       </div>
     </main>
   );
