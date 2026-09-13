@@ -2,6 +2,17 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-13 - Las Palmas Western design live at unchanged QR
+Did: Released only queue29 through PR #230; application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9 exactly matches the reviewed application tree. Selected first Western direction, palms, second parchment dropdown pattern, original logo/food and39 dishes retained. Public-source price qualifiers remain preview-only; feedback clearly names Fina Calle.
+Verified: Final local build/TypeScript, lint,149 targeted checks,320/390/1440 screenshots and normalized design comparison pass. All39 dropdowns, keyboard/anchors, reduced motion and intercepted form loading/error/success checked. Exact-head preview checks and production CI passed. Vercel deploymentdpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ Ready at merge revision ownsfinacalleos.com. Live exact QR200/zero redirects,39 dishes, new font/palms/canonical; original dropdown image loads640px, no horizontal overflow or browser errors. Live in-app and390px screenshots inspected. Game/Colattao owner200; Las Palmas owner, held/m, owner-preview and local pilot404.
+State: Presentation release complete. No physical QR re-scan, restaurant certification, access grant, database/migration, menu activation, payment, printing or real feedback send. Existing QR payload unchanged. Test browser and task local server are being closed; user in-app tab remains on live page. Release/QA evidence is under C:/Dev/amma/evidence/las-palmas-western-20260913. Post-release documentation is committed locally on codex/las-palmas-western-closeout-20260913; original release branch and separate print/archive work preserved.
+Next / blocked: No blocker to this completed design release. Restaurant approval of current menu/location and any owner/billing/service activation remain separate gates. No further application work or automatic monitoring scheduled.
+
+### [MERGED / LIVE CHECK PENDING] Codex - 2026-09-13 - PR #230
+Did: Marked ready and squash-merged only PR230 with expected head8d133569dc9995ed124886faddbbc887c974344f, after all three checks passed and unchanged base220d5fe/no review objections were verified. Merge revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9 at2026-09-13T18:13:16Z.
+State: Code merged; production readiness/alias and public render checks pending. No database/access/billing/menu activation or real feedback submission.
+Next: Verify production deployment revision/alias and exact QR HTTP/render. Final closeout is documentation only.
+
 ### [RELEASE GATE] Codex - 2026-09-13 - Las Palmas Western QR landing
 Authority: Anthony explicitly requested making the selected new Las Palmas design live at the current QR, then retried. Scope remains queue29 only.
 Verified: Final local production Webpack build/TypeScript, scoped ESLint,95 landing +41 menu +13 account checks pass. Final320/390/1440 captures and same-size reference comparison inspected; bold slab typography and lower original-photo crop corrected the identified visual gaps. Native39 dropdowns, keyboard, anchors, narrow rows/form, reduced motion and fully intercepted loading/error/success tests pass. `design-qa.md` passed. No real request sent.

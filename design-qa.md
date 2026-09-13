@@ -32,3 +32,7 @@ Evidence directory: `C:/Dev/amma/evidence/las-palmas-western-20260913`.
 ## Scope and remaining gate
 
 Final local production build/TypeScript, targeted ESLint and95 landing checks pass after refinement;41 owner-menu and13 owner-account checks also pass. Final browser errors command returned none. Exact-head cloud checks and public production verification remain release gates, not design-QA findings. No restaurant menu certification, live customer request, owner/database/billing change or physical QR scan is claimed.
+
+## Live confirmation
+
+PR #230 application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9 reached Ready production withfinacalleos.com. Exact permanent QR returns200 without redirect. Inspected `live-iab.png` and `live-390.png`, matching the final layout;39 items, native keyboard expansion, correct canonical and loaded original dropdown image confirmed. Production browser error logs returned none. Public-source/approval warnings remain. Design QA and live presentation verification: passed.
