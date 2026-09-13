@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 31 - Release approved Las Palmas game hub at permanent QR
+
+**State:** IN PROGRESS - APPROVED RELEASE CHECKS
+**Authority:** Anthony replied `yes` on2026-09-13 to the explicit request to run release checks and make queue30 live at the existing QR. This authorizes scoped commit/push/PR/merge and the established Vercel automatic deployment; it supersedes queue30's local-only publication stop for this implementation only.
+**Scope/base:** Release reviewed application commit `da74082`, plus prior Western documentation closeout and these release records, from `codex/las-palmas-game-hub-20260913`. Remote main reverified `d381e0912038145cc91aa2ceeb31e305cdaf4ba9`; worktree clean. Shared engine/rules/legacy route, all39 menu items, owner/account/billing/backend/dependencies unchanged.
+**PASS:** Scoped diff and local evidence reviewed; targeted tests/lint refreshed; exact-head PR CI/Vercel checks green; expected-head squash merge; production Ready deployment ownsfinacalleos.com at merge SHA; live exact QR/no redirects, persistent invitation/footer, dedicated lobby, both real characters and representative held-route checks verified.
+**STOP:** Unexpected diff/base/head, failed required check, unsafe fallback or deployment mismatch. No secrets, access, account/menu activation, database/migration, billing/charges, real feedback, client send or QR/print changes. Never bypass branch protection.
+**Rollback:** Preserve last verified production deployment `dpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ` (d381e09); report a release fault and use only the scoped prior presentation revision if rollback is needed. Never weaken data or access gates.
+
 ## [x] 30 - Las Palmas persistent game invitation and dedicated character lobby
 
 **State:** DONE - VERIFIED LOCAL PREVIEW; RELEASE AWAITS APPROVAL
