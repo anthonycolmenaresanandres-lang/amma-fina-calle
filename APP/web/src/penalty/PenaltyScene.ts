@@ -59,6 +59,7 @@ export class PenaltyScene extends Phaser.Scene {
   private penaltyRenderer!: PenaltyRenderer;
 
   private match: MatchState = createMatch();
+  private lastPresentedMatch: MatchState | null = null;
   private phaseTimeMs = 0;
 
   private hoverZoneId: string | null = null;
@@ -83,6 +84,7 @@ export class PenaltyScene extends Phaser.Scene {
     // Campaign defaults to the one registered for this skin id (neutral fallback
     // otherwise), so existing call sites are unchanged and behavior is identical.
     campaign: PenaltyCampaign = getCampaign(skin.id),
+    private readonly onMatchChange?: (match: MatchState) => void,
   ) {
     super(`PenaltyScene-${skin.id}-${level.id}`);
     this.level = level;
@@ -265,6 +267,12 @@ export class PenaltyScene extends Phaser.Scene {
     }
 
     this.penaltyRenderer.render(this.snapshot());
+    // Presentation only: notify on transitions, never every animation frame.
+    // Copy the history so a host cannot mutate the engine's match state.
+    if (this.onMatchChange && this.lastPresentedMatch !== this.match) {
+      this.lastPresentedMatch = this.match;
+      this.onMatchChange({ ...this.match, results: [...this.match.results] });
+    }
   }
 
   private snapshot(): RenderState {

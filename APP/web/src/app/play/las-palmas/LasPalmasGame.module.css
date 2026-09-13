@@ -47,16 +47,15 @@
 .match { max-width: 520px; margin-inline: auto; height: 100dvh; min-height: 440px; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); }
 .matchHeader { flex-shrink: 0; padding: 4px 10px 0; border-bottom: 1px solid #856a3b; }
 .matchNav { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.matchNav button, .matchInfo a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 11px; padding: 0 4px; }
+.matchNav button, .matchNav a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 0 8px; border-radius: 4px; }
+.matchNav button:hover, .matchNav a:hover { background: #234633; color: #fff3cf; }
 .matchNav svg { width: 14px; height: 14px; }
-.matchNav strong { text-align: center; font: 700 13px Georgia, serif; color: #edbf75; }
-.matchInfo { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #e1d4b6; }
-.matchInfo a { text-decoration: underline; text-underline-offset: 3px; }
-.arena { position: relative; flex: 1; min-height: 300px; }
+.arena { position: relative; flex: 1; min-height: 640px; }
 .canvas { position: absolute; inset: 0; touch-action: none; }
 .canvas canvas { display: block; }
 .loadState { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: #071d13; padding: 24px; text-align: center; font-size: 15px; }
 .loadState button { padding: 12px 24px; min-height: 44px; border: 1px solid #e7bd75; border-radius: 4px; }
-.matchNotice { margin: 0; flex-shrink: 0; text-align: center; font-size: 9px; padding: 5px 8px calc(5px + env(safe-area-inset-bottom, 0px)); color: #cdb688; }
+.matchNotice { margin: 0; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 10px; padding: 7px 10px calc(7px + env(safe-area-inset-bottom, 0px)); color: #f6e9cd; }
+.matchNotice span { font-size: 8px; color: #d9bd8a; text-align: right; }
 @media (min-width: 600px) { .selection { padding-inline: 64px; } .intro { padding-block: 18px 24px; } .players { gap: 36px; } .playerName { font-size: 21px; } }
 @media (prefers-reduced-motion: reduce) { .playerArt > img { transition: none; } .player:hover .playerArt > img { transform: none; } }

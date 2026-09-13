@@ -36,13 +36,12 @@ export default function LasPalmasGame() {
           <header className={styles.matchHeader}>
             <div className={styles.matchNav}>
               <button ref={backButton} type="button" onClick={back}><ArrowLeft aria-hidden="true" /> Players</button>
-              <strong>Cantina Shootout</strong>
+              <Link href="/demo/las-palmas" prefetch={false}>Menu</Link>
               <button type="button" onClick={() => setRound(value => value + 1)}><RotateCcw aria-hidden="true" /> Replay</button>
             </div>
-            <div className={styles.matchInfo}><span>{character.name} · #{character.number}</span><Link href="/demo/las-palmas" prefetch={false}>Menu</Link></div>
           </header>
           <MatchCanvas key={round} character={character} level={level} input={input} />
-          <p className={styles.matchNotice}>Demo · pending client approval</p>
+          <p className={styles.matchNotice}>{character.name} · #{character.number}<span>Demo · pending client approval</span></p>
         </div>
       ) : (
         <div className={styles.lobby}>

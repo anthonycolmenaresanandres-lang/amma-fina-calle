@@ -1,5 +1,11 @@
 # Las Palmas game hub - implementation plan and evidence
 
+## Production closeout - 2026-09-13
+
+Published with Anthony's explicit approval via PR231, merge48f86486474384873f752df69d09f0bf6c725cc9. Production CI34778738770 passed. Vercel dpl_DVvDBboEDhUVMfMeZfESGb4qCUrE READY, finacalleos.com alias verified, approximately35-second build. Approved APP/web tree b78e3322583ab88092581ac3d880a9d331daaba0 unchanged.
+
+Live exact QR https://finacalleos.com/demo/las-palmas200, zero redirects, correct canonical and39 dishes. Dedicated https://finacalleos.com/play/las-palmas200. Persistent bar/footer and two-character lobby inspected live; both real shots advanced to2/5. Evidence live-*.png in the evidence directory below includes390px and320px mobile captures. Legacy game/Colattao owner200; held Las Palmas menu/owner/pilot and owner-preview404. Brief runtime-error query returned none; no ongoing monitor or drains inspection. No backend, access, billing or restaurant-approval change, no QR reprint needed. Documentation closeout stays local. The local-only notes below describe the historical pre-release stage.
+
 ## Decision / scope
 
 Anthony's 2026-09-13 screenshots and request govern this work. Keep the approved Western menu, all 39 dishes, the exact permanent `https://finacalleos.com/demo/las-palmas` QR, and approval safeguards. Build locally; release is a separate gate.

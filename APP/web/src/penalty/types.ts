@@ -118,6 +118,8 @@ export type SpriteFit = {
 };
 
 export type PenaltyChrome = {
+  /** Opt-in accessible host HUD replaces canvas labels and impact effects. */
+  externalHud?: boolean;
   /** Skip the drawn goal frame, net, penalty-box line, and center spot. */
   hideGoalArt?: boolean;
   /** Hide the top skin-name title while keeping score and hint visible. */

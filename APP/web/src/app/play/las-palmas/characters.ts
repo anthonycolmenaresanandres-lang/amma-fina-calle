@@ -9,5 +9,5 @@ export type LasPalmasCharacter = (typeof LAS_PALMAS_CHARACTERS)[number];
 
 export function characterSkin(character: LasPalmasCharacter): PenaltySkin {
   // Explicit choice wins at EVERY difficulty. Never mutate the shared registry.
-  return { ...LASPALMAS_PENALTY_SKIN, assets: { ...LASPALMAS_PENALTY_SKIN.assets, kicker: character.image }, levelKickers: undefined };
+  return { ...LASPALMAS_PENALTY_SKIN, chrome: { ...LASPALMAS_PENALTY_SKIN.chrome, externalHud: true }, assets: { ...LASPALMAS_PENALTY_SKIN.assets, kicker: character.image }, levelKickers: undefined };
 }
