@@ -2,6 +2,17 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [PROGRESS] Codex - 2026-09-13 - Western build and menu preservation checks
+Did: Built scoped Western page, local CSS module and preview-only price qualifier helper; replaced misleading restaurant-feedback wording while retaining endpoint. All39 original names/base data remain unchanged. General QR no longer selects Table1. Decorative wood/palm and parchment WebP assets created by bounded asset-only workers under the image-to-code workflow; original food/logo assets unchanged.
+Evidence:95 new landing selftests pass, including all39 original photo paths,39 connected-owner price/photo preservation checks, lunch/portion distinctions, permanent canonical/game path, native details and disclosure copy. Official Lynnhaven website still links the14-page2025-named PDF researched this session; public-source agreement is not restaurant certification.
+Next: Resolve local tool startup, complete browser visual/function QA, final lint/build, then scoped PR/release. Nothing pushed or deployed yet.
+
+### [CHECK-IN] Codex - 2026-09-13 - Approved Las Palmas Western QR landing release
+Authority: Anthony selected Sunset Ranch Cantina, palm trees instead of horns, and option 2 parchment dropdown rows; requested keeping all items and public-source verification; then explicitly requested making the new design live at the current QR and retried after storage was cleared.
+State: Fresh sibling `codex/las-palmas-western-20260913` from verified `origin/main` 220d5fe. C: has ~9.5 GiB free. No Codex cache deletion. Existing print archive/task work and canonical checkout remain untouched.
+Plan: Preserve original logo/food, all 39 items, `https://finacalleos.com/demo/las-palmas`, game and opt-in public-menu behavior. Implement selected visual, on-page Menu + PDF fallback, truthful feedback recipient, and no general-menu routing to Table 1. Clarify public-source portion/lunch pricing only in static preview; preserve pending approval. Test320/390/desktop, accessibility/interactions, lint/tests/build; PR and release only scoped validated head.
+Boundaries: No restaurant certification, owner/table-service activation, billing/access, database/migration, print changes, external messages or unrelated production changes. Generated raster work limited to decorative wood/palms and parchment; supplied brand and food never regenerated.
+
 ### [CHECK-OUT] Codex - 2026-09-11 - Las Palmas account/pilot/game released
 Did: Released 39 scoped files through PR #228 at application revision `6a01a4b082fe3ca5b13b542c6f3cea2d23ad6c95`, preserving existing Stripe actions/data/webhooks, database/schema, dependencies/config and Colattao external-menu workflow. Added account information and optional automatic-payment presentation before the approved merge.
 Verified: 77 targeted checks plus owner suites, lint, local build/TypeScript, six mobile game cases and inspected account/payment screenshots. Exact-head GitHub CI and Vercel preview passed; production CI also passed. Production deployment `dpl_3hhpgXd1a5VNPhY6CcHrTRVyfPbX` Ready at the application revision and assigned to finacalleos.com. Live 320/390 ball/keeper/goal and Colattao sign-in inspected; real tap advanced the game to shot 2/5; one canvas, no horizontal overflow or page exceptions. Root/demo/Colattao owner/menu 200; held owner-preview/local-only pilot 404. Anonymous owner response had no account details/autopay controls and remained private/no-store. Brief runtime-error query since merge returned none.
