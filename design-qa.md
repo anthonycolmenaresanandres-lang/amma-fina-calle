@@ -1,5 +1,15 @@
 # Las Palmas Western landing - design QA
 
+## 2026-09-13 follow-up: game hub (local only)
+
+Anthony requested a persistent top game invitation, Colattao-style company footer and separate character lobby. Applied the existing Western identity: pine #102d21, cream #f6e9cd, rust #a63f19, ticket gold #edbf75; Alfa Slab One display, Geist utility and Georgia player labels. The signature is an always-present Western game ticket; the standalone lobby centers the two real food mascots. No generated branding, flattened mockup or menu-data rewrite.
+
+Current local game/menu links and full evidence are in `OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md`. New menu game links use `/play/las-palmas`; the historical verification below refers to the previous live release's generic game link.
+
+Compared390x844 before/after lobby, menu hero/scrolled state and footer in `C:/Dev/amma/evidence/las-palmas-game-hub-20260913`;320x740 and1440x1000 variants also inspected. Menu/category anchors and keyboard focus clear the two sticky bars. Original Fina Calle emblem and direct domain are legible at the footer. Both current mascots work at each difficulty; no multi-brand selector on the new lobby. Original39 dishes, native accordions, warnings, feedback and exact QR contract remain intact. Current web-interface guidelines reviewed; radio labels, keyboard selection/focus,44px actions, explicit select colors/16px text, motion preference, async retry and dimensions verified. No new autoplay or game dependencies.
+
+Limits: local desktop-browser viewport tests, not a physical phone or full canvas accessibility audit. Legacy consolidated smoke harness has connection timeouts; the new36-case browser assertion suite passes, with compatibility results recorded separately. This section does not supersede the release authority boundary or claim a new deployment.
+
 Status: passed. Final production-mode render and normalized comparison inspected September13,2026.
 
 ## Target and evidence

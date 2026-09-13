@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [x] 30 - Las Palmas persistent game invitation and dedicated character lobby
+
+**State:** DONE - VERIFIED LOCAL PREVIEW; RELEASE AWAITS APPROVAL
+**Authority:** Anthony requested research, strategy, plan, then implementation of a persistent top game invitation, Colattao-style Fina Calle footer, and a clean separate character-selection game landing on 2026-09-13.
+**Base:** Existing clean Western worktree, new branch `codex/las-palmas-game-hub-20260913` from `2a3ec8a` (documentation closeout atop production `d381e09`). Preserve prior closeout and unrelated canonical edits.
+**Plan:** See `OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md`. Reuse the two existing playable mascots and frozen Phaser engine; no new dependency, generated branding, or backend.
+**PASS:** Same permanent QR and 39 dishes; persistent game/menu navigation without obscured focus; linked original Fina Calle emblem; separate fast lobby with both real character selections; existing levels/input/fallback/replay work; targeted tests/lint, production build, mobile/desktop screenshots and legacy game smoke pass.
+**STOP:** Local preview only. No push/PR/merge/production, database, billing, access, menu activation, real form send, asset regeneration or QR reprint. Stop for conflicting source state or failed safety gates.
+**Result:** Persistent game ticket, direct original Fina Calle emblem/footer, and /play/las-palmas two-character lobby implemented. Final production build/TypeScript, scoped lint,114 targeted checks and36 dedicated browser assertions pass.320/390/1440 screenshots inspected; all six character/difficulty combinations, real tap/swipe, five-shot result/replay, keyboard selection/return, loading failure/retry and missing-art fallback verified. Legacy compatibility cases verified across runs, with the missing390px Pro case passing isolated real-shot/no-error/no-overflow checks; consolidated harness connection failures remain recorded, not relabeled. No shared engine, menu data, dependencies or private/account routes changed.
+**Next:** Anthony reviews http://127.0.0.1:3137/demo/las-palmas and http://127.0.0.1:3137/play/las-palmas. Local production server remains running. New scoped release approval and exact-head CI/deployment verification required; current printed QR and production remain unchanged.
+
 ## [x] 29 - Las Palmas Western landing at permanent QR
 
 **State:** DONE - MERGED AND LIVE; RESTAURANT MENU APPROVAL STILL HELD
