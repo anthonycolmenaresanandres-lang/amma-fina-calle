@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { InputMode, PenaltyLevel } from "@/penalty/types";
+import { createMatch } from "@/penalty/engine/match";
+import CantinaScoreboard from "./CantinaScoreboard";
 import { characterSkin, type LasPalmasCharacter } from "./characters";
 import styles from "./LasPalmasGame.module.css";
 
@@ -9,6 +11,7 @@ export default function MatchCanvas({ character, level, input }: { character: La
   const mount = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
+  const [match, setMatch] = useState(createMatch);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,7 +39,9 @@ export default function MatchCanvas({ character, level, input }: { character: La
             setStatus("ready");
           }
         }
-        const scene = new LobbyScene(level, characterSkin(character), input);
+        const scene = new LobbyScene(level, characterSkin(character), input, undefined, next => {
+          if (!cancelled) setMatch(next);
+        });
         game = new Phaser.Game({
           type: Phaser.AUTO, parent: mount.current,
           width: mount.current.clientWidth || 390, height: mount.current.clientHeight || 680,
@@ -52,6 +57,7 @@ export default function MatchCanvas({ character, level, input }: { character: La
   return (
     <div className={styles.arena}>
       <div ref={mount} className={styles.canvas} aria-label={`${character.name}, ${level.levelName}. ${input === "tap" ? "Tap a target in the goal to shoot." : "Swipe from the ball toward the goal."}`} />
+      {status === "ready" ? <CantinaScoreboard match={match} totalShots={level.rules.totalShots} input={input} /> : null}
       {status === "loading" ? <div className={styles.loadState} role="status">Getting the pitch ready…</div> : null}
       {status === "error" ? <div className={styles.loadState}><p role="alert">The game couldn’t load. Check your connection and try again.</p><button type="button" onClick={() => { setStatus("loading"); setAttempt(value => value + 1); }}>Try again</button></div> : null}
     </div>

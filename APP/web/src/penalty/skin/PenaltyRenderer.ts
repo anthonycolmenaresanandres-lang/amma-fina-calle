@@ -320,6 +320,7 @@ export class PenaltyRenderer {
   // stop); miss = a lighter shake. Console-style impact feedback without any
   // engine, zone, or timing change.
   private applyImpactFeedback(state: RenderState): void {
+    if (this.chrome.externalHud) return;
     const phase = state.match.phase;
     if (this.prevPhase === "shooting" && phase === "result") {
       const outcome = state.match.results[state.match.results.length - 1];
@@ -337,6 +338,7 @@ export class PenaltyRenderer {
   }
 
   private drawScoreboard(state: RenderState): void {
+    if (this.chrome.externalHud) return;
     const { layout } = state;
     const g = this.scoreboardGraphics;
     g.clear();
@@ -719,6 +721,13 @@ export class PenaltyRenderer {
   }
 
   private layoutTexts(state: RenderState): void {
+    if (this.chrome.externalHud) {
+      this.titleText.setVisible(false);
+      this.scoreText.setVisible(false);
+      this.statusText.setVisible(false);
+      this.hintText.setVisible(false);
+      return;
+    }
     const { layout, match, totalShots } = state;
 
     // Title + score sit on the scoreboard panel (title above the hairline, score

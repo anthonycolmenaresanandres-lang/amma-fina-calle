@@ -1,5 +1,13 @@
 # Codex Queue — canonical live queue
 
+## [ ] 32 - Cantina Jumbotron scoreboard and approved release
+
+**State:** IN PROGRESS - IMPLEMENTATION / RELEASE AUTHORIZED
+**Authority:** Anthony: change it and make it live (2026-09-13). Deliberate Las Palmas host presentation upgrade supersedes the fixed-scoreboard restriction only for this approved scope; other skins/default shell stay unchanged.
+**Scope:** Dimensional cartoon scoreboard, unambiguous goals/shot counters, five outcome markers, non-flashing celebrations, uncluttered controls/instructions. Copied match presentation callback only; scoring/input/physics/assets/39 dishes/QR/account/backend/dependencies frozen.
+**PASS:** Targeted state/isolation tests, lint/build, inspected mobile and fallback screenshots, live real shots/replay, unchanged legacy game and protected routes, exact-head green CI + Ready production revision/alias.
+**STOP:** Unexpected source/head/deployment, failing safety gate, unrelated brand/data/access change. No bypass, secrets, billing, real feedback, client send or printing. Prior production48f8648 is rollback reference.
+
 ## [x] 31 - Release approved Las Palmas game hub at permanent QR
 
 **State:** DONE - MERGED AND VERIFIED LIVE
