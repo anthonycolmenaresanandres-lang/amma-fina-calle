@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-13 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing changed since the 09-12 afternoon run; nothing needed fixing.** No new merges, PRs, commits, or review comments anywhere. amma `main` unchanged at **`220d5fe`** (#229); the five open drafts still held (#225/#221/#219/#218/#197), all Vercel Ready ✅, none with `updated_at` movement (still 08-16…09-11 11:05). Default-branch tips re-verified via API: amma **`220d5fe`** (#229), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#154) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN;** latest completed **#101** (09-12 15:16→15:17 UTC SUCCEEDED); the **09-13 run had not yet fired at check time** — normal late-scheduler window (fires ~15:00-16:00 UTC), not a miss. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
+**Last updated:** 2026-09-13 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Two changes since this morning's run, both benign: (1) the **09-13 VBFH Daily Run (#102, 15:52→15:54 UTC) fired and SUCCEEDED** — confirming this morning's "hadn't-fired-yet" note was a scheduler-timing artifact, not a miss; (2) **amma `main` advanced `220d5fe` (#229) → `48f86486` (#231)** via two of Anthony's own Codex/Clone merges — **#230** `d381e09` ("Las Palmas Western menu at permanent QR," `CI — web` #158 ✅) → **#231** `48f86486` ("Las Palmas persistent game invitation and dedicated character lobby," `CI — web` #160 ✅). Both his own merges → no caretaker action; recorded for the audit trail. The five open drafts still held (#225/#221/#219/#218/#197), all Vercel Ready ✅, none with `updated_at` movement (still 08-16…09-11 11:05) → no new review comments. Default-branch tips re-verified via API: amma **`48f86486`** (#231), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1, default branch `main`). amma `CI — web` ✅ (#160) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN (#102).** Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open PR heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -83,7 +83,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-13, morning)
+## Build health (as of 2026-09-13, afternoon)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every default-branch tip is unchanged since the 09-12 afternoon run and every build
@@ -91,8 +91,8 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`220d5fe`** (**#229** "docs: close out Las Palmas account and pilot release," 09-11 18:43 UTC, docs-only; Anthony's own Codex/Clone merge). Advanced 09-11 via **#227** `2afaf67` (docs) → **#228** `6a01a4b` (owner Las Palmas pilot/account/menu controls, **`CI — web` #154 ✅**) → **#229** `220d5fe` (docs). ⚠️ #228 touches the protected `/owner/[id]` route and was Clone-authored, but it was Anthony's own merge → no caretaker action. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Five** open drafts held, all Vercel Ready ✅: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean, `mergeable_state: clean`), **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. Older four drafts unchanged (`updated_at` static since 08-16…08-18). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-12 15:16→15:17 UTC SUCCEEDED (run #101)**; the 09-13 run had not yet fired at check time (normal ~15:00-16:00 UTC window). Every run 07-21…09-12 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`48f86486`** (**#231** "Las Palmas persistent game invitation and dedicated character lobby," 09-13 19:47 UTC; Anthony's own Codex/Clone merge, **`CI — web` #160 ✅**). Advanced 09-13 via **#230** `d381e09` ("Las Palmas Western menu at permanent QR," **`CI — web` #158 ✅**) → **#231** `48f86486`. Both Clone-authored, both Anthony's own merges → no caretaker action. #230 sits in the QR/menu guardrail area but is his own merge and named as a *permanent* QR (stable-URL intent) → recorded only. Latest `CI — voice-gateway` on main ✅ (**08-07 11:16 UTC, run #13**; nothing merged since touched voice paths). **Five** open drafts held, all Vercel Ready ✅: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean, `mergeable_state: clean`), **#221** Order Drop demo (`web` CI ✅, product UI, guardrail-clean), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits) and **#197** docs. Older four drafts unchanged (`updated_at` static since 08-16…08-18). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-13 15:52→15:54 UTC SUCCEEDED (run #102)**. Every run 07-21…09-13 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -130,8 +130,21 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-_Nothing merged, closed, or opened on any of the four repos since the 09-12 afternoon run._ Prior wave (all
-Anthony's own merges, retained for the audit trail):
+Since the 09-13 morning run, **two merges landed on amma `main`, both Anthony's own Codex/Clone merges** →
+no caretaker action:
+
+- **amma #231 — "Las Palmas persistent game invitation and dedicated character lobby."** Merged by
+  **Anthony** 09-13 19:47 UTC (`48f86486`, current main tip). Clone-authored; adds a Las Palmas character
+  lobby + persistent game invitation and closes out the scoped game-hub release. `CI — web` #160 ✅ on the
+  merge tip. His own merge → recorded for the audit trail only. _(Game-hub/lobby UI; non-human game art per
+  guardrails, but his own merge governs.)_
+- **amma #230 — "Las Palmas Western menu at permanent QR."** Merged by **Anthony** 09-13 18:13 UTC
+  (`d381e09`). Clone-authored; builds a Las Palmas Western menu served at a *permanent* QR route and records
+  the release gate. `CI — web` #158 ✅. ⚠️ Sits in the **QR/menu guardrail area** the caretaker never touches
+  on its own, but this is **Anthony's own merge** and the PR frames the QR as permanent (stable-URL intent) →
+  no caretaker action; noted for the record.
+
+Prior wave (all Anthony's own merges, retained for the audit trail):
 
 - **amma #228 — "feat(owner): Las Palmas pilot, account and menu controls" (+ Mexico ball).** Merged by
   **Anthony** 09-11 18:35 UTC (`6a01a4b`), head `codex/las-palmas-pilot-20260911`, **Clone-authored**.
@@ -237,6 +250,20 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-13 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
+  benign changes since this morning: (1) the **09-13 VBFH Daily Run (#102, 15:52→15:54 UTC) fired and SUCCEEDED**
+  — confirming the morning "hadn't-fired-yet" note was a scheduler-timing artifact; (2) **amma `main` advanced
+  `220d5fe` (#229) → `48f86486` (#231)** via two of Anthony's own Codex/Clone merges — **#230** `d381e09` ("Las
+  Palmas Western menu at permanent QR," `CI — web` #158 ✅) and **#231** `48f86486` ("Las Palmas persistent game
+  invitation + character lobby," `CI — web` #160 ✅). Both his own merges → no caretaker action; #230 noted as
+  QR/menu-guardrail-adjacent but permanent-QR (stable-URL) by design and his own call. Zero failing workflow runs
+  across all repos. Five open drafts still held (#225/#221/#219/#218/#197), all Vercel Ready ✅, none with
+  `updated_at` movement → no new review comments. Default branches re-verified via API: amma `48f86486` (#231),
+  vbfh `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). #218 governance question stays
+  open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the five open draft heads excluded). Standing
+  items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission,
+  #215 Table Duel deploy step, branch cleanup). No push notification sent — quiet run; both changes were Anthony's
+  own green merges, nothing new needing him.
 - **2026-09-13 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
   changed since the 09-12 afternoon run.** No new merges to any `main`/`master`, no new/closed/opened PRs, no new
   commits on any default branch, and no new review comments (no open draft's `updated_at` moved since 08-16…09-11
