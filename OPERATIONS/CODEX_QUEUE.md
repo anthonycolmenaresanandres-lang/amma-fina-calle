@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 29 - Las Palmas Western landing at permanent QR
+
+**State:** LOCAL QA PASSED - APPROVED EXACT-HEAD RELEASE GATE
+**Authority:** Anthony selected first Western design with palms and second accordion, requested preserving menu items and public-source checking, and explicitly requested publishing at the current QR on 2026-09-13.
+**Scope:** Only Las Palmas presentation, static preview price qualifiers, tests and release evidence. Preserve all 39 dishes, original logo/food, exact `/demo/las-palmas` route, game, approval notices and connected-menu behavior. On-page menu CTA, separate full PDF, native readable dropdowns, safe general menu (no fixed Table 1 link), clear Fina Calle feedback recipient.
+**PASS:** 320/390px and desktop screenshots inspected against selected visual;39 dishes and protected routes verified; menu/category/keyboard interactions and feedback states checked without live submissions; targeted ESLint/tests, production build and diff checks pass; exact PR head green before approved release; live QR response and rendering verified after.
+**STOP:** Any failing gate, unexpected diff or source conflict. No access, owner/service activation, billing, migration, printing, send, unsupported restaurant approval or unrelated production work.
+**Next:** Final checks on PR #230 documentation head, exact-head squash merge, then verify Ready production revision/alias and live QR rendering. Local build/TypeScript, targeted ESLint,149 checks,320/390/1440 visual QA and intercepted feedback states passed. Separate unmerged print/archive work remains in las-palmas-table-tent-20260912.
+
 ## [x] 26 - Add owner account information and automatic-payment presentation, then release
 
 **State:** DONE - CODE MERGED AND PRODUCTION VERIFIED; CLIENT ACTIVATION HELD

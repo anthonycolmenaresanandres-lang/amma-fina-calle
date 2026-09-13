@@ -1,184 +1,116 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { Playfair_Display } from "next/font/google";
+import { Alfa_Slab_One } from "next/font/google";
+import { ArrowUp, ChevronDown, ChevronRight, FileText, Gamepad2, TreePalm, UtensilsCrossed } from "lucide-react";
 import { getLasPalmasGuestMenu } from "@/lib/owner/las-palmas-menu";
+import { OFFICIAL_MENU_URL, previewItemDetails, previewSectionLabel } from "./menu-presentation";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
-import LasPalmasSilverPalmMotion from "./LasPalmasSilverPalmMotion";
+import styles from "./LasPalmasWestern.module.css";
 
-// Las Palmas prospect demo menu — PENDING CLIENT APPROVAL, unlinked + noindex.
-// Default is the public-source preview. The owner-managed source is opt-in
-// after pilot approval; when enabled, read failures never show stale demo prices.
-// Visual direction: the original green cantina system with Anthony's supplied
-// red sign isolated from its beach background. Silver palms resolve into the
-// permanent semantic menu dock. Menu + game + table preview remain one
-// pending-approval prospect experience.
-
+// The printed QR contract is permanent. This visual release does not activate
+// owner publishing, ordering, billing or table-service routing.
 export const metadata: Metadata = {
-  title: "Las Palmas · Menu concept | Fina Calle OS",
-  description:
-    "Private owner-review menu concept for Las Palmas Mexican Restaurant & Cantina — prospect preview, prices pending owner confirmation.",
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-    googleBot: { index: false, follow: false, noimageindex: true },
-  },
+  title: "Las Palmas · Menu preview | Fina Calle OS",
+  description: "Explore the Las Palmas Lynnhaven menu preview. Mexican food, a table game, and the restaurant's full menu PDF. Prices pending restaurant confirmation.",
+  alternates: { canonical: "/demo/las-palmas" },
+  robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
 };
-
 export const dynamic = "force-dynamic";
-
-// Brand type matched to the original sign: "Las Palmas" is tall white serif
-// display lettering, so the whole page runs on Playfair Display. This also
-// backs the --font-playfair variable the silver-palm motion title already
-// references (it was silently falling back to Georgia before).
-const palmasSerif = Playfair_Display({
-  subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-playfair",
-});
-
-function slugify(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const western = Alfa_Slab_One({ subsets: ["latin"], weight: "400", display: "swap", variable: "--font-palmas-western" });
+function slugify(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element> {
   const { sections, notice, state } = await getLasPalmasGuestMenu();
+  const isPreview = state === "preview";
 
   return (
-    <main
-      className={`${palmasSerif.variable} min-h-dvh bg-[linear-gradient(180deg,#0b2b1b_0%,#071a11_28%,#06130d_100%)] px-5 font-[family-name:var(--font-playfair),Georgia,serif] text-[#f2ead6] sm:px-8`}
-    >
-      <div className="mx-auto w-full max-w-2xl">
-        <header>
-          <LasPalmasSilverPalmMotion />
+    <main className={western.variable + " " + styles.page} id="top">
+      <a className={styles.skipLink} href="#menu">Skip to menu</a>
+      <div className={styles.shell}>
+        <header className={styles.hero}>
+          <div className={styles.heroTop}>
+          <div className={styles.brandRow}>
+            <p className={styles.location}>Lynnhaven<span>Virginia Beach</span></p>
+            <Image className={styles.logo} src="/assets/laspalmas/brand/las-palmas-original-sign-v1.png" alt="Las Palmas Mexican Restaurant & Cantina" width={600} height={389} preload />
+            <p className={styles.approval}>Pending<span>client approval</span></p>
+          </div>
+          <div className={styles.heroCopy}>
+            <h1><span>Big flavor.</span><span>Good times.</span></h1>
+            <p>Mexican food <span aria-hidden="true">·</span> Cold drinks<br />Great company</p>
+          </div>
+          </div>
+          <figure className={styles.foodHero}>
+            <Image src="/assets/laspalmas/menu/texas-fajitas.webp" alt="Las Palmas Texas Fajitas with grilled steak, chicken, peppers and shrimp" width={640} height={640} sizes="(max-width: 800px) 100vw, 960px" loading="eager" fetchPriority="high" />
+            <figcaption>Texas Fajitas <span>Las Palmas menu photo</span></figcaption>
+          </figure>
+          <div className={styles.actions}>
+            <a className={styles.menuButton} href="#menu"><UtensilsCrossed aria-hidden="true" /><span>View menu</span><ChevronRight aria-hidden="true" /></a>
+            <div className={styles.secondaryActions}>
+              <Link href="/penalty-shootout?skin=laspalmas" prefetch={false}><Gamepad2 aria-hidden="true" /><span>Play the game</span></Link>
+              <a href={OFFICIAL_MENU_URL} target="_blank" rel="noopener noreferrer"><FileText aria-hidden="true" /><span>Full menu PDF<span className={styles.srOnly}> (opens a new tab)</span></span></a>
+            </div>
+          </div>
         </header>
 
-        <nav
-          id="menu"
-          aria-label="Menu sections"
-          aria-labelledby="las-palmas-menu-heading"
-          className="sticky top-0 z-10 -mx-5 flex gap-2 overflow-x-auto border-b border-[#c8ced3]/20 bg-[#06130d]/95 px-5 py-3 backdrop-blur [scrollbar-width:none] sm:-mx-8 sm:px-8"
-        >
+        <nav className={styles.categoryNav} aria-label="Menu sections">
           {sections.map((section) => (
-            <a
-              key={section.name}
-              href={`#sec-${slugify(section.name)}`}
-              className="inline-flex min-h-11 shrink-0 items-center rounded-[3px] border-[1.5px] border-[#a9b8a9]/40 px-4 text-sm font-semibold tracking-[0.04em] text-[#cfd8c8] shadow-[2px_2px_0_rgba(213,50,45,0.55)] transition hover:-translate-x-px hover:-translate-y-px hover:border-[#dfe3e6]/80 hover:text-[#f3f5f6] hover:shadow-[3px_3px_0_rgba(213,50,45,0.8)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#dfe3e6] motion-reduce:transition-none"
-            >
-              {section.name}
-            </a>
+            <a key={section.name} href={"#sec-" + slugify(section.name)}>{isPreview ? previewSectionLabel(section.name).short : section.name}</a>
           ))}
         </nav>
 
-        <p className="mt-6 border-l-2 border-[#b9c0c6]/70 pl-3 text-left text-[0.72rem] leading-5 text-[#d8cfc1]">
-          <span className="block font-semibold uppercase tracking-[0.12em] text-[#dfe3e6]">
-            Pending client approval · Demo only
-          </span>
-          {notice}
-        </p>
-
-        <div className="mt-8 space-y-10">
-          {state === "connected" && sections.length === 0 ? <p className="text-sm text-[#d8cfc1]">No items are currently listed. Please ask staff.</p> : null}
+        <div className={styles.menuPaper} id="menu" tabIndex={-1}>
+          <div className={styles.menuIntro}>
+            <p className={styles.notice}><strong>Menu preview — awaiting restaurant approval.</strong>{isPreview ? "Public-source prices; portions and options vary. Confirm today's menu with staff." : notice}</p>
+            <p>Tap a dish to see its details.</p>
+          </div>
+          {sections.length === 0 ? <p className={styles.emptyMenu} role="status">{state === "unavailable" ? notice : "No items are currently listed. Please ask staff."}</p> : null}
           {sections.map((section) => (
-            <section
-              key={section.name}
-              id={`sec-${slugify(section.name)}`}
-              className="scroll-mt-20"
-            >
-              <h2 className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#dfe3e6]">
-                <span aria-hidden className="h-px w-7 bg-[#aeb5bb]/60" />
-                {section.name}
-                <span
-                  aria-hidden
-                  className="h-px flex-1 bg-gradient-to-r from-[#aeb5bb]/40 to-transparent"
-                />
-              </h2>
-              <ul className="mt-3">
+            <section key={section.name} id={"sec-" + slugify(section.name)} className={styles.menuSection}>
+              <div className={styles.sectionHeading}><h2>{isPreview ? previewSectionLabel(section.name).full : section.name}</h2><TreePalm aria-hidden="true" /></div>
+              {isPreview && section.name === "Lunch" ? <p className={styles.sectionNote}>Lunch specials: 11 am–3 pm daily. The public menu lists a $3 surcharge after 3 pm. Taco prices below are per taco; ceviche options are separate.</p> : null}
+              <ul className={styles.items}>
                 {section.items.map((item) => {
-                  const hasMedia = Boolean(item.photo || item.description);
-                  const row = (
-                    <span className="flex w-full items-baseline gap-3">
-                      <span className="font-medium text-[#f2ead6]">{item.name}</span>
-                      <span
-                        aria-hidden
-                        className="mb-1 flex-1 self-end border-b border-dotted border-[#a9b8a9]/30"
-                      />
-                      <span className="shrink-0 font-semibold tabular-nums text-[#e6e9eb]">
-                        {item.priceDisplay}
-                      </span>
-                    </span>
-                  );
-
+                  const detail = previewItemDetails(item, isPreview);
                   return (
-                    <li key={item.name} className="border-b border-[#dfe3e6]/10">
-                      {hasMedia ? (
-                        <details className="group">
-                          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 py-2.5 [&::-webkit-details-marker]:hidden">
-                            {row}
-                            <svg
-                              aria-hidden
-                              viewBox="0 0 12 8"
-                              className="h-2 w-3 shrink-0 text-[#c7cdd1]/80 transition-transform group-open:rotate-180"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                            >
-                              <path d="M1 1.5 6 6.5 11 1.5" />
-                            </svg>
-                          </summary>
-                          <div className="pb-4 pl-1 pr-6">
-                            {item.description ? (
-                              <p className="text-sm leading-6 text-[#c9d4c2]">
-                                {item.description}
-                              </p>
-                            ) : null}
-                            {item.photo ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={item.photo}
-                                alt={item.name}
-                                loading="lazy"
-                                className="mt-3 aspect-square w-full max-w-xs rounded-xl border border-[#dfe3e6]/20 object-cover ring-1 ring-white/[0.03] sm:max-w-sm"
-                              />
-                            ) : null}
+                    <li key={item.name}>
+                      <details className={styles.item}>
+                        <summary><span className={styles.itemName}>{item.name}</span><span className={styles.price}>{detail.price}</span><ChevronDown className={styles.chevron} aria-hidden="true" /></summary>
+                        <div className={styles.itemDetail}>
+                          <div>
+                            {item.description ? <p>{item.description}</p> : <p>Please ask staff about ingredients and preparation.</p>}
+                            {detail.options ? <p className={styles.priceOptions}>{detail.options}</p> : null}
+                            {isPreview ? <p className={styles.itemDisclaimer}>Public menu reference · confirm price and availability with staff.</p> : null}
                           </div>
-                        </details>
-                      ) : (
-                        <div className="flex min-h-11 items-center py-2.5 pr-5">{row}</div>
-                      )}
+                          {detail.photo ? (
+                            // Owner media may be remote; retain the existing safe URL handling.
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={detail.photo} alt={item.name} width={640} height={640} loading="lazy" decoding="async" />
+                          ) : null}
+                        </div>
+                      </details>
                     </li>
                   );
                 })}
               </ul>
             </section>
           ))}
+          <aside className={styles.fullMenu}>
+            <FileText aria-hidden="true" />
+            <h2>There’s more on the menu.</h2>
+            <p>{isPreview ? "This page keeps our 39-dish preview. " : ""}Find the restaurant’s additional dishes, vegetarian choices, kids’ meals, desserts and drinks in its full menu.</p>
+            <a href={OFFICIAL_MENU_URL} target="_blank" rel="noopener noreferrer">Open restaurant menu PDF <span className={styles.srOnly}>(opens a new tab)</span><ChevronRight aria-hidden="true" /></a>
+            <p className={styles.sourceNote}>Public PDF linked by <a href="https://www.laspalmas2mexicanvb.com/" target="_blank" rel="noopener noreferrer">Las Palmas Lynnhaven<span className={styles.srOnly}> (opens a new tab)</span></a>, checked September 13, 2026. Not a certification of today’s prices or availability.</p>
+          </aside>
+          <div className={styles.serviceNotice}>
+            <strong>Need something at your table?</strong>
+            <p>Please speak with restaurant staff. This general menu QR does not identify a table or send service requests.</p>
+          </div>
+          <LasPalmasGuestNoteForm />
+          <footer className={styles.footer}><TreePalm aria-hidden="true" /><p>Las Palmas · Lynnhaven<br /><span>Menu preview by Fina Calle</span></p><a href="#top">Back to top <ArrowUp aria-hidden="true" /></a></footer>
         </div>
-
-        <div className="mt-12 border-t border-[#c8ced3]/20 pt-7 text-center">
-          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#dfe3e6]">
-            Table service preview
-          </p>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#b8c5ba]">
-            One table QR can open the menu, preview a server call or refill request, and start
-            the shared table game. Nothing is sent to staff until the restaurant approves its
-            routing.
-          </p>
-          <Link
-            href="/table/las-palmas-lynnhaven/1"
-            className="mt-4 inline-block text-sm font-semibold text-[#eef1f3] underline decoration-[#aeb5bb]/60 underline-offset-4 hover:decoration-[#f4f6f7] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#eef1f3]"
-          >
-            Open Table 1 — menu, service requests &amp; table game
-          </Link>
-        </div>
-
-        <LasPalmasGuestNoteForm />
-
-        <footer className="mt-10 pb-2 text-center text-[0.62rem] uppercase tracking-[0.3em] text-[#cfd8c8]/40">
-          Owner-review concept · Menu by Fina Calle
-        </footer>
       </div>
     </main>
   );
