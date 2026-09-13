@@ -38,7 +38,7 @@ PDF includes additional dishes, vegetarian, kids, desserts and drinks. The39-ite
 ## Design implementation
 
 - Forest green #102d21, warm cream #f6e9cd, rust #a63f19, ink #362014.
-- Self-hosted Rye via Next/font for Western display; existing Geist for controls/body and Georgia for dish names. Lucide TreePalm, utensils, game, file and chevron icons match functional roles without custom icon drawings.
+- Self-hosted Alfa Slab One via Next/font for the bold Western display; existing Geist for controls/body and Georgia for dish names. Lucide TreePalm, utensils, game, file and chevron icons match functional roles without custom icon drawings.
 - Original logo and food photos retained; mockup typography stays editable HTML. No invented food, brand artwork, ratings, popularity or establishment date.
 - On-page Menu primary CTA; independent game and full PDF links. Native keyboard-accessible details, price qualifiers and readable contact fields.
 - No fixed Table1 navigation from general QR. Feedback explicitly names Fina Calle before entry and after success.

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Rye } from "next/font/google";
+import { Alfa_Slab_One } from "next/font/google";
 import { ArrowUp, ChevronDown, ChevronRight, FileText, Gamepad2, TreePalm, UtensilsCrossed } from "lucide-react";
 import { getLasPalmasGuestMenu } from "@/lib/owner/las-palmas-menu";
 import { OFFICIAL_MENU_URL, previewItemDetails, previewSectionLabel } from "./menu-presentation";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
 };
 export const dynamic = "force-dynamic";
-const western = Rye({ subsets: ["latin"], weight: "400", display: "swap", variable: "--font-palmas-western" });
+const western = Alfa_Slab_One({ subsets: ["latin"], weight: "400", display: "swap", variable: "--font-palmas-western" });
 function slugify(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
@@ -31,6 +31,7 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
       <a className={styles.skipLink} href="#menu">Skip to menu</a>
       <div className={styles.shell}>
         <header className={styles.hero}>
+          <div className={styles.heroTop}>
           <div className={styles.brandRow}>
             <p className={styles.location}>Lynnhaven<span>Virginia Beach</span></p>
             <Image className={styles.logo} src="/assets/laspalmas/brand/las-palmas-original-sign-v1.png" alt="Las Palmas Mexican Restaurant & Cantina" width={600} height={389} preload />
@@ -39,6 +40,7 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
           <div className={styles.heroCopy}>
             <h1><span>Big flavor.</span><span>Good times.</span></h1>
             <p>Mexican food <span aria-hidden="true">·</span> Cold drinks<br />Great company</p>
+          </div>
           </div>
           <figure className={styles.foodHero}>
             <Image src="/assets/laspalmas/menu/texas-fajitas.webp" alt="Las Palmas Texas Fajitas with grilled steak, chicken, peppers and shrimp" width={640} height={640} sizes="(max-width: 800px) 100vw, 960px" loading="eager" fetchPriority="high" />
@@ -61,10 +63,8 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
 
         <div className={styles.menuPaper} id="menu" tabIndex={-1}>
           <div className={styles.menuIntro}>
-            <TreePalm aria-hidden="true" />
-            <h2>Pull up a chair.</h2>
-            <p>Tap a dish to see its details.</p>
             <p className={styles.notice}><strong>Menu preview — awaiting restaurant approval.</strong>{isPreview ? "Public-source prices; portions and options vary. Confirm today's menu with staff." : notice}</p>
+            <p>Tap a dish to see its details.</p>
           </div>
           {sections.length === 0 ? <p className={styles.emptyMenu} role="status">{state === "unavailable" ? notice : "No items are currently listed. Please ask staff."}</p> : null}
           {sections.map((section) => (

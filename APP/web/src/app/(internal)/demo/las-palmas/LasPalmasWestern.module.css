@@ -12,18 +12,19 @@
   color-scheme: light;
 }
 .shell { max-width: 960px; margin-inline: auto; }
-.hero { background: var(--pine) url('/assets/laspalmas/western/mesquite-palms-v1.webp') center top / cover; }
-.brandRow { display: grid; grid-template-columns: 1fr 1.35fr 1fr; align-items: center; gap: 12px; padding: 22px 20px 12px; }
+.hero { background: var(--pine); }
+.heroTop { background: var(--pine) url('/assets/laspalmas/western/mesquite-palms-v1.webp') center top / cover; }
+.brandRow { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: center; gap: 8px; padding: 12px 16px 6px; }
 .logo { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 8px #0008); }
 .location, .approval { margin: 0; text-align: center; text-transform: uppercase; letter-spacing: .13em; font: 700 10px/1.6 Georgia, serif; }
 .location span, .approval span { display: block; }
-.heroCopy { position: relative; text-align: center; padding: 10px 16px 22px; }
-.heroCopy h1 { font: 400 clamp(32px, 10.5vw, 86px)/1.16 var(--font-palmas-western), Georgia, serif; letter-spacing: -.045em; text-transform: uppercase; text-shadow: 0 4px 2px #05150fb3; margin: 0; }
+.heroCopy { position: relative; text-align: center; padding: 8px 16px 16px; }
+.heroCopy h1 { font: 400 clamp(32px, 11.8vw, 92px)/1.08 var(--font-palmas-western), Georgia, serif; letter-spacing: -.035em; text-transform: uppercase; text-shadow: 0 4px 2px #05150fb3; margin: 0; }
 .heroCopy h1 span { display: block; }
-.heroCopy p { font-size: 11px; text-transform: uppercase; letter-spacing: .19em; line-height: 1.85; margin: 16px 0 0; }
+.heroCopy p { font-size: 11px; text-transform: uppercase; letter-spacing: .19em; line-height: 1.85; margin: 10px 0 0; }
 .heroCopy p span { padding-inline: 6px; }
 .foodHero { position: relative; margin: 0; }
-.foodHero > img { display: block; width: 100%; height: clamp(210px, 65vw, 420px); object-fit: cover; object-position: center 55%; }
+.foodHero > img { display: block; width: 100%; height: clamp(200px, 62vw, 420px); object-fit: cover; object-position: center 75%; }
 .foodHero figcaption { position: absolute; left: 0; bottom: 0; padding: 7px 12px; background: #102d21ed; color: var(--cream); font-size: 12px; font-weight: 600; }
 .foodHero figcaption span { display: none; font-weight: 400; margin-left: 8px; }
 .actions { padding: 14px 14px 18px; }
@@ -37,12 +38,11 @@
 .categoryNav { position: sticky; top: 0; z-index: 10; display: flex; overflow-x: auto; background: #102d21; border-bottom: 2px solid #81653d; scrollbar-width: thin; scrollbar-color: #b98c51 #102d21; }
 .categoryNav a { flex-shrink: 0; display: flex; align-items: center; min-height: 56px; padding: 10px 20px; border-bottom: 3px solid transparent; text-transform: uppercase; letter-spacing: .09em; font: 700 13px/1.3 Georgia, serif; }
 .categoryNav a:hover, .categoryNav a:focus-visible { color: #ffd09e; border-bottom-color: #d97135; }
-.menuPaper { padding: 30px 20px 0; background: #f3e6cc url('/assets/laspalmas/western/parchment-v1.webp') repeat; background-size: 512px; color: var(--ink); scroll-margin-top: 64px; }
-.menuIntro { text-align: center; margin-bottom: 35px; }
-.menuIntro > svg { width: 34px; height: 34px; color: #654327; margin: 0 auto 12px; }
-.menuIntro h2, .sectionHeading h2 { font: 400 clamp(21px, 5.9vw, 32px)/1.3 var(--font-palmas-western), Georgia, serif; text-transform: uppercase; text-wrap: balance; }
+.menuPaper { padding: 22px 20px 0; background: #f3e6cc url('/assets/laspalmas/western/parchment-v1.webp') repeat; background-size: 512px; color: var(--ink); scroll-margin-top: 64px; }
+.menuIntro { text-align: center; margin-bottom: 24px; }
+.sectionHeading h2 { font: 400 clamp(21px, 5.9vw, 32px)/1.3 var(--font-palmas-western), Georgia, serif; text-transform: uppercase; text-wrap: balance; }
 .menuIntro p { font-size: 14px; margin-top: 8px; }
-.menuIntro .notice { text-align: left; padding: 12px 0 12px 14px; border-left: 3px solid #985330; margin-top: 24px; font-size: 13px; line-height: 1.7; color: #634f3b; }
+.menuIntro .notice { text-align: left; padding-left: 12px; border-left: 3px solid #985330; margin-top: 0; font-size: 12px; line-height: 1.7; color: #634f3b; }
 .notice strong { display: block; color: #462b1b; font-weight: 650; }
 .menuSection { scroll-margin-top: 76px; margin-top: 38px; }
 .sectionHeading { text-align: center; }
@@ -82,6 +82,7 @@
 .footer a { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
 .footer a svg { width: 15px; }
 .page :is(a, summary, button, input, select, textarea):focus-visible { outline: 3px solid #bc642c; outline-offset: 4px; }
+.page :is(a, summary, button) { touch-action: manipulation; -webkit-tap-highlight-color: #a63f1930; }
 .hero :is(a, button):focus-visible, .categoryNav a:focus-visible { outline-color: #ffdda8; outline-offset: -4px; }
 .skipLink { position: fixed; top: 8px; left: 8px; transform: translateY(-180%); z-index: 30; background: var(--cream); color: var(--ink); padding: 12px 18px; }
 .skipLink:focus { transform: translateY(0); }

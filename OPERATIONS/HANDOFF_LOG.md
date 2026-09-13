@@ -2,6 +2,15 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [PROGRESS] Codex - 2026-09-13 - Responsive/form pass and visual refinement
+Verified: Independent Chromium320/390/1440 screenshots inspected with matching viewport/scroll width, readable price rows, native focus and no horizontal page overflow. Aborted local feedback request retains message and renders an alert; stubbed200 renders Fina Calle success. In-app paused POST shows disabled Sending state and aria-busy; fulfilled locally and interception cleared. No real request sent. Reduced-motion chevron transition0s; normal mode restored.
+Refinement: Same-size reference/implementation comparison found the initial font too ornate/light and hero too tall. Changed to Alfa Slab One, compacted mobile header and lowered photo crop to reveal the dish. Final lint and95 landing checks pass. Fresh production build and refreshed screenshots pending; draft PR remains unreleased.
+
+### [PROGRESS] Codex - 2026-09-13 - Build and browser verification
+Did: Local production Webpack build and TypeScript passed; final targeted ESLint and95 landing checks passed, alongside41 owner-menu and13 owner-account checks. Draft PR #230 initial head27861b7 has passing GitHub web/Vercel checks. Two local layout refinements remain to commit after QA. No production change yet.
+Verified: Local production server3137 responds200. In-app browser rendered new palms/wood/food hero,39 dishes, parchment menu and correct canonical; all39 native dropdowns opened/closed, Arroz keyboard expansion and lunch/taco options checked. Captured/inspected390px hero/menu. In-app viewport override returned inconsistent screenshots at320; those captures are not valid narrow-screen evidence.
+Next: Normalize responsive browser evidence, test mocked feedback states without sending, complete design-qa, push final exact head, require green checks, then merge under Anthony's existing release approval and verify production.
+
 ### [PROGRESS] Codex - 2026-09-13 - Western build and menu preservation checks
 Did: Built scoped Western page, local CSS module and preview-only price qualifier helper; replaced misleading restaurant-feedback wording while retaining endpoint. All39 original names/base data remain unchanged. General QR no longer selects Table1. Decorative wood/palm and parchment WebP assets created by bounded asset-only workers under the image-to-code workflow; original food/logo assets unchanged.
 Evidence:95 new landing selftests pass, including all39 original photo paths,39 connected-owner price/photo preservation checks, lunch/portion distinctions, permanent canonical/game path, native details and disclosure copy. Official Lynnhaven website still links the14-page2025-named PDF researched this session; public-source agreement is not restaurant certification.
