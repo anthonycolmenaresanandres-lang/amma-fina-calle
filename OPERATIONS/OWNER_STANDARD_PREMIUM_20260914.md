@@ -31,4 +31,14 @@ Primary references checked2026-09-14:
 
 ## Verification and delivery
 
-Pending implementation. Record targeted tests, inspected views, PDF decode counts, exact PR/production revision, actual public route checks and remaining private/physical acceptance below. Never infer successful payments or menu publication from a fixture or a sign-in page.
+Candidate implementation3577f47 is in draft PR234. Exact-head GitHub CI34844695869 (lint, owner/billing tests and production build) and Vercel preview checks pass. Local owner-account13checks, owner-menu41checks, request intake/manifest suites and16synthetic billing tests pass. Billing tests include actual webhook and customer-reader modules with mocked providers; no live private records or payment action were involved.
+
+The Colattao Contact path now prepares human review instead of claiming that a database-only edit changes its separate guest site. Tenant auth, account/reset gates, guest sources, database schema and configuration remain unchanged. Existing invoice management no longer depends on a recurring-price or webhook-secret setting; new enrollment still requires both plus exact approved future terms. The webhook uses the existing event table's received_at as a five-minute lease and retries unfinished work; authoritative billing state is read from current Stripe objects. Legacy admin fallback shows billing unavailable instead of a stale raw status.
+
+Print kit: four-page owner manual and one-page Colattao sign-in handout. Root and print agent inspected all five final renders. Four native full-sheet/crop150/300DPI checks decode only https://finacalleos.com/owner/colattao; eight manual-page checks detect no unintended barcode. Six offline print-contract tests pass. zxing-cpp3.1.1 is an isolated QA dependency, not an application/global dependency. Initial OpenCV/legacy-logo failures are recorded, not relabeled passed. Original branding contained a legacy QR; display clipping retains the original upper wordmark without changing the source asset.
+
+- Manual SHA256: b834d5d316b86d68c05e0cb5c85883deb401fa4acf8f681e7745552d7ef970e5.
+- Handout SHA256: a7d23be79b83309f446050417eb0491946d29caac8fdf9e59627c434eae95642.
+- Reusable protocol/registry/builder: OWNER_PORTAL_PRINT_PROTOCOL.md, PRINT_ASSETS/owner-portal/registry.json and tools/reports/build-owner-portal-kit.py.
+
+Local cold Next compilation took about7.4minutes before the first synthetic login response; visual QA and final production-only local build are pending. Temporary qa-local is excluded from commits. No release yet. Physical100%proof/two-phone scans, authorized owner acceptance, actual billing readiness and customer delivery remain separate unperformed gates. A best-effort app PDF-panel request did not return confirmation and was stopped; do not claim the panel was shown.

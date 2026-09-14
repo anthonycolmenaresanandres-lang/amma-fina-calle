@@ -2,6 +2,11 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [PROGRESS / CI AND PRINT PASS] Codex - 2026-09-14 - Owner standard
+Did: Pushed reviewed candidate3577f47 and opened draft PR234; exact-head GitHub CI34844695869 and Vercel preview checks pass, including newly installed CI owner/billing gates and production build. Root inspected all five final print pages; four exact ownerQR checks and eight zero-unintended-barcode manual checks pass at native150/300DPI. Six print-contract tests pass. Manual, handout, repeatable protocol and registry ready for company archival; no physical print/send.
+State: Still draft/not live. Local synthetic login finally responded200 after7.4minute cold compilation; UI agent finishing warm-page visuals. Billing final16tests and scoped linters pass, menu41/account13/request/app tests pass. Artifact-panel display request did not confirm; it was stopped without any claim that the PDF was shown.
+Next: Archive exact print outputs/sources, complete browser proof, remove local-only QA route, final local production build, then ready/merge only after refreshed exact-head CI. Preserve separate Colattao guest site and all activation/payment/physical-proof holds.
+
 ### [PROGRESS / RELEASE CANDIDATE] Codex - 2026-09-14 - Owner standard independent checks
 Did: Reviewed scoped production code. Owner account13checks, menu41checks, request intake including new Colattao review-only guard, and owner manifest tests pass; billing behavior tests cover Checkout reuse/concurrency, tenant terms, provider URLs, current-state reconciliation, retained-event crash recovery and safe legacy ledger fallback. Scoped linters pass where completed. Added these owner/payment suites to existing CI so future releases retain the safeguards.
 State: Production source stable; local Next cold compilation is unusually slow, so prepare draft PR/independent CI in parallel. The temporary qa-local route is explicitly excluded from the commit/release and will be removed before final local build. No merge until browser proof, final build and exact-head checks pass. Remote main reverified a08c51a.
