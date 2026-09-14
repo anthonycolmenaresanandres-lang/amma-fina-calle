@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Alfa_Slab_One } from "next/font/google";
-import { ArrowUp, ChevronDown, ChevronRight, FileText, Gamepad2, TreePalm, UtensilsCrossed } from "lucide-react";
+import { ArrowUp, ArrowUpRight, ChevronDown, ChevronRight, FileText, Gamepad2, ShoppingBag, TreePalm, UtensilsCrossed } from "lucide-react";
 import { getLasPalmasGuestMenu } from "@/lib/owner/las-palmas-menu";
 import { OFFICIAL_MENU_URL, previewItemDetails, previewSectionLabel } from "./menu-presentation";
 import LasPalmasGuestNoteForm from "./LasPalmasGuestNoteForm";
@@ -10,7 +10,7 @@ import FinaCalleFooter from "@/components/FinaCalleFooter";
 import styles from "./LasPalmasWestern.module.css";
 
 // The printed QR contract is permanent. This visual release does not activate
-// owner publishing, ordering, billing or table-service routing.
+// owner publishing, Fina Calle checkout, billing or table-service routing.
 export const metadata: Metadata = {
   title: "Las Palmas · Menu preview | Fina Calle OS",
   description: "Explore the Las Palmas Lynnhaven menu preview. Mexican food, a table game, and the restaurant's full menu PDF. Prices pending restaurant confirmation.",
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 };
 export const dynamic = "force-dynamic";
 const western = Alfa_Slab_One({ subsets: ["latin"], weight: "400", display: "swap", variable: "--font-palmas-western" });
+// Linked by the restaurant's official Lynnhaven site; location checked 2026-09-14.
+const ONLINE_ORDER_URL = "https://orders.menuchow.com/ordering/laspalmas2";
 function slugify(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
@@ -56,6 +58,12 @@ export default async function LasPalmasDemoMenuPage(): Promise<React.JSX.Element
           </figure>
           <div className={styles.actions}>
             <a className={styles.menuButton} href="#menu"><UtensilsCrossed aria-hidden="true" /><span>View menu</span><ChevronRight aria-hidden="true" /></a>
+            <a className={styles.orderButton} href={ONLINE_ORDER_URL} target="_blank" rel="noopener noreferrer" aria-describedby="online-order-note">
+              <ShoppingBag aria-hidden="true" />
+              <span><strong>Order online</strong><small>Lynnhaven pickup · MenuChow</small><span className={styles.srOnly}> (opens a new tab)</span></span>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+            <p className={styles.orderNote} id="online-order-note">1009 Lynnhaven Mall Loop. Confirm pickup hours, prices and availability on MenuChow.</p>
             <div className={styles.secondaryActions}>
               <Link href="/play/las-palmas" prefetch={false}><Gamepad2 aria-hidden="true" /><span>Pick your player</span></Link>
               <a href={OFFICIAL_MENU_URL} target="_blank" rel="noopener noreferrer"><FileText aria-hidden="true" /><span>Full menu PDF<span className={styles.srOnly}> (opens a new tab)</span></span></a>
