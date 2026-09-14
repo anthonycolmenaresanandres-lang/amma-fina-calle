@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [x] 36 - Las Palmas existing online-ordering link
+
+**State:** VERIFIED LOCAL - SCOPED RELEASE HANDED TO LEAD AGENT
+**Authority:** Anthony requested incorporating Las Palmas's existing order-online feature into its live page on 2026-09-14. This lane contains only the ordering invitation and verification; the lead agent owns release.
+**Scope:** One brass Western pickup CTA at the permanent /demo/las-palmas QR, linking to the official-site-listed MenuChow storefront. Preserve menu data, game, footer, backend and other clients.
+**Evidence:** https://www.laspalmas2mexicanvb.com/ links https://orders.menuchow.com/ordering/laspalmas2. Browser pickup-location screen verifies 1009 Lynnhaven Mall Loop, Virginia Beach, VA 23452. Provider determines opening hours, availability and checkout.
+**PASS:** Inspected matching before/after mobile captures, 320/390/1440 overflow/focus/sticky checks, actual external navigation, targeted lint and production build. No order, cart, sign-in or feedback submission.
+**Result:** One scoped page/CSS change; production build/TypeScript and targeted ESLint pass. All 39 dishes retained, no horizontal overflow at 320/390/1440, dark keyboard focus visible, Enter opens the verified MenuChow location in a new tab, game remains top 0px through footer. Evidence: C:/Dev/amma/evidence/las-palmas-order-online-20260914. Local server: http://127.0.0.1:3142/demo/las-palmas. No release performed by implementation agent.
+
 ## [ ] 32 - Cantina Jumbotron scoreboard and approved release
 
 **State:** IN PROGRESS - IMPLEMENTATION / RELEASE AUTHORIZED
