@@ -3,13 +3,15 @@
 import { redirect } from "next/navigation";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { recurringCheckoutDestination } from "./checkout";
+import { approvedTrialEnd, BillingSetupPendingError, priceMatchesApprovedTerms, stripeObjectId, subscriptionStillExists, trustedStripeUrl, type ApprovedBillingTerms } from "./policy";
 import {
   getBillingAppUrl,
   getRecurringPriceId,
   getStripe,
+  isBillingManagementConfigured,
+  isBillingRuntimeConfigured,
 } from "@/lib/stripe/server";
-
-const STRIPE_MINIMUM_TRIAL_SECONDS = 48 * 60 * 60;
 
 type RestaurantBillingProfile = {
   business_name: string;
@@ -55,12 +57,6 @@ function stripeCustomerProfile(
   };
 }
 
-function trialEndForDate(value: unknown): number | null {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
-  const epochSeconds = Math.floor(Date.parse(`${value}T12:00:00Z`) / 1000);
-  return Number.isFinite(epochSeconds) ? epochSeconds : null;
-}
-
 function ownerPath(restaurantId: string, notice?: string): string {
   const base = "/owner/" + encodeURIComponent(restaurantId);
   return notice ? base + "?billing=" + encodeURIComponent(notice) : base;
@@ -77,99 +73,83 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
   let checkoutUrl: string | null = null;
 
   try {
+    if (!isBillingManagementConfigured()) throw new BillingSetupPendingError();
     const stripe = getStripe();
     const admin = getSupabaseAdmin();
     const appUrl = getBillingAppUrl();
-    const priceId = getRecurringPriceId();
-
-    const { data: restaurant, error: restaurantError } = await admin
-      .from("restaurants")
-      .select(
-        "business_name, billing_name, contact_name, contact_email, contact_phone, billing_address_line1, billing_address_city, billing_address_state, billing_address_postal_code, billing_address_country",
-      )
-      .eq("id", restaurantId)
-      .maybeSingle();
-    if (restaurantError || !restaurant) throw new Error("Restaurant unavailable.");
-    const customerProfile = stripeCustomerProfile(
-      restaurantId,
-      restaurant as RestaurantBillingProfile,
-    );
 
     const { data: billing, error: billingError } = await admin
       .from("restaurant_billing")
       .select(
-        "stripe_customer_id, stripe_subscription_id, subscription_status, scheduled_first_charge_on",
+        "stripe_customer_id, stripe_subscription_id, subscription_status, amount_cents, currency, billing_interval, billing_interval_count, scheduled_first_charge_on",
       )
       .eq("restaurant_id", restaurantId)
       .maybeSingle();
     if (billingError) throw billingError;
+    if (!billing) throw new BillingSetupPendingError();
 
     let customerId = billing?.stripe_customer_id as string | undefined;
-    if (!customerId) {
-      const customer = await stripe.customers.create(
-        customerProfile,
-        { idempotencyKey: "amma-owner-customer-" + restaurantId },
-      );
-      customerId = customer.id;
-
-      const { error: upsertError } = await admin.from("restaurant_billing").upsert(
-        {
-          restaurant_id: restaurantId,
-          stripe_customer_id: customerId,
-          subscription_status: "not_started",
-          recurring_enabled: false,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: "restaurant_id" },
-      );
-      if (upsertError) throw upsertError;
-    } else {
-      await stripe.customers.update(customerId, customerProfile);
-    }
-
-    const terminalStatuses = new Set(["canceled", "incomplete_expired", "unpaid"]);
-    const existingStatus = String(billing?.subscription_status || "not_started");
-    if (billing?.stripe_subscription_id && !terminalStatuses.has(existingStatus)) {
-      const session = await stripe.billingPortal.sessions.create({
-        customer: customerId,
-        return_url: appUrl + ownerPath(restaurantId),
-      });
-      checkoutUrl = session.url;
-    } else {
-      const trialEnd = trialEndForDate(billing?.scheduled_first_charge_on);
-      const now = Math.floor(Date.now() / 1000);
-      if (
-        trialEnd !== null &&
-        trialEnd > now &&
-        trialEnd - now < STRIPE_MINIMUM_TRIAL_SECONDS
-      ) {
-        throw new Error("Scheduled first charge is inside Stripe's trial window.");
+    // Resolve an existing subscription before requiring new-enrollment terms.
+    // An old trial date must never block access to invoices or payment recovery.
+    if (customerId) {
+      const customer = await stripe.customers.retrieve(customerId);
+      if (customer.deleted || (customer.metadata.restaurant_id && customer.metadata.restaurant_id !== restaurantId)) {
+        throw new BillingSetupPendingError();
       }
-
-      const session = await stripe.checkout.sessions.create({
-        mode: "subscription",
-        customer: customerId,
-        client_reference_id: restaurantId,
-        line_items: [{ price: priceId, quantity: 1 }],
-        metadata: { restaurant_id: restaurantId },
-        subscription_data: {
-          metadata: { restaurant_id: restaurantId },
-          ...(trialEnd !== null && trialEnd > now
-            ? {
-                trial_end: trialEnd,
-                trial_settings: {
-                  end_behavior: { missing_payment_method: "cancel" as const },
-                },
-              }
-            : {}),
-        },
-        success_url: appUrl + ownerPath(restaurantId, "success"),
-        cancel_url: appUrl + ownerPath(restaurantId, "canceled"),
-      });
-      checkoutUrl = session.url;
+      if (billing.stripe_subscription_id) {
+        const subscription = await stripe.subscriptions.retrieve(billing.stripe_subscription_id);
+        if (stripeObjectId(subscription.customer) !== customerId) throw new BillingSetupPendingError();
+        if (subscriptionStillExists(subscription.status)) {
+          const session = await stripe.billingPortal.sessions.create({ customer: customerId, return_url: appUrl + ownerPath(restaurantId) });
+          checkoutUrl = trustedStripeUrl(session.url, "portal");
+        }
+      }
+      if (!checkoutUrl) {
+        const subscriptions = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 100 });
+        if (subscriptions.has_more) throw new BillingSetupPendingError();
+        if (subscriptions.data.some((subscription) => subscriptionStillExists(subscription.status))) {
+          const session = await stripe.billingPortal.sessions.create({ customer: customerId, return_url: appUrl + ownerPath(restaurantId) });
+          checkoutUrl = trustedStripeUrl(session.url, "portal");
+        }
+      }
     }
-  } catch {
-    redirect(ownerPath(restaurantId, "unavailable"));
+
+    if (!checkoutUrl) {
+      if (!isBillingRuntimeConfigured(restaurantId)) throw new BillingSetupPendingError();
+      const terms = billing as ApprovedBillingTerms;
+      const trialEnd = approvedTrialEnd(terms);
+      const priceId = getRecurringPriceId(restaurantId);
+      const price = await stripe.prices.retrieve(priceId);
+      if (!priceMatchesApprovedTerms(price, terms)) throw new BillingSetupPendingError();
+
+      if (!customerId) {
+        const { data: restaurant, error: restaurantError } = await admin.from("restaurants")
+          .select("business_name, billing_name, contact_name, contact_email, contact_phone, billing_address_line1, billing_address_city, billing_address_state, billing_address_postal_code, billing_address_country")
+          .eq("id", restaurantId).maybeSingle();
+        if (restaurantError || !restaurant) throw new BillingSetupPendingError();
+        const customerProfile = stripeCustomerProfile(restaurantId, restaurant as RestaurantBillingProfile);
+        const customer = await stripe.customers.create(
+          customerProfile,
+          { idempotencyKey: "amma-owner-customer-" + restaurantId },
+        );
+        customerId = customer.id;
+
+        const { data: mapped, error: upsertError } = await admin.from("restaurant_billing").update({
+          stripe_customer_id: customerId,
+          updated_at: new Date().toISOString(),
+        }).eq("restaurant_id", restaurantId).is("stripe_customer_id", null).select("stripe_customer_id").maybeSingle();
+        if (upsertError) throw upsertError;
+        // Concurrent enrollment can map the same idempotently-created customer.
+        if (!mapped) {
+          const { data: current, error: mappingError } = await admin.from("restaurant_billing")
+            .select("stripe_customer_id").eq("restaurant_id", restaurantId).maybeSingle();
+          if (mappingError || current?.stripe_customer_id !== customerId) throw new BillingSetupPendingError();
+        }
+      }
+      checkoutUrl = await recurringCheckoutDestination(stripe, { customerId, restaurantId, priceId, trialEnd, appUrl });
+    }
+  } catch (error) {
+    redirect(ownerPath(restaurantId, error instanceof BillingSetupPendingError ? "setup-pending" : "unavailable"));
   }
 
   if (!checkoutUrl) redirect(ownerPath(restaurantId, "unavailable"));
@@ -182,6 +162,7 @@ export async function openBillingPortal(restaurantId: string): Promise<void> {
   let missingCustomer = false;
 
   try {
+    if (!isBillingManagementConfigured()) throw new BillingSetupPendingError();
     const stripe = getStripe();
     const admin = getSupabaseAdmin();
     const appUrl = getBillingAppUrl();
@@ -197,11 +178,15 @@ export async function openBillingPortal(restaurantId: string): Promise<void> {
     if (!customerId) {
       missingCustomer = true;
     } else {
+      const customer = await stripe.customers.retrieve(customerId);
+      if (customer.deleted || (customer.metadata.restaurant_id && customer.metadata.restaurant_id !== restaurantId)) {
+        throw new BillingSetupPendingError();
+      }
       const session = await stripe.billingPortal.sessions.create({
         customer: customerId,
         return_url: appUrl + ownerPath(restaurantId),
       });
-      portalUrl = session.url;
+      portalUrl = trustedStripeUrl(session.url, "portal");
     }
   } catch {
     redirect(ownerPath(restaurantId, "unavailable"));

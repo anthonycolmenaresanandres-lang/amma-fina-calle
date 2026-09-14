@@ -27,8 +27,11 @@ export function getStripeWebhookSecret(): string {
   return requiredEnv("STRIPE_WEBHOOK_SECRET");
 }
 
-export function getRecurringPriceId(): string {
-  return requiredEnv("STRIPE_RECURRING_PRICE_ID");
+export function getRecurringPriceId(restaurantId?: string): string {
+  const suffix = restaurantId?.replaceAll("-", "_").toUpperCase();
+  const scoped = suffix && /^[A-Z0-9_]+$/.test(suffix)
+    ? process.env[`STRIPE_RECURRING_PRICE_ID_${suffix}`]?.trim() : undefined;
+  return scoped || requiredEnv("STRIPE_RECURRING_PRICE_ID");
 }
 
 export function getBillingAppUrl(): string {
@@ -49,14 +52,12 @@ export function getBillingAppUrl(): string {
   return url.origin;
 }
 
-export function isBillingRuntimeConfigured(): boolean {
+export function isBillingManagementConfigured(): boolean {
   const supabaseServerKey =
     process.env.SUPABASE_SECRET_KEY?.trim() ||
     process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   const requiredValuesPresent = Boolean(
     process.env.STRIPE_SECRET_KEY?.trim() &&
-      process.env.STRIPE_WEBHOOK_SECRET?.trim() &&
-      process.env.STRIPE_RECURRING_PRICE_ID?.trim() &&
       supabaseServerKey &&
       process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
       process.env.NEXT_PUBLIC_APP_URL?.trim(),
@@ -68,4 +69,10 @@ export function isBillingRuntimeConfigured(): boolean {
   } catch {
     return false;
   }
+}
+
+export function isBillingRuntimeConfigured(restaurantId?: string): boolean {
+  if (!isBillingManagementConfigured() || !process.env.STRIPE_WEBHOOK_SECRET?.trim()) return false;
+  try { return Boolean(getRecurringPriceId(restaurantId)); }
+  catch { return false; }
 }

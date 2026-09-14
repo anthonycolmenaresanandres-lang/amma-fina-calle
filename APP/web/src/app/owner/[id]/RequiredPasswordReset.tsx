@@ -2,7 +2,8 @@
 
 import { useActionState, useState } from "react";
 import { Eye, EyeOff, KeyRound, Loader2, ShieldCheck } from "lucide-react";
-import { Eyebrow, cn } from "@/components/ui";
+import Link from "next/link";
+import { cn } from "@/components/ui";
 import {
   completeRequiredPasswordReset,
   type ActionState,
@@ -27,7 +28,7 @@ function PasswordField({
     <div>
       <label
         htmlFor={id}
-        className="block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]"
+        className={styles.authLabel}
       >
         {label}
       </label>
@@ -40,13 +41,13 @@ function PasswordField({
           minLength={4}
           maxLength={128}
           autoComplete={autoComplete}
-          className="min-w-0 w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 pr-12 text-sm text-[#f4f6f7] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
+          className={cn(styles.authInput, styles.passwordInput)}
         />
         <button
           type="button"
           onClick={() => setVisible((current) => !current)}
           aria-label={visible ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
-          className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#7f8a91] transition hover:text-[#bfdcff]"
+          className={styles.passwordToggle}
         >
           {visible ? <EyeOff size={17} aria-hidden /> : <Eye size={17} aria-hidden />}
         </button>
@@ -69,15 +70,15 @@ export default function RequiredPasswordReset({
 
   return (
     <div className={cn("fc-panel mx-auto min-w-0 w-full", styles.authFrame)}>
-      <Eyebrow>First sign-in</Eyebrow>
+      <p className={styles.kicker}>Your first visit</p>
       <h1 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">
         Set your password.
       </h1>
-      <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Secure {businessName} for {email}. Tools unlock after this step.
+      <p className={styles.authIntro}>
+        Create your private password for {businessName}. You are signed in as {email}.
       </p>
 
-      <form action={formAction} className="mt-6 space-y-4">
+      <form action={formAction} className={styles.authForm}>
         <PasswordField
           id="new-owner-password"
           name="password"
@@ -96,7 +97,7 @@ export default function RequiredPasswordReset({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#04121f] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
+          className={styles.primaryAction}
         >
           {pending ? (
             <>
@@ -120,10 +121,11 @@ export default function RequiredPasswordReset({
         </p>
       ) : null}
 
-      <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-5 text-[#7f8a91]">
-        <ShieldCheck size={13} aria-hidden className="text-[#4f9dff]/70" />
-        AMMA never sees or stores your private password.
+      <p className={styles.authSecurity}>
+        <ShieldCheck size={14} aria-hidden />
+        Keep your password private. Fina Calle will never ask you to send it in a request.
       </p>
+      <div className={styles.authHelp}><Link href="/owner/guide">Owner guide</Link><Link href="/owner/guide#sign-in-help">Sign-in help</Link></div>
     </div>
   );
 }

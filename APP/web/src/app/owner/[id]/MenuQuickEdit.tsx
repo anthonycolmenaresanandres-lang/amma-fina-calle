@@ -72,7 +72,7 @@ export default function MenuQuickEdit({ restaurantId, categories, previewOnly = 
   if (!item) return <p className={styles.empty}>No menu items are connected yet. Finish the approved menu import before editing.</p>;
 
   return <div className={styles.editor}>
-    <p className={styles.intro}>Change a price, item name, description or availability. Review first; save when it looks right. Your printed QR stays the same.</p>
+    <p className={styles.intro}>Update one item, review the change, then save. Need a second update? Repeat when the first is saved. Your printed QR stays the same.</p>
     {previewOnly ? <p className={styles.notice}>LOCAL DEMO · Sample changes only. This is not an active owner account.</p> : null}
     <form onSubmit={review} className={styles.form}>
       <fieldset disabled={pending}>
@@ -88,10 +88,10 @@ export default function MenuQuickEdit({ restaurantId, categories, previewOnly = 
         </select>
         <label htmlFor={`${prefix}-value`}>New value</label>
         {field === "is_available" ? <select ref={node => { inputRef.current = node; }} id={`${prefix}-value`} name="value" value={value} onChange={event => { setDraft(event.target.value); setProposal(null); setMessage(""); }}>
-          <option value="true">Available</option><option value="false">Sold out — hide from the menu</option>
+          <option value="true">Available</option><option value="false">Sold out</option>
         </select> : field === "description" ? <textarea ref={node => { inputRef.current = node; }} id={`${prefix}-value`} name="value" autoComplete="off" maxLength={1500} value={value} onChange={event => { setDraft(event.target.value); setProposal(null); setMessage(""); }} aria-describedby={`${prefix}-help ${prefix}-error`} /> :
           <input ref={node => { inputRef.current = node; }} id={`${prefix}-value`} name="value" type="text" autoComplete="off" inputMode={field === "name" ? "text" : "decimal"} maxLength={field === "name" ? 120 : 11} value={value} onChange={event => { setDraft(event.target.value); setProposal(null); setMessage(""); }} aria-describedby={`${prefix}-help ${prefix}-error`} aria-invalid={Boolean(error)} />}
-        <p id={`${prefix}-help`} className={styles.hint}>{field === "price" || field === "size_price" ? "Use dollars and up to 2 decimal places. 0 means “Ask staff,” not a free item. Size prices are edited separately." : "Only this field on the selected item will change. New items and categories can still go through Request."}</p>
+        <p id={`${prefix}-help`} className={styles.hint}>{field === "price" || field === "size_price" ? "Use dollars and up to 2 decimal places. 0 means “Ask staff,” not a free item. Size prices are edited separately." : "Only this field on the selected item will change. For new items or categories, contact Fina Calle."}</p>
         <p id={`${prefix}-error`} className={styles.error} role="alert">{error}</p>
         {!proposal ? <button type="submit">Review change</button> : null}
       </fieldset>

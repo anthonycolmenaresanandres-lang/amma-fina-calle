@@ -107,7 +107,7 @@ export async function getCustomers(): Promise<CustomerSummary[]> {
   // Keeps the existing registry usable until the prepared migration is applied.
   const legacy = await supabase.rpc("get_customer_registry");
   if (legacy.error || !legacy.data) return [];
-  return (legacy.data as RegistryRow[]).map(mapSummary);
+  return (legacy.data as RegistryRow[]).map((row) => mapSummary({ ...row, billing_status: "unavailable" }));
 }
 
 export async function getCustomerById(id: string): Promise<CustomerAccount | null> {
@@ -126,5 +126,6 @@ export async function getCustomerById(id: string): Promise<CustomerAccount | nul
   const row = (Array.isArray(legacy.data) ? legacy.data[0] : legacy.data) as
     | AccountRow
     | undefined;
-  return row ? mapAccount(row) : null;
+  // Legacy restaurant status is not a substitute for the authoritative ledger.
+  return row ? mapAccount({ ...row, billing_status: "unavailable" }) : null;
 }

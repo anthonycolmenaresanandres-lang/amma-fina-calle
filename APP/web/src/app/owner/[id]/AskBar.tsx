@@ -7,7 +7,7 @@ import {
   Loader2,
   Paperclip,
   Send,
-  Sparkles,
+  MessageCircle,
   Upload,
   X,
 } from "lucide-react";
@@ -62,14 +62,14 @@ function parse(text: string, items: Item[]): Result {
     return {
       kind: "apply",
       title: `86 “${found.name}”`,
-      detail: "It disappears from your live menu until you bring it back.",
+      detail: "The sample item will be marked unavailable. This demo does not change a guest menu.",
     };
   }
   if (found && /\b(bring back|back on|available again|show|un.?86)\b/.test(normalized)) {
     return {
       kind: "apply",
       title: `Bring back “${found.name}”`,
-      detail: "It returns to your live menu right away.",
+      detail: "The sample item will be marked available. This demo does not change a guest menu.",
     };
   }
   const priceMatch = normalized.match(/\$?\s*(\d+(?:\.\d{1,2})?)/);
@@ -77,7 +77,7 @@ function parse(text: string, items: Item[]): Result {
     return {
       kind: "apply",
       title: `Change “${found.name}” price`,
-      detail: `${money(found.price)} → $${Number(priceMatch[1]).toFixed(2)} — live on your menu.`,
+      detail: `${money(found.price)} → $${Number(priceMatch[1]).toFixed(2)} in this preview only.`,
     };
   }
   return {
@@ -194,7 +194,7 @@ export default function AskBar({
         setResult({
           kind: "apply",
           title: `${state.proposal.entityLabel} · ${state.proposal.fieldLabel}`,
-          detail: `${state.proposal.currentDisplay} → ${state.proposal.newDisplay} — live on your menu.`,
+          detail: `${state.proposal.currentDisplay} → ${state.proposal.newDisplay}. Review this change before saving.`,
         });
       } else if (state.phase === "review") {
         setResult({ kind: "review", reason: state.reason });
@@ -276,7 +276,7 @@ export default function AskBar({
       if (kind === "apply" && submittedFiles.length === 0) {
         const state = await confirmOwnerRequest(restaurantId ?? "", { phase: "idle" }, formData);
         if (state.phase === "applied") {
-          setDone({ tone: "success", message: `${state.message} Customers see it now.` });
+          setDone({ tone: "success", message: `${state.message} Check the connected guest menu to verify the update.` });
           setResult(null);
           clearDraft();
           router.refresh();
@@ -319,12 +319,11 @@ export default function AskBar({
   return (
     <Panel className={styles.requestSurface}>
       <p className={styles.requestKicker}>
-        <span className={styles.frameNumber}>01</span>
-        <Sparkles size={13} strokeWidth={2} aria-hidden />
-        Request
+        <MessageCircle size={15} strokeWidth={1.5} aria-hidden />
+        Contact Fina Calle
       </p>
-      <h2 className={styles.requestTitle}>What do you need?</h2>
-      <p className={styles.requestIntro}>What · Where · Details · Deadline</p>
+      <h2 className={styles.requestTitle}>What can we help with?</h2>
+      <p className={styles.requestIntro}>A menu update, an account question or a new idea. Tell us what you need, where it belongs and when you need it. Add a photo or PDF if it helps.</p>
 
       <form
         onSubmit={(event) => {

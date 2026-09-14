@@ -1,4 +1,5 @@
 import type { OwnerAccountProfile } from "@/lib/owner/account-profile";
+import styles from "./owner-portal.module.css";
 
 export default function AccountInfo({ businessName, email, profile, preview = false }: {
   businessName: string;
@@ -16,16 +17,16 @@ export default function AccountInfo({ businessName, email, profile, preview = fa
     ["Contact phone", profile?.contactPhone || missing],
     ["Billing address", profile?.billingAddress.length ? profile.billingAddress.join(" · ") : missing],
   ];
-  return <div className="min-w-0 sm:col-span-full">
-    <h3 className="text-lg font-semibold text-[#f4f6f7]">Account information</h3>
-    <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">{preview
-      ? "Local preview only. Las Palmas contact details and billing terms have not been confirmed."
-      : profile ? "Details on your AMMA account. Use Request to ask for a correction; changing contact details does not grant portal access."
-        : "Account details could not be loaded. Refresh or contact AMMA; payment status is shown separately below."}</p>
-    <dl className="mt-5 grid min-w-0 gap-x-8 sm:grid-cols-2">
-      {rows.map(([label, value]) => <div key={label} className="min-w-0 border-b border-white/10 py-3">
-        <dt className="text-xs font-medium text-[#aeb7bd]">{label}</dt>
-        <dd className="mt-1 break-words text-sm leading-6 text-[#eef2f4] [overflow-wrap:anywhere]">{value}</dd>
+  return <div className={styles.accountInfo}>
+    <h3>Account information</h3>
+    <p className={styles.accountIntro}>{preview
+      ? "Preview only. Contact details and billing terms still need confirmation."
+      : profile ? "Your business and billing details. Contact Fina Calle below for corrections; changing a contact does not give them portal access."
+        : "Account details could not be loaded. Refresh or contact Fina Calle below; payment status is shown separately."}</p>
+    <dl className={styles.accountRows}>
+      {rows.map(([label, value]) => <div key={label}>
+        <dt>{label}</dt>
+        <dd>{value}</dd>
       </div>)}
     </dl>
   </div>;

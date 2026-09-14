@@ -1,0 +1,124 @@
+{
+  "exactPayload": "https://finacalleos.com/owner/colattao",
+  "digitalStatus": "PASS",
+  "physicalProof": "PENDING - no paper print or real-device scan was performed",
+  "privateOwnerAcceptance": "NOT TESTED - public route does not verify account access or billing",
+  "verificationNote": "Initial OpenCV full-page300 verification failed. zxing-cpp then identified a second legacy QR embedded in the original logo. Final layout clips that image to its original upper wordmark; final native raster checks must return only the exact owner URL. No OpenCV pass is claimed.",
+  "qr": {
+    "errorCorrection": "Q",
+    "quietZoneModules": 4,
+    "totalModulesPerSide": 41,
+    "sizeIncludingQuietZoneInches": 2.25,
+    "moduleSizeMillimeters": 1.3939024390243901
+  },
+  "checks": [
+    {
+      "dpi": 150,
+      "region": "full-page",
+      "decoder": "zxing-cpp",
+      "nativeRaster": true,
+      "decoded": [
+        "https://finacalleos.com/owner/colattao"
+      ],
+      "pass": true
+    },
+    {
+      "dpi": 150,
+      "region": "qr-crop",
+      "decoder": "zxing-cpp",
+      "nativeRaster": true,
+      "decoded": [
+        "https://finacalleos.com/owner/colattao"
+      ],
+      "pass": true
+    },
+    {
+      "dpi": 300,
+      "region": "full-page",
+      "decoder": "zxing-cpp",
+      "nativeRaster": true,
+      "decoded": [
+        "https://finacalleos.com/owner/colattao"
+      ],
+      "pass": true
+    },
+    {
+      "dpi": 300,
+      "region": "qr-crop",
+      "decoder": "zxing-cpp",
+      "nativeRaster": true,
+      "decoded": [
+        "https://finacalleos.com/owner/colattao"
+      ],
+      "pass": true
+    }
+  ],
+  "manualNoUnexpectedBarcodes": [
+    {
+      "page": 1,
+      "dpi": 150,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 1,
+      "dpi": 300,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 2,
+      "dpi": 150,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 2,
+      "dpi": 300,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 3,
+      "dpi": 150,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 3,
+      "dpi": 300,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 4,
+      "dpi": 150,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    },
+    {
+      "page": 4,
+      "dpi": 300,
+      "decoder": "zxing-cpp",
+      "decoded": [],
+      "pass": true
+    }
+  ],
+  "files": [
+    {
+      "filename": "fina-calle-owner-manual.pdf",
+      "sha256": "b834d5d316b86d68c05e0cb5c85883deb401fa4acf8f681e7745552d7ef970e5"
+    },
+    {
+      "filename": "colattao-owner-portal-sign-in.pdf",
+      "sha256": "a7d23be79b83309f446050417eb0491946d29caac8fdf9e59627c434eae95642"
+    }
+  ]
+}
