@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Lilita_One } from "next/font/google";
 import { ShieldX, Wrench } from "lucide-react";
-import { Eyebrow, cn } from "@/components/ui";
+import { cn } from "@/components/ui";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getOwnerContext } from "@/lib/owner/auth";
@@ -28,13 +27,6 @@ import OwnerDashboard, {
 } from "./OwnerDashboard";
 import styles from "./owner-portal.module.css";
 
-const display = Lilita_One({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-owner-display",
-});
-
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -50,7 +42,7 @@ function Shell({
   center?: boolean;
 }) {
   return (
-    <main className={cn("fc-bg", styles.portal, display.variable)}>
+    <main className={styles.portal}>
       <a href="#owner-main" className={styles.skipLink}>
         Skip to tools
       </a>
@@ -71,19 +63,30 @@ function Shell({
   );
 }
 
-function SetupNotice() {
+const PREPARING_OWNER_PORTALS: Record<string, { name: string; logo: string }> = {
+  "las-palmas-lynnhaven": { name: "Las Palmas · Lynnhaven", logo: "/assets/laspalmas/brand/las-palmas-original-sign-v1.png" },
+  "aj-gators": { name: "A.J. Gator’s", logo: "/assets/aj-gators/aj-gators-logo-official.png" },
+};
+
+function SetupNotice({ restaurantId }: { restaurantId?: string }) {
+  const preparing = restaurantId ? PREPARING_OWNER_PORTALS[restaurantId] : undefined;
   return (
-    <div className={cn("fc-panel mx-auto w-full text-center", styles.authFrame)}>
-      <span className={cn("mx-auto flex h-11 w-11 items-center justify-center border border-[#4f9dff]/35 bg-[#4f9dff]/10 text-[#bfdcff]", styles.authIcon)}>
+    <div className={cn("fc-panel mx-auto w-full", styles.authFrame)}>
+      {preparing ? <div className={styles.authBrand}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={preparing.logo} alt={preparing.name} width={160} height={56} className={styles.authLogo} />
+        <span>Fina Calle<br />Owner portal</span>
+      </div> : null}
+      <span className={styles.authIcon}>
         <Wrench size={18} strokeWidth={1.75} aria-hidden />
       </span>
-      <div className="mt-4 flex justify-center">
-        <Eyebrow>Owner</Eyebrow>
-      </div>
-      <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Setup needed</h1>
-      <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Access isn&apos;t ready. Contact AMMA.
-      </p>
+      <p className={styles.kicker}>{preparing ? "Portal setup pending" : "Owner access unavailable"}</p>
+      <h1>{preparing ? "Your own space. Coming together." : "We’ll help you get connected."}</h1>
+      <p className={styles.authIntro}>{preparing
+        ? `We’re preparing the owner portal for ${preparing.name}. Your account, menu tools and payments are not activated yet.`
+        : "Owner access is unavailable right now. Contact Fina Calle for help with your account."}</p>
+      <p className={styles.authIntro}>Your owner guide explains what to expect. Fina Calle will confirm your access and payment setup before you begin.</p>
+      <div className={styles.authHelp}><Link href="/owner/guide">Read the owner guide</Link><Link href="/contact">Contact Fina Calle</Link></div>
     </div>
   );
 }
@@ -106,6 +109,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `Owner Portal — ${id} | Fina Calle OS`,
     description:
       "Secure restaurant-owner access for menu updates, requests, and billing status.",
+    robots: { index: false, follow: false },
     manifest: `${appPath}/manifest.webmanifest`,
     icons: {
       icon: [
@@ -129,7 +133,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export function generateViewport(): Viewport {
   return {
     colorScheme: "dark",
-    themeColor: "#020304",
+    themeColor: "#171b19",
   };
 }
 
@@ -158,13 +162,18 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   if (!isSupabaseConfigured) {
     return (
       <Shell center>
-        <SetupNotice />
+        <SetupNotice restaurantId={id} />
       </Shell>
     );
   }
 
   const businessName = await getPublicBusinessName(id);
-  if (businessName === null) notFound();
+  if (businessName === null) {
+    if (Object.hasOwn(PREPARING_OWNER_PORTALS, id)) {
+      return <Shell center><SetupNotice restaurantId={id} /></Shell>;
+    }
+    notFound();
+  }
 
   const ctx = await getOwnerContext(id);
 
@@ -180,28 +189,23 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
     return (
       <Shell center>
         <div className={cn("fc-panel mx-auto w-full text-center", styles.authFrame)}>
-          <span className={cn("mx-auto flex h-11 w-11 items-center justify-center border border-[#ff7a66]/40 bg-[#8f3e2e]/16 text-[#ffad9f]", styles.authIcon)}>
+          <span className={styles.authIcon}>
             <ShieldX size={18} strokeWidth={1.75} aria-hidden />
           </span>
-          <h1 className="mt-4 text-2xl font-semibold text-[#f4f6f7]">Not authorized</h1>
-          <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
+          <h1>This account needs access.</h1>
+          <p className={styles.authIntro}>
             <span className="text-[#eef2f4]">{ctx.email}</span> isn&apos;t on the owner
             list for this restaurant.
           </p>
           <form action={`/owner/${id}/signout`} method="post" className="mt-6">
             <button
               type="submit"
-              className="rounded-full border border-[#cfd6da]/28 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#4f9dff]/70 hover:bg-[#4f9dff]/10"
+              className={styles.secondaryAction}
             >
               Sign out
             </button>
           </form>
-          <Link
-            href="/"
-            className="mt-5 inline-block text-[0.68rem] uppercase tracking-[0.24em] text-[#cfd6da]/60 transition hover:text-white"
-          >
-            Back to Fina Calle OS
-          </Link>
+          <div className={styles.authHelp}><Link href="/owner/guide#sign-in-help">Sign-in help</Link><Link href="/contact">Contact Fina Calle</Link></div>
         </div>
       </Shell>
     );

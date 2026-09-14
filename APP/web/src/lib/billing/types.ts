@@ -24,6 +24,10 @@ export type BillingSummary = {
   nextPaymentAt: string | null;
   scheduledFirstChargeOn: string | null;
   actionsEnabled: boolean;
+  managementEnabled?: boolean;
+  enrollmentEnabled?: boolean;
+  setupMessage?: string | null;
+  statusAvailable?: boolean;
 };
 
 const BILLING_STATUSES = new Set<BillingStatus>([

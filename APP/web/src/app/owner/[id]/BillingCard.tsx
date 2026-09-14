@@ -1,230 +1,83 @@
 import { CalendarDays, CreditCard, RefreshCw, ReceiptText } from "lucide-react";
-import {
-  Button,
-  Panel,
-  SectionHeading,
-  StatusPill,
-  type PillTone,
-} from "@/components/ui";
-import {
-  openBillingPortal,
-  startRecurringBilling,
-} from "@/lib/billing/actions";
+import { Panel, StatusPill, type PillTone } from "@/components/ui";
+import { openBillingPortal, startRecurringBilling } from "@/lib/billing/actions";
 import type { BillingStatus, BillingSummary } from "@/lib/billing/types";
+import styles from "./owner-portal.module.css";
 
-const STATUS_COPY: Record<
-  BillingStatus,
-  { label: string; detail: string; tone: PillTone }
-> = {
-  not_started: {
-    label: "Not started",
-    detail: "Recurring billing has not been activated.",
-    tone: "neutral",
-  },
-  incomplete: {
-    label: "Needs setup",
-    detail: "Stripe is waiting for the first payment to finish.",
-    tone: "gold",
-  },
-  incomplete_expired: {
-    label: "Setup expired",
-    detail: "Start again to activate recurring billing.",
-    tone: "danger",
-  },
-  trialing: {
-    label: "Trial active",
-    detail: "Recurring billing is scheduled after the trial.",
-    tone: "accent",
-  },
-  active: {
-    label: "Paid and active",
-    detail: "Your AMMA service is current.",
-    tone: "success",
-  },
-  past_due: {
-    label: "Payment due",
-    detail: "Update the payment method or pay the open invoice.",
-    tone: "danger",
-  },
-  canceled: {
-    label: "Canceled",
-    detail: "Recurring billing is off.",
-    tone: "neutral",
-  },
-  unpaid: {
-    label: "Payment failed",
-    detail: "Billing needs attention before service can renew.",
-    tone: "danger",
-  },
-  paused: {
-    label: "Paused",
-    detail: "Billing is paused until payment setup is completed.",
-    tone: "gold",
-  },
-  processing: {
-    label: "Processing",
-    detail: "Stripe is confirming the payment.",
-    tone: "accent",
-  },
+const STATUS_COPY: Record<BillingStatus, { label: string; detail: string; tone: PillTone }> = {
+  not_started: { label: "Not enrolled", detail: "Automatic payments have not been activated.", tone: "neutral" },
+  incomplete: { label: "Needs setup", detail: "Stripe is waiting for the first payment to finish.", tone: "gold" },
+  incomplete_expired: { label: "Setup expired", detail: "Contact Fina Calle to confirm your terms before enrolling again.", tone: "danger" },
+  trialing: { label: "Trial active", detail: "Review your trial and subscription details in secure billing management.", tone: "accent" },
+  active: { label: "Subscription active", detail: "Check the latest invoice below for its payment status.", tone: "success" },
+  past_due: { label: "Payment due", detail: "Open your invoices to pay the outstanding amount or update your payment method.", tone: "danger" },
+  canceled: { label: "Canceled", detail: "Recurring billing is off.", tone: "neutral" },
+  unpaid: { label: "Payment failed", detail: "Open your invoices to review the payment that needs attention.", tone: "danger" },
+  paused: { label: "Paused", detail: "Review your subscription and payment setup with Fina Calle.", tone: "gold" },
+  processing: { label: "Processing", detail: "Stripe is confirming your billing information.", tone: "accent" },
 };
 
 function formatDate(value: string | null): string {
   if (!value) return "Not scheduled";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Not scheduled";
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-}
-
-function invoiceLabel(value: string | null): string {
-  if (!value) return "No invoice yet";
-  return value.replaceAll("_", " ");
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", ...(/^\d{4}-\d{2}-\d{2}$/.test(value) ? { timeZone: "UTC" } : {}) }).format(date);
 }
 
 function formatRecurringAmount(billing: BillingSummary): string {
   if (billing.amountCents === null || !billing.currency) return "Amount pending";
-  const amount = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: billing.currency.toUpperCase(),
-  }).format(billing.amountCents / 100);
+  const amount = new Intl.NumberFormat("en-US", { style: "currency", currency: billing.currency.toUpperCase() }).format(billing.amountCents / 100);
   if (!billing.billingInterval) return amount;
   const count = billing.billingIntervalCount ?? 1;
   return `${amount} / ${count === 1 ? billing.billingInterval : `${count} ${billing.billingInterval}s`}`;
 }
 
-export default function BillingCard({
-  restaurantId,
-  billing,
-  notice,
-  readOnly = false,
-}: {
+export default function BillingCard({ restaurantId, billing, notice, readOnly = false }: {
   restaurantId: string;
   billing: BillingSummary;
   notice?: string | null;
   readOnly?: boolean;
 }) {
-  const presentation = STATUS_COPY[billing.status];
-  const scheduledPlan =
-    billing.status === "not_started" &&
-    billing.amountCents !== null &&
-    Boolean(billing.currency) &&
-    Boolean(billing.scheduledFirstChargeOn);
-  const needsCheckout = [
-    "not_started",
-    "canceled",
-    "incomplete_expired",
-  ].includes(billing.status);
-  const action = needsCheckout
-    ? startRecurringBilling.bind(null, restaurantId)
-    : openBillingPortal.bind(null, restaurantId);
-  const actionLabel =
-    billing.status === "past_due" || billing.status === "unpaid"
-      ? "Resolve payment"
-      : needsCheckout
-        ? "Set up automatic payments"
-        : "Manage billing";
-  const controlsEnabled = billing.actionsEnabled && !readOnly;
+  const presentation = billing.statusAvailable === false
+    ? { label: "Status unavailable", detail: "Open Stripe or contact Fina Calle to confirm your current account status.", tone: "neutral" as const }
+    : STATUS_COPY[billing.status];
+  const needsCheckout = ["not_started", "canceled", "incomplete_expired"].includes(billing.status);
+  const scheduledPlan = needsCheckout && billing.enrollmentEnabled === true && billing.amountCents !== null && Boolean(billing.currency) && Boolean(billing.scheduledFirstChargeOn);
+  const canManage = billing.managementEnabled === true && !readOnly;
+  const canEnroll = billing.enrollmentEnabled === true && !readOnly;
+  const manageAction = openBillingPortal.bind(null, restaurantId);
+  const enrollmentAction = startRecurringBilling.bind(null, restaurantId);
 
   return (
-    <Panel className="min-w-0 overflow-hidden border-[#7fd1a2]/20">
-      <SectionHeading
-        tone="accent"
-        icon={<CreditCard size={13} strokeWidth={1.75} aria-hidden />}
-        hint={billing.recurringEnabled ? "recurring on" : "recurring off"}
-      >
-        Automatic payments
-      </SectionHeading>
-
-      <div className="mt-4 flex min-w-0 flex-wrap items-start justify-between gap-3">
+    <Panel className={styles.billingSurface}>
+      <h3 className={styles.billingTitle}><CreditCard size={17} strokeWidth={1.5} aria-hidden />Payments &amp; automatic billing</h3>
+      <div className={styles.billingSummary}>
         <div className="min-w-0">
-          <p className="break-words text-lg font-semibold text-[#f4f6f7]">{billing.plan}</p>
-          <p className="mt-1 text-sm leading-6 text-[#aeb7bd]">
-            {scheduledPlan
-              ? "Your first charge is confirmed after secure billing enrollment."
-              : presentation.detail}
-          </p>
+          <p className={styles.billingPlan}>{billing.plan}</p>
+          <p className={styles.billingDetail}>{presentation.detail}</p>
         </div>
-        <StatusPill tone={presentation.tone} dot>
-          {presentation.label}
-        </StatusPill>
+        <StatusPill tone={presentation.tone} dot>{presentation.label}</StatusPill>
       </div>
-
-      <dl className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2">
-        <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-          <dt className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
-            <RefreshCw size={11} strokeWidth={1.75} aria-hidden />
-            Recurring
-          </dt>
-          <dd className="mt-1.5 text-sm font-medium text-[#eef2f4]">
-            {billing.recurringEnabled
-              ? formatRecurringAmount(billing)
-              : scheduledPlan
-                ? `${formatRecurringAmount(billing)} planned`
-                : "Off"}
-          </dd>
-        </div>
-        <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-          <dt className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
-            <CalendarDays size={11} strokeWidth={1.75} aria-hidden />
-            {scheduledPlan ? "First charge" : "Next payment"}
-          </dt>
-          <dd className="mt-1.5 break-words text-sm font-medium text-[#eef2f4]">
-            {formatDate(
-              scheduledPlan
-                ? billing.scheduledFirstChargeOn
-                : billing.nextPaymentAt || billing.currentPeriodEnd,
-            )}
-          </dd>
-        </div>
-        <div className="min-w-0 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 sm:col-span-2">
-          <dt className="flex items-center gap-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-[#7f8a91]">
-            <ReceiptText size={11} strokeWidth={1.75} aria-hidden />
-            Latest invoice
-          </dt>
-          <dd className="mt-1.5 break-words text-sm font-medium capitalize text-[#eef2f4]">
-            {invoiceLabel(billing.latestInvoiceStatus)}
-          </dd>
-        </div>
+      <dl className={styles.billingFacts}>
+        <div><dt><RefreshCw size={13} aria-hidden />Automatic payments</dt><dd>{billing.statusAvailable === false ? "Unavailable" : billing.recurringEnabled ? formatRecurringAmount(billing) : "Off"}</dd></div>
+        <div><dt><CalendarDays size={13} aria-hidden />{scheduledPlan ? "Proposed first charge" : "Next automatic charge"}</dt><dd>{formatDate(scheduledPlan ? billing.scheduledFirstChargeOn : billing.recurringEnabled ? billing.nextPaymentAt : null)}</dd></div>
+        <div><dt><ReceiptText size={13} aria-hidden />Latest invoice</dt><dd>{billing.latestInvoiceStatus ? billing.latestInvoiceStatus.replaceAll("_", " ") : "No invoice available"}</dd></div>
       </dl>
-
-      {notice ? (
-        <p
-          className="mt-4 rounded-xl border border-[#4f9dff]/30 bg-[#4f9dff]/10 px-3 py-2 text-sm leading-6 text-[#bfdcff]"
-          aria-live="polite"
-        >
-          {notice}
-        </p>
-      ) : null}
-
-      <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-        {needsCheckout
-          ? "Continue to secure Stripe checkout to review the amount and schedule before confirming recurring payments. Opening this page does not enroll you."
-          : "Use secure Stripe billing management to review invoices and manage the payment options available for your account."}
-      </p>
-
-      {readOnly ? <div className="mt-4">
-        <Button type="button" variant="subtle" disabled className="w-full whitespace-normal text-center leading-5 sm:w-auto">{actionLabel}</Button>
-        <p className="mt-3 text-xs leading-5 text-[#aeb7bd]">Preview only. Payment actions are disabled; no payment method or subscription will be created.</p>
-      </div> : <form action={action} className="mt-4 min-w-0">
-        <Button
-          type="submit"
-          variant={needsCheckout ? "accent" : "success"}
-          className="min-w-0 w-full whitespace-normal text-center leading-5 sm:w-auto"
-          disabled={!controlsEnabled}
-        >
-          <CreditCard size={14} strokeWidth={1.75} aria-hidden />
-          {controlsEnabled ? actionLabel : "Billing setup pending"}
-        </Button>
-      </form>}
-
-      {!billing.actionsEnabled ? (
-        <p className="mt-3 text-xs leading-5 text-[#7f8a91]">
-          Payment controls activate after AMMA completes the secure Stripe setup.
-        </p>
-      ) : null}
+      {scheduledPlan ? <p className={styles.billingHelp}>Proposed recurring amount: {formatRecurringAmount(billing)}. Review the final amount and schedule in Stripe before agreeing.</p> : null}
+      {notice ? <p className={styles.billingNotice} aria-live="polite">{notice}</p> : null}
+      <div className={styles.billingActions}>
+        {readOnly ? <button type="button" className={styles.primaryAction} disabled>Invoices &amp; payment methods</button> : <form action={manageAction}>
+          <button type="submit" className={styles.primaryAction} disabled={!canManage}><ReceiptText size={16} aria-hidden />Invoices &amp; payment methods</button>
+        </form>}
+        {needsCheckout ? readOnly ? <button type="button" className={styles.secondaryAction} disabled>Set up automatic payments</button> : <form action={enrollmentAction}>
+          <button type="submit" className={styles.secondaryAction} disabled={!canEnroll}><RefreshCw size={15} aria-hidden />Set up automatic payments</button>
+        </form> : readOnly ? <button type="button" className={styles.secondaryAction} disabled>Manage automatic payments</button> : <form action={manageAction}>
+          <button type="submit" className={styles.secondaryAction} disabled={!canManage}><RefreshCw size={15} aria-hidden />Manage automatic payments</button>
+        </form>}
+      </div>
+      <p className={styles.billingHelp}>In Stripe, review invoices, pay an open invoice and manage the payment methods available for your account. Automatic payments are a separate choice: saving a card or opening the portal does not enroll you.</p>
+      {needsCheckout ? <p className={styles.billingHelp}>Choose automatic payments only after reviewing the amount and schedule in Stripe. Enrollment requires your confirmation there.</p> : null}
+      {readOnly ? <p className={styles.billingNotice}>Preview only. Payment actions are disabled; no payment method or subscription will be created.</p> : billing.setupMessage ? <p className={styles.billingNotice}>{billing.setupMessage}</p> : (!canManage || (needsCheckout && !canEnroll)) ? <p className={styles.billingHelp}>Some payment tools are not connected yet. Contact Fina Calle below to complete your account setup.</p> : null}
     </Panel>
   );
 }

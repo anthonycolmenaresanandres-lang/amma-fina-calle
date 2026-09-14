@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { Eye, EyeOff, Loader2, LockKeyhole, ShieldCheck } from "lucide-react";
-import { Eyebrow, cn } from "@/components/ui";
+import { cn } from "@/components/ui";
+import { getBrandAssets } from "@/lib/brand";
 import { signInOwnerWithPassword, type ActionState } from "@/lib/owner/actions";
 import styles from "./owner-portal.module.css";
 
@@ -20,17 +22,18 @@ export default function OwnerLogin({
   const action = signInOwnerWithPassword.bind(null, restaurantId);
   const [state, formAction, pending] = useActionState(action, initialState);
   const [showPassword, setShowPassword] = useState(false);
+  const logo = getBrandAssets(restaurantId).logo;
 
   return (
     <div className={cn("fc-panel mx-auto min-w-0 w-full", styles.authFrame)}>
-      <Eyebrow>Private portal</Eyebrow>
-      <h1 className="mt-4 break-words text-3xl font-semibold tracking-[-0.02em] text-[#f4f6f7]">
-        {businessName}
-      </h1>
-      <p className="mt-3 text-sm leading-6 text-[#aeb7bd]">
-        Use the email and password assigned to this restaurant. This device stays signed in until
-        you sign out.
-      </p>
+      <div className={styles.authBrand}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {logo ? <img src={logo} alt={businessName} width={160} height={56} className={styles.authLogo} /> : <p className={styles.brandName}>Fina Calle</p>}
+        <span>Your business,<br />beautifully connected.</span>
+      </div>
+      <p className={styles.kicker}>Your private owner portal</p>
+      <h1>Welcome back.</h1>
+      <p className={styles.authIntro}>Sign in to {businessName} for menu requests, account details and payment options.</p>
 
       {notice ? (
         <p className="mt-4 rounded-xl border border-[#4f9dff]/30 bg-[#4f9dff]/10 px-3 py-2 text-sm font-medium leading-6 text-[#bfdcff]">
@@ -38,10 +41,10 @@ export default function OwnerLogin({
         </p>
       ) : null}
 
-      <form action={formAction} className="mt-6 min-w-0 space-y-3">
+      <form action={formAction} className={styles.authForm}>
         <label
           htmlFor="owner-email"
-          className="block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]"
+          className={styles.authLabel}
         >
           Email
         </label>
@@ -53,12 +56,12 @@ export default function OwnerLogin({
           autoComplete="email"
           spellCheck={false}
           placeholder="you@example.com…"
-          className="min-w-0 max-w-full w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
+          className={styles.authInput}
         />
 
         <label
           htmlFor="owner-password"
-          className="block pt-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]"
+          className={styles.authLabel}
         >
           Password
         </label>
@@ -72,13 +75,13 @@ export default function OwnerLogin({
             maxLength={200}
             autoComplete="current-password"
             placeholder="Your password…"
-            className="min-w-0 w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-3 pr-12 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20"
+            className={cn(styles.authInput, styles.passwordInput)}
           />
           <button
             type="button"
             onClick={() => setShowPassword((visible) => !visible)}
             aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#7f8a91] transition hover:text-[#bfdcff]"
+            className={styles.passwordToggle}
           >
             {showPassword ? <EyeOff size={17} aria-hidden /> : <Eye size={17} aria-hidden />}
           </button>
@@ -87,7 +90,7 @@ export default function OwnerLogin({
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex min-w-0 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-4 py-3 text-center text-sm font-semibold uppercase leading-5 tracking-[0.08em] text-[#04121f] shadow-[0_14px_36px_-14px_rgba(79,157,255,0.65)] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45 sm:px-5 sm:tracking-[0.14em]"
+          className={styles.primaryAction}
         >
           {pending ? (
             <>
@@ -117,10 +120,11 @@ export default function OwnerLogin({
         </p>
       ) : null}
 
-      <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[0.68rem] leading-5 text-[#7f8a91]">
-        <ShieldCheck size={13} strokeWidth={1.75} aria-hidden className="text-[#4f9dff]/70" />
-        Passwords are verified securely and never stored by Fina Calle.
+      <p className={styles.authSecurity}>
+        <ShieldCheck size={14} strokeWidth={1.75} aria-hidden />
+        Use your assigned email and password. Sign out when using a shared device.
       </p>
+      <div className={styles.authHelp}><Link href="/owner/guide">Owner guide</Link><Link href="/owner/guide#sign-in-help">Need help signing in?</Link></div>
     </div>
   );
 }

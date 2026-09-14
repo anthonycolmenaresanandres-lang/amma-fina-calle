@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 37 - Premium owner portal, payment safeguards and standard owner kit
+
+**State:** IN PROGRESS - SCOPED OWNER RELEASE AUTHORIZED
+**Authority:** Anthony requests live owner changes for Colattao, Las Palmas and A.J. Gator's plus standard manual and printed owner QR/protocol. This current directive takes priority over inherited completed-release wording below; do not touch Colattao guest experience.
+**Scope:** Premium shared owner presentation, honest setup-pending front doors for unprovisioned known clients, existing Stripe payment/enrollment safety, generic guide, manual and Colattao owner-sign-in print. Preserve tenant auth and connected-menu flags; Colattao menu remains request-based.
+**PASS:** Reviewed scoped diff; meaningful payment readiness/idempotency/retry tests; owner tests/lint/build; inspected320/390/1440 states; deterministic final PDF QR decode; green exact-head CI and correct production deployment; live public owner/guide and unchanged Las Palmas ordering checks.
+**STOP:** No access grants, credentials, database migrations, plan/config mutations, payment-method entry, charges/enrollment, client send, print order, held /m or /owner-preview publication, or Colattao guest changes. Account setup and physical print proof remain separate gates. Do not claim authenticated live payment success from public route checks or synthetic tests.
+**Base:** origin/main a08c51a3ad8629a4e900a010dc61a33c7a363ed0; worktree C:/Dev/amma/worktrees/owner-standard-premium-20260914.
+
 ## [x] 36 - Las Palmas existing online-ordering link
 
 **State:** VERIFIED LOCAL - SCOPED RELEASE HANDED TO LEAD AGENT

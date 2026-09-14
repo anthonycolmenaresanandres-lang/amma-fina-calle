@@ -32,4 +32,11 @@ jobs:
           cache-dependency-path: APP/web/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - name: Owner portal and billing safeguards
+        run: |
+          npx --no-install tsx scripts/owner-billing-selftest.ts
+          npx --no-install tsx scripts/owner-account-selftest.ts
+          npx --no-install tsx scripts/owner-request-selftest.ts
+          npx --no-install tsx scripts/owner-menu-selftest.ts
+          npm run owner-app:selftest
       - run: npm run build

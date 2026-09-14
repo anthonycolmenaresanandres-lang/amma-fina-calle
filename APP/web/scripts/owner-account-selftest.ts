@@ -26,12 +26,22 @@ test("existing tenant-bound payment actions reused", () => {
   assert.match(billing, /openBillingPortal.bind\(null, restaurantId\)/);
 });
 test("read-only preview has no payment form", () => {
-  assert.match(billing, /readOnly \? <div[\s\S]*?<Button type="button"[\s\S]*?disabled[\s\S]*?: <form action=\{action\}/);
-  assert.match(billing, /Opening this page does not enroll you/);
+  assert.match(billing, /readOnly \? <button type="button"[^>]*disabled>Invoices[\s\S]*?: <form action=\{manageAction\}/);
+  assert.match(billing, /readOnly \? <button type="button"[^>]*disabled>Set up automatic payments[\s\S]*?: <form action=\{enrollmentAction\}/);
+  assert.match(billing, /saving a card or opening the portal does not enroll you/);
+  assert.match(billing, /billing.managementEnabled === true && !readOnly/);
+  assert.match(billing, /billing.enrollmentEnabled === true && !readOnly/);
 });
 const actions = readFileSync("src/lib/billing/actions.ts", "utf8");
 test("both payment endpoints reauthorize", () => assert.equal((actions.match(/await requireOwner\(restaurantId\)/g) ?? []).length, 2));
-test("checkout price is server-configured", () => { assert.match(actions, /const priceId = getRecurringPriceId\(\)/); assert.match(actions, /line_items: \[\{ price: priceId, quantity: 1 \}\]/); });
+test("checkout uses server-configured price matching approved restaurant terms", () => {
+  assert.match(actions, /const priceId = getRecurringPriceId\(restaurantId\)/);
+  assert.match(actions, /approvedTrialEnd\(terms\)/);
+  assert.match(actions, /priceMatchesApprovedTerms\(price, terms\)/);
+  const checkout = readFileSync("src/lib/billing/checkout.ts", "utf8");
+  assert.match(checkout, /line_items: \[\{ price: priceId, quantity: 1 \}\]/);
+  assert.match(checkout, /idempotencyKey: enrollmentKey/);
+});
 test("billing portal uses tenant mapping", () => assert.match(actions, /\.select\("stripe_customer_id"\)[\s\S]*?\.eq\("restaurant_id", restaurantId\)/));
 test("preview does not adopt Colattao terms", () => {
   const preview = readFileSync("src/app/(internal)/pilot/las-palmas/PilotWorkspace.tsx", "utf8");
@@ -41,6 +51,6 @@ test("preview does not adopt Colattao terms", () => {
 });
 test("Colattao separate guest site stays request-managed", () => {
   const dashboard = readFileSync("src/app/owner/[id]/OwnerDashboard.tsx", "utf8");
-  assert.match(dashboard, /data.restaurantId === "colattao" \? <p[\s\S]*?separate Colattao site[\s\S]*?: <MenuQuickEdit/);
+  assert.match(dashboard, /data.restaurantId === "colattao" \? <div[\s\S]*?separate Colattao site[\s\S]*?Request a menu update[\s\S]*?: <MenuQuickEdit/);
 });
 console.log(`${passed} account/payment presentation checks passed. No Stripe calls or database writes performed.`);

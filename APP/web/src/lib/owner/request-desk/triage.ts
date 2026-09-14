@@ -549,6 +549,16 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
   if (matchesAny(lower, OUTAGE_WORDS)) {
     return review("This looks like an outage or something broken — escalating to the AMMA team as urgent.", "Operational support", "Urgent");
   }
+
+  // Colattao's guest menu is hosted separately. A database-only edit would not
+  // update that site. Both preview and confirmation re-run this server decision.
+  if (snap.restaurantId === "colattao") {
+    return review(
+      "Colattao's guest menu is on a separate site. Send this request to Fina Calle for review; no guest-menu change has been made.",
+      "Menu/content update",
+      "Normal",
+    );
+  }
   if (CAMPAIGN_SIGNAL.test(lower)) {
     return review(
       "Promotional changes are paused. The AMMA team will review this request.",
