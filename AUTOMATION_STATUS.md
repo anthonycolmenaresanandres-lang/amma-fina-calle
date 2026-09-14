@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-14 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Two kinds of change since the 09-13 afternoon run, both benign: (1) **amma `main` advanced `48f86486` (#231) → `a08c51a3` (#233)** via two more of Anthony's own Clone-authored merges — **#232** `5b039a9` ("Las Palmas Cantina Jumbotron scoreboard," `CI — web` #162 ✅, 09-13 23:40 UTC) → **#233** `a08c51a3` ("Add Las Palmas official online ordering invitation," `CI — web` #164 ✅, 09-14 09:43 UTC). Both his own merges → no caretaker action; recorded for the audit trail. (2) **A new draft — amma #234 — was opened** (09-14 12:40 UTC, `codex/owner-standard-premium-20260914`): "Premium owner portal, guarded billing and owner guide." It touches the **protected `/owner/[id]` route + Stripe enrollment/reconciliation** area, so it is a **hard-guardrail draft the caretaker never merges on its own** — held for Anthony's own merge call (its PR body states he authorized scoped owner changes but is holding merge until all gates pass). Its `CI — web` is ✅ (#165 on head `3577f47`; a docs follow-up run was in progress at check time). The other five drafts (#225/#221/#219/#218/#197) are unchanged (no `updated_at` movement → no new review comments). Default-branch tips re-verified via API: amma **`a08c51a3`** (#233), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#164) + `CI — voice-gateway` ✅ (#13, unchanged — nothing merged since touched voice) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN.** Latest completed **#102** (09-13 15:52→15:54 UTC SUCCEEDED); the **09-14 run had not yet fired at check time** — normal late-scheduler window (~15:00–16:00 UTC), not a miss. Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-14 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Two benign changes since the 09-14 morning run: (1) **amma draft #234 was merged by Anthony himself** (09-14 13:23 UTC) — the "Premium owner portal, guarded billing and owner guide" draft the morning run held for him is now **on `main`** (merge commit **`306fcf45`**, current tip; `CI — web` **#167 ✅**, 09-14 13:23 UTC). It touches the **protected `/owner/[id]` route + Stripe enrollment/reconciliation** — a hard-guardrail area the caretaker never merges on its own — but this was **Anthony's own merge**, so no caretaker action; recorded for the audit trail. amma `main` advanced `a08c51a3` (#233) → **`306fcf45`** (#234). (2) **The 09-14 VBFH Daily Run fired and SUCCEEDED** — run **#103** (17:55→17:57 UTC), the run the morning check found had not yet fired. The five remaining open drafts (#225/#221/#219/#218/#197) are unchanged (no new review comments — only Vercel bot activity). Default-branch tips re-verified via API: amma **`306fcf45`** (#234), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#167) + `CI — voice-gateway` ✅ (#13, unchanged — nothing merged since touched voice) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN.** Latest completed **#103** (09-14 17:55→17:57 UTC SUCCEEDED). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -11,10 +11,6 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 ---
 
 ## 👉 What Anthony needs to do right now
-
-🆕 **New draft to review — amma #234 "Premium owner portal, guarded billing and owner guide" (held for your merge call).**
-   Opened 09-14, head `codex/owner-standard-premium-20260914`, 29 files (+1343−1501), `CI — web` ✅, `mergeable_state: clean`, still a draft.
-   It **touches the protected `/owner/[id]` route and Stripe enrollment/reconciliation** — a hard-guardrail area the caretaker never merges on its own. Its PR body says you authorized scoped live owner changes but are holding merge until all gates pass. **No caretaker action taken.** Open the preview, confirm it does what you want, and merge it yourself when you're ready (or tell me exactly what to change). _(Because it's a Stripe/protected-route PR, I won't auto-merge it even once it's marked ready — that stays your explicit call.)_
 
 ⚠️ **Governance question inside draft PR #218 — please confirm or deny (no action taken).**
    Draft **PR #218** ("E-Myth Revision 4", docs-only under `OPERATIONS/E_MYTH` + `HANDOFF_LOG.md`,
@@ -37,11 +33,10 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    - **#219 Las Palmas lotería hero** (`claude/las-palmas-loteria-hero`) — first phone screen is a playable
      penalty shootout minting a lotería card per goal. Vercel Ready ✅.
    Open each preview and merge if you like it, or tell me what to change. **I don't auto-merge your drafts.**
-   _(On 09-13/09-14 you also merged, all your own Codex/Clone merges: **#230** Las Palmas Western menu at permanent
-   QR, **#231** persistent game invitation + character lobby, **#232** Cantina Jumbotron scoreboard, and **#233**
-   Las Palmas official online-ordering invitation. #230/#233 sit in the QR/menu/ordering guardrail area, which is
-   fine as your own merges — noted only for the record. **#228's protected `/owner/[id]` merge and #215's Table
-   Duel deploy step are still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` env var for the
+   _(You've now merged **#234** "Premium owner portal, guarded billing and owner guide" yourself (09-14 13:23 UTC)
+   — it sits in the protected `/owner/[id]` + Stripe guardrail area, which is fine as your own merge; noted only
+   for the record. On 09-13/09-14 you also merged **#230/#231/#232/#233** (Las Palmas menu/game/ordering). **#215's
+   Table Duel deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS` env var for the
    websocket server, or `/table-duel` says it isn't switched on yet.)_
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
@@ -69,45 +64,38 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 6. **⛔ Branch cleanup — you gave permission, I retried, the environment still physically blocks it.**
     `git push --delete` returns **HTTP 403 from the session's git proxy** (server-side, regardless of
     permission), and the GitHub tooling here has no branch-delete API. The refreshed safe-to-delete set is
-    in the paste-ready commands below; they'll run fine from your local clone. It **excludes** the six open
-    draft heads #234/#225/#221/#219/#218/#197.
+    in the paste-ready commands below; they'll run fine from your local clone. It **excludes** the five open
+    draft heads #225/#221/#219/#218/#197.
 
-_Resolved / no action needed from you:_ **GitHub API access** — the 09-01 morning `401 Bad credentials` outage
-self-cleared on the 09-01 evening run and has stayed healthy since; no reconnect needed. **amma #29 ("AI Request
-Desk — Phase 0") — closed since 07-18**; listed as a standing decision in the run brief but already resolved
-(closed by Anthony), so there is nothing to adopt-and-rebase or close. No action. **#222 "Café Rush catch game" —
-you merged it** (08-20, guardrail-clean additive `/cafe-rush` route, Colattao in-store QR unchanged). **#216
-"Restaurant Buyer Package / $199 offer" — you merged it** (08-18). If you still want it rendered into a polished
-branded PDF packet as the print/email leave-behind, say the word and I'll build it.
+_Resolved / no action needed from you:_ **amma #234 "Premium owner portal, guarded billing" — you merged it**
+(09-14 13:23 UTC; protected `/owner/[id]` + Stripe area, your own merge; `CI — web` #167 ✅). It was the one
+"review/merge" item on the morning list — now closed by your own action. **GitHub API access** — the 09-01
+morning `401 Bad credentials` outage self-cleared and has stayed healthy since; no reconnect needed. **amma #29
+("AI Request Desk — Phase 0") — closed since 07-18**; listed as a standing decision in the run brief but already
+resolved (closed by Anthony), so there is nothing to adopt-and-rebase or close. No action. **#222 "Café Rush catch
+game" — you merged it** (08-20, guardrail-clean additive `/cafe-rush` route, Colattao in-store QR unchanged).
+**#216 "Restaurant Buyer Package / $199 offer" — you merged it** (08-18). If you still want it rendered into a
+polished branded PDF packet as the print/email leave-behind, say the word and I'll build it.
 
 _No longer on the list:_ **#201 draft decision — DONE** (Las Palmas Menu now points at the official Lynnhaven
 PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthony.
 
 ---
 
-## Build health (as of 2026-09-14, morning)
+## Build health (as of 2026-09-14, afternoon)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`a08c51a3`** (**#233** "Add Las Palmas official online ordering invitation," 09-14 09:43 UTC; Anthony's own Clone merge, **`CI — web` #164 ✅**). Advanced 09-13→09-14 via **#232** `5b039a9` ("Las Palmas Cantina Jumbotron scoreboard," **`CI — web` #162 ✅**) → **#233** `a08c51a3`. Both Clone-authored, both Anthony's own merges → no caretaker action. #233 (online-ordering invitation, links out) sits in the menu/ordering guardrail area but is his own merge → recorded only. Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Six** open drafts held: **#234** premium owner portal + guarded billing (NEW, protected `/owner/[id]` + Stripe area — hard-guardrail, held for Anthony; `CI — web` #165 ✅, `mergeable_state: clean`), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. The five older drafts unchanged (`updated_at` static since 08-16…09-11). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-13 15:52→15:54 UTC SUCCEEDED (run #102)**; the 09-14 run had not yet fired at check time (normal ~15:00–16:00 UTC window, not a miss). Every run 07-21…09-13 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`306fcf45`** (**#234** "Premium owner portal, guarded billing and owner guide," 09-14 13:23 UTC; **Anthony's own merge**, **`CI — web` #167 ✅**). Advanced 09-14 via **#234** from `a08c51a3` (#233). #234 touches the **protected `/owner/[id]` route + Stripe enrollment/reconciliation** (hard-guardrail area) but was **Anthony's own merge** → no caretaker action; recorded only. Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Five** open drafts held: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. All five drafts unchanged (`updated_at` static since 08-16…09-11 aside from Vercel-bot activity). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-14 17:55→17:57 UTC SUCCEEDED (run #103)**. Every run 07-21…09-14 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
-- **amma #234 (draft) — "Premium owner portal, guarded billing and owner guide."** Opened 09-14. Head
-  `codex/owner-standard-premium-20260914`, Codex-authored. 29 files (+1343−1501), 1 commit at open (a docs
-  follow-up landed shortly after). Premium owner-only presentation + public owner guide, honest pending-setup
-  states for Las Palmas / A.J. Gator's, a Colattao request-only menu workflow, and Stripe enrollment/
-  reconciliation safeguards. PR body asserts no Colattao guest source / menu data / auth grants / migrations /
-  production config / customer sends / payment transactions changed, and that Anthony authorized scoped live
-  owner changes with merge held until all gates pass. **`CI — web` #165 ✅** on head `3577f47`, `mergeable_state:
-  clean`. ⚠️ **Touches the protected `/owner/[id]` route + Stripe billing** — hard-guardrail area the caretaker
-  never merges on its own. **Held — Anthony's own draft and merge call.** Nothing to fix.
 - **amma #225 (draft) — "feat(ops): Instagram Ordering Activation add-on — SOP, skill, and work order."**
   Opened 09-11. Head `claude/instagram-dm-ordering-m8i210` (the branch #220 was closed on; reused, so it is
   open-draft-protected again). 9 files (+623−2): a G0–G5 gated SOP, a blank work-order template, an invokable
@@ -137,32 +125,36 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-Since the 09-13 afternoon run, **two merges landed on amma `main`, both Anthony's own Clone merges** →
-no caretaker action, and **one new draft (#234) was opened** (held; see Open PRs):
+Since the 09-14 morning run, **one merge landed on amma `main` — Anthony's own merge of #234** → no caretaker
+action:
 
-- **amma #233 — "Add Las Palmas official online ordering invitation."** Merged by **Anthony** 09-14 09:43 UTC
-  (`a08c51a3`, current main tip). Clone-authored; adds a Las Palmas official online-ordering invitation (links out
-  to the official ordering surface). `CI — web` #164 ✅ on the merge tip. Sits in the menu/ordering guardrail
-  area the caretaker never touches on its own, but this is **Anthony's own merge** → no caretaker action; noted
-  for the record.
-- **amma #232 — "Las Palmas Cantina Jumbotron scoreboard."** Merged by **Anthony** 09-13 23:40 UTC
-  (`5b039a9`). Clone-authored; closes out the live Las Palmas game-hub release and adds a Cantina Jumbotron
-  scoreboard. `CI — web` #162 ✅. Game-hub UI (non-human game art per guardrails); his own merge governs → no
-  caretaker action; recorded for the audit trail.
+- **amma #234 — "Premium owner portal, guarded billing and owner guide."** Merged by **Anthony** 09-14
+  13:23 UTC (merge `306fcf45`, current main tip). Codex-authored (`codex/owner-standard-premium-20260914`), 42
+  files (+2097−1501). Premium owner-only presentation + public owner guide, honest pending-setup states for Las
+  Palmas / A.J. Gator's, a Colattao request-only menu workflow, and Stripe enrollment/reconciliation safeguards.
+  PR body asserts no Colattao guest source / menu data / auth grants / migrations / production config / customer
+  sends / payment transactions changed, and that Anthony authorized scoped live owner changes with merge held
+  until all gates passed. **`CI — web` #167 ✅.** ⚠️ Touches the **protected `/owner/[id]` route + Stripe billing**
+  — a hard-guardrail area the caretaker never merges on its own, but this is **Anthony's own merge** → no caretaker
+  action; recorded for the audit trail. _(The morning run held this as an open draft; Anthony merged it himself
+  the same day.)_
 
 Prior wave (all Anthony's own merges, retained for the audit trail):
 
+- **amma #233 — "Add Las Palmas official online ordering invitation."** Merged by **Anthony** 09-14 09:43 UTC
+  (`a08c51a3`). Clone-authored; adds a Las Palmas official online-ordering invitation (links out to the official
+  ordering surface). `CI — web` #164 ✅. Sits in the menu/ordering guardrail area but his own merge → no action.
+- **amma #232 — "Las Palmas Cantina Jumbotron scoreboard."** Merged by **Anthony** 09-13 23:40 UTC
+  (`5b039a9`). Clone-authored; closes out the live Las Palmas game-hub release and adds a Cantina Jumbotron
+  scoreboard. `CI — web` #162 ✅. Game-hub UI (non-human game art per guardrails); his own merge → no action.
 - **amma #231 — "Las Palmas persistent game invitation and dedicated character lobby."** Merged by
-  **Anthony** 09-13 19:47 UTC (`48f86486`). Clone-authored; adds a Las Palmas character lobby + persistent game
-  invitation. `CI — web` #160 ✅. His own merge → recorded only.
+  **Anthony** 09-13 19:47 UTC (`48f86486`). Clone-authored. `CI — web` #160 ✅. His own merge → recorded only.
 - **amma #230 — "Las Palmas Western menu at permanent QR."** Merged by **Anthony** 09-13 18:13 UTC
-  (`d381e09`). Clone-authored; builds a Las Palmas Western menu served at a *permanent* QR route. `CI — web`
-  #158 ✅. ⚠️ Sits in the **QR/menu guardrail area** the caretaker never touches on its own, but this is
-  **Anthony's own merge** and the PR frames the QR as permanent (stable-URL intent) → no caretaker action.
+  (`d381e09`). Clone-authored; Las Palmas Western menu served at a *permanent* QR route. `CI — web` #158 ✅.
+  ⚠️ QR/menu guardrail area but **Anthony's own merge** framing the QR as permanent (stable-URL intent) → no action.
 - **amma #228 — "feat(owner): Las Palmas pilot, account and menu controls" (+ Mexico ball).** Merged by
-  **Anthony** 09-11 18:35 UTC (`6a01a4b`), **Clone-authored**. ⚠️ **Touches the protected `/owner/[id]` route** —
-  a hard-guardrail area. As **Anthony's own merge** it is his call → no caretaker action; recorded only. `CI —
-  web` #154 ✅.
+  **Anthony** 09-11 18:35 UTC (`6a01a4b`), **Clone-authored**. ⚠️ Touches the protected `/owner/[id]` route — his
+  own merge → no action; recorded only. `CI — web` #154 ✅.
 - **amma #227 / #229 — Las Palmas release closeout (docs).** Merged by **Anthony** 09-11 (`2afaf67`, `220d5fe`).
   Documentation-only closeouts; Clone-authored, his own merges → no caretaker action.
 
@@ -200,18 +192,18 @@ Prior wave (all Anthony's own merges, retained for the audit trail):
 - **#207–#201 (08-03 wave)**, **#200 / #199 / #198**, and the **2026-07-30 wave** (amma #162/#189/#180/#161/#196;
   EscapeTheBomb #1 `eee6a37`; vbfh #7 `e21077d`; #168 & vbfh #4 closed superseded). Full history in git.
 
-## Branch cleanup — ready to run (refreshed 2026-09-14)
+## Branch cleanup — ready to run (refreshed 2026-09-14 afternoon)
 
 Anthony has approved deletion, but the session git proxy returns **HTTP 403 on any `push --delete`**
 (server-side block, independent of permission), and the GitHub tooling here has no branch-delete API. The
 commands below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`, `automation/status`,
-`claude/*` caretaker branches, **the six remaining open-draft heads `codex/owner-standard-premium-20260914` (#234),
-`claude/instagram-dm-ordering-m8i210` (#225), `claude/blissful-darwin-gtt3su` (#221),
-`claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218) and
-`claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any closes its open draft), unmerged `voice/*`
-(Anthony's judgment) and the unproven squash-merged exploration sets. **Eligible** (no longer open-draft-protected):
-`claude/table-duel` (#215, merged) and `codex/las-palmas-goal-keeper-20260910` (#226, merged) — add them
-to your local delete run when you clear the list; still not auto-deleted here (proxy 403 + no branch-delete API).
+`claude/*` caretaker branches, **the five remaining open-draft heads `claude/instagram-dm-ordering-m8i210` (#225),
+`claude/blissful-darwin-gtt3su` (#221), `claude/las-palmas-loteria-hero` (#219),
+`claude/e-myth-ai-automation-gcetx0` (#218) and `claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any
+closes its open draft), unmerged `voice/*` (Anthony's judgment) and the unproven squash-merged exploration sets.
+**Eligible** (no longer open-draft-protected): `claude/table-duel` (#215, merged), `codex/las-palmas-goal-keeper-20260910`
+(#226, merged) and now **`codex/owner-standard-premium-20260914` (#234, merged 09-14)** — add them to your local
+delete run when you clear the list; still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -226,7 +218,8 @@ git -C amma-fina-calle push origin --delete \
   codex/qr-proof-release-20260803 codex/aj-gators-bw-qr-20260803 \
   codex/owner-portal-comic-20260804 codex/owner-request-intake-20260805 \
   voice/volleyball-fr voice/larissa-offgrid voice/vbfh-return \
-  claude/table-duel codex/las-palmas-goal-keeper-20260910
+  claude/table-duel codex/las-palmas-goal-keeper-20260910 \
+  codex/owner-standard-premium-20260914
 ```
 **vbfh-media-engine** (verified merged or closed-superseded):
 ```
@@ -238,28 +231,29 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
-- **2026-09-14 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two kinds
-  of change since the 09-13 afternoon run, both benign: (1) **amma `main` advanced `48f86486` (#231) → `a08c51a3`
-  (#233)** via two more of Anthony's own Clone merges — **#232** `5b039a9` ("Cantina Jumbotron scoreboard," `CI —
-  web` #162 ✅) and **#233** `a08c51a3` ("Las Palmas official online-ordering invitation," `CI — web` #164 ✅);
-  both his own merges → no caretaker action. (2) **New draft #234** opened 09-14 12:40 UTC ("Premium owner portal,
-  guarded billing"; `codex/owner-standard-premium-20260914`, `CI — web` #165 ✅, `mergeable_state: clean`) —
-  touches the protected `/owner/[id]` route + Stripe, so **hard-guardrail, held for Anthony's own merge call; no
-  caretaker action.** The other five drafts (#225/#221/#219/#218/#197) unchanged → no new review comments. Zero
-  failing workflow runs across all repos. Default branches re-verified via API: amma `a08c51a3` (#233), vbfh
-  `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#164) + `CI —
-  voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run** latest completed **#102** (09-13
-  SUCCEEDED); the 09-14 run had not yet fired at check time — normal late-scheduler window. #218 governance
-  question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the six open draft heads
-  excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision,
-  grant submission, #215 Table Duel deploy step, branch cleanup) + the new #234 review/merge decision. No push
-  notification sent — quiet all-green run; the only new item (#234) is Anthony's own draft he opened himself
-  minutes before the check, needing no caretaker action.
-- **2026-09-13 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
-  benign changes since morning: (1) the **09-13 VBFH Daily Run (#102, 15:52→15:54 UTC) fired and SUCCEEDED**; (2)
-  **amma `main` advanced `220d5fe` (#229) → `48f86486` (#231)** via #230 `d381e09` ("Las Palmas Western menu at
-  permanent QR," `CI — web` #158 ✅) and #231 `48f86486` (`CI — web` #160 ✅) — both Anthony's own Clone merges →
-  no caretaker action. Five open drafts held; no new review comments. No push notification sent — quiet run.
+- **2026-09-14 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
+  benign changes since the 09-14 morning run: (1) **Anthony merged his own held draft #234** ("Premium owner
+  portal, guarded billing and owner guide") 09-14 13:23 UTC — merge `306fcf45` now main tip, `CI — web` #167 ✅;
+  it touches the protected `/owner/[id]` route + Stripe, a hard-guardrail area, but as **his own merge** → no
+  caretaker action; recorded. amma `main` advanced `a08c51a3` (#233) → `306fcf45` (#234). (2) **The 09-14 VBFH
+  Daily Run fired + SUCCEEDED** (run #103, 17:55→17:57 UTC) — the run the morning check found had not yet fired.
+  The five remaining drafts (#225/#221/#219/#218/#197) unchanged → no new review comments (only Vercel bot
+  activity). Zero failing workflow runs across all repos. Default branches re-verified via API: amma `306fcf45`
+  (#234), vbfh `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅
+  (#167) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. #218 governance question stays
+  open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the five open draft heads excluded; #234's
+  branch `codex/owner-standard-premium-20260914` added to the eligible set). Standing items for Anthony unchanged
+  (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel
+  deploy step, branch cleanup); the #234 review/merge item drops off — he merged it himself. No push notification
+  sent — quiet all-green run; the only change was Anthony's own merge, needing no caretaker action.
+- **2026-09-14 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** amma `main`
+  advanced `48f86486` (#231) → `a08c51a3` (#233) via two more of Anthony's own Clone merges (#232 `5b039a9`, #233
+  `a08c51a3`); new draft #234 ("Premium owner portal, guarded billing") opened 09-14 12:40 UTC and held (protected
+  `/owner/[id]` + Stripe, hard-guardrail). Five other drafts unchanged. VBFH Daily Run #102 latest completed; the
+  09-14 run had not yet fired at check time. No push notification sent — quiet all-green run.
+- **2026-09-13 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** The
+  09-13 VBFH Daily Run (#102) fired + SUCCEEDED; amma `main` advanced `220d5fe` (#229) → `48f86486` (#231) via
+  #230/#231, both Anthony's own Clone merges → no caretaker action. Five open drafts held; no new review comments.
 - **2026-09-13 (morning check-in, `claude-opus-4-8`):** All four green; nothing changed since the 09-12 afternoon
   run. amma `main` `220d5fe` (#229); five drafts held. VBFH Daily Run #101 latest completed; 09-13 not yet fired
   at check time (normal window). No push notification sent — quiet all-green run.
