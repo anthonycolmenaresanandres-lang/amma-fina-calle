@@ -22,14 +22,33 @@ plan on, not enough to ship on*.
 
 | Fact | Consequence for us |
 | --- | --- |
-| The Instagram **"Order Food" action button** routes only to Meta's closed partner list (ChowNow, Grubhub, EatStreet, Uber Eats, ChatFood, and reservation partners like OpenTable/Resy/SevenRooms). | AMMA **cannot** get that button. Confirmed. Stop wanting it. Our entry points are the DM, the link in bio, the story link, and the QR. |
-| Only **one** profile action button shows at a time. | A client already wired to ChowNow/Toast has that slot occupied. Not a blocker for DM ordering, but it kills "we'll add a button" as a pitch line. |
+| The Instagram **"Order Food" action button** routes only to Meta's closed partner list (ChowNow, Grubhub, EatStreet, Uber Eats, ChatFood, Square, Toast, BentoBox, and reservation partners like OpenTable/Resy/SevenRooms). | AMMA **cannot join that list** — confirmed. But AMMA **can be the one who wires it up** using a partner the client already pays for. That is a sellable setup service, not a platform play, and it ships today: `OPERATIONS/SOPS/INSTAGRAM_ORDERING_ACTIVATION.md`. Our own entry points remain the DM, the bio link, the Stories sticker, and the QR. |
+| Only **one** profile action button shows at a time. | Reservations and ordering compete for it — a real owner decision, never ours. The **Stories FOOD ORDERS sticker is a separate surface that does not consume the slot**, so a reservations-first client can still sell food. |
 | **24-hour standard messaging window.** A customer message opens 24h of free-form replies; each new customer message resets it. | A full order (browse → cart → pay → confirm) happens in minutes, so it fits comfortably. **Anything after the window is the problem** — see the next two rows. |
 | **`HUMAN_AGENT` tag extends the window to 7 days but is for real humans only.** Meta prohibits applying it to automated messages; misuse can cost API access. | Hard-code this. The bot **never** sets `HUMAN_AGENT`. It is available only on a staff-typed reply from the takeover console. |
 | **Message tags `CONFIRMED_EVENT_UPDATE`, `ACCOUNT_UPDATE`, and `POST_PURCHASE_UPDATE` were deprecated 2026-04-27 and now return error 100.** The migration path is Utility Templates / the Marketing Messages API. | This is the sharpest constraint in the whole design. **We cannot push "your order is ready" into a DM outside the 24h window.** Order status must not depend on DM delivery — capture phone/email at checkout and send status there. |
 | Serving Instagram accounts **we don't own** requires **Advanced Access** to `instagram_business_manage_messages`, which requires **App Review + Business Verification** with the app in **Live** mode. | This is the long pole and the single biggest schedule risk. It is a review of AMMA Ventures LLC by Meta, with an unpredictable calendar. Phase gating in §9 exists entirely to keep this off the critical path. |
 
 Sources: [About action button partners on Instagram](https://help.instagram.com/313280685976255/) · [ChowNow — Instagram food ordering](https://get.chownow.com/blog/how-to-use-instagrams-food-ordering-tool-to-help-your-restaurants-sales/) · [ChatFood — activate the Order Food button](https://docs.chatfood.io/en/articles/4297634-how-to-activate-your-instagram-order-food-button-and-stickers) · [Messenger Platform changelog (tag deprecation)](https://developers.facebook.com/docs/messenger-platform/changelog/) · [Messenger / IG messaging policy](https://developers.facebook.com/documentation/business-messaging/messenger-platform/policy) · [Instagram messaging 24-hour window guide](https://www.keyapi.ai/blog/instagram-messaging-api-policy/) · [Instagram Messaging API approval guide](https://singhamandeep.com/instagram-messaging-api-approval-getting-instagram_business_manage_messages-2026/) · [Instagram Platform overview](https://developers.facebook.com/docs/instagram-platform/overview/)
+
+### 1a. Two ladders, not one product
+
+Correcting an earlier framing in this document: the closed partner list blocks AMMA from
+*being* an ordering partner. It does not block AMMA from *configuring* one for a client.
+Those are two different businesses, and both are worth running:
+
+| | **Door 1 — Ordering Activation** | **Door 2 — Order Core** |
+| --- | --- | --- |
+| Whose rail | The client's (ChowNow, Square, Toast, whatever they pay for) | AMMA's own |
+| Commission | Whatever their rail already charges — we do not change it | Zero, that is the point |
+| Time to ship | Today. 15-30 minutes per location | Phased build, §9 |
+| Meta dependency | None — it is the client tapping their own settings | Advanced Access for the DM transport only |
+| What it earns | Trust, retention, a cheap foot in the door | The actual product margin |
+| Where it lives | `OPERATIONS/SOPS/INSTAGRAM_ORDERING_ACTIVATION.md` + `.claude/skills/amma-ig-ordering-setup/` | This document |
+
+Door 1 earns the right to sell Door 2. **They must never be pitched as the same thing** —
+Door 1 does not remove a commission, and saying it does is the fastest way to lose the
+client when they read their next marketplace statement.
 
 ---
 
