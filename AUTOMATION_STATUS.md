@@ -252,8 +252,9 @@ git -C vbfh-media-engine push origin --delete \
   SUCCEEDED); the 09-14 run had not yet fired at check time — normal late-scheduler window. #218 governance
   question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (the six open draft heads
   excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision,
-  grant submission, #215 Table Duel deploy step, branch cleanup) + the new #234 review/merge decision. **Push
-  notification sent** — #234 is a new guarded-billing/protected-route draft awaiting his decision.
+  grant submission, #215 Table Duel deploy step, branch cleanup) + the new #234 review/merge decision. No push
+  notification sent — quiet all-green run; the only new item (#234) is Anthony's own draft he opened himself
+  minutes before the check, needing no caretaker action.
 - **2026-09-13 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
   benign changes since morning: (1) the **09-13 VBFH Daily Run (#102, 15:52→15:54 UTC) fired and SUCCEEDED**; (2)
   **amma `main` advanced `220d5fe` (#229) → `48f86486` (#231)** via #230 `d381e09` ("Las Palmas Western menu at
