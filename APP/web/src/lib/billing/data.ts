@@ -1,6 +1,9 @@
 import "server-only";
 import { createServerSupabase } from "@/lib/supabase/server";
-import { isBillingRuntimeConfigured } from "@/lib/stripe/server";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { getOwnerContext } from "@/lib/owner/auth";
+import { getRecurringPriceId, getStripe, isBillingManagementConfigured, isBillingRuntimeConfigured } from "@/lib/stripe/server";
+import { approvedTrialEnd, priceMatchesApprovedTerms } from "./policy";
 import {
   normalizeBillingStatus,
   type BillingSummary,
@@ -35,7 +38,11 @@ function fallbackSummary(plan: string | null, billingStatus: string | null): Bil
     currentPeriodEnd: null,
     nextPaymentAt: null,
     scheduledFirstChargeOn: null,
-    actionsEnabled: isBillingRuntimeConfigured(),
+    actionsEnabled: false,
+    managementEnabled: false,
+    enrollmentEnabled: false,
+    setupMessage: "Contact Anthony to confirm your account's payment setup.",
+    statusAvailable: false,
   };
 }
 
@@ -56,6 +63,28 @@ export async function getOwnerBillingSummary(
   const row = (Array.isArray(data) ? data[0] : data) as BillingSummaryRow | undefined;
   if (!row) return fallback;
 
+  let managementEnabled = false;
+  let enrollmentEnabled = false;
+  if (isBillingManagementConfigured()) {
+    try {
+      const context = await getOwnerContext(restaurantId);
+      if (context.state === "authorized") {
+        const { data: account, error: accountError } = await getSupabaseAdmin().from("restaurant_billing")
+          .select("stripe_customer_id").eq("restaurant_id", restaurantId).maybeSingle();
+        if (!accountError) managementEnabled = Boolean(account?.stripe_customer_id);
+        if (!accountError && account && ["not_started", "canceled", "incomplete_expired"].includes(row.billing_status ?? "") &&
+            isBillingRuntimeConfigured(restaurantId)) {
+          approvedTrialEnd(row);
+          const price = await getStripe().prices.retrieve(getRecurringPriceId(restaurantId));
+          enrollmentEnabled = priceMatchesApprovedTerms(price, row);
+        }
+      }
+    } catch {
+      // A pending quote/date or unavailable provider never enables a charge.
+      enrollmentEnabled = false;
+    }
+  }
+
   return {
     plan: row.plan || fallback.plan,
     status: normalizeBillingStatus(row.billing_status),
@@ -69,18 +98,25 @@ export async function getOwnerBillingSummary(
     currentPeriodEnd: row.current_period_end,
     nextPaymentAt: row.next_payment_at,
     scheduledFirstChargeOn: row.scheduled_first_charge_on,
-    actionsEnabled: isBillingRuntimeConfigured(),
+    actionsEnabled: managementEnabled || enrollmentEnabled,
+    statusAvailable: true,
+    managementEnabled,
+    enrollmentEnabled,
+    setupMessage: !enrollmentEnabled && ["not_started", "canceled", "incomplete_expired"].includes(row.billing_status ?? "")
+      ? "Contact Anthony to confirm your plan and first-payment date before automatic-payment setup." : null,
   };
 }
 
 export function getBillingNotice(value: unknown): string | null {
   switch (value) {
     case "success":
-      return "Billing setup completed. Payment status will refresh after Stripe confirms it.";
+      return "You returned from Stripe. Check the confirmed subscription and invoice status; this return link is not proof of enrollment or payment.";
     case "canceled":
-      return "No billing changes were made.";
+      return "You returned from checkout. Automatic payments begin only after you confirm enrollment in Stripe.";
     case "not-started":
-      return "Start recurring billing before opening billing management.";
+      return "Your billing account is not connected yet. Contact Anthony to arrange invoice access.";
+    case "setup-pending":
+      return "Your plan or first-payment date needs confirmation. Contact Anthony; no new checkout was opened.";
     case "unavailable":
       return "Billing is temporarily unavailable. Contact AMMA if you need immediate help.";
     default:

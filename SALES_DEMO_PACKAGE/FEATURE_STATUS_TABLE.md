@@ -64,10 +64,18 @@ Legend: **Live** = verified working in production · **Demo/R&D** = real but lab
 | Online ordering / checkout (e.g. Square "later, only if approved") | OWNER_DEMO_SCRIPT_ES §5 — future, owner-approved only |
 
 ## ❓ Unknown / Unverified (do NOT claim either way)
+- Las Palmas owner account activation, authorized email, approved in-store menu and end-to-end owner-to-guest write/readback. The two candidate owner URLs returned 404 on 2026-09-11; generic portal code is not evidence of tenant activation.
 - Whether the feedback box & anonymous analytics are switched on in production *right now*.
 - Whether Colattao's owner has activated their owner login.
 - PayBridge availability/timeline (it's research).
 - Any prospect-specific custom feature before it's scoped.
+
+### Menu-control implementation update — 2026-09-11
+
+- Existing owner update rails: authenticated, tenant-scoped audited changes in source. Do not infer any individual restaurant's activation from source alone.
+- Code released through PR #228 (`6a01a4b`): direct field editor with review/save, price/name/description/availability and existing size prices; same-URL Las Palmas menu-data connection remains gated off. Las Palmas tenant/account activation is still unverified; its owner URL remains 404. Colattao's separately hosted guest menu stays in Request until a direct connection is verified.
+- Shared account information and optional Stripe automatic-payment setup/management presentation are deployed. This is not evidence of a Las Palmas billing identity, enrolled subscription, approved fee/date or paid invoice. Existing payment actions are reused; no payment was activated by this release.
+- Sales benefit: once a location is connected and verified, owners can update the supported digital-menu fields without calling AMMA or changing the printed QR. Guest pages may need refresh; printed prices do not update themselves. Exact wording and exclusions: `CORE_OFFER_199.md`.
 
 ## 🚫 Explicitly NOT offered as-is (per PRICING_AND_OFFER.md §5 + rules)
 - Payment processing setup · POS integration · backend loyalty database

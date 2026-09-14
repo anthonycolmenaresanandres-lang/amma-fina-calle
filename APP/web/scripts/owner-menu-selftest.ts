@@ -1,0 +1,38 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { displayMenuValue, LAS_PALMAS_RESTAURANT_ID, normalizedMenuValue, ownerGuestMenuPath, validateMenuEdit, type MenuEdit } from "../src/lib/owner/menu-control";
+import { publicMenuSections } from "../src/lib/owner/public-menu-adapter";
+import { localPilotPreviewAllowed } from "../src/lib/owner/local-pilot-preview";
+let passed = 0;
+function test(label: string, fn: () => void) { fn(); passed++; console.log(`PASS ${label}`); }
+const base: MenuEdit = { restaurantId: LAS_PALMAS_RESTAURANT_ID, itemId: "00000000-0000-4000-8000-000000000001", field: "price", value: "12.50", expectedValue: "10" };
+test("price canonicalization", () => assert.equal(validateMenuEdit(base).expectedValue, "10.00"));
+for (const value of ["", " ", "-1", "1e2", "1.234", "NaN", "Infinity", "100000000", "1,234", "$1"]) test(`reject price ${JSON.stringify(value)}`, () => assert.throws(() => validateMenuEdit({ ...base, value })));
+test("zero means ask staff", () => assert.equal(displayMenuValue("price", "0"), "Ask staff"));
+test("blank names rejected", () => assert.throws(() => normalizedMenuValue("name", " ")));
+test("long descriptions rejected", () => assert.throws(() => normalizedMenuValue("description", "x".repeat(1501))));
+test("availability strict", () => assert.throws(() => normalizedMenuValue("is_available", "maybe")));
+test("availability accepted", () => assert.equal(normalizedMenuValue("is_available", false), "false"));
+test("malformed item rejected", () => assert.throws(() => validateMenuEdit({ ...base, itemId: "other-item" })));
+test("unsafe tenant rejected", () => assert.throws(() => validateMenuEdit({ ...base, restaurantId: "../colattao" })));
+test("unknown field rejected", () => assert.throws(() => validateMenuEdit({ ...base, field: "billing_status" as MenuEdit["field"] })));
+test("missing size rejected", () => assert.throws(() => validateMenuEdit({ ...base, field: "size_price" })));
+test("valid size accepted", () => assert.equal(validateMenuEdit({ ...base, field: "size_price", sizeLabel: "Large" }).sizeLabel, "Large"));
+test("stable Las Palmas destination", () => assert.equal(ownerGuestMenuPath(LAS_PALMAS_RESTAURANT_ID), "/demo/las-palmas"));
+test("Colattao destination unchanged", () => assert.equal(ownerGuestMenuPath("colattao"), "https://colattao-cafe-rush.vercel.app/menu"));
+const data = { restaurant: { id: LAS_PALMAS_RESTAURANT_ID }, categories: [{ id: "cat", name: "Lunch", items: [{ id: "one", name: "Sample", price: "12.50", is_available: true, sizes: [] as { label: string; price: number }[] }] }] };
+test("guest adapter reads updated price", () => assert.equal(publicMenuSections(data, LAS_PALMAS_RESTAURANT_ID)[0].items[0].priceDisplay, "$12.50"));
+test("sold out disappears", () => { const hidden = structuredClone(data); hidden.categories[0].items[0].is_available = false; assert.deepEqual(publicMenuSections(hidden, LAS_PALMAS_RESTAURANT_ID), []); });
+test("empty menu remains empty", () => assert.deepEqual(publicMenuSections({ ...data, categories: [] }, LAS_PALMAS_RESTAURANT_ID), []));
+test("wrong tenant fails closed", () => assert.throws(() => publicMenuSections(data, "colattao")));
+test("missing payload fails closed", () => assert.throws(() => publicMenuSections(null, LAS_PALMAS_RESTAURANT_ID)));
+test("invalid stored price fails closed", () => { const invalid = structuredClone(data); invalid.categories[0].items[0].price = "invalid"; assert.throws(() => publicMenuSections(invalid, LAS_PALMAS_RESTAURANT_ID)); });
+test("size prices preserved", () => { const sized = structuredClone(data); sized.categories[0].items[0].sizes = [{ label: "Large", price: 15 }]; assert.equal(publicMenuSections(sized, LAS_PALMAS_RESTAURANT_ID)[0].items[0].priceDisplay, "Large $15.00"); });
+for (const host of ["localhost:3131", "127.0.0.1:3131", "[::1]:3131"]) test(`local preview ${host}`, () => assert.equal(localPilotPreviewAllowed("1", undefined, host), true));
+for (const host of ["finacalleos.com", "localhost.evil.test", "127.0.0.1@evil.test", null]) test(`remote preview rejected ${host}`, () => assert.equal(localPilotPreviewAllowed("1", undefined, host), false));
+test("preview disabled by default", () => assert.equal(localPilotPreviewAllowed(undefined, undefined, "localhost"), false));
+test("preview blocked on Vercel", () => assert.equal(localPilotPreviewAllowed("1", "1", "localhost"), false));
+// Contract checks supplement pure tests; they do not replace live RLS proof.
+test("server action re-authorizes and scopes item", () => { const source = readFileSync("src/lib/owner/menu-control-actions.ts", "utf8"); assert.match(source, /getOwnerContext\(change.restaurantId\)/); assert.match(source, /ctx.state !== "authorized"/); assert.match(source, /\.eq\("restaurant_id", change.restaurantId\)/); assert.match(source, /applyOwnerChange/); assert.doesNotMatch(source, /\.from\([^)]*\)\.update/); });
+test("connected menu opt-in", () => { const source = readFileSync("src/lib/owner/las-palmas-menu.ts", "utf8"); assert.match(source, /LAS_PALMAS_OWNER_MENU_ENABLED !== "true"/); assert.match(source, /sections: \[\]/); });
+console.log(`${passed} owner-menu checks passed. No live database or access tests performed.`);

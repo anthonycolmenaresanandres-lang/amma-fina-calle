@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // Bottom-of-menu guest intake, mirroring the Colattao Guest Notes form on the
-// Café Rush QR menu, restyled to the Las Palmas palm/gold identity. Posts to
+// Café Rush QR menu, restyled to the Las Palmas parchment identity. Posts to
 // the existing public intake endpoint (/api/customer-requests) so notes land
 // in the Fina Calle team pipeline — during the prospect demo nothing goes to
 // restaurant staff (same honesty rule as the Table OS service buttons).
@@ -77,28 +77,28 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
   }
 
   const inputClasses =
-    "w-full border border-[#a9b8a9]/30 bg-[#0a2317] px-3 py-2 text-sm text-[#f2ead6] placeholder:text-[#a9b8a9]/50 focus:border-[#dfe3e6] focus:outline-none focus:ring-1 focus:ring-[#dfe3e6]/50";
-  const labelClasses = "mb-1 block text-[0.64rem] uppercase tracking-[0.2em] text-[#a9b8a9]";
+    "min-h-11 w-full rounded-[3px] border border-[#9b805c] bg-[#fffaf0] px-3 py-2.5 text-base text-[#362014] placeholder:text-[#79634c] focus:border-[#a63f19]";
+  const labelClasses = "mb-1.5 block text-sm font-medium text-[#59402b]";
 
   return (
-    <section className="mt-12 border-t-2 border-[#c8ced3]/50 pt-8">
-      <p className="text-center text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#dfe3e6]">
-        Guest Notes
+    <section className="mt-10 border-t border-[#987954] pt-8" aria-labelledby="guest-note-heading">
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#785437]">
+        Share feedback with Fina Calle
       </p>
-      <h2 className="mt-2 text-center text-3xl font-bold tracking-[0.06em] text-[#f7f1e0]">
-        Deja tu nota
+      <h2 id="guest-note-heading" className="mt-2 text-center font-serif text-3xl font-bold text-[#362014]">
+        <span lang="es">Deja tu nota</span>
       </h2>
-      <p className="mx-auto mt-2 max-w-sm text-center text-sm leading-6 text-[#a9b8a9]">
-        Tell the Las Palmas team what you loved, what needs attention, or what you want to see
-        next.
+      <p className="mx-auto mt-3 max-w-md text-center text-sm leading-6 text-[#634f3b]">
+        Your note goes to the Fina Calle team, not Las Palmas staff. For an order issue
+        or anything you need right now, please speak with restaurant staff.
       </p>
 
       {status === "success" ? (
-        <p className="mx-auto mt-6 max-w-sm border border-[#dfe3e6]/40 bg-[#dfe3e6]/10 px-4 py-4 text-center text-sm font-semibold text-[#f3f5f6]">
-          ¡Gracias! Your note was sent to the team.
+        <p role="status" className="mx-auto mt-6 max-w-md border border-[#54704c] bg-[#e7eddd] px-4 py-4 text-center text-base font-semibold text-[#193b24]">
+          ¡Gracias! Your note was sent to Fina Calle, not restaurant staff.
         </p>
       ) : (
-        <form onSubmit={onSubmit} className="mx-auto mt-6 max-w-md space-y-4">
+        <form onSubmit={onSubmit} aria-busy={status === "loading"} className="mx-auto mt-6 max-w-md space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="lp-guest-name" className={labelClasses}>
@@ -106,6 +106,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
               </label>
               <input
                 id="lp-guest-name"
+                name="guestName"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -120,6 +121,8 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
               </label>
               <input
                 id="lp-guest-contact"
+                name="guestContact"
+                spellCheck={false}
                 type="text"
                 value={contactInfo}
                 onChange={(e) => setContactInfo(e.target.value)}
@@ -136,6 +139,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
             </label>
             <select
               id="lp-guest-type"
+              name="noteType"
               value={noteType}
               onChange={(e) => setNoteType(e.target.value as (typeof NOTE_TYPES)[number])}
               required
@@ -155,22 +159,23 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
             </label>
             <textarea
               id="lp-guest-message"
+              name="guestMessage"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
               required
-              placeholder="Write your note here..."
+              placeholder="Write your note here…"
               className={inputClasses}
             />
           </div>
 
           <fieldset>
-            <legend className={labelClasses}>May we contact you?</legend>
+            <legend className={labelClasses}>May Fina Calle contact you?</legend>
             <div className="grid grid-cols-2 gap-3">
               {(["Yes", "No"] as const).map((option) => (
                 <label
                   key={option}
-                  className="flex min-h-11 cursor-pointer items-center justify-center gap-2 border border-[#a9b8a9]/30 text-sm font-semibold text-[#f2ead6] has-[:checked]:border-[#dfe3e6] has-[:checked]:bg-[#dfe3e6]/10 has-[:checked]:text-[#f3f5f6]"
+                  className="flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-[3px] border border-[#9b805c] text-sm font-semibold text-[#362014] has-[:checked]:border-[#285236] has-[:checked]:bg-[#dce6d2]"
                 >
                   <input
                     type="radio"
@@ -179,7 +184,7 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
                     checked={mayContact === option}
                     onChange={() => setMayContact(option)}
                     required
-                    className="h-3.5 w-3.5 accent-[#dfe3e6]"
+                    className="h-4 w-4 accent-[#285236]"
                   />
                   {option}
                 </label>
@@ -188,23 +193,23 @@ export default function LasPalmasGuestNoteForm(): React.JSX.Element {
           </fieldset>
 
           {status === "error" ? (
-            <p className="border border-[#d5322d]/50 bg-[#d5322d]/10 px-3 py-2 text-sm text-[#f2ead6]">
-              We could not send this note right now. Please try again in a moment.
+            <p role="alert" className="border border-[#a63f19] bg-[#fae7d9] px-3 py-2 text-sm text-[#6b240b]">
+              Your note could not be sent to Fina Calle. Your message is still here; please try again.
             </p>
           ) : null}
 
           <button
             type="submit"
             disabled={!canSubmit}
-            className="w-full rounded-[4px] border-[1.5px] border-[#06130d] bg-[#dfe3e6] px-5 py-3.5 text-center text-sm font-bold uppercase tracking-[0.16em] text-[#06130d] shadow-[3px_3px_0_rgba(213,50,45,0.88)] transition hover:-translate-x-px hover:-translate-y-px hover:bg-[#f4f6f7] hover:shadow-[4px_4px_0_rgba(213,50,45,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-[3px_3px_0_rgba(169,184,169,0.4)] disabled:hover:translate-x-0 disabled:hover:translate-y-0 motion-reduce:transition-none"
+            className="min-h-12 w-full rounded-[4px] border border-[#733216] bg-[#a63f19] px-5 py-3.5 text-center text-sm font-bold tracking-[0.06em] text-[#fff4dc] hover:bg-[#883010] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {status === "loading" ? "Sending..." : "Send guest note"}
+            {status === "loading" ? "Sending…" : "Send note to Fina Calle"}
           </button>
         </form>
       )}
 
-      <p className="mt-4 text-center text-[0.66rem] italic leading-5 text-[#a9b8a9]/70">
-        Demo preview: notes go to the Fina Calle team, not restaurant staff. No account needed.
+      <p className="mt-4 text-center text-xs leading-5 text-[#6b5741]">
+        No account needed. Please do not include payment details or other sensitive information.
       </p>
     </section>
   );

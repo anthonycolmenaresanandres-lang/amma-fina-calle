@@ -18,12 +18,9 @@ Parallel work → a sibling worktree under `C:\dev\amma\worktrees\<task>`, never
 Guardrails: never handle secrets, grant access, publish/send, or ship to `main` — prep those and hand Anthony exact steps.
 
 ## Required skill selection
-1. If the user names a skill, use that skill and read its complete `SKILL.md` before acting.
-2. For AMMA management, Morning Command, Revenue Power Hour, Daily Closeout, leads, onboarding, delivery, billing review, KPIs, bottlenecks, or business automation, read `.claude/skills/amma-business-intelligence/SKILL.md` and run its deterministic business router.
-3. For AMMA sales materials, restaurant-owner messaging, pitches, demos, flyers, objections, follow-ups, offers, conversion experiments, or behavioral-pattern claims, read `.claude/skills/amma-sales-conversion/SKILL.md`; use verified customer evidence and reject dark patterns.
-4. If no specific skill clearly matches, the request spans domains, or the active model is Haiku-class/small, read `.claude/skills/select-skill/SKILL.md` and run its deterministic selector.
-5. Choose one primary skill. Add at most one secondary skill for a distinct verify, publish, or file-format role.
-6. Treat selector risk flags as stop/approval gates; confidence never authorizes an external or irreversible action.
+Read `OPERATIONS/SKILL_ROUTING.md` for the shared Codex/Claude selection and version-precedence rules. Claude uses repository `.claude/skills` mirrors for AMMA-specific workflows. Read each selected skill completely; do not preload unrelated skills.
+
+For existing tasks, read the current queue item and newest relevant handoff first; expand into historical entries only to resolve a dependency or contradiction. Anthony's direct scoped instructions take precedence over older workflow defaults, but never imply permission for secrets, access, spending, external sends or production. Record the scope in the queue before implementation.
 
 ## Communication rule (owner preference, always)
 - End every response with an explicit **ACTION NEEDED** block: who does what, the exact

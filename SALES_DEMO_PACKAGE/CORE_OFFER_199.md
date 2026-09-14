@@ -18,6 +18,7 @@ The written proposal defines setup, launch timing, update limits, and recurring 
 - One stable guest destination and a print-ready guest QR file.
 - One existing playable game module, selected and verified before launch.
 - One private owner portal for the location, initial authorized account delivery, and a print-ready back-office owner QR.
+- **Owner-controlled menu updates:** after setup and access verification, change existing item names, descriptions, prices and availability from the owner portal. Review and save the change; guests see it when they open or refresh the connected digital menu. Keep the same guest URL and QR—no call to AMMA or full QR reprint for those routine edits.
 - Hosting, link support, and routine menu/copy support within the written scope.
 
 ## Not included in the base scope
@@ -29,6 +30,12 @@ The written proposal defines setup, launch timing, update limits, and recurring 
 - Customer accounts, personal-data collection, or loyalty systems.
 - Weekly promotion management, photography, social posting, ads, or AI automation.
 - Custom game art, mechanics, or guaranteed business results.
+
+## Menu-control benefit: approved wording and limits
+
+**“Change your digital menu from your owner portal whenever you need to—without calling us for each routine edit. Keep the same QR on your tables; update the information behind it.”**
+
+This applies only after the location's menu connection and authorized write/readback have passed launch checks. Saving requires an internet connection. Existing open guest pages may need a refresh. A QR is not the printed menu itself: already-printed prices cannot change, so paper menus may still need an insert, a targeted sticker or a replacement. New items/categories, images and larger redesigns follow the agreed request scope; do not promise unlimited custom work, zero hosting cost, instant synchronization across all channels, or an already-activated Las Palmas account.
 
 ## Proof and action
 

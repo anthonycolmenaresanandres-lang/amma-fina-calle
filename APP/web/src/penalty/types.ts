@@ -22,6 +22,8 @@ export type PenaltyColors = {
   net: number;
   ball: number;
   ballSpot: number;
+  /** Optional second panel color enables the original tricolor ball primitive. */
+  ballAccent?: number;
   keeper: number;
   keeperAccent: number;
   accent: number;
@@ -92,6 +94,8 @@ export type PenaltySkinAssets = {
 // lighter overlay. All optional; defaults reproduce the original look
 // (scrim 0.45, no extra scale, no offset) so existing skins are unchanged.
 export type BackgroundFit = {
+  /** Grass boundary in the source image; anchors it just behind the goal line. */
+  pitchLinePct?: number;
   /** Dark overlay alpha over the photo, 0..1 (default 0.45). Lower = brighter. */
   scrim?: number;
   /** Extra zoom on top of cover-fit (default 1). >1 enlarges the photo. */
@@ -114,12 +118,28 @@ export type SpriteFit = {
 };
 
 export type PenaltyChrome = {
+  /** Opt-in accessible host HUD replaces canvas labels and impact effects. */
+  externalHud?: boolean;
   /** Skip the drawn goal frame, net, penalty-box line, and center spot. */
   hideGoalArt?: boolean;
   /** Hide the top skin-name title while keeping score and hint visible. */
   hideTitle?: boolean;
   /** Draw a reserved black sponsor/ad strip. */
   adBanner?: boolean;
+};
+
+/** Presentation coordinates shared by drawing, aiming, and shot animation. */
+export type PenaltyLayoutFit = {
+  goalTopPct?: number;
+  goalBottomPct?: number;
+  postExtensionPct?: number;
+  spotXPct?: number;
+};
+
+/** Original fictional character, drawn locally with no external asset required. */
+export type KeeperAppearance = {
+  skinTone: number;
+  hairColor: number;
 };
 
 // A client skin (V2): brand identity + the base canvas palette, plus optional
@@ -131,6 +151,8 @@ export type PenaltySkin = {
   skinName: string;
   colors: PenaltyColors;
   assets?: PenaltySkinAssets;
+  layoutFit?: PenaltyLayoutFit;
+  keeperAppearance?: KeeperAppearance;
   /** Optional per-level kicker override (levelId → image path). Falls back to
    *  assets.kicker for levels not listed — lets one skin field a different
    *  striker per level (e.g. a product mascot per difficulty). */

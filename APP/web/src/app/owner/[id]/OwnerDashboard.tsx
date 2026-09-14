@@ -1,12 +1,17 @@
 import {
+  ArrowUpRight,
+  BookOpen,
+  CreditCard,
   ExternalLink,
   History,
   LogOut,
+  MessageCircle,
+  Utensils,
 } from "lucide-react";
+import Link from "next/link";
 import {
   Button,
   ButtonLink,
-  Eyebrow,
   Panel,
   SectionHeading,
   cn,
@@ -14,11 +19,13 @@ import {
 import type { BillingSummary } from "@/lib/billing/types";
 import type { PaymentNotice, ZelleInstructions } from "@/lib/zelle/types";
 import AskBar from "./AskBar";
+import MenuQuickEdit from "./MenuQuickEdit";
+import { ownerGuestMenuPath } from "@/lib/owner/menu-control";
 import BillingCard from "./BillingCard";
+import AccountInfo from "./AccountInfo";
+import type { OwnerAccountProfile } from "@/lib/owner/account-profile";
 import ZellePaymentCard from "./ZellePaymentCard";
 import styles from "./owner-portal.module.css";
-
-const COLATTAO_MENU_URL = "https://colattao-cafe-rush.vercel.app/menu";
 
 export type ItemSize = { label: string; price: number | string };
 
@@ -60,11 +67,9 @@ export type DashboardData = {
   billingNotice?: string | null;
   paymentNotices?: PaymentNotice[];
   zelleInstructions?: ZelleInstructions;
+  menuConnectionNotice?: string | null;
+  account?: OwnerAccountProfile | null;
 };
-
-function publicMenuHref(restaurantId: string): string {
-  return restaurantId === "colattao" ? COLATTAO_MENU_URL : `/m/${restaurantId}`;
-}
 
 const FIELD_LABELS: Record<string, string> = {
   price: "price",
@@ -77,9 +82,10 @@ const FIELD_LABELS: Record<string, string> = {
 };
 
 const OWNER_SECTIONS = [
-  { number: "01", label: "Request", href: "#owner-request" },
-  { number: "02", label: "Billing", href: "#owner-billing" },
-  { number: "03", label: "History", href: "#owner-history" },
+  { label: "Edit menu", detail: "One item at a time", icon: Utensils, href: "#owner-menu" },
+  { label: "Payments", detail: "Your account, clearly", icon: CreditCard, href: "#owner-billing" },
+  { label: "Contact", detail: "Talk to Fina Calle", icon: MessageCircle, href: "#owner-request" },
+  { label: "History", detail: "Your recent changes", icon: History, href: "#owner-history" },
 ] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
@@ -113,7 +119,7 @@ export default function OwnerDashboard({
     <div className={styles.dashboard}>
       <header className={styles.masthead}>
         <div className={styles.brandBlock}>
-          <Eyebrow>Owner</Eyebrow>
+          <p className={styles.brandEyebrow}>Fina Calle <span aria-hidden> / </span> Owner portal</p>
           <div className={styles.brandLockup}>
             {data.logo ? (
               <>
@@ -125,17 +131,17 @@ export default function OwnerDashboard({
                   height={48}
                   className={styles.brandLogo}
                 />
-                <h1 className="sr-only">{data.businessName}</h1>
+                <p className={styles.restaurantName}>{data.businessName}</p>
               </>
             ) : (
-              <h1 className={styles.brandName}>{data.businessName}</h1>
+              <p className={styles.brandName}>{data.businessName}</p>
             )}
           </div>
         </div>
         <div className={styles.utilityActions}>
-          <ButtonLink href={publicMenuHref(data.restaurantId)} variant="ghost">
+          <ButtonLink href={ownerGuestMenuPath(data.restaurantId)} variant="ghost">
             <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-            Menu
+            Guest menu
           </ButtonLink>
           {readOnly ? (
             <Button variant="subtle" disabled>
@@ -153,37 +159,40 @@ export default function OwnerDashboard({
         </div>
       </header>
 
+      <div className={styles.welcome}>
+        <div>
+          <p className={styles.kicker}>A little less admin. More hospitality.</p>
+          <h1>Your restaurant.<br /><em>At your fingertips.</em></h1>
+          <p className={styles.welcomeIntro}>A place for the small updates that keep your business moving.</p>
+        </div>
+        <Link href="/owner/guide" className={styles.guideLink}>
+          <BookOpen size={20} strokeWidth={1.5} aria-hidden />
+          <span>New here?<strong>Open your owner guide</strong></span>
+          <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden />
+        </Link>
+      </div>
+
       <nav className={styles.sectionIndex} aria-label="Owner portal sections">
-        <ol className={styles.indexList}>
+        <ul className={styles.indexList}>
           {OWNER_SECTIONS.map((section) => (
             <li key={section.href}>
               <a className={styles.indexLink} href={section.href}>
-                <span className={styles.indexNumber} aria-hidden="true">
-                  {section.number}
-                </span>
-                <span>{section.label}</span>
+                <section.icon size={20} strokeWidth={1.5} aria-hidden />
+                <span>{section.label}<small>{section.detail}</small></span>
+                <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden className={styles.indexArrow} />
               </a>
             </li>
           ))}
-        </ol>
+        </ul>
       </nav>
 
       <div className={styles.board}>
-        <section
-          id="owner-request"
-          aria-label="Request"
-          tabIndex={-1}
-          className={cn(styles.requestFrame, styles.sectionAnchor)}
-        >
-          <AskBar
-            restaurantId={data.restaurantId}
-            items={allItems.map((item) => ({
-              name: item.name,
-              price: item.price,
-              is_available: item.is_available,
-            }))}
-            demo={readOnly}
-          />
+        <section id="owner-menu" aria-labelledby="owner-menu-heading" tabIndex={-1} className={cn(styles.menuFrame, styles.sectionAnchor)}>
+          <div className={styles.sectionHeading}><p className={styles.kicker}>The everyday essentials</p><h2 id="owner-menu-heading" className={styles.frameLabel}>Make a small menu update.</h2></div>
+          {data.menuConnectionNotice ? <p role="status" className={styles.connectionNotice}>{data.menuConnectionNotice}</p> : null}
+          {readOnly ? <p className={styles.emptyState}>Direct menu editing is available only to an authorized owner. This preview does not save changes.</p>
+            : data.restaurantId === "colattao" ? <div className={styles.menuRequest}><p>Your guest menu runs on the separate Colattao site. Send us the one or two items you need to change; Fina Calle will review the update.</p><a href="#owner-request" className={styles.textLink}>Request a menu update <ArrowUpRight size={17} aria-hidden /></a><span>Direct publishing to the Colattao menu is not connected here yet.</span></div>
+              : <MenuQuickEdit restaurantId={data.restaurantId} categories={data.categories} />}
         </section>
 
         <section
@@ -192,10 +201,7 @@ export default function OwnerDashboard({
           className={cn(styles.moneyFrame, styles.sectionAnchor)}
           aria-labelledby="owner-billing-heading"
         >
-          <h2 id="owner-billing-heading" className={styles.frameLabel}>
-            <span className={styles.frameNumber}>02</span>
-            Billing
-          </h2>
+          <div className={styles.sectionHeading}><p className={styles.kicker}>Everything in its place</p><h2 id="owner-billing-heading" className={styles.frameLabel}>Your account &amp; payments.</h2></div>
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
@@ -212,11 +218,16 @@ export default function OwnerDashboard({
               readOnly={readOnly}
             />
           ) : null}
+          <AccountInfo businessName={data.businessName} email={data.email} profile={data.account ?? null} />
+        </section>
+
+        <section id="owner-request" aria-label="Contact Fina Calle" tabIndex={-1} className={cn(styles.requestFrame, styles.sectionAnchor)}>
+          <AskBar restaurantId={data.restaurantId} items={allItems.map((item) => ({ name: item.name, price: item.price, is_available: item.is_available }))} demo={readOnly} />
         </section>
 
         <section
           id="owner-history"
-          aria-label="History"
+          aria-label="Recent changes"
           tabIndex={-1}
           className={cn(styles.activityFrame, styles.sectionAnchor)}
         >
@@ -225,11 +236,10 @@ export default function OwnerDashboard({
               tone="accent"
               icon={<History size={13} strokeWidth={1.75} aria-hidden />}
             >
-              <span className={styles.frameNumber}>03</span>
-              History
+              Recent changes
             </SectionHeading>
             {data.audit.length === 0 ? (
-              <p className="mt-4 text-sm text-[#aeb7bd]">No changes yet.</p>
+              <p className={styles.emptyState}>Your saved menu changes will appear here.</p>
             ) : (
               <ul className="mt-4 space-y-2">
                 {data.audit.map((entry) => (
@@ -243,7 +253,7 @@ export default function OwnerDashboard({
                     <span className={styles.historyValue}>
                       {fieldLabel(entry.field_name)} → {entry.new_value ?? "—"}
                     </span>
-                    <span className="shrink-0 text-[0.7rem] text-[#7f8a91]">
+                    <span className={styles.historyTime}>
                       {timeAgo(entry.created_at)}
                     </span>
                   </li>
@@ -254,7 +264,7 @@ export default function OwnerDashboard({
         </section>
       </div>
 
-      <p className={styles.footerMark}>Fina Calle OS</p>
+      <footer className={styles.footerMark}><Link href="/">Fina Calle<span>Made for the way you work.</span></Link><Link href="/owner/guide">Owner guide <ArrowUpRight size={15} aria-hidden /></Link></footer>
     </div>
   );
 }

@@ -58,7 +58,7 @@ export const COLATTAO_CAMPAIGN: PenaltyCampaign = {
 //   logos are approved overlays only and none is on file yet);
 // - player kit: red shirt / white sleeves (generic color scheme, no club marks) —
 //   carried visually by the skin's mascot kicker sprite;
-// - keeper kit: royal blue over navy on the primitive Sentinel Keeper.
+// - keeper kit: pink over navy on the original fictional keeper.
 export const LASPALMAS_CAMPAIGN: PenaltyCampaign = {
   id: "laspalmas",
   client: "Las Palmas (prospect)",
@@ -71,7 +71,7 @@ export const LASPALMAS_CAMPAIGN: PenaltyCampaign = {
   },
   kit: {
     player: { primary: 0xd5322d, secondary: 0xffffff },
-    keeper: { primary: 0x1e4fd8, secondary: 0x0c1e4a },
+    keeper: { primary: 0xf05b9d, secondary: 0x172137 },
   },
 };
 

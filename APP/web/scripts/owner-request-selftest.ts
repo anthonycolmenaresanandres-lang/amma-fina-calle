@@ -85,6 +85,24 @@ for (const request of [
 }
 assert.equal(triageRequest("change Mocha to $8", menuSnapshot).decision, "apply");
 
+const colattaoSnapshot = { ...menuSnapshot, restaurantId: "colattao" };
+for (const request of [
+  "change Mocha to $8",
+  "86 Mocha",
+  "bring back Mocha",
+  "rename Mocha to House Mocha",
+  "change Mocha description to Chocolate and coffee",
+]) {
+  const result = triageRequest(request, colattaoSnapshot);
+  assert.equal(result.decision, "review", request);
+  if (result.decision === "review") assert.match(result.review.reason, /separate site/);
+}
+const urgentColattaoRequest = triageRequest("my payment failed", colattaoSnapshot);
+assert.equal(urgentColattaoRequest.decision, "review");
+if (urgentColattaoRequest.decision === "review") {
+  assert.equal(urgentColattaoRequest.review.priority, "Urgent");
+}
+
 const reference = "AMMA-ME8D19-7CF21A4B";
 const requestId = "7df4c42e-a857-4ea5-9c47-441953b70c5e";
 const secondRequestId = "31854c98-4564-4ee6-a417-2da0e18cfbe8";
@@ -140,14 +158,25 @@ const triageSource = readFileSync(
 assert.doesNotMatch(dashboardSource, /owner-campaigns|label="Campaigns"|data\.promos|livePromos/);
 assert.doesNotMatch(
   dashboardSource,
-  /Quick edits|owner-menu|owner-live|CommandOverview|FeaturedSlot|setItemAvailability/,
+  /owner-live|CommandOverview|FeaturedSlot|setItemAvailability/,
 );
-assert.match(dashboardSource, /number: "01", label: "Request"/);
-assert.match(dashboardSource, /number: "02", label: "Billing"/);
-assert.match(dashboardSource, /number: "03", label: "History"/);
-assert.match(dashboardSource, /COLATTAO_MENU_URL/);
+// Task navigation stays available without the previous robotic step numbering.
+for (const [id, label] of [
+  ["owner-menu", "Edit menu"],
+  ["owner-billing", "Payments"],
+  ["owner-request", "Contact"],
+  ["owner-history", "History"],
+]) {
+  assert.ok(dashboardSource.includes(`href: "#${id}"`), `missing navigation ${id}`);
+  assert.ok(dashboardSource.includes(`id="${id}"`), `missing section ${id}`);
+  assert.ok(dashboardSource.includes(`label: "${label}"`), `missing task label ${label}`);
+}
+assert.match(dashboardSource, /MenuQuickEdit/);
+assert.match(dashboardSource, /ownerGuestMenuPath/);
+assert.match(dashboardSource, /readOnly \?/);
 assert.doesNotMatch(ownerPageSource, /promosRes|type Promo/);
-assert.match(ownerPageSource, /Lilita_One/);
+assert.doesNotMatch(ownerPageSource, /Lilita_One/);
+assert.match(ownerPageSource, /robots: \{ index: false, follow: false \}/);
 assert.match(ownerPageSource, /\.neq\("table_name", "promos"\)/);
 assert.doesNotMatch(requestMenuSource, /\.from\("promos"\)|promosRes/);
 assert.doesNotMatch(triageSource, /tryPromo|"promos"/);

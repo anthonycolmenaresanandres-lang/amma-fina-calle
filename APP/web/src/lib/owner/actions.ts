@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { LAS_PALMAS_RESTAURANT_ID } from "./menu-control";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerSupabase } from "@/lib/supabase/server";
@@ -207,6 +208,7 @@ async function assertOwner(restaurantId: string) {
 function revalidateOwner(restaurantId: string) {
   revalidatePath(`/owner/${restaurantId}`);
   revalidatePath(`/m/${restaurantId}`);
+  if (restaurantId === LAS_PALMAS_RESTAURANT_ID) revalidatePath("/demo/las-palmas");
 }
 
 export async function updateItemText(

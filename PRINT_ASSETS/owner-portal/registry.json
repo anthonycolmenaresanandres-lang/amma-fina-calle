@@ -1,0 +1,20 @@
+{
+  "standardVersion": "1",
+  "revisionDate": "2026-09-14",
+  "guideUrl": "https://finacalleos.com/owner/guide",
+  "supportEmail": "Ammaventuresvb@gmail.com",
+  "clients": {
+    "colattao": {
+      "name": "Colattao",
+      "ownerUrl": "https://finacalleos.com/owner/colattao",
+      "assetId": "QR-OWNER-COLATTAO-20260914-V1",
+      "menuMode": "request",
+      "publicRouteStatus": "200 sign-in page verified by root, 2026-09-14",
+      "privateAccessStatus": "Requires separate owner-authorized verification",
+      "billingStatus": "Account configuration and consent require separate verification",
+      "digitalProofStatus": "PASS - exact owner URL only on handout full-page/crop at 150 and 300 DPI; no barcodes on all four manual pages at both DPIs; zxing-cpp 3.1.1",
+      "physicalProofStatus": "PENDING - print one at 100 percent and scan on two phones",
+      "deliveryStatus": "NOT SENT - handoff after identity and readiness checks"
+    }
+  }
+}

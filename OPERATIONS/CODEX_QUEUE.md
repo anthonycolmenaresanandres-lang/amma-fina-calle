@@ -1,5 +1,117 @@
 # Codex Queue — canonical live queue
 
+## [ ] 37 - Premium owner portal, payment safeguards and standard owner kit
+
+**State:** IN PROGRESS - SCOPED OWNER RELEASE AUTHORIZED
+**Authority:** Anthony requests live owner changes for Colattao, Las Palmas and A.J. Gator's plus standard manual and printed owner QR/protocol. This current directive takes priority over inherited completed-release wording below; do not touch Colattao guest experience.
+**Scope:** Premium shared owner presentation, honest setup-pending front doors for unprovisioned known clients, existing Stripe payment/enrollment safety, generic guide, manual and Colattao owner-sign-in print. Preserve tenant auth and connected-menu flags; Colattao menu remains request-based.
+**PASS:** Reviewed scoped diff; meaningful payment readiness/idempotency/retry tests; owner tests/lint/build; inspected320/390/1440 states; deterministic final PDF QR decode; green exact-head CI and correct production deployment; live public owner/guide and unchanged Las Palmas ordering checks.
+**STOP:** No access grants, credentials, database migrations, plan/config mutations, payment-method entry, charges/enrollment, client send, print order, held /m or /owner-preview publication, or Colattao guest changes. Account setup and physical print proof remain separate gates. Do not claim authenticated live payment success from public route checks or synthetic tests.
+**Base:** origin/main a08c51a3ad8629a4e900a010dc61a33c7a363ed0; worktree C:/Dev/amma/worktrees/owner-standard-premium-20260914.
+
+## [x] 36 - Las Palmas existing online-ordering link
+
+**State:** VERIFIED LOCAL - SCOPED RELEASE HANDED TO LEAD AGENT
+**Authority:** Anthony requested incorporating Las Palmas's existing order-online feature into its live page on 2026-09-14. This lane contains only the ordering invitation and verification; the lead agent owns release.
+**Scope:** One brass Western pickup CTA at the permanent /demo/las-palmas QR, linking to the official-site-listed MenuChow storefront. Preserve menu data, game, footer, backend and other clients.
+**Evidence:** https://www.laspalmas2mexicanvb.com/ links https://orders.menuchow.com/ordering/laspalmas2. Browser pickup-location screen verifies 1009 Lynnhaven Mall Loop, Virginia Beach, VA 23452. Provider determines opening hours, availability and checkout.
+**PASS:** Inspected matching before/after mobile captures, 320/390/1440 overflow/focus/sticky checks, actual external navigation, targeted lint and production build. No order, cart, sign-in or feedback submission.
+**Result:** One scoped page/CSS change; production build/TypeScript and targeted ESLint pass. All 39 dishes retained, no horizontal overflow at 320/390/1440, dark keyboard focus visible, Enter opens the verified MenuChow location in a new tab, game remains top 0px through footer. Evidence: C:/Dev/amma/evidence/las-palmas-order-online-20260914. Local server: http://127.0.0.1:3142/demo/las-palmas. No release performed by implementation agent.
+
+## [ ] 32 - Cantina Jumbotron scoreboard and approved release
+
+**State:** IN PROGRESS - IMPLEMENTATION / RELEASE AUTHORIZED
+**Authority:** Anthony: change it and make it live (2026-09-13). Deliberate Las Palmas host presentation upgrade supersedes the fixed-scoreboard restriction only for this approved scope; other skins/default shell stay unchanged.
+**Scope:** Dimensional cartoon scoreboard, unambiguous goals/shot counters, five outcome markers, non-flashing celebrations, uncluttered controls/instructions. Copied match presentation callback only; scoring/input/physics/assets/39 dishes/QR/account/backend/dependencies frozen.
+**PASS:** Targeted state/isolation tests, lint/build, inspected mobile and fallback screenshots, live real shots/replay, unchanged legacy game and protected routes, exact-head green CI + Ready production revision/alias.
+**STOP:** Unexpected source/head/deployment, failing safety gate, unrelated brand/data/access change. No bypass, secrets, billing, real feedback, client send or printing. Prior production48f8648 is rollback reference.
+
+## [x] 31 - Release approved Las Palmas game hub at permanent QR
+
+**State:** DONE - MERGED AND VERIFIED LIVE
+**Result:** PR231 merged as48f86486474384873f752df69d09f0bf6c725cc9; Vercel dpl_DVvDBboEDhUVMfMeZfESGb4qCUrE READY and owns finacalleos.com. Production CI34778738770 passed. Exact QR200/zero redirects,39 dishes, persistent invitation/footer, dedicated lobby and real shots with both characters verified live; mobile screenshots inspected. Held Las Palmas owner/menu/pilot and owner-preview remain404. No runtime errors returned in the brief post-release query. No data/access/billing/print change. Documentation closeout remains local only.
+**Authority:** Anthony replied `yes` on2026-09-13 to the explicit request to run release checks and make queue30 live at the existing QR. This authorizes scoped commit/push/PR/merge and the established Vercel automatic deployment; it supersedes queue30's local-only publication stop for this implementation only.
+**Scope/base:** Release reviewed application commit `da74082`, plus prior Western documentation closeout and these release records, from `codex/las-palmas-game-hub-20260913`. Remote main reverified `d381e0912038145cc91aa2ceeb31e305cdaf4ba9`; worktree clean. Shared engine/rules/legacy route, all39 menu items, owner/account/billing/backend/dependencies unchanged.
+**PASS:** Scoped diff and local evidence reviewed; targeted tests/lint refreshed; exact-head PR CI/Vercel checks green; expected-head squash merge; production Ready deployment ownsfinacalleos.com at merge SHA; live exact QR/no redirects, persistent invitation/footer, dedicated lobby, both real characters and representative held-route checks verified.
+**STOP:** Unexpected diff/base/head, failed required check, unsafe fallback or deployment mismatch. No secrets, access, account/menu activation, database/migration, billing/charges, real feedback, client send or QR/print changes. Never bypass branch protection.
+**Rollback:** Preserve last verified production deployment `dpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ` (d381e09); report a release fault and use only the scoped prior presentation revision if rollback is needed. Never weaken data or access gates.
+
+## [x] 30 - Las Palmas persistent game invitation and dedicated character lobby
+
+**State:** DONE - VERIFIED LOCAL PREVIEW; SUBSEQUENTLY RELEASED UNDER ITEM31
+**Authority:** Anthony requested research, strategy, plan, then implementation of a persistent top game invitation, Colattao-style Fina Calle footer, and a clean separate character-selection game landing on 2026-09-13.
+**Base:** Existing clean Western worktree, new branch `codex/las-palmas-game-hub-20260913` from `2a3ec8a` (documentation closeout atop production `d381e09`). Preserve prior closeout and unrelated canonical edits.
+**Plan:** See `OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md`. Reuse the two existing playable mascots and frozen Phaser engine; no new dependency, generated branding, or backend.
+**PASS:** Same permanent QR and 39 dishes; persistent game/menu navigation without obscured focus; linked original Fina Calle emblem; separate fast lobby with both real character selections; existing levels/input/fallback/replay work; targeted tests/lint, production build, mobile/desktop screenshots and legacy game smoke pass.
+**STOP:** Local preview only. No push/PR/merge/production, database, billing, access, menu activation, real form send, asset regeneration or QR reprint. Stop for conflicting source state or failed safety gates.
+**Result:** Persistent game ticket, direct original Fina Calle emblem/footer, and /play/las-palmas two-character lobby implemented. Final production build/TypeScript, scoped lint,114 targeted checks and36 dedicated browser assertions pass.320/390/1440 screenshots inspected; all six character/difficulty combinations, real tap/swipe, five-shot result/replay, keyboard selection/return, loading failure/retry and missing-art fallback verified. Legacy compatibility cases verified across runs, with the missing390px Pro case passing isolated real-shot/no-error/no-overflow checks; consolidated harness connection failures remain recorded, not relabeled. No shared engine, menu data, dependencies or private/account routes changed.
+**Next:** Released under item31. Live menu https://finacalleos.com/demo/las-palmas and game https://finacalleos.com/play/las-palmas. Local review server retained; no further release approval required for this completed scope.
+
+## [x] 29 - Las Palmas Western landing at permanent QR
+
+**State:** DONE - MERGED AND LIVE; RESTAURANT MENU APPROVAL STILL HELD
+**Authority:** Anthony selected first Western design with palms and second accordion, requested preserving menu items and public-source checking, and explicitly requested publishing at the current QR on 2026-09-13.
+**Scope:** Only Las Palmas presentation, static preview price qualifiers, tests and release evidence. Preserve all 39 dishes, original logo/food, exact `/demo/las-palmas` route, game, approval notices and connected-menu behavior. On-page menu CTA, separate full PDF, native readable dropdowns, safe general menu (no fixed Table 1 link), clear Fina Calle feedback recipient.
+**PASS:** 320/390px and desktop screenshots inspected against selected visual;39 dishes and protected routes verified; menu/category/keyboard interactions and feedback states checked without live submissions; targeted ESLint/tests, production build and diff checks pass; exact PR head green before approved release; live QR response and rendering verified after.
+**STOP:** Any failing gate, unexpected diff or source conflict. No access, owner/service activation, billing, migration, printing, send, unsupported restaurant approval or unrelated production work.
+**Result:** PR #230 squash-merged under head lock8d133569dc9995ed124886faddbbc887c974344f, yielding application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9. Local build/TypeScript, targeted ESLint,149 checks,320/390/1440 visual QA and intercepted feedback states passed. GitHub preview and production CI passed. Production deploymentdpl_BWK7inXv8eCxKYwfgogBaRLQ7eCZ is Ready and ownsfinacalleos.com at that revision. Exact QR returns200 with zero redirects,39 dishes, new visual/font/canonical; live dropdown/photo and keyboard checked, no page overflow or browser errors. Game and Colattao owner200; Las Palmas owner, held/m, owner-preview and local pilot404. No access/billing/database/activation or real customer submission. No QR artwork changed or reprint needed for this URL-preserving release.
+**Next:** Anthony/restaurant confirmation of the current menu/location and later separately approved onboarding remain outside this presentation release. Post-release closeout is a local documentation-only commit; separate unmerged print/archive work remains in las-palmas-table-tent-20260912.
+
+## [x] 26 - Add owner account information and automatic-payment presentation, then release
+
+**State:** DONE - CODE MERGED AND PRODUCTION VERIFIED; CLIENT ACTIVATION HELD
+**Authority:** Anthony explicitly requested merge after the Las Palmas portal includes account information and the automatic-payment option used for Colattao. This authorizes the scoped item 25 implementation plus this follow-up to be committed, pushed, reviewed and merged with the existing automatic production deployment, after verification. It does not authorize client provisioning or payment enrollment.
+**Base:** Continue `codex/las-palmas-pilot-20260911`; fetched `origin/main` remains `2afaf67`. Preserve canonical unrelated edits.
+**Plan:** Reuse shared Colattao billing and account schema, expose only tenant-authorized account/contact/address fields, clarify optional automatic-payment enrollment and management, and expand the local sample preview with pending account/billing information. Do not copy Colattao identity, prices or schedules to Las Palmas. Then test, inspect mobile UI, require green exact-head CI/Vercel checks, merge and verify the live revision/routes.
+**PASS:** Account fields stay behind existing authorization/reset gates; unknown fields are visibly pending/unavailable; automatic-payment controls reuse existing server-side tenant mapping and stay inert in previews; menu/game regressions, scoped lint, production build, screenshots and release checks pass. KPI: one approved deliverable passes its verification gate; Delivery Owner; initial implementation/review time-box 90 minutes, release checks may extend it.
+**STOP:** No secrets, access grants, client database writes, migrations, payment-method entry, Checkout completion, subscription activation, charges, customer contact, printing or unrelated release. Las Palmas location, approved menu, account recipient and commercial terms remain unconfirmed; production menu connection stays off. Stop on unexpected diff/head/base, failed required checks, access/billing leak or deployment mismatch.
+
+**Result:** PR #228 merged under exact-head lock on `c95e46f`; application revision `6a01a4b082fe3ca5b13b542c6f3cea2d23ad6c95` exactly matches the reviewed tree. Tenant-authorized account/contact/address display and optional Stripe automatic-payment presentation are shared; payment actions/webhook/data/config remain unchanged. Colattao keeps Request for its separately hosted menu. All 77 targeted checks, owner suites, lint, local production build, six refreshed mobile game cases and account/payment screenshots pass. GitHub CI, Vercel preview and production CI pass. Hosted preview visual access was SSO-blocked, not certified. Production deployment `dpl_3hhpgXd1a5VNPhY6CcHrTRVyfPbX` is Ready and owns finacalleos.com at the merge revision. Live 320/390 game captures and Colattao sign-in inspected; real shot advances, no browser errors/overflow; private owner account data/actions absent before sign-in. Root/demo/Colattao owner/menu 200; local-only pilot and held owner-preview 404; Las Palmas owner remains 404/unprovisioned. No runtime errors returned in the brief post-merge observation window. No client provisioning, menu activation, billing enrollment or charge occurred. Only documentation closeout follows this verified code release.
+
+## [x] 25 - Prepare Las Palmas pilot, self-service menu and Mexico-themed ball
+
+**State:** DONE - LOCAL IMPLEMENTATION; PILOT/ACCOUNT ACTIVATION HELD
+**Authority:** Anthony requested a Las Palmas pilot, owner portal, clearer self-service menu benefits, a better/lower-cost menu-update workflow, and a Mexican soccer ball in the game on 2026-09-11.
+**Base:** `codex/las-palmas-pilot-20260911`, clean sibling worktree from `origin/main` `2afaf676b7a3e4ae5e2d5d577127fba8fc745492`. Canonical dirty edits and previous preview are preserved.
+**Plan:** (1) Prepare one reversible, measurable pilot and truthful benefit copy; compare existing portal plus stable direct QR with current alternatives. (2) Reuse authorized owner write rails, add clear direct-edit controls, and prepare the correct Las Palmas tenant/menu connection without granting access or activating public-source prices. (3) Add an original Mexico green/white/red ball presentation, preserving gameplay and other skins.
+**PASS:** Targeted validation/auth/adapter tests, draft-only onboarding checks, 320px/390px UI and game screenshots, fallback/input regression, scoped lint and final production build. Record what is built versus what is live and client-approved.
+**STOP:** Venue, confirmed menu, owner identity/access and pilot commercial terms remain unverified until supplied. No secrets, access grants, database changes/migrations, customer contact, QR printing/publication, purchase, API activation, push, PR, merge or deployment. Prior release authorization covered items 22/23 only. Do not publish held `/m` or `/owner-preview` surfaces.
+
+**Result:** Prepared the 14-day pilot, approval-only intake/checks and truthful self-service benefit copy. Added direct existing-item review/save controls on existing authenticated audited rails, default-off Las Palmas menu connection with unavailable-on-error behavior, and a local-only sample workspace. Original green/white/red ball replaces only the Las Palmas primitive ball; gameplay and other skins are unchanged. All 64 new checks, owner-app/request suites, scoped lint, TypeScript and Webpack production build pass; six keeper/mobile cases, real normal/fallback shots and inspected 320/390 editor proofs pass. No live account or authenticated database write was tested or created. Default Turbopack local build hit the shared dependency junction root restriction; normal release CI remains required. No dependencies/configuration, database, held `/m` route, `/owner-preview`, access or production were changed. Local review: `http://127.0.0.1:3131/pilot/las-palmas`. Implementation is uncommitted on the isolated branch; launch awaits the explicit gates above.
+
+## [x] 24 - Release the approved Las Palmas game and workflow improvements
+
+**State:** DONE - MERGED AND PRODUCTION VERIFIED
+**Authority:** Anthony explicitly directed on 2026-09-11: `great merge all of the changes including the game`. This authorizes committing, pushing, opening a PR, merging and the existing automatic Vercel production deployment for completed items 22 and 23; it supersedes their local-only release stops for this exact scope.
+**Branch/base:** `codex/las-palmas-goal-keeper-20260910`; fetched `origin/main` still equals `26dd0426c438189efbd8bf8f76629d32031b9d79`.
+**Scope:** The reviewed Las Palmas presentation/keeper changes, workflow scripts and shared routing/licensing documentation, plus release records. Preserve unrelated canonical-checkout edits. No API activation, spending, credentials, access, database, billing, route migration or additional feature work.
+**PASS:** Full scoped diff reviewed; local targeted checks and mobile smoke pass; exact PR head has passing CI/Vercel checks; merge under an expected-head lock; resulting main revision reaches a Ready production deployment with `finacalleos.com`; live game and representative protected-route checks pass.
+**STOP:** Stop on unexpected base/head/diff, check failure, deployment mismatch or protected-surface regression. Do not bypass branch protections or auto-remediate unrelated failures.
+
+**Result:** PR #226 merged with exact-head protection; application release revision `1e4d78d982928d49225b7e27494c25b08f75a990`. Eighteen workflow unit/guard cases, six fresh local mobile checks, scoped ESLint, GitHub CI and Vercel preview passed. Production deployment `dpl_JCDWm54TwcpMfBkgzXukJkNoeqZ7` reached Ready and owns `finacalleos.com`. Live 390px/320px screenshots inspected, actual top-left tap scored a goal, one canvas and no horizontal overflow/page errors. Representative routes returned expected 200/404 statuses; no game-route runtime errors returned in the short post-merge window. Game remains labeled pending client approval/demo only. No unrelated changes, API activation, spending, access or package-manager migration. Subsequent release closeout is documentation only.
+
+## [x] 23 - Implement prudent workflow-efficiency improvements
+
+**State:** DONE - LOCAL TOOLING; ADOPTION GATES RECORDED
+**Authority:** Anthony's direct 2026-09-10 request: `do all changes that you would find prudent and benefitial`, following the skills/process cost review. This authorizes the scoped local queue addition and implementation.
+**Branch:** Continue `codex/las-palmas-goal-keeper-20260910`; preserve its completed game changes and running preview.
+**Scope:** Shared Codex/Claude skill-routing guidance, reusable local-only browser smoke checks, isolated npm/pnpm comparison, corrected media licensing guidance, and an evidence-based optimization record.
+**PASS:** Guidance stays consistent without removing approval gates; smoke checks pass and reject remote targets; installation comparison records versions, conditions, timings and compatibility limits; no unmeasured savings claims.
+**STOP:** No secrets, access changes, API calls, spending, plugin uninstall, production/CI package-manager switch, push, PR, deploy, merge or customer contact. Batch integration remains held pending credential, data and budget decisions.
+
+**Result:** Codex/Claude share one routing policy; read-only mirror audit found 41 files and 20 identical duplicate-name groups, with no drift; four Node tests and 14 PowerShell guard cases pass. Local browser verifier passes all 3 keeper selections at 320x740 and 390x844, with screenshots inspected and no page errors/overflow. Remotion licensing and historical installation claims corrected. Install pilot recorded npm 160.46s cold / 179.23s warm, then was interrupted before a pnpm install result after responsiveness degraded; reruns now require explicit `-RunPilot`. npm remains unchanged; source package/lock hashes match. Batch integration remains held, not enabled. Commands and evidence limits are in `OPERATIONS/WORKFLOW_EFFICIENCY.md`. No production or external release performed.
+
+## [x] 22 - Ground the Las Palmas goal and add a pink-shirt keeper
+
+**State:** DONE - LOCAL REVIEW
+**Authority:** Anthony directly requested this task on 2026-09-10, authorizing the scoped goal-layout and fictional-human-character change beyond older campaign defaults.
+**Branch base:** `codex/las-palmas-goal-keeper-20260910` from `origin/main` `26dd042`.
+**Scope:** Las Palmas presentation configuration; shared geometry/renderer seams only as needed to align posts, aim targets, keeper, and ball; original fictional dark-skinned keeper with short natural hair and pink shirt. Preserve scoring/AI, other skins, routes, existing brand assets, and protected app surfaces.
+**PASS:** Posts and feet sit on grass; visible ball travels to the moved targets; tap/swipe, all levels, resizing and missing-asset fallback work; before/after mobile captures, targeted lint/types and production build pass.
+**STOP:** No push, deploy, merge, production publication, paid generation, or external upload.
+
+**Result:** Goal frame/keeper/aim targets share the new ground line; fiesta grass remains anchored on resize; the ball starts clear of both kickers; the original fictional dark-skinned keeper uses a pink shirt on all levels. High dives and saved-ball contact use the new character's placement. Passed all six tap targets across three levels, six swipe targets/live arrow, controlled goal/save/miss outcomes, resize during flight, 320px/390px/landscape visuals, missing-asset fallback, 120 cross-skin geometry checks, targeted ESLint, TypeScript and full production build. Built local preview: `http://127.0.0.1:3127/penalty-shootout?skin=laspalmas` (PID 13528). Final 390x844 screenshot inspected; one canvas, no runtime errors or horizontal overflow; 90 frames in 1490 ms. No production release performed.
+
 _Claude writes; Codex executes. This is the only live queue._
 
 Canonical repo: `C:\Dev\amma\amma-fina-calle`

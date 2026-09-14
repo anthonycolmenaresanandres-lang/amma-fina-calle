@@ -9,6 +9,7 @@ import { PENALTY_ZONES } from "../config";
 import type {
   BackgroundFit,
   InputMode,
+  KeeperAppearance,
   PenaltyCampaign,
   PenaltyChrome,
   PenaltyColors,
@@ -18,6 +19,8 @@ import { zoneCenter, type AimPreview, type Layout, type Vec2 } from "../geometry
 import { currentShotNumber, type MatchState } from "../engine/match";
 import { DEFAULT_CAMPAIGN } from "./campaigns";
 import { AD_ZONE_PANEL } from "./backgroundTemplate";
+import { drawHumanKeeper } from "./drawHumanKeeper";
+import { drawTricolorBall } from "./drawTricolorBall";
 
 export type RenderState = {
   layout: Layout;
@@ -140,6 +143,7 @@ export class PenaltyRenderer {
     chrome: PenaltyChrome = {},
     campaign: PenaltyCampaign = DEFAULT_CAMPAIGN,
     ballFit: SpriteFit = {},
+    private readonly keeperAppearance?: KeeperAppearance,
   ) {
     this.scene = scene;
     this.colors = colors;
@@ -316,6 +320,7 @@ export class PenaltyRenderer {
   // stop); miss = a lighter shake. Console-style impact feedback without any
   // engine, zone, or timing change.
   private applyImpactFeedback(state: RenderState): void {
+    if (this.chrome.externalHud) return;
     const phase = state.match.phase;
     if (this.prevPhase === "shooting" && phase === "result") {
       const outcome = state.match.results[state.match.results.length - 1];
@@ -333,6 +338,7 @@ export class PenaltyRenderer {
   }
 
   private drawScoreboard(state: RenderState): void {
+    if (this.chrome.externalHud) return;
     const { layout } = state;
     const g = this.scoreboardGraphics;
     g.clear();
@@ -394,7 +400,10 @@ export class PenaltyRenderer {
       const scale = Math.max(layout.w / iw, layout.h / ih) * (this.bgFit.scale ?? 1);
       const ox = (this.bgFit.offsetXPct ?? 0) * layout.w;
       const oy = (this.bgFit.offsetYPct ?? 0) * layout.h;
-      this.bgImage.setPosition(layout.w / 2 + ox, layout.h / 2 + oy).setScale(scale);
+      const cy = this.bgFit.pitchLinePct === undefined
+        ? layout.h / 2 + oy
+        : layout.goalGroundY - layout.h * 0.02 - (this.bgFit.pitchLinePct - 0.5) * ih * scale;
+      this.bgImage.setPosition(layout.w / 2 + ox, cy).setScale(scale);
     }
 
     if (this.logoImage) {
@@ -541,7 +550,7 @@ export class PenaltyRenderer {
       // The posts/net are extended below the (gameplay) goal line down to a
       // "ground" line so the goal looks planted on the pitch — purely visual; the
       // aim zones, keeper line, and ball targets still use goalTop..goalBottom.
-      const groundY = layout.goalBottom + layout.h * 0.06;
+      const groundY = layout.goalGroundY;
       const netH = groundY - layout.goalTop;
 
       // Net fill + mesh (down to the ground line).
@@ -605,6 +614,14 @@ export class PenaltyRenderer {
     const diving = state.match.phase === "shooting" || state.match.phase === "result";
     const reach = diving ? Math.abs(state.keeperPos.x - state.keeperRest.x) : 0;
     const armSpan = kw * 0.6 + reach * 0.5;
+
+    if (this.keeperAppearance && !this.keeperImage) {
+      drawHumanKeeper(a, state, this.keeperAppearance, {
+        primary: this.campaign.kit?.keeper?.primary ?? colors.keeper,
+        secondary: this.campaign.kit?.keeper?.secondary ?? colors.keeperAccent,
+      });
+      return;
+    }
 
     // Shadow (shared by the sticker and primitive keeper so the keeper reads as
     // grounded on the goal line in both modes).
@@ -691,6 +708,10 @@ export class PenaltyRenderer {
       return;
     }
 
+    if (colors.ballAccent !== undefined) {
+      drawTricolorBall(a, x, y, r, state.ballSpin, 0x006847, colors.ballAccent);
+      return;
+    }
     a.fillStyle(colors.ball, 1);
     a.fillCircle(x, y, r);
     a.fillStyle(colors.ballSpot, 1);
@@ -700,6 +721,13 @@ export class PenaltyRenderer {
   }
 
   private layoutTexts(state: RenderState): void {
+    if (this.chrome.externalHud) {
+      this.titleText.setVisible(false);
+      this.scoreText.setVisible(false);
+      this.statusText.setVisible(false);
+      this.hintText.setVisible(false);
+      return;
+    }
     const { layout, match, totalShots } = state;
 
     // Title + score sit on the scoreboard panel (title above the hairline, score

@@ -11,6 +11,9 @@ export type BrandAssets = {
 };
 
 const BRANDS: Record<string, BrandAssets> = {
+  "las-palmas-lynnhaven": {
+    logo: "/assets/laspalmas/brand/las-palmas-original-sign-v1.png",
+  },
   colattao: {
     logo: "/assets/colattao/colattao-logo-cream-1600.png",
     menuHero: "/assets/colattao/colattao-menu-hero-4x5-v1.webp",
