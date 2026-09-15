@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-14 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Two benign changes since the 09-14 morning run: (1) **amma draft #234 was merged by Anthony himself** (09-14 13:23 UTC) — the "Premium owner portal, guarded billing and owner guide" draft the morning run held for him is now **on `main`** (merge commit **`306fcf45`**, current tip; `CI — web` **#167 ✅**, 09-14 13:23 UTC). It touches the **protected `/owner/[id]` route + Stripe enrollment/reconciliation** — a hard-guardrail area the caretaker never merges on its own — but this was **Anthony's own merge**, so no caretaker action; recorded for the audit trail. amma `main` advanced `a08c51a3` (#233) → **`306fcf45`** (#234). (2) **The 09-14 VBFH Daily Run fired and SUCCEEDED** — run **#103** (17:55→17:57 UTC), the run the morning check found had not yet fired. The five remaining open drafts (#225/#221/#219/#218/#197) are unchanged (no new review comments — only Vercel bot activity). Default-branch tips re-verified via API: amma **`306fcf45`** (#234), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#167) + `CI — voice-gateway` ✅ (#13, unchanged — nothing merged since touched voice) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN.** Latest completed **#103** (09-14 17:55→17:57 UTC SUCCEEDED). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-15 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing changed since the 09-14 afternoon run and nothing needed fixing.** No new commits, merges, closes, or review comments in any of the four repos since the last run. Default-branch tips re-verified via API — all unchanged: amma **`306fcf45`** (#234), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#167) + `CI — voice-gateway` ✅ (#13, unchanged) on main; vbfh `CI` ✅ (#21) on master. The five open drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments. **VBFH Daily Run — GREEN.** Latest completed **#103** (09-14 17:55→17:57 UTC SUCCEEDED); the 09-15 run had not yet fired at check time (normal — it fires in the ~14:00–18:00 UTC window). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -82,7 +82,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-14, afternoon)
+## Build health (as of 2026-09-15, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
@@ -231,6 +231,17 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-15 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing changed since the 09-14
+  afternoon run and nothing needed fixing.** No new commits, merges, closes, or review comments anywhere since
+  the last run. Default branches re-verified via API — all unchanged: amma `306fcf45` (#234), vbfh `e21077d`
+  (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#167) + `CI —
+  voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — latest completed #103**
+  (09-14 17:55→17:57 UTC ✅); the 09-15 run had not yet fired at check time (normal window). Zero failing
+  workflow runs across all repos. The five open drafts (#225/#221/#219/#218/#197) unchanged and held — no new
+  review comments. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
+  403-blocked (the five open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway
+  credits Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch
+  cleanup). No push notification sent — quiet all-green run, nothing changed.
 - **2026-09-14 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Two
   benign changes since the 09-14 morning run: (1) **Anthony merged his own held draft #234** ("Premium owner
   portal, guarded billing and owner guide") 09-14 13:23 UTC — merge `306fcf45` now main tip, `CI — web` #167 ✅;
