@@ -1,0 +1,119 @@
+{
+  "restaurant": "Gran Patrón · Princess Anne",
+  "address": "5168 Princess Anne Rd, Ste 145, Virginia Beach",
+  "approval": "PENDING_CLIENT_APPROVAL",
+  "sourceUrls": [
+    "https://granpatronvb.com/food-menu",
+    "https://granpatronvb.com/drink-menu"
+  ],
+  "retrievedAt": [
+    "2026-09-16T09:43:30.295Z",
+    "2026-09-16T09:43:25.985Z"
+  ],
+  "sourceRows": [
+    223,
+    116
+  ],
+  "displayedItems": 338,
+  "structuralRows": [
+    {
+      "description": "• Ground Beef • Shredded Chicken • Beans or Cheese",
+      "id": "menu_item_5316332",
+      "name": "FILLING CHOICES:",
+      "prices": []
+    }
+  ],
+  "foodNotice": "(F) - Customer Favorite | (GF) - Gluten Free\n\nTo our guests with food sensitivities or allergies: We cannot ensure that menu items do not contain ingredients that may cause allergies. Please order with caution.\n\nWhile we do our best to keep this information up-to-date, please be aware that the descriptions, prices, and availability of all\nmenu items herein are subject to change without notice. For any additional items, ask the wait staff for details.",
+  "lunchNotice": "Almuerzo\nServed between 11:00 a.m.-3:00 p.m.",
+  "beerNotice": "Ice Cold Beer\n\nMichelada\n22 oz $11.99 | 34 oz $14.99",
+  "logo": {
+    "sourceUrl": "https://static.spotapps.co/website_images/ab_websites/629773_website_v1/logo_v1.png",
+    "path": "/assets/granpatron/logo.png"
+  },
+  "photos": [
+    {
+      "id": "menu_item_6972857",
+      "name": "Mexican Street Corn Elote",
+      "sourceUrl": "https://static.spotapps.co/spots/59/efe1e97341465aa35051f2321a97f0/full",
+      "path": "/assets/granpatron/menu/menu_item_6972857.webp"
+    },
+    {
+      "id": "menu_item_5315900",
+      "name": "Nachos",
+      "sourceUrl": "https://static.spotapps.co/spots/31/4a3207762046febc43e356bb805b4b/full",
+      "path": "/assets/granpatron/menu/menu_item_5315900.webp"
+    },
+    {
+      "id": "menu_item_5315919",
+      "name": "Patrón Trashcan Nachos (F)",
+      "sourceUrl": "https://static.spotapps.co/spots/3a/32c1a66c874b4e8078dbbdbc8e590a/full",
+      "path": "/assets/granpatron/menu/menu_item_5315919.webp"
+    },
+    {
+      "id": "menu_item_5315938",
+      "name": "Fajita Texanas Nachos",
+      "sourceUrl": "https://static.spotapps.co/spots/eb/b93197d8414975a664bc0ec246f771/full",
+      "path": "/assets/granpatron/menu/menu_item_5315938.webp"
+    },
+    {
+      "id": "menu_item_5316318",
+      "name": "Quesadilla",
+      "sourceUrl": "https://static.spotapps.co/spots/de/0fa70a50ce453cbe72e493cd880c52/full",
+      "path": "/assets/granpatron/menu/menu_item_5316318.webp"
+    },
+    {
+      "id": "menu_item_6973755",
+      "name": "Molcajete Cielo, Mar Y Tierra",
+      "sourceUrl": "https://static.spotapps.co/spots/52/63d0f893c1433382fe5adf998a4b1d/full",
+      "path": "/assets/granpatron/menu/menu_item_6973755.webp"
+    },
+    {
+      "id": "menu_item_6973807",
+      "name": "Baja Trio Tacos",
+      "sourceUrl": "https://static.spotapps.co/spots/1d/40b90cf197440cb99511599e10b86c/full",
+      "path": "/assets/granpatron/menu/menu_item_6973807.webp"
+    },
+    {
+      "id": "menu_item_5316377",
+      "name": "Grilled Buffalo Chicken Burrito",
+      "sourceUrl": "https://static.spotapps.co/spots/71/d27b0ff859468eb500f05f5f797fd7/full",
+      "path": "/assets/granpatron/menu/menu_item_5316377.webp"
+    },
+    {
+      "id": "menu_item_5316415",
+      "name": "Burrito California",
+      "sourceUrl": "https://static.spotapps.co/spots/9a/806926ac9a4455a0bd32dae222960e/full",
+      "path": "/assets/granpatron/menu/menu_item_5316415.webp"
+    },
+    {
+      "id": "menu_item_6973331",
+      "name": "Burrito Loco",
+      "sourceUrl": "https://static.spotapps.co/spots/bf/200de72f8f43e790bc4b1f8c93a062/full",
+      "path": "/assets/granpatron/menu/menu_item_6973331.webp"
+    },
+    {
+      "id": "menu_item_5316439",
+      "name": "Yolandas",
+      "sourceUrl": "https://static.spotapps.co/spots/7c/a4f429e8414ea88d774100753bd2fa/full",
+      "path": "/assets/granpatron/menu/menu_item_5316439.webp"
+    },
+    {
+      "id": "menu_item_5316993",
+      "name": "Lunch Chimichanga",
+      "sourceUrl": "https://static.spotapps.co/spots/7c/59e57b5dba471eb8a0713d352b8e2a/full",
+      "path": "/assets/granpatron/menu/menu_item_5316993.webp"
+    },
+    {
+      "id": "menu_item_6974026",
+      "name": "Chicken Avo Tacos",
+      "sourceUrl": "https://static.spotapps.co/spots/2b/6137a11fab459a99382e790931b61c/full",
+      "path": "/assets/granpatron/menu/menu_item_6974026.webp"
+    },
+    {
+      "id": "menu_item_6974078",
+      "name": "Arroz Texano",
+      "sourceUrl": "https://static.spotapps.co/spots/09/4b022dfb9e4108a3e887bc1b70ffc0/full",
+      "path": "/assets/granpatron/menu/menu_item_6974078.webp"
+    }
+  ]
+}
