@@ -1575,26 +1575,14 @@ a.systemRow:hover {
 
   .eyebrow,
   .eyebrowDark,
-  .heroBody,
   .assurance,
   .heroFoot,
   .coreStatus,
-  .proofBody,
-  .textLinkDark,
   .proofStamp,
   .proofFacts,
-  .sectionHeadingRow > p,
   .systemCode,
-  .systemRow p,
   .systemDetail,
-  .systemArrow,
-  .researchNote,
-  .processList p,
-  .controlList p,
-  .closeBody,
-  .heroActions .secondaryAction,
-  .closeActions .secondaryAction,
-  .footer .footerMeta {
+  .systemArrow {
     display: none;
   }
 
@@ -2146,4 +2134,215 @@ a.systemRow:hover {
   .darkAction:hover {
     transform: none;
   }
+}
+
+/* Consulting hierarchy. Motion hooks, keyframes and crest/photo geometry stay intact. */
+.projectIndex {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem;
+  width: min(100%, 92rem);
+  margin: 4rem auto 0;
+  text-align: left;
+}
+
+.projectIndex article {
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(17, 20, 23, 0.24);
+}
+
+.projectStatus {
+  color: #654a22;
+  font-family: var(--font-geist-mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.projectIndex h3 {
+  margin: 0.6rem 0;
+  font-family: var(--font-fc-display), Georgia, serif;
+  font-size: 2rem;
+}
+
+.projectIndex a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.projectIndex article > p:last-child {
+  max-width: 36rem;
+  color: #41413d;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.packagePrice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+  margin-top: 2rem;
+  color: var(--fc-porcelain);
+}
+
+.packagePrice strong {
+  color: var(--fc-gold);
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.packageNote {
+  max-width: 36rem;
+  margin: 1rem 0 1.5rem;
+  color: #bdc1c4;
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.systemRow p,
+.sectionHeadingRow > p,
+.controlList p,
+.closeBody {
+  color: #bdc1c4;
+}
+
+.nav a,
+.researchNote,
+.researchNote a,
+.footerMeta {
+  color: #bdc1c4;
+}
+
+.nav a,
+.textLinkDark,
+.researchNote a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.systemCode,
+.systemDetail {
+  font-size: 0.65rem;
+}
+
+.systemDetail {
+  color: #bdc1c4;
+}
+
+@media (max-width: 900px) {
+  .headerInner { row-gap: 0.7rem; }
+  .nav {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+  .nav a { font-size: 0.63rem; letter-spacing: 0.06em; }
+  .hero { padding-top: 10rem; }
+  .projectIndex { gap: 2rem; }
+}
+
+@media (max-width: 680px) {
+  .eyebrow,
+  .eyebrowDark {
+    display: flex;
+    justify-content: center;
+    font-size: 0.67rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.3rem;
+  }
+  .eyebrow > span { display: none; }
+  .heroTitle {
+    max-width: 12ch;
+    font-size: clamp(3.1rem, 13vw, 4.5rem);
+    line-height: 1;
+    text-shadow: none;
+  }
+  .heroTitle em { font-size: 0.86em; text-shadow: none; }
+  .heroBody { margin-top: 1.5rem; font-size: 1rem; line-height: 1.75; }
+  .sectionTitle,
+  .sectionTitleDark,
+  .controlIntro .sectionTitle {
+    max-width: 13ch;
+    font-size: clamp(2.7rem, 11vw, 3.7rem);
+    line-height: 1.05;
+    text-shadow: none;
+  }
+  .sectionTitle em,
+  .sectionTitleDark em { text-shadow: none; }
+  .proofBody { font-size: 1rem; margin-top: 1.5rem; }
+  .sectionHeadingRow > p { margin-top: 1.5rem; }
+  .projectIndex { grid-template-columns: 1fr; margin-top: 3rem; }
+  .systemRows { display: block; }
+  .systemRow,
+  a.systemRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.8rem 0;
+    border: 0;
+    border-top: 1px solid rgba(240, 236, 228, 0.25);
+    clip-path: none;
+    background: transparent;
+    filter: none;
+    text-align: left;
+    min-height: 0;
+  }
+  .systemRow h3,
+  a.systemRow h3 { max-width: 20ch; text-shadow: none; font-size: 1.85rem; line-height: 1.2; }
+  .systemRow p { font-size: 0.95rem; line-height: 1.75; }
+  .researchNote { grid-template-columns: 1fr; gap: 0.7rem; text-align: left; }
+  .researchNote p { font-size: 0.9rem; }
+  .processList { display: block; border: 0; background: transparent; box-shadow: none; }
+  .processList li,
+  .processList li:first-child,
+  .processList li:last-child {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem;
+    min-height: 0;
+    padding: 1.8rem 0;
+    border: 0;
+    border-top: 1px solid rgba(17, 20, 23, 0.25);
+    background: transparent;
+    text-align: left;
+  }
+  .processList li > span { padding: 0.25rem 0; background: none; color: #654a22; clip-path: none; filter: none; }
+  .processList h3 { max-width: none; font-size: 1.65rem; line-height: 1.2; text-shadow: none; }
+  .processList p { color: #41413d; font-size: 0.95rem; }
+  .packagePrice { justify-content: center; }
+  .controlList { gap: 0; }
+  .controlList article,
+  .controlList article:nth-child(2),
+  .controlList article:nth-child(3) {
+    align-items: flex-start;
+    padding: 1.6rem 0;
+    border: 0;
+    border-top: 1px solid rgba(240, 236, 228, 0.25);
+    clip-path: none;
+    background: transparent;
+    filter: none;
+    transform: none;
+    text-align: left;
+  }
+  .controlList article > span { display: none; }
+  .controlList h3 { font-size: 1.1rem; text-shadow: none; }
+  .controlList p { margin-top: 0.6rem; font-size: 0.95rem; }
+  .close { min-height: auto; }
+  .close h2 { max-width: 12ch; font-size: 3.2rem; line-height: 1.05; text-shadow: none; }
+  .close h2 em { text-shadow: none; }
+  .closeBody { margin-top: 1.5rem; font-size: 1rem; line-height: 1.75; }
+  .footer .footerMeta { display: flex; color: #bdc1c4; }
 }

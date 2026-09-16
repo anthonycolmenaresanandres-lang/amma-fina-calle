@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 47 - Consulting-first Fina Calle redesign and approved release
+
+**State:** IN PROGRESS - SCOPED PRODUCTION RELEASE AUTHORIZED
+**Authority:** Anthony requested the consulting-first redesign and on 2026-09-16 instructed: "Do not wait execute the changes and merge I want to see the changes live". Use refreshed origin/main 30fe59e; historical release statuses below are stale, not outstanding implementation orders. GitHub confirms PR235 merged at 30fe59e and PR234 at 306fcf4; no claim is made about their unverified business activation states.
+**Scope:** Isolated codex/consulting-first-20260916 worktree. Public homepage, consultation/contact intake and consistent restaurant offer copy; task evidence and handoffs. Preserve original logo, black/gold identity and LandingMotion, separate support, and label verified live work versus demos. Restaurant offer starts at $199/month/location; consulting/custom work requires separate written scope.
+**Boundaries:** No owner/auth/menu/game behavior, database, payments, access, secrets, external customer messages or invented claims. Approved push/PR/merge/deployment only for this reviewed redesign.
+**PASS:** Responsive 320/390/768/1440 layouts, keyboard/focus, reduced-motion/static paths, preserved crest-to-proof effect, links and intercepted form failures; targeted lint, production build, independent review, exact-head CI and live revision verification.
+**STOP:** Stop before merging on failed checks, unrelated diff, changed approval scope, or unresolved release-state divergence.
+
 ## [x] 46 - Gran Patron Princess Anne menu and game
 
 **State:** DONE - VERIFIED REVIEW PREVIEW; PRODUCTION MERGE HELD

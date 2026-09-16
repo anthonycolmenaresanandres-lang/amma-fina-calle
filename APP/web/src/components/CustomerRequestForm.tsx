@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { CircleCheck, Loader2, Send, Upload } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { CircleCheck, Loader2, Send } from "lucide-react";
+import styles from "./ConsultationPages.module.css";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -10,7 +11,6 @@ type SubmitResult = {
   filesStored?: number;
   persistenceActive?: boolean;
   emailActive?: boolean;
-  uploadStorageActive?: boolean;
 };
 
 const REQUEST_TYPES = [
@@ -25,16 +25,24 @@ const REQUEST_TYPES = [
 ] as const;
 
 const PRIORITIES = ["Low", "Normal", "Urgent"] as const;
-
 const MAX_FILES = 10;
 const MAX_TOTAL_FILE_SIZE_BYTES = 4 * 1024 * 1024;
+const ALLOWED_FILE_TYPES = new Set([
+  "image/jpeg", "image/png", "image/webp", "image/gif",
+  "image/heic", "image/heif", "application/pdf",
+]);
+const CONTACT_EMAIL = "Ammaventuresvb@gmail.com";
+const subscribeToHydration = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
-const fieldClass =
-  "w-full rounded-xl border border-white/12 bg-[#0e1316] px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#7f8a91] outline-none transition focus:border-[#4f9dff]/70 focus:ring-2 focus:ring-[#4f9dff]/20";
-
-const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-[#aeb7bd]";
-
-export default function CustomerRequestForm() {
+export default function CustomerRequestForm({
+  mode = "request",
+}: {
+  mode?: "request" | "consultation";
+}) {
+  const isConsultation = mode === "consultation";
+  const isHydrated = useSyncExternalStore(subscribeToHydration, getClientSnapshot, getServerSnapshot);
   const [businessName, setBusinessName] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactInfo, setContactInfo] = useState("");
@@ -42,14 +50,34 @@ export default function CustomerRequestForm() {
     useState<(typeof REQUEST_TYPES)[number]>("Business info update");
   const [priority, setPriority] = useState<(typeof PRIORITIES)[number]>("Normal");
   const [message, setMessage] = useState("");
+  const [outcome, setOutcome] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [company, setCompany] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fileError, setFileError] = useState("");
   const [result, setResult] = useState<SubmitResult | null>(null);
-
+  const submittingRef = useRef(false);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const businessRef = useRef<HTMLInputElement>(null);
+  const filesRef = useRef<HTMLInputElement>(null);
   const selectedFileNames = useMemo(() => files.map((file) => file.name), [files]);
-  const isValid = businessName.trim() && contactName.trim() && contactInfo.trim() && message.trim();
+  const isValid = Boolean(
+    businessName.trim() && contactName.trim() && contactInfo.trim() &&
+    message.trim() && (!isConsultation || outcome.trim()),
+  );
+  const hasDraft = Boolean(businessName || contactName || contactInfo || message || outcome || files.length);
+
+  useEffect(() => {
+    if (status === "success" || status === "error") statusRef.current?.focus();
+  }, [status]);
+
+  useEffect(() => {
+    if (!hasDraft || status === "success") return;
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, [hasDraft, status]);
 
   const resetForm = () => {
     setBusinessName("");
@@ -58,316 +86,323 @@ export default function CustomerRequestForm() {
     setRequestType("Business info update");
     setPriority("Normal");
     setMessage("");
+    setOutcome("");
     setFiles([]);
     setCompany("");
     setErrorMessage("");
+    setFileError("");
     setResult(null);
     setStatus("idle");
+    requestAnimationFrame(() => businessRef.current?.focus());
   };
 
   const onFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = Array.from(event.target.files ?? []);
-    const limitedSelection = selected.slice(0, MAX_FILES);
-    const totalSize = limitedSelection.reduce((sum, file) => sum + file.size, 0);
+    const totalSize = selected.reduce((sum, file) => sum + file.size, 0);
+    const validationError = selected.length > MAX_FILES
+      ? "Choose up to 10 files."
+      : totalSize > MAX_TOTAL_FILE_SIZE_BYTES
+        ? "Your files exceed 4 MB in total. Choose fewer or smaller files."
+        : selected.some((file) => !ALLOWED_FILE_TYPES.has(file.type))
+          ? "Choose JPEG, PNG, WebP, GIF, HEIC, HEIF, or PDF files."
+          : "";
 
-    if (totalSize > MAX_TOTAL_FILE_SIZE_BYTES) {
+    setFileError(validationError);
+    if (validationError) {
       setFiles([]);
-      setErrorMessage("Total file size exceeds 4MB. Please select fewer files or smaller images.");
       event.target.value = "";
       return;
     }
-
-    setErrorMessage("");
-    setFiles(limitedSelection);
+    setFiles(selected);
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isValid || status === "submitting") return;
-
-    setStatus("submitting");
-    setErrorMessage("");
-
-    const formData = new FormData();
-    formData.append("businessName", businessName);
-    formData.append("contactName", contactName);
-    formData.append("contactInfo", contactInfo);
-    formData.append("requestType", requestType);
-    formData.append("priority", priority);
-    formData.append("message", message);
-    formData.append("sourcePage", window.location.href);
-    formData.append("company", company);
-
-    for (const file of files) {
-      formData.append("files", file);
+    if (submittingRef.current) return;
+    if (!isValid || fileError) {
+      setErrorMessage(fileError || "Complete each required field with your details before sending.");
+      setStatus("error");
+      statusRef.current?.focus();
+      return;
     }
 
+    // Lock synchronously: rapid clicks must not send a second request before React renders.
+    submittingRef.current = true;
+    setStatus("submitting");
+    setErrorMessage("");
+    const formData = new FormData();
+    formData.append("businessName", businessName.trim());
+    formData.append("contactName", contactName.trim());
+    formData.append("contactInfo", contactInfo.trim());
+    // Keep the existing allowlisted server contract; consultation context goes in the message.
+    formData.append("requestType", isConsultation ? "Question for AMMA" : requestType);
+    formData.append("priority", isConsultation ? "Normal" : priority);
+    formData.append("message", isConsultation
+      ? `Consultation inquiry\n\nBusiness context and challenge:\n${message.trim()}\n\nDesired outcome:\n${outcome.trim()}`
+      : message.trim());
+    formData.append("sourcePage", window.location.href);
+    formData.append("company", company);
+    for (const file of files) formData.append("files", file);
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 30000);
     try {
       const response = await fetch("/api/customer-requests", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
       const payload = (await response.json().catch(() => null)) as
         | ({ ok?: boolean; detail?: string } & SubmitResult)
         | null;
 
-      if (response.ok && payload?.ok) {
+      // A validation-only 200 is not evidence that anyone received the inquiry.
+      if (response.ok && payload?.ok &&
+          (payload.persistenceActive === true || payload.emailActive === true)) {
         setResult(payload);
         setStatus("success");
         return;
       }
 
-      setErrorMessage(payload?.detail || "The request could not be submitted. Please try again.");
+      setErrorMessage(
+        payload?.detail ||
+        "We couldn’t confirm delivery. Your details are still here. Try again, or email the team below.",
+      );
       setStatus("error");
     } catch {
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage(
+        "We couldn’t confirm delivery because the connection failed or timed out. Your details are still here. Check your connection, try again, or email the team below.",
+      );
       setStatus("error");
+    } finally {
+      window.clearTimeout(timeout);
+      submittingRef.current = false;
     }
   };
 
   if (status === "success") {
-    const tracked = result?.persistenceActive;
     const filesStored = result?.filesStored ?? 0;
-    const emailed = result?.emailActive;
-
     return (
-      <section className="fc-panel px-5 py-8 text-center text-[#f4f6f7]">
-        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#7fd1a2]/40 bg-[#7fd1a2]/10 text-[#9fe5bd]">
-          <CircleCheck size={20} strokeWidth={1.75} aria-hidden />
-        </span>
-        <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#4f9dff]">
-          Intake received
+      <div ref={statusRef} className={styles.status} role="status" tabIndex={-1}>
+        <CircleCheck size={28} strokeWidth={1.5} aria-hidden className={styles.successIcon} />
+        <h2>{isConsultation ? "Your inquiry was received." : "Your request was received."}</h2>
+        <p>
+          {isConsultation
+            ? "The team will review the business context you shared. Any consulting or custom work requires a separate written scope before it begins."
+            : "The team will review the details you shared."}
         </p>
-        <h2 className="mt-2 text-2xl font-semibold">
-          {tracked ? "We've got your request." : "Fina Calle OS has the request."}
-        </h2>
-
-        {result?.referenceId ? (
-          <p className="mx-auto mt-3 text-sm text-[#c8d0d4]">
-            Reference{" "}
-            <span className="font-mono font-semibold text-[#bfdcff]">
-              {result.referenceId}
-            </span>
+        {result?.referenceId ? <p>Reference: <strong>{result.referenceId}</strong></p> : null}
+        {files.length > 0 ? (
+          <p>
+            {filesStored === files.length
+              ? `${filesStored} ${filesStored === 1 ? "attachment was" : "attachments were"} saved.`
+              : `Your message was received, but ${files.length - filesStored} ${files.length - filesStored === 1 ? "attachment was" : "attachments were"} not saved. Email the missing files to the team with your reference.`}
           </p>
         ) : null}
-
-        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#c8d0d4]">
-          {tracked
-            ? "We'll review what your business needs and reply with a clear direction, the right package, and a fixed quote."
-            : "Your request was validated and confirmed. Once the backend is connected it will be tracked end to end."}
-        </p>
-
-        {tracked ? (
-          <ul className="mx-auto mt-5 inline-flex flex-col gap-2 text-left text-xs text-[#aeb7bd]">
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> Request saved to the inbox
-            </li>
-            {filesStored > 0 ? (
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> {filesStored}{" "}
-                {filesStored === 1 ? "file" : "files"} stored
-              </li>
-            ) : null}
-            {emailed ? (
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#4f9dff]" /> Team notified
-              </li>
-            ) : null}
-          </ul>
+        {files.length > filesStored ? (
+          <p><a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a></p>
         ) : null}
-
-        <button
-          type="button"
-          onClick={resetForm}
-          className="mx-auto mt-6 block rounded-full border border-[#cfd6da]/28 px-5 py-2 text-sm font-semibold text-[#eef2f4] transition hover:border-[#4f9dff]/70 hover:bg-[#4f9dff]/10"
-        >
-          Submit another request
+        <button type="button" onClick={resetForm} className={styles.submit}>
+          {isConsultation ? "Send another inquiry" : "Send another request"}
         </button>
-      </section>
+      </div>
     );
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-2xl border border-[#cfd6da]/16 bg-[#0b0f12] p-5 text-[#f4f6f7] shadow-sm sm:p-6"
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="business-name" className={labelClass}>
-            Business name
-          </label>
-          <input
-            id="business-name"
-            type="text"
-            value={businessName}
-            onChange={(event) => setBusinessName(event.target.value)}
-            className={fieldClass}
-            placeholder="Cafe, restaurant, shop, or brand"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="contact-name" className={labelClass}>
-            Contact name
-          </label>
-          <input
-            id="contact-name"
-            type="text"
-            value={contactName}
-            onChange={(event) => setContactName(event.target.value)}
-            className={fieldClass}
-            placeholder="Owner or manager"
-            autoComplete="name"
-            required
-          />
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <label htmlFor="contact-info" className={labelClass}>
-          Email or phone
-        </label>
-        <input
-          id="contact-info"
-          type="text"
-          value={contactInfo}
-          onChange={(event) => setContactInfo(event.target.value)}
-          className={fieldClass}
-          placeholder="you@email.com / (555) 000-0000"
-          autoComplete="off"
-          required
-        />
-      </div>
-
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="request-type" className={labelClass}>
-            Request type
-          </label>
-          <select
-            id="request-type"
-            value={requestType}
-            onChange={(event) => setRequestType(event.target.value as (typeof REQUEST_TYPES)[number])}
-            className={fieldClass}
-            required
-          >
-            {REQUEST_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="priority" className={labelClass}>
-            Priority
-          </label>
-          <select
-            id="priority"
-            value={priority}
-            onChange={(event) => setPriority(event.target.value as (typeof PRIORITIES)[number])}
-            className={fieldClass}
-            required
-          >
-            {PRIORITIES.map((priorityOption) => (
-              <option key={priorityOption} value={priorityOption}>
-                {priorityOption}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <label htmlFor="request-message" className={labelClass}>
-          What needs to change?
-        </label>
-        <textarea
-          id="request-message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          rows={6}
-          className={fieldClass}
-          placeholder="Describe the QR menu, branded web system, mini-game, customer journey, content update, or support request."
-          required
-        />
-      </div>
-
-      <div className="mt-4">
-        <label htmlFor="request-files" className={`${labelClass} flex items-center gap-1.5`}>
-          <Upload size={12} strokeWidth={2} aria-hidden className="text-[#4f9dff]" />
-          Files or images
-        </label>
-        <input
-          id="request-files"
-          type="file"
-          multiple
-          accept="image/*,.pdf"
-          onChange={onFilesChange}
-          className="block w-full rounded-xl border border-[#cfd6da]/18 bg-[#11161a] px-3 py-2.5 text-sm text-[#f4f6f7] file:mr-3 file:rounded-full file:border-0 file:bg-[#4f9dff] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#080a0c]"
-        />
-        <p className="mt-1.5 text-xs leading-5 text-[#8f9aa1]">
-          Optional. Up to 10 files, 4MB total. Images and PDF — menus, logos, photos, or references.
+    <form onSubmit={onSubmit} className={styles.form} aria-busy={status === "submitting"}>
+      <noscript>
+        <p className={styles.status}>
+          This form needs JavaScript to send your inquiry. You can email the team at{" "}
+          <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a> instead.
         </p>
-        {selectedFileNames.length > 0 ? (
-          <ul className="mt-2 space-y-1 text-xs text-[#c8d0d4]">
-            {selectedFileNames.map((filename) => (
-              <li key={filename} className="rounded-lg bg-[#151b20] px-2 py-1">
-                {filename}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
-
-      <div className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
-        <label htmlFor="company">Company</label>
-        <input
-          id="company"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-          value={company}
-          onChange={(event) => setCompany(event.target.value)}
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={status === "submitting" || !isValid}
-        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#5aa6ff] to-[#3f86ee] px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#0a0c0e] shadow-[0_14px_36px_-14px_rgba(79,157,255,0.65)] transition hover:from-[#7ab8ff] hover:to-[#4f9dff] disabled:cursor-not-allowed disabled:opacity-45"
-      >
-        {status === "submitting" ? (
-          <>
-            <Loader2 size={15} strokeWidth={2.25} aria-hidden className="animate-spin" />
-            Submitting request…
-          </>
-        ) : (
-          <>
-            <Send size={15} strokeWidth={2} aria-hidden />
-            Submit request
-          </>
-        )}
-      </button>
-
-      <p className="mt-3 text-center text-xs leading-5 text-[#8f9aa1]">
-        We only use this to scope your build — no spam, no payment here.
-      </p>
-
+      </noscript>
+      <p className={styles.formIntro}>All fields are required unless marked optional.</p>
       {status === "error" ? (
-        <p className="mt-3 rounded-xl border border-[#ff7a66]/30 bg-[#8f3e2e]/16 px-3 py-2 text-center text-sm font-semibold text-[#ffad9f]">
-          {errorMessage || "The request could not be submitted."}
-        </p>
+        <div
+          ref={statusRef}
+          className={`${styles.status} ${styles.error}`}
+          role="alert"
+          tabIndex={-1}
+        >
+          <p>{errorMessage}</p>
+          <p><a href={"mailto:" + CONTACT_EMAIL}>Email {CONTACT_EMAIL}</a></p>
+        </div>
       ) : null}
+      <fieldset disabled={!isHydrated || status === "submitting"}>
+        <legend className="sr-only">{isConsultation ? "Your consultation inquiry" : "Your request"}</legend>
+        <div className={styles.formRow}>
+          <div className={styles.field}>
+            <label htmlFor="business-name" className={styles.label}>Business name</label>
+            <input
+              ref={businessRef}
+              id="business-name"
+              name="businessName"
+              type="text"
+              value={businessName}
+              onChange={(event) => setBusinessName(event.target.value)}
+              className={styles.input}
+              autoComplete="organization"
+              maxLength={200}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="contact-name" className={styles.label}>Your name</label>
+            <input
+              id="contact-name"
+              name="contactName"
+              type="text"
+              value={contactName}
+              onChange={(event) => setContactName(event.target.value)}
+              className={styles.input}
+              autoComplete="name"
+              maxLength={200}
+              required
+            />
+          </div>
+        </div>
 
-      <div className="mt-4 rounded-xl border border-[#cfd6da]/14 bg-[#151b20]/72 px-3 py-3 text-xs leading-5 text-[#aeb7bd]">
-        For customer change requests, business updates, menu/content updates, and operational
-        support. No payment is taken here and no account is created — billing always stays separate
-        from your POS.
-      </div>
+        <div className={styles.field}>
+          <label htmlFor="contact-info" className={styles.label}>
+            {isConsultation ? "Email address" : "Email or phone"}
+          </label>
+          <input
+            id="contact-info"
+            name="contactInfo"
+            type={isConsultation ? "email" : "text"}
+            value={contactInfo}
+            onChange={(event) => setContactInfo(event.target.value)}
+            className={styles.input}
+            autoComplete={isConsultation ? "email" : "off"}
+            spellCheck={false}
+            maxLength={300}
+            required
+          />
+        </div>
+
+        {!isConsultation ? (
+          <div className={styles.formRow}>
+            <div className={styles.field}>
+              <label htmlFor="request-type" className={styles.label}>Request type</label>
+              <select
+                id="request-type"
+                name="requestType"
+                value={requestType}
+                onChange={(event) => setRequestType(event.target.value as (typeof REQUEST_TYPES)[number])}
+                className={styles.input}
+                required
+              >
+                {REQUEST_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="priority" className={styles.label}>Priority</label>
+              <select
+                id="priority"
+                name="priority"
+                value={priority}
+                onChange={(event) => setPriority(event.target.value as (typeof PRIORITIES)[number])}
+                className={styles.input}
+                required
+              >
+                {PRIORITIES.map((option) => <option key={option} value={option}>{option}</option>)}
+              </select>
+            </div>
+          </div>
+        ) : null}
+
+        <div className={styles.field}>
+          <label htmlFor="request-message" className={styles.label}>
+            {isConsultation ? "What does your business do, and what needs to work better?" : "What needs to change?"}
+          </label>
+          <textarea
+            id="request-message"
+            name="message"
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            rows={5}
+            className={styles.input}
+            aria-describedby={isConsultation ? "message-help" : undefined}
+            maxLength={isConsultation ? 2400 : 4000}
+            required
+          />
+          {isConsultation ? (
+            <p id="message-help" className={styles.fieldHelp}>Describe the current situation and what gets in the way. Please leave out passwords, payment details, and sensitive customer information.</p>
+          ) : null}
+        </div>
+
+        {isConsultation ? (
+          <div className={styles.field}>
+            <label htmlFor="desired-outcome" className={styles.label}>What would a useful result look like?</label>
+            <textarea
+              id="desired-outcome"
+              name="outcome"
+              value={outcome}
+              onChange={(event) => setOutcome(event.target.value)}
+              rows={3}
+              className={styles.input}
+              aria-describedby="outcome-help"
+              maxLength={1000}
+              required
+            />
+            <p id="outcome-help" className={styles.fieldHelp}>Include any timing or constraints that matter to you.</p>
+          </div>
+        ) : null}
+
+        <div className={styles.field}>
+          <label htmlFor="request-files" className={styles.label}>Reference files (optional)</label>
+          <input
+            ref={filesRef}
+            id="request-files"
+            name="files"
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,application/pdf"
+            onChange={onFilesChange}
+            className={`${styles.input} ${styles.fileInput}`}
+            aria-describedby={fileError ? "files-help files-error" : "files-help"}
+            aria-invalid={Boolean(fileError)}
+          />
+          <p id="files-help" className={styles.fieldHelp}>Up to 10 files, 4 MB total. JPEG, PNG, WebP, GIF, HEIC, HEIF, or PDF.</p>
+          {fileError ? <p id="files-error" role="alert" className={styles.fieldHelp}>{fileError}</p> : null}
+          {selectedFileNames.length > 0 ? (
+            <ul className={styles.fileList}>
+              {selectedFileNames.map((filename, index) => <li key={`${index}-${filename}`}>{filename}</li>)}
+            </ul>
+          ) : null}
+          {files.length > 0 || fileError ? (
+            <button
+              type="button"
+              className={styles.clearFiles}
+              onClick={() => {
+                setFiles([]);
+                setFileError("");
+                if (filesRef.current) filesRef.current.value = "";
+              }}
+            >
+              Continue without attachments
+            </button>
+          ) : null}
+        </div>
+
+        <div className={styles.honeypot} aria-hidden="true">
+          <label htmlFor="company">Company</label>
+          <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={company} onChange={(event) => setCompany(event.target.value)} />
+        </div>
+        <button type="submit" disabled={!isHydrated || status === "submitting"} className={styles.submit}>
+          {status === "submitting" ? (
+            <><Loader2 size={16} aria-hidden className="animate-spin motion-reduce:animate-none" />Sending…</>
+          ) : (
+            <><Send size={16} aria-hidden />{isConsultation ? "Send consultation inquiry" : "Send request"}</>
+          )}
+        </button>
+      </fieldset>
+      <p className={styles.submitNote}>
+        {isConsultation
+          ? "We’ll use the details you provide to review and respond to your inquiry. No payment is taken here."
+          : "No payment is taken here. The team will use your details to review and respond to your request."}
+      </p>
     </form>
   );
 }

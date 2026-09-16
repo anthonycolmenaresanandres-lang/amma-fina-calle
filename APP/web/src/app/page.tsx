@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Bodoni_Moda } from "next/font/google";
 import { LandingMotion } from "./LandingMotion";
@@ -14,74 +15,90 @@ const display = Bodoni_Moda({
 
 const companyNav = [
   { label: "Work", href: "#work" },
-  { label: "Systems", href: "#systems" },
+  { label: "Consulting", href: "#systems" },
   { label: "Process", href: "#process" },
-  { label: "Contact", href: "/contact" },
+  { label: "Support", href: "/contact#support" },
 ];
+
+export const metadata: Metadata = {
+  title: "Fina Calle | Family-owned consulting & digital delivery",
+  description: "Family-owned consulting in Virginia Beach. Clear business direction and hands-on digital delivery, with verified work and a written scope for every project.",
+  openGraph: {
+    title: "Fina Calle | Clear direction. Hands-on delivery.",
+    description: "Family-owned consulting and digital delivery for local businesses. Explore working projects and start a consultation.",
+    url: "/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Fina Calle | Family-owned consulting & digital delivery",
+    description: "Clear business direction. Hands-on digital delivery. Start with a conversation and a written scope.",
+  },
+};
 
 const systems = [
   {
-    code: "S-01",
-    name: "Digital storefronts",
-    body: "A premium public presence that makes the offer clear, earns trust, and gives every visitor one useful next step.",
-    detail: "Identity · proof · conversion",
+    code: "Consult",
+    name: "Find the useful next step",
+    body: "Start with your business, what is getting in the way, and what you want to change. Together, we define a practical direction before deciding what to build.",
+    detail: "Problem · priorities · scope",
   },
   {
-    code: "S-02",
-    name: "QR menu experiences",
-    body: "A branded digital menu behind one stable QR. After setup, update existing item details, prices and availability from your owner portal—without a call or a new QR print. Guests see saved changes when they open or refresh the connected menu.",
-    detail: "Menu · discovery · updates",
+    code: "Design",
+    name: "Make the business clear",
+    body: "Shape the words, layout and customer journey around what people need to understand and do. Review the direction on a real screen before launch.",
+    detail: "Content · identity · experience",
   },
   {
-    code: "S-03",
-    name: "Branded engagement",
-    body: "Optional game and campaign layers that turn a routine visit into something customers remember.",
-    detail: "Play · campaigns · return visits",
-    href: "/conquest",
+    code: "Build",
+    name: "Put the plan to work",
+    body: "We handle the digital implementation: public websites, mobile menu experiences and scoped interactive work. Working examples on this page show what exists today.",
+    detail: "Hands-on digital delivery",
   },
   {
-    code: "S-04",
-    name: "Owner operations",
-    body: "Structured request and owner tools that keep approvals, updates, and business control close to the people responsible.",
-    detail: "Control · review · support",
+    code: "Support",
+    name: "Know what happens next",
+    body: "Agree on ownership, launch checks and ongoing support in writing. Existing customers have a separate support route for changes and account questions.",
+    detail: "Handoff · updates · support",
+    href: "/contact#support",
   },
 ];
 
 const process = [
   {
     step: "01",
-    title: "Read the business",
-    body: "We start with the customer, the bottleneck, and the action the business needs people to take.",
+    title: "Talk through the need",
+    body: "Tell us what your business does, where the friction is, and what a useful outcome would look like.",
   },
   {
     step: "02",
-    title: "Shape the system",
-    body: "Identity, content, interface, and modules are designed as one coherent operating experience.",
+    title: "Agree on the scope",
+    body: "Review the deliverables, price, responsibilities and timing in writing. Consulting and custom work are scoped separately from restaurant packages.",
   },
   {
     step: "03",
-    title: "Approve the truth",
-    body: "You review the visual direction and every public-facing business claim before production.",
+    title: "Build and review together",
+    body: "We implement the agreed work. You review the design, business information and working experience before approving launch.",
   },
   {
     step: "04",
-    title: "Build and verify",
-    body: "We implement, test the real customer journey, and prepare the launch with clear ownership.",
+    title: "Verify and hand over",
+    body: "Check the real customer journey and confirm what is ready. Ongoing updates and support follow the agreed scope.",
   },
 ];
 
 const controls = [
   {
-    title: "Human approval",
-    body: "Nothing factual ships on assumption. Your review is part of the system.",
+    title: "A defined restaurant package",
+    body: "A branded mobile menu, one selected existing game module, a private owner portal and print-ready QR files, with hosting and support within scope.",
   },
   {
-    title: "Owner control",
-    body: "The business stays understandable and manageable after the launch moment.",
+    title: "Confirmed before launch",
+    body: "Your written proposal defines setup, timing, update limits and recurring terms. Menu connections and authorized owner access are verified for your location.",
   },
   {
-    title: "POS separation",
-    body: "Fina Calle billing and owner tools stay separate from your point-of-sale system.",
+    title: "Custom work is separate",
+    body: "Consulting, custom development and physical printing need separate written scope. Ordering, payments and POS integration are not included in the base package.",
   },
 ];
 
@@ -116,8 +133,8 @@ export default function Home() {
           </nav>
 
           <Link href="/request-update" className={styles.headerCta}>
-            <span className={styles.desktopCopy}>Start a build</span>
-            <span className={styles.mobileCopy}>Start</span>
+            <span className={styles.desktopCopy}>Start a conversation</span>
+            <span className={styles.mobileCopy}>Let’s talk</span>
             <span aria-hidden="true">↗</span>
           </Link>
         </div>
@@ -135,25 +152,22 @@ export default function Home() {
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy} data-motion-reveal="copy">
             <p className={styles.eyebrow}>
-              <span /> Virginia Beach · Digital systems for local business
+              <span /> Family-owned consulting · Virginia Beach
             </p>
             <h1 id="hero-heading" className={styles.heroTitle}>
-              <span className={styles.desktopCopy}>A sharper digital presence.</span>
-              <span className={styles.mobileCopy}>Sharper online.</span>
+              <span>Clear direction.</span>
               <em>
-                <span className={styles.desktopCopy}>A calmer business behind it.</span>
-                <span className={styles.mobileCopy}>Calmer behind it.</span>
+                <span>Hands-on delivery.</span>
               </em>
             </h1>
             <p className={styles.heroBody}>
-              Fina Calle builds premium storefronts, branded customer
-              experiences, and owner tools as one connected system for
-              ambitious local businesses.
+              We help local businesses decide what to improve, then design
+              and build the digital tools to put that plan to work.
             </p>
 
             <div className={styles.heroActions}>
               <Link href="/request-update" className={styles.primaryAction}>
-                Plan your build <span aria-hidden="true">↗</span>
+                Start a consultation <span aria-hidden="true">↗</span>
               </Link>
               <Link href="#work" className={styles.secondaryAction}>
                 See verified work <span aria-hidden="true">↓</span>
@@ -161,9 +175,9 @@ export default function Home() {
             </div>
 
             <p className={styles.assurance}>
-              <span>Human-approved</span>
-              <span>Modular by design</span>
-              <span>Separate from your POS</span>
+              <span>Family-owned</span>
+              <span>Written scope</span>
+              <span>Built with you</span>
             </p>
           </div>
 
@@ -188,24 +202,24 @@ export default function Home() {
               />
 
               <div className={`${styles.coreLabel} ${styles.coreLabelOne}`}>
-                <small>Customer layer</small>
-                <strong>Storefront</strong>
+                <small>Start with</small>
+                <strong>Your business</strong>
               </div>
               <div className={`${styles.coreLabel} ${styles.coreLabelTwo}`}>
-                <small>Brand layer</small>
-                <strong>Experience</strong>
+                <small>Define</small>
+                <strong>The direction</strong>
               </div>
               <div className={`${styles.coreLabel} ${styles.coreLabelThree}`}>
-                <small>Owner layer</small>
-                <strong>Operations</strong>
+                <small>Deliver</small>
+                <strong>The work</strong>
               </div>
             </div>
 
             <div className={styles.coreStatus}>
               <span className={styles.liveSignal} aria-hidden="true" />
               <p>
-                <small>Operating principle</small>
-                <strong>One engine. Swappable parts.</strong>
+                <small>Our approach</small>
+                <strong>Think it through. See it through.</strong>
               </p>
               <span className={styles.statusCode}>FC / 001</span>
             </div>
@@ -213,7 +227,7 @@ export default function Home() {
         </div>
 
         <div className={styles.heroFoot} aria-label="Fina Calle principles">
-          <span>Local-business systems</span>
+          <span>Consulting + digital delivery</span>
           <span>Built in Virginia Beach</span>
           <span>Design first · approval always</span>
         </div>
@@ -228,19 +242,17 @@ export default function Home() {
         <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionShell}>
           <div className={styles.proofIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
+            <p className={styles.eyebrowDark}>Selected work · Live client menu</p>
             <h2 id="proof-heading" className={styles.sectionTitleDark}>
-              <span className={styles.desktopCopy}>One neighborhood brand.</span>
-              <span className={styles.mobileCopy}>One brand.</span>
+              <span>Real work.</span>
               <em>
-                <span className={styles.desktopCopy}>Three connected digital moments.</span>
-                <span className={styles.mobileCopy}>Three moments.</span>
+                <span>Clear boundaries.</span>
               </em>
             </h2>
             <p className={styles.proofBody}>
-              Colattao is the working reference for the Fina Calle approach: a
-              customer-facing QR menu, a branded game layer, and owner tools
-              designed as parts of the same system.
+              Colattao’s public menu is a working client project. Explore the
+              menu, categories and prices in your browser. Game demonstrations
+              show separate capabilities; they are not evidence of business results.
             </p>
 
             <div className={styles.proofLinks}>
@@ -271,7 +283,7 @@ export default function Home() {
                 sizes="(max-width: 900px) 92vw, 43vw"
               />
               <div className={styles.proofStamp}>
-                <span>Flagship</span>
+                <span>Live menu</span>
                 <strong>Colattao</strong>
                 <small>Virginia Beach</small>
               </div>
@@ -283,15 +295,27 @@ export default function Home() {
                 <dd>QR menu</dd>
               </div>
               <div>
-                <dt>Engagement</dt>
-                <dd>Branded play</dd>
+                <dt>Format</dt>
+                <dd>Mobile browser</dd>
               </div>
               <div>
-                <dt>Owner</dt>
-                <dd>Operating tools</dd>
+                <dt>Evidence</dt>
+                <dd>Public project</dd>
               </div>
             </dl>
           </div>
+        </div>
+        <div className={styles.projectIndex} aria-label="Working demonstrations">
+          <article>
+            <p className={styles.projectStatus}>Playable demo</p>
+            <h3><Link href="/penalty-shootout">Penalty Shootout <span aria-hidden="true">↗</span></Link></h3>
+            <p>Try the five-shot game engine. A demonstration of play, with client branding and custom work subject to scope.</p>
+          </article>
+          <article>
+            <p className={styles.projectStatus}>Restaurant review demo</p>
+            <h3><Link href="/demo/las-palmas">Las Palmas <span aria-hidden="true">↗</span></Link></h3>
+            <p>Explore the public menu and game concept. Available for review; publication does not mean restaurant approval or account activation.</p>
+          </article>
         </div>
       </section>
 
@@ -305,19 +329,17 @@ export default function Home() {
         <div className={styles.sectionShellNarrow}>
           <div className={styles.sectionHeadingRow} data-motion-reveal="copy">
             <div>
-              <p className={styles.eyebrow}>The operating system</p>
+              <p className={styles.eyebrow}>How we help</p>
               <h2 id="systems-heading" className={styles.sectionTitle}>
-                <span className={styles.desktopCopy}>Start with what moves the business.</span>
-                <span className={styles.mobileCopy}>Only what matters.</span>
+                <span>First, the business.</span>
                 <em>
-                  <span className={styles.desktopCopy}>Add only what earns its place.</span>
-                  <span className={styles.mobileCopy}>Nothing extra.</span>
+                  <span>Then, the build.</span>
                 </em>
               </h2>
             </div>
             <p>
-              A frozen engine with swappable parts keeps each build distinctive
-              without rebuilding the company from zero.
+              You do not need to arrive with a technical specification.
+              Start with the problem; we can work through the direction together.
             </p>
           </div>
 
@@ -376,13 +398,11 @@ export default function Home() {
         <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionShellNarrow}>
           <div className={styles.processIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrowDark}>A disciplined build sequence</p>
+            <p className={styles.eyebrowDark}>From conversation to delivery</p>
             <h2 id="process-heading" className={styles.sectionTitleDark}>
-              <span className={styles.desktopCopy}>Intricate where it matters.</span>
-              <span className={styles.mobileCopy}>Built with discipline.</span>
+              <span>A clear plan.</span>
               <em>
-                <span className={styles.desktopCopy}>Calm where you operate it.</span>
-                <span className={styles.mobileCopy}>Calm to run.</span>
+                <span>A shared finish line.</span>
               </em>
             </h2>
           </div>
@@ -402,6 +422,7 @@ export default function Home() {
       </section>
 
       <section
+        id="restaurants"
         data-page="05"
         className={styles.control}
         aria-labelledby="control-heading"
@@ -409,17 +430,13 @@ export default function Home() {
         <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.controlGrid}>
           <div className={styles.controlIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrow}>Calm by design</p>
+            <p className={styles.eyebrow}>For restaurants · A focused starting point</p>
             <h2 id="control-heading" className={styles.sectionTitle}>
-              <span className={styles.desktopCopy}>
-                Powerful systems should make the owner feel
-              </span>
-              <span className={styles.mobileCopy}>You stay</span>
-              <em>
-                <span className={styles.desktopCopy}>more in control, not less.</span>
-                <span className={styles.mobileCopy}>in control.</span>
-              </em>
+              Your menu.<em>One stable QR.</em>
             </h2>
+            <p className={styles.packagePrice}>Starting at <strong>$199</strong><span>/month per location</span></p>
+            <p className={styles.packageNote}>Restaurant packages are one part of our work. Consulting and custom projects require a separate written scope.</p>
+            <Link href="/for-restaurants" className={styles.secondaryAction}>Explore restaurant packages <span aria-hidden="true">↗</span></Link>
           </div>
 
           <div className={styles.controlList}>
@@ -444,26 +461,21 @@ export default function Home() {
         <div className={styles.closeGlow} aria-hidden="true" />
         <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
         <p className={styles.eyebrow} data-motion-reveal="copy">
-          Your next operating layer
+          Start with a conversation
         </p>
         <h2 id="close-heading" data-motion-reveal="copy">
-          <span className={styles.desktopCopy}>Ready for something that feels</span>
-          <span className={styles.mobileCopy}>Built for</span>
-          <em>
-            <span className={styles.desktopCopy}>built, not bought?</span>
-            <span className={styles.mobileCopy}>your business.</span>
-          </em>
+          What needs<em>to work better?</em>
         </h2>
         <p className={styles.closeBody} data-motion-reveal="panel">
-          Tell us the business, the bottleneck, and the outcome. We’ll reply
-          with a clear direction, the right package, and a fixed quote.
+          Tell us about your business, the problem and the outcome you have
+          in mind. We’ll review the fit and discuss a written scope before work begins.
         </p>
         <div className={styles.closeActions} data-motion-reveal="action">
           <Link href="/request-update" className={styles.primaryActionLight}>
-            Plan my build <span aria-hidden="true">↗</span>
+            Start a consultation <span aria-hidden="true">↗</span>
           </Link>
-          <Link href="/contact" className={styles.secondaryAction}>
-            Contact AMMA Ventures
+          <Link href="/contact#support" className={styles.secondaryAction}>
+            Existing customer? Get support
           </Link>
         </div>
       </section>
@@ -471,8 +483,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div>
           <p>
-            <span className={styles.desktopCopy}>Still scrolling? Good. The strategy worked.</span>
-            <span className={styles.mobileCopy}>Still here? Good.</span>
+            Family-owned. Built with care.
           </p>
           <a
             href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
