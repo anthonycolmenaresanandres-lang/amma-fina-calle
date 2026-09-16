@@ -4,6 +4,10 @@ Anthony authorized this build with **Execute**, following GRAN_PATRON_BUILD_SPEC
 
 ## Review the experience
 
+[PR235](https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/235) · [Hosted menu preview](https://amma-fina-c-git-bab2fd-anthonycolmenaresanandres-8844s-projects.vercel.app/demo/gran-patron) · [Hosted game preview](https://amma-fina-c-git-bab2fd-anthonycolmenaresanandres-8844s-projects.vercel.app/play/gran-patron)
+
+Application revision3799afa passed GitHub web CI and Vercel Ready; the deployment metadata matches that exact SHA. Hosted preview access redirects to existing Vercel SSO. Use the verified local preview or screenshots when not signed in. No protection setting was changed.
+
 - Menu: `/demo/gran-patron`
 - Game: `/play/gran-patron`
 - Local production-mode preview: http://localhost:3159/demo/gran-patron and http://localhost:3159/play/gran-patron
