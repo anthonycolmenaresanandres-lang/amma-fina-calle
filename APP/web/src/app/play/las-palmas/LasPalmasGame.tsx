@@ -2,17 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, RotateCcw, SlidersHorizontal, TreePalm } from "lucide-react";
 import { DEFAULT_PENALTY_LEVEL, PENALTY_LEVELS } from "@/penalty/config";
 import type { InputMode, PenaltyLevel } from "@/penalty/types";
 import FinaCalleFooter from "@/components/FinaCalleFooter";
-import { LAS_PALMAS_CHARACTERS, type LasPalmasCharacter } from "./characters";
+import { LAS_PALMAS_CHARACTERS } from "./characters";
+import type { ShootoutCharacter, ShootoutPresentation } from "@/penalty/shootout-presentation";
 import MatchCanvas from "./MatchCanvas";
 import styles from "./LasPalmasGame.module.css";
 
-export default function LasPalmasGame() {
-  const [character, setCharacter] = useState<LasPalmasCharacter>(LAS_PALMAS_CHARACTERS[0]);
+export default function LasPalmasGame({ presentation }: { presentation?: ShootoutPresentation }) {
+  const players = presentation?.characters ?? LAS_PALMAS_CHARACTERS;
+  const menuHref = presentation?.menuHref ?? "/demo/las-palmas";
+  const [character, setCharacter] = useState<ShootoutCharacter>(players[0]);
   const [level, setLevel] = useState<PenaltyLevel>(DEFAULT_PENALTY_LEVEL);
   const [input, setInput] = useState<InputMode>("tap");
   const [playing, setPlaying] = useState(false);
@@ -30,34 +33,34 @@ export default function LasPalmasGame() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} style={presentation ? { "--shootout-backdrop": `url('${presentation.backdrop}')` } as CSSProperties : undefined}>
       {playing ? (
         <div className={styles.match}>
           <header className={styles.matchHeader}>
             <div className={styles.matchNav}>
               <button ref={backButton} type="button" onClick={back}><ArrowLeft aria-hidden="true" /> Players</button>
-              <Link href="/demo/las-palmas" prefetch={false}>Menu</Link>
+              <Link href={menuHref} prefetch={false}>Menu</Link>
               <button type="button" onClick={() => setRound(value => value + 1)}><RotateCcw aria-hidden="true" /> Replay</button>
             </div>
           </header>
-          <MatchCanvas key={round} character={character} level={level} input={input} />
+          <MatchCanvas key={round} character={character} level={level} input={input} presentation={presentation} />
           <p className={styles.matchNotice}>{character.name} · #{character.number}<span>Demo · pending client approval</span></p>
         </div>
       ) : (
         <div className={styles.lobby}>
           <header className={styles.lobbyHeader}>
-            <Link href="/demo/las-palmas" prefetch={false}><ArrowLeft aria-hidden="true" /> Back to menu</Link>
-            <span>Las Palmas · Lynnhaven</span>
+            <Link href={menuHref} prefetch={false}><ArrowLeft aria-hidden="true" /> Back to menu</Link>
+            <span>{presentation?.location ?? "Las Palmas · Lynnhaven"}</span>
           </header>
           <div className={styles.intro}>
-            <p><TreePalm aria-hidden="true" /> The cantina is your stadium <TreePalm aria-hidden="true" /></p>
-            <h1 ref={heading} tabIndex={-1}>Cantina<br /><span>Shootout</span></h1>
+            <p><TreePalm aria-hidden="true" /> {presentation?.invitation ?? "The cantina is your stadium"} <TreePalm aria-hidden="true" /></p>
+            <h1 ref={heading} tabIndex={-1}>{presentation?.heading ?? "Cantina"}<br /><span>Shootout</span></h1>
             <div>Two food legends. Five shots. Your moment.</div>
           </div>
           <section className={styles.selection} aria-labelledby="pick-player">
             <h2 id="pick-player">Pick your player</h2>
             <div className={styles.players}>
-              {LAS_PALMAS_CHARACTERS.map(player => (
+              {players.map(player => (
                 <label className={styles.player} key={player.id}>
                   <input type="radio" name="character" value={player.id} checked={character.id === player.id} onChange={() => setCharacter(player)} />
                   <span className={styles.playerArt}>

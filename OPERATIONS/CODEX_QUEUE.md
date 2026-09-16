@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [x] 46 - Gran Patron Princess Anne menu and game
+
+**State:** DONE - VERIFIED REVIEW PREVIEW; PRODUCTION MERGE HELD
+**Authority:** Anthony selected granpatronvb.com/food-menu, approved the researched Las Palmas-based plan, and said Execute on 2026-09-16. This scoped directive takes priority over historical queue37, whose implementation is already in production base306fcf4.
+**Scope:** Verified complete source menu, original brand assets, premium menu and shared five-shot game with two Gran Patron characters; isolated branch codex/gran-patron-menu-game.
+**Plan:** GRAN_PATRON_BUILD_SPEC_20260916.md. Implemented; review and screenshots in GRAN_PATRON_REVIEW_20260916.md.
+**Result:** PR235 open; application head3799afa.135 self-tests and61 production-browser checks pass, along with scoped lint, final production build/TypeScript, GitHub web CI and Ready Vercel preview dpl_nZjLGhddS7wCmStaNfYP5sTTUT3M. Hosted visual access hits existing Vercel SSO; local production preview at localhost:3159 is verified. No production merge.
+**PASS:** Source reconciliation, both characters and input modes, responsive menu/search/game, Las Palmas regression, lint/build and review evidence.
+**STOP:** Production merge requires Anthony's separate approval. No database, owner access, held routes, payments, customer sends or unrelated client changes.
+
+
 ## [ ] 37 - Premium owner portal, payment safeguards and standard owner kit
 
 **State:** IN PROGRESS - SCOPED OWNER RELEASE AUTHORIZED
