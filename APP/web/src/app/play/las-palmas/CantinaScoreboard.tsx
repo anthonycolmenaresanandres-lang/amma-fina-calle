@@ -6,11 +6,11 @@ import type { InputMode } from "@/penalty/types";
 import { scoreboardModel } from "./scoreboard-model";
 import styles from "./CantinaScoreboard.module.css";
 
-export default function CantinaScoreboard({ match, totalShots, input }: { match: MatchState; totalShots: number; input: InputMode }) {
+export default function CantinaScoreboard({ match, totalShots, input, title = "Cantina Shootout" }: { match: MatchState; totalShots: number; input: InputMode; title?: string }) {
   const view = scoreboardModel(match, totalShots, input);
   return (
-    <section className={styles.board} aria-label="Cantina Shootout scoreboard" data-scoreboard="cantina" data-phase={match.phase}>
-      <div className={styles.marquee}><TreePalm aria-hidden="true" /><h2>Cantina Shootout</h2><TreePalm aria-hidden="true" /></div>
+    <section className={styles.board} aria-label={`${title} scoreboard`} data-scoreboard="cantina" data-phase={match.phase}>
+      <div className={styles.marquee}><TreePalm aria-hidden="true" /><h2>{title}</h2><TreePalm aria-hidden="true" /></div>
       <div className={styles.readout}>
         <div className={styles.score}><span>GOALS</span><strong key={match.goals} className={match.goals > 0 ? styles.scorePop : undefined} data-goals={match.goals}>{match.goals}</strong></div>
         <div className={styles.round}>

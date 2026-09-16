@@ -31,7 +31,7 @@ const menu = read("src/app/(internal)/demo/las-palmas/page.tsx");
 const css = read("src/app/(internal)/demo/las-palmas/LasPalmasWestern.module.css");
 test("dedicated route is noindex, not generic skin picker", () => { assert.match(page, /index: false, follow: false/); assert.doesNotMatch(lobby, /PENALTY_SKINS|setSelectedSkin/); });
 test("explicit character selection and optional difficulty", () => { assert.match(lobby, /type="radio" name="character"/); assert.match(lobby, /<details/); assert.match(lobby, /PENALTY_LEVELS/); });
-test("preserves menu return and approval", () => { assert.match(lobby, /href="\/demo\/las-palmas"/); assert.match(lobby, /Pending client approval/); });
+test("preserves menu return and approval", () => { assert.match(lobby, /menuHref = presentation\?\.menuHref \?\? "\/demo\/las-palmas"/); assert.match(lobby, /href=\{menuHref\}/); assert.match(lobby, /Pending client approval/); });
 test("Phaser lazy loads with cancellation and teardown", () => { assert.match(canvas, /import\("phaser"\)/); assert.match(canvas, /if \(cancelled \|\| !mount.current\)/); assert.match(canvas, /game\?\.destroy\(true\)/); assert.match(canvas, /clearTimeout\(timeout\)/); });
 test("loading, retry and error feedback present", () => { assert.match(canvas, /role="status"/); assert.match(canvas, /role="alert"/); assert.match(canvas, /Try again/); });
 test("game invitation precedes hero inside full page shell", () => { assert.ok(menu.indexOf("styles.gameBar") < menu.indexOf("styles.hero}")); assert.equal((menu.match(/href="\/play\/las-palmas"/g) ?? []).length, 2); });

@@ -2,7 +2,7 @@
 .page :is(a, button, summary, input, select) { touch-action: manipulation; }
 .page :is(a, button, summary, input, select):focus-visible { outline: 3px solid #ffdda8; outline-offset: 4px; }
 .page button, .page summary, .player { cursor: pointer; }
-.lobby { max-width: 760px; margin-inline: auto; background: #102d21 url('/assets/laspalmas/western/mesquite-palms-v1.webp') center top / 100% auto no-repeat; }
+.lobby { max-width: 760px; margin-inline: auto; background: #102d21 var(--shootout-backdrop, url('/assets/laspalmas/western/mesquite-palms-v1.webp')) center top / 100% auto no-repeat; }
 .lobbyHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: calc(8px + env(safe-area-inset-top, 0px)) 18px 0; }
 .lobbyHeader a { display: inline-flex; align-items: center; min-height: 44px; gap: 5px; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .lobbyHeader svg { width: 15px; height: 15px; }

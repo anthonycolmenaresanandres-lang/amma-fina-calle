@@ -1,0 +1,3146 @@
+[
+  {
+    "id": "1192867-0",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "APPETIZERS",
+    "note": "Antojitos",
+    "items": [
+      {
+        "id": "menu_item_5315731",
+        "name": "Fresh Guacamole",
+        "description": "Made to order.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315819",
+        "name": "Guacamole Dip",
+        "description": "",
+        "prices": [
+          "$9.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315808",
+        "name": "Bean Dip",
+        "description": "",
+        "prices": [
+          "$9.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315737",
+        "name": "Queso Fundido",
+        "description": "Chorizo and cheese sauce.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315740",
+        "name": "Pico De Gallo",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315745",
+        "name": "Jalapeño Poppers (5)",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315774",
+        "name": "Chicken Wings",
+        "description": "6 wings $12.00 | 12 wings $18.00",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315779",
+        "name": "Mozzarella Sticks (4)",
+        "description": "",
+        "prices": [
+          "$9.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972742",
+        "name": "Patrón Chili",
+        "description": "",
+        "prices": [
+          "$8.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315783",
+        "name": "Chicken Tortilla Soup",
+        "description": "Zesty blend of chicken, rice, pico de gallo, and a slice of avocado.",
+        "prices": [
+          "$13.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972748",
+        "name": "Bacon - Wrapped Jalapeños (5)",
+        "description": "",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315836",
+        "name": "El Jefe's Sampler",
+        "description": "Cheese quesadilla, mozzarella sticks, jalapeño poppers, chicken wings, and chicken or beef nachos.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315791",
+        "name": "Cheese Dip",
+        "description": "Regular $8.00| Large $11.00",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315795",
+        "name": "Seafood Dip",
+        "description": "Shrimp, scallop, roasted red peppers, crab meat, and spinach.",
+        "prices": [
+          "$13.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315826",
+        "name": "Texas Dip",
+        "description": "Chicken, steak, shrimp, and cheese sauce.",
+        "prices": [
+          "$12.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972794",
+        "name": "Spinach Dip",
+        "description": "",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315803",
+        "name": "Beef Dip",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315815",
+        "name": "Patrón Bread Bowl",
+        "description": "Crab meat, spinach, roasted red peppers, shrimp, and Vallarta sauce.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972874",
+        "name": "Patrón Loco Dip",
+        "description": "Black beans, refried beans, ground beef, shredded chicken, sour cream, and Patrón loco sauce.",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315839",
+        "name": "Coco Loco Shrimp",
+        "description": "Eight crispy coconut-crusted shrimp served up with a creamy chipotle aioli.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972839",
+        "name": "Calamari",
+        "description": "",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315844",
+        "name": "Bacon Wrapped Shrimp (8)",
+        "description": "",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315850",
+        "name": "Aguachiles",
+        "description": "Verde or rojo.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6972857",
+        "name": "Mexican Street Corn Elote",
+        "description": "Cheese or Cheetos.",
+        "prices": [
+          "$7.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6972857.webp"
+      }
+    ]
+  },
+  {
+    "id": "1192867-1",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "NACHOS",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5315900",
+        "name": "Nachos",
+        "description": "• With cheese $11.00 • With beans $13.00 • With beef $12.00 • With chicken $13.00 • With grilled steak $16.00 • With grilled chicken $16.00",
+        "prices": [],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5315900.webp"
+      },
+      {
+        "id": "menu_item_5315907",
+        "name": "Nachos Supreme",
+        "description": "Cheese nachos with ground beef, shredded chicken, beans, lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315919",
+        "name": "Patrón Trashcan Nachos (F)",
+        "description": "Nachos topped with steak, grilled chicken, shredded chicken, ground beef, refried beans, cheese sauce, pico de gallo, and sour cream.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5315919.webp"
+      },
+      {
+        "id": "menu_item_5315934",
+        "name": "Fajita Nachos",
+        "description": "Choose between: Steak, Chicken, a Mix of Both Steak and Chicken, or Shrimp (only) $20.00 | Shrimp $26.00 • Nachos loaded with grilled bell peppers, onions, tomatoes, and melted cheese.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315938",
+        "name": "Fajita Texanas Nachos",
+        "description": "Nachos topped with grilled steak, shrimp, chicken, onions, peppers, tomatoes, and cheese sauce.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5315938.webp"
+      },
+      {
+        "id": "menu_item_5315943",
+        "name": "Seafood Nachos",
+        "description": "Nachos topped with grilled shrimp, crab, red onion, roasted red peppers, and cheese sauce.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315945",
+        "name": "Nachos Locos",
+        "description": "Nachos topped with beans, chicken, bacon, chorizo, cheese sauce, sour cream, and pico de gallo.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-2",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "SALADS",
+    "note": "Ensaladas",
+    "items": [
+      {
+        "id": "menu_item_5315975",
+        "name": "Taco Salad",
+        "description": "Crispy flour tortilla bowl with beef or chicken, beans, lettuce, pico de gallo, shredded cheese, and sour cream.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5315980",
+        "name": "Taco Loco",
+        "description": "Crispy flour tortilla bowl filled with beef, chicken, refried beans, lettuce, pico de gallo, shredded cheese, and sour cream. Topped with cheese sauce.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316124",
+        "name": "Fajita Salad (GF)",
+        "description": "Your choice of steak or chicken grilled with bell pepper, tomatoes, onion, and mushrooms on lettuce, topped with cheese and pico de gallo.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316137",
+        "name": "Fajita Taco Salad",
+        "description": "Crispy flour tortilla bowl with grilled chicken or steak, bell peppers, onions, tomatoes, beans, shredded cheese, and sour cream.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316141",
+        "name": "Patrón Taco Salad",
+        "description": "Crispy flour tortilla bowl filled with grilled chicken, chorizo, black beans, white rice, lettuce, sour cream, pico de gallo, and shredded cheese.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316163",
+        "name": "Burrito Bowl Salad (GF, F)",
+        "description": "Your choice of grilled chicken or cilantro lime white rice, black bean corn, lettuce, shredded cheese, pico de gallo, and sour cream.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316185",
+        "name": "Avocado Chicken Salad (GF)",
+        "description": "Fresh mixed greens, sliced grilled chicken, shredded cheese, pico de gallo, and avocado slices.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316188",
+        "name": "Shrimp Salad",
+        "description": "Fresh mixed greens, grilled shrimp, pico de gallo, and shredded cheese.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316204",
+        "name": "Skinny Salad",
+        "description": "Fresh mixed greens, grilled chicken breast, red onions, pico de gallo, avocado, and tortilla strips.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316210",
+        "name": "Fiesta Salad (GF)",
+        "description": "Fresh mixed greens, grilled chicken, shrimp, red peppers, red onions, and shredded cheese.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973696",
+        "name": "Baja Shrimp Salad",
+        "description": "Honey mustard braised shrimp on a bed of romaine lettuce, avocado slices, and croutons.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316212",
+        "name": "Guacamole Salad",
+        "description": "",
+        "prices": [
+          "$8.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316216",
+        "name": "Crema Salad",
+        "description": "Lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$5.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-3",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "A LA CARTE",
+    "note": "a La Carta",
+    "items": [
+      {
+        "id": "menu_item_5316234",
+        "name": "Taquito (1)",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316240",
+        "name": "Tostada (1)",
+        "description": "",
+        "prices": [
+          "$6.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316244",
+        "name": "Tamal (1)",
+        "description": "",
+        "prices": [
+          "$6.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316251",
+        "name": "Chile Relleno (1)",
+        "description": "",
+        "prices": [
+          "$6.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316262",
+        "name": "Crunchy Taco",
+        "description": "(1) $4.00 | (3) $9.00 • Chicken or Beef.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316265",
+        "name": "Soft Taco",
+        "description": "(1) $5.00 | (3) $11.00 • Chicken or Beef.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316289",
+        "name": "Enchilada",
+        "description": "(1) $5.00 | (3) $12.00 • Chicken, Beef, Bean, or Cheese.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316301",
+        "name": "Burrito",
+        "description": "(1) $7.00 | (2) $11.00 • Chicken, Beef, Bean, or Potato.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316308",
+        "name": "Fried Chimichanga (1)",
+        "description": "Soft or Fried | Beef or Chicken",
+        "prices": [
+          "$7.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316318",
+        "name": "Quesadilla",
+        "description": "Cheese: (1) $5.00 | (2) $9.00 • Chicken, Beef, or Mushroom +$2.00 | Grilled Chicken, Steak, Carnitas, or Shrimp +$3.00",
+        "prices": [],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5316318.webp"
+      }
+    ]
+  },
+  {
+    "id": "1192867-4",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "CREATE YOUR OWN COMBO",
+    "note": "Crea Tu Propio Combo\n\nFILLING CHOICES: • Ground Beef • Shredded Chicken • Beans or Cheese",
+    "items": [
+      {
+        "id": "menu_item_5316331",
+        "name": "Pick 2 Entrées",
+        "description": "Taco, Cheese Quesadilla, Burrito, Enchilada, Chile Relleno, Tostada or TamalServed with rice and beans. Add Lettuce, Sour Cream, and Pico De Gallo +$3.00",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-5",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "TORTA",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_6973227",
+        "name": "Mexican Torta",
+        "description": "Bread, mayonnaise, onion, tomato, avocado, jalapeño, lettuce, cheese, and your choice of grilled chicken, ribeye, al pastor, chorizo, or ham. Served with a side of fries.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-6",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "SIDES",
+    "note": "Acompañantes",
+    "items": [
+      {
+        "id": "menu_item_5316334",
+        "name": "Rice",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316335",
+        "name": "Pico De Gallo",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316336",
+        "name": "Sour Cream",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316337",
+        "name": "Jalapeños",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316338",
+        "name": "Refried Beans",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316339",
+        "name": "Black Beans",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316340",
+        "name": "French Fries",
+        "description": "",
+        "prices": [
+          "$5.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316341",
+        "name": "Chiles Toreados",
+        "description": "",
+        "prices": [
+          "$4.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316342",
+        "name": "Shredded Cheese",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316343",
+        "name": "Flour or Corn Tortillas",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973225",
+        "name": "Rice Gardibaldi",
+        "description": "Mexican rice with grilled jalapeños and garlic.",
+        "prices": [
+          "$8.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-7",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "SEAFOOD",
+    "note": "Mariscos",
+    "items": [
+      {
+        "id": "menu_item_6973753",
+        "name": "Tilapia Fish Tacos (3)",
+        "description": "Three soft fish tacos served with rice and chipotle crema salad.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973755",
+        "name": "Molcajete Cielo, Mar Y Tierra",
+        "description": "A feast from land, sea, and sky! Octopus zarandeado, red snapper, ribeye, grilled chicken breast, shrimp, and scallops, all simmered in our signature Vallarta sauce. Served with chile toreado, cebollines, nopales, rice, avocado salad, and warm tortillas.",
+        "prices": [
+          "$56.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6973755.webp"
+      },
+      {
+        "id": "menu_item_6973759",
+        "name": "Seafood Chimichanga",
+        "description": "Large flour tortilla stuffed with shrimp, crab meat, zucchini, peppers, and onions, topped with cheese sauce. Served with rice and chipotle crema salad.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973769",
+        "name": "Shrimp Tacos",
+        "description": "Three flour tortillas filled with shrimp, tomatoes, onions, cilantro, shredded cheese, and pico de gallo. Served with rice and chipotle crema salad.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973772",
+        "name": "Grilled Tilapia",
+        "description": "Grilled tilapia fillets served with rice and chipotle crema salad.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973782",
+        "name": "Arroz con Camarones",
+        "description": "Grilled shrimp, bell peppers, onions, tomatoes, and rice. Topped with cheese sauce.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973785",
+        "name": "Shrimp Soup",
+        "description": "",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973790",
+        "name": "Tilapia Vallarta",
+        "description": "Two grilled tilapia fillets topped with grilled scallops, shrimp, and chipotle lobster sauce. Served with rice and chipotle crema salad.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973802",
+        "name": "Seafood Burrito Bowl Salad",
+        "description": "Grilled shrimp, scallops, and crab meat with corn, red onion, and roasted red pepper, served on a bed of cilantro lime rice with black beans, lettuce, shredded cheese, pico de gallo, sour cream, and avocado.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973803",
+        "name": "Ceviche",
+        "description": "Shrimp or tilapia.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973804",
+        "name": "Shrimp Cocktail",
+        "description": "",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973805",
+        "name": "Camarones Al Gusto",
+        "description": "Choose from mojo de ajo, al chipotle, or a la diabla sauce. Served with cilantro lime rice and a chipotle crema salad for a perfect balance of flavors.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973806",
+        "name": "Arroz Vallarta",
+        "description": "Fluffy rice loaded with fire-roasted onions, shrimp, scallops, and real crab meat. All topped with rich, melted cheese sauce.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973807",
+        "name": "Baja Trio Tacos",
+        "description": "Three coastal-inspired tacos with your choice of octopus, red snapper, fried shrimp, or grilled shrimp. Each taco is topped with crisp red cabbage, fresh avocado slices, and creamy chipotle crema.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6973807.webp"
+      },
+      {
+        "id": "menu_item_6973808",
+        "name": "Patrón Flounder & Shrimp",
+        "description": "Grilled flounder and shrimp with rice and an avocado salad.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-8",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "STEAK & PORK",
+    "note": "Carne y Cerdo",
+    "items": [
+      {
+        "id": "menu_item_6973885",
+        "name": "Patrón Especial",
+        "description": "T-bone steak topped with grilled shrimp, mushrooms, onions and bell peppers. Served with rice, beans, and flour tortillas.",
+        "prices": [
+          "$25.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973888",
+        "name": "Steak Tampiqueña",
+        "description": "T-bone steak topped with grilled mushrooms, red peppers, and onions. Served with rice, beans, and tortillas.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973892",
+        "name": "Steak Ranchero",
+        "description": "T-bone steak topped with ranchero sauce. Served with rice, beans, and flour tortillas.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973903",
+        "name": "Chile Verde or Colorado",
+        "description": "Choice of steak, chicken, or pork topped with verde tomatillo salsa. Served with crema salad, rice, beans, and tortillas.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973906",
+        "name": "Tacos de Carne Asada",
+        "description": "Three grilled steak tacos served with pico de gallo, rice, and beans.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973910",
+        "name": "Molcajete",
+        "description": "For One $33.00 | For Two $47.00 • Ribeye steak, chicken breast, shrimp, chorizo, jalapeño peppers, cheese sauce, ranchero poblano sauce, mozzarella cheese, and cebollines served in a heated traditional molcajete stone. Served with rice or beans, crema salad, and flour tortillas.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973914",
+        "name": "Pork Carnitas",
+        "description": "Gran Patrón's special recipe of tender carnitas, served with pico de gallo, rice, beans, and flour tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973919",
+        "name": "Carne Asada Fries",
+        "description": "Our delicious California-style fries, topped with steak, cheese, guacamole, pico de gallo, and sour cream.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973921",
+        "name": "Carne Asada",
+        "description": "Two tender ribeye steaks served with beans, rice, guacamole salad, and tortillas.",
+        "prices": [
+          "$25.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973924",
+        "name": "Cazuelón",
+        "description": "Chicken breast, ribeye steak, and chorizo topped with cheese sauce and onions. Served with rice, beans, pico de gallo, grilled jalapeños, and flour tortillas.",
+        "prices": [
+          "$25.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973927",
+        "name": "Alambres",
+        "description": "Tender slices of steak, bacon, mushrooms, bell peppers, and onions covered with cheese sauce. Served with rice, beans, and tortillas.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973930",
+        "name": "Gran Jefe",
+        "description": "Rupee chicken fireast, chorizo link, and the fresh guacamole, queso fresco.",
+        "prices": [
+          "$28.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973932",
+        "name": "Patron Ranchero",
+        "description": "Ribeye, chicken breast, shrimp, chorizo, queso fresco, cebollines, jalapeño, and street corn. Served with a side of charro beans.",
+        "prices": [
+          "$36.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-9",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "CHICKEN",
+    "note": "Pollo",
+    "items": [
+      {
+        "id": "menu_item_6973945",
+        "name": "Gran Patrón",
+        "description": "Boneless chicken breast and ribeye steak topped with grilled mushrooms, red peppers, onions, and cheese. Served with rice, beans, and flour tortillas.",
+        "prices": [
+          "$25.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973947",
+        "name": "Pollo Loco",
+        "description": "Two grilled chicken breasts topped with crema salad, rice, and flour tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973955",
+        "name": "Chori Pollo",
+        "description": "Two grilled chicken breasts topped with chorizo and cheese sauce. Served with flour tortillas, rice, and beans.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973961",
+        "name": "Pollo Jalisco",
+        "description": "Two grilled chicken breasts topped with peppers, onions, and Monterey cheese. Served with rice, a crema salad, and flour tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973964",
+        "name": "Pollo Especial",
+        "description": "Two grilled chicken breasts topped with sautéed onions and cheese sauce. Served with rice, French fries, and flour tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973967",
+        "name": "Pollo Feliz",
+        "description": "Grilled chicken breast with mushrooms, onions, bell peppers, and melted cheese. Served with rice, beans, and flour tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973970",
+        "name": "Arroz con Pollo",
+        "description": "Tender slices of grilled chicken and rice, topped with cheese sauce.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973974",
+        "name": "Pollo Relleno",
+        "description": "Two grilled chicken breasts layered with sautéed zucchini, red peppers, onions, mushrooms, spinach, corn, black beans, shredded cheese, and ranchero sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973977",
+        "name": "Pollo Sonora",
+        "description": "Two grilled chicken breasts topped with grilled red peppers, red onions, zucchini squash, and sweet corn, covered with creamy cheese sauce. Served with rice, crema salad, and tortillas.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973980",
+        "name": "La Veracruzana",
+        "description": "Two grilled chicken breasts topped with shrimp, onions, mushrooms, peppers, and tomatoes. Topped with cheese sauce and served with rice and beans.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-10",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "VEGETARIAN & VEGAN",
+    "note": "Vegano Y Vegetarianos",
+    "items": [
+      {
+        "id": "menu_item_5316344",
+        "name": "Vegetarian Fajitas (F)",
+        "description": "Mix of sautéed mushrooms, spinach, broccoli, onions, tomatoes, and bell peppers. Served with crema salad, your choice of rice or beans, and tortillas.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316347",
+        "name": "Veggie Burrito Bowl Salad",
+        "description": "Mix of grilled vegetables cooked with mushrooms, squash, and corn, served on a bed of cilantro lime rice with black beans, lettuce, shredded cheese, pico de gallo, sour cream, and avocado.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316348",
+        "name": "Black Bean Tacos",
+        "description": "Three corn tortillas filled with black beans, corn, cilantro, diced onion, pico de gallo, and sour cream. Served with rice.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316349",
+        "name": "Vegan Aqua Tacos",
+        "description": "Three romaine lettuce wraps filled with black beans, grilled vegetables, pico de gallo, and sliced avocado.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316350",
+        "name": "Vegan Taquitos",
+        "description": "Four potato taquitos. Served with black beans, lettuce, and pico de gallo.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-11",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "VEGETARIAN COMBOS",
+    "note": "Combos Vegetarianos",
+    "items": [
+      {
+        "id": "menu_item_6973714",
+        "name": "Combo A",
+        "description": "One bean burrito topped with salsa verde, one bean chalupa, and one cheese enchilada topped with enchilada sauce and cheese. Served with guacamole salad.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973716",
+        "name": "Combo B - Nachos Vegetarianos",
+        "description": "Black beans, grilled onions, pico de gallo, and cheese dip.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973717",
+        "name": "Combo C",
+        "description": "One burrito filled with vegetables and one quesadilla with mushrooms and spinach.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973718",
+        "name": "Combo D",
+        "description": "One potato burrito and one veggie taco. Served with black beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973719",
+        "name": "Combo E",
+        "description": "Two chile rellenos served with rice and beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973720",
+        "name": "Combo F",
+        "description": "One chile relleno and one cheese enchilada served with rice and beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973721",
+        "name": "Combo G",
+        "description": "Two mushroom quesadillas served with rice and black beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-12",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "BURRITOS",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5316351",
+        "name": "Burrito Norteño",
+        "description": "A large flour tortilla stuffed with steak, grilled chicken, roasted red peppers, pineapple, rice, and beans. Topped with chorizo, shrimp, and Norteño sauce.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316354",
+        "name": "Burritos Deluxe",
+        "description": "Two burritos, one beef and beans, and one chicken and beans, served with crema salad and rice or beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316357",
+        "name": "Burritos Típicos",
+        "description": "Two burritos with shredded beef topped with cheese sauce, served with rice.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316358",
+        "name": "Burritos Mexicanos",
+        "description": "Two burritos with shredded beef and beans, topped with lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316360",
+        "name": "Fajita Texaνο Burrito",
+        "description": "Large flour tortilla stuffed with steak, chicken, shrimp, onions, bell peppers, tomatoes, rice, and beans. Topped with cheese sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316364",
+        "name": "Burrito Chipotle",
+        "description": "Large flour tortilla stuffed with grilled chicken, rice, roasted red pepper, and onions, topped with cheese and chipotle sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316368",
+        "name": "Burrito Camarón",
+        "description": "Large flour tortilla stuffed with grilled shrimp, onions, bell peppers, tomatoes, rice, and beans. Topped with cheese sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316373",
+        "name": "Burrito Del Puerto",
+        "description": "Large flour tortilla stuffed with shrimp, scallops, crab meat, roasted red peppers, onions, zucchini squash, rice, and beans. Topped with cheese and chipotle sauce.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316377",
+        "name": "Grilled Buffalo Chicken Burrito",
+        "description": "Large flour tortilla stuffed with grilled chicken, rice and beans, topped with cheese and our buffalo sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5316377.webp"
+      },
+      {
+        "id": "menu_item_5316384",
+        "name": "Burrito Carnitas",
+        "description": "Large flour tortilla stuffed with pork carnitas, onions, rice, and beans. Topped with cheese sauce and green-tomatillo sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316392",
+        "name": "Burrito Picoso",
+        "description": "Large flour tortilla stuffed with grilled chicken, steak, bacon, beans, rice, and fresh jalapeños. Topped with cheese and enchilada sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316399",
+        "name": "Burrito San Jose",
+        "description": "Large flour tortilla stuffed with grilled chicken, chorizo, rice, and beans. Topped with cheese sauce and tomatillo sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316403",
+        "name": "Burritos Fajitas (F)",
+        "description": "Two burritos filled with your choice of steak or chicken and veggies. Topped with cheese sauce and served with crema salad and your choice of rice or beans.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316415",
+        "name": "Burrito California",
+        "description": "Large flour tortilla stuffed with your choice of grilled chicken or steak, rice, beans, and crispy fries. Topped with cheese sauce.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5316415.webp"
+      },
+      {
+        "id": "menu_item_5316423",
+        "name": "Burrito Barbacoa",
+        "description": "Large flour tortilla stuffed with barbacoa, rice, and beans. Topped with tomatillo salsa.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973331",
+        "name": "Burrito Loco",
+        "description": "Large flour tortilla stuffed with grilled steak, chicken, shrimp, chorizo, rice, and beans. Topped with cheese dip",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6973331.webp"
+      },
+      {
+        "id": "menu_item_6973347",
+        "name": "Burrito Al Pastor",
+        "description": "Large flour tortilla stuffed with grilled al pastor, rice, and beans. Topped with cheese dip.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973363",
+        "name": "Ribeye Burrito",
+        "description": "A large flour tortilla packed with tender ribeye, rice, beans, and golden fries, smothered in our signature Gran Patrón sauce for a bold, satisfying bite.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973375",
+        "name": "Burrito Habanero",
+        "description": "Steak, grilled chicken, bacon, rice, beans, Patrón sauce, pico de gallo, and jalapeño.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973380",
+        "name": "Burrito Brocheta",
+        "description": "Steak, chorizo, bacon, shrimp, rice, pico de gallo and Patrón sauce.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973389",
+        "name": "Seafood Burritos",
+        "description": "Shrimp, scallops, roasted red pepper, and red onion. Served with rice, cheese sauce, and chipotle salad.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973391",
+        "name": "Patrón Burrito",
+        "description": "One large flour tortilla stuffed with grilled chicken, chorizo, white rice, and black beans. Topped with Patrón sauce, chipotle sauce, and pico de gallo.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973398",
+        "name": "Burrito Ruleta",
+        "description": "One large flour tortilla stuffed with grilled chicken, shrimp, pineapple, bacon, rice, and beans. Topped with Patrón sauce.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973403",
+        "name": "Burrito Carne Asada Fries",
+        "description": "One large flour tortilla stuffed with steak, potatoes, rice, cilantro, pico de gallo, cheese, and guacamole. Topped with cheese dip.",
+        "prices": [
+          "$22.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-13",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "ENCHILADAS",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5316439",
+        "name": "Yolandas",
+        "description": "Three enchiladas with your choice of chicken or beef. Served with lettuce, pico de gallo, sour cream, and rice.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5316439.webp"
+      },
+      {
+        "id": "menu_item_5316446",
+        "name": "Enchiladas Supremas",
+        "description": "Four enchiladas, chicken, cheese, beef, and beans. Served with lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316449",
+        "name": "Enchiladas Poblanas",
+        "description": "Two chicken enchiladas topped with brown mole sauce, sliced onions, and shredded cheese. Served with rice and beans.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316452",
+        "name": "Enchiladas Rancheras",
+        "description": "Two cheese enchiladas topped with our signature carnitas, onions, and roasted red peppers. Served with a crema salad and rice.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316455",
+        "name": "Enchiladas Vallarta",
+        "description": "Two seafood enchiladas topped with cheesy chipotle seafood sauce. Served with rice and a crema salad.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316461",
+        "name": "Crab & Shrimp Enchiladas (GF, F)",
+        "description": "Two corn tortillas stuffed with grilled crab meat, roasted red peppers, and red onions, covered with cheese sauce and topped with grilled shrimp. Served with grilled broccoli and rice.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316467",
+        "name": "Spinach & Chicken Enchiladas",
+        "description": "Two enchiladas stuffed with grilled chicken and spinach, topped with our delicious roasted poblano sauce and served with rice and crema salad.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973469",
+        "name": "Enchiladas Marcos",
+        "description": "Three enchiladas: one shredded beef, one shredded chicken, and one carnitas. Served with Salsa Patron, shredded cheese, and a side of rice.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316474",
+        "name": "Enchiladas Banderas",
+        "description": "Three chicken enchiladas: one tomatillo, one cheese sauce, and one mole. Served with rice or beans.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316480",
+        "name": "Enchiladas Chipotle",
+        "description": "Two enchiladas stuffed with grilled chicken and topped with our creamy chipotle sauce. Served with rice and crema salad.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-14",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "QUESADILLAS",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5316510",
+        "name": "Rellenas",
+        "description": "Two flour quesadillas filled with cheese and your choice of chicken, beef, or mushrooms. Served with rice or beans and a crema salad.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316516",
+        "name": "Quesadilla Texana",
+        "description": "Large flour tortilla filled with tender slices of chicken, steak, shrimp, onions, bell peppers, and tomatoes. Served with crema salad.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316521",
+        "name": "Del Mar",
+        "description": "Large flour quesadilla loaded with shrimp, crab meat, fire-roasted red pepper, red onion, and beans. Served with crema salad.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316526",
+        "name": "De Chorizo",
+        "description": "Two flour quesadillas filled with grilled chorizo. Served with beans and a crema salad.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316530",
+        "name": "Al Pastor",
+        "description": "Large flour quesadilla filled with grilled al pastor, grilled pineapple, and red onion. Served with rice or beans.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316535",
+        "name": "Fajita (F)",
+        "description": "Large flour tortilla filled with choice of grilled chicken or steak, onions, peppers, and tomatoes. Served with a crema salad and rice.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316540",
+        "name": "Especial",
+        "description": "Large flour tortilla filled with cheese, grilled shrimp, bacon, and red onions. Served with rice, pico de gallo, lettuce, and sour cream.",
+        "prices": [
+          "$21.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316547",
+        "name": "Hawaiian",
+        "description": "Large flour tortilla filled with grilled chicken or steak, cooked with roasted red peppers, red onions, bacon, and pineapple. Served with rice and crema salad.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316554",
+        "name": "Lobster Quesadilla",
+        "description": "A grilled flour tortilla stuffed with succulent lobster, shrimp, smoky bacon, roasted red peppers, and caramelized pineapple. Served with rice and a side of chipotle crema salad.",
+        "prices": [
+          "$27.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-15",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "FAJITAS",
+    "note": "All fajitas are served with flour tortillas, crema salad, and your choice of rice or beans.",
+    "items": [
+      {
+        "id": "menu_item_5316587",
+        "name": "Steak or Grilled Chicken Fajitas",
+        "description": "Fajitas for One: Chicken $20.00 | Steak $21.00 | Mixed $23.00 • Fajitas for Two: Chicken $33.00 | Steak $34.00 | Mixed $36.00 • Tender slices of steak or grilled with bell peppers and onions.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316608",
+        "name": "Ribeye Fajitas",
+        "description": "Ribeye, bacon, mushrooms, onion, Monterey cheese, and cheese sauce.",
+        "prices": [
+          "$26.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973578",
+        "name": "Shrimp Fajitas",
+        "description": "For One $24.00 | For Two $35.00 • Tender shrimp with bell peppers and onions.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316645",
+        "name": "Parrillada",
+        "description": "For One $23.00 | For Two $37.00 • Grilled chicken, steak, pork carnitas, chorizo, bell peppers, tomatoes, and onions.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316652",
+        "name": "Piña Loca",
+        "description": "Grilled pineapple stuffed with grilled chicken, steak, shrimp, and chorizo mixed with red onions, pineapple, red peppers, and cheese sauce.",
+        "prices": [
+          "$24.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316666",
+        "name": "Fajitas Texanas",
+        "description": "For One $24.00 | For Two $35.00 • Grilled chicken, steak, and shrimp cooked with bell peppers, onions, and tomatoes.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316673",
+        "name": "Fajitas Del Mar",
+        "description": "Grilled tilapia, scallops, and shrimp, cooked in garlic butter, red peppers, and onions, topped with chipotle sauce.",
+        "prices": [
+          "$25.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973597",
+        "name": "Virginia Beach Fajitas",
+        "description": "Octopus, scallops, shrimp, tilapia, vegetables, and salsa Vallarta.",
+        "prices": [
+          "$36.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192867-16",
+    "group": "Food",
+    "sourceGroup": "MENU",
+    "name": "KIDS",
+    "note": "Niños\n\nFor children 10 and under.",
+    "items": [
+      {
+        "id": "menu_item_5316711",
+        "name": "Arroz Con Pollo",
+        "description": "Grilled chicken and rice topped with cheese sauce.",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316733",
+        "name": "Mac & Cheese & French Fries",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316737",
+        "name": "Chicken Nuggets & French Fries",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973604",
+        "name": "Tony's Pizza",
+        "description": "Pepperoni pizza with fries.",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316780",
+        "name": "Build Your Own Kid's Meal",
+        "description": "Your choice of taco, cheese quesadilla, burrito, or enchilada. Served with rice, beans, French fries, or apple sauce. Add rice and beans +$0.75.",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316755",
+        "name": "Carlito's Cheeseburger & French Fries",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973609",
+        "name": "Corn Dog Nuggets & Fries",
+        "description": "",
+        "prices": [
+          "$10.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192868-17",
+    "group": "Lunch",
+    "sourceGroup": "LUNCH",
+    "name": "Lunch Specials",
+    "note": "$14.00",
+    "items": [
+      {
+        "id": "menu_item_5316862",
+        "name": "Lunch #1",
+        "description": "Chile relleno, taco, and beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316865",
+        "name": "Lunch #2",
+        "description": "Beef burrito, Mexican rice, and beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316875",
+        "name": "Lunch #3",
+        "description": "Burrito, taco, and rice.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316880",
+        "name": "Lunch #4",
+        "description": "Chile relleno, rice, and beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316888",
+        "name": "Lunch #5",
+        "description": "Enchilada, rice, and beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316892",
+        "name": "Lunch #6",
+        "description": "Beef burrito and beef enchilada topped with lettuce and sour cream.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316894",
+        "name": "Lunch #7",
+        "description": "Two chicken enchiladas with rice, lettuce, pico de gallo, and sour cream.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316899",
+        "name": "Lunch #8",
+        "description": "Chicken enchilada, beef taco, and cheese enchilada.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316902",
+        "name": "Lunch #9",
+        "description": "Enchilada, quesadilla and chalupa.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316905",
+        "name": "Lunch #10",
+        "description": "Enchilada, quesadilla and rice.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316908",
+        "name": "Lunch #11",
+        "description": "Burrito, enchilada, and rice or beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316909",
+        "name": "Lunch #12",
+        "description": "Enchilada, tamal, and rice or beans.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      },
+      {
+        "id": "menu_item_5316911",
+        "name": "Lunch #13",
+        "description": "Two tacos and rice.",
+        "prices": [],
+        "sharedPrice": "$14.00"
+      }
+    ]
+  },
+  {
+    "id": "1192868-18",
+    "group": "Lunch",
+    "sourceGroup": "LUNCH",
+    "name": "Menu",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5316926",
+        "name": "Speedy Gonzáles",
+        "description": "Taco, enchilada, and rice or beans.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316931",
+        "name": "Lunch Pollo Loco",
+        "description": "One grilled chicken breast served with rice, salad, and flour tortillas.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316944",
+        "name": "Lunch Fajitas",
+        "description": "Chicken, Steak, or Shrimp $16.00 | Mixed (Chicken and Steak) $16.00 | Texas $17.00 • Grilled steak or chicken, onions, bell peppers, and tomatoes. Served with flour tortillas, salad, rice, or beans.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316952",
+        "name": "Lunch Fajita Burrito",
+        "description": "Fajita burrito with grilled chicken or steak, onions, bell peppers, and tomatoes, topped with cheese sauce. Served with rice or beans, pico de gallo, lettuce, shredded cheese, and sour cream.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316957",
+        "name": "Huevos Con Chorizo",
+        "description": "Two scrambled eggs mixed with chorizo. Served with rice, beans, and tortillas.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316962",
+        "name": "Taco Salad",
+        "description": "Crispy flour tortilla bowl filled with ground beef, beans, lettuce, pico de gallo, shredded cheese, and sour cream.",
+        "prices": [
+          "$13.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316966",
+        "name": "Fajita Taco Salad",
+        "description": "Choice of steak or grilled chicken, onions, bell peppers, pico de gallo, beans, lettuce, sour cream, and cheese in a crispy flour tortilla bowl.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316969",
+        "name": "Lunch Fajita Quesadilla",
+        "description": "A grilled chicken or steak fajita quesadilla with onions, bell peppers, and pico de gallo. Served with rice or beans and a sour cream salad.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316974",
+        "name": "Quesadilla Rellena",
+        "description": "Grilled flour tortilla stuffed with cheese and your choice of chicken or beef. Served with beans and a crema salad.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316981",
+        "name": "Quesadilla Deluxe",
+        "description": "Grilled flour tortilla stuffed with cheese, mushrooms, and beans. Served with lettuce, sour cream, and rice.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316982",
+        "name": "Burrito Special",
+        "description": "Beef and bean burrito topped with lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$11.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316984",
+        "name": "Enchiladas Poblanas",
+        "description": "Two chicken enchiladas topped with brown mole sauce, sliced onions, and grated cheese. Served with rice.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316993",
+        "name": "Lunch Chimichanga",
+        "description": "Beef or chicken chimichanga served with crema salad and rice or beans.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_5316993.webp"
+      },
+      {
+        "id": "menu_item_5317002",
+        "name": "Dos Taquitos (Flautas)",
+        "description": "Fried taquitos, one beef and one chicken, served with lettuce, pico de gallo, sour cream, and rice.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317005",
+        "name": "Lunch Shrimp Chimichanga",
+        "description": "One flour tortilla filled with grilled shrimp, topped with cheese sauce and served with rice and beans, lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317009",
+        "name": "Lunch Grilled Tilapia",
+        "description": "One grilled tilapia fillet served with rice and salad.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317015",
+        "name": "Lunch Fajita Nachos",
+        "description": "Nachos with steak, grilled chicken, or mixed, cooked with grilled onions, tomatoes, and bell peppers.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317021",
+        "name": "Lunch Spinach Burrito",
+        "description": "One flour tortilla stuffed with grilled chicken and spinach. Topped with cheese sauce and served with rice and beans.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317027",
+        "name": "Nachos Supreme",
+        "description": "Cheese nachos with ground beef, shredded chicken, beans, lettuce, sour cream, and fresh pico de gallo.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317033",
+        "name": "Burrito Bowl",
+        "description": "White rice, black beans, corn, lettuce, shredded. Your choice of chicken or beef, cilantro lime cheese, pico de gallo, and sour cream.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317041",
+        "name": "Huevos Rancheros",
+        "description": "Two eggs scrambled or over easy, topped with ranchero sauce. Served with rice, beans, corn, or flour tortillas.",
+        "prices": [
+          "$14.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317045",
+        "name": "Chilaquiles",
+        "description": "Crispy tortillas in your choice of salsa verde or salsa roja, topped with a fried egg, cheese, and crema. A classic, comforting bite • Add Grilled Chicken +$4.00 | Grilled Steak +$5.00",
+        "prices": [
+          "$13.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6973822",
+        "name": "Spanish Omelet",
+        "description": "Spanish-style omelet with grilled vegetables, cheese, and avocado • Add Grilled Chicken +$4.00 | Grilled Steak +$5.00",
+        "prices": [
+          "$13.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192870-19",
+    "group": "Dinner",
+    "sourceGroup": "DINNER",
+    "name": "Specialty Dinners",
+    "note": "Cenas Especiales",
+    "items": [
+      {
+        "id": "menu_item_6974007",
+        "name": "Aqua Tacos",
+        "description": "Three romaine lettuce wraps with grilled chicken, shredded cheese, pico de gallo, and sliced avocado.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974014",
+        "name": "Street Tacos",
+        "description": "Three traditional Mexican tacos with your choice of steak, grilled chicken, pastor, chorizo, or carnitas, served on corn tortillas and topped with diced onion and cilantro. Served with charro beans.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974026",
+        "name": "Chicken Avo Tacos",
+        "description": "Two soft or crunchy grilled chicken tacos topped with lettuce, shredded cheese, pico de gallo, and sliced avocado. Served with your choice of rice or beans.",
+        "prices": [
+          "$16.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6974026.webp"
+      },
+      {
+        "id": "menu_item_6974034",
+        "name": "Boom Boom Tacos",
+        "description": "Shrimp, red onion, coleslaw, and boom boom sauce.",
+        "prices": [
+          "$20.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974043",
+        "name": "Quesa Birria Tacos",
+        "description": "Three tacos with birria, onion, cilantro, Monterey cheese, and consommé.",
+        "prices": [
+          "$17.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974049",
+        "name": "Taquitos Mexicanos",
+        "description": "Four fried taquitos: two beef and two chicken, topped with lettuce, pico de gallo, and sour cream.",
+        "prices": [
+          "$15.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974061",
+        "name": "Fajita Chimichanga",
+        "description": "A large flour tortilla stuffed with chicken or steak, bell peppers, tomatoes, and onions, topped with cheese sauce. Served with rice and a sour cream salad.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974070",
+        "name": "Soft or Fried Chimichangas",
+        "description": "Two flour tortillas filled with beef or chicken and topped with lettuce, cheese sauce, and sour cream. Served with your choice of rice or beans.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974072",
+        "name": "Shrimp Chimichangas",
+        "description": "Two flour tortillas filled with shrimp and topped with lettuce, pico de gallo, cheese sauce, and sour cream. Served with your choice of rice or beans.",
+        "prices": [
+          "$19.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_6974078",
+        "name": "Arroz Texano",
+        "description": "A flavorful twist on a classic! Steak, chicken, and shrimp grilled with bell peppers, onions, and tomatoes, served over a bed of rice. Topped with melted cheese.",
+        "prices": [
+          "$23.00"
+        ],
+        "sharedPrice": "",
+        "photo": "/assets/granpatron/menu/menu_item_6974078.webp"
+      },
+      {
+        "id": "menu_item_6974082",
+        "name": "Birria Ramen",
+        "description": "Ramen noodles, birria, cilantro, and onion.",
+        "prices": [
+          "$18.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192872-0",
+    "group": "Drinks",
+    "sourceGroup": "BEER",
+    "name": "IMPORTED",
+    "note": "$5.99",
+    "items": [
+      {
+        "id": "menu_item_5321271",
+        "name": "Corona",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321273",
+        "name": "Corona Light",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321274",
+        "name": "Corona Premier",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321275",
+        "name": "Corona Familiar",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321276",
+        "name": "Pacifico",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321277",
+        "name": "Presidente",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321279",
+        "name": "Dos Equis (XX) Lager",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321282",
+        "name": "Dos Equis (XX) Ambar",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321286",
+        "name": "Modelo Especial",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321287",
+        "name": "Negra Modelo",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321289",
+        "name": "El Guapo",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321292",
+        "name": "Sol",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321294",
+        "name": "Tecate",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321295",
+        "name": "Heineken",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321296",
+        "name": "Victoria,",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      },
+      {
+        "id": "menu_item_5321299",
+        "name": "Numero Uno",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$5.99"
+      }
+    ]
+  },
+  {
+    "id": "1192872-1",
+    "group": "Drinks",
+    "sourceGroup": "BEER",
+    "name": "DOMESTIC",
+    "note": "$4.99",
+    "items": [
+      {
+        "id": "menu_item_5321314",
+        "name": "Budweiser",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321316",
+        "name": "Bud Light",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321318",
+        "name": "Bud Light Lime",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321319",
+        "name": "Miller Lite",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321324",
+        "name": "Michelob Ultra",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321328",
+        "name": "Coors Light",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321330",
+        "name": "Yuengling",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      },
+      {
+        "id": "menu_item_5321333",
+        "name": "Angry Orchard",
+        "description": "",
+        "prices": [],
+        "sharedPrice": "$4.99"
+      }
+    ]
+  },
+  {
+    "id": "1192872-2",
+    "group": "Drinks",
+    "sourceGroup": "BEER",
+    "name": "DRAFT",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5321359",
+        "name": "Dos Equis (XX) Ambar",
+        "description": "",
+        "prices": [
+          "$6.99/16 Oz",
+          "$8.99/22 Oz",
+          "$11.99/34 Oz",
+          "$17.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5321377",
+        "name": "Modelo Especial",
+        "description": "",
+        "prices": [
+          "$6.99/16 Oz",
+          "$8.99/22 Oz",
+          "$11.99/34 Oz",
+          "$17.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5321385",
+        "name": "Pacifico",
+        "description": "",
+        "prices": [
+          "$6.99/16 Oz",
+          "$8.99/22 Oz",
+          "$11.99/34 Oz",
+          "$17.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5321395",
+        "name": "Blue Moon",
+        "description": "",
+        "prices": [
+          "$6.99/16 Oz",
+          "$8.99/22 Oz",
+          "$11.99/34 Oz",
+          "$17.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5321451",
+        "name": "Michelob Ultra",
+        "description": "",
+        "prices": [
+          "$5.99/16 Oz",
+          "$7.99/22 Oz",
+          "$9.99/34 Oz",
+          "$15.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5321464",
+        "name": "Bud Light",
+        "description": "",
+        "prices": [
+          "$5.99/16 Oz",
+          "$7.99/22 Oz",
+          "$9.99/34 Oz",
+          "$15.99/Extra Large"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192874-3",
+    "group": "Drinks",
+    "sourceGroup": "COCKTAILS",
+    "name": "Margaritas",
+    "note": "Price varies depending on the tequila choice.",
+    "items": [
+      {
+        "id": "menu_item_5317120",
+        "name": "House Margarita",
+        "description": "Small $10.99 | Medium $14.99 | Large $18.99 | Extra Large $39.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317125",
+        "name": "Texas Margarita",
+        "description": "Small $11.99 | Medium $15.99 | Large $19.99 | Extra Large $44.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317130",
+        "name": "Flavored Margarita",
+        "description": "Small $11.99 | Medium $15.99 | Large $19.99 | Extra Large $44.99 • Strawberry, Raspberry, Blueberry, Peach, Mango, Passion Fruit, Guava, or Watermelon",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317133",
+        "name": "Pomegranate Margarita",
+        "description": "Small $11.99 | Medium $15.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317136",
+        "name": "Sangria Margarita",
+        "description": "Small $11.99 | Medium $15.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317140",
+        "name": "Pineapple Margarita",
+        "description": "Small $12.99 | Medium $16.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317143",
+        "name": "Blood Orange Margarita",
+        "description": "Small $14.99 | Medium $19.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317145",
+        "name": "Coconut Margarita",
+        "description": "Small $13.99 | Medium $17.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317148",
+        "name": "Tropical Margarita",
+        "description": "Small $13.99 | Medium $17.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317150",
+        "name": "Blue Lagoon Margarita",
+        "description": "Small $13.99 | Medium $17.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317152",
+        "name": "Margarona",
+        "description": "Medium $17.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317155",
+        "name": "Trash Can Margarita",
+        "description": "Medium $17.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317157",
+        "name": "Top - Shelf Margarita",
+        "description": "Price varies depending on the tequila choice.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317160",
+        "name": "Margarita Clásica",
+        "description": "Small $14.99 | Medium $18.99 • 1800 Silver Tequila, Cointreau, triple sec, fresh lime juice, and agave nectar.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317162",
+        "name": "Spiced Mangonada Margarita",
+        "description": "Small $14.99 | Medium $18.99 • 1800 Tequila, house mix, mango syrup, and chamoy sauce served with a Tajín salt rim.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317164",
+        "name": "Bones Margarita",
+        "description": "Small $12.99 | Medium $16.99 • Hornitos Plata Tequila, Belle Isle Honey Habanero Moonshine, agave nectar, and Gran Patrón's secret margarita mix.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317165",
+        "name": "Penthouse Patrón",
+        "description": "Small $14.99 | Medium $18.99 • Casamigos Blanco Tequila made the Gran Patròn way.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317167",
+        "name": "Spicy Cucumber Margarita",
+        "description": "Small $14.99 | Medium $18.99",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317168",
+        "name": "Presidente Margarita",
+        "description": "Small $15.99 | Medium $18.99",
+        "prices": [],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192874-4",
+    "group": "Drinks",
+    "sourceGroup": "COCKTAILS",
+    "name": "Signature Margaritas",
+    "note": "Price varies depending on the tequila choice.",
+    "items": [
+      {
+        "id": "menu_item_5317199",
+        "name": "El Jefe's Margarita",
+        "description": "Fresh citrus, Clase Azul Plata Tequila, Grand Marnier, and agave nectar.",
+        "prices": [
+          "$34.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317201",
+        "name": "Margarita Flight",
+        "description": "Your choice of four flavors for House Margarita (frozen or on the rocks) or Sangria Margaritas: strawberry, raspberry, peach, or mango. All served on the rocks except frozen house.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317203",
+        "name": "Skinny Margarita",
+        "description": "Small $13.99 | Medium $18.99 • Freshly squeezed orange and lime juice, reposado tequila, triple sec, and organic agave nectar.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317205",
+        "name": "Clooney Margarita",
+        "description": "Small $14.99 | Medium $19.99 • George Clooney's Casamigos Reposado Tequila, orange liqueur, triple sec, fresh lime juice, fresh orange juice, and organic agave nectar.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317208",
+        "name": "Organic Golden Margarita",
+        "description": "Small $13.99 | Medium $18.99 • Tres Agaves Organic Reposado Tequila and Grand Marnier mixed with our Gran Patrón signature house margarita blend.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317212",
+        "name": "Spicy Wagon Wheel Margarita",
+        "description": "Small $14.99 | Medium $19.99 • Jalapeños, freshly squeezed orange and lime juice, reposado tequila, triple sec, and organic agave nectar.",
+        "prices": [],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192874-5",
+    "group": "Drinks",
+    "sourceGroup": "COCKTAILS",
+    "name": "Cocktails",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5317225",
+        "name": "Bahama Mama",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317233",
+        "name": "Sex on The Beach",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317235",
+        "name": "White Russian",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317237",
+        "name": "Screwdriver",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317239",
+        "name": "Blue Motorcycle",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317241",
+        "name": "Hurricane",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317245",
+        "name": "Electric Lemon",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317250",
+        "name": "Malibu Bay Breeze",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317252",
+        "name": "Alabama Slammer",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317253",
+        "name": "Blue Hawaiian",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317257",
+        "name": "Mojito",
+        "description": "Add Your Choice of Flavor +$1.00",
+        "prices": [
+          "$10.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317259",
+        "name": "Bloody Mary",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317261",
+        "name": "Tequila Sunrise",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317263",
+        "name": "Long Island Iced Tea",
+        "description": "",
+        "prices": [
+          "$12.99"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192874-6",
+    "group": "Drinks",
+    "sourceGroup": "COCKTAILS",
+    "name": "Mules",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5317270",
+        "name": "Classic Mule",
+        "description": "Tito's Handmade Vodka and ginger beer. Garnished with a fresh lime wedge.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317271",
+        "name": "Buckin' Burro",
+        "description": "Montelobos Mezcal and ginger beer. Garnished with a fresh lime wedge.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317274",
+        "name": "Mexican Mule",
+        "description": "Patrón Silver Tequila, ginger beer, and fresh lime juice.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317276",
+        "name": "Kentucky Mule",
+        "description": "Maker's Mark, ginger beer, and fresh lime juice.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192874-7",
+    "group": "Drinks",
+    "sourceGroup": "COCKTAILS",
+    "name": "Signature Cocktails",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5317286",
+        "name": "Cantaritos",
+        "description": "Exótico Tequila, fresh lime juice, fresh lemon juice, fresh orange juice, grapefruit soda, organic agave nectar, and a pinch of salt. Served in a traditional Cantarito mug. Make it a Smokey Cantarito with Montelobos Mezcal +$3.00.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317288",
+        "name": "Paloma",
+        "description": "Exótico Tequila, grapefruit soda, fresh lime juice, organic agave nectar, and a pinch of salt.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317291",
+        "name": "Heavenly Rum Runner",
+        "description": "Brugal Añejo, light rum, fresh lime juice, fresh orange juice, pineapple juice, banana liqueur, and a splash of grenadine.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317293",
+        "name": "Classic Orange Crush",
+        "description": "Three Olives Vodka, orange juice, triple sec, and lemon lime soda.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317295",
+        "name": "Agave Smash",
+        "description": "Teremana Reposado Tequila, half of a freshly smashed lemon, broken mint leaves, and agave nectar. Shaken until blended.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317297",
+        "name": "Bourbon Smash",
+        "description": "Woodford Reserve whiskey, half of a freshly smashed lemon, broken mint leaves, and agave nectar. Shaken until blended.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317300",
+        "name": "Classic Gin & Tonic",
+        "description": "Citadelle Gin, a splash of grapefruit juice, and tonic water.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317304",
+        "name": "Daxacan (Wah - Hock - An)",
+        "description": "Three parts Casa Noble Reposado Tequila, one part Montelobos Mezcal, a spoon of agave nectar, and an orange slice. Stirred until mixed and served on the rocks.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317306",
+        "name": "Adult Shirley Temple",
+        "description": "Three Olives Vodka, a whole freshly squeezed lemon, grenadine, and lemon lime soda.",
+        "prices": [
+          "$13.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317308",
+        "name": "Carajillo",
+        "description": "Mexico's twist on an espresso martini - Rich, classic, and smooth. Exótico tequila, Mexican coffee, and Licor 43.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317312",
+        "name": "Horchata or Nada",
+        "description": "Spiked horchata. Gran Patrón's delicious homemade Latin horchata rice mix spiked with Havana Club Añejo Clásico Rum and Rum Chata. It's addicting.",
+        "prices": [
+          "$14.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317316",
+        "name": "Handcrafted Sangria",
+        "description": "Fresh fruit and brandy. Glass.",
+        "prices": [
+          "$8.99"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317317",
+        "name": "Patrón Airline Shots",
+        "description": "Prices vary based on shooter selection.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317319",
+        "name": "Toro Shots",
+        "description": "Prices vary based on shooter selection.",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317324",
+        "name": "Frozen Daiquiris",
+        "description": "Small $11.99 | Medium $15.99 • Strawberry, Raspberry, Blueberry, Peach, Mango, Passion Fruit, Guava, or Watermelon",
+        "prices": [],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192875-8",
+    "group": "Drinks",
+    "sourceGroup": "SPIRITS",
+    "name": "Tequila & Mezcal",
+    "note": "",
+    "items": [
+      {
+        "id": "menu_item_5317330",
+        "name": "Patrón",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317332",
+        "name": "Roca Patrón",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317333",
+        "name": "Don Julio",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317334",
+        "name": "Don Julio 1942",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317335",
+        "name": "Herradura",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317337",
+        "name": "Casamigos",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317339",
+        "name": "Clase Azul",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317341",
+        "name": "Cabo Wabo",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317342",
+        "name": "Cazadores",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317343",
+        "name": "1800",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317344",
+        "name": "1800 Cristalino",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317345",
+        "name": "Corazón",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317346",
+        "name": "Avión",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317348",
+        "name": "Exótico",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317349",
+        "name": "Hornitos",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317351",
+        "name": "Hornitos Black Barrel",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317353",
+        "name": "Organic Tres Generaciones",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317354",
+        "name": "Sauza",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317355",
+        "name": "El Jimador",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317356",
+        "name": "Espolón",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317357",
+        "name": "Cincoro",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5317358",
+        "name": "Casa Noble",
+        "description": "",
+        "prices": [],
+        "sharedPrice": ""
+      }
+    ]
+  },
+  {
+    "id": "1192877-9",
+    "group": "Drinks",
+    "sourceGroup": "SOFT DRINKS",
+    "name": "Drinks",
+    "note": "Bebidas",
+    "items": [
+      {
+        "id": "menu_item_5316792",
+        "name": "Sodas",
+        "description": "Coke, Diet Coke, Coke Zero Sugar. Chesty Co Sprite, Pibb Xtra, Fanta, Hi-C Fruit Punch Lemonade, Iced Tea, Coffee",
+        "prices": [
+          "$5.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316797",
+        "name": "Milk, Orange Juice, Apple Juice",
+        "description": "No free refills.",
+        "prices": [
+          "$5.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316804",
+        "name": "Meixcan Coca - Cola",
+        "description": "",
+        "prices": [
+          "$6.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316806",
+        "name": "Mexican Jarritos",
+        "description": "",
+        "prices": [
+          "$6.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316808",
+        "name": "Bottled Root Beer",
+        "description": "",
+        "prices": [
+          "$4.00"
+        ],
+        "sharedPrice": ""
+      },
+      {
+        "id": "menu_item_5316812",
+        "name": "Agua Fresca",
+        "description": "Horchata, Tamarindo, Strawberry Lemonade, Jamaica, or Piña.",
+        "prices": [
+          "$8.00"
+        ],
+        "sharedPrice": ""
+      }
+    ]
+  }
+]
