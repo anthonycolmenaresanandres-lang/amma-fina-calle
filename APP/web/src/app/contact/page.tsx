@@ -1,110 +1,81 @@
 import Link from "next/link";
+import { Bodoni_Moda } from "next/font/google";
+import styles from "@/components/ConsultationPages.module.css";
+
+const display = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-fc-display",
+});
 
 export const metadata = {
-  title: "Contact | Fina Calle OS",
+  title: "Contact | Fina Calle",
   description:
-    "Get in touch with AMMA Ventures LLC DBA Fina Calle — start a build, send a request, or email directly.",
+    "Discuss a consulting or digital delivery project with Fina Calle, or find support for your existing service.",
+  alternates: { canonical: "/contact" },
 };
 
 const CONTACT_EMAIL = "Ammaventuresvb@gmail.com";
-const EMAIL_SUBJECT = "Fina Calle — new project";
-const EMAIL_BODY =
-  "Hi AMMA Ventures team,\n\nBusiness name:\nWhat I want built:\nTimeline:\n\nThanks!";
-
-const TRUST_POINTS = [
-  "Reply within 1 business day",
-  "No spam, ever",
-  "Billing stays separate from your POS",
-];
+const consultationEmail = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Fina Calle — consultation inquiry");
+const supportEmail = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Fina Calle — existing customer support");
 
 export default function ContactPage() {
   return (
-    <main className="relative isolate min-h-dvh overflow-hidden bg-[#030405] px-5 py-5 text-[#f4f6f7] sm:px-8 lg:px-10">
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_18%,rgba(205,214,219,0.13),transparent_30%),radial-gradient(circle_at_20%_78%,rgba(216,179,109,0.09),transparent_28%),linear-gradient(145deg,#020303_0%,#0d1012_46%,#050607_100%)]" />
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.022)_1px,transparent_1px)] bg-[size:68px_68px]" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-44 bg-gradient-to-t from-black to-transparent" />
+    <div className={`${styles.page} ${display.variable}`}>
+      <a href="#contact-content" className={styles.skipLink}>Skip to contact options</a>
+      <header className={styles.header}>
+        <Link href="/" className={styles.brand}>Fina Calle</Link>
+        <Link href="/#work" className={styles.textLink}>Explore our work</Link>
+      </header>
 
-      <div className="mx-auto flex min-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col">
-        <header className="flex items-center justify-between gap-4 text-[0.68rem] uppercase tracking-[0.28em] text-[#cfd6da]/62">
-          <Link href="/" className="transition hover:text-white">
-            Fina Calle OS
-          </Link>
-          <span className="hidden sm:inline">Contact</span>
-        </header>
+      <main id="contact-content" className={styles.content} tabIndex={-1}>
+        <p className={styles.eyebrow}>Contact</p>
+        <h1 className={styles.title}>Let’s talk about<br />your business.</h1>
+        <p className={styles.lede}>
+          A new project starts with a conversation about what needs to improve.
+          If you already work with us, use the support path below.
+        </p>
 
-        <section className="grid flex-1 gap-8 py-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:py-16">
-          <div>
-            <p className="text-xs uppercase tracking-[0.42em] text-[#d8b36d]">
-              Next Step
+        <div className={styles.contactOptions}>
+          <section aria-labelledby="consultation-heading" className={styles.option}>
+            <p className={styles.eyebrow}>New projects</p>
+            <h2 id="consultation-heading">Consultation inquiries</h2>
+            <p>
+              Tell us about your business, the problem you want to solve, and
+              what a useful result would look like. You don’t need a technical brief.
             </p>
-            <h1 className="mt-5 text-4xl font-semibold tracking-normal text-[#f4f6f7] sm:text-5xl">
-              Let&apos;s build something premium.
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-[#c8d0d4] sm:text-lg">
-              The fastest way in is the build request — two minutes and we reply
-              with a clear direction, the right package, and a fixed quote. Prefer
-              email? Reach us directly.
+            <Link href="/request-update" className={styles.primaryLink}>Discuss your project <span aria-hidden>↗</span></Link>
+            <p className={styles.note}>
+              Consulting and custom delivery require a separate written scope,
+              including fees and timing, before work begins.
             </p>
-            <ul className="mt-7 flex flex-col gap-2.5">
-              {TRUST_POINTS.map((point) => (
-                <li
-                  key={point}
-                  className="flex items-center gap-3 text-sm text-[#c8d0d4]"
-                >
-                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-[#d8b36d] shadow-[0_0_12px_rgba(216,179,109,0.7)]" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <section className="rounded-lg border border-[#cfd6da]/16 bg-[#07090b]/82 p-5 shadow-[0_30px_80px_-58px_rgba(255,255,255,0.5)] ring-1 ring-white/[0.03] backdrop-blur sm:p-6">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d8b36d]">
-              Start a project
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-              Tell us your business and what you want built — QR menus, branded
-              web systems, mini-games, and customer journeys for local business.
-            </p>
-            <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-              <Link
-                href="/request-update"
-                className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#d8b36d]/60 bg-[#f4f6f7] px-5 text-xs font-black uppercase tracking-[0.16em] text-[#050607] shadow-[0_18px_46px_-28px_rgba(216,179,109,0.95)] transition hover:-translate-y-0.5 hover:bg-white"
-              >
-                Request a Build
-              </Link>
-              <a
-                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-                  EMAIL_SUBJECT,
-                )}&body=${encodeURIComponent(EMAIL_BODY)}`}
-                className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#cfd6da]/28 bg-[#080a0c]/76 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#eef2f4] transition hover:border-[#f0f3f4]/70 hover:bg-[#15191d]/88"
-              >
-                Email Directly
-              </a>
-            </div>
-
-            <div className="mt-6 border-t border-[#cfd6da]/10 pt-5">
-              <p className="text-[0.66rem] uppercase tracking-[0.22em] text-[#cfd6da]/56">
-                Direct email
-              </p>
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="mt-1 block break-words text-sm font-medium text-[#f4d99c] transition hover:text-[#f8e7bc]"
-              >
-                {CONTACT_EMAIL}
-              </a>
-              <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-                Want proof first?{" "}
-                <Link href="/case-studies" className="text-[#eef2f4] underline-offset-4 hover:underline">
-                  See the Colattao case study
-                </Link>
-                . No booking system or payment flow runs on this page — billing
-                always stays separate from your POS.
-              </p>
-            </div>
+            <a href={consultationEmail} className={styles.textLink}>Prefer email? Send a consultation inquiry</a>
           </section>
-        </section>
-      </div>
-    </main>
+
+          <section id="support" aria-labelledby="support-heading" className={styles.option}>
+            <p className={styles.eyebrow}>Existing customers</p>
+            <h2 id="support-heading">Help with your service</h2>
+            <p>
+              Use the private owner portal link provided for your business to
+              manage supported updates or send a request. For help accessing it
+              or another service issue, email the team.
+            </p>
+            <a href={supportEmail} className={styles.secondaryLink}>Email customer support <span aria-hidden>↗</span></a>
+            <p className={styles.note}>
+              Include your business name, the page or service affected, and what
+              happened. Never send passwords or payment details.
+            </p>
+            <a href={"mailto:" + CONTACT_EMAIL} className={styles.textLink}>{CONTACT_EMAIL}</a>
+          </section>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <span>AMMA Ventures LLC DBA Fina Calle</span>
+        <Link href="/">Back to Fina Calle</Link>
+      </footer>
+    </div>
   );
 }
