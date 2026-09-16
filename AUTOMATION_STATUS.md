@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-15 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing changed since the 09-15 morning run except the day's VBFH Daily Run firing green — nothing needed fixing.** No new commits, merges, closes, or review comments in any of the four repos since the last run. Default-branch tips re-verified via API — all unchanged: amma **`306fcf45`** (#234), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#167) + `CI — voice-gateway` ✅ (#13, unchanged) on main; vbfh `CI` ✅ (#21) on master. The five open drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments. **VBFH Daily Run — GREEN.** Latest completed **#104** (09-15 16:35→16:37 UTC SUCCEEDED) — the 09-15 run the morning check found had not yet fired. Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-16 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** One change since the 09-15 afternoon run: **Anthony merged his own new draft #235** ("Gran Patrón menu and shootout review preview") 09-16 10:32 UTC → amma `main` advanced **`306fcf45`** (#234) → **`30fe59e2`** (#235), `CI — web` **#170 ✅**. Additive Gran Patrón demo (new `/demo/gran-patron` + `/play/gran-patron` routes, table-os menu catalog, non-human game art, docs); **no Client OS route (`/m|/owner|/customers`), Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **his own merge, no caretaker action; recorded only.** Other default-branch tips re-verified via API — all unchanged: vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — voice-gateway` ✅ (#13, unchanged, nothing touched voice paths) on main; vbfh `CI` ✅ (#21) on master. The five open drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments. **VBFH Daily Run — GREEN.** Latest completed **#104** (09-15 16:35→16:37 UTC SUCCEEDED); the 09-16 run had not yet fired at check time (normal window). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -82,14 +82,14 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-15, afternoon)
+## Build health (as of 2026-09-16, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`306fcf45`** (**#234** "Premium owner portal, guarded billing and owner guide," 09-14 13:23 UTC; **Anthony's own merge**, **`CI — web` #167 ✅**). Advanced 09-14 via **#234** from `a08c51a3` (#233). #234 touches the **protected `/owner/[id]` route + Stripe enrollment/reconciliation** (hard-guardrail area) but was **Anthony's own merge** → no caretaker action; recorded only. Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Five** open drafts held: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. All five drafts unchanged (`updated_at` static since 08-16…09-11 aside from Vercel-bot activity). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`30fe59e2`** (**#235** "Gran Patrón menu and shootout review preview," 09-16 10:32 UTC; **Anthony's own merge**, **`CI — web` #170 ✅**). Advanced 09-16 via **#235** from `306fcf45` (#234). #235 is an **additive Gran Patrón demo** (new `/demo/gran-patron` + `/play/gran-patron` routes, `src/table-os/menu/gran-patron` catalog, non-human game art [burrito/piña/cantina-pitch webp], build/QA scripts + docs); minor Las Palmas game-hub tweaks. **No Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **Anthony's own merge, no caretaker action; recorded only.** Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Five** open drafts held: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. All five drafts unchanged (`updated_at` static since 08-16…09-11 aside from Vercel-bot activity). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-15 16:35→16:37 UTC SUCCEEDED (run #104)**. Every run 07-21…09-15 that fired was ✅ (~fifty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
@@ -125,8 +125,21 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ## Merged / closed since last run
 
-Since the 09-14 morning run, **one merge landed on amma `main` — Anthony's own merge of #234** → no caretaker
+Since the 09-15 afternoon run, **one merge landed on amma `main` — Anthony's own merge of #235** → no caretaker
 action:
+
+- **amma #235 — "Gran Patrón menu and shootout review preview."** Merged by **Anthony** 09-16 10:32 UTC
+  (merge `30fe59e2`, current main tip). Clone-authored, 50 files. Adds a new prospect demo for **Gran Patrón**:
+  a menu preview at `/demo/gran-patron`, a penalty-shootout preview at `/play/gran-patron`, a `src/table-os/menu/
+  gran-patron` catalog/manifest/source-snapshot, original non-human game art (burrito / piña / cantina-pitch
+  webp), build + browser-QA scripts, plus OPERATIONS build-spec/plan/review docs; minor Las Palmas game-hub
+  tweaks. **Guardrail-clean:** additive `/demo` + `/play` routes only — **no Client OS route (`/m|/owner|
+  /customers`), Supabase, Stripe, POS, secret, customer data, or stable-QR change.** `CI — web` **#170 ✅**.
+  Game art is non-human with the primitive fallback preserved; the only `logo.png` under the Gran Patrón assets
+  is an approved-overlay slot, not AI-generated content shipped as a real mark. **Anthony's own merge → no
+  caretaker action; recorded for the audit trail.**
+
+### Prior wave
 
 - **amma #234 — "Premium owner portal, guarded billing and owner guide."** Merged by **Anthony** 09-14
   13:23 UTC (merge `306fcf45`, current main tip). Codex-authored (`codex/owner-standard-premium-20260914`), 42
@@ -139,7 +152,7 @@ action:
   action; recorded for the audit trail. _(The morning run held this as an open draft; Anthony merged it himself
   the same day.)_
 
-Prior wave (all Anthony's own merges, retained for the audit trail):
+Earlier in the prior wave (all Anthony's own merges, retained for the audit trail):
 
 - **amma #233 — "Add Las Palmas official online ordering invitation."** Merged by **Anthony** 09-14 09:43 UTC
   (`a08c51a3`). Clone-authored; adds a Las Palmas official online-ordering invitation (links out to the official
@@ -231,6 +244,22 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-16 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** One
+  change since the 09-15 afternoon run: **Anthony merged his own new draft #235** ("Gran Patrón menu and shootout
+  review preview") 09-16 10:32 UTC — merge `30fe59e2` now amma main tip, `CI — web` **#170 ✅**. Additive Gran
+  Patrón prospect demo (`/demo/gran-patron` menu + `/play/gran-patron` shootout, `src/table-os/menu/gran-patron`
+  catalog, original non-human game art, build/QA scripts + OPERATIONS docs); **guardrail-clean** — no Client OS
+  route / Supabase / Stripe / POS / secret / customer-data / stable-QR change → **his own merge, no caretaker
+  action; recorded only.** amma `main` advanced `306fcf45` (#234) → `30fe59e2` (#235). Other default branches
+  re-verified via API — all unchanged: vbfh `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb
+  `eee6a37` (#1). amma `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run —
+  latest completed #104** (09-15 16:35→16:37 UTC ✅); the 09-16 run had not yet fired at check time (normal
+  window). Zero failing workflow runs across all repos. The five open drafts (#225/#221/#219/#218/#197)
+  unchanged and held — no new review comments. #218 governance question stays open; #29 stays closed (07-18).
+  Branch cleanup still 403-blocked (the five open draft heads excluded). Standing items for Anthony unchanged
+  (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel
+  deploy step, branch cleanup). No push notification sent — quiet all-green run; the only change was Anthony's
+  own merge, needing no caretaker action.
 - **2026-09-15 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing changed since the
   09-15 morning run except the day's VBFH Daily Run firing green — nothing needed fixing.** No new commits,
   merges, closes, or review comments anywhere since the last run. Default branches re-verified via API — all
