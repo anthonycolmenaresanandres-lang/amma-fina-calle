@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-16 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** One change since the 09-16 morning run: **Anthony merged his own new PR #236** ("Make Fina Calle consulting-first with clear proof and inquiry paths") 09-16 20:13 UTC → amma `main` advanced **`30fe59e2`** (#235) → **`b82c908e`** (#236), `CI — web` **#172 ✅**. Codex-authored consulting-first redesign of the public journey (homepage, `/contact`, `/for-restaurants` landing + lead form, `/request-update` + consultation-form components, plus OPERATIONS/HANDOFF docs; 13 files, +1026−589); PR body states **no logo/art, LandingMotion controller, game/menu/owner behavior, backend, database, access, payment or dependency changes** and that **Anthony explicitly authorized the scoped merge + live release on 09-16.** Verified changed paths — **no Client OS route (`/m|/owner|/customers`), Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **his own authorized merge, no caretaker action; recorded only.** Other default-branch tips re-verified via API — all unchanged: vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — voice-gateway` ✅ (#13, unchanged, nothing touched voice paths) on main; vbfh `CI` ✅ (#21) on master. The five open drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments. **VBFH Daily Run — GREEN.** Latest completed **#105** (09-16 16:28→16:30 UTC SUCCEEDED). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-17 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing changed since the 09-16 afternoon run and nothing needed fixing.** No new commits, merges, closes, or review comments anywhere across the four repos. Default branches re-verified live via API — all unchanged: amma `b82c908e` (#236), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#172) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — GREEN.** Latest completed **#105** (09-16 16:28→16:30 UTC SUCCEEDED); the 09-17 run had not yet fired at check time (normal window). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. The five open drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the five open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -82,7 +82,7 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-16, afternoon)
+## Build health (as of 2026-09-17, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
@@ -124,6 +124,11 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 - vbfh-media-engine, shadow-engineer-rpa, EscapeTheBomb-DC: **zero open PRs.**
 
 ## Merged / closed since last run
+
+Since the 09-16 afternoon run, **nothing has merged or closed on any of the four repos** — no new PR activity,
+no caretaker action. The most recent merge (Anthony's own #236, 09-16) is retained below for the audit trail.
+
+### Prior run (09-16 afternoon)
 
 Since the 09-16 morning run, **one merge landed on amma `main` — Anthony's own merge of #236** → no caretaker
 action:
@@ -256,6 +261,18 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-17 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing changed since the
+  09-16 afternoon run and nothing needed fixing.** No new commits, merges, closes, or review comments anywhere
+  across the four repos. Default branches re-verified live via API — all unchanged: amma `b82c908e` (#236), vbfh
+  `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#172) + `CI —
+  voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#21) on master. **VBFH Daily Run — latest completed #105**
+  (09-16 16:28→16:30 UTC ✅); the 09-17 run had not yet fired at check time (normal window). Zero failing
+  workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). The five open drafts
+  (#225/#221/#219/#218/#197) unchanged and held — no new review comments. #218 governance question stays open;
+  #29 stays closed (07-18). Branch cleanup still 403-blocked (the five open draft heads excluded). Standing items
+  for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, Marbel
+  SQL, #215 Table Duel deploy step, branch cleanup). No push notification sent — quiet all-green run, nothing
+  changed.
 - **2026-09-16 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** One
   change since the 09-16 morning run: **Anthony merged his own new PR #236** ("Make Fina Calle consulting-first
   with clear proof and inquiry paths") 09-16 20:13 UTC — merge `b82c908e` now amma main tip, `CI — web` **#172
