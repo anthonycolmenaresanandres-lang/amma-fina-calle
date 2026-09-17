@@ -11,3 +11,7 @@ _local_secrets/
 CLONE_CONTROL/
 .DS_Store
 .vercel
+
+# Python build artifacts
+__pycache__/
+*.pyc
