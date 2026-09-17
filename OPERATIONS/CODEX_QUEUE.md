@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 48 - Simpler consulting homepage with a serious comic-book identity
+
+**State:** IN PROGRESS - IMPLEMENTATION AND SCOPED RELEASE AUTHORIZED
+**Authority:** Anthony requested a much simpler, cooler page retaining a comic-book but not silly theme, and said continue after restoring filesystem access on 2026-09-17. This iterates the same redesign under his existing explicit merge/live authorization.
+**Scope:** Homepage presentation, concise copy and task documentation in isolated branch codex/consulting-comic-20260917. Preserve original logo/art, LandingMotion and supporting motion styles, visible mobile explanations, verified Live/Demo labels, consultation/support split and secondary restaurant offer starting at $199/month/location; consulting/custom work requires separate written scope.
+**Plan:** Barlow Condensed 800 display with Geist body; Ink #07090b, Graphite #0d1115, Gold #c8aa72, Paper #f0ece4, Muted #b9c0c6. One bold cover composition with restrained halftone, real proof, three process steps and compact restaurant strip. Remove duplicate service explanations and decorative microcopy. No new artwork or capability claims.
+**PASS:** Inspected 320/390/768/1440 layouts, keyboard/focus, reduced-motion/no-JavaScript, preserved forward/reverse morph, working links, targeted lint/build, independent review, exact-head checks and live deployment verification.
+**STOP:** Unexpected base/diff, failed checks or inaccessible verification. No backend, owner/menu/game behavior, access, payment, database, customer send or held-route changes.
+
 ## [x] 47 - Consulting-first Fina Calle redesign and approved release
 
 **State:** DONE - MERGED AND VERIFIED LIVE
