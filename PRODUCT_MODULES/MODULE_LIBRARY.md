@@ -36,3 +36,14 @@ Reusable modules planned for AMMA/Fina Calle:
   shipped in `services/voice-gateway` — the `bargeInMinMs` barge-in debounce over the
   gateway's client-owned floor control; full noise-intelligence layer is a premium tier
   for noisy venues, next voice bet after VBFH)
+- Menu Control — owner menu app (PLANNED — plan `MENU_CONTROL_APP_PLAN.md`; turns the existing
+  `/owner/[id]` PWA into a real menu editor. Three surfaces on one data model, because owners do
+  three different jobs: the **86 board** (daily, 10 seconds, mid-rush, the default screen), the
+  **full editor** (monthly, add/edit/reorder/photo), and **import assist** (once, photo of the
+  paper menu → draft → per-item approval, which is also the scalable version of "let us do it").
+  Two corrections baked in: the **guest** menu must never become an installable app — install
+  prompts at the table are where guests drop, so `/m/[id]` gets a <2s performance budget, not a
+  manifest — and gamification is a **Menu Health ring + Kitchen Match streak** pointing at real
+  defects, never points, badges for trivial actions, or a leaderboard across clients. Pilot tenant
+  is Colattao, which first needs P0.5: Café Rush's guest menu is a static file that has already
+  drifted from Supabase, so it must be reconciled and connected at the same printed QR URL)

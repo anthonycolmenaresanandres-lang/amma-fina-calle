@@ -1,5 +1,27 @@
 # Codex Queue — canonical live queue
 
+## [ ] 49 - Menu Control P0.5: connect Colattao's guest menu to live data
+
+**State:** QUEUED - BLOCKED ON ANTHONY'S MENU RECONCILIATION
+**Authority:** Anthony asked on 2026-09-20 for the customer menu QR to become an app, as simple as possible, owner-editable or AMMA-edited, with gamification; and selected Colattao as the pilot. Plan: PRODUCT_MODULES/MENU_CONTROL_APP_PLAN.md §6a.
+**Why this exists:** Colattao's guest menu is a static file (colattao-cafe-rush/src/data/colattaoMenu.ts) imported by src/app/menu/page.tsx:4, while the owner portal writes to Supabase. They are not connected, and they have already drifted. Without this, an 86 board on Colattao changes nothing a guest can see.
+**Blocked by:** Anthony must reconcile the two menus item by item before any switch — static has "Fall Drinks" / 51 items, Supabase has "Seasonal Drinks" / ~54 items. Do not guess which is correct. Do not start implementation before this is resolved and recorded.
+**Scope:** In the colattao-cafe-rush repo only. Point src/app/menu/page.tsx at get_public_menu('colattao'); retain colattaoMenu.ts as a build-time fallback so an unreachable Supabase renders the current menu rather than an error; fix zero-price rendering so 0 reads "Ask staff" (House Brew is seeded at 0::numeric and is the first item of the first category; five places in the codebase already agree 0 means "Ask staff" and only the guest menu disagrees). Data source only.
+**Preserve:** The exact printed QR URL colattao-cafe-rush.vercel.app/menu — no redirect, no path change. Current visual design, autumn/seasonal components, FallPromo, guest note form. No migration of Colattao's menu to /m/colattao — CLAUDE.md forbids it.
+**PASS:** Guest menu at the exact QR URL renders content equivalent to today's static menu after reconciliation, verified item by item. Supabase-unreachable path renders the fallback, never a 5xx. Zero-price items read "Ask staff" on the guest screen. Targeted ESLint, tsc --noEmit, production build. 320/390/1440 with no overflow. Real printed QR scanned on a physical phone, zero redirects.
+**STOP:** No URL change, redirect, reprint, /m/colattao migration, design change, owner-portal change or schema migration. No production merge without Anthony. If reconciliation is unresolved, stop and report — do not pick a winner.
+
+## [ ] 50 - Menu Control P1: the 86 board
+
+**State:** QUEUED - DO NOT START UNTIL 49 IS VERIFIED LIVE
+**Authority:** As item 49. Plan: PRODUCT_MODULES/MENU_CONTROL_APP_PLAN.md. This entry covers P1 only. Pilot tenant: colattao.
+**Depends on:** Queue 49. Until Colattao's guest menu reads live data, an 86 board changes nothing a guest can see.
+**Scope:** A default "Tonight" screen in the existing /owner/[id] PWA: searchable flat list of menu items, one-tap available/sold-out per item, optimistic UI with an explicit failed-save retry state, and an "Everything's on" confirm. Reuses the existing audited rail (lib/owner/rail.ts, menu-control-actions.ts) and the is_available field it already supports. Replaces Colattao's request-based menu gating at OwnerDashboard.tsx:194 with the live editor for availability only — every other Colattao menu change stays request-based until P2.
+**Preserve:** /m/[id] and /owner/[id] URL shapes. Colattao's printed QR. Existing MenuQuickEdit two-step confirm for price/name/description edits — 86-ing is the only action that loses the review step, because it is one-tap reversible.
+**PASS:** Time-to-86 under 10s from app launch on a 390px viewport, measured and recorded. An 86 in the owner app is visible on the real Colattao guest menu at the printed QR within one refresh. Tenant authorization re-checked per write. Every toggle written to audit_log. Failed save visibly distinguishable from a successful one. Targeted ESLint, tsc --noEmit, production build. 320/390/1440 with no overflow. Keyboard focus visible on every toggle.
+**STOP:** No schema migration, new RPC, storage bucket, photo upload, or add/delete/reorder — those are P2. No gamification — that is P3. No guest-menu manifest or install prompt ever. No secrets, access grants, billing, client send, print, or production merge. Anthony approves deploy.
+
+
 ## [ ] 48 - Simpler consulting homepage with a serious comic-book identity
 
 **State:** IN PROGRESS - IMPLEMENTATION AND SCOPED RELEASE AUTHORIZED
