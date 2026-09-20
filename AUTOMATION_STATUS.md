@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-19 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Only change since the 09-19 morning run: the **09-19 VBFH Daily Run (#108) fired + SUCCEEDED** (15:38→15:39 UTC) — the run the morning check found had not yet fired. No new commits, merges, closes, or human review comments anywhere across the four repos. vbfh draft **#8** unchanged (head `fb921c8` static, `mergeable_state: clean`; its CI re-ran green — run #23) — still Anthony's held draft. Default branches re-verified live via API — all unchanged: amma `9be5b13c` (#237), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ on master. **VBFH Daily Run — GREEN. Latest completed #108** (09-19 15:38→15:39 UTC SUCCEEDED). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. The five open amma drafts (#225/#221/#219/#218/#197) are unchanged and remain held — all Vercel Ready ✅, `mergeable_state: clean`, no new review comments (only Vercel-bot deploy notes). No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-20 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** One change since the 09-19 afternoon run: **Anthony opened a new draft PR #238 in amma** ("docs(product): Menu Control owner app plan + Codex queue 49/50", `claude/menu-control-app`, opened 09-20 10:14 UTC) — **documentation only** (4 files, +324: new `PRODUCT_MODULES/MENU_CONTROL_APP_PLAN.md`, `MODULE_LIBRARY.md`, `CODEX_QUEUE.md` items 49/50, `HANDOFF_LOG.md`). **Guardrail-clean** (no schema migration, route, Supabase/Stripe/POS, client contact, price, or deploy), Vercel Ready ✅, `mergeable_state: clean` — but **Anthony's own held draft**, so **no caretaker merge**. It surfaces **two findings needing Anthony** (see the list below): (1) the Colattao pilot needs a menu reconciliation before its own queue item 49 can start, and (2) a **confirmed live zero-price bug** — `m/[id]/page.tsx:26` renders a `0` price as `$0.00` on the guest menu while five other files render "Ask staff"; that file is in the **protected `/m/[id]` Client OS route the caretaker never touches**, and it is already queued for Codex (item 49) behind Anthony's reconciliation, so it's flagged, not fixed. No other new commits, merges, closes, or human review comments anywhere. vbfh draft **#8** unchanged (head `fb921c8` static, `mergeable_state: clean`; CI green — run #23) — still Anthony's held draft. Default branches re-verified live via API — all unchanged: amma `9be5b13c` (#237), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ on master. **VBFH Daily Run — GREEN. Latest completed #108** (09-19 15:38→15:39 UTC SUCCEEDED); the 09-20 run had not yet fired at check time (normal window). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. **Six** open amma drafts now (#238/#225/#221/#219/#218/#197) — all Vercel Ready ✅, `mergeable_state: clean`, held; no new review comments on the older five (only Vercel-bot deploy notes). No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -22,6 +22,21 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    you may want to close it / reset the branch. I've taken no action either way. _(The docs-only price-anchor
    commit `e1b1fbe` — authored by "Claude", not "Clone" — correcting the E_MYTH doc to the locked $199 offer
    does not change the governance question above.)_
+
+🆕 **New draft PR #238 "Menu Control owner app plan" — two things need your call (held docs draft).**
+   `claude/menu-control-app`, opened 09-20. **Documentation only** — a research/architecture plan plus two Codex
+   queue entries (49/50) for the owner-side menu app you asked for (QR menu → owner app, simple, owner-editable
+   or AMMA-managed, gamified). Guardrail-clean (no schema/route/Supabase/Stripe/POS/client-contact/price/deploy),
+   Vercel Ready ✅, `mergeable_state: clean`. **Held — your draft; I don't auto-merge drafts.** Inside it are two
+   items only you can settle:
+   - **Reconcile the Colattao menu (blocks its own queue item 49).** Colattao's guest menu at the printed QR is a
+     **static file** while the owner portal writes to **Supabase**, and the two have **already drifted** ("Fall
+     Drinks"/51 items vs "Seasonal Drinks"/~54 items). Before any owner-editable menu can go live for Colattao,
+     you need to say — menu item by item — which version is correct. The plan tells Codex not to guess.
+   - **A confirmed live bug on the guest menu (I can't fix it — it's in the guarded `/m/[id]` route).** A price of
+     `0` is meant to read "Ask staff," and five files do that, but the one screen guests actually see renders it
+     `$0.00` (a free item). `House Brew` is seeded at `0` and is the first item on the menu. It's queued for
+     Codex (item 49); flagged here because it's live now and touching `/m/[id]` is outside what I'm allowed to do.
 
 🆕 **Three demos/add-ons still open for your review & merge call (held drafts, guardrail-clean):**
    - **#225 Instagram Ordering Activation add-on** (`claude/instagram-dm-ordering-m8i210`).
@@ -93,20 +108,31 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-19, afternoon)
+## Build health (as of 2026-09-20, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`9be5b13c`** (**#237** "Simplify Fina Calle with restrained comic-book styling," 09-17 18:57 UTC; **Anthony's own authorized merge**, **`CI — web` #174 ✅**). Advanced 09-17 via **#237** from `b82c908e` (#236). #237 is a **homepage styling refinement** (condensed comic-book visual direction; homepage `page.tsx` + new route-scoped `comic.module.css` + OPERATIONS docs; 7 files, +864−394). PR body records **no original motion/asset, form, backend, owner/menu/game behavior, dependency, database, access, payment or customer-send changes** and **Anthony's explicit authorization** of the scoped refinement + release. Verified paths: **no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **Anthony's own merge, no caretaker action; recorded only.** Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Five** open drafts held: **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. All five drafts unchanged (`updated_at` static since 08-16…09-16 aside from Vercel-bot activity). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`9be5b13c`** (**#237** "Simplify Fina Calle with restrained comic-book styling," 09-17 18:57 UTC; **Anthony's own authorized merge**, **`CI — web` #174 ✅**). Advanced 09-17 via **#237** from `b82c908e` (#236). #237 is a **homepage styling refinement** (condensed comic-book visual direction; homepage `page.tsx` + new route-scoped `comic.module.css` + OPERATIONS docs; 7 files, +864−394). PR body records **no original motion/asset, form, backend, owner/menu/game behavior, dependency, database, access, payment or customer-send changes** and **Anthony's explicit authorization** of the scoped refinement + release. Verified paths: **no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **Anthony's own merge, no caretaker action; recorded only.** Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Six** open drafts held: **#238** Menu Control owner app plan (NEW 09-20, docs-only, guardrail-clean, two findings for Anthony), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. The older five are unchanged (`updated_at` static since 08-16…09-16 aside from Vercel-bot activity); #238 is the only new movement this run. |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-19 15:38→15:39 UTC SUCCEEDED (run #108)**. Every run 07-21…09-19 that fired was ✅ (~sixty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). **One open draft PR #8** (Anthony's own, `codex/vbfh-daily-mail-reliability`, opened 09-19; a 44-file daily-mail reliability + DaySmart-team-page-scores + OpenAI-QA rework; CI `check` ✅ — re-ran green, run #23 — `mergeable_state: clean`) — **held, his review/merge call** (needs `OPENAI_API_KEY` + SMTP secrets to run). |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
+- **amma #238 (draft, docs-only) — "docs(product): Menu Control owner app plan + Codex queue 49/50."**
+  Opened 2026-09-20 10:14 UTC. Head `claude/menu-control-app`, base `main`, 1 commit, 4 files (+324): new
+  `PRODUCT_MODULES/MENU_CONTROL_APP_PLAN.md` (research, three-surface architecture, gamification design, premortem,
+  phases P0.5–P5), `MODULE_LIBRARY.md`, `OPERATIONS/CODEX_QUEUE.md` (queue items 49 + 50), `HANDOFF_LOG.md`.
+  **Guardrail-clean:** documentation only — no schema migration, route, Supabase/Stripe/POS, product code,
+  client contact, price, or deploy. Branched from `main` (not #225's branch) so **PR #225 stays clean**.
+  **Vercel Ready ✅**, `mergeable_state: clean`. **Held — Anthony's own draft; his review/merge call. Not a
+  caretaker merge** (draft). Surfaces two items for Anthony (see "What Anthony needs to do"): the Colattao
+  static-vs-Supabase menu reconciliation that blocks its queue item 49, and a confirmed live zero-price
+  (`$0.00` vs "Ask staff") bug on the guarded `/m/[id]` guest route — flagged, not touched (Client OS guardrail;
+  already queued for Codex as item 49). Nothing for the caretaker to fix.
 - **amma #225 (draft) — "feat(ops): Instagram Ordering Activation add-on — SOP, skill, and work order."**
   Opened 09-11. Head `claude/instagram-dm-ordering-m8i210` (the branch #220 was closed on; reused, so it is
   open-draft-protected again). 9 files (+623−2): a G0–G5 gated SOP, a blank work-order template, an invokable
@@ -297,6 +323,29 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-20 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** One
+  change since the 09-19 afternoon run: **Anthony opened a new draft PR #238 in amma** ("docs(product): Menu
+  Control owner app plan + Codex queue 49/50", `claude/menu-control-app`, opened 09-20 10:14 UTC) — **docs only**
+  (4 files, +324: new `MENU_CONTROL_APP_PLAN.md`, `MODULE_LIBRARY.md`, `CODEX_QUEUE.md` items 49/50,
+  `HANDOFF_LOG.md`), guardrail-clean (no schema/route/Supabase/Stripe/POS/client-contact/price/deploy), Vercel
+  Ready ✅, `mergeable_state: clean`. **Held — his own draft → no caretaker merge**; added to Open PRs, Build
+  health (five→six drafts) and the "what you need to do" list. It records two items only Anthony can settle: (1)
+  the Colattao pilot's **static-file-vs-Supabase menu reconciliation** (blocks its queue item 49; the two sources
+  have already drifted), and (2) a **confirmed live zero-price bug** — `m/[id]/page.tsx:26` renders a `0` price as
+  `$0.00` on the guest menu while five other files render "Ask staff." That file is in the **protected `/m/[id]`
+  Client OS route the caretaker never touches**, and it's already queued for Codex (item 49) behind Anthony's
+  reconciliation → **flagged, not fixed.** No other new commits, merges, closes, or human review comments
+  anywhere. vbfh draft **#8** unchanged (head `fb921c8`, `mergeable_state: clean`, CI green run #23) — still
+  Anthony's held draft. Default branches re-verified live via API — all unchanged: amma `9be5b13c` (#237), vbfh
+  `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI —
+  voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#23) on master. **VBFH Daily Run — latest completed #108**
+  (09-19 15:38→15:39 UTC ✅); the 09-20 run had not yet fired at check time (normal window). Zero failing workflow
+  runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). The older five amma drafts
+  (#225/#221/#219/#218/#197) unchanged and held — no new review comments. #218 governance question stays open;
+  #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded). Standing items for
+  Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, Marbel
+  SQL, #215 Table Duel deploy step, branch cleanup). **Push notification sent** — the new #238 findings (Colattao
+  reconciliation + the live guest-menu zero-price bug) are things Anthony should see.
 - **2026-09-19 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Only
   change since the 09-19 morning run: the **09-19 VBFH Daily Run (#108) fired + SUCCEEDED** (15:38→15:39 UTC) —
   the run the morning check found had not yet fired. No new commits, merges, closes, or human review comments
