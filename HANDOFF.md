@@ -1,5 +1,11 @@
 # Handoff
 
+## 2026-09-16 - Consulting-first public website (complete and live)
+Authority: Anthony requested the redesign and explicitly authorized execution, merge and live release. Queue47 / OPERATIONS/HANDOFF_LOG.md hold the current scope. Worktree: C:/Dev/amma/worktrees/consulting-first-20260916; base30fe59e.
+Did: Research and production baseline reviewed; isolated implementation started. Preserve original crest, proof artwork and LandingMotion; consulting before restaurant packages; separate public consultation from support; correct misleading form success when no delivery channel acknowledges the inquiry.
+State: PR236 merged asb82c908 and Vercel production dpl_8TsUrGchLUyiYfumz5o8eEJSaJ7J is Ready/aliased to finacalleos.com at that exact revision. Final lint/build/TypeScript, preview/production CI,234 local production-browser checks and17 live read-only checks pass. Original logo/motion preserved; no changes to private owner behavior, menu/game engines, access, payments or databases. No real inquiries sent.
+Next: Anthony reviews https://finacalleos.com. Evidence: C:/Dev/amma/evidence/consulting-first-20260916/REVIEW.md. Documentation closeout remains local; released application tree exactly matches reviewed02baabb.
+
 ## 2026-09-11 - Account and automatic payments, approved merge
 IN: Anthony requests Colattao-style account information and automatic-payment option before merging the pilot/game changes. Queue 26 defines implementation and exact-head release authority.
 STATE: Production base reverified `2afaf67`; shared Stripe subscription and management actions already exist. Current local workspace is menu-only, not an activated Las Palmas account.

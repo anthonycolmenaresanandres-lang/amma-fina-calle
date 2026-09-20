@@ -1,12 +1,14 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Bodoni_Moda } from "next/font/google";
+import { Barlow_Condensed } from "next/font/google";
 import { LandingMotion } from "./LandingMotion";
-import styles from "./page.module.css";
+import motion from "./page.module.css";
+import styles from "./comic.module.css";
 
-const display = Bodoni_Moda({
+const display = Barlow_Condensed({
   subsets: ["latin"],
-  weight: "variable",
+  weight: "800",
   style: ["normal", "italic"],
   display: "swap",
   variable: "--font-fc-display",
@@ -14,479 +16,198 @@ const display = Bodoni_Moda({
 
 const companyNav = [
   { label: "Work", href: "#work" },
-  { label: "Systems", href: "#systems" },
   { label: "Process", href: "#process" },
-  { label: "Contact", href: "/contact" },
+  { label: "Support", href: "/contact#support" },
 ];
 
-const systems = [
-  {
-    code: "S-01",
-    name: "Digital storefronts",
-    body: "A premium public presence that makes the offer clear, earns trust, and gives every visitor one useful next step.",
-    detail: "Identity · proof · conversion",
+export const metadata: Metadata = {
+  title: "Fina Calle | Family-owned consulting & digital delivery",
+  description: "Family-owned consulting in Virginia Beach. Clear business direction and hands-on digital delivery, with verified work and a written scope for every project.",
+  openGraph: {
+    title: "Fina Calle | Clear direction. Hands-on delivery.",
+    description: "Family-owned consulting and digital delivery for local businesses. Explore working projects and start a consultation.",
+    url: "/",
+    type: "website",
   },
-  {
-    code: "S-02",
-    name: "QR menu experiences",
-    body: "A branded digital menu behind one stable QR. After setup, update existing item details, prices and availability from your owner portal—without a call or a new QR print. Guests see saved changes when they open or refresh the connected menu.",
-    detail: "Menu · discovery · updates",
+  twitter: {
+    card: "summary",
+    title: "Fina Calle | Family-owned consulting & digital delivery",
+    description: "Clear business direction. Hands-on digital delivery. Start with a conversation and a written scope.",
   },
-  {
-    code: "S-03",
-    name: "Branded engagement",
-    body: "Optional game and campaign layers that turn a routine visit into something customers remember.",
-    detail: "Play · campaigns · return visits",
-    href: "/conquest",
-  },
-  {
-    code: "S-04",
-    name: "Owner operations",
-    body: "Structured request and owner tools that keep approvals, updates, and business control close to the people responsible.",
-    detail: "Control · review · support",
-  },
-];
+};
 
 const process = [
-  {
-    step: "01",
-    title: "Read the business",
-    body: "We start with the customer, the bottleneck, and the action the business needs people to take.",
-  },
-  {
-    step: "02",
-    title: "Shape the system",
-    body: "Identity, content, interface, and modules are designed as one coherent operating experience.",
-  },
-  {
-    step: "03",
-    title: "Approve the truth",
-    body: "You review the visual direction and every public-facing business claim before production.",
-  },
-  {
-    step: "04",
-    title: "Build and verify",
-    body: "We implement, test the real customer journey, and prepare the launch with clear ownership.",
-  },
-];
-
-const controls = [
-  {
-    title: "Human approval",
-    body: "Nothing factual ships on assumption. Your review is part of the system.",
-  },
-  {
-    title: "Owner control",
-    body: "The business stays understandable and manageable after the launch moment.",
-  },
-  {
-    title: "POS separation",
-    body: "Fina Calle billing and owner tools stay separate from your point-of-sale system.",
-  },
+  { step: "01", title: "Talk it through", body: "Tell us what is getting in the way and what you want to improve." },
+  { step: "02", title: "Agree the scope", body: "Define the deliverables, price and timing in writing before work begins." },
+  { step: "03", title: "Build and verify", body: "Review the design and working experience together before approving launch." },
 ];
 
 export default function Home() {
   return (
-    <main className={`${styles.page} ${display.variable}`} data-motion-root>
-      <LandingMotion canvasClassName={styles.dustCanvas} />
-      <div className={styles.journeyRail} data-journey-rail aria-hidden="true">
-        {Array.from({ length: 6 }, (_, index) => (
-          <span key={index} />
-        ))}
+    <main className={`${motion.page} ${styles.page} ${display.variable}`} data-motion-root>
+      <LandingMotion canvasClassName={motion.dustCanvas} />
+      <div className={motion.journeyRail} data-journey-rail aria-hidden="true">
+        {Array.from({ length: 4 }, (_, index) => <span key={index} />)}
       </div>
-      <Link href="#main-content" className={styles.skipLink}>
-        Skip to content
-      </Link>
+      <Link href="#main-content" className={motion.skipLink}>Skip to content</Link>
+
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <Link href="/" className={styles.brand} aria-label="Fina Calle OS home">
-            <span className={styles.brandSignal} aria-hidden="true" />
-            <span>
-              <strong>Fina Calle OS</strong>
-              <small>by AMMA Ventures</small>
-            </span>
+          <Link href="/" className={styles.brand} aria-label="Fina Calle home">
+            <strong>Fina Calle</strong>
+            <span className={styles.brandMeta}>by AMMA Ventures</span>
           </Link>
-
           <nav className={styles.nav} aria-label="Main navigation">
             {companyNav.map((item) => (
-              <Link key={item.href} href={item.href}>
-                {item.label}
-              </Link>
+              <Link key={item.href} href={item.href}>{item.label}</Link>
             ))}
           </nav>
-
           <Link href="/request-update" className={styles.headerCta}>
-            <span className={styles.desktopCopy}>Start a build</span>
-            <span className={styles.mobileCopy}>Start</span>
-            <span aria-hidden="true">↗</span>
+            Let’s talk <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </header>
 
-      <section
-        id="main-content"
-        data-page="01"
-        className={styles.hero}
-        aria-labelledby="hero-heading"
-        tabIndex={-1}
-      >
-        <div className={styles.heroAtmosphere} aria-hidden="true" />
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
+      <section id="main-content" data-page="01" className={styles.hero} aria-labelledby="hero-heading" tabIndex={-1}>
+        <div className={motion.heroAtmosphere} aria-hidden="true" />
+        <div className={motion.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy} data-motion-reveal="copy">
-            <p className={styles.eyebrow}>
-              <span /> Virginia Beach · Digital systems for local business
-            </p>
+            <p className={styles.eyebrow}>Family-owned consulting · Virginia Beach</p>
             <h1 id="hero-heading" className={styles.heroTitle}>
-              <span className={styles.desktopCopy}>A sharper digital presence.</span>
-              <span className={styles.mobileCopy}>Sharper online.</span>
-              <em>
-                <span className={styles.desktopCopy}>A calmer business behind it.</span>
-                <span className={styles.mobileCopy}>Calmer behind it.</span>
-              </em>
+              <span>Clear direction.</span>
+              <em>Hands-on delivery.</em>
             </h1>
             <p className={styles.heroBody}>
-              Fina Calle builds premium storefronts, branded customer
-              experiences, and owner tools as one connected system for
-              ambitious local businesses.
+              We help local businesses make a plan and build the website,
+              menu or digital experience to match.
             </p>
-
             <div className={styles.heroActions}>
               <Link href="/request-update" className={styles.primaryAction}>
-                Plan your build <span aria-hidden="true">↗</span>
+                Start a consultation <span aria-hidden="true">↗</span>
               </Link>
               <Link href="#work" className={styles.secondaryAction}>
-                See verified work <span aria-hidden="true">↓</span>
+                See the work <span aria-hidden="true">↓</span>
               </Link>
             </div>
-
-            <p className={styles.assurance}>
-              <span>Human-approved</span>
-              <span>Modular by design</span>
-              <span>Separate from your POS</span>
-            </p>
           </div>
 
-          <div className={styles.instrumentWrap} data-motion-reveal="art">
-            <div className={styles.instrument}>
-              <div className={styles.instrumentTicks} aria-hidden="true" />
-              <div className={styles.instrumentOrbit} aria-hidden="true">
-                <span />
-              </div>
-              <div className={styles.instrumentGlow} aria-hidden="true" />
+          <div className={`${motion.instrumentWrap} ${styles.instrumentWrap}`} data-motion-reveal="art">
+            <div className={motion.instrument}>
+              <div className={motion.instrumentTicks} aria-hidden="true" />
+              <div className={motion.instrumentOrbit} aria-hidden="true"><span /></div>
+              <div className={motion.instrumentGlow} aria-hidden="true" />
               <Image
                 src="/assets/fina-calle-os-logo.png"
                 alt="Fina Calle OS mechanical identity"
                 width={1536}
                 height={1536}
-                className={styles.instrumentLogo}
+                className={motion.instrumentLogo}
                 data-dust-source="crest"
                 data-dust-next="02"
                 data-dust-next-image="proof"
                 priority
                 sizes="(max-width: 900px) 82vw, 44vw"
               />
+            </div>
+            <p className={styles.artCaption}>Think it through. See it through.</p>
+          </div>
+        </div>
+      </section>
 
-              <div className={`${styles.coreLabel} ${styles.coreLabelOne}`}>
-                <small>Customer layer</small>
-                <strong>Storefront</strong>
-              </div>
-              <div className={`${styles.coreLabel} ${styles.coreLabelTwo}`}>
-                <small>Brand layer</small>
-                <strong>Experience</strong>
-              </div>
-              <div className={`${styles.coreLabel} ${styles.coreLabelThree}`}>
-                <small>Owner layer</small>
-                <strong>Operations</strong>
+      <section id="work" data-page="02" className={styles.work} aria-labelledby="proof-heading" tabIndex={-1}>
+        <div className={motion.registrationPlate} data-motion-plate aria-hidden="true" />
+        <div className={styles.sectionInner}>
+          <div className={styles.workGrid}>
+            <div className={styles.proofVisual} data-motion-reveal="panel">
+              <div className={styles.proofImageWrap}>
+                <Image
+                  src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
+                  alt="Coffee and pastry presentation used in the Colattao digital menu"
+                  fill
+                  className={`${motion.proofImage} ${styles.proofImage}`}
+                  data-dust-target="proof"
+                  sizes="(max-width: 900px) 86vw, 36vw"
+                />
               </div>
             </div>
 
-            <div className={styles.coreStatus}>
-              <span className={styles.liveSignal} aria-hidden="true" />
-              <p>
-                <small>Operating principle</small>
-                <strong>One engine. Swappable parts.</strong>
+            <div className={styles.workCopy} data-motion-reveal="copy">
+              <p className={styles.label}>Live client menu</p>
+              <h2 id="proof-heading" className={styles.sectionTitle}>Colattao.</h2>
+              <p className={styles.proofBody}>
+                A real café. A working mobile menu. Explore the categories,
+                dishes and prices in your browser.
               </p>
-              <span className={styles.statusCode}>FC / 001</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.heroFoot} aria-label="Fina Calle principles">
-          <span>Local-business systems</span>
-          <span>Built in Virginia Beach</span>
-          <span>Design first · approval always</span>
-        </div>
-      </section>
-
-      <section
-        id="work"
-        data-page="02"
-        className={styles.proof}
-        aria-labelledby="proof-heading"
-      >
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
-        <div className={styles.sectionShell}>
-          <div className={styles.proofIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrowDark}>Flagship proof · Colattao Cafe Rush</p>
-            <h2 id="proof-heading" className={styles.sectionTitleDark}>
-              <span className={styles.desktopCopy}>One neighborhood brand.</span>
-              <span className={styles.mobileCopy}>One brand.</span>
-              <em>
-                <span className={styles.desktopCopy}>Three connected digital moments.</span>
-                <span className={styles.mobileCopy}>Three moments.</span>
-              </em>
-            </h2>
-            <p className={styles.proofBody}>
-              Colattao is the working reference for the Fina Calle approach: a
-              customer-facing QR menu, a branded game layer, and owner tools
-              designed as parts of the same system.
-            </p>
-
-            <div className={styles.proofLinks}>
-              <Link href="/case-studies/colattao" className={styles.darkAction}>
-                <span className={styles.desktopCopy}>Explore the case study</span>
-                <span className={styles.mobileCopy}>View case study</span>
-                <span aria-hidden="true">↗</span>
-              </Link>
-              <a
-                href="https://colattao-cafe-rush.vercel.app/menu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.textLinkDark}
-              >
-                Visit the public menu <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-
-          <div className={styles.proofVisual} data-motion-reveal="panel">
-            <div className={styles.proofImageWrap}>
-              <Image
-                src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
-                alt="Coffee and pastry presentation used in the Colattao digital menu"
-                fill
-                className={styles.proofImage}
-                data-dust-target="proof"
-                sizes="(max-width: 900px) 92vw, 43vw"
-              />
-              <div className={styles.proofStamp}>
-                <span>Flagship</span>
-                <strong>Colattao</strong>
-                <small>Virginia Beach</small>
-              </div>
-            </div>
-
-            <dl className={styles.proofFacts}>
-              <div>
-                <dt>Customer</dt>
-                <dd>QR menu</dd>
-              </div>
-              <div>
-                <dt>Engagement</dt>
-                <dd>Branded play</dd>
-              </div>
-              <div>
-                <dt>Owner</dt>
-                <dd>Operating tools</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="systems"
-        data-page="03"
-        className={styles.systems}
-        aria-labelledby="systems-heading"
-      >
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
-        <div className={styles.sectionShellNarrow}>
-          <div className={styles.sectionHeadingRow} data-motion-reveal="copy">
-            <div>
-              <p className={styles.eyebrow}>The operating system</p>
-              <h2 id="systems-heading" className={styles.sectionTitle}>
-                <span className={styles.desktopCopy}>Start with what moves the business.</span>
-                <span className={styles.mobileCopy}>Only what matters.</span>
-                <em>
-                  <span className={styles.desktopCopy}>Add only what earns its place.</span>
-                  <span className={styles.mobileCopy}>Nothing extra.</span>
-                </em>
-              </h2>
-            </div>
-            <p>
-              A frozen engine with swappable parts keeps each build distinctive
-              without rebuilding the company from zero.
-            </p>
-          </div>
-
-          <div className={styles.systemRows}>
-            {systems.map((system) => {
-              const content = (
-                <>
-                  <span className={styles.systemCode}>{system.code}</span>
-                  <h3>{system.name}</h3>
-                  <p>{system.body}</p>
-                  <span className={styles.systemDetail}>{system.detail}</span>
-                  {system.href ? (
-                    <span className={styles.systemArrow} aria-hidden="true">↗</span>
-                  ) : null}
-                </>
-              );
-
-              return system.href ? (
-                <Link
-                  key={system.code}
-                  href={system.href}
-                  className={styles.systemRow}
-                  data-motion-reveal="panel"
-                >
-                  {content}
+              <div className={styles.workLinks}>
+                <a href="https://colattao-cafe-rush.vercel.app/menu" target="_blank" rel="noopener noreferrer" className={styles.primaryAction}>
+                  Open the live menu <span aria-hidden="true">↗</span>
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+                <Link href="/case-studies/colattao" className={styles.secondaryAction}>
+                  View case study <span aria-hidden="true">↗</span>
                 </Link>
-              ) : (
-                <article
-                  key={system.code}
-                  className={styles.systemRow}
-                  data-motion-reveal="panel"
-                >
-                  {content}
-                </article>
-              );
-            })}
-          </div>
-
-          <div className={styles.researchNote}>
-            <span>Research bench</span>
-            <p>
-              New AI and operations concepts stay clearly labeled until they
-              are tested, verified, and ready for a real business.
-            </p>
-            <Link href="/rd">View R&amp;D ↗</Link>
+              </div>
+              <Link href="/penalty-shootout" className={styles.demoLink}>
+                <span className={styles.label}>Playable demo</span>
+                <strong>Penalty Shootout <span aria-hidden="true">↗</span></strong>
+                <p>Five shots. Try the game engine. Client branding and custom work are scoped separately.</p>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section
-        id="process"
-        data-page="04"
-        className={styles.process}
-        aria-labelledby="process-heading"
-      >
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
-        <div className={styles.sectionShellNarrow}>
-          <div className={styles.processIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrowDark}>A disciplined build sequence</p>
-            <h2 id="process-heading" className={styles.sectionTitleDark}>
-              <span className={styles.desktopCopy}>Intricate where it matters.</span>
-              <span className={styles.mobileCopy}>Built with discipline.</span>
-              <em>
-                <span className={styles.desktopCopy}>Calm where you operate it.</span>
-                <span className={styles.mobileCopy}>Calm to run.</span>
-              </em>
-            </h2>
+      <section id="process" data-page="03" className={styles.process} aria-labelledby="process-heading" tabIndex={-1}>
+        <div className={motion.registrationPlate} data-motion-plate aria-hidden="true" />
+        <div className={styles.sectionInner}>
+          <div className={styles.processHeader} data-motion-reveal="copy">
+            <p className={styles.eyebrow}>How we work</p>
+            <h2 id="process-heading" className={styles.sectionTitle}>Talk. Plan. Build.</h2>
           </div>
-
-          <ol className={styles.processList}>
+          <ol className={`${motion.processList} ${styles.processList}`}>
             {process.map((item) => (
               <li key={item.step} data-motion-reveal="panel">
                 <span>{item.step}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </div>
+                <div><h3>{item.title}</h3><p>{item.body}</p></div>
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <section
-        data-page="05"
-        className={styles.control}
-        aria-labelledby="control-heading"
-      >
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
-        <div className={styles.controlGrid}>
-          <div className={styles.controlIntro} data-motion-reveal="copy">
-            <p className={styles.eyebrow}>Calm by design</p>
-            <h2 id="control-heading" className={styles.sectionTitle}>
-              <span className={styles.desktopCopy}>
-                Powerful systems should make the owner feel
-              </span>
-              <span className={styles.mobileCopy}>You stay</span>
-              <em>
-                <span className={styles.desktopCopy}>more in control, not less.</span>
-                <span className={styles.mobileCopy}>in control.</span>
-              </em>
-            </h2>
-          </div>
-
-          <div className={styles.controlList}>
-            {controls.map((item) => (
-              <article key={item.title} data-motion-reveal="panel">
-                <span aria-hidden="true">✓</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </div>
-              </article>
-            ))}
+          <div className={styles.contactRow}>
+            <div className={motion.closeGlow} aria-hidden="true" />
+            <h3 className={styles.contactTitle} data-motion-reveal="copy">What needs to work better?</h3>
+            <div className={styles.contactActions} data-motion-reveal="action">
+              <Link href="/request-update" className={`${motion.primaryActionLight} ${styles.primaryAction}`}>
+                Start a consultation <span aria-hidden="true">↗</span>
+              </Link>
+              <Link href="/contact#support" className={styles.supportLink}>Existing customer? Get support ↗</Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section
-        data-page="06"
-        className={styles.close}
-        aria-labelledby="close-heading"
-      >
-        <div className={styles.closeGlow} aria-hidden="true" />
-        <div className={styles.registrationPlate} data-motion-plate aria-hidden="true" />
-        <p className={styles.eyebrow} data-motion-reveal="copy">
-          Your next operating layer
-        </p>
-        <h2 id="close-heading" data-motion-reveal="copy">
-          <span className={styles.desktopCopy}>Ready for something that feels</span>
-          <span className={styles.mobileCopy}>Built for</span>
-          <em>
-            <span className={styles.desktopCopy}>built, not bought?</span>
-            <span className={styles.mobileCopy}>your business.</span>
-          </em>
-        </h2>
-        <p className={styles.closeBody} data-motion-reveal="panel">
-          Tell us the business, the bottleneck, and the outcome. We’ll reply
-          with a clear direction, the right package, and a fixed quote.
-        </p>
-        <div className={styles.closeActions} data-motion-reveal="action">
-          <Link href="/request-update" className={styles.primaryActionLight}>
-            Plan my build <span aria-hidden="true">↗</span>
-          </Link>
-          <Link href="/contact" className={styles.secondaryAction}>
-            Contact AMMA Ventures
-          </Link>
+      <section id="restaurants" data-page="04" className={styles.restaurant} aria-labelledby="restaurant-heading">
+        <div className={styles.restaurantInner}>
+          <div>
+            <p className={styles.eyebrow}>For restaurants</p>
+            <h2 id="restaurant-heading" className={styles.restaurantTitle}>Your menu. One stable QR.</h2>
+          </div>
+          <div>
+            <p className={styles.price}>Starting at <strong>$199</strong><span>/month per location</span></p>
+            <p className={styles.packageNote}>Consulting and custom work require a separate written scope.</p>
+          </div>
+          <Link href="/for-restaurants" className={styles.restaurantLink}>See packages <span aria-hidden="true">↗</span></Link>
         </div>
       </section>
 
       <footer className={styles.footer}>
-        <div>
-          <p>
-            <span className={styles.desktopCopy}>Still scrolling? Good. The strategy worked.</span>
-            <span className={styles.mobileCopy}>Still here? Good.</span>
-          </p>
-          <a
-            href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag=="
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Fina Calle on Instagram"
-          >
-            @fina_calle ↗
-          </a>
+        <div className={styles.footerInner}>
+          <p>Family-owned. Built with care.</p>
+          <a href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag==" target="_blank" rel="noopener noreferrer" aria-label="Fina Calle on Instagram (opens in a new tab)">@fina_calle ↗</a>
         </div>
         <div className={styles.footerMeta}>
           <span>AMMA Ventures LLC DBA Fina Calle</span>
-          <span>Virginia Beach, Virginia</span>
-          <span>© 2026</span>
+          <span>Virginia Beach, Virginia · © 2026</span>
         </div>
       </footer>
     </main>
