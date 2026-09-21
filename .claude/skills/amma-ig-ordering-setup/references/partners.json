@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "purpose": "Partner decision data for the Instagram ordering activation add-on. Used by scripts/ig_ordering_workorder.py.",
+    "authority_rule": "The partner list shown inside the CLIENT'S OWN Instagram app is the only authoritative list. It varies by country and changes without notice. Everything here is indicative and must be re-verified per client before it is stated to an owner.",
+    "last_verified": "2026-09-11",
+    "verified_by": "web research; Meta developer docs were not reachable from the build environment"
+  },
+  "surfaces": {
+    "profile_action_button": {
+      "slots": 1,
+      "note": "Only ONE action button shows at a time. Reservations and ordering compete for it.",
+      "path": "Instagram mobile app > Edit Profile > Public Business Information > Action Buttons > Order Food > choose partner > Save",
+      "requires": "Instagram professional (Business) account + a listed partner account"
+    },
+    "stories_food_orders_sticker": {
+      "slots": "unlimited",
+      "note": "Separate surface. Does NOT consume the profile button slot, and followers can re-share it. This is why a client whose slot holds reservations can still sell food.",
+      "requires": "same partner connection as the button"
+    },
+    "bio_link": {
+      "slots": "multiple links supported",
+      "note": "Always available, no partner needed. This is where the Fina Calle menu / order link goes. Works even when every other path is blocked.",
+      "requires": "nothing"
+    }
+  },
+  "partners": {
+    "chownow": {
+      "label": "ChowNow",
+      "kind": "commission_free_saas",
+      "commission_pct": 0,
+      "flat_fee_usd_per_month": [99, 149],
+      "ordering": true,
+      "reservations": false,
+      "alignment": "aligned",
+      "note": "Flat monthly fee instead of per-order commission; launched the original Instagram ordering integration. Best recommendation when a client has no existing rail.",
+      "confidence": "medium — pricing from public reporting, confirm on their current pricing page"
+    },
+    "square_online": {
+      "label": "Square Online",
+      "kind": "processing_fees",
+      "commission_pct": 0,
+      "flat_fee_usd_per_month": [0, 0],
+      "ordering": true,
+      "reservations": false,
+      "alignment": "aligned",
+      "note": "Square documents adding food-ordering buttons to Facebook and Instagram from Square Online. Free tier exists; card processing fees apply. Strong pick when the client already runs Square.",
+      "confidence": "medium — confirm the client's Square Online plan tier"
+    },
+    "toast": {
+      "label": "Toast",
+      "kind": "saas_plus_processing",
+      "commission_pct": 0,
+      "flat_fee_usd_per_month": null,
+      "ordering": true,
+      "reservations": false,
+      "alignment": "aligned",
+      "note": "Wire this when the client already runs Toast POS. Pricing is per their existing contract.",
+      "confidence": "low — verify Toast is currently selectable in the client's app partner picker"
+    },
+    "bentobox": {
+      "label": "BentoBox",
+      "kind": "saas",
+      "commission_pct": 0,
+      "flat_fee_usd_per_month": null,
+      "ordering": true,
+      "reservations": false,
+      "alignment": "aligned",
+      "note": "Activated via the Meta Business Extension. Wire when the client already has BentoBox.",
+      "confidence": "low — verify in app"
+    },
+    "ubereats": {
+      "label": "Uber Eats",
+      "kind": "marketplace",
+      "commission_pct": [15, 30],
+      "flat_fee_usd_per_month": [0, 0],
+      "ordering": true,
+      "reservations": false,
+      "alignment": "conflicts",
+      "note": "Takes commission and owns the customer relationship. Wire ONLY if the client already uses it and chooses it in writing. Never present as commission-free.",
+      "confidence": "high on the commission model, indicative on the exact rate"
+    },
+    "doordash": {
+      "label": "DoorDash",
+      "kind": "marketplace",
+      "commission_pct": [15, 30],
+      "flat_fee_usd_per_month": [0, 0],
+      "ordering": true,
+      "reservations": false,
+      "alignment": "conflicts",
+      "note": "Same caution as Uber Eats.",
+      "confidence": "high on the commission model, indicative on the exact rate"
+    },
+    "grubhub": {
+      "label": "Grubhub",
+      "kind": "marketplace",
+      "commission_pct": [15, 30],
+      "flat_fee_usd_per_month": [0, 0],
+      "ordering": true,
+      "reservations": false,
+      "alignment": "conflicts",
+      "note": "Same caution as Uber Eats.",
+      "confidence": "high on the commission model, indicative on the exact rate"
+    },
+    "eatstreet": {
+      "label": "EatStreet",
+      "kind": "marketplace",
+      "commission_pct": null,
+      "flat_fee_usd_per_month": null,
+      "ordering": true,
+      "reservations": false,
+      "alignment": "conflicts",
+      "note": "Marketplace model. Verify current terms before recommending.",
+      "confidence": "low"
+    },
+    "opentable": {
+      "label": "OpenTable",
+      "kind": "reservations",
+      "commission_pct": null,
+      "flat_fee_usd_per_month": null,
+      "ordering": false,
+      "reservations": true,
+      "alignment": "slot_competitor",
+      "note": "Reservations, not ordering. If this holds the button slot, do NOT displace it without the owner's explicit decision — for a sit-down room a booking is usually worth more than a takeout tap.",
+      "confidence": "medium"
+    },
+    "resy": {
+      "label": "Resy",
+      "kind": "reservations",
+      "commission_pct": null,
+      "flat_fee_usd_per_month": null,
+      "ordering": false,
+      "reservations": true,
+      "alignment": "slot_competitor",
+      "note": "Same as OpenTable.",
+      "confidence": "medium"
+    },
+    "sevenrooms": {
+      "label": "SevenRooms",
+      "kind": "reservations",
+      "commission_pct": null,
+      "flat_fee_usd_per_month": null,
+      "ordering": false,
+      "reservations": true,
+      "alignment": "slot_competitor",
+      "note": "Same as OpenTable.",
+      "confidence": "medium"
+    }
+  }
+}
