@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "branch": "ops/ai-workforce-state",
+  "last_updated_at": null,
+  "rules": {
+    "unknown_is_not_zero": true,
+    "no_external_send_without_owner_approval": true,
+    "no_spend_without_owner_approval": true,
+    "no_production_release_without_scope_approval": true
+  },
+  "pipeline": [],
+  "clients": [],
+  "decisions_needed": [],
+  "product_health": [],
+  "receivables": [],
+  "kpis": {
+    "period": "current_week",
+    "qualified_contacts": null,
+    "replies": null,
+    "demos_booked": null,
+    "proposals": null,
+    "closes": null,
+    "cash_collected": null,
+    "mrr_added": null
+  },
+  "worker_status": {}
+}
