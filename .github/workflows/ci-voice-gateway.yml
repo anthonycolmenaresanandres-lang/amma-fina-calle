@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  typecheck:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -30,3 +30,5 @@ jobs:
           cache-dependency-path: services/voice-gateway/package-lock.json
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run simulate
+      - run: npm run simulate:checkin
