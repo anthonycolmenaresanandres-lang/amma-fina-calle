@@ -1,74 +1,46 @@
-# VBFH knowledge pack — research summary & sources
+# VBFH knowledge pack — verified source register
 
-_Last refreshed: early July 2026. Feeds the `vbfh-info` tenant in `tenants.json`._
-_Method: the container's network policy blocks direct page fetches, so facts were gathered via
-web-search snippets of the official site + partner sites. Re-verify anything critical by phone
-or on the live pages before a client-facing claim._
+_Last refreshed: September 21, 2026. Feeds the `vbfh-info` tenant in `tenants.json`._
+_Policy: use current official Virginia Beach Field House pages for dynamic customer-facing facts. Live schedules/standings/availability remain out of scope for the static voice tenant._
 
-## Canonical online presence
-- Website: https://beachfieldhouse.com (NOT vbfieldhouse.com)
-- Instagram: @beachfieldhouse — bio: "Your favorite spot for sports, fitness, & fun!"
-- Facebook: https://www.facebook.com/BeachFieldHouse/
-- Registration portal (DaySmart): apps.daysmartrecreation.com/dash/x/#/online/virginiabeach/leagues
-- Managed by Eastern Sports Management (easternsportsmanagement.com/facilities/vbfh)
+## Current official sources checked
 
-## Facility
-- 2020 Landstown Centre Way, Virginia Beach, VA 23456 · (757) 427-3955
-- Hours: Mon–Thu 1–10:30pm · Fri 1–11:15pm · Sat–Sun 9am–8pm (Yelp, June 2026)
-- 175,000+ sq ft: 6 turf fields (Large 1–4 + APEX), 8 volleyball courts, 4 basketball courts
-  (A–D), outdoor sand courts, party rooms, arcade, indoor Fun Zone
-- ~5 league seasons/year, each ~7–8 weeks; also vendor tournaments, corporate events
+- Location / facility & customer-service hours: https://beachfieldhouse.com/location/
+- Home / facility overview: https://beachfieldhouse.com/
+- About / facility description: https://beachfieldhouse.com/about/
+- Staff directory: https://beachfieldhouse.com/field-house-staff/
+- Adult soccer: https://beachfieldhouse.com/activity/adult-soccer/
+- Adult volleyball: https://beachfieldhouse.com/activity/adult-volleyball/
+- Adult basketball: https://beachfieldhouse.com/activity/adult-basketball/
+- Adult flag football: https://beachfieldhouse.com/activity/adult-flag-football/
+- Youth basketball: https://beachfieldhouse.com/activity/youth-basketball/
+- Youth volleyball: https://beachfieldhouse.com/activity/youth-volleyball/
+- Youth soccer: https://beachfieldhouse.com/activity/youth-soccer/
+- Youth flag football: https://beachfieldhouse.com/activity/youth-flag-football/
+- Lil' Kickers: https://beachfieldhouse.com/activity/lil-kickers/
+- Skills Institute: https://beachfieldhouse.com/activity/skills-institute/
+- Lil' Ballers: https://beachfieldhouse.com/activity/lil-ballers/
+- Lil' Bumpers: https://beachfieldhouse.com/activity/lil-bumpers/
+- Lil' Flyers: https://beachfieldhouse.com/activity/lil-flyers/
+- Lil' Laxers: https://beachfieldhouse.com/activity/lil-laxers/
+- Parties: https://beachfieldhouse.com/parties/
+- Drop-ins: https://beachfieldhouse.com/drop-in/
+- Drop-in policy: https://beachfieldhouse.com/policies-terms/
+- Rentals and current published rates: https://beachfieldhouse.com/rentals/
 
-## Leagues (as of Summer II 2026)
-| League | Days/format | Season/fee |
-|---|---|---|
-| Adult soccer | Mon–Fri from ~7:10pm; per-night leagues; Premier/A/B1–B3/Vintage | 7 wk, 7-game gtd + playoff; $98/player |
-| Adult volleyball | Mon–Thu from ~7:30pm; Coed/Reverse Coed/M/W | Summer II Jul 6–Aug 28 (reg closed Jun 26); $98/player |
-| Adult basketball | Fridays from ~7:10pm | 7 wk, 7-game gtd + playoff |
-| Adult flag football | weeknights | Summer II Jul 10–Aug 28 (reg closed Jun 26); $119/player |
-| Adult sand volleyball | outdoor sand courts, seasonal | 8 wk, 16-game gtd, wk 9 playoffs |
-| Adult kickball | indoor social league | — |
-| Youth soccer | birth-year divisions 2012/13→2020/21; Open + Girls; no practices | Rec 7 games; Adv/Premier/Int 6 + championship |
-| Youth flag football | coed PreK–6th, Sunday afternoons; jerseys/flags provided | 6 games + playoff wk |
-| Youth basketball | beginner/fun + competitive; games only | Summer II Jul 26–Aug 30 (reg opened Jun 14) |
-| Youth volleyball | MS Grassroots (10–14) / HS Grassroots (14–17) coed + MS/HS Competitive | 5 wk / 10 matches; Summer II Jul 26–Aug 30 |
+## Dynamic-data rules
 
-Also seasonal: arena baseball/softball, field hockey, lacrosse, dodgeball, social sports.
+- Facility hours: re-check at least monthly and before a client demo.
+- League season dates/fees: re-check each season and before quoting.
+- Class dates/fees: re-check each season and before quoting.
+- Parties/rentals/drop-in prices: re-check quarterly or before a sales demo.
+- Live schedules, standings, scores, fields, open slots, remaining capacity, account status: never serve from this static pack.
 
-## Kids classes
-- **Lil' Kickers** soccer: 18 mo–9 yr, Tue–Sun, 50-min weekly, 8:1 ratio, free trial class
-- **Skills Institute** soccer: ages 5–12, USSF curriculum, Levels 1–2
-- **Lil' Ballers** (basketball), **Lil' Fielders** (baseball)
+## September 21, 2026 refresh notes
 
-## Camps (summer 2026)
-- Adventure Camps ages 3–12: full day 8–5 $60/day, half day 8–12 $35/day, extended care
-  7–8am $10 / 5–6pm $15; registration opened Jan 15
-- VBFH sports camps ages 6–12: soccer, flag football, basketball, volleyball, cheer, lacrosse
-- Partner camps: Nike Soccer (6–14, from ~$329; Jun 22–26, Jul 13–17…), Nike Volleyball
-  (10–18, ~$469+ 4-day, mid-Jun–mid-Jul), Nike Flag Football, Breakthrough Basketball (gr 3–8)
-
-## Parties, memberships, drop-ins, rentals
-- Parties: Champion / World Cup / Olympian packages; host handles setup+cleanup; $75
-  non-refundable deposit, balance due week before; Fun Zone add-on $15 (Champion) / $30
-  (WC & Olympian); parties@beachfieldhouse.com (Jennifer)
-- Memberships (optional): $10 off every league reg, priority registration, welcome bag;
-  youth: +5% off in-house camps and party packages, staff supervision while parent plays
-- Drop-ins: 16+, $5/person at the door, shared-field basis; calendar on the Drop-Ins page
-- Rentals: hourly, no staff/equipment; >4 hrs or staffed/food/equipment = Special Event via
-  Taylor Terry, sales@beachfieldhouse.com; corporate events, team building, field trips
-
-## Deliberately excluded (couldn't verify / stale)
-- Fun Zone $5 day / $25 month pricing (2019 blog — pack says "confirm with front desk")
-- contact@beachfieldhouse.com (only appeared in search summaries, not confirmed on-site)
-- Pickleball courts (only third-party Pickleheads claims 3 indoor wood courts)
-- Membership prices, party package totals, class fees, rental rates (not published in snippets)
-
-## Key source pages
-beachfieldhouse.com: `/adult-leagues`, `/activity/adult-soccer`, `/activity/adult-volleyball`,
-`/activity/adult-basketball`, `/activity/adult-flag-football`, `/activity/sand-volleyball`,
-`/activity/adult-kickball`, `/youth-leagues`, `/activity/youth-soccer`,
-`/activity/youth-flag-football`, `/activity/youth-basketball`, `/activity/youth-volleyball`,
-`/youth/lils`, `/activity/lil-kickers`, `/activity/skills-institute`, `/youth/summer-camps`,
-`/activity/summer-camp`, `/parties`, `/memberships`, `/drop-in`, `/pick-up-drop-in-policy`,
-`/rentals`, `/location`, `/contact-us` · plus ussportscamps.com, summercamps.com,
-breakthroughbasketball.com, lilkickers.com, Yelp, easternsportsmanagement.com
+- Facility hours changed from the older July pack to Mon-Fri 1pm-11pm and Sat-Sun 9am-8pm, with separate Fall/Winter customer-service hours.
+- Summer II league language was replaced with verified Fall 2026 adult and youth Basketball/Volleyball information.
+- Current class dates and published per-class prices were loaded.
+- Current party package prices and current published rental rates were loaded.
+- Youth Soccer and Youth Flag Football pages still exposed older Summer 2026 season dates in the indexed official page; those dates are deliberately not treated as current.
+- Summer-camp dates/prices from the July pack are no longer treated as current.
