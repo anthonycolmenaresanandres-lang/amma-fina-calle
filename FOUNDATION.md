@@ -5,9 +5,39 @@
 > conversation starts with zero ramp-up. Hand a chat this file (or its GitHub link), then
 > paste the matching prompt. Keep it current; it's the canonical onboarding doc.
 >
-> Last updated: 2026-07-04.
+> Last updated: 2026-09-21.
 
 ---
+
+## CURRENT STATE OVERRIDE — September 21, 2026
+
+This section supersedes older status statements below wherever they conflict. Detailed evidence and the exact touched-surface register are in `OPERATIONS/AI_WORKFORCE/CHANGE_REGISTER_2026-09-21.md`.
+
+### Revenue and ESM
+- Revenue execution is now organized around existing sellable capability before speculative builds.
+- Daily scorecard: qualified contacts / replies / demos booked / dollars generated.
+- Bryan Schmidt is the current ESM operations outreach target; Steve Cariello is the VBFH context contact.
+- Gmail outreach to Bryan (Steve CC) is prepared as a draft only and has not been sent.
+
+### Voice AI
+- PR #239 is merged: Fall 2026 VBFH knowledge, ESM demo readiness, and GPT-Live-1 migration evaluation are on main.
+- PR #240 is merged: keyless booking/check-in simulations run in CI and the controlled 20-call comparison protocol is documented.
+- GPT-Live-1 / Twilio Agent Connect remain evaluation paths; no paid comparison calls were executed in this sprint.
+
+### VBFH Media Engine
+- PR #8 is merged to `vbfh-media-engine/master` with stronger public DaySmart verification, dual-team-page final-score corroboration, fail-closed content generation, broadcast assets, and optional AI/email review.
+- Scheduled mode remains zero-spend/deterministic by default: email false, AI review false, no scheduled Instagram publish.
+- VBFH Pilot 1/7 and the AI Workforce activation test have verified Gmail delivery to Anthony.
+
+### AI workforce
+- Company-level SOPs and worker registry now live under `OPERATIONS/AI_WORKFORCE/` on main.
+- Active business workers cover Executive Ops, Revenue, Follow-up, Client Success, Product QA, Marketing, Accounts Receivable, Demo/Proposal, Workforce Review, VBFH Knowledge, Revenue Scorecard, and the private VBFH email pilot.
+- A second internal control-plane exists on branch `ops/ai-workforce-state` with shared STATE.json, RUN_LOG, handoff/sales/process SOPs. It is internal and unmerged.
+- Prospect Research Desk was not created because the account hit the 15-active-task limit. Separate Pipeline Controller / scheduled Process Engineer are therefore not active yet.
+
+### Authority
+- Anthony remains the approval gate for external prospect/client sends, spend, secrets/access, binding commercial commitments, and production-risk releases unless a workflow has explicit scoped authorization.
+- Status language is strict: MERGED, ACTIVE WORKER, DRAFT, INTERNAL BRANCH, BLOCKED, PLANNED. Scheduled is not the same as completed; drafted is not the same as sent.
 
 ## 1. The company & the thesis
 **AMMA Ventures LLC dba Fina Calle** (Virginia Beach) builds repeatable digital systems
