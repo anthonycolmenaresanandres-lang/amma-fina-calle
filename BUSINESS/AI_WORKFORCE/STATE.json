@@ -1,12 +1,15 @@
 {
-  "version": 1,
+  "version": 2,
   "branch": "ops/ai-workforce-state",
   "last_updated_at": null,
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
     "no_spend_without_owner_approval": true,
-    "no_production_release_without_scope_approval": true
+    "no_production_release_without_scope_approval": true,
+    "silence_healthy_condition_watches": true,
+    "one_owner_per_work_item": true,
+    "no_duplicate_current_drafts": true
   },
   "pipeline": [],
   "clients": [],
@@ -23,5 +26,10 @@
     "cash_collected": null,
     "mrr_added": null
   },
-  "worker_status": {}
+  "worker_status": {},
+  "work_items": [],
+  "alerts": [],
+  "decision_debt": [],
+  "dedupe": {},
+  "worker_metrics": {}
 }
