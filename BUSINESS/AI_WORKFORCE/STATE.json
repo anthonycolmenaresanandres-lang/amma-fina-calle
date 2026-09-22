@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": null,
+  "last_updated_at": "2026-09-22T09:00:46-04:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -11,9 +11,65 @@
     "one_owner_per_work_item": true,
     "no_duplicate_current_drafts": true
   },
-  "pipeline": [],
+  "pipeline": [
+    {
+      "id": "esm-vbfh-2026-09-22",
+      "account": "Eastern Sports Management / Virginia Beach Field House",
+      "stage": "DRAFT_READY",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 13,
+      "offer": "15-minute demonstration of Fina Calle Voice Gateway + VBFH Media Engine",
+      "evidence": [
+        "Gmail draft message 1a0c6119e510bd1 to Bryan Schmidt, cc Steve Cariello",
+        "BUSINESS/REVENUE_READINESS_2026-09-21.md",
+        "VBFH private pilot package 4/7 generated for 2026-09-21"
+      ],
+      "next_action": "Anthony reviews the existing Gmail draft and either approves sending it unchanged or edits it; do not create another draft.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "las-palmas-2026-09-22",
+      "account": "Las Palmas Mexican Restaurants",
+      "stage": "PREPARED_NOT_CONTACTED",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 11,
+      "offer": "Restaurant digital menu + interactive customer experience using the already-built Las Palmas owner package/demo",
+      "evidence": [
+        "Gmail self-package 1a0a0a061f1f876b with print-ready presentation and owner offer",
+        "Official Las Palmas site identifies founders Javier and Vicente Ibarra and multiple locations",
+        "Existing Las Palmas demo/release work in amma-fina-calle"
+      ],
+      "next_action": "Use the existing owner presentation to request a 15-minute owner review; do not build more Las Palmas features before the commercial conversation.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "aj-gators-2026-09-22",
+      "account": "A.J. Gator's Sports Bar & Grill",
+      "stage": "RESEARCHED",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 8,
+      "offer": "Restaurant digital menu + interactive game/promotions hub",
+      "evidence": [
+        "Existing A.J. Gator's tailored portal/game work in amma-fina-calle",
+        "Gmail self-package 1a015184bf15a04d with corrected restaurant advertising materials",
+        "Current public profile identifies Al Zuhars as Owner and Operator"
+      ],
+      "next_action": "Prepare one short owner-directed outreach using the already-built A.J. Gator's demo/QR asset; no additional product work before outreach.",
+      "approval_required": true,
+      "confidence": "medium"
+    }
+  ],
   "clients": [],
-  "decisions_needed": [],
+  "decisions_needed": [
+    {
+      "id": "approve-esm-vbfh-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the existing Bryan Schmidt outreach draft.",
+      "related_pipeline_id": "esm-vbfh-2026-09-22"
+    }
+  ],
   "product_health": [],
   "receivables": [],
   "kpis": {
@@ -26,10 +82,43 @@
     "cash_collected": null,
     "mrr_added": null
   },
-  "worker_status": {},
-  "work_items": [],
+  "worker_status": {
+    "daily_revenue_agent": {
+      "status": "green",
+      "last_run_at": "2026-09-22T09:00:46-04:00",
+      "top_actions": 3,
+      "note": "Ranked only evidence-backed actions; no sends, spend, publishing, deployment, or speculative build work performed."
+    }
+  },
+  "work_items": [
+    {
+      "id": "review-esm-vbfh-draft",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
+      "priority_score": 13,
+      "next_action": "Review existing Gmail draft r7974027091746627124; send only with explicit owner authorization."
+    },
+    {
+      "id": "las-palmas-owner-review",
+      "owner": "Anthony",
+      "state": "READY",
+      "priority_score": 11,
+      "next_action": "Request a 15-minute owner review using existing Las Palmas presentation assets."
+    },
+    {
+      "id": "aj-gators-owner-outreach",
+      "owner": "Daily Revenue Agent",
+      "state": "RESEARCHED",
+      "priority_score": 8,
+      "next_action": "Prepare owner-directed outreach around the existing A.J. Gator's portal/game demo; approval required before send."
+    }
+  ],
   "alerts": [],
   "decision_debt": [],
-  "dedupe": {},
+  "dedupe": {
+    "esm-vbfh-existing-draft": "r7974027091746627124",
+    "las-palmas-owner-package": "1a0a0a061f1f876b",
+    "aj-gators-advertising-package": "1a015184bf15a04d"
+  },
   "worker_metrics": {}
 }
