@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-09-22T09:00:46-04:00",
+  "last_updated_at": "2026-09-22T11:49:29-04:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -59,6 +59,21 @@
       "next_action": "Prepare one short owner-directed outreach using the already-built A.J. Gator's demo/QR asset; no additional product work before outreach.",
       "approval_required": true,
       "confidence": "medium"
+    },
+    {
+      "id": "funville-tiffany-2026-09-22",
+      "account": "FunVille Playground / Tiffany Hart",
+      "stage": "NURTURE",
+      "owner": "Sales Follow-up Agent",
+      "offer": "Originally discussed paid phone charging, ATM, or simple mobile cafe menu",
+      "evidence": [
+        "Gmail thread 1a007a742330fa76: Tiffany replied positively on 2026-08-15",
+        "Anthony replied on 2026-08-16 asking to meet",
+        "Anthony sent another follow-up on 2026-08-20 with no later reply in the thread"
+      ],
+      "next_action": "No active follow-up. Re-enter only on a new signal, referral, dated trigger, or inbound reply.",
+      "approval_required": false,
+      "confidence": "high"
     }
   ],
   "clients": [],
@@ -88,6 +103,12 @@
       "last_run_at": "2026-09-22T09:00:46-04:00",
       "top_actions": 3,
       "note": "Ranked only evidence-backed actions; no sends, spend, publishing, deployment, or speculative build work performed."
+    },
+    "sales_followup_agent": {
+      "status": "green",
+      "last_run_at": "2026-09-22T11:49:29-04:00",
+      "due_items": 0,
+      "note": "Verified Gmail against shared pipeline. No active warm-thread follow-up is due. FunVille/Tiffany moved to NURTURE after two unanswered outbound messages following her positive reply; no duplicate draft created."
     }
   },
   "work_items": [
@@ -118,7 +139,8 @@
   "dedupe": {
     "esm-vbfh-existing-draft": "r7974027091746627124",
     "las-palmas-owner-package": "1a0a0a061f1f876b",
-    "aj-gators-advertising-package": "1a015184bf15a04d"
+    "aj-gators-advertising-package": "1a015184bf15a04d",
+    "funville-tiffany-thread": "1a007a742330fa76"
   },
   "worker_metrics": {}
 }
