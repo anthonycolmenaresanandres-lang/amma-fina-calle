@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-21 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing.** Only change since the 09-21 morning run: the **09-21 VBFH Daily Run (#110) fired + SUCCEEDED** (18:02→18:05 UTC) — the run the morning check found had not yet fired. No new commits, merges, closes, PRs, or human review comments anywhere across the four repos. vbfh draft **#8** unchanged (head `fb921c8` static, `mergeable_state: clean`; CI green — run #23) — still Anthony's held draft. Default branches re-verified live via API — all unchanged: amma `9be5b13c` (#237), vbfh `e21077d` (#7), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#23) on master. **VBFH Daily Run — GREEN. Latest completed #110** (09-21 18:02→18:05 UTC SUCCEEDED). Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. **Six** open amma drafts (#238/#225/#221/#219/#218/#197) — all Vercel Ready ✅, `mergeable_state: clean`, held; no new review comments (only Vercel-bot deploy notes). No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open draft heads stay OUT of the delete set.
+**Last updated:** 2026-09-22 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing; nothing needs Anthony that wasn't already on the list.** Changes since the 09-21 afternoon run — all Anthony's own healthy activity, all CI green: (1) **vbfh draft #8 MERGED** into master (09-21 22:22 UTC) → master `e21077d`→`b7af2c9` ("Harden VBFH results verification and keep scheduled mode zero-spend"); `CI` ✅ (**run #26**). The 44-file daily-mail reliability rework is now live; the merge commit keeps scheduled mode **deterministic + zero-spend with AI review and email disabled by default**, so no new secret is needed to stay green. (2) **amma main advanced** `9be5b13c`(#237)→**`c56cbc6`** via Anthony's direct docs/ops pushes (AI-workforce SOPs `SOP_HANDOFF_ESCALATION`/`SOP_KNOWLEDGE_MARKETING`/`SOP_PRODUCT_QA`, `FOUNDATION.md` refresh, Sep-21 briefing reconciliation) plus two voice-gateway commits (`88bcd21e`,`3d2780ac`); `CI — voice-gateway` ✅ (**run #17** on main), `CI — web` unaffected (docs/ops only, path-filtered — last web run still #174 ✅). No new human review comments anywhere (only Vercel-bot deploy notes). Default branches re-verified live via API: amma `c56cbc6`, vbfh `b7af2c9`, shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). **VBFH Daily Run — GREEN; latest completed #110** (09-21 18:02→18:05 UTC). The **09-22 run (#111) has not fired yet** (checked 12:46 UTC; window ~15:40–16:30 UTC) — it will be the **first Daily Run on the hardened master**; I'll verify it on the afternoon check-in. Zero failing workflow runs across all repos this run. shadow & EscapeTheBomb have no CI workflows (0 runs) — nothing to verify. **Six** open amma drafts (#238/#225/#221/#219/#218/#197) — all Vercel Ready ✅, `mergeable_state: clean`, held; no new review comments. No merge-conflict/base-branch notices; GitHub API healthy all run. Branch deletion remains blocked (proxy 403); the open draft heads stay OUT of the delete set.
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -55,14 +55,13 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    record. **#215's Table Duel deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`
    env var for the websocket server, or `/table-duel` says it isn't switched on yet.)_
 
-🆕 **New draft PR #8 in vbfh-media-engine is yours to review & merge (held — your own draft).**
-   "Make VBFH Daily Mail fail closed and verify Dash results" (`codex/vbfh-daily-mail-reliability`, opened
-   09-19). A big reliability rework (44 files) that makes the daily mail refuse to send junk, reads real final
-   scores off DaySmart team pages, and has Claude/OpenAI eyeball the graphics before they go out. **CI is green
-   and it merges clean** (its `check` re-ran green — run #23), but it is a **draft** and once merged it needs an
-   extra secret **`OPENAI_API_KEY`** on top of the 5 SMTP secrets in item 1 (its workflow intentionally fails if
-   AI or email can't complete). Read it, and when you're happy, mark it "Ready" + merge (or tell me what to
-   change). **I don't auto-merge your drafts.**
+✅ **vbfh PR #8 is now MERGED (you merged it 09-21 22:22 UTC) — no action needed; recorded for the record.**
+   "Make VBFH Daily Mail fail closed and verify Dash results" (`codex/vbfh-daily-mail-reliability`) landed on
+   master as `b7af2c9`; `CI` ✅ (run #26). The 44-file reliability rework (fail-closed daily mail, real DaySmart
+   team-page scores, optional AI/email review) is live. The merge kept **scheduled mode deterministic + zero-spend
+   with AI review and email disabled by default**, so **no `OPENAI_API_KEY` is required** for the scheduled Daily
+   Run to stay green — the SMTP secrets in item 1 remain the only thing needed for it to actually *email* you.
+   The first Daily Run on this hardened master (#111, ~15:40 UTC 09-22) hasn't fired yet; I'll verify it next run.
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
@@ -108,15 +107,15 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-21, afternoon)
+## Build health (as of 2026-09-22, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`9be5b13c`** (**#237** "Simplify Fina Calle with restrained comic-book styling," 09-17 18:57 UTC; **Anthony's own authorized merge**, **`CI — web` #174 ✅**). Advanced 09-17 via **#237** from `b82c908e` (#236). #237 is a **homepage styling refinement** (condensed comic-book visual direction; homepage `page.tsx` + new route-scoped `comic.module.css` + OPERATIONS docs; 7 files, +864−394). PR body records **no original motion/asset, form, backend, owner/menu/game behavior, dependency, database, access, payment or customer-send changes** and **Anthony's explicit authorization** of the scoped refinement + release. Verified paths: **no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change** → **Anthony's own merge, no caretaker action; recorded only.** Latest `CI — voice-gateway` on main ✅ (**run #13**; nothing merged since touched voice paths). **Six** open drafts held: **#238** Menu Control owner app plan (NEW 09-20, docs-only, guardrail-clean, two findings for Anthony), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, 6 commits, open governance flag) and **#197** docs. The older five are unchanged (`updated_at` static since 08-16…09-16 aside from Vercel-bot activity); #238 is the only new movement this run. |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ (master push 07-30 12:54 UTC, run #21 ✅); master tip `e21077d` (**#7**). Workflow `active`, unchanged. **VBFH Daily Run — GREEN.** Latest completed run **09-21 18:02→18:05 UTC SUCCEEDED (run #110)**. Every run 07-21…09-21 that fired was ✅ (~sixty-day streak). The email-gate fix holds (`skipped_config_missing` non-fatal; a real SMTP `failed` still fails). Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). **One open draft PR #8** (Anthony's own, `codex/vbfh-daily-mail-reliability`, opened 09-19; a 44-file daily-mail reliability + DaySmart-team-page-scores + OpenAI-QA rework; CI `check` ✅ — re-ran green, run #23 — `mergeable_state: clean`) — **held, his review/merge call** (needs `OPENAI_API_KEY` + SMTP secrets to run). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`c56cbc6`** ("Log Sep 21 AI workforce briefing reconciliation," 09-21 23:03 UTC; **Anthony's own direct docs/ops pushes**). Advanced this run `9be5b13c`(#237)→`c56cbc6` via Anthony's own commits: AI-workforce SOPs (`SOP_HANDOFF_ESCALATION`/`SOP_KNOWLEDGE_MARKETING`/`SOP_PRODUCT_QA`), `FOUNDATION.md` refresh, briefing reconciliation, plus two voice-gateway commits (`88bcd21e`,`3d2780ac`). **Guardrail-clean** — docs/ops + voice-gateway simulation knowledge only; **no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change**. `CI — voice-gateway` on main ✅ (**run #17**). `CI — web` **not triggered** (docs/ops only, path-filtered; last web run still **#174 ✅**, the code on the web app is unchanged since #237) → **Anthony's own pushes, no caretaker action; recorded only.** **Six** open drafts held: **#238** Menu Control owner app plan (docs-only, guardrail-clean, two findings for Anthony), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, open governance flag) and **#197** docs. All six unchanged this run (`updated_at` static aside from Vercel-bot activity). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ — master tip **`b7af2c9`** (**#8 merged** 09-21 22:22 UTC, run **#26 ✅**). Advanced this run `e21077d`(#7)→`b7af2c9`: the 44-file daily-mail reliability rework (fail-closed mail, real DaySmart team-page scores, optional AI/email review) landed; **scheduled mode stays deterministic + zero-spend, AI review & email disabled by default** → no `OPENAI_API_KEY` needed to stay green. Workflow `active`. **VBFH Daily Run — GREEN.** Latest completed run **09-21 18:02→18:05 UTC SUCCEEDED (run #110)**; every run 07-21…09-21 that fired was ✅. **09-22 run (#111) not yet fired** (checked 12:46 UTC; window ~15:40–16:30 UTC) — it will be the **first Daily Run on the hardened master**, to be verified on the afternoon check-in. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -158,25 +157,37 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 - **amma #197 (draft, docs-only) — "Odyssey Daily log — Day 06 blocked (Runway pool still empty)."**
   Opened 07-30; Day-06 continuation of the merged #189 series. Head `claude/las-palmas-menu-game-59vtbg`.
   Vercel preview Ready/green; no `CI — web` (docs-only, path-filtered). **Held — draft.** Nothing to fix.
-- **vbfh #8 (draft) — "Make VBFH Daily Mail fail closed and verify Dash results."** Opened 2026-09-19
-  10:10 UTC. Head `codex/vbfh-daily-mail-reliability`, base `master`. 44 files (+2019−182), 1 commit. Reworks the
-  daily pipeline to fail closed (missing SMTP config, missing attachments, rejected recipients, and required
-  AI transport/config failures now surface to Actions instead of silently passing), refreshes the DaySmart
-  league directory, reads official finals off team pages (accepting a final only when both team pages agree on
-  teams/home-away/date/score) and blocks incomplete/conflicting/stale/low-confidence data, generates carousel
-  cards only from ready leagues, removes scheduled Instagram publishing (marketing gets images + review PDF +
-  caption + verdict by email instead), and adds a low-cost OpenAI Responses-API vision review with recorded
-  token/cost metadata. PR body reports `npm test` (43 files / 235 tests), `npm run lint`, `npm run build`, and a
-  fixture smoke test all passing. **CI `check` ✅ (re-ran green, run #23), `mergeable_state: clean`.** Requires new
-  secrets to run once merged (`OPENAI_API_KEY` + the 5 SMTP secrets). **Held — Anthony's own draft; his
-  review/merge call. Not a caretaker merge** (large feature + secrets). Nothing to fix.
+- **vbfh #8 — MERGED 09-21 22:22 UTC (was Anthony's own draft; his own merge).** "Make VBFH Daily Mail fail
+  closed and verify Dash results" (`codex/vbfh-daily-mail-reliability` → `master` `b7af2c9`, `CI` #26 ✅). The
+  44-file rework (fail-closed daily mail, DaySmart team-page score corroboration, incomplete/conflicting/stale
+  data blocked, ready-league-only carousel cards, scheduled IG publishing removed in favor of email delivery,
+  optional low-cost OpenAI vision QA) is now live. The final merged form keeps **scheduled mode deterministic +
+  zero-spend with AI review and email disabled by default**, so `OPENAI_API_KEY` is **not** required for the
+  scheduled Daily Run to stay green; the 5 SMTP secrets (action item 1) remain the only thing needed for it to
+  email. vbfh now has **zero open PRs.** Recorded for the record; no caretaker action.
 - shadow-engineer-rpa, EscapeTheBomb-DC: **zero open PRs.**
 
 ## Merged / closed since last run
 
-Since the 09-20 afternoon run, **no new merges, closes, commits, review comments, or PRs landed anywhere** — the
-09-21 VBFH Daily Run had not yet fired at check time (12:45 UTC; normal window). The most recent merge on record
-remains **Anthony's own merge of #237** on amma `main` (09-17) → no caretaker action:
+Since the 09-21 afternoon run, Anthony landed his own work on both default branches (all CI green) → no caretaker
+action:
+
+- **vbfh #8 — "Make VBFH Daily Mail fail closed and verify Dash results."** Merged by **Anthony** 09-21
+  22:22 UTC (`codex/vbfh-daily-mail-reliability` → master `b7af2c9`, `CI` **#26 ✅**). 44-file daily-mail
+  reliability rework: fail-closed mail, DaySmart team-page score corroboration, incomplete/conflicting/stale data
+  blocked, ready-league-only carousel cards, scheduled IG publishing removed in favor of email, optional low-cost
+  OpenAI vision QA. Final merged form keeps **scheduled mode deterministic + zero-spend (AI review & email off by
+  default)** → no `OPENAI_API_KEY` needed to stay green; 5 SMTP secrets still needed to actually email. vbfh now
+  has **zero open PRs.** **Anthony's own merge → no caretaker action; recorded for the audit trail.**
+- **amma `main` docs/ops advance `9be5b13c`→`c56cbc6`.** Anthony's direct pushes 09-21 22:36→23:03 UTC:
+  AI-workforce SOPs (`SOP_HANDOFF_ESCALATION`/`SOP_KNOWLEDGE_MARKETING`/`SOP_PRODUCT_QA`), `FOUNDATION.md`
+  refresh, Sep-21 briefing reconciliation, plus two voice-gateway commits (`88bcd21e`,`3d2780ac`). Guardrail-clean
+  (docs/ops + voice-gateway simulation knowledge; no Client OS route/Supabase/Stripe/POS/secret/customer-data/QR
+  change). `CI — voice-gateway` **#17 ✅**; `CI — web` untriggered (path-filtered, still **#174 ✅**). **Anthony's
+  own pushes → no caretaker action; recorded for the audit trail.**
+
+The most recent product merge on record remains **Anthony's own merge of #237** on amma `main` (09-17) → no
+caretaker action:
 
 - **amma #237 — "Simplify Fina Calle with restrained comic-book styling."** Merged by **Anthony** 09-17
   18:57 UTC (merge `9be5b13c`, current main tip). Codex-authored (`codex/consulting-comic-20260917`), 7
@@ -322,6 +333,24 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-22 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
+  new needs Anthony.** Real activity since the 09-21 afternoon run — all Anthony's own, all CI green: (1) **vbfh
+  draft #8 MERGED** into master 09-21 22:22 UTC (`e21077d`→`b7af2c9`, "Harden VBFH results verification and keep
+  scheduled mode zero-spend"; `CI` #26 ✅) — the 44-file daily-mail reliability rework is now live and the merge
+  keeps scheduled mode deterministic + zero-spend (AI review & email off by default), so **no `OPENAI_API_KEY`
+  needed** to stay green; vbfh now has **zero open PRs**. (2) **amma main advanced** `9be5b13c`(#237)→`c56cbc6`
+  via Anthony's direct docs/ops pushes (AI-workforce SOPs, `FOUNDATION.md` refresh, Sep-21 briefing
+  reconciliation) + two voice-gateway commits (`88bcd21e`,`3d2780ac`); `CI — voice-gateway` #17 ✅, `CI — web`
+  untriggered (docs/ops path-filtered; still #174 ✅), guardrail-clean. No new human review comments anywhere
+  (only Vercel-bot). Default branches re-verified live: amma `c56cbc6`, vbfh `b7af2c9`, shadow `5113ce5`
+  (2026-07-09), EscapeTheBomb `eee6a37` (#1). **VBFH Daily Run — latest completed #110** (09-21 18:02→18:05 UTC
+  ✅); the **09-22 run #111 had not fired at check time** (12:46 UTC; window ~15:40–16:30 UTC) — it will be the
+  **first Daily Run on the hardened master**, to be verified afternoon. Zero failing workflow runs across all
+  repos; shadow & EscapeTheBomb have no CI workflows (0 runs). Six open amma drafts (#238/#225/#221/#219/#218/
+  #197) unchanged and held. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
+  403-blocked (open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
+  Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup).
+  Push-notification summary sent per the configured twice-daily report.
 - **2026-09-21 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Only
   change since the 09-21 morning run: the **09-21 VBFH Daily Run (#110) fired + SUCCEEDED** (18:02→18:05 UTC) —
   the run the morning check found had not yet fired. No new commits, merges, closes, or human review comments
