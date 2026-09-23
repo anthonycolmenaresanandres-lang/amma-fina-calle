@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-09-22T11:49:29-04:00",
+  "last_updated_at": "2026-09-23T09:08:00-04:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -21,6 +21,7 @@
       "offer": "15-minute demonstration of Fina Calle Voice Gateway + VBFH Media Engine",
       "evidence": [
         "Gmail draft message 1a0c6119e510bd1 to Bryan Schmidt, cc Steve Cariello",
+        "Gmail verification 2026-09-23: message remains DRAFT and no send evidence was found",
         "BUSINESS/REVENUE_READINESS_2026-09-21.md",
         "VBFH private pilot package 4/7 generated for 2026-09-21"
       ],
@@ -31,32 +32,66 @@
     {
       "id": "las-palmas-2026-09-22",
       "account": "Las Palmas Mexican Restaurants",
-      "stage": "PREPARED_NOT_CONTACTED",
-      "owner": "Daily Revenue Agent",
-      "priority_score": 11,
+      "stage": "PRESENTATION_DELIVERED",
+      "owner": "Sales Follow-up Agent",
+      "priority_score": 12,
       "offer": "Restaurant digital menu + interactive customer experience using the already-built Las Palmas owner package/demo",
       "evidence": [
         "Gmail self-package 1a0a0a061f1f876b with print-ready presentation and owner offer",
         "Official Las Palmas site identifies founders Javier and Vicente Ibarra and multiple locations",
-        "Existing Las Palmas demo/release work in amma-fina-calle"
+        "Existing Las Palmas demo/release work in amma-fina-calle",
+        "Owner report 2026-09-22: presentation delivered and approximately 30 printed QR pieces handed to the Las Palmas president"
       ],
-      "next_action": "Use the existing owner presentation to request a 15-minute owner review; do not build more Las Palmas features before the commercial conversation.",
+      "next_action": "Sales Follow-up Agent owns the next touch after the in-person presentation; do not create new product work or duplicate outreach.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "woodys-legacy-2026-09-23",
+      "account": "Woody's Raw Bar & Grill / Legacy at the Locks",
+      "stage": "RESEARCHED",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 12,
+      "offer": "Restaurant digital menu + interactive customer experience for the Great Bridge relocation and new Legacy at the Locks concept",
+      "evidence": [
+        "Official Woody's website verified 2026-09-23: two Chesapeake locations with menus, online ordering and recurring entertainment",
+        "Public reporting dated 2026-08-28/2026-09-03 identifies Jeff LeRoy as owner and says the Great Bridge business is relocating before year-end into an approximately 10,000 sq ft building",
+        "The same reporting identifies Kayla LeRoy Holton as regional director of operations/project manager and states a second concept, Legacy at the Locks, is being built with its menu still being developed"
+      ],
+      "next_action": "Prepare one concise owner/operations outreach proposing a one-location launch pilot around the relocation/new concept; do not build custom assets before interest is confirmed.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "sweet-spot-2026-09-23",
+      "account": "The Sweet Spot",
+      "stage": "RESEARCHED",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 10,
+      "offer": "Restaurant digital menu + interactive customer experience / branded game pilot",
+      "evidence": [
+        "Official The Sweet Spot newsroom verified 2026-09-23: founded by Mery Ghattas, Founder/President/CEO",
+        "Official site says the family-owned brand has four locations across Virginia Beach and Chesapeake and marked its 10-year anniversary in 2026",
+        "Official site emphasizes memorable in-store experience, coffee/matcha/desserts, loyalty and future franchise growth"
+      ],
+      "next_action": "Prepare a short founder-directed pilot outreach focused on making the digital/QR experience as memorable as the in-store dessert experience; pilot one location first.",
       "approval_required": true,
       "confidence": "high"
     },
     {
       "id": "aj-gators-2026-09-22",
       "account": "A.J. Gator's Sports Bar & Grill",
-      "stage": "RESEARCHED",
+      "stage": "DRAFT_READY",
       "owner": "Daily Revenue Agent",
       "priority_score": 8,
       "offer": "Restaurant digital menu + interactive game/promotions hub",
       "evidence": [
         "Existing A.J. Gator's tailored portal/game work in amma-fina-calle",
         "Gmail self-package 1a015184bf15a04d with corrected restaurant advertising materials",
-        "Current public profile identifies Al Zuhars as Owner and Operator"
+        "Current live Toast ordering page verified 2026-09-23 for the Holland Road location",
+        "Existing shared-state research identifies Al Zuhars as Owner and Operator"
       ],
-      "next_action": "Prepare one short owner-directed outreach using the already-built A.J. Gator's demo/QR asset; no additional product work before outreach.",
+      "next_action": "Anthony reviews the concise owner-directed outreach prepared in the 2026-09-23 Revenue Agent run; no additional product work before outreach.",
       "approval_required": true,
       "confidence": "medium"
     },
@@ -83,6 +118,12 @@
       "owner": "Anthony",
       "decision": "Approve, edit, or hold the existing Bryan Schmidt outreach draft.",
       "related_pipeline_id": "esm-vbfh-2026-09-22"
+    },
+    {
+      "id": "approve-aj-gators-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the A.J. Gator's owner-directed outreach from the 2026-09-23 Revenue Agent run.",
+      "related_pipeline_id": "aj-gators-2026-09-22"
     }
   ],
   "product_health": [],
@@ -100,9 +141,9 @@
   "worker_status": {
     "daily_revenue_agent": {
       "status": "green",
-      "last_run_at": "2026-09-22T09:00:46-04:00",
-      "top_actions": 3,
-      "note": "Ranked only evidence-backed actions; no sends, spend, publishing, deployment, or speculative build work performed."
+      "last_run_at": "2026-09-23T09:08:00-04:00",
+      "top_actions": 5,
+      "note": "Verified the ESM draft remains unsent, handed Las Palmas warm follow-up to Sales Follow-up, qualified Woody's/Legacy and The Sweet Spot as new prospects, and prepared one A.J. Gator's owner outreach. No sends, spend, publishing, deployment, or speculative builds performed."
     },
     "sales_followup_agent": {
       "status": "green",
@@ -120,18 +161,32 @@
       "next_action": "Review existing Gmail draft r7974027091746627124; send only with explicit owner authorization."
     },
     {
-      "id": "las-palmas-owner-review",
-      "owner": "Anthony",
-      "state": "READY",
-      "priority_score": 11,
-      "next_action": "Request a 15-minute owner review using existing Las Palmas presentation assets."
+      "id": "las-palmas-followup-handoff",
+      "owner": "Sales Follow-up Agent",
+      "state": "HANDOFF_READY",
+      "priority_score": 12,
+      "next_action": "Use the 2026-09-22 in-person presentation as the follow-up clock; prepare only the next due touch and avoid duplicate product work."
+    },
+    {
+      "id": "woodys-legacy-outreach",
+      "owner": "Daily Revenue Agent",
+      "state": "RESEARCHED",
+      "priority_score": 12,
+      "next_action": "Prepare one concise owner/operations outreach for a one-location launch pilot around the relocation/new concept."
+    },
+    {
+      "id": "sweet-spot-founder-outreach",
+      "owner": "Daily Revenue Agent",
+      "state": "RESEARCHED",
+      "priority_score": 10,
+      "next_action": "Prepare founder-directed one-location pilot outreach tied to the brand's memorable customer-experience positioning."
     },
     {
       "id": "aj-gators-owner-outreach",
-      "owner": "Daily Revenue Agent",
-      "state": "RESEARCHED",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
       "priority_score": 8,
-      "next_action": "Prepare owner-directed outreach around the existing A.J. Gator's portal/game demo; approval required before send."
+      "next_action": "Review the owner-directed draft from the 2026-09-23 Revenue Agent run; send only with explicit authorization."
     }
   ],
   "alerts": [],
@@ -140,7 +195,9 @@
     "esm-vbfh-existing-draft": "r7974027091746627124",
     "las-palmas-owner-package": "1a0a0a061f1f876b",
     "aj-gators-advertising-package": "1a015184bf15a04d",
-    "funville-tiffany-thread": "1a007a742330fa76"
+    "funville-tiffany-thread": "1a007a742330fa76",
+    "woodys-legacy-2026-09": "relocation-new-concept",
+    "sweet-spot-2026-09": "four-locations-founder-ceo"
   },
   "worker_metrics": {}
 }
