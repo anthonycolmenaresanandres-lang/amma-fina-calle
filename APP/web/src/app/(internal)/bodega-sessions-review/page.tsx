@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import BodegaSessionsClient from "./BodegaSessionsClient";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Bodega Sessions rhythm game - owner review",
-  description: "Unlinked owner-review rhythm-game prototype. Event content and brand usage require owner approval.",
+  title: "Bodega Fall Rush — cafecito weather",
+  description: "A 45-second fall café game starring Spanish Latte, Canela Love and Coffee Cinnamon Muffin. Owner-review concept.",
   robots: {
     index: false,
     follow: false,
@@ -23,29 +24,24 @@ export const metadata: Metadata = {
 export default function BodegaSessionsReviewPage() {
   return (
     <main className={styles.page}>
-      <div className={styles.reviewBar}>Prototype / owner review / event link withheld</div>
+      <div className={styles.reviewBar}>Fall game concept / owner review</div>
 
       <div className={styles.shell}>
+        <nav className={styles.utilityRow} aria-label="Bodega navigation">
+          <Link className={styles.identity} href="/demo/bodega"><Image src="/assets/bodega/review/bodega-round-seal-review.webp" width={38} height={38} alt="Bodega Cafe" /> BODEGA</Link>
+          <Link href="/demo/bodega">← Menu</Link>
+        </nav>
         <header className={styles.hero}>
-          <div className={styles.utilityRow}>
-            <Link href="/demo/bodega">Back to menu review</Link>
-            <span>Side A / three rounds</span>
-          </div>
-          <span className={styles.kicker}>Bodega Sessions</span>
-          <h1>Catch the beat.</h1>
-          <p>
-            Listen to the cafecito pattern. Repeat it before the signal moves on. Twelve beats, three quick rounds.
-          </p>
+          <div><span className={styles.kicker}>The neighborhood’s coziest challenge</span><h1>Fall <em>Rush.</em></h1></div>
+          <p>Spanish Latte. Canela Love. Coffee Cinnamon Muffin. Your fall shift starts here.</p>
         </header>
 
         <BodegaSessionsClient />
 
         <aside className={styles.evidenceNote}>
-          <strong>Review boundary</strong>
           <p>
-            The prototype uses original generated tones and abstract graphics only. No event, artist, song, offer, or
-            owner approval is claimed. The final music or event action stays disabled until Bodega confirms the exact
-            title and destination.
+            Owner-review game concept. Featured names are game selections; current availability requires Bodega’s confirmation.
+            Scores are just for fun and do not unlock a discount or reward.
           </p>
         </aside>
       </div>

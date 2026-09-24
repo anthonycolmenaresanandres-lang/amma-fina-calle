@@ -1,5 +1,15 @@
 # Codex Queue — canonical live queue
 
+## [ ] 49 - Bodega Fall Rush replacement and scoped live release
+
+**State:** IN PROGRESS - IMPLEMENTATION, MERGE AND LIVE RELEASE AUTHORIZED
+**Authority:** Anthony on 2026-09-24: create a unique fall game for Bodega, replace the current game, use Spanish latte and two selected items, and merge live.
+**Scope:** Bodega game route, its menu invitation, isolated game module and task records. Preserve existing /bodega-sessions-review and /demo/bodega URLs, noindex and owner-review status; no other clients, access, billing, database or customer sends.
+**Content:** Spanish Latte selected by Anthony. Canela Love and Coffee Cinnamon Muffin from existing menu-draft.ts and current public listings; owner availability remains unverified. No prices, recipes or redemption claims.
+**Design:** Fall Rush café order tickets; burgundy #5b202c, ink #201d24, gold #f0c34f, parchment #fff2d8, maple #d37a45, muted sage #a8c8a0. Condensed sans display, Geist body, mono ticket details; café counter with original primitive cups/muffin and bounded falling leaves. 45-second order assembly, streaks/golden-hour bonus, pause and untimed practice. DOM controls remain playable if optional Phaser visuals fail.
+**Verification:** Pure scoring/deadline/pause tests, targeted lint, production build, browser gameplay/replay and responsive review, PR checks, SHA-matched production deployment.
+**Workspace:** Isolated cloud scratch checkout; Windows workstation paths are not available in this runtime. Existing Windows clone remains untouched.
+
 ## [ ] 48 - Simpler consulting homepage with a serious comic-book identity
 
 **State:** IN PROGRESS - IMPLEMENTATION AND SCOPED RELEASE AUTHORIZED

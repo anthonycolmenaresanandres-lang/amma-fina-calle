@@ -2648,3 +2648,7 @@ OUT 2026-09-16: Implementation complete in PR235 https://github.com/anthonycolme
 - Verified workforce: business workers active; shared-state branch `ops/ai-workforce-state` remains internal/unmerged; Prospect Research Desk blocked by 15-active-task limit.
 - Authority unchanged: Anthony gates external customer/prospect sends, spend, credentials/access, binding commitments, and unscoped production release.
 - Detailed touched-surface record: `OPERATIONS/AI_WORKFORCE/CHANGE_REGISTER_2026-09-21.md`.
+
+### [CHECK-IN] Codex - 2026-09-24 - Bodega Fall Rush
+
+Anthony explicitly requested replacement, merge and live deployment. Base c56cbc6875d2a9c4eb1c4aa22e14cf94221257cc, branch codex/bodega-fall-rush. Scope and source caveats recorded in queue49. Preserve review URLs/noindex and all unrelated product behavior. No paid assets or external sends.

@@ -111,15 +111,15 @@ export default function BodegaMenuReviewPage() {
 
         <section className={styles.sessionsTeaser}>
           <div>
-            <span className={styles.sessionsKicker}>Bodega Sessions / owner review</span>
-            <h2>Catch the beat.</h2>
+            <span className={styles.sessionsKicker}>Bodega Fall Rush / owner review</span>
+            <h2>Cafecito weather. Game on.</h2>
           </div>
           <div className={styles.sessionsCopy}>
             <p>
-              Three fast rounds turn the cup-and-wave identity into a rhythm challenge. The final event link remains
-              locked until Bodega confirms what is playing.
+              Spanish Latte, Canela Love, and Coffee Cinnamon Muffin take the spotlight. Fill café tickets in a
+              45-second fall rush and unlock Golden Hour with four perfect orders in a row.
             </p>
-            <Link href="/bodega-sessions-review">Preview the rhythm game</Link>
+            <Link href="/bodega-sessions-review">Play Fall Rush</Link>
           </div>
         </section>
 
