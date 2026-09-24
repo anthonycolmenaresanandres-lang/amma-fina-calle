@@ -142,3 +142,15 @@
   .keyHint { top:5px; left:5px; font-size:8px; }
 }
 @media(prefers-reduced-motion:reduce) { .page button { transition:none; } .page button:hover,.page button:active { transform:none; } }
+
+.catchLayout { max-width:470px; margin:auto; padding:12px 0; }
+.catchControls { display:flex; justify-content:center; gap:12px; padding:0 12px 12px; }
+.catchControls .pause { margin:0; }
+.catchBoard { position:relative; }
+.catchCanvas { height:clamp(340px,68dvh,620px); width:100%; touch-action:none; }
+.catchCanvas canvas { display:block; touch-action:none; }
+.catchCanvas:focus-visible { outline:3px solid var(--gold); outline-offset:-3px; }
+.catchOverlay { position:absolute; inset:0; background:#381820ed; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; padding:24px; text-align:center; }
+.catchOverlay h2 { font:32px Georgia,serif; }
+.catchLegend,.catchHint { text-align:center; padding:0 12px; font-size:11px; line-height:1.7; }
+.catchHint { color:#e9c8be; }
