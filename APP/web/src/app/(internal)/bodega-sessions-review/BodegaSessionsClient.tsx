@@ -125,28 +125,18 @@ export default function BodegaSessionsClient() {
   }
 
   return <section id="fall-game" className={styles.game} data-playing={started} aria-label="Bodega falling-item game">
-    <div className={styles.marquee}><span>CAFECITO WEATHER</span><span>FALL RUSH / BODEGA</span><span>YOUR NEIGHBORHOOD. YOUR SHIFT.</span></div>
     <div className={styles.stage}>
-      {!started ? <>
-        <div className={styles.intro}>
-          <div className={styles.introCopy}>
-            <span className={styles.eyebrow}>Your neighborhood. Your shift.</span>
-            <h2>Catch your<br /><em>cafecito.</em></h2>
-            <p>Tap your café favorites as they fall. Let the coffee spills pass.</p>
-            <button className={styles.primary} onClick={start}>Start catching <span aria-hidden="true">↓</span></button>
-            <span className={styles.hint}>20 seconds · Reach 100 to win</span>
-          </div>
-          <div className={styles.cafePortrait}>
-            <div className={styles.cafeSpecial}><Illustration src="/assets/bodega/fall/spanish-latte.webp" /></div>
-            <span className={styles.portraitCaption}>SPANISH LATTE / THE HOUSE FAVORITE</span>
-          </div>
+      {!started ? <div className={styles.landing}>
+        <h1>FALL RUSH</h1>
+        <div className={styles.productComposition} aria-hidden="true">
+          <Illustration src="/assets/bodega/fall/spanish-latte.webp" />
+          <Illustration src="/assets/bodega/fall/iced-green-latte.webp" />
+          <Illustration src="/assets/bodega/fall/cereal-bites.webp" />
         </div>
-        <div className={styles.heroProducts} aria-label="Featured game items">
-          {BODEGA_CATCH_SKIN.items.filter((item) => item.kind === "good").map((item) => <div key={item.id} className={styles.heroProduct}>
-            <Illustration src={item.asset!} /><div><span className={styles.productNumber}>+{item.points}</span><strong>{item.label}</strong></div>
-          </div>)}
-        </div>
-      </> : <div className={styles.catchLayout}>
+        <p className={styles.landingInstruction}>Tap treats. Skip spills.</p>
+        <button className={styles.playButton} onClick={start}>PLAY</button>
+        <span className={styles.landingNote}>20 seconds · 100 points</span>
+      </div> : <div className={styles.catchLayout}>
         <div className={styles.catchControls}>
           <button className={styles.pause} onClick={() => { audio.current?.pause(); setStarted(false); }}>Back</button>
           <button className={styles.pause} onClick={toggleMute} aria-pressed={muted} aria-label={muted ? "Unmute catch sounds" : "Mute catch sounds"}>{muted ? "Sound off" : "Sound on"}</button>
@@ -175,6 +165,5 @@ export default function BodegaSessionsClient() {
         <p className={styles.catchHint}>Tap to catch · Avoid spills · ← → selects, Space catches</p>
       </div>}
     </div>
-    <div className={styles.gameFooter}><span>TAP TO CATCH. SKIP THE SPILLS.</span><span>A LITTLE NEW YORK. A LOT OF CAFECITO.</span></div>
   </section>;
 }

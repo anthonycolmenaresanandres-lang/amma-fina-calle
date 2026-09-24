@@ -501,3 +501,9 @@ Authority: Anthony approved the proposed 20-second round, roughly 600ms spawns, 
 Scope: Bodega preset plus opt-in shared size/finish behavior and catch event; existing shared levels keep their settings. Gesture-unlocked lightweight audio, mute, background/pause cleanup. Pre-merge compilation/required CI only.
 
 Result: 20s/100-point Bodega preset, fixed600ms spawns, faster falls and 1.35x items implemented. Capped awards immediately end play at100; further taps cannot score. Item-specific synthesized tones include visible mute, gesture unlock and bounded voices; pause/background/unmount silence added. TypeScript, scoped lint and whitespace checks passed pre-merge. Required remote compilation/CI gates remain release conditions; no post-merge tests.
+
+## [x] 55 - Minimal black-and-white Bodega game landing
+Authority: Anthony approved the landing-only plan and explicitly requested execution and merge. Remove product/menu cards and repeated copy; retain logo/Menu, one FALL RUSH heading, compact colored product composition, black PLAY CTA, short instructions and Preview/Play for fun note. No post-merge testing.
+Scope: landing markup/CSS only; preserve gameplay, audio, approved art and mobile game layout. Required pre-merge compilation/CI gates apply.
+
+Result: landing reduced to logo/Menu, FALL RUSH, unboxed composition of the three approved products, Tap treats/Skip spills, PLAY, 20 seconds/100 points and Preview/Play for fun. White/black landing CSS with compact short-screen treatment; removed retired card/banner/caption styles. Gameplay settings/audio unchanged. TypeScript, scoped ESLint and whitespace checks passed before publication; required CI/build gates apply. No post-merge tests.
