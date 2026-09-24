@@ -28,6 +28,18 @@ export default function BodegaSessionsClient() {
   const game = useRef<Game | null>(null);
   const pausedRef = useRef(false);
   const keyboardX = useRef(0.5);
+  const steering = useRef<HTMLInputElement>(null);
+
+  // Use the full phone screen without Safari's page bounce fighting the game.
+  useEffect(() => {
+    if (!started) return;
+    const mobile = window.matchMedia("(max-width: 700px), (max-height: 500px) and (pointer: coarse)");
+    const previous = document.body.style.overflow;
+    const sync = () => { document.body.style.overflow = mobile.matches ? "hidden" : previous; };
+    sync();
+    mobile.addEventListener("change", sync);
+    return () => { mobile.removeEventListener("change", sync); document.body.style.overflow = previous; };
+  }, [started]);
 
   useEffect(() => {
     if (!started || !mount.current) return;
@@ -43,6 +55,7 @@ export default function BodegaSessionsClient() {
           super.create();
           const syncPointer = (pointer: { x: number }) => {
             keyboardX.current = Math.max(0, Math.min(1, pointer.x / this.scale.width));
+            if (steering.current) steering.current.value = String(Math.round(keyboardX.current * 100));
           };
           this.input.on("pointermove", syncPointer);
           this.input.on("pointerdown", syncPointer);
@@ -61,30 +74,38 @@ export default function BodegaSessionsClient() {
         backgroundColor: "#f4e7d1", scene: [scene], audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE }, fps: { target: 60 },
       });
-      game.current.canvas.setAttribute("aria-label", "Catch falling drinks and muffins with the tray. Drag or use left and right arrow keys. Avoid spills. Sound-free.");
+      game.current.canvas.setAttribute("aria-label", "Catch falling drinks and cereal bites with the tray. Drag, use the thumb slider or left and right arrow keys. Avoid spills. Sound-free.");
       mount.current.focus({ preventScroll: true });
     };
     void init().catch(() => { if (!cancelled) { setError(true); setLoading(false); } });
-    const hide = () => {
-      if (document.hidden) {
+    const pauseForBackground = () => {
         pausedRef.current = true;
         game.current?.scene.getScenes(false).forEach((scene) => scene.scene.pause());
         setPaused(true);
-      }
     };
+    const hide = () => { if (document.hidden) pauseForBackground(); };
     document.addEventListener("visibilitychange", hide);
+    window.addEventListener("pagehide", pauseForBackground);
     return () => {
       cancelled = true;
       document.removeEventListener("visibilitychange", hide);
+      window.removeEventListener("pagehide", pauseForBackground);
       game.current?.destroy(true); game.current = null;
     };
   }, [started, round]);
 
   function start() {
     pausedRef.current = false; keyboardX.current = 0.5;
+    if (steering.current) steering.current.value = "50";
     setPaused(false); setError(false); setLoading(true); setStatus(initialStatus);
     setStarted(true); setRound((n) => n + 1);
     requestAnimationFrame(() => mount.current?.scrollIntoView({ block: "center", behavior: "instant" }));
+  }
+
+  function moveTray(fraction: number) {
+    keyboardX.current = Math.max(0, Math.min(1, fraction));
+    if (steering.current) steering.current.value = String(Math.round(keyboardX.current * 100));
+    game.current?.scene.getScenes(true).forEach((scene) => scene.input.emit("pointermove", { x: keyboardX.current * scene.scale.width }));
   }
   function togglePause() {
     const next = !pausedRef.current;
@@ -93,7 +114,7 @@ export default function BodegaSessionsClient() {
     if (!next) mount.current?.focus({ preventScroll: true });
   }
 
-  return <section id="fall-game" className={styles.game} aria-label="Bodega falling-item game">
+  return <section id="fall-game" className={styles.game} data-playing={started} aria-label="Bodega falling-item game">
     <div className={styles.marquee}><span>CAFECITO WEATHER</span><span>FALL RUSH / BODEGA</span><span>YOUR NEIGHBORHOOD. YOUR SHIFT.</span></div>
     <div className={styles.stage}>
       {!started ? <>
@@ -131,8 +152,7 @@ export default function BodegaSessionsClient() {
           <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Falling-item play area. Use left and right arrows to move the tray." onKeyDown={(event) => {
             if (paused || loading || error || status.over || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
             event.preventDefault();
-            keyboardX.current = Math.max(0.05, Math.min(0.95, keyboardX.current + (event.key === "ArrowLeft" ? -0.07 : 0.07)));
-            game.current?.scene.getScenes(true).forEach((scene) => scene.input.emit("pointermove", { x: keyboardX.current * scene.scale.width }));
+            moveTray(Math.max(0.05, Math.min(0.95, keyboardX.current + (event.key === "ArrowLeft" ? -0.07 : 0.07))));
           }} />
           {(loading || paused || error || status.over) && <div className={styles.catchOverlay} role="status">
             <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : status.over ? status.score >= status.target ? "Nice shift, neighbor." : "See you next shift." : "Coffee break."}</h2>
@@ -140,7 +160,11 @@ export default function BodegaSessionsClient() {
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button> : status.over && !loading ? <button className={styles.primary} onClick={start}>Catch again</button> : paused && !loading ? <button className={styles.primary} onClick={togglePause}>Resume catching</button> : null}
           </div>}
         </div>
-        <p className={styles.catchLegend}>Latte +10 · Canela +10 · Muffin +15 · Spill −15</p>
+        <label className={styles.thumbControl}>
+          <span>Slide to move the tray</span>
+          <input ref={steering} type="range" min="0" max="100" step="1" defaultValue="50" aria-label="Move the tray left or right" disabled={loading || paused || error || status.over} onChange={(event) => moveTray(Number(event.currentTarget.value) / 100)} />
+        </label>
+        <p className={styles.catchLegend}>Latte +10 · Green drink +10 · Cereal bites +15 · Spill −15</p>
         <p className={styles.catchHint}>Drag, move your mouse or use ← →. Catch a little glow.</p>
       </div>}
     </div>

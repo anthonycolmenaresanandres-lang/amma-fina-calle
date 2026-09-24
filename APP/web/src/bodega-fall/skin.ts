@@ -10,8 +10,8 @@ export const BODEGA_CATCH_SKIN: CafeRushSkin = {
   },
   items: [
     { id: "spanish", kind: "good", points: 10, shape: "cup", fill: 0xc48854, accent: 0xfff2d8, label: "Spanish Latte", weight: 1.2, asset: "/assets/bodega/fall/spanish-latte.webp" },
-    { id: "canela", kind: "good", points: 10, shape: "iced", fill: 0xd37a45, accent: 0xf0c34f, label: "Canela Love", asset: "/assets/bodega/fall/canela-love.webp" },
-    { id: "muffin", kind: "good", points: 15, shape: "muffin", fill: 0xe4aa65, accent: 0x825137, label: "Coffee Cinnamon Muffin", asset: "/assets/bodega/fall/cinnamon-muffin.webp" },
+    { id: "green", kind: "good", points: 10, shape: "iced", fill: 0x6d882a, accent: 0xf4edcd, label: "Iced Green Latte", asset: "/assets/bodega/fall/iced-green-latte.webp" },
+    { id: "bites", kind: "good", points: 15, shape: "pastry", fill: 0xd89b4f, accent: 0xffefcf, label: "Cereal Bites", asset: "/assets/bodega/fall/cereal-bites.webp" },
     { id: "spill", kind: "bad", points: -15, shape: "spill", fill: 0x201d24, accent: 0xffba9d, label: "Coffee spill" },
   ],
   assets: {
