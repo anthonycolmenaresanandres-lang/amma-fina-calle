@@ -2698,3 +2698,9 @@ Anthony approved the prior plan and merge. Starting from be567bc. Implement 20s/
 
 ## 2026-09-24 OUT — Bodega speed and sound
 Implemented approved Bodega level and 35% larger art/hit areas with inset spawns; optional shared finishAtTarget caps awards and ends immediately at100. Added cafe-catch event and Bodega-specific synthesized cues, mute, iOS gesture resume, pause/background silence and audio cleanup. Updated intro/metadata to20 seconds and documented the authorized preset. Pre-merge TypeScript, scoped ESLint and diff whitespace checks passed; remote CI/build gates required before authorized merge. No post-merge testing.
+
+## 2026-09-24 IN — Bodega minimal landing
+Approved execution/merge from6167d3e. Replace the landing's colored panels/product cards/repeated copy with white background, black type and PLAY, existing art composition, logo/Menu and concise preview note. Gameplay behavior unchanged; no post-merge testing.
+
+## 2026-09-24 OUT — Bodega minimal landing
+Implemented the approved white/black landing with a single PLAY CTA and compact colored composition reusing the three existing product sprites. Removed cards, duplicated headline, slogan strips, captions and long intro/review copy. Retained logo/Menu and concise Preview/Play for fun. Landing fits through responsive sizing and compact short-screen CSS; no browser certification claimed. Game behavior, scoring, audio and mobile play controls unchanged. Pre-merge TypeScript, scoped ESLint and whitespace checks passed; required CI/build gates apply before authorized merge. No post-merge tests.
