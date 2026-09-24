@@ -474,8 +474,10 @@ No task is live until it appears below this line with a current PASS condition.
 Authority: Anthony rejected the ticket game and requested falling items like Colattao. Original scoped merge/live authorization persists.
 Scope: reuse CafeRushScene and its existing rules, Bodega-only skin and wrapper at the stable review URL; preserve logo/noindex/menu. Add muffin primitive rendering only; no changes to existing skins or rules. Verify build/lint and hosted play before merge.
 
-## [ ] 51 - Integrate Bodega art and silent New York cat feedback
+## [ ] 51 - Integrate Bodega art and silent catch feedback
 Authority: Anthony requested seamless integration, a more New York bodega cat first, and a light instead of sound on each catch. His explicit Bodega merge/live authorization persists.
 Base: origin/main 9425e110; branch codex/bodega-new-york-art. Cloud scratch exception continues from queue49.
 Scope: Bodega-only generated reference-informed products, cafe backdrop and cat; optional shared rendering hooks with primitive fallback; silent golden catch feedback. Preserve frozen round/spawn/collision/scoring rules, other skins, stable URLs, real logo and owner-review/noindex status.
 PASS: optimized local assets, loading failure fallback, reduced motion, keyboard/pointer controls, pause/replay/end-round, lint/types/build and hosted verification; merge exact checked head and verify live.
+
+Update 2026-09-24: Anthony explicitly stopped the cat work and directed integration of the rest of the art. Exclude the mascot asset/UI and catcher-image support from this release; retain the illustrated products, cafe interior and silent golden tray light.

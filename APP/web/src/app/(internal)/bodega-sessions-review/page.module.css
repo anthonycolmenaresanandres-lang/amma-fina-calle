@@ -31,8 +31,8 @@
 .primary:active { transform:translateY(1px); }
 .hint { display:block; font-size:11px; line-height:1.6; margin-top:15px; color:#d8ddcc; }
 .cafePortrait { position:relative; display:grid; justify-items:center; align-items:end; background:#eee2cc url('/assets/bodega/fall/cafe-interior.webp') center 32%/cover; overflow:hidden; }
-.catPortrait { display:block; width:270px; max-width:85%; padding:15px 0 30px; }
-.catPortrait img { display:block; width:100%; height:auto; }
+.cafeSpecial { width:75%; align-self:center; padding-top:65px; filter:drop-shadow(0 12px 10px #34271e35); }
+.cafeSpecial .productArt { width:100%; height:auto; aspect-ratio:1.2; }
 .portraitCaption { position:absolute; bottom:12px; color:#183d31; background:#fff2d8e8; padding:6px 10px; font:9px var(--font-geist-mono),monospace; letter-spacing:.13em; }
 .heroProducts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; padding:18px 32px; border-top:1px solid #fff2d830; }
 .heroProduct { display:flex; align-items:center; justify-content:center; gap:14px; min-width:0; }
@@ -75,7 +75,7 @@
   .eyebrow { font-size:9px; }
   .primary { width:100%; padding:14px 18px; font-size:13px!important; }
   .cafePortrait { height:245px; background-position:center 24%; }
-  .catPortrait { width:154px; padding:0 0 13px; }
+  .cafeSpecial { width:180px; padding-top:35px; }
   .portraitCaption { bottom:7px; font-size:8px; padding:4px 8px; }
   .heroProducts { gap:8px; padding:14px 10px; }
   .heroProduct { flex-direction:column; gap:6px; text-align:center; justify-content:start; }

@@ -2673,3 +2673,5 @@ DID: Replaced ticket-order interactions with the actual Colattao CafeRushScene, 
 
 ### [IN] Codex - 2026-09-24 - Bodega New York cat integration
 Anthony requested a New York bodega cat and seamless image integration with silent light feedback per catch. Revised cat uses a green cap/apron, keys and burgundy scarf. Art derives from Anthony's cafe references; existing three menu selections remain. Scope and continuing release authorization recorded in queue51. Frozen game rules and all other client behavior remain outside scope.
+
+STEERING: Anthony said “Stop the cat continue with integrating the rest of the art.” Removed the mascot from this release before merge. Continue products/backdrop/golden tray light and unchanged falling-item play.

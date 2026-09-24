@@ -10,10 +10,10 @@ import styles from "./page.module.css";
 
 const initialStatus: CafeRushStatus = { score: 0, seconds: 45, target: 100, over: false };
 
-function Illustration({ src, cat = false }: { src: string; cat?: boolean }) {
+function Illustration({ src }: { src: string }) {
   const [failed, setFailed] = useState(false);
-  return <span className={cat ? styles.catPortrait : styles.productArt} aria-hidden="true">
-    {!failed && <Image src={src} alt="" width={cat ? 512 : 320} height={cat ? 768 : 320} unoptimized onError={() => setFailed(true)} />}
+  return <span className={styles.productArt} aria-hidden="true">
+    {!failed && <Image src={src} alt="" width={320} height={320} unoptimized onError={() => setFailed(true)} />}
   </span>;
 }
 
@@ -61,7 +61,7 @@ export default function BodegaSessionsClient() {
         backgroundColor: "#f4e7d1", scene: [scene], audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE }, fps: { target: 60 },
       });
-      game.current.canvas.setAttribute("aria-label", "Catch falling drinks and muffins with the bodega cat. Drag or use left and right arrow keys. Avoid spills. Sound-free.");
+      game.current.canvas.setAttribute("aria-label", "Catch falling drinks and muffins with the tray. Drag or use left and right arrow keys. Avoid spills. Sound-free.");
       mount.current.focus({ preventScroll: true });
     };
     void init().catch(() => { if (!cancelled) { setError(true); setLoading(false); } });
@@ -99,15 +99,15 @@ export default function BodegaSessionsClient() {
       {!started ? <>
         <div className={styles.intro}>
           <div className={styles.introCopy}>
-            <span className={styles.eyebrow}>The cat’s got the counter.</span>
+            <span className={styles.eyebrow}>Your neighborhood. Your shift.</span>
             <h2>Catch your<br /><em>cafecito.</em></h2>
-            <p>Slide with our New York bodega cat. Catch your café favorites. Let the coffee spills fall past you.</p>
+            <p>Slide your tray. Catch your café favorites. Let the coffee spills fall past you.</p>
             <button className={styles.primary} onClick={start}>Start catching <span aria-hidden="true">↓</span></button>
             <span className={styles.hint}>45 seconds · Target 100 · Sound-free</span>
           </div>
           <div className={styles.cafePortrait}>
-            <Illustration src="/assets/bodega/fall/bodega-cat.webp" cat />
-            <span className={styles.portraitCaption}>YOUR LOCAL COUNTER CREW</span>
+            <div className={styles.cafeSpecial}><Illustration src="/assets/bodega/fall/spanish-latte.webp" /></div>
+            <span className={styles.portraitCaption}>SPANISH LATTE / THE HOUSE FAVORITE</span>
           </div>
         </div>
         <div className={styles.heroProducts} aria-label="Featured game items">
@@ -128,7 +128,7 @@ export default function BodegaSessionsClient() {
           <div><span>Seconds</span><strong data-urgent={status.seconds <= 10}>{status.seconds}</strong></div>
         </div>
         <div className={styles.catchBoard}>
-          <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Falling-item play area. Use left and right arrows to move the cat." onKeyDown={(event) => {
+          <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Falling-item play area. Use left and right arrows to move the tray." onKeyDown={(event) => {
             if (paused || loading || error || status.over || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
             event.preventDefault();
             keyboardX.current = Math.max(0.05, Math.min(0.95, keyboardX.current + (event.key === "ArrowLeft" ? -0.07 : 0.07)));

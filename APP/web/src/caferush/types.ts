@@ -62,8 +62,6 @@ export type CafeRushAssets = {
   background?: string;
   /** Catcher (tray / cup / basket) art. */
   catcher?: string;
-  /** Image-relative center of the tray mouth and its width, for visual alignment only. */
-  catcherMouth?: { x: number; y: number; width: number };
 };
 
 /** Read-only presentation updates; never used to determine game rules. */

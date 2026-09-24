@@ -40,7 +40,6 @@ export class CafeRushScene extends Phaser.Scene {
   private hud!: Phaser.GameObjects.Text;
   private banner!: Phaser.GameObjects.Text;
   private backgroundArt?: Phaser.GameObjects.Image;
-  private catcherArt?: Phaser.GameObjects.Image;
   private catchLight!: Phaser.GameObjects.Graphics;
   private lightUntil = 0;
   private lastStatus = "";
@@ -73,7 +72,6 @@ export class CafeRushScene extends Phaser.Scene {
       if (url) this.load.image(this.artKey(name), url, { responseType: "blob", timeout: 5000 });
     };
     load("background", this.skin.assets?.background);
-    load("catcher", this.skin.assets?.catcher);
     this.skin.items.forEach((item) => load(item.id, item.asset));
   }
 
@@ -92,10 +90,6 @@ export class CafeRushScene extends Phaser.Scene {
     this.catcherGfx = this.add.graphics();
     this.catcher = this.add.container(0, 0, [this.catcherGfx]);
     this.catcher.setDepth(5);
-    if (this.textures.exists(this.artKey("catcher"))) {
-      this.catcherArt = this.add.image(0, 0, this.artKey("catcher"));
-      this.catcher.add(this.catcherArt);
-    }
     this.catchLight = this.add.graphics();
     this.catcher.add(this.catchLight);
 
@@ -368,10 +362,6 @@ export class CafeRushScene extends Phaser.Scene {
     const height = Math.max(18, half * 0.42);
     this.catcherGfx.clear();
     this.catchLight.clear();
-    if (this.catcherArt) {
-      const mouth = this.skin.assets?.catcherMouth ?? { x: 0.5, y: 0.1, width: 1 };
-      this.catcherArt.setOrigin(mouth.x, mouth.y).setScale(half * 2 / (this.catcherArt.width * mouth.width));
-    }
     if (this.presentation.catchLight && this.lightUntil > this.time.now) {
       const fade = this.presentation.reducedMotion ? 0.8 : (this.lightUntil - this.time.now) / 420;
       this.catchLight.lineStyle(7, c.accent, fade * 0.2).strokeEllipse(0, 0, half * 2, 14);
@@ -384,7 +374,6 @@ export class CafeRushScene extends Phaser.Scene {
         this.catchLight.fillTriangle(x, -11, x - 3, -18, x + 3, -18);
       }
     }
-    if (this.catcherArt) return;
     // Tray/cup body: rounded, brand-cream with a gold rim.
     this.catcherGfx.fillStyle(c.catcher, 1);
     this.catcherGfx.fillRoundedRect(-half, -height * 0.2, half * 2, height, { tl: 6, tr: 6, bl: 16, br: 16 });
