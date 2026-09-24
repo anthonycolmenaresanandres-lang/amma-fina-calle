@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Bodega Fall Rush — cafecito weather",
-  description: "A 45-second fall café game starring Spanish Latte, Canela Love and Coffee Cinnamon Muffin. Owner-review concept.",
+  description: "A 45-second fall café game starring Spanish Latte, Iced Green Latte and Cereal Bites. Owner-review concept.",
   robots: {
     index: false,
     follow: false,
@@ -33,7 +33,7 @@ export default function BodegaSessionsReviewPage() {
         </nav>
         <header className={styles.hero}>
           <div><span className={styles.kicker}>The neighborhood’s coziest challenge</span><h1>Fall <em>Rush.</em></h1></div>
-          <p>Spanish Latte. Canela Love. Coffee Cinnamon Muffin. Your fall shift starts here.</p>
+          <p>Spanish Latte. Iced Green Latte. Cereal Bites. Your fall shift starts here.</p>
         </header>
 
         <BodegaSessionsClient />
