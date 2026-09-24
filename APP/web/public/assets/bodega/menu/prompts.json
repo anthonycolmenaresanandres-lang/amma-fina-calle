@@ -1,0 +1,34 @@
+[
+  {
+    "id": "maple-morning",
+    "prompt": "Use case: stylized-concept. Create a single premium Bodega Cafe seasonal menu product illustration, square framing, fully isolated on genuinely transparent background, no shadows outside object, full cup visible with 10% padding. Style: sophisticated hand-painted editorial cafe product art, realistic appetizing glass/material details with subtle ink outline, consistent New York coffee-shop personality, black-and-white cup branding aesthetic with warm natural drink colors. One front-facing takeaway cup only, no props, no people, no labels, no letters, no logo, no backdrop. This is an illustrative seasonal concept, not a claimed photograph. Subject: rich creamy warm amber maple brown-sugar cinnamon latte in a white paper takeaway cup with black lid, coffee visible through small lid opening. Small delicate cinnamon dust color accents, no garnish props."
+  },
+  {
+    "id": "autumn-brew",
+    "prompt": "Use case: stylized-concept. Create a single premium Bodega Cafe seasonal menu product illustration, square framing, fully isolated on genuinely transparent background, no shadows outside object, full cup visible with 10% padding. Style: sophisticated hand-painted editorial cafe product art, realistic appetizing glass/material details with subtle ink outline, consistent New York coffee-shop personality, black-and-white cup branding aesthetic with warm natural drink colors. One front-facing takeaway cup only, no props, no people, no labels, no letters, no logo, no backdrop. This is an illustrative seasonal concept, not a claimed photograph. Subject: clear takeaway cup with dark white-mocha cold brew and pale pumpkin-pie cold foam, neat transparent flat lid, visible ice, creamy warm pumpkin-tinted foam layer; restrained black thin outlines."
+  },
+  {
+    "id": "haystack",
+    "prompt": "Use case: stylized-concept. Create a single premium Bodega Cafe seasonal menu product illustration, square framing, fully isolated on genuinely transparent background, no shadows outside object, full cup visible with 10% padding. Style: sophisticated hand-painted editorial cafe product art, realistic appetizing glass/material details with subtle ink outline, consistent New York coffee-shop personality, black-and-white cup branding aesthetic with warm natural drink colors. One front-facing takeaway cup only, no props, no people, no labels, no letters, no logo, no backdrop. This is an illustrative seasonal concept, not a claimed photograph. Subject: white mocha and butter pecan latte, warm cream and caramel palette, white paper takeaway cup with black lid. Subtle ochre brush accents on blank paper cup, no actual nuts or toppings."
+  },
+  {
+    "id": "sugar-n-spice",
+    "prompt": "Use case: stylized-concept. Create a single premium Bodega Cafe seasonal menu product illustration, square framing, fully isolated on genuinely transparent background, no shadows outside object, full cup visible with 10% padding. Style: sophisticated hand-painted editorial cafe product art, realistic appetizing glass/material details with subtle ink outline, consistent New York coffee-shop personality, black-and-white cup branding aesthetic with warm natural drink colors. One front-facing takeaway cup only, no props, no people, no labels, no letters, no logo, no backdrop. This is an illustrative seasonal concept, not a claimed photograph. Subject: iced latte with sweetened condensed milk and spiced brown sugar, clear takeaway cup flat lid, cream base blending into brown coffee, visible ice, thin warm brown ribbons within drink. No extra garnish."
+  },
+  {
+    "id": "spiced-apple-chai",
+    "prompt": "Use case: stylized-concept. Create a single premium Bodega Cafe seasonal menu product illustration, square framing, fully isolated on genuinely transparent background, no shadows outside object, full cup visible with 10% padding. Style: sophisticated hand-painted editorial cafe product art, realistic appetizing glass/material details with subtle ink outline, consistent New York coffee-shop personality, black-and-white cup branding aesthetic with warm natural drink colors. One front-facing takeaway cup only, no props, no people, no labels, no letters, no logo, no backdrop. This is an illustrative seasonal concept, not a claimed photograph. Subject: understated spiced apple chai concept, white paper takeaway cup with black lid, gentle warm tea color visible at lid opening, tiny rust-colored brush accent on blank cup. Do not depict ingredients or garnish; recipe is unknown."
+  },
+  {
+    "id": "green-branded",
+    "prompt": "Use case: compositing. Image 1 is the edit target: existing transparent illustrated green iced cafe drink. Image 2 is the ORIGINAL Bodega round logo to place on the cup. Preserve the drink, ice, lid, green-to-cream layers, painterly style, full cup silhouette and transparent background. Add the supplied circular BODEGA CAFE logo as a large centered front label at the middle of the cup body. Keep the original black BODEGA CAFE lettering, cup and waveform symbol, circular border and VIRGINIA BEACH lettering accurate. White round label, subtle perspective wrapping, crisp and legible, occupying around 60% of cup width. No invented drink name or other text. Single cup centered, full silhouette, square transparent asset.",
+    "referenced_image_paths": [
+      "public/assets/bodega/fall/iced-green-latte.webp",
+      "public/assets/bodega/review/bodega-round-seal-review.webp"
+    ]
+  },
+  {
+    "id": "fall-sessions-hero",
+    "prompt": "Use case: ads-marketing. Create an elegant wide 3:2 editorial illustration for Bodega Cafe's Fall Sessions seasonal menu. New York neighborhood cafe meets music sleeve design. Mostly white negative space with black ink rhythmic waveform line and subtle concentric vinyl-record grooves, small restrained rust-orange and sage autumn leaves, a trio of beautiful takeaway coffee cups grouped on right half: amber creamy latte, dark iced cold brew with pumpkin-tinted foam, white paper cup with black lid. Hand-painted editorial art, precise appetizing material detail, restrained black/white palette with warm drink colors. Left half clean white for live HTML heading (do not put any text in the image). No letters, no logo, no names, no prices, no people, no framed cards, no interface. Polished cohesive art rather than photoreal advertising. White opaque background."
+  }
+]

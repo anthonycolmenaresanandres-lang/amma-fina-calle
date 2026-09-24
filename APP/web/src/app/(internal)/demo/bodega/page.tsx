@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
 import { BodegaSignalLogo } from "./bodega-signal-logo";
+import { FallSessions } from "./fall-sessions";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -36,31 +37,18 @@ export default function BodegaMenuReviewPage() {
           <BodegaSignalLogo />
         </header>
 
-        <section className={styles.chalkInterlude} aria-labelledby="seasonal-board-title">
-          <div className={styles.chalkIntro}>
-            <span className={styles.chalkKicker}>Seasonal board language</span>
-            <h2 id="seasonal-board-title">What&apos;s blooming at Bodega?</h2>
-          </div>
-          <div className={styles.chalkWords} aria-hidden="true">
-            <span>CAFECITO</span>
-            <span>SEASONAL</span>
-            <span>FRESH PRESS</span>
-          </div>
-          <p>
-            A flexible chalkboard moment for owner-confirmed specials. Names, recipes, prices, and availability stay
-            out until Bodega supplies the current board.
-          </p>
-        </section>
+        <FallSessions />
 
         <aside className={styles.reviewNotice} id="review-notes">
           <strong>Visual system ready / content not approved</strong>
           <p>
-            Item names below are public-source candidates for layout review only. Bodega must provide the current
-            source menu before any item, category, price, recipe, modifier, or availability is treated as accurate.
+            Fall Sessions names and descriptions come from the supplied Bodega board. Other menu sections remain
+            public-source candidates for owner review. Prices and current availability still require confirmation.
           </p>
         </aside>
 
         <nav className={styles.sectionNav} aria-label="Draft menu sections">
+          <a href="#fall-sessions">Fall Sessions</a>
           {draftMenuSections.map((section) => (
             <a href={`#${section.id}`} key={section.id}>
               {section.title}
@@ -116,8 +104,7 @@ export default function BodegaMenuReviewPage() {
           </div>
           <div className={styles.sessionsCopy}>
             <p>
-              Spanish Latte, Iced Green Latte, and Cereal Bites take the spotlight. Catch the falling drinks and bites in a
-              45-second rush. Move your tray and dodge the coffee spills.
+              Tap your favorites. Skip the spills. Reach 100 points in 20 seconds.
             </p>
             <Link href="/bodega-sessions-review">Play Fall Rush</Link>
           </div>
@@ -126,8 +113,8 @@ export default function BodegaMenuReviewPage() {
         <footer className={styles.footer}>
           <span className={styles.footerLabel}>Concept by Fina Calle / owner approval required</span>
           <p>
-            Logo references supplied by Anthony appear only in this owner-review concept. No music, recipes, prices,
-            event claims, or protected owner details are used. Both Bodega review routes remain unlinked and noindex
+            Logo references supplied by Anthony appear only in this owner-review concept. Seasonal descriptions are transcribed from the supplied board; artwork is illustrative. No prices,
+            event claims, or protected owner details are published. Both Bodega review routes remain unlinked and noindex
             until the owners approve their content and asset use.
           </p>
           <a href={publishedBusinessDetails.instagramUrl} target="_blank" rel="noreferrer">

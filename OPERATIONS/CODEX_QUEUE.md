@@ -507,3 +507,9 @@ Authority: Anthony approved the landing-only plan and explicitly requested execu
 Scope: landing markup/CSS only; preserve gameplay, audio, approved art and mobile game layout. Required pre-merge compilation/CI gates apply.
 
 Result: landing reduced to logo/Menu, FALL RUSH, unboxed composition of the three approved products, Tap treats/Skip spills, PLAY, 20 seconds/100 points and Preview/Play for fun. White/black landing CSS with compact short-screen treatment; removed retired card/banner/caption styles. Gameplay settings/audio unchanged. TypeScript, scoped ESLint and whitespace checks passed before publication; required CI/build gates apply. No post-merge tests.
+
+## [x] 56 - Bodega Fall Sessions menu and branded unnamed drink
+Authority: Anthony approved execution of the photo-sourced seasonal menu/art plan, specifying no name for the green drink. Existing scoped release authorization applies; no post-merge testing.
+Scope: five board-named drinks with only visible ingredients, new seasonal hero and separate illustrations, centered original-logo treatment on the unnamed green drink shared with game, preserve animated menu signal logo, correct outdated game teaser. No invented prices or green-drink identity; chai recipe omitted because cropped.
+
+Result: five fall-board drinks added with source-visible descriptions and no prices; cropped chai recipe omitted. Seven generated assets integrated: seasonal music-themed hero, five transparent seasonal cups and centered-logo green cup. Green drink remains unnamed; game/landing reuse its branded art and former provisional name is removed. Menu signal logo unchanged; stale tray/45s teaser corrected to tap/20s. TypeScript, scoped lint and whitespace checks passed; required remote CI/build gates apply. No post-merge testing.

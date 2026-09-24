@@ -65,3 +65,15 @@ export const publishedBusinessDetails = {
     { days: "Sunday", time: "8 AM - 2 PM" },
   ],
 };
+
+/** Transcribed from Anthony's supplied fall-board photo (37497.png).
+ * No price is visible; the Spiced Apple Chai recipe is cropped out.
+ * The green drink is intentionally unnamed and is not a named menu entry.
+ */
+export const seasonalDrinks = [
+  { id: "maple-morning", name: "Maple Morning", description: "Maple, brown sugar, cinnamon" },
+  { id: "autumn-brew", name: "Autumn Brew", description: "White mocha cold brew & pumpkin pie cold foam" },
+  { id: "haystack", name: "Haystack", description: "White mocha & butter pecan" },
+  { id: "sugar-n-spice", name: "Sugar N Spice", description: "Sweetened condensed milk, spiced brown sugar" },
+  { id: "spiced-apple-chai", name: "Spiced Apple Chai", description: "" },
+] as const;
