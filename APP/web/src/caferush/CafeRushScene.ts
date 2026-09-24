@@ -194,8 +194,9 @@ export class CafeRushScene extends Phaser.Scene {
   private spawnItem(): void {
     const rules = this.level.rules;
     const item = this.pickItem();
-    const rFrac = 0.075;
-    const xFrac = clamp(0.1 + Math.random() * 0.8, rFrac, 1 - rFrac);
+    const rFrac = 0.075 * (this.presentation.itemScale ?? 1);
+    const margin = rFrac * 1.3;
+    const xFrac = clamp(0.1 + Math.random() * 0.8, margin, 1 - margin);
     const speed = rules.fallSpeed[0] + Math.random() * (rules.fallSpeed[1] - rules.fallSpeed[0]);
 
     const container = this.add.container(0, 0);
@@ -241,7 +242,11 @@ export class CafeRushScene extends Phaser.Scene {
     if (this.phase !== "playing" || f.settled) return;
     f.settled = true;
     f.container.destroy();
-    this.score += f.item.points;
+    const previousScore = this.score;
+    this.score = this.level.rules.finishAtTarget
+      ? Math.min(this.level.rules.targetScore, this.score + f.item.points)
+      : this.score + f.item.points;
+    const awarded = this.score - previousScore;
     const good = f.item.points >= 0;
     if (good && this.presentation.catchLight) {
       const { w, h, min } = this.size();
@@ -252,9 +257,12 @@ export class CafeRushScene extends Phaser.Scene {
     this.popFeedback(
       f.xFrac,
       clamp(f.yFrac, 0.08, 0.92),
-      `${good ? "+" : ""}${f.item.points}`,
+      `${good ? "+" : ""}${awarded}`,
       good ? this.skin.colors.goodText : this.skin.colors.badText,
     );
+    this.events.emit("cafe-catch", f.item.id);
+    if (this.level.rules.finishAtTarget && this.score >= this.level.rules.targetScore) this.endRound();
+    this.updateHud(this.size().w);
   }
 
   private dropItem(f: FallingItem): void {
@@ -283,6 +291,7 @@ export class CafeRushScene extends Phaser.Scene {
   private layoutActors(w: number, h: number): void {
     // Falling items to pixel space.
     for (const f of this.falling) {
+      if (f.settled) continue;
       f.container.setPosition(f.xFrac * w, f.yFrac * h);
       if (f.art) {
         const diameter = Math.min(w, h) * f.rFrac * 2.25;

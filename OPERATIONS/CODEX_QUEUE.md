@@ -495,3 +495,9 @@ Authority: Anthony requested Colattao-style tap-to-catch as our standard game, s
 Scope: shared CafeRushScene direct item taps/clicks, silent local feedback, Bodega copy/control simplification, retained art/mobile safe areas/background pause. Keep scoring and difficulty configuration. Document the standard for future skins.
 
 Result: Shared engine now catches one visible item per direct tap/click with a 56px minimum hit diameter and a settled guard. Removed tray/slider and automatic catches; added keyboard selection/catch, local silent glow and matching copy. Approved art, mobile layout, background pause and configured rules retained. TypeScript, targeted ESLint and whitespace checks pass before merge. Required remote build/CI gates apply; no post-merge testing.
+
+## [x] 54 - Bodega faster rounds, larger items and catch sounds
+Authority: Anthony approved the proposed 20-second round, roughly 600ms spawns, faster falling, 35% larger items, distinct catch tones/mute, and immediate capped win at 100; explicitly requested merge. Scoped rule/presentation extension authorized. No post-merge testing.
+Scope: Bodega preset plus opt-in shared size/finish behavior and catch event; existing shared levels keep their settings. Gesture-unlocked lightweight audio, mute, background/pause cleanup. Pre-merge compilation/required CI only.
+
+Result: 20s/100-point Bodega preset, fixed600ms spawns, faster falls and 1.35x items implemented. Capped awards immediately end play at100; further taps cannot score. Item-specific synthesized tones include visible mute, gesture unlock and bounded voices; pause/background/unmount silence added. TypeScript, scoped lint and whitespace checks passed pre-merge. Required remote compilation/CI gates remain release conditions; no post-merge tests.

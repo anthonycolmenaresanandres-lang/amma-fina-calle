@@ -71,6 +71,8 @@ export type CafeRushPresentation = {
   externalHud?: boolean;
   reducedMotion?: boolean;
   catchLight?: boolean;
+  /** Art and tap-area scale; defaults to 1. */
+  itemScale?: number;
 };
 
 /**
@@ -110,6 +112,8 @@ export type CafeRushChrome = {
 export type CafeRushRules = {
   /** Round length in seconds. */
   durationSec: number;
+  /** Optional capped target win; default levels still finish on their timer. */
+  finishAtTarget?: boolean;
   /** Score needed to win the round. */
   targetScore: number;
   /** Milliseconds between spawns at the start of the round. */

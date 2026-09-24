@@ -2692,3 +2692,9 @@ Anthony rejected tray steering and requested direct tap-to-catch like Colattao a
 
 ## 2026-09-24 OUT — shared café tap standard
 Implemented direct tap-to-catch in shared CafeRushScene after reading Colattao DemoScene collectible pointerdown behavior. Bodega and all shared café skins inherit it; removed tray and slider, kept supplied art and mobile lifecycle, silent local glow and added keyboard selection/catch. Standard recorded in GAME_CUSTOMIZATION_PROTOCOL. TypeScript, targeted lint and diff whitespace checks passed before publication; required remote compilation/CI gates remain release conditions. Merge authorized; no tests after merge.
+
+## 2026-09-24 IN — Bodega speed and sound
+Anthony approved the prior plan and merge. Starting from be567bc. Implement 20s/100-target preset, 600ms cadence, faster falls, 1.35x item sizing, item-specific tones with mute, score cap and immediate completion. Prior no-post-merge-testing instruction remains.
+
+## 2026-09-24 OUT — Bodega speed and sound
+Implemented approved Bodega level and 35% larger art/hit areas with inset spawns; optional shared finishAtTarget caps awards and ends immediately at100. Added cafe-catch event and Bodega-specific synthesized cues, mute, iOS gesture resume, pause/background silence and audio cleanup. Updated intro/metadata to20 seconds and documented the authorized preset. Pre-merge TypeScript, scoped ESLint and diff whitespace checks passed; remote CI/build gates required before authorized merge. No post-merge testing.
