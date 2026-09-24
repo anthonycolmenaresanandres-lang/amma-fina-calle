@@ -26,7 +26,7 @@ export type CafeRushColors = {
 };
 
 /** How a falling item is drawn as a primitive when it has no image asset. */
-export type ItemShape = "cup" | "iced" | "pastry" | "disc" | "wedge" | "spill";
+export type ItemShape = "cup" | "iced" | "muffin" | "pastry" | "disc" | "wedge" | "spill";
 
 /**
  * One kind of falling item. `good` items score when caught; `bad` items (a

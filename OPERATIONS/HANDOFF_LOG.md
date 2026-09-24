@@ -2666,3 +2666,7 @@ Release is scoped to PR243. No paid generation, credentials, access grants, bill
 ### [REVIEW FIX] Codex - 2026-09-24 - Bodega PR243
 
 Automated review found two valid timing issues. Input now carries the displayed order identity, so a tap arriving after a deadline cannot score or penalize its unseen replacement. Golden Hour now lasts its promised seven seconds even when a mistake or expired ticket resets the streak. Added regression tests for both; all11 rule tests and scoped lint pass. Release still requires the new head's production build and CI. Application behavior otherwise unchanged.
+
+### [IN] Codex - 2026-09-24 - Bodega falling items correction
+Anthony clarified that Fall means falling products like Colattao. Reuse the actual CafeRushScene with Spanish Latte, Canela Love and Coffee Cinnamon Muffin; retain Bodega identity and stable route. Prior merge/live authorization remains applicable to this correction. Base 3881f908.
+DID: Replaced ticket-order interactions with the actual Colattao CafeRushScene, unchanged scoring/spawning/collision/rules. Bodega skin uses two drinks plus a new muffin primitive and spill hazard. Added Bodega-only lazy loading, reload recovery, pause/background pause, keyboard steering and replay. Menu copy corrected. Primitive art needs no remote assets.

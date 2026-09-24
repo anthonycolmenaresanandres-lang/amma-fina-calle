@@ -336,6 +336,15 @@ export class CafeRushScene extends Phaser.Scene {
         g.fillStyle(accent, 1).fillRect(r * 0.18, -r * 1.15, r * 0.16, r * 1.1);
         break;
       }
+      case "muffin": {
+        g.fillStyle(accent, 1).fillRoundedRect(-r * 0.65, 0, r * 1.3, r * 0.9, 5);
+        g.fillStyle(fill, 1).fillEllipse(0, -r * 0.15, r * 1.9, r * 1.35);
+        g.fillStyle(accent, 1);
+        for (const [x, y] of [[-0.4, -0.3], [0.2, -0.5], [0.5, -0.1]]) {
+          g.fillCircle(x * r, y * r, r * 0.09);
+        }
+        break;
+      }
       case "pastry": {
         // Croissant/pretzel: warm crescent body with a highlight.
         g.fillStyle(fill, 1).fillEllipse(0, 0, r * 1.9, r * 1.15);

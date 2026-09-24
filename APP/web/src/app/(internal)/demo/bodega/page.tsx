@@ -116,8 +116,8 @@ export default function BodegaMenuReviewPage() {
           </div>
           <div className={styles.sessionsCopy}>
             <p>
-              Spanish Latte, Canela Love, and Coffee Cinnamon Muffin take the spotlight. Fill café tickets in a
-              45-second fall rush and unlock Golden Hour with four perfect orders in a row.
+              Spanish Latte, Canela Love, and Coffee Cinnamon Muffin take the spotlight. Catch the falling drinks and muffins in a
+              45-second rush. Move your tray and dodge the coffee spills.
             </p>
             <Link href="/bodega-sessions-review">Play Fall Rush</Link>
           </div>
