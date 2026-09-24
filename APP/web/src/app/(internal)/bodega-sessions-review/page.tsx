@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Bodega Fall Rush — cafecito weather",
-  description: "A 20-second fall café game starring Spanish Latte, Iced Green Latte and Cereal Bites. Owner-review concept.",
+  description: "A 20-second fall café game starring Bodega drinks and Cereal Bites. Owner-review concept.",
   robots: {
     index: false,
     follow: false,

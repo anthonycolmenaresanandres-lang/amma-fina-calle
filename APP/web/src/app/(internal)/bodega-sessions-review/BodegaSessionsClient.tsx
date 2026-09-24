@@ -130,7 +130,7 @@ export default function BodegaSessionsClient() {
         <h1>FALL RUSH</h1>
         <div className={styles.productComposition} aria-hidden="true">
           <Illustration src="/assets/bodega/fall/spanish-latte.webp" />
-          <Illustration src="/assets/bodega/fall/iced-green-latte.webp" />
+          <Illustration src="/assets/bodega/menu/green-drink.webp" />
           <Illustration src="/assets/bodega/fall/cereal-bites.webp" />
         </div>
         <p className={styles.landingInstruction}>Tap treats. Skip spills.</p>
@@ -161,7 +161,7 @@ export default function BodegaSessionsClient() {
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button> : status.over && !loading ? <button className={styles.primary} onClick={start}>Catch again</button> : paused && !loading ? <button className={styles.primary} onClick={togglePause}>Resume catching</button> : null}
           </div>}
         </div>
-        <p className={styles.catchLegend}>Latte +10 · Green drink +10 · Cereal bites +15 · Spill −15</p>
+        <p className={styles.catchLegend}>Latte +10 · Drink +10 · Cereal bites +15 · Spill −15</p>
         <p className={styles.catchHint}>Tap to catch · Avoid spills · ← → selects, Space catches</p>
       </div>}
     </div>

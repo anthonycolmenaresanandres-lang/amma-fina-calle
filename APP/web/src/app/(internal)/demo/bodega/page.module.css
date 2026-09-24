@@ -710,3 +710,29 @@
     opacity: 0;
   }
 }
+
+/* Fall Sessions: an illustrated record sleeve above simple menu tracks. */
+.fallSessions { scroll-margin-top:4rem; background:#fff; margin-inline:-1.15rem; padding:0 1.15rem 1.5rem; color:#111; }
+.fallSleeve { position:relative; margin-inline:-1.15rem; overflow:hidden; background:#fff; }
+.fallSleeve>img { display:block; width:100%; height:auto; }
+.fallTitle { position:absolute; left:6%; top:12%; max-width:43%; }
+.fallTitle>span { font:700 clamp(9px,1.2vw,13px) var(--font-geist-mono),monospace; text-transform:uppercase; letter-spacing:.13em; }
+.fallTitle h2 { margin:12px 0 0; font:clamp(34px,7vw,86px)/.95 Impact,"Arial Narrow",sans-serif; letter-spacing:-.025em; }
+.fallLineup { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); align-items:center; gap:24px; max-width:980px; margin:auto; }
+.fallTracks { list-style:none; padding:0; margin:0; }
+.fallTracks li { display:grid; grid-template-columns:24px 100px minmax(0,1fr); align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid #ddd; }
+.trackNumber { color:#777; font:11px var(--font-geist-mono),monospace; }
+.fallTracks img { width:100px; height:100px; object-fit:contain; }
+.fallTracks h3 { margin:0 0 6px; font-size:18px; line-height:1.2; }
+.fallTracks p { margin:0; font-size:13px; line-height:1.5; color:#555; }
+.greenFeature { margin:0; }
+.greenFeature img { display:block; width:100%; height:auto; object-fit:contain; }
+.fallSource { margin:24px 0 0; text-align:center; color:#666; font-size:11px; line-height:1.5; }
+@media(max-width:700px) {
+  .fallLineup { grid-template-columns:1fr; gap:16px; }
+  .fallTracks li { grid-template-columns:20px 76px minmax(0,1fr); gap:8px; }
+  .fallTracks img { width:76px; height:84px; }
+  .fallTracks h3 { font-size:16px; }
+  .greenFeature { width:220px; max-width:80%; margin:8px auto; }
+  .fallTitle h2 { margin-top:8px; }
+}

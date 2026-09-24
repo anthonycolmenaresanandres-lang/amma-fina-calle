@@ -2704,3 +2704,9 @@ Approved execution/merge from6167d3e. Replace the landing's colored panels/produ
 
 ## 2026-09-24 OUT — Bodega minimal landing
 Implemented the approved white/black landing with a single PLAY CTA and compact colored composition reusing the three existing product sprites. Removed cards, duplicated headline, slogan strips, captions and long intro/review copy. Retained logo/Menu and concise Preview/Play for fun. Landing fits through responsive sizing and compact short-screen CSS; no browser certification claimed. Game behavior, scoring, audio and mobile play controls unchanged. Pre-merge TypeScript, scoped ESLint and whitespace checks passed; required CI/build gates apply before authorized merge. No post-merge tests.
+
+## 2026-09-24 IN — Fall Sessions menu
+Anthony approved execution and requested the green drink remain unnamed. Base52126c1. Add five photo-board drinks and coordinated illustrations/hero, centered Bodega logo on green cup for menu/game, keep music-logo style, fix stale game instructions. No invented price/recipe/name. Previous no-post-merge-testing instruction persists.
+
+## 2026-09-24 OUT — Fall Sessions menu
+Added photo-sourced Maple Morning, Autumn Brew, Haystack, Sugar N Spice and Spiced Apple Chai. Only visible ingredient descriptions included; no prices or cropped chai recipe invented. Generated seven coordinated assets through built-in image generation; exported compact WebP and saved prompts/provenance with assets. Centered Bodega logo on unnamed green drink used across menu/game/landing; removed prior provisional name from displayed copy. Original animated menu logo preserved; game teaser corrected to tap/20 seconds. TypeScript, scoped ESLint and whitespace checks passed before publication; required CI/build gates apply before authorized release, with no post-merge testing.
