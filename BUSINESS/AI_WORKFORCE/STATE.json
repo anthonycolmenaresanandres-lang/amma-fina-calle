@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-09-23T09:08:00-04:00",
+  "last_updated_at": "2026-09-24T09:01:44-04:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -21,7 +21,7 @@
       "offer": "15-minute demonstration of Fina Calle Voice Gateway + VBFH Media Engine",
       "evidence": [
         "Gmail draft message 1a0c6119e510bd1 to Bryan Schmidt, cc Steve Cariello",
-        "Gmail verification 2026-09-23: message remains DRAFT and no send evidence was found",
+        "Gmail verification 2026-09-24: message remains DRAFT and no send evidence was found",
         "BUSINESS/REVENUE_READINESS_2026-09-21.md",
         "VBFH private pilot package 4/7 generated for 2026-09-21"
       ],
@@ -49,32 +49,51 @@
     {
       "id": "woodys-legacy-2026-09-23",
       "account": "Woody's Raw Bar & Grill / Legacy at the Locks",
-      "stage": "RESEARCHED",
+      "stage": "DRAFT_READY",
       "owner": "Daily Revenue Agent",
       "priority_score": 12,
       "offer": "Restaurant digital menu + interactive customer experience for the Great Bridge relocation and new Legacy at the Locks concept",
       "evidence": [
         "Official Woody's website verified 2026-09-23: two Chesapeake locations with menus, online ordering and recurring entertainment",
         "Public reporting dated 2026-08-28/2026-09-03 identifies Jeff LeRoy as owner and says the Great Bridge business is relocating before year-end into an approximately 10,000 sq ft building",
-        "The same reporting identifies Kayla LeRoy Holton as regional director of operations/project manager and states a second concept, Legacy at the Locks, is being built with its menu still being developed"
+        "The same reporting identifies Kayla LeRoy Holton as regional director of operations/project manager and states a second concept, Legacy at the Locks, is being built with its menu still being developed",
+        "2026-09-24 Revenue Agent prepared one concise owner/operations outreach; Gmail search found no prior Woody's email in the previous 30 days"
       ],
-      "next_action": "Prepare one concise owner/operations outreach proposing a one-location launch pilot around the relocation/new concept; do not build custom assets before interest is confirmed.",
+      "next_action": "Anthony reviews the 2026-09-24 owner/operations outreach and approves, edits, or holds it. Do not build custom assets before interest is confirmed.",
       "approval_required": true,
       "confidence": "high"
     },
     {
       "id": "sweet-spot-2026-09-23",
       "account": "The Sweet Spot",
-      "stage": "RESEARCHED",
+      "stage": "DRAFT_READY",
       "owner": "Daily Revenue Agent",
-      "priority_score": 10,
+      "priority_score": 11,
       "offer": "Restaurant digital menu + interactive customer experience / branded game pilot",
       "evidence": [
-        "Official The Sweet Spot newsroom verified 2026-09-23: founded by Mery Ghattas, Founder/President/CEO",
-        "Official site says the family-owned brand has four locations across Virginia Beach and Chesapeake and marked its 10-year anniversary in 2026",
-        "Official site emphasizes memorable in-store experience, coffee/matcha/desserts, loyalty and future franchise growth"
+        "Official The Sweet Spot newsroom verified 2026-09-24: founded by Mery Ghattas, Founder/President/CEO",
+        "Official site says the family-owned brand has four locations across Virginia Beach and Chesapeake, including Atlantic Park, and marked its 10-year anniversary in 2026",
+        "Official site emphasizes memorable in-store experience, coffee/matcha/desserts, loyalty and future franchise growth",
+        "2026-09-24 Revenue Agent prepared one founder-directed outreach; Gmail search found no Sweet Spot email in the previous 30 days"
       ],
-      "next_action": "Prepare a short founder-directed pilot outreach focused on making the digital/QR experience as memorable as the in-store dessert experience; pilot one location first.",
+      "next_action": "Anthony reviews the 2026-09-24 founder-directed one-location pilot outreach; no custom build before interest is confirmed.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "egg-bistro-2026-09-24",
+      "account": "The Egg Bistro",
+      "stage": "DRAFT_READY",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 10,
+      "offer": "Restaurant digital menu + interactive customer experience / branded QR engagement pilot",
+      "evidence": [
+        "Official Egg Bistro website verified 2026-09-24: independently owned, three locations in Haygood, Strawbridge and Greenbrier",
+        "Official About page identifies founders Mike and Doug and emphasizes fresh food, fun atmosphere, local ingredients, events and repeat guests",
+        "Recent public reporting dated 2026-09-20 says the Haygood location held its grand opening and identifies Mike Touhey and business partner Doug Stumpf",
+        "2026-09-24 Gmail search found no Egg Bistro email in the previous 60 days"
+      ],
+      "next_action": "Anthony reviews the concise Haygood-pilot outreach prepared 2026-09-24; do not build custom assets before interest is confirmed.",
       "approval_required": true,
       "confidence": "high"
     },
@@ -120,6 +139,24 @@
       "related_pipeline_id": "esm-vbfh-2026-09-22"
     },
     {
+      "id": "approve-woodys-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the Woody's / Legacy owner-operations outreach prepared 2026-09-24.",
+      "related_pipeline_id": "woodys-legacy-2026-09-23"
+    },
+    {
+      "id": "approve-sweet-spot-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold The Sweet Spot founder outreach prepared 2026-09-24.",
+      "related_pipeline_id": "sweet-spot-2026-09-23"
+    },
+    {
+      "id": "approve-egg-bistro-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold The Egg Bistro Haygood-pilot outreach prepared 2026-09-24.",
+      "related_pipeline_id": "egg-bistro-2026-09-24"
+    },
+    {
       "id": "approve-aj-gators-draft",
       "owner": "Anthony",
       "decision": "Approve, edit, or hold the A.J. Gator's owner-directed outreach from the 2026-09-23 Revenue Agent run.",
@@ -141,9 +178,9 @@
   "worker_status": {
     "daily_revenue_agent": {
       "status": "green",
-      "last_run_at": "2026-09-23T09:08:00-04:00",
+      "last_run_at": "2026-09-24T09:01:44-04:00",
       "top_actions": 5,
-      "note": "Verified the ESM draft remains unsent, handed Las Palmas warm follow-up to Sales Follow-up, qualified Woody's/Legacy and The Sweet Spot as new prospects, and prepared one A.J. Gator's owner outreach. No sends, spend, publishing, deployment, or speculative builds performed."
+      "note": "Verified the ESM draft remains unsent, converted Woody's/Legacy and The Sweet Spot to DRAFT_READY without creating Gmail drafts, qualified and drafted The Egg Bistro after its recent Haygood opening, and preserved A.J. Gator's existing draft. No sends, spend, publishing, deployment, or speculative builds performed."
     },
     "sales_followup_agent": {
       "status": "green",
@@ -158,7 +195,7 @@
       "owner": "Anthony",
       "state": "WAITING_OWNER",
       "priority_score": 13,
-      "next_action": "Review existing Gmail draft r7974027091746627124; send only with explicit owner authorization."
+      "next_action": "Review existing Gmail draft 1a0c6119e510bd1; send only with explicit owner authorization."
     },
     {
       "id": "las-palmas-followup-handoff",
@@ -169,17 +206,24 @@
     },
     {
       "id": "woodys-legacy-outreach",
-      "owner": "Daily Revenue Agent",
-      "state": "RESEARCHED",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
       "priority_score": 12,
-      "next_action": "Prepare one concise owner/operations outreach for a one-location launch pilot around the relocation/new concept."
+      "next_action": "Review the 2026-09-24 owner/operations outreach for a one-location launch pilot; no custom build before interest."
     },
     {
       "id": "sweet-spot-founder-outreach",
-      "owner": "Daily Revenue Agent",
-      "state": "RESEARCHED",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
+      "priority_score": 11,
+      "next_action": "Review the 2026-09-24 founder-directed one-location pilot outreach tied to the brand's memorable customer-experience positioning."
+    },
+    {
+      "id": "egg-bistro-haygood-outreach",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
       "priority_score": 10,
-      "next_action": "Prepare founder-directed one-location pilot outreach tied to the brand's memorable customer-experience positioning."
+      "next_action": "Review the 2026-09-24 Haygood pilot outreach; do not build custom assets before interest is confirmed."
     },
     {
       "id": "aj-gators-owner-outreach",
@@ -192,12 +236,13 @@
   "alerts": [],
   "decision_debt": [],
   "dedupe": {
-    "esm-vbfh-existing-draft": "r7974027091746627124",
+    "esm-vbfh-existing-draft": "1a0c6119e510bd1",
     "las-palmas-owner-package": "1a0a0a061f1f876b",
     "aj-gators-advertising-package": "1a015184bf15a04d",
     "funville-tiffany-thread": "1a007a742330fa76",
     "woodys-legacy-2026-09": "relocation-new-concept",
-    "sweet-spot-2026-09": "four-locations-founder-ceo"
+    "sweet-spot-2026-09": "four-locations-founder-ceo-atlantic-park",
+    "egg-bistro-2026-09": "haygood-third-location-grand-opening"
   },
   "worker_metrics": {}
 }
