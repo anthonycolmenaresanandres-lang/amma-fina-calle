@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { Game } from "phaser";
-import { CAFERUSH_LEVELS, ratingFor } from "@/caferush/config";
+import { ratingFor } from "@/caferush/config";
 import type { CafeRushStatus } from "@/caferush/types";
 import { BODEGA_CATCH_SKIN } from "@/bodega-fall/skin";
+import { BODEGA_LEVEL } from "@/bodega-fall/level";
+import { BodegaCatchAudio } from "@/bodega-fall/audio";
 import styles from "./page.module.css";
 
-const initialStatus: CafeRushStatus = { score: 0, seconds: 45, target: 100, over: false };
+const initialStatus: CafeRushStatus = { score: 0, seconds: BODEGA_LEVEL.rules.durationSec, target: BODEGA_LEVEL.rules.targetScore, over: false };
 
 function Illustration({ src }: { src: string }) {
   const [failed, setFailed] = useState(false);
@@ -27,6 +29,22 @@ export default function BodegaSessionsClient() {
   const mount = useRef<HTMLDivElement>(null);
   const game = useRef<Game | null>(null);
   const pausedRef = useRef(false);
+  const audio = useRef<BodegaCatchAudio | null>(null);
+  const [muted, setMuted] = useState(false);
+
+  useEffect(() => () => { audio.current?.dispose(); audio.current = null; }, []);
+
+  function unlockAudio() {
+    if (!audio.current) audio.current = new BodegaCatchAudio();
+    audio.current.setMuted(muted);
+  }
+
+  function toggleMute() {
+    const next = !muted;
+    setMuted(next);
+    if (!audio.current) audio.current = new BodegaCatchAudio();
+    audio.current.setMuted(next);
+  }
 
   // Use the full phone screen without Safari's page bounce fighting the game.
   useEffect(() => {
@@ -50,14 +68,15 @@ export default function BodegaSessionsClient() {
       class BodegaCatchScene extends CafeRushScene {
         create() {
           this.events.on("cafe-status", (next: CafeRushStatus) => { if (!cancelled) setStatus(next); });
+          this.events.on("cafe-catch", (id: string) => { if (!cancelled) audio.current?.play(id); });
           super.create();
           if (cancelled) return;
           setLoading(false);
           if (pausedRef.current) this.scene.pause();
         }
       }
-      const scene = new BodegaCatchScene(CAFERUSH_LEVELS[0], BODEGA_CATCH_SKIN, {
-        externalHud: true, catchLight: true,
+      const scene = new BodegaCatchScene(BODEGA_LEVEL, BODEGA_CATCH_SKIN, {
+        externalHud: true, catchLight: true, itemScale: 1.35,
         reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
       });
       game.current = new Phaser.Game({
@@ -66,11 +85,12 @@ export default function BodegaSessionsClient() {
         backgroundColor: "#f4e7d1", scene: [scene], audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE }, fps: { target: 60 },
       });
-      game.current.canvas.setAttribute("aria-label", "Tap falling drinks and cereal bites to catch them. Avoid spills. Arrow keys select an item; Space or Enter catches it. Sound-free.");
+      game.current.canvas.setAttribute("aria-label", "Tap falling drinks and cereal bites to catch them. Avoid spills. Arrow keys select an item; Space or Enter catches it.");
       mount.current.focus({ preventScroll: true });
     };
     void init().catch(() => { if (!cancelled) { setError(true); setLoading(false); } });
     const pauseForBackground = () => {
+        audio.current?.pause();
         pausedRef.current = true;
         game.current?.scene.getScenes(false).forEach((scene) => scene.scene.pause());
         setPaused(true);
@@ -87,6 +107,8 @@ export default function BodegaSessionsClient() {
   }, [started, round]);
 
   function start() {
+    audio.current?.pause();
+    unlockAudio();
     pausedRef.current = false;
     setPaused(false); setError(false); setLoading(true); setStatus(initialStatus);
     setStarted(true); setRound((n) => n + 1);
@@ -96,6 +118,8 @@ export default function BodegaSessionsClient() {
   function togglePause() {
     const next = !pausedRef.current;
     pausedRef.current = next; setPaused(next);
+    if (next) audio.current?.pause();
+    else unlockAudio();
     game.current?.scene.getScenes(false).forEach((scene) => next ? scene.scene.pause() : scene.scene.resume());
     if (!next) mount.current?.focus({ preventScroll: true });
   }
@@ -110,7 +134,7 @@ export default function BodegaSessionsClient() {
             <h2>Catch your<br /><em>cafecito.</em></h2>
             <p>Tap your café favorites as they fall. Let the coffee spills pass.</p>
             <button className={styles.primary} onClick={start}>Start catching <span aria-hidden="true">↓</span></button>
-            <span className={styles.hint}>45 seconds · Target 100 · Sound-free</span>
+            <span className={styles.hint}>20 seconds · Reach 100 to win</span>
           </div>
           <div className={styles.cafePortrait}>
             <div className={styles.cafeSpecial}><Illustration src="/assets/bodega/fall/spanish-latte.webp" /></div>
@@ -124,8 +148,8 @@ export default function BodegaSessionsClient() {
         </div>
       </> : <div className={styles.catchLayout}>
         <div className={styles.catchControls}>
-          <button className={styles.pause} onClick={() => setStarted(false)}>Back</button>
-          <span className={styles.silentNote}>SOUND-FREE</span>
+          <button className={styles.pause} onClick={() => { audio.current?.pause(); setStarted(false); }}>Back</button>
+          <button className={styles.pause} onClick={toggleMute} aria-pressed={muted} aria-label={muted ? "Unmute catch sounds" : "Mute catch sounds"}>{muted ? "Sound off" : "Sound on"}</button>
           <button className={styles.pause} onClick={togglePause} disabled={loading || error || status.over}>{paused ? "Resume" : "Pause"}</button>
           <button className={styles.pause} onClick={start}>Replay</button>
         </div>
@@ -135,9 +159,10 @@ export default function BodegaSessionsClient() {
           <div><span>Seconds</span><strong data-urgent={status.seconds <= 10}>{status.seconds}</strong></div>
         </div>
         <div className={styles.catchBoard}>
-          <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Tap falling items to catch. Arrow keys select an item; Space or Enter catches it." onKeyDown={(event) => {
+          <div ref={mount} className={styles.catchCanvas} tabIndex={0} onPointerDownCapture={() => { if (!paused && !loading && !status.over) unlockAudio(); }} role="region" aria-label="Tap falling items to catch. Arrow keys select an item; Space or Enter catches it." onKeyDown={(event) => {
             if (paused || loading || error || status.over || !["ArrowLeft", "ArrowRight", " ", "Enter"].includes(event.key) || event.repeat) return;
             event.preventDefault();
+            unlockAudio();
             game.current?.scene.getScenes(true).forEach((scene) => (scene as import("@/caferush/CafeRushScene").CafeRushScene).handleKey(event.key));
           }} />
           {(loading || paused || error || status.over) && <div className={styles.catchOverlay} role="status">

@@ -279,3 +279,7 @@ Anthony explicitly replaced tray steering with **direct tap-to-catch** as the sh
 - At least 56 CSS-pixel tap diameter, silent local score/glow feedback, and reduced-motion handling. Arrow keys select a visible item; Space/Enter catches the selected item.
 - Bodega keeps its approved Spanish Latte, green iced drink, cereal bites, interior art, mobile safe areas and background pause. Future café skins inherit this interaction by default.
 - This standard applies to Café Rush; football/penalty and unrelated game engines retain their own contracts.
+
+
+### Approved Bodega pace and audio — 2026-09-24
+Anthony approved Bodega's 20-second, 100-point preset: fixed 600ms spawns, fall speed 0.42–0.55 canvas heights/second and 1.35x items. The optional shared `finishAtTarget` rule caps the last award at the target and ends the round immediately; default difficulty presets retain their prior behavior. `itemScale` scales art and hit areas together, with inset spawning to avoid clipping. Bodega consumes the shared `cafe-catch` event for distinct synthesized product tones, unlocked by Start/Resume/Unmute gestures; mute, pause/background silence and unmount disposal are required. This approved change supersedes Bodega's prior silent-feedback and unchanged-timing requirements.
