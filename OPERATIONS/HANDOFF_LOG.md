@@ -2670,3 +2670,6 @@ Automated review found two valid timing issues. Input now carries the displayed 
 ### [IN] Codex - 2026-09-24 - Bodega falling items correction
 Anthony clarified that Fall means falling products like Colattao. Reuse the actual CafeRushScene with Spanish Latte, Canela Love and Coffee Cinnamon Muffin; retain Bodega identity and stable route. Prior merge/live authorization remains applicable to this correction. Base 3881f908.
 DID: Replaced ticket-order interactions with the actual Colattao CafeRushScene, unchanged scoring/spawning/collision/rules. Bodega skin uses two drinks plus a new muffin primitive and spill hazard. Added Bodega-only lazy loading, reload recovery, pause/background pause, keyboard steering and replay. Menu copy corrected. Primitive art needs no remote assets.
+
+### [IN] Codex - 2026-09-24 - Bodega New York cat integration
+Anthony requested a New York bodega cat and seamless image integration with silent light feedback per catch. Revised cat uses a green cap/apron, keys and burgundy scarf. Art derives from Anthony's cafe references; existing three menu selections remain. Scope and continuing release authorization recorded in queue51. Frozen game rules and all other client behavior remain outside scope.
