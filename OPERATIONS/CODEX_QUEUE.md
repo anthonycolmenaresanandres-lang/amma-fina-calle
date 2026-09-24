@@ -489,3 +489,9 @@ Authority: Anthony supplied two product photos, requested replacement of two ite
 Scope: new sprites, Bodega-only responsive/touch/lifecycle refinements; preserve frozen timing/scoring/collision rules, sound-free feedback, real logo and review routes. Explicitly authorized merge; do no post-merge tests or browser play. Pre-merge compilation/required CI only.
 
 Result: replacement transparent sprites total57,486 bytes; Spanish Latte preserved. Added native thumb steering, phone screen layout with safe-area padding/stable viewport height, short-landscape treatment, background pause and scroll/text-selection suppression. No shared engine/rule changes. Pre-merge compilation gates apply; no post-merge testing per Anthony.
+
+## [x] 53 - Make direct tap-to-catch the shared café standard
+Authority: Anthony requested Colattao-style tap-to-catch as our standard game, superseding the frozen-engine restriction for this shared input change. Existing merge authorization applies; no post-merge tests.
+Scope: shared CafeRushScene direct item taps/clicks, silent local feedback, Bodega copy/control simplification, retained art/mobile safe areas/background pause. Keep scoring and difficulty configuration. Document the standard for future skins.
+
+Result: Shared engine now catches one visible item per direct tap/click with a 56px minimum hit diameter and a settled guard. Removed tray/slider and automatic catches; added keyboard selection/catch, local silent glow and matching copy. Approved art, mobile layout, background pause and configured rules retained. TypeScript, targeted ESLint and whitespace checks pass before merge. Required remote build/CI gates apply; no post-merge testing.

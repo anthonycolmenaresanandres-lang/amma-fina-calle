@@ -25,28 +25,19 @@ type FallingItem = {
 
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
 
-// Catcher band: the mouth sits at this height; anything crossing it near the
-// catcher's x is caught. Kept above the counter so the catch reads cleanly.
-const CATCHER_Y_FRAC = 0.84;
-const CATCHER_HALF_WIDTH_FRAC = 0.16;
-
 export class CafeRushScene extends Phaser.Scene {
   private readonly level: CafeRushLevel;
   private readonly skin: CafeRushSkin;
 
   private bg!: Phaser.GameObjects.Graphics;
-  private catcher!: Phaser.GameObjects.Container;
-  private catcherGfx!: Phaser.GameObjects.Graphics;
+  private focusRing!: Phaser.GameObjects.Graphics;
+  private selected?: FallingItem;
   private hud!: Phaser.GameObjects.Text;
   private banner!: Phaser.GameObjects.Text;
   private backgroundArt?: Phaser.GameObjects.Image;
-  private catchLight!: Phaser.GameObjects.Graphics;
-  private lightUntil = 0;
   private lastStatus = "";
 
   private falling: FallingItem[] = [];
-  private pointerXFrac = 0.5;
-  private catcherXFrac = 0.5;
 
   private score = 0;
   private spawnedCount = 0;
@@ -87,11 +78,7 @@ export class CafeRushScene extends Phaser.Scene {
     if (this.textures.exists(this.artKey("background"))) {
       this.backgroundArt = this.add.image(0, 0, this.artKey("background")).setOrigin(0);
     }
-    this.catcherGfx = this.add.graphics();
-    this.catcher = this.add.container(0, 0, [this.catcherGfx]);
-    this.catcher.setDepth(5);
-    this.catchLight = this.add.graphics();
-    this.catcher.add(this.catchLight);
+    this.focusRing = this.add.graphics().setDepth(15);
 
     this.hud = this.add
       .text(0, 0, "", {
@@ -114,16 +101,18 @@ export class CafeRushScene extends Phaser.Scene {
       .setDepth(30)
       .setVisible(false);
 
-    // Catcher follows the pointer horizontally (drag on touch, move on mouse).
-    this.input.on("pointermove", (p: Phaser.Input.Pointer) => {
-      this.pointerXFrac = clamp(p.x / this.size().w, 0, 1);
-    });
+    // The shared standard: one direct tap/click catches one visible item.
+    // Hit areas are measured in CSS pixels and stay generous on short phones.
+    this.input.addPointer(1);
     this.input.on("pointerdown", (p: Phaser.Input.Pointer) => {
       if (this.phase === "over") {
-        this.restart();
+        if (!this.presentation.externalHud) this.restart();
         return;
       }
-      this.pointerXFrac = clamp(p.x / this.size().w, 0, 1);
+      const { w, h, min } = this.size();
+      const target = [...this.falling].reverse().find((f) => !f.settled && f.yFrac >= 0 && f.yFrac <= 1 &&
+        Math.hypot(p.x - f.xFrac * w, p.y - f.yFrac * h) <= Math.max(28, min * f.rFrac * 1.3));
+      if (target) this.catchItem(target);
     });
 
     this.startRound();
@@ -140,8 +129,25 @@ export class CafeRushScene extends Phaser.Scene {
     this.remainingMs = this.level.rules.durationSec * 1000;
     this.phase = "playing";
     this.banner.setVisible(false);
-    this.lightUntil = 0;
+    this.selected = undefined;
+    this.focusRing.clear();
     this.lastStatus = "";
+  }
+
+  /** Focus stays on the play area; arrows select a visible item, Space/Enter catches it. */
+  handleKey(key: string): void {
+    if (this.phase !== "playing") return;
+    const visible = this.falling.filter((f) => !f.settled && f.yFrac >= 0 && f.yFrac <= 1)
+      .sort((a, b) => a.xFrac - b.xFrac || a.yFrac - b.yFrac);
+    if (!visible.length) return;
+    const index = this.selected ? visible.indexOf(this.selected) : -1;
+    if (key === "ArrowLeft" || key === "ArrowRight") {
+      const next = index < 0 ? 0 : (index + (key === "ArrowLeft" ? -1 : 1) + visible.length) % visible.length;
+      this.selected = visible[next];
+    } else if ((key === " " || key === "Enter") && index >= 0) {
+      this.catchItem(visible[index]);
+      this.selected = undefined;
+    }
   }
 
   private restart(): void {
@@ -151,9 +157,6 @@ export class CafeRushScene extends Phaser.Scene {
   update(_time: number, deltaMs: number): void {
     const dt = deltaMs / 1000;
     const { w, h } = this.size();
-
-    // Ease the catcher toward the pointer so motion is smooth, not jittery.
-    this.catcherXFrac += (this.pointerXFrac - this.catcherXFrac) * Math.min(1, dt * 14);
 
     if (this.phase === "playing") {
       this.remainingMs -= deltaMs;
@@ -222,18 +225,11 @@ export class CafeRushScene extends Phaser.Scene {
   }
 
   private advanceItems(dt: number): void {
-    const catchTop = CATCHER_Y_FRAC;
     for (const f of this.falling) {
       if (f.settled) continue;
       f.yFrac += f.speed * dt;
       if (!this.presentation.reducedMotion) f.container.rotation += f.spin * dt;
 
-      const nearMouth = f.yFrac + f.rFrac >= catchTop && f.yFrac - f.rFrac <= catchTop + 0.06;
-      const overCatcher = Math.abs(f.xFrac - this.catcherXFrac) <= CATCHER_HALF_WIDTH_FRAC;
-      if (nearMouth && overCatcher) {
-        this.catchItem(f);
-        continue;
-      }
       if (f.yFrac - f.rFrac > 1) {
         this.dropItem(f);
       }
@@ -242,14 +238,20 @@ export class CafeRushScene extends Phaser.Scene {
   }
 
   private catchItem(f: FallingItem): void {
+    if (this.phase !== "playing" || f.settled) return;
     f.settled = true;
     f.container.destroy();
     this.score += f.item.points;
     const good = f.item.points >= 0;
-    if (good && this.presentation.catchLight) this.lightUntil = this.time.now + 420;
+    if (good && this.presentation.catchLight) {
+      const { w, h, min } = this.size();
+      const glow = this.add.graphics().setPosition(f.xFrac * w, f.yFrac * h).setDepth(24);
+      glow.lineStyle(3, this.skin.colors.accent, 0.9).strokeCircle(0, 0, Math.max(28, min * f.rFrac));
+      this.tweens.add({ targets: glow, alpha: 0, duration: 420, onComplete: () => glow.destroy() });
+    }
     this.popFeedback(
       f.xFrac,
-      CATCHER_Y_FRAC - 0.05,
+      clamp(f.yFrac, 0.08, 0.92),
       `${good ? "+" : ""}${f.item.points}`,
       good ? this.skin.colors.goodText : this.skin.colors.badText,
     );
@@ -287,9 +289,12 @@ export class CafeRushScene extends Phaser.Scene {
         f.art.setScale(diameter / Math.max(f.art.width, f.art.height));
       }
     }
-    // Catcher.
-    this.catcher.setPosition(this.catcherXFrac * w, CATCHER_Y_FRAC * h);
-    this.drawCatcher(w);
+    this.focusRing.clear();
+    if (this.selected && !this.selected.settled && this.phase === "playing") {
+      this.focusRing.lineStyle(3, this.skin.colors.accent, 1).strokeCircle(
+        this.selected.xFrac * w, this.selected.yFrac * h, Math.max(30, Math.min(w, h) * this.selected.rFrac * 1.4),
+      );
+    }
     // Banner centered.
     this.banner.setPosition(w / 2, h * 0.42);
     this.banner.setWordWrapWidth(Math.min(320, w - 48));
@@ -344,44 +349,14 @@ export class CafeRushScene extends Phaser.Scene {
       // Vertical wash: darker floor, lighter "steam" near the top.
       this.bg.fillStyle(c.bg, 1).fillRect(0, 0, w, h);
       this.bg.fillStyle(c.counter, 0.35).fillRect(0, h * 0.55, w, h * 0.45);
-      // Counter band the catcher slides along.
-      const counterY = h * CATCHER_Y_FRAC + this.size().min * 0.075;
+      // Decorative counter beneath the falling items.
+      const counterY = h * 0.84 + this.size().min * 0.075;
       this.bg.fillStyle(c.counter, 1).fillRect(0, counterY, w, h - counterY);
       this.bg.fillStyle(c.counterEdge, 1).fillRect(0, counterY, w, Math.max(2, h * 0.004));
-      // Soft accent guide line at the catch mouth.
-      this.bg.fillStyle(c.accent, 0.1).fillRect(0, h * CATCHER_Y_FRAC, w, Math.max(1, h * 0.002));
     };
     draw();
     this.scale.on("resize", draw);
     this.events.once("shutdown", () => this.scale.off("resize", draw));
-  }
-
-  private drawCatcher(w: number): void {
-    const c = this.skin.colors;
-    const half = CATCHER_HALF_WIDTH_FRAC * w;
-    const height = Math.max(18, half * 0.42);
-    this.catcherGfx.clear();
-    this.catchLight.clear();
-    if (this.presentation.catchLight && this.lightUntil > this.time.now) {
-      const fade = this.presentation.reducedMotion ? 0.8 : (this.lightUntil - this.time.now) / 420;
-      this.catchLight.lineStyle(7, c.accent, fade * 0.2).strokeEllipse(0, 0, half * 2, 14);
-      this.catchLight.lineStyle(2, c.accent, fade).strokeEllipse(0, 0, half * 2, 14);
-      // Small, local reward light; no full-screen flash, shake or audio.
-      this.catchLight.fillStyle(c.accent, fade);
-      for (const side of [-1, 1]) {
-        const x = side * half * 0.82;
-        this.catchLight.fillTriangle(x, -25, x - 3, -18, x + 3, -18);
-        this.catchLight.fillTriangle(x, -11, x - 3, -18, x + 3, -18);
-      }
-    }
-    // Tray/cup body: rounded, brand-cream with a gold rim.
-    this.catcherGfx.fillStyle(c.catcher, 1);
-    this.catcherGfx.fillRoundedRect(-half, -height * 0.2, half * 2, height, { tl: 6, tr: 6, bl: 16, br: 16 });
-    this.catcherGfx.fillStyle(c.catcherRim, 1);
-    this.catcherGfx.fillRoundedRect(-half, -height * 0.35, half * 2, height * 0.36, 6);
-    // Inner shadow for depth.
-    this.catcherGfx.fillStyle(0x000000, 0.12);
-    this.catcherGfx.fillRoundedRect(-half + 6, -height * 0.05, half * 2 - 12, height * 0.5, 8);
   }
 
   private drawItem(g: Phaser.GameObjects.Graphics, item: CafeRushItem, r: number): void {

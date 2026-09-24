@@ -268,3 +268,14 @@ Collected before any client-specific build. All assets land in the client's
 - `CASE_STUDIES/COLATTAO/DOCS/PRICING_AND_OFFER.md` — pricing
 - `ASSET_REGISTRY/ASSET_QA_CHECKLIST.md`, `RESTAURANT_ONBOARDING_PACKET_TEMPLATE.md` — asset approval flow
 - `src/lib/brand.ts` — per-client asset registry pattern the skin system mirrors
+
+
+## Café Rush interaction standard — 2026-09-24
+
+Anthony explicitly replaced tray steering with **direct tap-to-catch** as the shared café game standard, matching Colattao's collectible `pointerdown` behavior (`colattao-cafe-rush/src/game/scenes/DemoScene.ts`). This is an authorized shared engine revision, not a per-client gameplay fork.
+
+- Every Café Rush skin uses the same `src/caferush/CafeRushScene.ts`: tap/click a visible falling item once to collect its points; tap a spill to receive its penalty. Let unwanted items fall past.
+- No moving catcher, drag input, thumb slider or automatic collision catches. Preserve existing timing, difficulty and scoring configuration.
+- At least 56 CSS-pixel tap diameter, silent local score/glow feedback, and reduced-motion handling. Arrow keys select a visible item; Space/Enter catches the selected item.
+- Bodega keeps its approved Spanish Latte, green iced drink, cereal bites, interior art, mobile safe areas and background pause. Future café skins inherit this interaction by default.
+- This standard applies to Café Rush; football/penalty and unrelated game engines retain their own contracts.

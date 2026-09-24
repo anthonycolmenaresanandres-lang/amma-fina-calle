@@ -2686,3 +2686,9 @@ Anthony supplied 37486.jpg and37475.jpg and authorized two replacements plus mob
 
 ### [OUT / RELEASE] Codex - 2026-09-24 - Bodega supplied items / mobile
 Two supplied-photo sprites replace Canela Love/muffin in the active game and invitation copy: Iced Green Latte (+10) and Cereal Bites (+15), with Spanish Latte retained. Native slider offers finger-clear thumb steering and keyboard control; mobile fixed layout includes stable viewport height, safe areas, compact landscape results and pagehide pause. Optional illustration assets remain WebP with primitive fallbacks. Game engine/rules, logo and review status untouched. Images are descriptive interpretations without an invented logo. Pre-merge ESLint and production build/TypeScript are the validation gate; no browser/gameplay run or post-merge testing, as requested. Final PR/merge receipt documents release.
+
+## 2026-09-24 IN — shared café tap standard
+Anthony rejected tray steering and requested direct tap-to-catch like Colattao as the shared standard. Branch codex/cafe-tap-standard from aefae74. Existing scoped merge authorization and no-post-merge-testing instruction persist. Shared input change explicitly authorized over the previous engine freeze.
+
+## 2026-09-24 OUT — shared café tap standard
+Implemented direct tap-to-catch in shared CafeRushScene after reading Colattao DemoScene collectible pointerdown behavior. Bodega and all shared café skins inherit it; removed tray and slider, kept supplied art and mobile lifecycle, silent local glow and added keyboard selection/catch. Standard recorded in GAME_CUSTOMIZATION_PROTOCOL. TypeScript, targeted lint and diff whitespace checks passed before publication; required remote compilation/CI gates remain release conditions. Merge authorized; no tests after merge.

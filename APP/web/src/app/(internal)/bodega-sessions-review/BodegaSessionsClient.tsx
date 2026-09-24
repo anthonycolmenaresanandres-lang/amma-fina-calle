@@ -27,8 +27,6 @@ export default function BodegaSessionsClient() {
   const mount = useRef<HTMLDivElement>(null);
   const game = useRef<Game | null>(null);
   const pausedRef = useRef(false);
-  const keyboardX = useRef(0.5);
-  const steering = useRef<HTMLInputElement>(null);
 
   // Use the full phone screen without Safari's page bounce fighting the game.
   useEffect(() => {
@@ -53,12 +51,6 @@ export default function BodegaSessionsClient() {
         create() {
           this.events.on("cafe-status", (next: CafeRushStatus) => { if (!cancelled) setStatus(next); });
           super.create();
-          const syncPointer = (pointer: { x: number }) => {
-            keyboardX.current = Math.max(0, Math.min(1, pointer.x / this.scale.width));
-            if (steering.current) steering.current.value = String(Math.round(keyboardX.current * 100));
-          };
-          this.input.on("pointermove", syncPointer);
-          this.input.on("pointerdown", syncPointer);
           if (cancelled) return;
           setLoading(false);
           if (pausedRef.current) this.scene.pause();
@@ -74,7 +66,7 @@ export default function BodegaSessionsClient() {
         backgroundColor: "#f4e7d1", scene: [scene], audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE }, fps: { target: 60 },
       });
-      game.current.canvas.setAttribute("aria-label", "Catch falling drinks and cereal bites with the tray. Drag, use the thumb slider or left and right arrow keys. Avoid spills. Sound-free.");
+      game.current.canvas.setAttribute("aria-label", "Tap falling drinks and cereal bites to catch them. Avoid spills. Arrow keys select an item; Space or Enter catches it. Sound-free.");
       mount.current.focus({ preventScroll: true });
     };
     void init().catch(() => { if (!cancelled) { setError(true); setLoading(false); } });
@@ -95,18 +87,12 @@ export default function BodegaSessionsClient() {
   }, [started, round]);
 
   function start() {
-    pausedRef.current = false; keyboardX.current = 0.5;
-    if (steering.current) steering.current.value = "50";
+    pausedRef.current = false;
     setPaused(false); setError(false); setLoading(true); setStatus(initialStatus);
     setStarted(true); setRound((n) => n + 1);
     requestAnimationFrame(() => mount.current?.scrollIntoView({ block: "center", behavior: "instant" }));
   }
 
-  function moveTray(fraction: number) {
-    keyboardX.current = Math.max(0, Math.min(1, fraction));
-    if (steering.current) steering.current.value = String(Math.round(keyboardX.current * 100));
-    game.current?.scene.getScenes(true).forEach((scene) => scene.input.emit("pointermove", { x: keyboardX.current * scene.scale.width }));
-  }
   function togglePause() {
     const next = !pausedRef.current;
     pausedRef.current = next; setPaused(next);
@@ -122,7 +108,7 @@ export default function BodegaSessionsClient() {
           <div className={styles.introCopy}>
             <span className={styles.eyebrow}>Your neighborhood. Your shift.</span>
             <h2>Catch your<br /><em>cafecito.</em></h2>
-            <p>Slide your tray. Catch your café favorites. Let the coffee spills fall past you.</p>
+            <p>Tap your café favorites as they fall. Let the coffee spills pass.</p>
             <button className={styles.primary} onClick={start}>Start catching <span aria-hidden="true">↓</span></button>
             <span className={styles.hint}>45 seconds · Target 100 · Sound-free</span>
           </div>
@@ -149,10 +135,10 @@ export default function BodegaSessionsClient() {
           <div><span>Seconds</span><strong data-urgent={status.seconds <= 10}>{status.seconds}</strong></div>
         </div>
         <div className={styles.catchBoard}>
-          <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Falling-item play area. Use left and right arrows to move the tray." onKeyDown={(event) => {
-            if (paused || loading || error || status.over || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+          <div ref={mount} className={styles.catchCanvas} tabIndex={0} role="region" aria-label="Tap falling items to catch. Arrow keys select an item; Space or Enter catches it." onKeyDown={(event) => {
+            if (paused || loading || error || status.over || !["ArrowLeft", "ArrowRight", " ", "Enter"].includes(event.key) || event.repeat) return;
             event.preventDefault();
-            moveTray(Math.max(0.05, Math.min(0.95, keyboardX.current + (event.key === "ArrowLeft" ? -0.07 : 0.07))));
+            game.current?.scene.getScenes(true).forEach((scene) => (scene as import("@/caferush/CafeRushScene").CafeRushScene).handleKey(event.key));
           }} />
           {(loading || paused || error || status.over) && <div className={styles.catchOverlay} role="status">
             <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : status.over ? status.score >= status.target ? "Nice shift, neighbor." : "See you next shift." : "Coffee break."}</h2>
@@ -160,14 +146,10 @@ export default function BodegaSessionsClient() {
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button> : status.over && !loading ? <button className={styles.primary} onClick={start}>Catch again</button> : paused && !loading ? <button className={styles.primary} onClick={togglePause}>Resume catching</button> : null}
           </div>}
         </div>
-        <label className={styles.thumbControl}>
-          <span>Slide to move the tray</span>
-          <input ref={steering} type="range" min="0" max="100" step="1" defaultValue="50" aria-label="Move the tray left or right" disabled={loading || paused || error || status.over} onChange={(event) => moveTray(Number(event.currentTarget.value) / 100)} />
-        </label>
         <p className={styles.catchLegend}>Latte +10 · Green drink +10 · Cereal bites +15 · Spill −15</p>
-        <p className={styles.catchHint}>Drag, move your mouse or use ← →. Catch a little glow.</p>
+        <p className={styles.catchHint}>Tap to catch · Avoid spills · ← → selects, Space catches</p>
       </div>}
     </div>
-    <div className={styles.gameFooter}><span>CATCH THE DRINKS. DODGE THE SPILLS.</span><span>A LITTLE NEW YORK. A LOT OF CAFECITO.</span></div>
+    <div className={styles.gameFooter}><span>TAP TO CATCH. SKIP THE SPILLS.</span><span>A LITTLE NEW YORK. A LOT OF CAFECITO.</span></div>
   </section>;
 }

@@ -49,7 +49,8 @@ export default function CafeRushClient({
         width: mountRef.current.clientWidth || 390,
         height: mountRef.current.clientHeight || 780,
         backgroundColor: toHex(selectedSkin.colors.bg),
-        scene: [new CafeRushScene(selectedLevel, selectedSkin)],
+        scene: [new CafeRushScene(selectedLevel, selectedSkin, { catchLight: true, reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches })],
+        audio: { noAudio: true },
         scale: {
           mode: Phaser.Scale.RESIZE,
           autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -120,7 +121,7 @@ export default function CafeRushClient({
           </h1>
 
           <p className="mt-3 text-center text-sm leading-relaxed" style={{ color: chrome.subtext }}>
-            Slide the {selectedSkin.catcherName} left and right. Catch the good orders. Duck the spills.
+            Tap the falling items to catch them. Skip the spills. Arrow keys select an item; Space or Enter catches it.
           </p>
 
           {selectedSkin.prospect ? (
@@ -251,7 +252,15 @@ export default function CafeRushClient({
       <div
         key={`${selectedSkin.id}-${selectedLevel.id}-${replayKey}`}
         ref={mountRef}
-        className="h-[calc(100dvh-75px)] w-full"
+        tabIndex={0}
+        role="region"
+        aria-label="Tap falling items to catch. Arrow keys select; Space or Enter catches. Avoid spills."
+        onKeyDown={(event) => {
+          if (!["ArrowLeft", "ArrowRight", " ", "Enter"].includes(event.key) || event.repeat) return;
+          event.preventDefault();
+          gameRef.current?.scene.getScenes(true).forEach((scene) => (scene as import("@/caferush/CafeRushScene").CafeRushScene).handleKey(event.key));
+        }}
+        className="h-[calc(100dvh-75px)] w-full touch-none select-none"
       />
     </div>
   );
