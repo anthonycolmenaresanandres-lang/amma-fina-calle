@@ -9,7 +9,7 @@
 import Phaser from "phaser";
 import { DEFAULT_CAFERUSH_LEVEL, ratingFor, spawnIntervalMs } from "./config";
 import { DEFAULT_CAFERUSH_SKIN } from "./skins";
-import type { CafeRushItem, CafeRushLevel, CafeRushSkin } from "./types";
+import type { CafeRushItem, CafeRushLevel, CafeRushPresentation, CafeRushSkin, CafeRushStatus } from "./types";
 
 type FallingItem = {
   container: Phaser.GameObjects.Container;
@@ -20,6 +20,7 @@ type FallingItem = {
   spin: number; // radians per second
   rFrac: number; // radius as a fraction of the smaller canvas edge
   settled: boolean; // caught or dropped — pending removal
+  art?: Phaser.GameObjects.Image;
 };
 
 const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
@@ -38,6 +39,10 @@ export class CafeRushScene extends Phaser.Scene {
   private catcherGfx!: Phaser.GameObjects.Graphics;
   private hud!: Phaser.GameObjects.Text;
   private banner!: Phaser.GameObjects.Text;
+  private backgroundArt?: Phaser.GameObjects.Image;
+  private catchLight!: Phaser.GameObjects.Graphics;
+  private lightUntil = 0;
+  private lastStatus = "";
 
   private falling: FallingItem[] = [];
   private pointerXFrac = 0.5;
@@ -49,10 +54,25 @@ export class CafeRushScene extends Phaser.Scene {
   private remainingMs = 0;
   private phase: "playing" | "over" = "playing";
 
-  constructor(level: CafeRushLevel = DEFAULT_CAFERUSH_LEVEL, skin: CafeRushSkin = DEFAULT_CAFERUSH_SKIN) {
+  constructor(level: CafeRushLevel = DEFAULT_CAFERUSH_LEVEL, skin: CafeRushSkin = DEFAULT_CAFERUSH_SKIN, private readonly presentation: CafeRushPresentation = {}) {
     super(`CafeRushScene-${skin.id}-${level.id}`);
     this.level = level;
     this.skin = skin;
+  }
+
+  private artKey(name: string): string {
+    return `cafe-${this.skin.id}-${name}`;
+  }
+
+  preload(): void {
+    // Same-origin optional art. A slow/missing file must never block a round.
+    this.load.maxParallelDownloads = 6;
+    this.load.setCORS("anonymous");
+    const load = (name: string, url?: string) => {
+      if (url) this.load.image(this.artKey(name), url, { responseType: "blob", timeout: 5000 });
+    };
+    load("background", this.skin.assets?.background);
+    this.skin.items.forEach((item) => load(item.id, item.asset));
   }
 
   private size(): { w: number; h: number; min: number } {
@@ -64,9 +84,14 @@ export class CafeRushScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(this.skin.colors.bg);
 
     this.bg = this.add.graphics();
+    if (this.textures.exists(this.artKey("background"))) {
+      this.backgroundArt = this.add.image(0, 0, this.artKey("background")).setOrigin(0);
+    }
     this.catcherGfx = this.add.graphics();
     this.catcher = this.add.container(0, 0, [this.catcherGfx]);
     this.catcher.setDepth(5);
+    this.catchLight = this.add.graphics();
+    this.catcher.add(this.catchLight);
 
     this.hud = this.add
       .text(0, 0, "", {
@@ -75,6 +100,7 @@ export class CafeRushScene extends Phaser.Scene {
         color: this.skin.colors.scoreText,
       })
       .setDepth(20);
+    this.hud.setVisible(!this.presentation.externalHud);
 
     this.banner = this.add
       .text(0, 0, "", {
@@ -114,6 +140,8 @@ export class CafeRushScene extends Phaser.Scene {
     this.remainingMs = this.level.rules.durationSec * 1000;
     this.phase = "playing";
     this.banner.setVisible(false);
+    this.lightUntil = 0;
+    this.lastStatus = "";
   }
 
   private restart(): void {
@@ -169,9 +197,15 @@ export class CafeRushScene extends Phaser.Scene {
 
     const container = this.add.container(0, 0);
     container.setDepth(10);
-    const gfx = this.add.graphics();
-    this.drawItem(gfx, item, this.size().min * rFrac);
-    container.add(gfx);
+    let art: Phaser.GameObjects.Image | undefined;
+    if (this.textures.exists(this.artKey(item.id))) {
+      art = this.add.image(0, 0, this.artKey(item.id));
+      container.add(art);
+    } else {
+      const gfx = this.add.graphics();
+      this.drawItem(gfx, item, this.size().min * rFrac);
+      container.add(gfx);
+    }
 
     this.falling.push({
       container,
@@ -182,6 +216,7 @@ export class CafeRushScene extends Phaser.Scene {
       spin: (Math.random() - 0.5) * 1.2,
       rFrac,
       settled: false,
+      art,
     });
     this.spawnedCount += 1;
   }
@@ -191,7 +226,7 @@ export class CafeRushScene extends Phaser.Scene {
     for (const f of this.falling) {
       if (f.settled) continue;
       f.yFrac += f.speed * dt;
-      f.container.rotation += f.spin * dt;
+      if (!this.presentation.reducedMotion) f.container.rotation += f.spin * dt;
 
       const nearMouth = f.yFrac + f.rFrac >= catchTop && f.yFrac - f.rFrac <= catchTop + 0.06;
       const overCatcher = Math.abs(f.xFrac - this.catcherXFrac) <= CATCHER_HALF_WIDTH_FRAC;
@@ -211,6 +246,7 @@ export class CafeRushScene extends Phaser.Scene {
     f.container.destroy();
     this.score += f.item.points;
     const good = f.item.points >= 0;
+    if (good && this.presentation.catchLight) this.lightUntil = this.time.now + 420;
     this.popFeedback(
       f.xFrac,
       CATCHER_Y_FRAC - 0.05,
@@ -237,7 +273,7 @@ export class CafeRushScene extends Phaser.Scene {
         `${won ? "Order up! 🎉" : "Round over"}\n${this.score} / ${target}\n${ratingFor(this.score, target)}\n\nTap to play again`,
       )
       .setColor(won ? this.skin.colors.goodText : this.skin.colors.text)
-      .setVisible(true);
+      .setVisible(!this.presentation.externalHud);
   }
 
   // --- Layout + HUD --------------------------------------------------------
@@ -246,6 +282,10 @@ export class CafeRushScene extends Phaser.Scene {
     // Falling items to pixel space.
     for (const f of this.falling) {
       f.container.setPosition(f.xFrac * w, f.yFrac * h);
+      if (f.art) {
+        const diameter = Math.min(w, h) * f.rFrac * 2.25;
+        f.art.setScale(diameter / Math.max(f.art.width, f.art.height));
+      }
     }
     // Catcher.
     this.catcher.setPosition(this.catcherXFrac * w, CATCHER_Y_FRAC * h);
@@ -259,6 +299,13 @@ export class CafeRushScene extends Phaser.Scene {
     const secs = Math.ceil(this.remainingMs / 1000);
     this.hud.setText(`SCORE ${this.score}   ·   TARGET ${this.level.rules.targetScore}   ·   ${secs}s`);
     this.hud.setPosition(w / 2, 14).setOrigin(0.5, 0);
+    if (this.presentation.externalHud) {
+      const key = `${this.score}:${secs}:${this.phase}`;
+      if (key !== this.lastStatus) {
+        this.lastStatus = key;
+        this.events.emit("cafe-status", { score: this.score, seconds: secs, target: this.level.rules.targetScore, over: this.phase === "over" } satisfies CafeRushStatus);
+      }
+    }
   }
 
   private popFeedback(xFrac: number, yFrac: number, text: string, color: string): void {
@@ -272,9 +319,10 @@ export class CafeRushScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
       .setDepth(25);
+    if (this.presentation.catchLight) label.setBackgroundColor("#fff2d8").setPadding(6, 3);
     this.tweens.add({
       targets: label,
-      y: yFrac * h - 46,
+      y: yFrac * h - (this.presentation.reducedMotion ? 0 : 46),
       alpha: 0,
       duration: 650,
       ease: "Cubic.easeOut",
@@ -289,6 +337,10 @@ export class CafeRushScene extends Phaser.Scene {
       const { w, h } = this.size();
       const c = this.skin.colors;
       this.bg.clear();
+      if (this.backgroundArt) {
+        this.backgroundArt.setDisplaySize(w, h);
+        return;
+      }
       // Vertical wash: darker floor, lighter "steam" near the top.
       this.bg.fillStyle(c.bg, 1).fillRect(0, 0, w, h);
       this.bg.fillStyle(c.counter, 0.35).fillRect(0, h * 0.55, w, h * 0.45);
@@ -301,6 +353,7 @@ export class CafeRushScene extends Phaser.Scene {
     };
     draw();
     this.scale.on("resize", draw);
+    this.events.once("shutdown", () => this.scale.off("resize", draw));
   }
 
   private drawCatcher(w: number): void {
@@ -308,6 +361,19 @@ export class CafeRushScene extends Phaser.Scene {
     const half = CATCHER_HALF_WIDTH_FRAC * w;
     const height = Math.max(18, half * 0.42);
     this.catcherGfx.clear();
+    this.catchLight.clear();
+    if (this.presentation.catchLight && this.lightUntil > this.time.now) {
+      const fade = this.presentation.reducedMotion ? 0.8 : (this.lightUntil - this.time.now) / 420;
+      this.catchLight.lineStyle(7, c.accent, fade * 0.2).strokeEllipse(0, 0, half * 2, 14);
+      this.catchLight.lineStyle(2, c.accent, fade).strokeEllipse(0, 0, half * 2, 14);
+      // Small, local reward light; no full-screen flash, shake or audio.
+      this.catchLight.fillStyle(c.accent, fade);
+      for (const side of [-1, 1]) {
+        const x = side * half * 0.82;
+        this.catchLight.fillTriangle(x, -25, x - 3, -18, x + 3, -18);
+        this.catchLight.fillTriangle(x, -11, x - 3, -18, x + 3, -18);
+      }
+    }
     // Tray/cup body: rounded, brand-cream with a gold rim.
     this.catcherGfx.fillStyle(c.catcher, 1);
     this.catcherGfx.fillRoundedRect(-half, -height * 0.2, half * 2, height, { tl: 6, tr: 6, bl: 16, br: 16 });

@@ -64,6 +64,15 @@ export type CafeRushAssets = {
   catcher?: string;
 };
 
+/** Read-only presentation updates; never used to determine game rules. */
+export type CafeRushStatus = { score: number; seconds: number; target: number; over: boolean };
+
+export type CafeRushPresentation = {
+  externalHud?: boolean;
+  reducedMotion?: boolean;
+  catchLight?: boolean;
+};
+
 /**
  * A client skin: brand identity + palette + the falling-item set + optional
  * art. `chrome` carries CSS strings for the React wrapper so the start screen
