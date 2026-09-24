@@ -34,12 +34,15 @@ export default function BodegaSessionsClient() {
         import("phaser"), import("@/caferush/CafeRushScene"),
       ]);
       if (cancelled || !mount.current) return;
-      const scene = new CafeRushScene(CAFERUSH_LEVELS[0], BODEGA_CATCH_SKIN);
-      scene.events.once("create", () => {
-        if (cancelled) return;
-        setLoading(false);
-        if (pausedRef.current) scene.scene.pause();
-      });
+      class BodegaCatchScene extends CafeRushScene {
+        create() {
+          super.create();
+          if (cancelled) return;
+          setLoading(false);
+          if (pausedRef.current) this.scene.pause();
+        }
+      }
+      const scene = new BodegaCatchScene(CAFERUSH_LEVELS[0], BODEGA_CATCH_SKIN);
       game.current = new Phaser.Game({
         type: Phaser.CANVAS, parent: mount.current,
         width: mount.current.clientWidth, height: mount.current.clientHeight,
