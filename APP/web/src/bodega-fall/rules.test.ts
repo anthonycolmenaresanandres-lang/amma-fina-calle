@@ -4,7 +4,7 @@ import { isGolden, makeTicket, newShift, orderLimit, rushReducer, SHIFT_MS, type
 const start = (practice = false) => rushReducer(newShift(), { type: "start", practice });
 const tick = (s: RushState, delta: number) => rushReducer(s, { type: "tick", delta, random: 0.41 });
 function serve(s: RushState) {
-  for (const item of s.ticket.slice(s.filled)) s = rushReducer(s, { type: "pick", item, random: 0.42 });
+  for (const item of s.ticket.slice(s.filled)) s = rushReducer(s, { type: "pick", item, random: 0.42, orderId: s.served + s.missed });
   return s;
 }
 test("Spanish Latte leads the first ticket; correct sequence scores 120", () => {
@@ -13,7 +13,7 @@ test("Spanish Latte leads the first ticket; correct sequence scores 120", () => 
   assert.equal(s.score, 120); assert.equal(s.served, 1); assert.equal(s.streak, 1);
 });
 test("wrong item never advances the ticket or makes points negative", () => {
-  const s = rushReducer(start(), { type: "pick", item: "canela", random: 0.3 });
+  const s = rushReducer(start(), { type: "pick", item: "canela", random: 0.3, orderId: 0 });
   assert.equal(s.score, 0); assert.equal(s.filled, 0); assert.equal(s.perfect, false);
   assert.equal(serve(s).streak, 0);
 });
@@ -36,7 +36,7 @@ test("pause freezes clock, order, input and golden-hour time", () => {
 });
 test("order deadline replaces stale ticket and clears combo", () => {
   let s = serve(start());
-  s = rushReducer(s, { type: "pick", item: s.ticket[0], random: 0.4 });
+  s = rushReducer(s, { type: "pick", item: s.ticket[0], random: 0.4, orderId: s.served + s.missed });
   const expired = tick(s, orderLimit(s.served));
   assert.equal(expired.missed, 1); assert.equal(expired.filled, 0); assert.equal(expired.streak, 0);
   assert.equal(expired.score, s.score); assert.equal(expired.orderElapsed, 0);
@@ -64,4 +64,26 @@ test("tickets increase difficulty, stay bounded, and never repeat adjacent items
 });
 test("invalid or negative clock deltas do not corrupt a shift", () => {
   for (const delta of [-1, NaN, Infinity]) assert.deepEqual(tick(start(), delta), start());
+});
+
+test("a tap from an expired ticket cannot score or penalize the unseen next ticket", () => {
+  const old = start();
+  const fresh = tick(old, orderLimit(old.served));
+  for (const item of ["spanish", "canela", "muffin"] as const) {
+    assert.deepEqual(rushReducer(fresh, { type: "pick", item, random: 0.4, orderId: 0 }), fresh);
+  }
+  const accepted = rushReducer(fresh, { type: "pick", item: fresh.ticket[0], random: 0.4, orderId: 1 });
+  assert.equal(accepted.score, 10);
+});
+test("a mistake or cooled ticket resets the streak but preserves the seven-second bonus", () => {
+  let s = start(); for (let i = 0; i < 4; i++) s = serve(s);
+  const wrong = s.ticket[0] === "spanish" ? "canela" : "spanish";
+  const mistake = rushReducer(s, { type: "pick", item: wrong, random: 0.4, orderId: s.served + s.missed });
+  assert.equal(mistake.streak, 0); assert.equal(mistake.goldenUntil, s.goldenUntil);
+  assert.equal(isGolden(tick(mistake, 6999)), true);
+  // At higher difficulty a ticket can cool off before Golden Hour finishes.
+  const later = { ...s, served: 10, goldenUntil: 7000 };
+  const missed = tick(later, orderLimit(later.served));
+  assert.equal(missed.missed, 1); assert.equal(isGolden(missed), true);
+  assert.equal(isGolden(tick(missed, 1000)), false);
 });

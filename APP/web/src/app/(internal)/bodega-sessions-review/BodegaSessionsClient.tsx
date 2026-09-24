@@ -27,6 +27,7 @@ export default function BodegaSessionsClient() {
   const phase = useRef(state.phase);
   const started = state.phase !== "ready";
   const golden = isGolden(state);
+  const orderId = state.served + state.missed;
 
   const tick = useCallback(() => {
     const now = performance.now();
@@ -36,8 +37,8 @@ export default function BodegaSessionsClient() {
   }, []);
   const pick = useCallback((item: ItemId) => {
     tick(); // Resolve the deadline before awarding points, even between clock frames.
-    dispatch({ type: "pick", item, random: Math.random() });
-  }, [tick]);
+    dispatch({ type: "pick", item, random: Math.random(), orderId });
+  }, [tick, orderId]);
 
   useEffect(() => {
     phase.current = state.phase;

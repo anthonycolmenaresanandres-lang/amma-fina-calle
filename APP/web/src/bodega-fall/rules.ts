@@ -35,7 +35,7 @@ type Action =
   | { type: "start"; practice: boolean }
   | { type: "pause" | "resume" | "finish" }
   | { type: "tick"; delta: number; random: number }
-  | { type: "pick"; item: ItemId; random: number };
+  | { type: "pick"; item: ItemId; random: number; orderId: number };
 export function rushReducer(state: RushState, action: Action): RushState {
   if (action.type === "start") return { ...newShift(action.practice), phase: "playing", message: "Tap the ticket items in order, left to right." };
   if (action.type === "pause") return state.phase === "playing" ? { ...state, phase: "paused" } : state;
@@ -49,14 +49,16 @@ export function rushReducer(state: RushState, action: Action): RushState {
     const orderElapsed = state.orderElapsed + action.delta;
     if (!state.practice && orderElapsed >= orderLimit(state.served)) {
       return { ...state, elapsed, orderElapsed: 0, filled: 0, streak: 0, perfect: true,
-        goldenUntil: 0, missed: state.missed + 1, ticket: makeTicket(state.served, action.random),
+        missed: state.missed + 1, ticket: makeTicket(state.served, action.random),
         message: "That order cooled off. Fresh ticket, fresh start!" };
     }
     return { ...state, elapsed, orderElapsed };
   }
   if (action.type === "pick") {
+    // The input belongs to the visible ticket, never a replacement issued by a tick.
+    if (action.orderId !== state.served + state.missed) return state;
     if (action.item !== state.ticket[state.filled]) {
-      return { ...state, score: Math.max(0, state.score - 10), streak: 0, perfect: false, goldenUntil: 0,
+      return { ...state, score: Math.max(0, state.score - 10), streak: 0, perfect: false,
         message: "Oops! −10. Tap the highlighted item to keep going." };
     }
     const multiplier = isGolden(state) ? 2 : 1;
