@@ -37,6 +37,11 @@ export default function BodegaSessionsClient() {
       class BodegaCatchScene extends CafeRushScene {
         create() {
           super.create();
+          const syncPointer = (pointer: { x: number }) => {
+            keyboardX.current = Math.max(0, Math.min(1, pointer.x / this.scale.width));
+          };
+          this.input.on("pointermove", syncPointer);
+          this.input.on("pointerdown", syncPointer);
           if (cancelled) return;
           setLoading(false);
           if (pausedRef.current) this.scene.pause();
