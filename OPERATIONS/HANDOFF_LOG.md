@@ -2652,3 +2652,12 @@ OUT 2026-09-16: Implementation complete in PR235 https://github.com/anthonycolme
 ### [CHECK-IN] Codex - 2026-09-24 - Bodega Fall Rush
 
 Anthony explicitly requested replacement, merge and live deployment. Base c56cbc6875d2a9c4eb1c4aa22e14cf94221257cc, branch codex/bodega-fall-rush. Scope and source caveats recorded in queue49. Preserve review URLs/noindex and all unrelated product behavior. No paid assets or external sends.
+
+
+### [CHECK-OUT / RELEASE GATE] Codex - 2026-09-24 - Bodega Fall Rush
+
+Replaced the existing Bodega rhythm experience and menu invitation; no other client surface changed. Spanish Latte leads the first ticket, with Canela Love and Coffee Cinnamon Muffin. Native controls are independent of optional Phaser scenery. Preserved review status, noindex and stable routes.
+
+**Verified:** Production build/TypeScript, targeted lint and 9 focused rule tests pass. Hosted preview dpl_3TjwPGyyGDydT2pbtTsfD3Sbrio2 is Ready. Browser play confirmed initial sequence, 520 points/four perfect orders, Golden Hour +20 item scoring, pause/resume, keyboard input, replay reset, scenery canvas and logo load, order cooling, 45-second finish and saved device best. No app errors observed; unrelated browser-extension/Vercel-login messages excluded. Desktop viewport verified; narrow CSS breakpoints inspected in source, but the browser cannot emulate phone sizes in this session. GitHub web and Vercel checks pass for application head9695d96. PR243 is cleanly mergeable. Merge/live explicitly authorized; verify production SHA and routes after merge.
+
+Release is scoped to PR243. No paid generation, credentials, access grants, billing, database or external customer sends. The initial shell clone was held by automatic review until repository files proved this was Bodega's actual project. Shell push lacked credentials; authenticated GitHub app created an identical source tree (04cdd99326eee487938896d031f719100dccda11). Cloud browser cannot reach localhost, so the successful hosted preview was used for interaction verification. Final production state will be recorded on PR243 after deployment.
