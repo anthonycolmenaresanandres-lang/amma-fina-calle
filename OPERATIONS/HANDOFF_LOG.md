@@ -2765,3 +2765,19 @@ Base6bbe2a8, branch codex/bodega-articulated-signature. Implement approved foote
 
 ## 2026-09-25 OUT — articulated Fina Calle signature
 Added Bodega-only FinaCalleSignature with source-preserving SVG clip layers, staggered3.6s arm/elbow/jaw choreography and fixed protected lettering/QR. Native SVG interpolation, one-shot visibility trigger, offscreen/document-hidden pause, image-load gating, static original at completion/reduced-motion/unsupported APIs/no-JS, cleanup of observers/listeners. Existing source unchanged; signature184px. TypeScript, scoped ESLint, timeline and diff checks passed. Required remote CI/build gates before explicit merge. Browser/device playback not certified; no post-merge tests.
+
+
+## 2026-09-25 IN — Claude (cloud) — CDPR / Stringman tech research
+Anthony shared an Instagram reel (neufangled: "Why CDPRs are the best robot for household work") and asked to research the tech and incorporate it into our projects. Branch claude/tech-research-integration-s66gw7 (all six repos; only amma-fina-calle expected to change). Base acb8c72.
+DID so far: identified product = Stringman by Neufangled Robotics (Nathaniel Nifong); read primary source github.com/nhnifong/cranebot3-firmware @48123d3 (nf_robot v6.9.1, Apache-2.0) incl. simulator, swing-cancellation math, protos, safety limits. neufangled.com, hackaday, heise, ui44, gagadget are egress-blocked in this container — press facts taken from search summaries only and marked unverified.
+Scope held: research + integration plan first; no purchases, no client sends, no production merge. Integration direction pending Anthony's choice.
+PROGRESS (Claude): Anthony chose "The game however we will be using the players to train the technology" -> queue65. Engine built (APP/web/src/grua: profile/physics/round/recorder/bot). 14/14 node tests pass; scripted pilot clears 200/200 seeds. Stringman MuJoCo replay (tools/grua): tracking RMS 4.5 mm (PASS); pre-registered tension criterion FAILED (median 51-56%) — diagnosed as floor contact at grab bottom (74-76% gap there; 5-6% cruising, 9-11% moving); settled static tension matches the model within 1% at 10 poses; Stringman passive_safety EMA would trip 0 times. Recorder now flags sim_floor_contact rather than inventing floor physics. Next: Phaser renderer + internal /grua-lab page.
+OUT 2026-09-25 — Claude (cloud) — CDPR / Stringman → Grúa (queue 65)
+BUILT: internal noindex /grua-lab crane game on Stringman physics, with opt-in on-device training recorder (Stringman LeRobot field names). Added Command Center link, CI step `npm run grua:test`, research brief `RESEARCH_AND_DEVELOPMENT/cdpr/CDPR_STRINGMAN_BRIEF.md`, spec `GAME_LIBRARY/GRUA_CABLE_CRANE.md`, and replay tool `tools/grua/`.
+VERIFIED:
+- 14/14 engine tests; 200/200 seeds completable.
+- MuJoCo replay tracking 4.5 mm RMS (PASS). Pre-registered tension criterion FAILED (floor-contact confound; see spec). Static poses agree within 1%; 0 passive_safety trips.
+- 28/28 production-build browser checks (390/1440 px, reduced motion); lint, types and build clean.
+NOT VERIFIED: real phones or iOS Safari, human playability, hardware behaviour, finger-sign convention (inferred from firmware).
+UNTOUCHED: the other five repos (no fit, or parked — see brief §3); Client OS routes; Supabase; payments; secrets; stable QR URLs.
+FLAGGED FOR ANTHONY: upload/consent/storage/minors policy; public release; any dataset sharing with Neufangled or Hugging Face; any hardware purchase. Draft PR only — no merge.

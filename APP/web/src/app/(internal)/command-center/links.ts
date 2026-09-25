@@ -81,6 +81,8 @@ export const sections: HubSection[] = [
       { label: "Penalty Shootout — package", href: blob("GAME_LIBRARY/PENALTY_SHOOTOUT.md"), kind: "doc" },
       { label: "Penalty Shootout V2 — plan", href: blob("GAME_LIBRARY/PENALTY_SHOOTOUT_V2_PLAN.md"), kind: "doc" },
       { label: "Penalty Campaign Pack — status", href: blob("GAME_LIBRARY/PENALTY_SHOOTOUT_CAMPAIGN_PACK_STATUS.md"), kind: "doc" },
+      { label: "Grúa cable crane (R&D)", href: "/grua-lab", kind: "tool", note: "Stringman-physics crane; opt-in robot-training data" },
+      { label: "Grúa — package spec", href: blob("GAME_LIBRARY/GRUA_CABLE_CRANE.md"), kind: "doc" },
     ],
   },
   {

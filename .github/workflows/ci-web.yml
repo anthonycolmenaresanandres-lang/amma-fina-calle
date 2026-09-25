@@ -39,4 +39,6 @@ jobs:
           npx --no-install tsx scripts/owner-request-selftest.ts
           npx --no-install tsx scripts/owner-menu-selftest.ts
           npm run owner-app:selftest
+      - name: Grúa crane engine (physics, rules, recorder)
+        run: npm run grua:test
       - run: npm run build

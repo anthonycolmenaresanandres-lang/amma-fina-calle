@@ -10,7 +10,8 @@
     "traffic:today": "tsx scripts/traffic-today.ts",
     "traffic:selftest": "tsx scripts/traffic-selftest.ts",
     "owner-app:selftest": "tsx scripts/owner-app-selftest.ts",
-    "owner-request:selftest": "tsx scripts/owner-request-selftest.ts"
+    "owner-request:selftest": "tsx scripts/owner-request-selftest.ts",
+    "grua:test": "tsx --test src/grua/grua.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
