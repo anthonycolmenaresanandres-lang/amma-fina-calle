@@ -2724,3 +2724,11 @@ Anthony approved rebuilding the blurry seal as crisp SVG and animating actual wa
 
 ## 2026-09-25 OUT — Bodega vector waveform
 Replaced the raster seal/colored overlay with crisp inline SVG. Traced original Bodega Cafe lettering, outlined legible Virginia Beach text, rebuilt clean circular border/cup. Native SVG polylines interpolate their actual peaks in a six-second left/right/rest rhythm with connected endpoints. Browser-native pause/resume handles visibility, offscreen state and reduced motion; accessible 44px pause control. No new application dependencies. Static artwork reviewed and scoped compilation/lint passed; required CI/build gates before authorized merge. No browser/device certification claimed and no post-merge tests.
+
+
+## 2026-09-25 IN — Bodega premium menu
+Execute approved Bodega_Premium_Menu_Plan.md and merge. Base7050cf7, branch codex/bodega-premium-menu. White/black layout, condensed copy, sticky categories and three reference-based generated category illustrations. Preserve data and game; no post-merge tests.
+
+
+## 2026-09-25 OUT — Bodega premium menu
+Implemented approved plan: compact original animated seal, sticky category bar with active-section indicator, white/black type and fine dividers, preserved Fall Sessions/unnamed centered-logo green drink, three optimized category illustrations, source-preserving short section labels and item rows, concise game invitation, Visit/Maps/Instagram and native Menu details disclosure. Source data, noindex, game routes/rules untouched. Category illustrations total264,186 bytes. TypeScript and scoped ESLint passed; required remote CI/build gates apply before explicitly authorized merge. No post-merge tests.

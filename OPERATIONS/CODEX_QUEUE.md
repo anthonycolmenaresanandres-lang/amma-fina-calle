@@ -526,3 +526,10 @@ Authority: Anthony approved the vector-cleanup plan and execution. Standing scop
 Scope: source-traced black/white SVG lettering, clean ring and cup, actual connected waveform deformation on a six-second cycle, hidden/offscreen pause and reduced-motion static fallback. Preserve logo identity and existing menu/game content. Pre-merge scoped compilation and required CI/build gates.
 
 Result: rebuilt seal in inline SVG with source-traced Bodega lettering, clean outlined locality text, ring and cup. Native six-second polyline interpolation moves the real connected wave; no bitmap or per-frame React updates. Offscreen/document-hidden and reduced-motion handling plus accessible pause control. Static SVG reviewed; TypeScript and scoped ESLint passed. Required remote CI/build gates apply; no post-merge tests.
+
+
+## [x] 59 - Execute Bodega premium menu plan
+Authority: Anthony approved the full menu plan and three generated illustrations, explicitly requesting execution and merge. Cloud workspace exception persists; no post-merge tests.
+Scope: Bodega menu copy/layout/category navigation, responsive category art, compact Visit/game/footer. Preserve source menu data, animated seal, unnamed centered-logo green drink, noindex and game behavior. Scoped compilation and required CI/build gates before merge.
+
+Result: compact seal header and sticky category links, consistent white/black menu, three640px category WebPs (264,186 bytes total), simplified item rows, compact Play invitation, Visit links/hours and one Menu details disclosure. Existing items/ingredients/source data and seal/game behavior retained. Scoped TypeScript and ESLint passed; remote CI/build gates required before merge. No post-merge tests.
