@@ -2,6 +2,9 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+## 2026-09-25 IN — Bodega owner portal scoped release
+Anthony explicitly requested merge/live for the owner portal. New branch codex/bodega-owner-live-20260925 from main9f176c3 contains only the public desk and QR download, preserving the reviewed Bodega typography/palette/layout and existing game/menu. Reward backend, migration, harder gameplay and staff redemption remain in the original local worktree. No secrets or grants. Verify exact-head checks and production after authorized PR merge.
+
 ## 2026-09-25 OUT — Bodega photo menu verified for authorized merge
 Application head1870a8f adds photo-sourced menu sections and 17 numeric drink prices, three $0.50 extras and two unknown size cells. Missing prices/recipes stay unset; source filenames and older candidate reconciliation retained. Scoped lint, production build/TypeScript and 56 responsive browser assertions pass. Price matrix, espresso/extras, counts, images, noindex, nav targets, no overflow at320/390/768/1440; category clicks/sticky clearance and keyboard skip verified. Existing game opens/starts, Back then Menu returns and removes canvas; no page errors. Original art/logo/game behavior untouched. One browser transport timeout recovered by restarting only this task's browser; final full run passes. Evidence: C:/dev/amma/evidence/bodega-photo-menu-20260925. PR257 application checks green; final documentation head checks required before authorized merge. No post-merge application testing planned, consistent with prior Bodega handoffs.
 

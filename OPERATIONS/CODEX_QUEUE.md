@@ -1,5 +1,11 @@
 # Codex Queue — canonical live queue
 
+## [ ] 64 - Release Bodega public owner desk only
+
+Authority: Anthony requested "merge owner portal I want to see it live" on 2026-09-25. Scoped push/PR/merge and normal production deployment authorized.
+Scope: public read-only /owner/bodega and menu QR download only, isolated from unreleased game/reward work. Existing brand/layout preserved. No reward API, migration, activation, staff access grants, Square or domain changes. Claims visibly pending; staff workflow labeled future, no broken redemption link.
+Verify: scoped lint, production build, owner regression tests, mobile/desktop review and exact-head CI before merge; verify production revision and live route after deployment.
+
 ## [ ] 50 - Bodega photo-sourced menu and authorized merge
 
 **State:** VERIFIED - AUTHORIZED MERGE
