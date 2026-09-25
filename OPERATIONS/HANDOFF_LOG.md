@@ -2740,3 +2740,11 @@ Baseec57957, branch codex/bodega-persistent-play. Anthony explicitly authorized 
 
 ## 2026-09-25 OUT — persistent Bodega game action
 Fixed Play game link remains visible throughout menu scrolling. Preserved existing sticky categories, inline Play invitation, source content and game behavior. Safe-area offsets/48px target plus footer clearance accommodate phones; prefetch=false avoids automatically loading the game on menu entry. Scoped lint passed; required remote CI/build gates before authorized merge. No post-merge tests.
+
+
+## 2026-09-25 IN — Bodega larger rush and signature
+Execute approved plan from3f4b0d9. Branch codex/bodega-bigger-rush-signature. Increase art/tap scale1.35→1.75, speed0.42–0.55→0.55–0.72 and cadence600→450ms; add optional spawn separation only enabled for Bodega. Reuse original Fina Calle emblem in centered black/white Powered by footer. Merge explicitly authorized; no post-merge tests.
+
+
+## 2026-09-25 OUT — Bodega larger rush and signature
+Implemented approved size/speed/cadence and optional Bodega-only separated spawn positions. Existing primitive fallback and scaled tap areas retained; other client presets unchanged. Menu footer uses original emblem in black on white with Powered by and company link. All menu categories, game settings20s/100, audio and floating Play preserved. Scoped ESLint and whitespace pass; remote web/Vercel compile gates required before merge. No browser/device certification or post-merge tests.

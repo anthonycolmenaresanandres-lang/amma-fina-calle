@@ -73,6 +73,8 @@ export type CafeRushPresentation = {
   catchLight?: boolean;
   /** Art and tap-area scale; defaults to 1. */
   itemScale?: number;
+  /** Keep consecutive large items apart horizontally; opt-in per client. */
+  separateSpawns?: boolean;
 };
 
 /**

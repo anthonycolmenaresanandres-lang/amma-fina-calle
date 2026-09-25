@@ -74,10 +74,13 @@
 .visitLinks a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 15px; text-underline-offset: 4px; }
 .hoursList li { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
 .hoursList li > :last-child { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
-.footer { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 13px; color: var(--muted); }
-.footer > span { white-space: nowrap; }
+.footer { display: flex; flex-direction: column; align-items: center; gap: 24px; border-top: 1px solid var(--line); padding-top: 36px; font-size: 13px; color: var(--muted); }
+.poweredBy { display: inline-flex; flex-direction: column; align-items: center; gap: 16px; padding: 8px 16px; color: var(--muted); text-decoration: none; scroll-margin-block: 80px; }
+.poweredBy span { font-size: 10px; letter-spacing: .24em; text-transform: uppercase; }
+.poweredBy img { display: block; width: 144px; height: auto; filter: brightness(0); }
+.poweredBy:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 5px; }
 .footer details { max-width: 52ch; }
-.footer summary { min-height: 44px; padding: 12px 0; cursor: pointer; text-align: right; color: var(--ink); }
+.footer summary { min-height: 44px; padding: 12px 0; cursor: pointer; text-align: center; color: var(--ink); }
 .footer details p { padding: 8px 0 12px; line-height: 1.6; }
 @media (min-width: 700px) {
   .shell { padding-inline: 36px; }

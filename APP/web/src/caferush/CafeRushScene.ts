@@ -196,7 +196,17 @@ export class CafeRushScene extends Phaser.Scene {
     const item = this.pickItem();
     const rFrac = 0.075 * (this.presentation.itemScale ?? 1);
     const margin = rFrac * 1.3;
-    const xFrac = clamp(0.1 + Math.random() * 0.8, margin, 1 - margin);
+    let xFrac = clamp(0.1 + Math.random() * 0.8, margin, 1 - margin);
+    if (this.presentation.separateSpawns) {
+      let previous: FallingItem | undefined;
+      for (let i = this.falling.length - 1; i >= 0; i -= 1) {
+        if (!this.falling[i].settled) { previous = this.falling[i]; break; }
+      }
+      if (previous && Math.abs(xFrac - previous.xFrac) < margin * 2) {
+        // Alternate crowded arrivals to the open side; preserve edge clearance.
+        xFrac = previous.xFrac < 0.5 ? 1 - margin : margin;
+      }
+    }
     const speed = rules.fallSpeed[0] + Math.random() * (rules.fallSpeed[1] - rules.fallSpeed[0]);
 
     const container = this.add.container(0, 0);
