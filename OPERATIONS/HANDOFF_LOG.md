@@ -2748,3 +2748,11 @@ Execute approved plan from3f4b0d9. Branch codex/bodega-bigger-rush-signature. In
 
 ## 2026-09-25 OUT — Bodega larger rush and signature
 Implemented approved size/speed/cadence and optional Bodega-only separated spawn positions. Existing primitive fallback and scaled tap areas retained; other client presets unchanged. Menu footer uses original emblem in black on white with Powered by and company link. All menu categories, game settings20s/100, audio and floating Play preserved. Scoped ESLint and whitespace pass; remote web/Vercel compile gates required before merge. No browser/device certification or post-merge tests.
+
+
+## 2026-09-25 IN — articulated Fina Calle signature
+Base6bbe2a8, branch codex/bodega-articulated-signature. Implement approved footer choreography using original source artwork and SVG clip layers; no regenerated branding or QR. Native one-shot animation, fixed protected center, reduced-motion/no-JS fallback and lifecycle cleanup. Merge explicitly authorized; no post-merge tests.
+
+
+## 2026-09-25 OUT — articulated Fina Calle signature
+Added Bodega-only FinaCalleSignature with source-preserving SVG clip layers, staggered3.6s arm/elbow/jaw choreography and fixed protected lettering/QR. Native SVG interpolation, one-shot visibility trigger, offscreen/document-hidden pause, image-load gating, static original at completion/reduced-motion/unsupported APIs/no-JS, cleanup of observers/listeners. Existing source unchanged; signature184px. TypeScript, scoped ESLint, timeline and diff checks passed. Required remote CI/build gates before explicit merge. Browser/device playback not certified; no post-merge tests.

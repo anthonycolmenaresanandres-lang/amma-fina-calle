@@ -547,3 +547,10 @@ Authority: Anthony approved the plan and explicitly requested execute and merge.
 Scope: about30% larger items and faster falling,450ms spawns, Bodega-only separation opt-in, original monochrome Fina Calle emblem under Powered by. Preserve20s/100 target/audio/menu/categories/persistent Play. Pre-merge scoped lint and required CI/build gates.
 
 Result: itemScale1.75, fallSpeed0.55–0.72,450ms cadence and Bodega-only horizontal separation with scaled tap targets/edge clearance. Centered original144px Fina Calle emblem rendered black on white beneath Powered by, linked to company site. Sticky categories and floating Play preserved. Scoped lint/whitespace passed; required remote compilation gates before merge. Browser/device validation not certified in constrained browser. No post-merge tests.
+
+
+## [x] 62 - Articulated Fina Calle footer signature
+Authority: Anthony approved the3.6s robotic-arm plan and explicitly requested execute/merge. Cloud exception and no-post-merge-tests instruction persist.
+Scope: Bodega footer only; layer the original emblem at render time, keep central lettering/QR fixed, stagger articulated arms emerging and gripping, once per mount on visibility, offscreen/background pause and reduced-motion static original. Preserve game/categories/links.
+
+Result: original emblem layered through SVG masks and articulated upper/lower arm, wrist and jaw groups. One3.6s eased stagger on footer visibility; protected stationary center, exact original at rest,184px display. Offscreen/hidden pause, reduced-motion/no-JS/unsupported static fallback and cleanup. TypeScript, scoped ESLint, timeline and whitespace checks pass. No browser/device playback certification in constrained session; required web/Vercel build gates before authorized merge. No post-merge tests.
