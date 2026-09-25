@@ -533,3 +533,10 @@ Authority: Anthony approved the full menu plan and three generated illustrations
 Scope: Bodega menu copy/layout/category navigation, responsive category art, compact Visit/game/footer. Preserve source menu data, animated seal, unnamed centered-logo green drink, noindex and game behavior. Scoped compilation and required CI/build gates before merge.
 
 Result: compact seal header and sticky category links, consistent white/black menu, three640px category WebPs (264,186 bytes total), simplified item rows, compact Play invitation, Visit links/hours and one Menu details disclosure. Existing items/ingredients/source data and seal/game behavior retained. Scoped TypeScript and ESLint passed; remote CI/build gates required before merge. No post-merge tests.
+
+
+## [x] 60 - Persistent Bodega Play game action
+Authority: Anthony requested keeping the existing menu/categories/game and adding a game button that stays visible while scrolling, with execution and merge.
+Scope: fixed black Play game link, safe-area positioning and footer clearance; existing sticky category strip retained. No post-merge tests. Scoped lint and required remote build gates before merge.
+
+Result: added persistent bottom-right Play game link to the existing game route, with48px touch target, iOS safe-area offsets, white/black styling and disabled automatic game prefetch. Existing categories remain sticky and retain their width; extra bottom padding protects footer content. Scoped ESLint passed; required remote CI/build gates apply. No post-merge tests.

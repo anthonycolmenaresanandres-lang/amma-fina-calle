@@ -2732,3 +2732,11 @@ Execute approved Bodega_Premium_Menu_Plan.md and merge. Base7050cf7, branch code
 
 ## 2026-09-25 OUT — Bodega premium menu
 Implemented approved plan: compact original animated seal, sticky category bar with active-section indicator, white/black type and fine dividers, preserved Fall Sessions/unnamed centered-logo green drink, three optimized category illustrations, source-preserving short section labels and item rows, concise game invitation, Visit/Maps/Instagram and native Menu details disclosure. Source data, noindex, game routes/rules untouched. Category illustrations total264,186 bytes. TypeScript and scoped ESLint passed; required remote CI/build gates apply before explicitly authorized merge. No post-merge tests.
+
+
+## 2026-09-25 IN — persistent Bodega game action
+Baseec57957, branch codex/bodega-persistent-play. Anthony explicitly authorized execution/merge of an always-visible Play game link while retaining the menu and categories. Keep category width on phones by placing the persistent CTA separately; add footer clearance. No post-merge tests.
+
+
+## 2026-09-25 OUT — persistent Bodega game action
+Fixed Play game link remains visible throughout menu scrolling. Preserved existing sticky categories, inline Play invitation, source content and game behavior. Safe-area offsets/48px target plus footer clearance accommodate phones; prefetch=false avoids automatically loading the game on menu entry. Scoped lint passed; required remote CI/build gates before authorized merge. No post-merge tests.
