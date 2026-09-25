@@ -1,0 +1,22 @@
+.signature {
+  position: relative;
+  display: block;
+  width: 184px;
+  max-width: 100%;
+  aspect-ratio: 460 / 488;
+  isolation: isolate;
+  pointer-events: none;
+}
+.original, .rig {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.original { filter: brightness(0); }
+.rig { position: absolute; inset: 0; visibility: hidden; }
+.signature:is([data-phase="armed"], [data-phase="playing"]) .original { visibility: hidden; }
+.signature:is([data-phase="armed"], [data-phase="playing"]) .rig { visibility: visible; }
+@media (prefers-reduced-motion: reduce) {
+  .signature[data-phase] .original { visibility: visible; }
+  .signature[data-phase] .rig { visibility: hidden; }
+}

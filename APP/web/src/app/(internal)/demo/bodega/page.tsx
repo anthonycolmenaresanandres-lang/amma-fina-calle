@@ -4,6 +4,7 @@ import Image from "next/image";
 import { BodegaMenuNav } from "./bodega-menu-nav";
 import { draftMenuSections, publishedBusinessDetails } from "./menu-draft";
 import { BodegaSignalLogo } from "./bodega-signal-logo";
+import { FinaCalleSignature } from "./fina-calle-signature";
 import { FallSessions } from "./fall-sessions";
 import styles from "./page.module.css";
 
@@ -86,7 +87,7 @@ export default function BodegaMenuReviewPage() {
         <footer className={styles.footer}>
           <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com">
             <span>Powered by</span>
-            <Image src="/assets/fina-calle/emblem-colattao.webp" alt="Fina Calle OS" width={456} height={488} sizes="144px" loading="lazy" />
+            <FinaCalleSignature />
           </a>
           <details id="review-notes">
             <summary>Menu details</summary>
