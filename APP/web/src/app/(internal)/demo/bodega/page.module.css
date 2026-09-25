@@ -14,6 +14,9 @@
 .page a:focus-visible, .page button:focus-visible, .page summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .shell { width: min(100%, 1120px); margin: auto; padding: 0 22px calc(100px + env(safe-area-inset-bottom, 0px)); }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skipLink { position: absolute; z-index: 40; top: 8px; left: 8px; transform: translateY(-200%); padding: 12px 16px; background: var(--ink); color: #fff; }
+.skipLink:focus { transform: translateY(0); }
+.itemName, .sectionHeader h2 { overflow-wrap: break-word; text-wrap: balance; }
 .hero { position: relative; display: grid; place-items: center; padding: 22px 0 12px; }
 .preview { position: absolute; right: 0; top: 20px; color: var(--muted); font-size: 12px; }
 .sealStage { position: relative; width: 220px; max-width: 100%; }
@@ -62,6 +65,24 @@
 .sectionHeader h2, .hours h2 { font-size: clamp(32px, 4vw, 42px); font-weight: 750; letter-spacing: -.045em; line-height: 1.1; }
 .sectionHeader img { display: block; width: 150px; height: 150px; object-fit: contain; }
 .item { padding: 17px 0; border-bottom: 1px solid var(--line); font-size: 18px; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; break-inside: avoid; }
+.sectionHeader.textHeader { grid-template-columns: minmax(0, 1fr); min-height: 110px; }
+.itemName { font: inherit; }
+.page .itemDescription { margin-top: 6px; color: var(--muted); font-size: 15px; font-weight: 400; letter-spacing: normal; line-height: 1.55; }
+.page .sectionNote { padding: 10px 0 14px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.priceRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.espressoPrices { display: flex; gap: 24px; margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.espressoPrices dt { color: var(--muted); font-size: 12px; font-weight: 400; letter-spacing: normal; }
+.espressoPrices dd { margin: 0; white-space: nowrap; }
+.priceTable { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.priceTable th, .priceTable td { padding: 14px 0; border-bottom: 1px solid var(--line); text-align: right; }
+.priceTable th:first-child { text-align: left; }
+.priceTable thead th { color: var(--muted); font-size: 13px; font-weight: 500; }
+.priceTable td { padding-left: 12px; white-space: nowrap; }
+.priceTable tbody th { font-weight: 600; }
+.unknownPrice { color: var(--muted); font-size: 13px; }
+.page .extras { margin-top: 20px; }
+.extras li { display: flex; justify-content: space-between; gap: 16px; padding: 5px 0; font-size: 14px; }
+.extras li > :last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .sessionsTeaser { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 22px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .sessionsTeaser > img { width: 72px; height: 72px; object-fit: contain; }
 .sessionsTeaser h2 { font-size: 24px; font-weight: 700; letter-spacing: -.04em; }
@@ -85,7 +106,7 @@
   .shell { padding-inline: 36px; }
   .hero { padding-block: 20px; }
   .sealStage { width: 260px; }
-  .sectionNav { justify-content: center; gap: 48px; }
+  .sectionNav { justify-content: space-between; gap: 24px; }
   .fallLineup { grid-template-columns: minmax(0, 1fr) 260px; gap: 48px; align-items: center; }
   .greenFeature { width: 240px; margin: 0; }
   .fallTracks li { grid-template-columns: 80px minmax(0, 1fr); }

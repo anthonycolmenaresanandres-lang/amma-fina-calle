@@ -6,7 +6,9 @@ import styles from "./page.module.css";
 
 const sections = [
   { id: "fall-sessions", label: "Fall" },
+  { id: "bodega-classics", label: "Classics" },
   { id: "signature-cafecito", label: "Cafecito" },
+  { id: "non-coffee", label: "Non-coffee" },
   { id: "morning-bites", label: "Bites" },
   { id: "bakery-case", label: "Bakery" },
   { id: "hours", label: "Visit" },
