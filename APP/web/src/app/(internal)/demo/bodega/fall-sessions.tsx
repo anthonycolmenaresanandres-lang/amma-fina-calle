@@ -7,8 +7,8 @@ export function FallSessions() {
     <div className={styles.fallSleeve}>
       <Image src="/assets/bodega/menu/fall-sessions-hero.webp" alt="" width={1200} height={800} sizes="(max-width: 700px) 100vw, 1200px" />
       <div className={styles.fallTitle}>
-        <span>Seasonal selections</span>
-        <h2 id="fall-sessions-title">Fall<br />Sessions.</h2>
+
+        <h2 id="fall-sessions-title">Fall<br />Sessions</h2>
       </div>
     </div>
     <div className={styles.fallLineup}>
@@ -22,6 +22,5 @@ export function FallSessions() {
         <Image src="/assets/bodega/menu/green-drink.webp" alt="Layered green drink with Bodega Cafe’s circular logo centered on the cup" width={400} height={400} sizes="(max-width: 700px) 220px, 360px" />
       </figure>
     </div>
-    <p className={styles.fallSource}>From Bodega’s fall board · Illustrations · Prices and availability to confirm.</p>
   </section>;
 }
