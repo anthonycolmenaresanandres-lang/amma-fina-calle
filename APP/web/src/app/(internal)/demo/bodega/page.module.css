@@ -96,86 +96,36 @@
 }
 
 .sealStage {
+  position: relative;
   width: min(100%, 48rem);
 }
 
 .sealMark {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 50%;
-  background: #fff;
-  clip-path: circle(50% at 50% 50%);
-}
-
-.sealMark::after {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 clamp(1.4rem, 4vw, 2.5rem) #fff;
-  content: "";
-  pointer-events: none;
-}
-
-.sealImage {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 1;
 }
 
-.waveformMotion {
+.sealMotionToggle {
   position: absolute;
-  z-index: 1;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.logoOutlineMask {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 12;
-}
-
-.waveformPulse,
-.cupMotion {
-  fill:none;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  opacity:0;
-  animation-duration:6s;
-  animation-iteration-count:infinite;
-  animation-timing-function:linear;
-  animation-play-state:paused;
-}
-.waveformPulse { stroke:#8c8c86; stroke-width:6; stroke-dasharray:14 114; }
-.waveformLeft { animation-name:signalLeft; }
-.waveformRight { animation-name:signalRight; }
-.cupMotion { stroke:#d4aa48; stroke-width:4; animation-name:signalCup; }
-.sealStage[data-beat="running"] .waveformPulse,
-.sealStage[data-beat="running"] .cupMotion { animation-play-state:running; }
-@keyframes signalLeft {
-  0%,8% { opacity:0; stroke-dashoffset:14; }
-  10% { opacity:.9; stroke-dashoffset:8; }
-  30% { opacity:.9; stroke-dashoffset:-94; }
-  32%,100% { opacity:0; stroke-dashoffset:-100; }
-}
-@keyframes signalCup {
-  0%,28% { opacity:0; }
-  35%,39% { opacity:.65; }
-  48%,100% { opacity:0; }
-}
-@keyframes signalRight {
-  0%,46% { opacity:0; stroke-dashoffset:14; }
-  48% { opacity:.9; stroke-dashoffset:8; }
-  70% { opacity:.9; stroke-dashoffset:-94; }
-  72%,100% { opacity:0; stroke-dashoffset:-100; }
-}
+.sealMotionToggle:hover { background: #eee; }
+.sealMotionToggle:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
 
 .storyLabel,
 .sectionSide,
@@ -597,11 +547,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .waveformPulse,
-  .cupMotion {
-    animation: none;
-    opacity: 0;
-  }
+  .sealMotionToggle { display: none; }
 }
 
 /* Fall Sessions: an illustrated record sleeve above simple menu tracks. */
