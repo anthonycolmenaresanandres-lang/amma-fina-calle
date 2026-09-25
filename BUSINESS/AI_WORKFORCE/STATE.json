@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-09-24T09:01:44-04:00",
+  "last_updated_at": "2026-09-25T09:00:00-04:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -128,6 +128,54 @@
       "next_action": "No active follow-up. Re-enter only on a new signal, referral, dated trigger, or inbound reply.",
       "approval_required": false,
       "confidence": "high"
+    },
+    {
+      "id": "kellys-rudee-2026-09-25",
+      "account": "Kelly's Tavern / Rudee Inlet",
+      "stage": "DRAFT_READY",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 11,
+      "offer": "Restaurant digital menu + interactive customer experience for the upcoming Rudee Inlet waterfront location",
+      "evidence": [
+        "Official Kelly's Tavern website verified 2026-09-25 lists a Virginia Beach location as COMING SOON and shows an established multi-location Hampton Roads footprint",
+        "Public reporting dated 2026-08-31 identifies Boyd Melchor as owner and says Kelly's plans a new Rudee Inlet waterfront location, with lease expected mid-October and opening targeted for spring 2027",
+        "Gmail verification 2026-09-25 found no Kelly's Tavern / Boyd Melchor outreach in the previous 180 days"
+      ],
+      "next_action": "Anthony reviews the concise owner-directed launch-pilot outreach prepared 2026-09-25; no custom build before interest is confirmed.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "coastal-beach-bbq-2026-09-25",
+      "account": "Coastal Beach BBQ",
+      "stage": "DRAFT_READY",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 8,
+      "offer": "Restaurant digital menu + interactive QR customer experience for the new Lynnhaven storefront and planned event-space growth",
+      "evidence": [
+        "Official Coastal Beach BBQ site verified 2026-09-25 lists the current Virginia Beach storefront and online ordering",
+        "Public reporting dated 2026-09-20 identifies Corey Lott as co-owner, says the business moved from a food truck into a storefront near Lynnhaven Mall, and plans to add event space",
+        "Gmail verification 2026-09-25 found no Coastal Beach BBQ / Corey Lott outreach in the previous 180 days"
+      ],
+      "next_action": "Anthony reviews the concise co-owner outreach prepared 2026-09-25; pitch the new storefront first and do not build custom assets before interest.",
+      "approval_required": true,
+      "confidence": "high"
+    },
+    {
+      "id": "second-street-2026-09-25",
+      "account": "Second Street American Bistro",
+      "stage": "DRAFT_READY",
+      "owner": "Daily Revenue Agent",
+      "priority_score": 8,
+      "offer": "Restaurant digital menu + interactive guest experience pilot tied to the brand's new leadership chapter",
+      "evidence": [
+        "Official Second Street website verified 2026-09-25 says Chef Chris Long became Managing Partner in 2026 after more than 20 years with the restaurant",
+        "Official site confirms Williamsburg and Newport News locations and emphasizes memorable hospitality and guest experience",
+        "Gmail verification 2026-09-25 found no prior Second Street / Chris Long outreach in the previous 365 days"
+      ],
+      "next_action": "Anthony reviews the concise Managing Partner outreach prepared 2026-09-25; no custom build before interest.",
+      "approval_required": true,
+      "confidence": "medium"
     }
   ],
   "clients": [],
@@ -161,6 +209,24 @@
       "owner": "Anthony",
       "decision": "Approve, edit, or hold the A.J. Gator's owner-directed outreach from the 2026-09-23 Revenue Agent run.",
       "related_pipeline_id": "aj-gators-2026-09-22"
+    },
+    {
+      "id": "approve-kellys-rudee-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the Kelly's Rudee Inlet owner outreach prepared 2026-09-25.",
+      "related_pipeline_id": "kellys-rudee-2026-09-25"
+    },
+    {
+      "id": "approve-coastal-beach-bbq-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the Coastal Beach BBQ co-owner outreach prepared 2026-09-25.",
+      "related_pipeline_id": "coastal-beach-bbq-2026-09-25"
+    },
+    {
+      "id": "approve-second-street-draft",
+      "owner": "Anthony",
+      "decision": "Approve, edit, or hold the Second Street Managing Partner outreach prepared 2026-09-25.",
+      "related_pipeline_id": "second-street-2026-09-25"
     }
   ],
   "product_health": [],
@@ -178,9 +244,9 @@
   "worker_status": {
     "daily_revenue_agent": {
       "status": "green",
-      "last_run_at": "2026-09-24T09:01:44-04:00",
-      "top_actions": 5,
-      "note": "Verified the ESM draft remains unsent, converted Woody's/Legacy and The Sweet Spot to DRAFT_READY without creating Gmail drafts, qualified and drafted The Egg Bistro after its recent Haygood opening, and preserved A.J. Gator's existing draft. No sends, spend, publishing, deployment, or speculative builds performed."
+      "last_run_at": "2026-09-25T09:00:00-04:00",
+      "top_actions": 3,
+      "note": "Qualified three new revenue actions without duplicating the existing owner-blocked queue: Kelly's Rudee Inlet, Coastal Beach BBQ, and Second Street. Verified decision-maker roles and checked Gmail for prior outreach. No sends, spend, publishing, deployment, or speculative builds performed."
     },
     "sales_followup_agent": {
       "status": "green",
@@ -231,6 +297,27 @@
       "state": "WAITING_OWNER",
       "priority_score": 8,
       "next_action": "Review the owner-directed draft from the 2026-09-23 Revenue Agent run; send only with explicit authorization."
+    },
+    {
+      "id": "review-kellys-rudee-outreach",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
+      "priority_score": 11,
+      "next_action": "Review the 2026-09-25 Kelly's Rudee Inlet launch-pilot outreach; no custom build before interest."
+    },
+    {
+      "id": "review-coastal-beach-bbq-outreach",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
+      "priority_score": 8,
+      "next_action": "Review the 2026-09-25 Coastal Beach BBQ storefront/event-space outreach; no custom build before interest."
+    },
+    {
+      "id": "review-second-street-outreach",
+      "owner": "Anthony",
+      "state": "WAITING_OWNER",
+      "priority_score": 8,
+      "next_action": "Review the 2026-09-25 Second Street Managing Partner outreach; no custom build before interest."
     }
   ],
   "alerts": [],
@@ -242,7 +329,10 @@
     "funville-tiffany-thread": "1a007a742330fa76",
     "woodys-legacy-2026-09": "relocation-new-concept",
     "sweet-spot-2026-09": "four-locations-founder-ceo-atlantic-park",
-    "egg-bistro-2026-09": "haygood-third-location-grand-opening"
+    "egg-bistro-2026-09": "haygood-third-location-grand-opening",
+    "kellys-rudee-2026-09": "new-waterfront-location-boyd-melchor",
+    "coastal-beach-bbq-2026-09": "new-storefront-corey-lott-event-space",
+    "second-street-2026-09": "chris-long-managing-partner-transition"
   },
   "worker_metrics": {}
 }
