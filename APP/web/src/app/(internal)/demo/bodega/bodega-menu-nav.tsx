@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 const sections = [
@@ -40,7 +41,10 @@ export function BodegaMenuNav() {
       window.removeEventListener("resize", schedule);
     };
   }, []);
-  return <nav className={styles.sectionNav} aria-label="Menu categories">
+  return <>
+    <nav className={styles.sectionNav} aria-label="Menu categories">
     {sections.map(({ id, label }) => <a href={`#${id}`} key={id} onClick={() => setActive(id)} aria-current={active === id ? "location" : undefined}>{label}</a>)}
-  </nav>;
+    </nav>
+    <Link className={styles.floatingPlay} href="/bodega-sessions-review" prefetch={false}>Play game</Link>
+  </>;
 }
