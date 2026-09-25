@@ -104,7 +104,7 @@ export default function BodegaMenuReviewPage() {
           </div>
           <div className={styles.sessionsCopy}>
             <p>
-              Tap your favorites. Skip the spills. Reach 100 points in 20 seconds.
+              Tap your favorites. Reach 100 points in 20 seconds.
             </p>
             <Link href="/bodega-sessions-review">Play Fall Rush</Link>
           </div>

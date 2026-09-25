@@ -2710,3 +2710,9 @@ Anthony approved execution and requested the green drink remain unnamed. Base521
 
 ## 2026-09-24 OUT — Fall Sessions menu
 Added photo-sourced Maple Morning, Autumn Brew, Haystack, Sugar N Spice and Spiced Apple Chai. Only visible ingredient descriptions included; no prices or cropped chai recipe invented. Generated seven coordinated assets through built-in image generation; exported compact WebP and saved prompts/provenance with assets. Centered Bodega logo on unnamed green drink used across menu/game/landing; removed prior provisional name from displayed copy. Original animated menu logo preserved; game teaser corrected to tap/20 seconds. TypeScript, scoped ESLint and whitespace checks passed before publication; required CI/build gates apply before authorized release, with no post-merge testing.
+
+## 2026-09-25 IN — Bodega clean beat
+Execute approved spill removal, menu-number removal and restrained six-second logo pulse. Basef55e547. Preserve original seal, approved art, three positive game items and current round settings. No post-merge testing.
+
+## 2026-09-25 OUT — Bodega clean beat
+Removed Bodega spill and negative scoring source, preserved three positive items/20s/100 target/pace, removed spill copy across game/menu. Removed seasonal numbering and grid column. Original logo remains stationary with six-second left/cup/right/rest animation; visibility observer and document visibility pause it, reduced-motion preference yields static original seal. Types, scoped ESLint and whitespace checks passed; remote CI/build gates apply. No post-merge tests.
