@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-24 (afternoon check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing; nothing new needs Anthony.** **Two changes since the 09-24 morning run, both Anthony's own and both green:** (1) **amma `main` advanced `c56cbc6`→`6167d3e0`** via **five direct pushes by Anthony today (09-24, 17:52→21:12 UTC)** — all Bodega/cafe-rush game work (Colattao-style direct tap-to-catch made the shared standard, integrated cafe artwork + supplied product photos, mobile controls, faster rounds, larger items, synthesized catch sounds); **`CI — web` green throughout, latest run #192 ✅**. Guardrail-clean (additive cafe-game routes only; **non-human product art with primitive fallbacks preserved, logo preserved**; no Client OS route/Supabase/Stripe/POS/secret/customer-data/stable-QR change) and **Anthony's own direct pushes → no caretaker action, recorded for the audit trail.** (2) **VBFH Daily Run #113 fired + SUCCEEDED** (09-24 17:13→17:38 UTC ✅) — the run the morning check found had not yet fired. Default branches re-verified live via API: amma **`6167d3e0`** (advanced today), vbfh `b7af2c9` (#8, unchanged), shadow `5113ce5` (dormant, 2026-07-09, unchanged), EscapeTheBomb `eee6a37` (#1, unchanged). amma `CI — web` ✅ (**run #192**) + `CI — voice-gateway` ✅ (**run #17**, path-filtered off today's web-only pushes) on main; vbfh `CI` ✅ (**run #26**) on master. Zero failing workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). **VBFH Daily Run — latest completed #113** (09-24 17:13→17:38 UTC ✅). **Six** open amma drafts (#238/#225/#221/#219/#218/#197) unchanged and held (heads static, all Vercel ✅; no new human review comments — only Vercel-bot). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-09-25 (morning check-in, `claude-opus-4-8`). **All four repos GREEN; nothing needed fixing; nothing new needs Anthony.** **One change since the 09-24 afternoon run, all Anthony's own and all green:** **amma `main` advanced `6167d3e0`→`2b26bab8`** via **direct pushes by Anthony (09-24 22:00 UTC → 09-25 11:43 UTC)** — a continued Bodega menu/game polish wave (minimal black/white landing with one PLAY, Fall Sessions seasonal menu + branded drink art, clean vector seal + connected-waveform logo motion, premium sticky-category layout, fixed "Play game" button, ~30% larger/faster catches with 450ms spawns and a branded "Powered by" footer emblem, and a source-preserving one-shot 3.6s Fina Calle logo arm/claw animation that keeps QR/lettering fixed and restores the original at rest with reduced-motion fallback). **`CI — web` green throughout — latest run #208 ✅** (on tip `2b26bab8`). Guardrail-clean (additive Bodega game/menu UI only; **non-human product art with primitive fallbacks preserved, the Fina Calle logo animated source-preserving — not AI-generated — with the stable QR/lettering fixed**; no Client OS route/Supabase/Stripe/POS/secret/customer-data change) and **Anthony's own direct pushes → no caretaker action, recorded for the audit trail.** Default branches re-verified live via API: amma **`2b26bab8`** (advanced), vbfh `b7af2c9` (#8, unchanged), shadow `5113ce5` (dormant, 2026-07-09, unchanged), EscapeTheBomb `eee6a37` (#1, unchanged). amma `CI — web` ✅ (**run #208**) + `CI — voice-gateway` ✅ (**run #17**, path-filtered off the web-only pushes) on main; vbfh `CI` ✅ (**run #26**) on master. Zero failing workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). **VBFH Daily Run — latest completed #113** (09-24 17:13→17:38 UTC ✅); the **09-25 run had not fired at check time** (morning, ~11:44 UTC; window ~15:40–17:00 UTC) — to be verified afternoon. **Six** open amma drafts (#238/#225/#221/#219/#218/#197) unchanged and held (heads static, `updated_at` ≤ 09-20, all Vercel ✅; no new human review comments — only Vercel-bot). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -48,11 +48,10 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    - **#219 Las Palmas lotería hero** (`claude/las-palmas-loteria-hero`) — first phone screen is a playable
      penalty shootout minting a lotería card per goal. Vercel Ready ✅.
    Open each preview and merge if you like it, or tell me what to change. **I don't auto-merge your drafts.**
-   _(You've now also merged **#237** "Simplify Fina Calle with restrained comic-book styling" yourself (09-17
-   18:57 UTC) — homepage styling refinement, guardrail-clean, `CI — web` #174 ✅; noted only for the record.
-   Earlier you merged **#234** "Premium owner portal, guarded billing and owner guide" (09-14 13:23 UTC) — it
-   sits in the protected `/owner/[id]` + Stripe guardrail area, which is fine as your own merge; noted for the
-   record. **#215's Table Duel deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`
+   _(Recorded for the record: you merged **#237** "Simplify Fina Calle with restrained comic-book styling" (09-17
+   18:57 UTC; homepage styling refinement, guardrail-clean, `CI — web` #174 ✅) and earlier **#234** "Premium owner
+   portal, guarded billing and owner guide" (09-14 13:23 UTC; protected `/owner/[id]` + Stripe area — fine as your
+   own merge). **#215's Table Duel deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`
    env var for the websocket server, or `/table-duel` says it isn't switched on yet.)_
 
 ✅ **vbfh PR #8 is MERGED (you merged it 09-21 22:22 UTC) — no action needed; recorded for the record.**
@@ -61,8 +60,8 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    team-page scores, optional AI/email review) is live. The merge kept **scheduled mode deterministic + zero-spend
    with AI review and email disabled by default**, so **no `OPENAI_API_KEY` is required** for the scheduled Daily
    Run to stay green — the SMTP secrets in item 1 remain the only thing needed for it to actually *email* you.
-   The first Daily Run on this hardened master (**#111, 09-22 16:58→17:27 UTC**) **fired + SUCCEEDED** —
-   confirmed green; the pipeline runs clean on schedule. It just has nowhere to send the email until item 1 is done.
+   Daily Runs on this hardened master (#111–#113) all fired + SUCCEEDED — the pipeline runs clean on schedule. It
+   just has nowhere to send the email until item 1 is done.
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (Anthony asked for anthonycolmenaresanandres@gmail.com).**
    vbfh-media-engine → Settings → Secrets and variables → Actions → New repository secret, five times:
@@ -72,7 +71,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    no spaces; requires 2-Step Verification on the Google account — your normal password will NOT work).
    Port 587 default is already correct, no Variables needed. Next 14:00-UTC Daily Run then emails you the
    caption + all post-ready graphics (the #7 code is now live on master). **This is the only thing standing
-   between you and the VBFH graphics landing in your inbox — the run is green (confirmed on #111), it just has
+   between you and the VBFH graphics landing in your inbox — the run is green (confirmed #111–#113), it just has
    nowhere to send.**
 2. **Confirm the "Claude QA's the images before emailing" routine (was PR #4's open question).** The code
    half is fully landed (#5+#7); #4 itself is closed as superseded. What's left is only the decision:
@@ -109,15 +108,15 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
 
 ---
 
-## Build health (as of 2026-09-24, afternoon)
+## Build health (as of 2026-09-25, morning)
 
 > **✅ All columns below re-verified live this run** — check-runs, Daily-Run result, and default-branch tips were
 > all read directly via API. Every build is green.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`6167d3e0`** ("feat(bodega): faster rounds, larger items and catch sounds," 09-24 21:12 UTC; **Anthony's own direct pushes**). **Advanced today** `c56cbc6`→`6167d3e0` via **five direct Anthony pushes 09-24 17:52→21:12 UTC** (Bodega/cafe-rush game: Colattao-style direct tap-to-catch made the shared standard, integrated cafe artwork + supplied product photos, mobile controls, faster rounds, larger items, synthesized catch sounds). `CI — web` green throughout — latest **run #192 ✅**; `CI — voice-gateway` on main ✅ (**run #17**, unchanged — today's pushes are web-only, path-filtered off the voice workflow). **Guardrail-clean** — additive cafe-game routes only; **non-human product art with primitive fallbacks preserved, logo preserved; no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change**. Anthony's own direct pushes → no caretaker action. **Six** open drafts held: **#238** Menu Control owner app plan (docs-only, guardrail-clean, two findings for Anthony), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, open governance flag) and **#197** docs. All six unchanged this run (`updated_at` static). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ — master tip **`b7af2c9`** (**#8 merged** 09-21 22:22 UTC, run **#26 ✅**). Unchanged this run. **Scheduled mode stays deterministic + zero-spend, AI review & email disabled by default** → no `OPENAI_API_KEY` needed to stay green. Workflow `active`. **VBFH Daily Run — GREEN.** Latest completed run **09-24 17:13→17:38 UTC SUCCEEDED (run #113)** — the **third Daily Run on the hardened master** (`b7af2c9`), completed clean; every run 07-21…09-24 that fired was ✅. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`2b26bab8`** ("feat(bodega): articulate Fina Calle logo arms," 09-25 11:43 UTC; **Anthony's own direct push**). **Advanced since the 09-24 afternoon run** `6167d3e0`→`2b26bab8` via **Anthony's direct pushes 09-24 22:00 UTC → 09-25 11:43 UTC** (continued Bodega menu/game polish: minimal black/white PLAY landing, Fall Sessions seasonal menu + branded drink art, clean vector seal + connected-waveform motion, premium sticky-category layout, fixed "Play game" button, ~30% larger/faster catches with 450ms spawns, branded "Powered by" footer emblem, and a source-preserving one-shot 3.6s Fina Calle logo arm/claw animation keeping QR/lettering fixed with reduced-motion fallback). `CI — web` green throughout — latest **run #208 ✅**; `CI — voice-gateway` on main ✅ (**run #17**, unchanged — these pushes are web-only, path-filtered off the voice workflow). **Guardrail-clean** — additive Bodega game/menu UI only; **non-human product art with primitive fallbacks preserved, the Fina Calle logo animated source-preserving (not AI-generated) with the stable QR/lettering fixed; no Client OS route, Supabase, Stripe, POS, secret, customer-data or stable-QR change**. Anthony's own direct pushes → no caretaker action. **Six** open drafts held: **#238** Menu Control owner app plan (docs-only, guardrail-clean, two findings for Anthony), **#225** IG Ordering Activation add-on (docs + local tooling, guardrail-clean), **#221** Order Drop demo (`web` CI ✅), **#219** lotería hero (product UI, guardrail-clean), **#218** E-Myth Rev 4 (docs-only, open governance flag) and **#197** docs. All six unchanged this run (`updated_at` ≤ 09-20). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | CI ✅ — master tip **`b7af2c9`** (**#8 merged** 09-21 22:22 UTC, run **#26 ✅**). Unchanged this run. **Scheduled mode stays deterministic + zero-spend, AI review & email disabled by default** → no `OPENAI_API_KEY` needed to stay green. Workflow `active`. **VBFH Daily Run — GREEN.** Latest completed run **09-24 17:13→17:38 UTC SUCCEEDED (run #113)**; every run 07-21…09-24 that fired was ✅. The **09-25 run had not fired at check time** (morning, ~11:44 UTC; window ~15:40–17:00 UTC) — to be verified afternoon. Content pipeline completes (`needs_review`, `gamesFound:0` = known DaySmart standings-only limitation, not a regression). Emails start once the 5 SMTP secrets are set (action item 1). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -165,21 +164,23 @@ PDF). The AJ Gator's / Las Palmas visual wave (#202–#207) all merged by Anthon
   data blocked, ready-league-only carousel cards, scheduled IG publishing removed in favor of email delivery,
   optional low-cost OpenAI vision QA) is now live. The final merged form keeps **scheduled mode deterministic +
   zero-spend with AI review and email disabled by default**, so `OPENAI_API_KEY` is **not** required for the
-  scheduled Daily Run to stay green (confirmed by run #111 green on 09-22); the 5 SMTP secrets (action item 1)
+  scheduled Daily Run to stay green (confirmed by runs #111–#113 green); the 5 SMTP secrets (action item 1)
   remain the only thing needed for it to email. vbfh now has **zero open PRs.** Recorded for the record; no caretaker action.
 - shadow-engineer-rpa, EscapeTheBomb-DC: **zero open PRs.**
 
 ## Merged / closed since last run
 
-Since the 09-24 morning run, **nothing merged or closed anywhere** across the four repos, and **no new PRs or human
-review comments** landed. The one code change is **amma `main` advancing `c56cbc6`→`6167d3e0` via five direct
-Anthony pushes today (09-24, 17:52→21:12 UTC)** — Bodega/cafe-rush game work (Colattao-style direct tap-to-catch
-made the shared standard, integrated cafe artwork + supplied product photos, mobile controls, faster rounds,
-larger items, synthesized catch sounds); `CI — web` green throughout (latest **#192 ✅**). **Guardrail-clean**
-(additive cafe-game routes; non-human product art with primitive fallbacks + logo preserved; no Client OS route/
-Supabase/Stripe/POS/secret/customer-data/stable-QR change) and **Anthony's own direct pushes → no caretaker
-action; recorded for the audit trail.** (The 09-24 VBFH Daily Run #113 also fired green — see Build health.)
-Prior merges retained below for the audit trail.
+Since the 09-24 afternoon run, **nothing merged or closed anywhere** across the four repos, and **no new PRs or
+human review comments** landed. The one code change is **amma `main` advancing `6167d3e0`→`2b26bab8` via Anthony's
+direct pushes (09-24 22:00 UTC → 09-25 11:43 UTC)** — a continued Bodega menu/game polish wave (minimal
+black/white PLAY landing, Fall Sessions seasonal menu + branded drink art, clean vector seal + connected-waveform
+logo motion, premium sticky-category layout, fixed "Play game" button, ~30% larger/faster catches with 450ms
+spawns, branded "Powered by" footer emblem, and a source-preserving 3.6s Fina Calle logo arm/claw animation
+keeping QR/lettering fixed with reduced-motion fallback); `CI — web` green throughout (latest **#208 ✅**).
+**Guardrail-clean** (additive Bodega game/menu UI; non-human product art with primitive fallbacks preserved, the
+Fina Calle logo animated source-preserving — not AI-generated — with the stable QR/lettering fixed; no Client OS
+route/Supabase/Stripe/POS/secret/customer-data change) and **Anthony's own direct pushes → no caretaker action;
+recorded for the audit trail.** Prior merges retained below for the audit trail.
 
 - **vbfh #8 — "Make VBFH Daily Mail fail closed and verify Dash results."** Merged by **Anthony** 09-21
   22:22 UTC (`codex/vbfh-daily-mail-reliability` → master `b7af2c9`, `CI` **#26 ✅**). 44-file daily-mail
@@ -188,6 +189,13 @@ Prior merges retained below for the audit trail.
   OpenAI vision QA. Final merged form keeps **scheduled mode deterministic + zero-spend (AI review & email off by
   default)** → no `OPENAI_API_KEY` needed to stay green; 5 SMTP secrets still needed to actually email. vbfh now
   has **zero open PRs.** **Anthony's own merge → no caretaker action; recorded for the audit trail.**
+- **amma `main` game/docs advance `6167d3e0`→`2b26bab8`.** Anthony's direct pushes 09-24 22:00 UTC → 09-25
+  11:43 UTC: the Bodega menu/game polish wave above (runs #194→#208, all `CI — web` ✅). Guardrail-clean; his own
+  pushes → no caretaker action; recorded for the audit trail.
+- **amma `main` game advance `c56cbc6`→`6167d3e0`.** Anthony's direct pushes 09-24 17:52→21:12 UTC: Bodega/cafe-rush
+  game (Colattao-style direct tap-to-catch made the shared standard, integrated cafe artwork + supplied product
+  photos, mobile controls, faster rounds, larger items, synthesized catch sounds). `CI — web` #192 ✅.
+  Guardrail-clean; his own pushes → no caretaker action; recorded for the audit trail.
 - **amma `main` docs/ops advance `9be5b13c`→`c56cbc6`.** Anthony's direct pushes 09-21 22:36→23:03 UTC:
   AI-workforce SOPs (`SOP_HANDOFF_ESCALATION`/`SOP_KNOWLEDGE_MARKETING`/`SOP_PRODUCT_QA`), `FOUNDATION.md`
   refresh, Sep-21 briefing reconciliation, plus two voice-gateway commits (`88bcd21e`,`3d2780ac`). Guardrail-clean
@@ -228,79 +236,25 @@ caretaker action:
   post-merge Vercel reached Ready and the live domain passed the PR's read-only checks. **Anthony's own
   authorized merge → no caretaker action; recorded for the audit trail.**
 
-### Prior wave
+### Prior waves (retained; full per-run detail in git)
 
-- **amma #235 — "Gran Patrón menu and shootout review preview."** Merged by **Anthony** 09-16 10:32 UTC
-  (merge `30fe59e2`). Clone-authored, 50 files. Adds a new prospect demo for **Gran Patrón**: a menu preview at
-  `/demo/gran-patron`, a penalty-shootout preview at `/play/gran-patron`, a `src/table-os/menu/gran-patron`
-  catalog/manifest/source-snapshot, original non-human game art (burrito / piña / cantina-pitch webp), build +
-  browser-QA scripts, plus OPERATIONS build-spec/plan/review docs; minor Las Palmas game-hub tweaks.
-  **Guardrail-clean:** additive `/demo` + `/play` routes only — **no Client OS route, Supabase, Stripe, POS,
-  secret, customer data, or stable-QR change.** `CI — web` **#170 ✅**. Game art is non-human with the primitive
-  fallback preserved. **Anthony's own merge → no caretaker action; recorded for the audit trail.**
-
-- **amma #234 — "Premium owner portal, guarded billing and owner guide."** Merged by **Anthony** 09-14
-  13:23 UTC (merge `306fcf45`). Codex-authored (`codex/owner-standard-premium-20260914`), 42
-  files (+2097−1501). Premium owner-only presentation + public owner guide, honest pending-setup states for Las
-  Palmas / A.J. Gator's, a Colattao request-only menu workflow, and Stripe enrollment/reconciliation safeguards.
-  PR body asserts no Colattao guest source / menu data / auth grants / migrations / production config / customer
-  sends / payment transactions changed, and that Anthony authorized scoped live owner changes with merge held
-  until all gates passed. **`CI — web` #167 ✅.** ⚠️ Touches the **protected `/owner/[id]` route + Stripe billing**
-  — a hard-guardrail area the caretaker never merges on its own, but this is **Anthony's own merge** → no caretaker
+- **amma #235 Gran Patrón demo** (09-16, `30fe59e2`, `CI — web` #170 ✅, guardrail-clean, non-human game art) ·
+  **#234 Premium owner portal + guarded billing** (09-14, `306fcf45`, `CI — web` #167 ✅; protected `/owner/[id]`
+  + Stripe — Anthony's own merge) · **#233 Las Palmas ordering invitation** (09-14, `a08c51a3`, #164 ✅) ·
+  **#232 Cantina Jumbotron** (09-13, `5b039a9`, #162 ✅) · **#231 game invitation + character lobby** (09-13,
+  `48f86486`, #160 ✅) · **#230 Las Palmas Western menu at permanent QR** (09-13, `d381e09`, #158 ✅; QR/menu
+  guardrail area, framed permanent — Anthony's own merge) · **#228 Las Palmas pilot/account/menu controls**
+  (09-11, `6a01a4b`, #154 ✅; protected `/owner/[id]` — his own merge) · **#227/#229 docs closeouts** (09-11) ·
+  **#226 ground Las Palmas goal/keeper** (09-11, `1e4d78d`, #152 ✅). All Anthony's own merges → no caretaker
   action; recorded for the audit trail.
-
-Earlier in the prior wave (all Anthony's own merges, retained for the audit trail):
-
-- **amma #233 — "Add Las Palmas official online ordering invitation."** Merged by **Anthony** 09-14 09:43 UTC
-  (`a08c51a3`). Clone-authored; adds a Las Palmas official online-ordering invitation (links out to the official
-  ordering surface). `CI — web` #164 ✅. Sits in the menu/ordering guardrail area but his own merge → no action.
-- **amma #232 — "Las Palmas Cantina Jumbotron scoreboard."** Merged by **Anthony** 09-13 23:40 UTC
-  (`5b039a9`). Clone-authored; closes out the live Las Palmas game-hub release and adds a Cantina Jumbotron
-  scoreboard. `CI — web` #162 ✅. Game-hub UI (non-human game art per guardrails); his own merge → no action.
-- **amma #231 — "Las Palmas persistent game invitation and dedicated character lobby."** Merged by
-  **Anthony** 09-13 19:47 UTC (`48f86486`). Clone-authored. `CI — web` #160 ✅. His own merge → recorded only.
-- **amma #230 — "Las Palmas Western menu at permanent QR."** Merged by **Anthony** 09-13 18:13 UTC
-  (`d381e09`). Clone-authored; Las Palmas Western menu served at a *permanent* QR route. `CI — web` #158 ✅.
-  ⚠️ QR/menu guardrail area but **Anthony's own merge** framing the QR as permanent (stable-URL intent) → no action.
-- **amma #228 — "feat(owner): Las Palmas pilot, account and menu controls" (+ Mexico ball).** Merged by
-  **Anthony** 09-11 18:35 UTC (`6a01a4b`), **Clone-authored**. ⚠️ Touches the protected `/owner/[id]` route — his
-  own merge → no action; recorded only. `CI — web` #154 ✅.
-- **amma #227 / #229 — Las Palmas release closeout (docs).** Merged by **Anthony** 09-11 (`2afaf67`, `220d5fe`).
-  Documentation-only closeouts; Clone-authored, his own merges → no caretaker action.
-
-### Earlier merged (09-11 morning)
-
-- **amma #226 — "Ground Las Palmas goal and pink-shirt keeper; streamline workflow checks."** Merged by
-  **Anthony** 09-11 10:55 UTC (`1e4d78d`). PR body records his explicit authorization. `CI — web` #152 ✅.
-  His own authorized merge → no caretaker action. _(New keeper is a stylized fictional vector figure, not a real
-  face or licensed mark; shipped as Anthony's own documented decision.)_
-
-### Earlier merged (09-07 run)
-
-- **amma #215 — "Table Duel: same-table hidden-fleet game for 2–6 phones."** Merged by **Anthony**
-  09-07 16:57 UTC. Additive `/table-duel` route + in-memory WebSocket room server. **Guardrail-clean.** His own
-  merge → no caretaker action. Deploy step (Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`) is Anthony's to run.
-- **amma #223 — "Online ad campaign: ad factory, /for-restaurants landing page, and the plan."** Merged by
-  **Anthony** 09-07. `CI — web` #148 ✅. No spend/publish without Anthony (by design). His own merge → no action.
-- **amma #224 — "Fix ad landing leads rejected by the intake endpoint (400 invalid_request_type)."** Merged by
-  **Anthony** 09-07 17:03 UTC. His own follow-up fixing #223 (allowlisted `requestType`). `CI — web` #150 ✅.
-  Intake allowlist only (not a protected route). His own merge → no action.
-- **amma #220 — "plan: Instagram DM ordering module."** **Closed unmerged** by Anthony 09-07 (superseded).
-  _(Its branch `claude/instagram-dm-ordering-m8i210` has since been reused for the open draft #225.)_ No action.
-
-### Earlier merged
-
-- **amma #222 — "feat(cafe-rush): reusable catch game with Colattao design as the standard."** Merge
-  **`13492161`**. Merged by **Anthony** 08-20. Additive `/cafe-rush` route; Colattao in-store QR unchanged;
-  primitive art; no client logos. His own merge → no action; `CI — web` #142 ✅.
-- **amma #216 / #217** — $199 restaurant offer standardization (docs) / E-Myth organizational layer (docs).
-  Merged by Anthony 08-18 / 08-17. Documentation only. No caretaker action.
-- **#214 / #213 / #212 — voice-gateway personalities.** Self-merged by Anthony 08-07. Config-only,
-  `CI — voice-gateway` ✅. No caretaker action.
-- **#211 / #210 / #209 / #208 — owner-portal wave** (`/owner/[id]`). Self-merged by Anthony 08-04…08-05,
-  protected route, his own merges. `CI — web` ✅. No caretaker action.
-- **#207–#201 (08-03 wave)**, **#200 / #199 / #198**, and the **2026-07-30 wave** (amma #162/#189/#180/#161/#196;
-  EscapeTheBomb #1 `eee6a37`; vbfh #7 `e21077d`; #168 & vbfh #4 closed superseded). Full history in git.
+- **09-07 wave:** **#215 Table Duel** (additive `/table-duel` + in-memory WS server; deploy step still Anthony's)
+  · **#223 ad factory + /for-restaurants** (#148 ✅) · **#224 intake allowlist fix** (#150 ✅) · **#220 IG DM
+  ordering plan** closed unmerged (superseded; branch reused for #225). His own merges → no action.
+- **Earlier:** **#222 Café Rush catch game** (`13492161`, 08-20, #142 ✅) · **#216/#217** $199 offer + E-Myth docs
+  (08-18/08-17) · **#214/#213/#212** voice-gateway personalities (08-07) · **#211/#210/#209/#208** owner-portal
+  wave (`/owner/[id]`, 08-04…08-05) · **#207–#201**, **#200/#199/#198**, and the 2026-07-30 wave (amma
+  #162/#189/#180/#161/#196; EscapeTheBomb #1 `eee6a37`; vbfh #7 `e21077d`; #168 & vbfh #4 closed superseded).
+  Full history in git.
 
 ## Branch cleanup — ready to run (refreshed 2026-09-14 afternoon)
 
@@ -312,9 +266,9 @@ commands below remain for Anthony to paste from a local clone. **Verified KEEP:*
 `claude/e-myth-ai-automation-gcetx0` (#218) and `claude/las-palmas-menu-game-59vtbg` (#197)** (deleting any
 closes its open draft), unmerged `voice/*` (Anthony's judgment) and the unproven squash-merged exploration sets.
 **Eligible** (no longer open-draft-protected): `claude/table-duel` (#215, merged), `codex/las-palmas-goal-keeper-20260910`
-(#226, merged), `codex/owner-standard-premium-20260914` (#234, merged) and now
-**`codex/consulting-comic-20260917` (#237, merged 09-17)** — add them to your local delete run when you clear the
-list; still not auto-deleted here (proxy 403 + no branch-delete API).
+(#226, merged), `codex/owner-standard-premium-20260914` (#234, merged) and `codex/consulting-comic-20260917`
+(#237, merged 09-17) — add them to your local delete run when you clear the list; still not auto-deleted here
+(proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -342,115 +296,47 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
-- **2026-09-24 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** Two changes since the 09-24 morning run, **both Anthony's own and both green**: (1) **amma
-  `main` advanced `c56cbc6`→`6167d3e0`** via **five direct Anthony pushes today (09-24, 17:52→21:12 UTC)** —
-  Bodega/cafe-rush game work (Colattao-style direct tap-to-catch made the shared standard, integrated cafe
-  artwork + supplied product photos, mobile controls, faster rounds, larger items, synthesized catch sounds);
-  `CI — web` green throughout (latest **#192 ✅**). Guardrail-clean (additive cafe-game routes; non-human product
-  art with primitive fallbacks + logo preserved; no Client OS route/Supabase/Stripe/POS/secret/customer-data/
-  stable-QR change) and Anthony's own direct pushes → **no caretaker action; recorded for the audit trail.**
-  (2) **09-24 VBFH Daily Run #113 fired + SUCCEEDED** (17:13→17:38 UTC ✅) — the run the morning check found had
-  not yet fired; the third Daily Run on the hardened master, again clean. Default branches re-verified live via
-  API: amma `6167d3e0` (advanced today), vbfh `b7af2c9` (#8, unchanged), shadow `5113ce5` (dormant, 2026-07-09,
-  unchanged), EscapeTheBomb `eee6a37` (#1, unchanged). amma `CI — web` ✅ (#192) + `CI — voice-gateway` ✅ (#17,
-  path-filtered off today's web-only pushes) on main; vbfh `CI` ✅ (#26) on master. Zero failing workflow runs
-  across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). Six open amma drafts (#238/#225/#221/
-  #219/#218/#197) unchanged and held — heads static, all Vercel ✅; no new human review comments (only Vercel-bot).
-  #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft
-  heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine
-  decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup). No push notification sent
-  — quiet all-green run; both changes were Anthony's own green work needing no caretaker action.
-- **2026-09-24 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** **No change since the 09-23 afternoon run** — no new commits, merges, closes, PRs, or
-  human review comments anywhere across the four repos; every default-branch tip, CI result, open-draft head and
-  the VBFH Daily Run state matched exactly what the 09-23 afternoon run recorded. Default branches re-verified
-  live via API — all unchanged: amma `c56cbc6` (tip since 09-21 23:03), vbfh `b7af2c9` (#8), shadow `5113ce5`
-  (dormant, 2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#17)
-  on main; vbfh `CI` ✅ (#26) on master. Zero failing workflow runs across all repos; shadow & EscapeTheBomb have
-  no CI workflows (0 runs). **VBFH Daily Run — latest completed #112** (09-23 17:04→17:30 UTC ✅); the **09-24 run
-  (#113) had not fired at check time** (morning; window ~15:40–17:00 UTC) — to be verified afternoon. Six open
-  amma drafts (#238/#225/#221/#219/#218/#197) unchanged and held — heads static, all Vercel ✅; no new review
-  comments. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open
-  draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA
-  routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup). No push
-  notification sent — quiet all-green run with nothing changed and nothing done.
-- **2026-09-23 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** Only change since the 09-23 morning run: the **09-23 VBFH Daily Run (#112) fired +
-  SUCCEEDED** (17:04→17:30 UTC ✅) — the run the morning check found had not yet fired; it's the **second Daily
-  Run on the hardened master** and again completed clean. No new commits, merges, closes, PRs, or human review
-  comments anywhere across the four repos. Default branches re-verified live via API — all unchanged: amma
-  `c56cbc6` (tip since 09-21 23:03), vbfh `b7af2c9` (#8), shadow `5113ce5` (dormant, 2026-07-09), EscapeTheBomb
-  `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#17) on main; vbfh `CI` ✅ (#26) on master.
-  Zero failing workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). Six open amma
-  drafts (#238/#225/#221/#219/#218/#197) unchanged and held — heads static, all Vercel ✅; no new review comments.
-  #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft
-  heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits Day 06, image-QA routine
-  decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup). No push notification sent
-  — quiet all-green run; the one change was the day's Daily Run firing green, needing no caretaker action.
-- **2026-09-23 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** **No change since the 09-22 afternoon run** — no new commits, merges, closes, PRs, or
-  human review comments anywhere across the four repos; every default-branch tip, CI result, open-draft head and
-  the VBFH Daily Run state matched exactly what the 09-22 afternoon run recorded. Default branches re-verified
-  live via API — all unchanged: amma `c56cbc6`, vbfh `b7af2c9`, shadow `5113ce5` (2026-07-09), EscapeTheBomb
-  `eee6a37` (#1). amma `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#17) on main; vbfh `CI` ✅ (#26) on master.
-  Zero failing workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). **VBFH Daily
-  Run — latest completed #111** (09-22 16:58→17:27 UTC ✅); the **09-23 run (#112) had not fired at check time**
-  (morning; window ~15:40–17:00 UTC) — to be verified afternoon. Six open amma drafts (#238/#225/#221/#219/#218/
-  #197) unchanged and held. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
+- **2026-09-25 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
+  new needs Anthony.** One change since the 09-24 afternoon run, **all Anthony's own and all green**: **amma
+  `main` advanced `6167d3e0`→`2b26bab8`** via **Anthony's direct pushes 09-24 22:00 UTC → 09-25 11:43 UTC** — a
+  continued Bodega menu/game polish wave (minimal black/white PLAY landing, Fall Sessions seasonal menu + branded
+  drink art, clean vector seal + connected-waveform logo motion, premium sticky-category layout, fixed "Play game"
+  button, ~30% larger/faster catches with 450ms spawns, branded "Powered by" footer emblem, and a
+  source-preserving one-shot 3.6s Fina Calle logo arm/claw animation keeping QR/lettering fixed with
+  reduced-motion fallback); `CI — web` green throughout (runs #194→#208, latest **#208 ✅**). Guardrail-clean
+  (additive Bodega game/menu UI; non-human product art with primitive fallbacks preserved, the Fina Calle logo
+  animated source-preserving — not AI-generated — with the stable QR/lettering fixed; no Client OS route/Supabase/
+  Stripe/POS/secret/customer-data change) and Anthony's own direct pushes → **no caretaker action; recorded for
+  the audit trail.** Default branches re-verified live via API: amma `2b26bab8` (advanced), vbfh `b7af2c9` (#8,
+  unchanged), shadow `5113ce5` (dormant, 2026-07-09, unchanged), EscapeTheBomb `eee6a37` (#1, unchanged). amma
+  `CI — web` ✅ (#208) + `CI — voice-gateway` ✅ (#17, path-filtered off the web-only pushes) on main; vbfh `CI` ✅
+  (#26) on master. Zero failing workflow runs across all repos; shadow & EscapeTheBomb have no CI workflows (0
+  runs). **VBFH Daily Run — latest completed #113** (09-24 17:13→17:38 UTC ✅); the **09-25 run had not fired at
+  check time** (~11:44 UTC; window ~15:40–17:00 UTC) — to be verified afternoon. Six open amma drafts (#238/#225/
+  #221/#219/#218/#197) unchanged and held — heads static (`updated_at` ≤ 09-20), all Vercel ✅; no new human review
+  comments (only Vercel-bot). #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
   403-blocked (open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
   Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup).
-  No push notification sent — quiet all-green run with nothing changed and nothing done.
-- **2026-09-22 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** Only change since the 09-22 morning run: the **09-22 VBFH Daily Run (#111) fired +
-  SUCCEEDED** (16:58→17:27 UTC) — the run the morning check found had not yet fired, and the **first Daily Run on
-  the hardened master** (`b7af2c9`, post-#8 merge). It completed green, confirming the fail-closed + zero-spend
-  rework runs clean on the schedule (AI review & email off by default → no `OPENAI_API_KEY` needed; the 5 SMTP
-  secrets remain the only thing needed to actually email). No new commits, merges, closes, PRs, or human review
-  comments anywhere across the four repos. Default branches re-verified live via API — all unchanged: amma
-  `c56cbc6`, vbfh `b7af2c9`, shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma `CI — web` ✅
-  (#174) + `CI — voice-gateway` ✅ (#17) on main; vbfh `CI` ✅ (#26) on master. Zero failing workflow runs across
-  all repos; shadow & EscapeTheBomb have no CI workflows (0 runs). Six open amma drafts (#238/#225/#221/#219/#218/
-  #197) unchanged and held. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
-  403-blocked (open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
-  Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup).
-  No push notification sent — quiet all-green run; the one change was the day's Daily Run firing green, needing no
+  No push notification sent — quiet all-green run; the only change was Anthony's own green work needing no
   caretaker action.
-- **2026-09-22 (morning check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing; nothing
-  new needs Anthony.** Real activity since the 09-21 afternoon run — all Anthony's own, all CI green: (1) **vbfh
-  draft #8 MERGED** into master 09-21 22:22 UTC (`e21077d`→`b7af2c9`, "Harden VBFH results verification and keep
-  scheduled mode zero-spend"; `CI` #26 ✅) — the 44-file daily-mail reliability rework is now live and the merge
-  keeps scheduled mode deterministic + zero-spend (AI review & email off by default), so **no `OPENAI_API_KEY`
-  needed** to stay green; vbfh now has **zero open PRs**. (2) **amma main advanced** `9be5b13c`(#237)→`c56cbc6`
-  via Anthony's direct docs/ops pushes (AI-workforce SOPs, `FOUNDATION.md` refresh, Sep-21 briefing
-  reconciliation) + two voice-gateway commits (`88bcd21e`,`3d2780ac`); `CI — voice-gateway` #17 ✅, `CI — web`
-  untriggered (docs/ops path-filtered; still #174 ✅), guardrail-clean. No new human review comments anywhere
-  (only Vercel-bot). Default branches re-verified live: amma `c56cbc6`, vbfh `b7af2c9`, shadow `5113ce5`
-  (2026-07-09), EscapeTheBomb `eee6a37` (#1). **VBFH Daily Run — latest completed #110** (09-21 18:02→18:05 UTC
-  ✅); the **09-22 run #111 had not fired at check time** (12:46 UTC; window ~15:40–16:30 UTC) — it will be the
-  **first Daily Run on the hardened master**, to be verified afternoon. Zero failing workflow runs across all
-  repos; shadow & EscapeTheBomb have no CI workflows (0 runs). Six open amma drafts (#238/#225/#221/#219/#218/
-  #197) unchanged and held. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still
-  403-blocked (open draft heads excluded). Standing items for Anthony unchanged (SMTP secrets, Runway credits
-  Day 06, image-QA routine decision, grant submission, Marbel SQL, #215 Table Duel deploy step, branch cleanup).
-  Push-notification summary sent per the configured twice-daily report.
-- **2026-09-21 (afternoon check-in, `claude-opus-4-8`):** **All four repos green; nothing needed fixing.** Only
-  change since the 09-21 morning run: the **09-21 VBFH Daily Run (#110) fired + SUCCEEDED** (18:02→18:05 UTC) —
-  the run the morning check found had not yet fired. No new commits, merges, closes, or human review comments
-  anywhere across the four repos. vbfh draft **#8** unchanged (head `fb921c8` static, `mergeable_state: clean`;
-  CI green — run #23) — still Anthony's held draft. Default branches re-verified live via API — all unchanged:
-  amma `9be5b13c` (#237), vbfh `e21077d` (#7), shadow `5113ce5` (2026-07-09), EscapeTheBomb `eee6a37` (#1). amma
-  `CI — web` ✅ (#174) + `CI — voice-gateway` ✅ (#13) on main; vbfh `CI` ✅ (#23) on master. **VBFH Daily Run —
-  latest completed #110** (09-21 18:02→18:05 UTC ✅). Zero failing workflow runs across all repos; shadow &
-  EscapeTheBomb have no CI workflows (0 runs). The six open amma drafts (#238/#225/#221/#219/#218/#197) unchanged
-  and held — no new review comments (only Vercel-bot deploy notes). #218 governance question stays open; #29 stays
-  closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded). Standing items for Anthony
-  unchanged (SMTP secrets, Runway credits Day 06, image-QA routine decision, grant submission, Marbel SQL, #215
-  Table Duel deploy step, branch cleanup). No push notification sent — quiet all-green run; the one change was the
-  day's Daily Run firing green, needing no caretaker action.
-- **2026-09-21 (morning check-in, `claude-opus-4-8`):** All four repos green; nothing changed since the 09-20
-  afternoon run and nothing needed fixing. VBFH Daily Run latest completed #109 (09-20 ✅); 09-21 run not yet
-  fired at check time. Six drafts held; standing items unchanged. No push notification sent.
+- **2026-09-24 (afternoon check-in, `claude-opus-4-8`):** All four green; nothing needed fixing; nothing new
+  needed Anthony. Two changes, both Anthony's own and green: (1) amma `main` advanced `c56cbc6`→`6167d3e0` via
+  five direct Anthony pushes (Bodega/cafe-rush game — direct tap-to-catch standard, cafe artwork + product photos,
+  mobile controls, faster rounds, larger items, catch sounds); `CI — web` #192 ✅, guardrail-clean. (2) 09-24 VBFH
+  Daily Run #113 fired + SUCCEEDED. No push notification sent.
+- **2026-09-24 (morning check-in, `claude-opus-4-8`):** All four green; no change since the 09-23 afternoon run;
+  09-24 VBFH Daily Run (#113) had not fired at check time. Six drafts held. No push notification sent.
+- **2026-09-23 (afternoon, `claude-opus-4-8`):** All four green; only change was the 09-23 VBFH Daily Run (#112)
+  firing green. Six drafts held. No push notification sent.
+- **2026-09-23 (morning, `claude-opus-4-8`):** All four green; no change since 09-22 afternoon; 09-23 VBFH Daily
+  Run (#112) not yet fired at check time. No push notification sent.
+- **2026-09-22 (afternoon, `claude-opus-4-8`):** All four green; only change was the 09-22 VBFH Daily Run (#111,
+  first Daily Run on the hardened master) firing green. No push notification sent.
+- **2026-09-22 (morning, `claude-opus-4-8`):** All four green. vbfh #8 MERGED (`b7af2c9`, `CI` #26 ✅; scheduled
+  mode zero-spend, no `OPENAI_API_KEY` needed); amma main advanced `9be5b13c`→`c56cbc6` (Anthony's docs/ops +
+  voice-gateway pushes, `CI — voice-gateway` #17 ✅). Push-notification summary sent per the twice-daily report.
+- **2026-09-21 (both check-ins, `claude-opus-4-8`):** All four green. Afternoon change: 09-21 VBFH Daily Run
+  (#110) fired green. Six drafts held. No push notification sent.
 - **2026-09-20 (both check-ins, `claude-opus-4-8`):** All four green. Morning: Anthony opened new docs-only draft
   #238 (Menu Control owner app plan) — surfaces the Colattao static-vs-Supabase reconciliation + the live
   `/m/[id]` zero-price bug (both Anthony's calls; flagged not fixed) → push notification sent. Afternoon: only
@@ -471,16 +357,9 @@ git -C vbfh-media-engine push origin --delete \
 - **2026-09-14 (both check-ins, `claude-opus-4-8`):** All four green. Anthony merged his own held draft #234
   ("Premium owner portal, guarded billing") 09-14 13:23 UTC (merge `306fcf45`, `CI — web` #167 ✅; protected
   `/owner/[id]` + Stripe, his own merge → no action). VBFH Daily Run #103 fired green. No push notifications sent.
-- **2026-09-13 (both check-ins, `claude-opus-4-8`):** All four green. amma `main` advanced via Anthony's own
-  Clone merges (#230/#231/#232); VBFH Daily Run #102 fired green. Five drafts held. No push notifications sent.
-- **2026-09-12 (both check-ins, `claude-opus-4-8`):** All four green; the only change was the 09-12 VBFH Daily Run
-  (#101) firing green. amma `main` `220d5fe` (#229); five drafts held. No push notifications sent.
-- **2026-09-11 (afternoon check-in, `claude-opus-4-8`):** All four green. amma `main` advanced `1e4d78d` (#226) →
-  `220d5fe` via Anthony's own #227/#228/#229 merges (#228 touches protected `/owner/[id]`, his own call). VBFH
-  Daily Run #100 green. No push notification sent.
-- **2026-09-10 → 09-02 (both check-ins each day, `claude-opus-4-8`):** All four green throughout; each afternoon's
-  only change was that day's VBFH Daily Run (#91–#99) firing green. amma `main` advanced via Anthony's own merges
-  (#215/#223/#224 on 09-07, #226→#229 on 09-11). No push notifications sent — quiet all-green runs.
+- **2026-09-13 → 09-02 (both check-ins each day, `claude-opus-4-8`):** All four green throughout; each afternoon's
+  only change was that day's VBFH Daily Run (#91–#102) firing green. amma `main` advanced via Anthony's own merges
+  (#230/#231/#232 on 09-13, #227/#228/#229 on 09-11, #215/#223/#224 on 09-07). No push notifications sent.
 - **2026-09-01 (evening) — ✅ API RESTORED, all green.** The morning `401 Bad credentials` GitHub API outage
   cleared; live monitoring back. 09-01 VBFH Daily Run #90 fired + SUCCEEDED. amma `main` `13492161` (#222).
 - **2026-09-01 (morning) — ⚠️ GitHub API OUTAGE:** token returned `401 Bad credentials` on every repo-scoped
