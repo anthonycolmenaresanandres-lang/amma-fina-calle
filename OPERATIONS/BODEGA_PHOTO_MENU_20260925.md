@@ -24,4 +24,12 @@ Keep current white #fff, ink #111, muted #575757 and divider #e5e5e5 with Geist 
 
 ## Verification
 
-Pending local lint/build, photo-to-rendered-price comparison, responsive 320/390/768/1440 inspection, category/keyboard navigation, game link smoke and PR checks. Merge authorized; do not bypass failed checks. Prior task handoffs request no post-merge application testing; complete application verification before merge.
+- PASS: scoped ESLint, production Next.js build and TypeScript; whitespace check.
+- PASS: 56 browser assertions (14 per viewport at 320, 390, 768, 1440): full photo-to-rendered price matrix, espresso and extras, missing-price handling, section/item counts, absence of unsupported candidates, anchor targets, image loading, noindex, persistent Play, no error overlay, table fit and no horizontal overflow.
+- PASS: before/after visual comparison, Classics and Non-coffee clicks, sticky-header clearance, Tab-visible skip link and Enter navigation to Classics.
+- PASS: menu Play opens existing game; PLAY loads a canvas, Back returns to lobby, Menu returns to `/demo/bodega` and removes canvas. No page errors observed. This is a navigation smoke check, not a new full gameplay certification.
+- Browser transport timed out once during the first run. Restarting only this task's browser and using the installed CLI directly resolved it; the final full run passes. One unsupported CLI focus command was replaced with actual Tab/Enter verification.
+- GitHub web build and Vercel preview pass for application commit 1870a8f, PR257. Final documentation head must pass checks before merge.
+- Evidence: `C:/dev/amma/evidence/bodega-photo-menu-20260925` includes browser-results.json, matching before/after captures and focused phone screenshots.
+
+Merge explicitly authorized. Preserve branch protections and complete checks before merging. Prior Bodega handoffs request no post-merge application testing.
