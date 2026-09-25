@@ -540,3 +540,10 @@ Authority: Anthony requested keeping the existing menu/categories/game and addin
 Scope: fixed black Play game link, safe-area positioning and footer clearance; existing sticky category strip retained. No post-merge tests. Scoped lint and required remote build gates before merge.
 
 Result: added persistent bottom-right Play game link to the existing game route, with48px touch target, iOS safe-area offsets, white/black styling and disabled automatic game prefetch. Existing categories remain sticky and retain their width; extra bottom padding protects footer content. Scoped ESLint passed; required remote CI/build gates apply. No post-merge tests.
+
+
+## [x] 61 - Larger Bodega rush and Fina Calle signature
+Authority: Anthony approved the plan and explicitly requested execute and merge. Cloud workspace exception persists; no post-merge tests.
+Scope: about30% larger items and faster falling,450ms spawns, Bodega-only separation opt-in, original monochrome Fina Calle emblem under Powered by. Preserve20s/100 target/audio/menu/categories/persistent Play. Pre-merge scoped lint and required CI/build gates.
+
+Result: itemScale1.75, fallSpeed0.55–0.72,450ms cadence and Bodega-only horizontal separation with scaled tap targets/edge clearance. Centered original144px Fina Calle emblem rendered black on white beneath Powered by, linked to company site. Sticky categories and floating Play preserved. Scoped lint/whitespace passed; required remote compilation gates before merge. Browser/device validation not certified in constrained browser. No post-merge tests.

@@ -76,7 +76,7 @@ export default function BodegaSessionsClient() {
         }
       }
       const scene = new BodegaCatchScene(BODEGA_LEVEL, BODEGA_CATCH_SKIN, {
-        externalHud: true, catchLight: true, itemScale: 1.35,
+        externalHud: true, catchLight: true, itemScale: 1.75, separateSpawns: true,
         reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
       });
       game.current = new Phaser.Game({

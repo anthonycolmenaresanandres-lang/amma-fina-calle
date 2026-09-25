@@ -84,7 +84,10 @@ export default function BodegaMenuReviewPage() {
         </section>
 
         <footer className={styles.footer}>
-          <span>By Fina Calle</span>
+          <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com">
+            <span>Powered by</span>
+            <Image src="/assets/fina-calle/emblem-colattao.webp" alt="Fina Calle OS" width={456} height={488} sizes="144px" loading="lazy" />
+          </a>
           <details id="review-notes">
             <summary>Menu details</summary>
             <p>Preview menu. Fall drink names come from Bodega’s board. Other items, prices, hours and availability await confirmation. Artwork is illustrative.</p>
