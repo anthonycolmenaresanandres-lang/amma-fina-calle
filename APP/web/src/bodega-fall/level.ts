@@ -15,5 +15,6 @@ export const BODEGA_LEVEL: CafeRushLevel = {
     spawnRampMs: 0,
     fallSpeed: [0.42, 0.55],
     finishAtTarget: true,
+    badChance: 0,
   },
 };

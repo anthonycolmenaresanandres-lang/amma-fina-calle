@@ -513,3 +513,9 @@ Authority: Anthony approved execution of the photo-sourced seasonal menu/art pla
 Scope: five board-named drinks with only visible ingredients, new seasonal hero and separate illustrations, centered original-logo treatment on the unnamed green drink shared with game, preserve animated menu signal logo, correct outdated game teaser. No invented prices or green-drink identity; chai recipe omitted because cropped.
 
 Result: five fall-board drinks added with source-visible descriptions and no prices; cropped chai recipe omitted. Seven generated assets integrated: seasonal music-themed hero, five transparent seasonal cups and centered-logo green cup. Green drink remains unnamed; game/landing reuse its branded art and former provisional name is removed. Menu signal logo unchanged; stale tray/45s teaser corrected to tap/20s. TypeScript, scoped lint and whitespace checks passed; required remote CI/build gates apply. No post-merge testing.
+
+## [x] 57 - Remove Bodega spill, menu numbering and refine signal beat
+Authority: Anthony approved all three planned changes and standing scoped merge authorization applies. No post-merge tests.
+Scope: remove Bodega spill/negative award and related copy, keep20s/100 target and pace; remove seasonal item numbers and layout column; six-second left/cup/right logo pulse with rest, offscreen/hidden pause and reduced-motion static logo.
+
+Result: removed spill from Bodega skin, set badChance0 and removed spill instructions/legend. Seasonal numbers and their grid column removed. Replaced bounce/expanding glow with a six-second left/cup/right/rest pulse on the original stationary seal, paused offscreen/hidden and disabled for reduced motion. TypeScript, scoped lint and whitespace checks passed; required CI/build gates apply before authorized merge. No post-merge tests.

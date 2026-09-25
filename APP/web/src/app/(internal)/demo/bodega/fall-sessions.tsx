@@ -13,8 +13,7 @@ export function FallSessions() {
     </div>
     <div className={styles.fallLineup}>
       <ul className={styles.fallTracks}>
-        {seasonalDrinks.map((drink, index) => <li key={drink.id}>
-          <span className={styles.trackNumber} aria-hidden="true">0{index + 1}</span>
+        {seasonalDrinks.map((drink) => <li key={drink.id}>
           <Image src={`/assets/bodega/menu/${drink.id}.webp`} alt="" width={112} height={112} sizes="112px" />
           <div><h3>{drink.name}</h3>{drink.description && <p>{drink.description}</p>}</div>
         </li>)}

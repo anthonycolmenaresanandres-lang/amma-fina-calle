@@ -85,7 +85,7 @@ export default function BodegaSessionsClient() {
         backgroundColor: "#f4e7d1", scene: [scene], audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE }, fps: { target: 60 },
       });
-      game.current.canvas.setAttribute("aria-label", "Tap falling drinks and cereal bites to catch them. Avoid spills. Arrow keys select an item; Space or Enter catches it.");
+      game.current.canvas.setAttribute("aria-label", "Tap falling drinks and cereal bites to catch them. Arrow keys select an item; Space or Enter catches it.");
       mount.current.focus({ preventScroll: true });
     };
     void init().catch(() => { if (!cancelled) { setError(true); setLoading(false); } });
@@ -133,7 +133,7 @@ export default function BodegaSessionsClient() {
           <Illustration src="/assets/bodega/menu/green-drink.webp" />
           <Illustration src="/assets/bodega/fall/cereal-bites.webp" />
         </div>
-        <p className={styles.landingInstruction}>Tap treats. Skip spills.</p>
+        <p className={styles.landingInstruction}>Tap to catch.</p>
         <button className={styles.playButton} onClick={start}>PLAY</button>
         <span className={styles.landingNote}>20 seconds · 100 points</span>
       </div> : <div className={styles.catchLayout}>
@@ -161,8 +161,8 @@ export default function BodegaSessionsClient() {
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button> : status.over && !loading ? <button className={styles.primary} onClick={start}>Catch again</button> : paused && !loading ? <button className={styles.primary} onClick={togglePause}>Resume catching</button> : null}
           </div>}
         </div>
-        <p className={styles.catchLegend}>Latte +10 · Drink +10 · Cereal bites +15 · Spill −15</p>
-        <p className={styles.catchHint}>Tap to catch · Avoid spills · ← → selects, Space catches</p>
+        <p className={styles.catchLegend}>Latte +10 · Drink +10 · Cereal bites +15</p>
+        <p className={styles.catchHint}>Tap to catch · ← → selects, Space catches</p>
       </div>}
     </div>
   </section>;
