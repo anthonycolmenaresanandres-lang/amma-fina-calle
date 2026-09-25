@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] 50 - Bodega photo-sourced menu and authorized merge
+
+**State:** IN PROGRESS
+**Authority:** Anthony: "Execute merge" after reviewing the five-photo menu transcription and implementation plan, 2026-09-25.
+**Scope:** Bodega menu content, size prices, modifiers, category navigation and responsive rendering; source reconciliation and verification. Preserve game, original artwork, URLs, noindex and preview status.
+**Source:** 37587.jpg classics, 37592.jpg non-coffee, 37595.jpg bites, 37590.jpg fall/partial signatures, 37598.jpg bakery. Missing prices remain null; incomplete recipes and pastry names are not invented. Older unverified candidates are retained only in the internal source record.
+**Workspace:** C:/dev/amma/worktrees/bodega-photo-menu-20260925, branch codex/bodega-photo-menu-20260925 from 2b26bab.
+**Verify:** Photo reconciliation, missing-size/price regression checks, scoped lint, build, mobile/desktop browser review, game/menu link smoke and exact-head PR checks before scoped merge.
+
 ## [ ] 49 - Bodega Fall Rush replacement and scoped live release
 
 **State:** IMPLEMENTATION COMPLETE - VERIFIED FOR AUTHORIZED MERGE

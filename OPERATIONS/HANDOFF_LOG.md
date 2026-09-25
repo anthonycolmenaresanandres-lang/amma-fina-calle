@@ -2,6 +2,9 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+## 2026-09-25 IN — Bodega photo menu
+Anthony authorized implementation and merge of the reviewed photo-based menu plan. Isolated branch codex/bodega-photo-menu-20260925 starts at 2b26bab. Add photo-sourced classics/prices, non-coffee, named bites, bakery labels and readable signatures. Preserve missing prices as unknown and retain prior unsupported candidates in internal documentation. Existing Bodega identity, artwork, game and stable routes stay intact. All application and browser checks run before merge.
+
 ### [CHECK-IN / RESUMED] Codex - 2026-09-17 - Simpler comic-book homepage
 Build gate: Final Next 16.2.11 production build and TypeScript PASS after the desktop motion-layout fix; targeted ESLint and git diff --check PASS. Independent fresh guideline/source review has no blockers. Starting production artifact on localhost:3168 for final homepage and mocked form regression checks. No code changes planned; commit/rebase to actual production ancestry and exact-head CI remain before merge.
 Verification progress: Targeted ESLint PASS. Dev layouts/font/keyboard pass at 320/390/768/1440; corrected desktop resting/forward/reverse and tablet resting motion checks pass, with mobile forward/reverse and mid-scroll reduced-motion passing. Independent source review reports no blockers so far. Measured mobile words 594 -> 217; full document 7329 -> 3394 px (53.7% shorter). Final build and production-artifact suites remain pending. Original motion/styles/assets, forms and dependencies have no diff from production.

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { seasonalDrinks } from "./menu-draft";
+import { seasonalDrinks, seasonalNote } from "./menu-draft";
 import styles from "./page.module.css";
 
 export function FallSessions() {
@@ -22,5 +22,6 @@ export function FallSessions() {
         <Image src="/assets/bodega/menu/green-drink.webp" alt="Layered green drink with Bodega Cafe’s circular logo centered on the cup" width={400} height={400} sizes="(max-width: 700px) 220px, 360px" />
       </figure>
     </div>
+    <p className={styles.sectionNote}>{seasonalNote}</p>
   </section>;
 }
