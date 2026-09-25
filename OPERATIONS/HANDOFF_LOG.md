@@ -2716,3 +2716,11 @@ Execute approved spill removal, menu-number removal and restrained six-second lo
 
 ## 2026-09-25 OUT — Bodega clean beat
 Removed Bodega spill and negative scoring source, preserved three positive items/20s/100 target/pace, removed spill copy across game/menu. Removed seasonal numbering and grid column. Original logo remains stationary with six-second left/cup/right/rest animation; visibility observer and document visibility pause it, reduced-motion preference yields static original seal. Types, scoped ESLint and whitespace checks passed; remote CI/build gates apply. No post-merge tests.
+
+
+## 2026-09-25 IN — Bodega vector waveform
+Anthony approved rebuilding the blurry seal as crisp SVG and animating actual waveform peaks, in black/white. Base b6cbacb, branch codex/bodega-vector-wave. Deterministically trace original lettering; clean geometric ring/cup; retain stable routes and gameplay. Standing scoped merge authorization applies; no post-merge tests.
+
+
+## 2026-09-25 OUT — Bodega vector waveform
+Replaced the raster seal/colored overlay with crisp inline SVG. Traced original Bodega Cafe lettering, outlined legible Virginia Beach text, rebuilt clean circular border/cup. Native SVG polylines interpolate their actual peaks in a six-second left/right/rest rhythm with connected endpoints. Browser-native pause/resume handles visibility, offscreen state and reduced motion; accessible 44px pause control. No new application dependencies. Static artwork reviewed and scoped compilation/lint passed; required CI/build gates before authorized merge. No browser/device certification claimed and no post-merge tests.

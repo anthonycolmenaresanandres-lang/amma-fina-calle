@@ -519,3 +519,10 @@ Authority: Anthony approved all three planned changes and standing scoped merge 
 Scope: remove Bodega spill/negative award and related copy, keep20s/100 target and pace; remove seasonal item numbers and layout column; six-second left/cup/right logo pulse with rest, offscreen/hidden pause and reduced-motion static logo.
 
 Result: removed spill from Bodega skin, set badChance0 and removed spill instructions/legend. Seasonal numbers and their grid column removed. Replaced bounce/expanding glow with a six-second left/cup/right/rest pulse on the original stationary seal, paused offscreen/hidden and disabled for reduced motion. TypeScript, scoped lint and whitespace checks passed; required CI/build gates apply before authorized merge. No post-merge tests.
+
+
+## [x] 58 - Clean Bodega seal and animate its actual waveform
+Authority: Anthony approved the vector-cleanup plan and execution. Standing scoped merge authorization persists; no post-merge tests. Cloud workspace exception continues.
+Scope: source-traced black/white SVG lettering, clean ring and cup, actual connected waveform deformation on a six-second cycle, hidden/offscreen pause and reduced-motion static fallback. Preserve logo identity and existing menu/game content. Pre-merge scoped compilation and required CI/build gates.
+
+Result: rebuilt seal in inline SVG with source-traced Bodega lettering, clean outlined locality text, ring and cup. Native six-second polyline interpolation moves the real connected wave; no bitmap or per-frame React updates. Offscreen/document-hidden and reduced-motion handling plus accessible pause control. Static SVG reviewed; TypeScript and scoped ESLint passed. Required remote CI/build gates apply; no post-merge tests.
