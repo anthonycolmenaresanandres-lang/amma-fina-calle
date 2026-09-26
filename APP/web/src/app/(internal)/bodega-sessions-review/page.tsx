@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Bodega Fall Rush | Bodega Cafe",
-  description: "Five chapters of café catches and a cinematic collection finale while you wait at Bodega Cafe.",
+  description: "Five ten-second rounds of café catches, five finds, and a cinematic collection finale at Bodega Cafe.",
   robots: {
     index: false,
     follow: false,
@@ -25,13 +25,13 @@ export default function BodegaSessionsReviewPage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
+        <a className={styles.skipLink} href="#fall-game">Skip to game</a>
         <nav className={styles.utilityRow} aria-label="Bodega navigation">
           <Link className={styles.identity} href="/demo/bodega"><Image src="/assets/bodega/review/bodega-round-seal-review.webp" width={38} height={38} alt="Bodega Cafe" /></Link>
-          <Link href="/demo/bodega">Menu</Link>
+          <Link href="/demo/bodega" prefetch={false}>← Back to menu</Link>
         </nav>
         <BodegaSessionsClient />
 
-        <p className={styles.evidenceNote}>Practice is always free · Prize availability is shown before play.</p>
       </div>
     </main>
   );

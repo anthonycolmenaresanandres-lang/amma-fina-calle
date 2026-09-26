@@ -1,7 +1,7 @@
 import { CAFERUSH_LEVELS } from "../caferush/config";
 import type { CafeRushCatch, CafeRushLevel, CafeRushSpawn } from "../caferush/types";
 
-export const BODEGA_ROUND_VERSION = 2;
+export const BODEGA_ROUND_VERSION = 3;
 export const BODEGA_ITEM_SCALE = 1.75;
 export const BODEGA_ITEM_RADIUS = 0.075 * BODEGA_ITEM_SCALE;
 export const BODEGA_POINTS: Record<string, number> = {
@@ -10,15 +10,15 @@ export const BODEGA_POINTS: Record<string, number> = {
 export const MUFFIN_TERMS = "One free muffin per person for this promotion. In-store redemption only. Expires after one use or at the end of the day earned (Virginia Beach time), whichever comes first.";
 
 export const BODEGA_CHAPTERS = [
-  { id: "cafecito", title: "Cafecito", keepsake: "Spanish latte", required: "spanish", durationSec: 75, targetScore: 80, spawnEveryMs: 900, spawnMinMs: 800, fallSpeed: [0.5, 0.7] as [number, number], hazardPeriod: 0, pool: ["spanish", "green"] },
-  { id: "morning-rush", title: "Morning Rush", keepsake: "Green café drink", required: "green", durationSec: 105, targetScore: 130, spawnEveryMs: 760, spawnMinMs: 650, fallSpeed: [0.58, 0.8] as [number, number], hazardPeriod: 12, pool: ["spanish", "green", "bites"] },
-  { id: "bakery-break", title: "Bakery Break", keepsake: "Cereal bites", required: "bites", durationSec: 120, targetScore: 180, spawnEveryMs: 700, spawnMinMs: 570, fallSpeed: [0.65, 0.9] as [number, number], hazardPeriod: 9, pool: ["spanish", "green", "bites"] },
-  { id: "vinyl-sessions", title: "Vinyl Sessions", keepsake: "Vinyl record", required: "vinyl", durationSec: 135, targetScore: 230, spawnEveryMs: 640, spawnMinMs: 510, fallSpeed: [0.72, 1] as [number, number], hazardPeriod: 7, pool: ["spanish", "green", "bites", "vinyl"] },
-  { id: "last-order", title: "The Last Order", keepsake: "Golden muffin", required: "muffin", durationSec: 165, targetScore: 300, spawnEveryMs: 570, spawnMinMs: 450, fallSpeed: [0.8, 1.1] as [number, number], hazardPeriod: 5, pool: ["spanish", "green", "bites", "vinyl", "muffin"] },
+  { id: "cafecito", title: "Cafecito", keepsake: "Spanish latte", required: "spanish", durationSec: 10, targetScore: 60, spawnEveryMs: 650, spawnMinMs: 610, fallSpeed: [0.85, 1.05] as [number, number], hazardPeriod: 0, pool: ["spanish", "green"] },
+  { id: "morning-rush", title: "Morning Rush", keepsake: "Green café drink", required: "green", durationSec: 10, targetScore: 80, spawnEveryMs: 560, spawnMinMs: 520, fallSpeed: [1, 1.2] as [number, number], hazardPeriod: 12, pool: ["spanish", "green", "bites"] },
+  { id: "bakery-break", title: "Bakery Break", keepsake: "Cereal bites", required: "bites", durationSec: 10, targetScore: 100, spawnEveryMs: 480, spawnMinMs: 440, fallSpeed: [1.15, 1.4] as [number, number], hazardPeriod: 9, pool: ["spanish", "green", "bites"] },
+  { id: "vinyl-sessions", title: "Vinyl Sessions", keepsake: "Vinyl record", required: "vinyl", durationSec: 10, targetScore: 120, spawnEveryMs: 420, spawnMinMs: 380, fallSpeed: [1.3, 1.6] as [number, number], hazardPeriod: 7, pool: ["spanish", "green", "bites", "vinyl"] },
+  { id: "last-order", title: "The Last Order", keepsake: "Golden muffin", required: "muffin", durationSec: 10, targetScore: 150, spawnEveryMs: 360, spawnMinMs: 320, fallSpeed: [1.45, 1.8] as [number, number], hazardPeriod: 5, pool: ["spanish", "green", "bites", "vinyl", "muffin"] },
 ] as const;
 
 export const BODEGA_CAMPAIGN_MS = BODEGA_CHAPTERS.reduce((sum, chapter) => sum + chapter.durationSec * 1000, 0);
-export const BODEGA_SESSION_MAX_MS = 45 * 60 * 1000;
+export const BODEGA_SESSION_MAX_MS = 10 * 60 * 1000;
 export type BodegaRun = { chapterIndex: number; events: CafeRushCatch[] };
 
 export const BODEGA_LEVELS: CafeRushLevel[] = BODEGA_CHAPTERS.map((chapter, chapterIndex) => ({
@@ -43,10 +43,11 @@ export function makeBodegaRound(seed: number, chapterIndex: number): CafeRushSpa
   const rules = BODEGA_LEVELS[chapterIndex].rules;
   const result: CafeRushSpawn[] = [];
   const hazardOffset = chapter.hazardPeriod ? Math.floor(random() * chapter.hazardPeriod) : -1;
-  let atMs = 0;
+  let atMs = 250;
+  const finalFlightMs = Math.ceil((1 + BODEGA_ITEM_RADIUS) / rules.fallSpeed[0] * 1000);
   for (let id = 0; ; id += 1) {
-    atMs += Math.max(rules.spawnMinMs, rules.spawnEveryMs - id * rules.spawnRampMs);
-    if (atMs > chapter.durationSec * 1000 - 2600) break;
+    if (id > 0) atMs += Math.max(rules.spawnMinMs, rules.spawnEveryMs - id * rules.spawnRampMs);
+    if (atMs > chapter.durationSec * 1000 - finalFlightMs) break;
     const required = id % 7 === 2;
     const hazard = !required && chapter.hazardPeriod > 0 && id % chapter.hazardPeriod === hazardOffset;
     const itemId = required ? chapter.required : hazard ? "spill" : chapter.pool[Math.floor(random() * chapter.pool.length)];
