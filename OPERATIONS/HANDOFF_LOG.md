@@ -2766,6 +2766,22 @@ Base6bbe2a8, branch codex/bodega-articulated-signature. Implement approved foote
 ## 2026-09-25 OUT — articulated Fina Calle signature
 Added Bodega-only FinaCalleSignature with source-preserving SVG clip layers, staggered3.6s arm/elbow/jaw choreography and fixed protected lettering/QR. Native SVG interpolation, one-shot visibility trigger, offscreen/document-hidden pause, image-load gating, static original at completion/reduced-motion/unsupported APIs/no-JS, cleanup of observers/listeners. Existing source unchanged; signature184px. TypeScript, scoped ESLint, timeline and diff checks passed. Required remote CI/build gates before explicit merge. Browser/device playback not certified; no post-merge tests.
 
+
+## 2026-09-25 IN — Claude (cloud) — CDPR / Stringman tech research
+Anthony shared an Instagram reel (neufangled: "Why CDPRs are the best robot for household work") and asked to research the tech and incorporate it into our projects. Branch claude/tech-research-integration-s66gw7 (all six repos; only amma-fina-calle expected to change). Base acb8c72.
+DID so far: identified product = Stringman by Neufangled Robotics (Nathaniel Nifong); read primary source github.com/nhnifong/cranebot3-firmware @48123d3 (nf_robot v6.9.1, Apache-2.0) incl. simulator, swing-cancellation math, protos, safety limits. neufangled.com, hackaday, heise, ui44, gagadget are egress-blocked in this container — press facts taken from search summaries only and marked unverified.
+Scope held: research + integration plan first; no purchases, no client sends, no production merge. Integration direction pending Anthony's choice.
+PROGRESS (Claude): Anthony chose "The game however we will be using the players to train the technology" -> queue 67 (first logged as 65; renumbered after main added its own 65). Engine built (APP/web/src/grua: profile/physics/round/recorder/bot). 14/14 node tests pass; scripted pilot clears 200/200 seeds. Stringman MuJoCo replay (tools/grua): tracking RMS 4.5 mm (PASS); pre-registered tension criterion FAILED (median 51-56%) — diagnosed as floor contact at grab bottom (74-76% gap there; 5-6% cruising, 9-11% moving); settled static tension matches the model within 1% at 10 poses; Stringman passive_safety EMA would trip 0 times. Recorder now flags sim_floor_contact rather than inventing floor physics. Next: Phaser renderer + internal /grua-lab page.
+OUT 2026-09-25 — Claude (cloud) — CDPR / Stringman → Grúa (queue 67)
+BUILT: internal noindex /grua-lab crane game on Stringman physics, with opt-in on-device training recorder (Stringman LeRobot field names). Added Command Center link, CI step `npm run grua:test`, research brief `RESEARCH_AND_DEVELOPMENT/cdpr/CDPR_STRINGMAN_BRIEF.md`, spec `GAME_LIBRARY/GRUA_CABLE_CRANE.md`, and replay tool `tools/grua/`.
+VERIFIED:
+- 14/14 engine tests; 200/200 seeds completable.
+- MuJoCo replay tracking 4.5 mm RMS (PASS). Pre-registered tension criterion FAILED (floor-contact confound; see spec). Static poses agree within 1%; 0 passive_safety trips.
+- 28/28 production-build browser checks (390/1440 px, reduced motion); lint, types and build clean.
+NOT VERIFIED: real phones or iOS Safari, human playability, hardware behaviour, finger-sign convention (inferred from firmware).
+UNTOUCHED: the other five repos (no fit, or parked — see brief §3); Client OS routes; Supabase; payments; secrets; stable QR URLs.
+FLAGGED FOR ANTHONY: upload/consent/storage/minors policy; public release; any dataset sharing with Neufangled or Hugging Face; any hardware purchase. Draft PR only — no merge.
+
 ## 2026-09-26 IN — Bodega five-chapter campaign
 Anthony requested execution of the five-level, ten-minute Bodega game and cinematic muffin finale, then clarified that muffin rewards must stay off until he chooses a daily cap. Isolated branch codex/bodega-five-levels-20260926 from origin/main acb8c72. Port prior unreleased reward work without touching its worktree; preserve live owner portal and other tenants.
 
@@ -2787,6 +2803,9 @@ Anthony requested execution of the reviewed Bad Vibes plan: an original X above 
 
 Generated and optimized an original painted X above BAD VIBES sprite, used it for every Bodega negative spawn, and retained a primitive X fallback when optional art cannot load. The shared Café Rush engine gained an optional instant-loss rule used only by Bodega. A bad catch stops scoring and the round immediately; the server verifier rejects any hazard catch. Missing a required find or score goal also clears all saved finds and resets the next attempt to round one. The landing explains the catch, avoid and restart rules before Play without dash wording; the menu teaser matches. Added v4 saved progress and an additive prepared reward session migration. Deterministic/PGlite tests, targeted ESLint, TypeScript and production build passed. Desktop and 390px browser checks covered first-screen Play, success into round two, timeout reset, Bad Vibes touch reset and cleared progress after reload. Reward activation, database migration, production merge and deployment remain pending review; daily cap stays zero.
 
+## 2026-09-26 — Claude (cloud) — PR #259 check-in
+The PR was out of date after main gained #261 and #262. Merged origin/main into claude/tech-research-integration-s66gw7 (5bb2173). The only conflict was this log, where both sides appended; both kept in chronological order. After the merge: lint 0 errors, grua:test 14/14, TypeScript, owner self-tests, bodega-rewards self-tests and production build all pass.
+Renumbered the Grúa queue item from 65 to 67 because main's queue now uses 64–66 for Bodega. References updated in the queue, spec and brief. No behaviour change. Still a draft awaiting Anthony; no merge.
 
 ## 2026-09-26 IN — Bodega muffin meter and loss copy
 
@@ -2804,6 +2823,9 @@ Anthony requested that exiting discard won rounds and restart from round one, wi
 
 Removed local campaign saves, resume actions and old saved-state copy; cleared legacy keys and reset pages restored from browser history. Leaving after winning a round and reentering starts at round one with a 0% muffin meter. All five chapter fall-speed ranges increased 20%. Bumped deterministic round version to 5 with an unapplied additive SQL migration for future claim verification. Targeted ESLint, deterministic and PGlite self-tests, production build and browser round-win/leave/reenter checks passed. Rewards remain off and daily cap zero. Review PR is the production release gate.
 
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (12:23 UTC)
+The PR was out of date again after main gained #263 and #264. Merged origin/main (b1fd179) into claude/tech-research-integration-s66gw7. The only conflict was this log, where both sides appended; both kept in chronological order. Renumbered the Grúa queue item from 67 to 69 because main's queue now uses 67 and 68 for Bodega; references updated in the queue, spec and brief. No behaviour change. Still a draft awaiting Anthony; no merge.
+
 ## 2026-09-26 IN — Bodega Vibra and prominent menu return
 
 Anthony approved the plan and requested execution plus merge after completion. Branch codex/bodega-vibra-menu-20260926 from production main b1fd179. Rename menu/game presentation to Bodega Vibra, redesign its actions, and make the menu return prominent in every game state. Preserve menu content, game rules, reward-off state and unapplied reward migration.
@@ -2811,3 +2833,6 @@ Anthony approved the plan and requested execution plus merge after completion. B
 ## 2026-09-26 OUT — Bodega Vibra and prominent menu return
 
 Renamed game entry points and presentation to Bodega Vibra, with “Es que no entienden la vibra” on the menu. Replaced the floating and inline entry actions with a reusable black rectangular rhythm treatment using waveform bars, clear type, arrow, offset shadow and press feedback. The landing Play action carries the same visual signature. Replaced every small menu return with a large black “Bodega Menu” control, including gameplay, loss, chapter transition and victory. Targeted ESLint and production build passed. Browser review at 1280px and 390px covered the menu, landing, live game and loss state with no overflow or console errors. Reward activation and reward migration remain untouched.
+
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (13:27 UTC)
+Main gained #265, which again appended to this log and took queue number 69 for Bodega Vibra. Merged origin/main (8518155); both log sides kept in order. Codex numbers new items from main, where Grúa does not exist until the PR merges, so each "next free" number collided within the hour (65, 67, 69). Moved Grúa to 100, outside Codex's near-term range, in the queue, spec and brief. Label only; Anthony can pick another. No behaviour change. Still a draft awaiting Anthony; no merge.

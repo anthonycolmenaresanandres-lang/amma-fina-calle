@@ -1,5 +1,28 @@
 # Codex Queue — canonical live queue
 
+## [ ] 100 - Grúa cable-crane game that doubles as robot-training data (R&D, internal)
+
+**State:** IMPLEMENTED - DRAFT PR, AWAITING ANTHONY (no merge authorized).
+**Authority:** Anthony shared the Neufangled "Why CDPRs are the best robot for household work" reel on 2026-09-25, asked to research the tech and incorporate it, then chose "The game however we will be using the players to train the technology". Scoped to a draft PR. **No merge, no production, no public link** without a separate approval.
+**Source of truth:** Stringman (Neufangled Robotics, Apache-2.0) github.com/nhnifong/cranebot3-firmware @48123d3, nf_robot v6.9.1. Physics constants, units, and LeRobot field names are copied from that source and cited in the spec. No Neufangled branding, logos or product images.
+**Scope:** `APP/web/src/grua/` (pure engine + recorder + Phaser scene), internal noindex route `APP/web/src/app/(internal)/grua-lab/`, command-center link, `GAME_LIBRARY/GRUA_CABLE_CRANE.md`, `RESEARCH_AND_DEVELOPMENT/cdpr/`, `tools/grua/` sim-replay check. Primitive art only; Fina Calle default skin; no client skin.
+**Data guardrails:** Recording is opt-in and off by default, stays on the device, and exports only on the player's own download. It stores no name, account, photo, location, device ID or IP. Any server upload, storage backend (Supabase/Vercel), consent/privacy copy, minors policy, or sharing data with Neufangled or Hugging Face is **Anthony-gated**.
+**PASS:** engine self-tests pass (kinematics round-trip, tension, pendulum period, grasp rule, determinism, schema); exported episodes replay in Stringman's MuJoCo model within tolerance; scoped ESLint, TypeScript and Next production build pass; browser check at 390 and 1440 px shows no console errors, consent defaults off, and a valid export; web-design-guidelines audit is done; draft PR checks are green.
+**STOP:** Any need for secrets, a database, analytics changes, public routing, client branding, a purchase, or an external send.
+**Result:**
+- 14/14 engine tests (now in CI as `npm run grua:test`). Scripted pilot clears 200/200 seeds.
+- Stringman MuJoCo replay tracking RMS 4.5–4.7 mm (PASS).
+- Pre-registered tension criterion FAILED (median gap 51–56%). Cause: floor contact at grab bottoms. The gap is 5–6% cruising, 9–11% moving, and within 1% at 10 settled static poses; Stringman's passive_safety would trip 0 times. Frames at the floor are now flagged `sim_floor_contact`; the threshold was not changed.
+- A browser-downloaded run passes the replay.
+- ESLint, TypeScript and production build clean. 28/28 Playwright checks at 390/1440 px plus reduced motion. Guidelines audit applied.
+- Details: `GAME_LIBRARY/GRUA_CABLE_CRANE.md`, `RESEARCH_AND_DEVELOPMENT/cdpr/CDPR_STRINGMAN_BRIEF.md`.
+**Next (gated unless noted):**
+1. Anthony approves consent wording, storage and minors policy before any upload endpoint.
+2. LeRobot converter (Codex, ungated).
+3. MuJoCo camera rendering along player paths (ungated, compute).
+4. Human phone playtest (Anthony).
+5. Client skins (client approval).
+
 ## [ ] 64 - Release Bodega public owner desk only
 
 Authority: Anthony requested "merge owner portal I want to see it live" on 2026-09-25. Scoped push/PR/merge and normal production deployment authorized.

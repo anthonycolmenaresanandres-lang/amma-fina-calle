@@ -11,3 +11,7 @@ _local_secrets/
 CLONE_CONTROL/
 .DS_Store
 .vercel
+
+# Python bytecode
+__pycache__/
+*.pyc
