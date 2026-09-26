@@ -12,6 +12,7 @@ try {
   await db.exec("create function public.is_owner_email(text) returns boolean language sql as $$ select coalesce(current_setting('test.restaurant', true), '') = $1 $$; grant usage on schema auth to authenticated; grant execute on all functions in schema auth to authenticated;");
   await db.exec(await readFile(new URL("../supabase/migrations/0015_bodega_muffin_rewards.sql", import.meta.url), "utf8"));
   await db.exec(await readFile(new URL("../supabase/migrations/0016_bodega_one_minute_campaign.sql", import.meta.url), "utf8"));
+  await db.exec(await readFile(new URL("../supabase/migrations/0017_bodega_bad_vibes_round_version.sql", import.meta.url), "utf8"));
   const start = (guest, secret) => rpc("select public.bodega_start_round($1,$2,123) result", [h(guest), h(secret)]);
   const finish = (secret, token, score) => rpc("select public.bodega_finish_round($1,$2,$3) result", [h(secret), h(token), score]);
   assert.equal((await start(1, 101)).status, "closed");
@@ -20,6 +21,7 @@ try {
   const nearMidnight = (await db.query("select ((date_trunc('day', now() at time zone 'America/New_York') + interval '1 day') at time zone 'America/New_York') - now() < interval '2 minutes' as closing")).rows[0].closing;
   if (nearMidnight) throw new Error("Run this clock-dependent integration test outside the last two minutes of the New York day.");
   assert.equal((await start(1, 101)).status, "started");
+  assert.equal((await db.query("select version from public.bodega_reward_sessions where secret_hash = $1", [h(101)])).rows[0].version, 4);
   assert.equal((await start(1, 102)).status, "wait");
   assert.equal((await finish(101, 201, 520)).status, "invalid", "Cannot finish early");
   assert.equal((await start(2, 102)).status, "started");
