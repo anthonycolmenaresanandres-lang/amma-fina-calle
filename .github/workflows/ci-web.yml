@@ -41,4 +41,8 @@ jobs:
           npm run owner-app:selftest
       - name: Grúa crane engine (physics, rules, recorder)
         run: npm run grua:test
+      - name: Bodega launch and Square cleanup regressions
+        run: |
+          npm run bodega-launch:selftest
+          node scripts/square-cleanup-db-selftest.mjs
       - run: npm run build

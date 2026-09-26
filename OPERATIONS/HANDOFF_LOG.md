@@ -2,6 +2,10 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+## 2026-09-26 OUT — Bodega guest notes, launch kit and Square foundation
+
+Branch codex/bodega-launch-guest-notes-square-20260926 is ready for review. It adds the menu guest-note footer routed through the existing Fina Calle intake, prepared inactive five-per-day/seven-day reward controls and official terms, seven feed plus three Story PNGs with deterministic manifest and posting guide, and a protected read-only Square catalog mirror/webhook/owner-insights foundation. No Bodega recipient, Square secret, migration application, reward activation, social publish, merge or deployment occurred. Targeted ESLint, both reward/launch self-tests, endpoint failure-state check, production webpack build and browser visual/accessibility review pass. Social exports were visually inspected and packaged for Anthony.
+
 ## 2026-09-25 IN — Bodega owner portal scoped release
 Anthony explicitly requested merge/live for the owner portal. New branch codex/bodega-owner-live-20260925 from main9f176c3 contains only the public desk and QR download, preserving the reviewed Bodega typography/palette/layout and existing game/menu. Reward backend, migration, harder gameplay and staff redemption remain in the original local worktree. No secrets or grants. Verify exact-head checks and production after authorized PR merge.
 
@@ -2836,3 +2840,12 @@ Renamed game entry points and presentation to Bodega Vibra, with “Es que no en
 
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in (13:27 UTC)
 Main gained #265, which again appended to this log and took queue number 69 for Bodega Vibra. Merged origin/main (8518155); both log sides kept in order. Codex numbers new items from main, where Grúa does not exist until the PR merges, so each "next free" number collided within the hour (65, 67, 69). Moved Grúa to 100, outside Codex's near-term range, in the queue, spec and brief. Label only; Anthony can pick another. No behaviour change. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-26 IN — Bodega launch guest notes, reward window and Square foundation
+
+Anthony requested implementation of the approved launch plan. Branch codex/bodega-launch-guest-notes-square-20260926 starts from production origin/main 8518155. Add Bodega guest notes with Fina Calle-only delivery, prepare but do not activate a five-per-day seven-day promotion, create exact-size carousel/Story exports, and build a disconnected read-only Square catalog/owner-insights foundation. No Bodega email, secret handling, database application, reward activation, social publish, production merge or deployment.
+
+Design lock: guests see an open editorial note form inside the existing monochrome Bodega menu, with full input outlines and the animated Fina Calle signature retained. Launch graphics use the same black/white rhythm language, warm muffin orange and restrained green accent; exact copy is composed deterministically. The memorable device is a five-segment muffin progress/rhythm line carried from game to social campaign.
+
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (21:42 UTC)
+Main gained #266 (Bodega launch foundation and Square connector). Merged origin/main (860a5c8). Three append-style conflicts, all resolved by keeping both sides: the web CI workflow (Grúa engine step and the new Bodega launch/Square cleanup step both run), the queue (Grúa 100 and Bodega 70 both at the top), and this log (chronological). No queue-number collision with 100. No Grúa code change. Still a draft awaiting Anthony; no merge.
