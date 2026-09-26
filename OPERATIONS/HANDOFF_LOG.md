@@ -2825,3 +2825,14 @@ Removed local campaign saves, resume actions and old saved-state copy; cleared l
 
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in (12:23 UTC)
 The PR was out of date again after main gained #263 and #264. Merged origin/main (b1fd179) into claude/tech-research-integration-s66gw7. The only conflict was this log, where both sides appended; both kept in chronological order. Renumbered the Grúa queue item from 67 to 69 because main's queue now uses 67 and 68 for Bodega; references updated in the queue, spec and brief. No behaviour change. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-26 IN — Bodega Vibra and prominent menu return
+
+Anthony approved the plan and requested execution plus merge after completion. Branch codex/bodega-vibra-menu-20260926 from production main b1fd179. Rename menu/game presentation to Bodega Vibra, redesign its actions, and make the menu return prominent in every game state. Preserve menu content, game rules, reward-off state and unapplied reward migration.
+
+## 2026-09-26 OUT — Bodega Vibra and prominent menu return
+
+Renamed game entry points and presentation to Bodega Vibra, with “Es que no entienden la vibra” on the menu. Replaced the floating and inline entry actions with a reusable black rectangular rhythm treatment using waveform bars, clear type, arrow, offset shadow and press feedback. The landing Play action carries the same visual signature. Replaced every small menu return with a large black “Bodega Menu” control, including gameplay, loss, chapter transition and victory. Targeted ESLint and production build passed. Browser review at 1280px and 390px covered the menu, landing, live game and loss state with no overflow or console errors. Reward activation and reward migration remain untouched.
+
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (13:27 UTC)
+Main gained #265, which again appended to this log and took queue number 69 for Bodega Vibra. Merged origin/main (8518155); both log sides kept in order. Codex numbers new items from main, where Grúa does not exist until the PR merges, so each "next free" number collided within the hour (65, 67, 69). Moved Grúa to 100, outside Codex's near-term range, in the queue, spec and brief. Label only; Anthony can pick another. No behaviour change. Still a draft awaiting Anthony; no merge.
