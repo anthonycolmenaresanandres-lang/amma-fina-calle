@@ -42,13 +42,26 @@
 .rulesList li { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .rulesList strong { font-size: 12px; line-height: 1.25; }
 .rulesList span { color: var(--muted); font-size: 11px; line-height: 1.35; }
-.landing .collectionStrip { width: min(100%, 430px); margin: 4px 0; }
-.collectionStrip { display: flex; align-items: end; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.collectionStrip li { min-width: 0; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 0 6px; border-bottom: 2px solid transparent; }
-.collectionStrip img { width: 52px; height: 52px; max-width: 100%; object-fit: contain; }
-.collectionStrip li span:not(.srOnly) { font-size: 10px; font-weight: 650; }
-.collectionStrip li[data-collected="false"]:not([data-current="true"]) { opacity: .28; }
-.collectionStrip li[data-current="true"] { border-bottom-color: var(--ink); }
+.muffinMeter { width: min(100%, 390px); display: flex; align-items: center; gap: 14px; margin: 4px auto; padding: 6px 0; text-align: left; }
+.muffinMeterArt { position: relative; width: 68px; height: 68px; flex: none; }
+.muffinMeterArt img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.muffinMeterGhost { filter: grayscale(1); opacity: .18; }
+.muffinMeterFill { clip-path: inset(var(--meter-to) 0 0); }
+.muffinMeter[data-reset="true"] .muffinMeterFill { animation: muffin-reset .55s ease-out both; }
+.muffinMeterDetail { flex: 1; min-width: 0; }
+.muffinMeterHeading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.muffinMeterHeading span, .muffinMeterDetail small { font: 700 10px/1.3 var(--font-geist-mono), monospace; letter-spacing: .1em; }
+.muffinMeterHeading strong { font-size: 27px; font-weight: 850; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.06em; }
+.muffinMeterSteps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 7px 0 5px; }
+.muffinMeterSteps span { height: 5px; background: #dedbd7; }
+.muffinMeterSteps span[data-filled="true"] { background: var(--ink); }
+.muffinMeterDetail small { display: block; color: var(--muted); font-size: 9px; }
+.muffinMeterCompact { width: min(100%, 340px); gap: 9px; margin: 0 auto 5px; padding: 1px 0; }
+.muffinMeterCompact .muffinMeterArt { width: 47px; height: 47px; }
+.muffinMeterCompact .muffinMeterHeading strong { font-size: 21px; }
+.muffinMeterCompact .muffinMeterSteps { margin: 4px 0 3px; }
+.muffinMeterCompact .muffinMeterSteps span { height: 4px; }
+@keyframes muffin-reset { from { clip-path: inset(var(--meter-from) 0 0); } to { clip-path: inset(var(--meter-to) 0 0); } }
 .progressNote { margin: 2px 0 0; font-size: 13px; font-weight: 650; }
 .playButton, .primary { width: min(100%, 420px); min-height: 62px; display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; border: 2px solid var(--ink); background: var(--ink); color: #fff; font-size: 17px; font-weight: 780; letter-spacing: .025em; text-align: center; text-decoration: none; }
 .playButton:hover, .primary:hover { background: #333; }
@@ -69,9 +82,7 @@
 .chapterHeading span { font: 700 10px var(--font-geist-mono), monospace; letter-spacing: .13em; }
 .chapterHeading strong { font-size: clamp(28px, 6vw, 40px); font-weight: 800; line-height: 1; letter-spacing: -.055em; text-transform: uppercase; }
 .chapterHeading small { color: var(--muted); font-size: 12px; line-height: 1.3; }
-.catchLayout .collectionStrip { max-width: 360px; margin: 0 auto 6px; width: 100%; }
-.catchLayout .collectionStrip li { padding: 0 0 4px; }
-.catchLayout .collectionStrip img { width: 35px; height: 35px; }
+.catchLayout .muffinMeter { width: min(100%, 350px); }
 .hud { display: flex; align-items: end; gap: 14px; padding: 6px 0 9px; border-top: 1px solid var(--line); }
 .scoreReadout { display: flex; flex-direction: column; gap: 2px; min-width: 100px; }
 .scoreReadout span, .timerReadout span { font: 700 10px var(--font-geist-mono), monospace; letter-spacing: .1em; }
@@ -94,6 +105,7 @@
 
 .loss { min-height: min(620px, 78svh); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 30px 10px; text-align: center; }
 .loss > img { width: min(43vw, 176px); height: auto; object-fit: contain; animation: loss-stamp .42s ease-out both; }
+.loss[data-reason="round"] > img { filter: grayscale(1); opacity: .58; }
 .loss > span { font: 700 11px var(--font-geist-mono), monospace; letter-spacing: .13em; }
 .loss h2 { max-width: 12ch; margin: 0; font-size: clamp(38px, 8vw, 60px); font-weight: 850; line-height: .94; letter-spacing: -.06em; }
 .loss p { max-width: 36ch; margin: 0 0 5px; color: var(--muted); font-size: 14px; line-height: 1.45; }
@@ -146,17 +158,19 @@
   .catchControls { padding-top: 4px; }
   .chapterHeading { padding-top: 7px; }
   .chapterHeading strong { font-size: 28px; }
-  .catchLayout .collectionStrip { margin-bottom: 2px; }
+  .catchLayout .muffinMeter { margin-bottom: 2px; }
   .hud { gap: 8px; }
   .scoreReadout { min-width: 92px; }
 }
 @media (max-width: 360px) {
   .backLink { font-size: 12px; }
   .pause { padding-inline: 8px; font-size: 11px; }
-  .collectionStrip { gap: 4px; }
+  .muffinMeterCompact .muffinMeterArt { width: 40px; height: 40px; }
 }
 @media (max-height: 500px) and (pointer: coarse) {
-  .game[data-playing="true"] .collectionStrip, .game[data-playing="true"] .catchLegend { display: none; }
+  .game[data-playing="true"] .catchLegend { display: none; }
+  .game[data-playing="true"] .muffinMeterCompact .muffinMeterArt { width: 34px; height: 34px; }
+  .game[data-playing="true"] .muffinMeterDetail small { display: none; }
   .game[data-playing="true"] .chapterHeading { padding-block: 3px; }
   .game[data-playing="true"] .chapterHeading strong { font-size: 20px; }
   .game[data-playing="true"] .chapterHeading small { display: none; }
@@ -164,5 +178,5 @@
   .game[data-playing="true"] .timerReadout strong { font-size: 26px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .victoryArt img, .loss > img { animation: none; }
+  .victoryArt img, .loss > img, .muffinMeterFill { animation: none !important; }
 }

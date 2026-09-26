@@ -2786,3 +2786,12 @@ Anthony requested execution of the reviewed Bad Vibes plan: an original X above 
 ## 2026-09-26 OUT — Bodega Bad Vibes and full restart
 
 Generated and optimized an original painted X above BAD VIBES sprite, used it for every Bodega negative spawn, and retained a primitive X fallback when optional art cannot load. The shared Café Rush engine gained an optional instant-loss rule used only by Bodega. A bad catch stops scoring and the round immediately; the server verifier rejects any hazard catch. Missing a required find or score goal also clears all saved finds and resets the next attempt to round one. The landing explains the catch, avoid and restart rules before Play without dash wording; the menu teaser matches. Added v4 saved progress and an additive prepared reward session migration. Deterministic/PGlite tests, targeted ESLint, TypeScript and production build passed. Desktop and 390px browser checks covered first-screen Play, success into round two, timeout reset, Bad Vibes touch reset and cleared progress after reload. Reward activation, database migration, production merge and deployment remain pending review; daily cap stays zero.
+
+
+## 2026-09-26 IN — Bodega muffin meter and loss copy
+
+Anthony explicitly requested executing and merging the approved muffin-progress and New York loss-screen plan. Started codex/bodega-muffin-meter-20260926 from production main e3ac98e. Preserve reward-off state and all game rules.
+
+## 2026-09-26 OUT — Bodega muffin meter and loss copy
+
+Replaced the five collectible icons with a muffin silhouette and five-step percentage meter. Each completed round contributes 20 percent; practice completion does not issue a claim. The meter is available throughout the campaign and resets after loss. Bad Vibes and missed goals have distinct New York-style copy and art, with “RUN IT BACK” returning to round one. Targeted ESLint, production build, desktop and phone browser checks passed. No reward activation or database migration.

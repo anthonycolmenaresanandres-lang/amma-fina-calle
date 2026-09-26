@@ -589,3 +589,11 @@ Authority: Anthony approved the plan for an illustrated Bad Vibes hazard, instan
 Base: origin/main d66046b; branch codex/bodega-bad-vibes-reset-20260926 in the isolated worktree.
 Scope: Replace the Bodega spill art and identifier with original generated Bad Vibes art and a primitive fallback, add Bodega only instant loss, clear collected rounds on failure, explain catch and avoid rules on the landing, update verifier and v4 save/session migration, verify phone and desktop, and open a review PR. Keep claims inactive and migration unapplied.
 Result: Original generated Bad Vibes X sprite optimized to a 75 KB transparent WebP, Bodega only immediate hazard loss with no point deduction, full collection reset after hazard or missed goal, rules before Play, updated menu copy, deterministic verifier rejection of hazard catches and an additive v4 session migration. Deterministic and PGlite reward tests, TypeScript, targeted ESLint, production build and desktop/mobile browser checks passed. Browser play confirmed first-round success, timed-out loss, Bad Vibes touch loss and no saved progress after reload. Primitive fallback retained. Rewards remain inactive with zero cap; migration unapplied. Review PR before production.
+
+
+## [x] 67 - Bodega muffin percentage meter and New York loss copy
+
+Authority: Anthony approved the five-step muffin-meter and New York loss-screen plan, then explicitly requested implementation and merge. Muffin claims remain off until he chooses a daily limit.
+Base: origin/main e3ac98e; branch codex/bodega-muffin-meter-20260926.
+Scope: Replace the five-find game tracker with a muffin image filling in 20 percent steps, retain separate per-round points, show meter on desktop and mobile, reset to zero after a loss, update transient and final loss copy, and keep practice results distinct from reward claims. No reward activation, migration or other venue changes.
+Result: The muffin meter appears on landing, play, chapter transition, loss and finale. Completed rounds alone advance it; a failed run returns it to zero. Bad Vibes uses “NAH, NOT TODAY.” and a timed or score miss uses “MISSED YOUR STOP.” Both offer “RUN IT BACK.” Timed misses show a faded muffin instead of the Bad Vibes X. Targeted ESLint, production build, desktop/mobile browser layout and round-loss checks passed. Prize claims remain inactive.

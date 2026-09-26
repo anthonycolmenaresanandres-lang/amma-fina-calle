@@ -12,6 +12,7 @@ import { BodegaCatchAudio } from "@/bodega-fall/audio";
 import { useMuffinRewards } from "@/bodega-fall/useMuffinRewards";
 import type { RewardCampaignSession } from "@/lib/bodega-rewards/contracts";
 import MuffinClaim from "./MuffinClaim";
+import MuffinMeter from "./MuffinMeter";
 import styles from "./page.module.css";
 
 const STORAGE_KEY = "bodega-fall-campaign-v4";
@@ -58,6 +59,7 @@ export default function BodegaSessionsClient() {
   const [muted, setMuted] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [lossReason, setLossReason] = useState<"bad-vibes" | "round">("round");
+  const [lossProgress, setLossProgress] = useState(0);
   const [hydrated, setHydrated] = useState(false);
   const mount = useRef<HTMLDivElement>(null);
   const game = useRef<Game | null>(null);
@@ -134,6 +136,7 @@ export default function BodegaSessionsClient() {
     if (view !== "playing" || !campaign || !status.over || chapterWon) return;
     window.localStorage.removeItem(STORAGE_KEY);
     setLossReason(badVibesCaught ? "bad-vibes" : "round");
+    setLossProgress(campaign.runs.length);
     setCampaign({ ...campaign, seed: campaign.mode === "practice" ? crypto.getRandomValues(new Uint32Array(1))[0] : campaign.seed, chapterIndex: 0, runs: [] });
     setView("loss");
   }, [view, campaign, status.over, chapterWon, badVibesCaught]);
@@ -286,9 +289,7 @@ export default function BodegaSessionsClient() {
         </button>
         <p className={styles.landingNote}>Leave and keep completed rounds. Lose and start at round one.</p>
         <p className={styles.offerRules} role="status">{startMessage || rewards.message || (rewards.checking ? "Checking prize availability…" : !rewards.enabled ? "Muffin claims are not active yet." : "Practice play does not issue a muffin claim.")}</p>
-        <ol className={styles.collectionStrip} aria-label="Five café finds">
-          {BODEGA_CHAPTERS.map((entry, index) => <li key={entry.id}><Image src={FIND_ART[index]} alt="" width={52} height={52} /><span>{["Latte", "Green", "Bites", "Vinyl", "Muffin"][index]}</span></li>)}
-        </ol>
+        <MuffinMeter completedRounds={campaign?.runs.length ?? 0} />
         {campaign?.mode === "prize" && !hasPrizeResume && !rewards.checking && !rewards.receipt && <p className={styles.offerRules}>Your previous prize session is unavailable. You can play for fun while the offer is checked.</p>}
       </div>}
       {view === "playing" && campaign && chapter && <div className={styles.catchLayout}>
@@ -298,9 +299,7 @@ export default function BodegaSessionsClient() {
           <button className={styles.pause} onClick={togglePause} disabled={loading || error || status.over}>{paused ? "Resume" : "Pause"}</button>
         </div>
         <div className={styles.chapterHeading}><span>ROUND {chapterIndex + 1} OF 5 · 10 SECONDS</span><strong>{chapter.title}</strong><small>Catch {chapter.keepsake} · reach {chapter.targetScore} points</small></div>
-        <ol className={styles.collectionStrip} aria-label="Collection progress">
-          {BODEGA_CHAPTERS.map((entry, index) => <li key={entry.id} data-collected={index < campaign.runs.length} data-current={index === chapterIndex}><Image src={FIND_ART[index]} alt="" width={52} height={52} /><span className={styles.srOnly}>{entry.keepsake} {index < campaign.runs.length ? "collected" : index === chapterIndex ? "current find" : "remaining"}</span></li>)}
-        </ol>
+        <MuffinMeter completedRounds={campaign.runs.length} compact />
         <div className={styles.hud} aria-label="Game progress and time">
           <div className={styles.scoreReadout}><span>{status.score >= status.target ? "GOAL COMPLETE" : "POINTS"}</span><strong>{displayScore}<small>/{status.target}</small></strong></div>
           <div className={styles.scoreTrack} role="progressbar" aria-label="Round points" aria-valuemin={0} aria-valuemax={status.target} aria-valuenow={displayScore}><span style={{ width: `${displayScore / status.target * 100}%` }} /></div>
@@ -313,8 +312,8 @@ export default function BodegaSessionsClient() {
             game.current?.scene.getScenes(true).forEach((scene) => (scene as import("@/caferush/CafeRushScene").CafeRushScene).handleKey(event.key));
           }} />
           {(loading || paused || error || status.over) && <div className={styles.catchOverlay} role="status">
-            <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : paused ? "Paused." : chapterWon ? "Find collected." : badVibesCaught ? "Bad Vibes got you." : "Round missed."}</h2>
-            {status.over && <p>{chapterWon ? `${chapter.keepsake} is in your collection. Next round starts now.` : `Catch ${chapter.keepsake} and reach ${chapter.targetScore} points.`}<br />{status.score} points</p>}
+            <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : paused ? "Paused." : chapterWon ? "Find collected." : badVibesCaught ? "Nah, not today." : "Missed your stop."}</h2>
+            {status.over && <p>{chapterWon ? `${chapter.keepsake} is in your collection. Next round starts now.` : badVibesCaught ? "Bad Vibes caught you. Back to the first stop." : "The rush got away. Back to the first stop."}<br />{status.score} points</p>}
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button>
               : paused ? <button className={styles.primary} onClick={togglePause}>Resume catching</button>
               : null}
@@ -323,12 +322,13 @@ export default function BodegaSessionsClient() {
         </div>
         <p className={styles.catchLegend}>Tap café finds · Avoid Bad Vibes</p>
       </div>}
-      {view === "loss" && campaign && <div className={styles.loss} role="status">
-        <Image src={BAD_VIBES_ART} alt="Bad Vibes painted X" width={176} height={176} />
-        <span>THE COLLECTION RESETS</span>
-        <h2>{lossReason === "bad-vibes" ? "BAD VIBES GOT YOU" : "ROUND MISSED"}</h2>
-        <p>{lossReason === "bad-vibes" ? "One touch ended this run." : "Catch the featured find and reach the points goal before time runs out."} All five finds are back in play.</p>
-        <button className={styles.playButton} onClick={() => beginStage(campaign)}>START FROM ROUND ONE</button>
+      {view === "loss" && campaign && <div className={styles.loss} data-reason={lossReason} role="status">
+        <Image src={lossReason === "bad-vibes" ? BAD_VIBES_ART : "/assets/bodega/fall/cinnamon-muffin.webp"} alt={lossReason === "bad-vibes" ? "Bad Vibes painted X" : "Faded Bodega muffin"} width={176} height={176} />
+        <span>MUFFIN METER RESET TO 0%</span>
+        <h2>{lossReason === "bad-vibes" ? "NAH, NOT TODAY." : "MISSED YOUR STOP."}</h2>
+        <p>{lossReason === "bad-vibes" ? "Bad Vibes caught you." : "The rush got away."} Back to the first stop.</p>
+        <MuffinMeter completedRounds={0} previousRounds={lossProgress} compact />
+        <button className={styles.playButton} onClick={() => beginStage(campaign)}>RUN IT BACK</button>
         <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
       </div>}
       {view === "chapter" && campaign && <div className={styles.chapterInterlude}>
@@ -336,6 +336,7 @@ export default function BodegaSessionsClient() {
         <span>FIND {campaign.runs.length} OF 5</span>
         <h2>{BODEGA_CHAPTERS[campaign.runs.length - 1]?.keepsake} collected.</h2>
         <p>Next: {BODEGA_CHAPTERS[campaign.chapterIndex]?.title}. Your completed rounds are saved.</p>
+        <MuffinMeter completedRounds={campaign.runs.length} compact />
         <button className={styles.playButton} onClick={() => beginStage(campaign)}>NEXT ROUND NOW</button>
         <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
       </div>}
@@ -345,6 +346,7 @@ export default function BodegaSessionsClient() {
           <span>FIVE FINDS · ONE FINAL RUSH</span>
           <h2>COLLECTION COMPLETE</h2>
           <p>You collected them all.</p>
+          <MuffinMeter completedRounds={5} compact />
           {campaign?.mode === "prize" ? rewards.receipt?.status === "valid" ? <strong>THE MUFFIN IS YOURS.</strong>
             : rewards.verifying ? <strong>Confirming your muffin…</strong>
             : rewards.receipt?.status === "redeemed" ? <strong>Your muffin has been redeemed.</strong>
