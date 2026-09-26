@@ -1,76 +1,39 @@
 # Fina Calle Square Connector
 
-## Purpose
+## Current scope
+Prepared, private, read-only catalog integration. Bodega owners authorize Fina Calle through Square OAuth; they do not share passwords or personal access tokens. Permissions: `ITEMS_READ` and `MERCHANT_PROFILE_READ`. No `ITEMS_WRITE`, sales, customer or payment permissions.
 
-Fina Calle connects to each restaurant through Square OAuth. Restaurant owners authorize the Fina Calle application in Square; they never send Fina Calle a password or personal access token.
+The public QR menu is NOT connected to this mirror. Syncing only updates the private insights view. A future publishing workflow must use approved stable product/variation IDs, an explicitly chosen location, environment isolation and a validated complete snapshot. Exact-name matching is not a safe publication contract. Removals, names, descriptions, categories and artwork require review. The current cleanup removes the earlier automatic name-based overlay.
 
-## Launch permissions
+## Configuration (manual, separate from this PR)
+Square Developer Console, separately for Sandbox and Production:
+- OAuth redirect: `https://finacalleos.com/api/integrations/square/callback`
+- Webhook: `https://finacalleos.com/api/integrations/square/webhook`
+- Events: `catalog.version.updated` and `oauth.authorization.revoked`
+- API version in the prepared configuration: `2026-09-16`; verify against the selected app before activation.
 
-- `ITEMS_READ`
-- `MERCHANT_PROFILE_READ`
+Server-only values: `SQUARE_ENVIRONMENT`, `SQUARE_APPLICATION_ID`, `SQUARE_APPLICATION_SECRET`, `SQUARE_WEBHOOK_SIGNATURE_KEY`, `SQUARE_WEBHOOK_URL`, `SQUARE_TOKEN_ENCRYPTION_KEY` (base64-encoded 32 bytes), `SQUARE_API_VERSION`, and `CRON_SECRET`. No real secret was added by this change. Start OAuth from the configured callback's origin so its state cookie returns to the same host. Production and Sandbox credentials/databases must not be mixed.
 
-`ITEMS_WRITE` is intentionally excluded. The launch connector is read-only in Square.
+## Storage and lifecycle
+Apply prepared migrations `0020`, `0021`, then `0022` in a controlled environment. Earlier migrations are not rewritten by the cleanup.
+- Access and refresh tokens are encrypted with AES-256-GCM.
+- Fresh OAuth authorization atomically replaces the connection and clears the previous catalog. Failed replacement rolls back both changes.
+- Disconnect/revocation cascades to the cached catalog in the same database transaction.
+- Catalog writes validate the connection generation and active sync lease; an old worker cannot repopulate a reconnected restaurant.
+- Catalog versions and successful checkpoints remain monotonic. The mirror is private; partially completed imports never alter the guest menu.
+- Webhook duplicates return success only for completed processing. In-flight/failed work remains retryable.
+- The prepared daily Vercel Cron refreshes tokens older than six days. It is not active until configured and deployed. Review failed refreshes; a stored connection is not proof that credentials remain valid.
 
-## Square Developer Console
+## Guest-note safeguards
+Notes persist without a restaurant id and therefore stay in Fina Calle's admin intake, outside tenant owner-read policies. The Bodega email recipient remains unconfigured by this task. Setting a confirmed notification address is separate from granting owner-portal visibility.
 
-Configure both Sandbox and Production separately.
+Intake uses a hashed, trusted Vercel client address, five requests per address per ten minutes and a global safety ceiling of 300 per ten minutes. A denied client does not consume the shared budget. Shared networks share a client bucket. The limiter fails closed on missing trusted identity or database failure; the form retains the guest's text. Stale client buckets are pruned in bounded batches after 24 hours. Non-Vercel production hosting requires a reviewed trusted-proxy adapter.
 
-- OAuth redirect URL: `https://finacalleos.com/api/integrations/square/callback`
-- Webhook URL: `https://finacalleos.com/api/integrations/square/webhook`
-- Webhook events: `catalog.version.updated` and `oauth.authorization.revoked`
-- API version: `2026-09-16`
+## Verification and activation boundary
+`npm run bodega-launch:selftest` runs source/asset and client-identity checks. `node scripts/square-cleanup-db-selftest.mjs` runs actual isolated PGlite migrations and behavior tests. Existing CI runs both, plus lint, owner/billing safeguards and the production build.
 
-Test the complete flow in Sandbox before changing `SQUARE_ENVIRONMENT` to `production`.
+Before activation: verify the exact-head CI and preview; test the complete OAuth flow, configured origin, selected merchant/location, cancellation, expiry, refresh, revoked credentials, webhook retries/pagination and multi-connection contention in staging. PGlite serializes one connection and does not certify production concurrency. For catalogs exceeding request budgets, use a durable background worker before activation rather than assuming an inline webhook can finish in time.
 
-## Vercel server-only values
+Only after those checks may an authorized owner connect the Production application. No migration, secret setup, Bodega authorization, reward activation, external send, merge, public-menu publication or production deployment is performed by this cleanup.
 
-- `SQUARE_ENVIRONMENT`
-- `SQUARE_APPLICATION_ID`
-- `SQUARE_APPLICATION_SECRET`
-- `SQUARE_WEBHOOK_SIGNATURE_KEY`
-- `SQUARE_WEBHOOK_URL`
-- `SQUARE_TOKEN_ENCRYPTION_KEY` — base64 32-byte key
-- `SQUARE_API_VERSION`
-- `CRON_SECRET`
-
-Never expose these through `NEXT_PUBLIC_*`, source control, owner forms, screenshots, or chat.
-
-## Runtime flow
-
-1. Authorized owner selects **Connect Square**.
-2. Fina Calle creates a CSRF state and sends the owner to Square OAuth.
-3. Square redirects to the callback with a one-time authorization code.
-4. Fina Calle exchanges the code server-side, encrypts the access and refresh tokens with AES-256-GCM, and stores them in Supabase.
-5. The first catalog sync imports `ITEM`, `CATEGORY`, and `MODIFIER_LIST` objects into the read-only mirror.
-6. Square `catalog.version.updated` webhooks trigger incremental syncs.
-7. A database lease serializes syncs per restaurant; catalog writes are version-monotonic and webhook event IDs are claimed atomically.
-8. Vercel Cron checks daily for OAuth tokens older than six days and refreshes them before Square's 30-day access-token expiry.
-
-## Menu publishing policy
-
-For the Bodega pilot, the designed Fina Calle menu remains the presentation layer.
-
-Automatic:
-- exact matched Square price changes
-- exact matched Square item removals
-
-Review first:
-- new items
-- renamed items
-- new or renamed categories
-- descriptions
-- images and artwork
-- layout
-
-This prevents Square from flattening the designed QR menu while still eliminating routine price maintenance.
-
-## Activation order
-
-1. Merge and deploy code with Square variables unset.
-2. Apply migration `0020_bodega_square_read_model.sql`.
-3. Create/configure the Fina Calle Square application in Sandbox.
-4. Add Sandbox values to Vercel and redeploy.
-5. Sign in as an authorized Bodega owner and use `/owner/bodega/insights` → **Connect Square**.
-6. Confirm first sync, price overlay, webhook redelivery behavior, and token refresh.
-7. Configure Production Square values and webhook subscription.
-8. Switch `SQUARE_ENVIRONMENT=production`, redeploy, and have Bodega authorize the production connection.
+Cleanup record: `OPERATIONS/SQUARE_CLEANUP_20260926.md` (Queue 70 / PR 266).

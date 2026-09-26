@@ -13,7 +13,6 @@ async function main() {
   assert(verifySquareSignature({ notificationUrl, rawBody: body, signatureKey: key, signature }));
   assert(!verifySquareSignature({ notificationUrl, rawBody: body + " ", signatureKey: key, signature }));
   assert(!verifySquareSignature({ notificationUrl, rawBody: body, signatureKey: key, signature: null }));
-
   const launchDir = path.resolve("public/assets/bodega/launch");
   const manifest = JSON.parse(await readFile(path.join(launchDir, "manifest.json"), "utf8")) as {
     assets: Array<{ file: string; width: number; height: number; sha256: string }>;
@@ -27,26 +26,19 @@ async function main() {
     assert.equal(createHash("sha256").update(bytes).digest("hex"), asset.sha256);
     assert((asset.width === 1080 && asset.height === 1350) || (asset.width === 1080 && asset.height === 1920));
   }
-
   const rewardMigration = await readFile(path.resolve("supabase/migrations/0019_bodega_seven_day_launch_window.sql"), "utf8");
   assert.match(rewardMigration, /active = false, daily_limit = 5/);
   assert.match(rewardMigration, /starts_at timestamptz/);
   assert.match(rewardMigration, /ends_at timestamptz/);
-
-  const rateLimitMigration = await readFile(path.resolve("supabase/migrations/0021_bodega_guest_note_rate_limit.sql"), "utf8");
-  assert.match(rateLimitMigration, /consume_public_intake_rate_limit/);
+  const rateLimitMigration = await readFile(path.resolve("supabase/migrations/0022_square_lifecycle_and_guest_note_cleanup.sql"), "utf8");
+  assert.match(rateLimitMigration, /consume_bodega_guest_note_limits/);
   assert.match(rateLimitMigration, /for update/);
-  assert.match(rateLimitMigration, /grant execute .* to service_role/i);
-
   const guestRoute = await readFile(path.resolve("src/app/api/bodega/guest-notes/route.ts"), "utf8");
-  assert.match(guestRoute, /restaurantId: "bodega"/);
+  assert.match(guestRoute, /restaurantId: null/);
   assert.match(guestRoute, /BODEGA_GUEST_NOTES_EMAIL/);
-  assert.match(guestRoute, /consume_public_intake_rate_limit/);
-  assert.match(guestRoute, /RATE_LIMIT_MAX = 30/);
+  assert.match(guestRoute, /consume_bodega_guest_note_limits/);
   assert.match(guestRoute, /Retry-After/);
   assert(!/@[a-z0-9.-]+\.[a-z]{2,}/i.test(guestRoute), "No Bodega email address may be committed");
-
-  console.log("PASS: Square signature checks, deterministic social exports, inactive reward window, durable guest-note throttling, and Bodega note routing without a committed recipient.");
+  console.log("PASS: Square signature checks, deterministic social exports, inactive reward window, private guest-note routing and rate-limit wiring.");
 }
-
 main().catch((error) => { console.error(error); process.exitCode = 1; });

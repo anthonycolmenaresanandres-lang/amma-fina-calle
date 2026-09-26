@@ -19,17 +19,20 @@ function when(value?: string) {
 function notice(status?: string) {
   switch (status) {
     case "connected": return "Square connected. The first read-only catalog sync completed.";
-    case "connected_sync_pending": return "Square connected. Another catalog sync is finishing; webhook delivery will catch up.";
+    case "connected_sync_pending": return "Square connected. A catalog sync is already running; check its status before retrying.";
     case "connected_sync_error": return "Square connected, but the first catalog sync needs attention.";
-    case "synced": return "Square catalog synced.";
+    case "synced": return "Square catalog synced to this private view. The guest menu is unchanged.";
     case "sync_busy": return "A Square sync is already running.";
-    case "disconnected": return "Square disconnected and its authorization was revoked.";
+    case "disconnected": return "The Square disconnect request completed. Its cached catalog is removed with the connection.";
     case "denied": return "Square authorization was cancelled.";
     case "config_missing": return "The Fina Calle Square application still needs its server-side credentials.";
     case "connect_error": return "Square could not be connected. No menu changes were published.";
-    case "sync_error": return "Square sync failed. The existing guest menu was left unchanged.";
-    case "disconnect_error": return "Square could not be safely disconnected. The existing connection was kept.";
+    case "sync_error": return "Square sync failed. The guest menu is unchanged.";
+    case "disconnect_error": return "The disconnect could not be confirmed. Check the connection before retrying.";
     case "state_error": return "Square authorization expired or failed its security check. Start the connection again.";
+    case "auth_required": return "Sign in with an authorized Bodega owner account before connecting Square.";
+    case "environment_error": return "The stored connection belongs to a different Square environment. Contact Fina Calle.";
+    case "not_connected": return "No configured Square connection was found for this environment.";
     default: return null;
   }
 }
@@ -53,37 +56,35 @@ export default async function BodegaSquareInsightsPage({ searchParams }: PagePro
     <header className={styles.hero}>
       <p>Bodega Cafe · Private owner view</p>
       <h1>Square<br />menu watch.</h1>
-      <strong data-connected={insight.connected}>{insight.connected ? `${insight.environment} connected` : "Not connected"}</strong>
+      <strong data-connected={insight.connected}>{insight.connected ? `${insight.environment} linked` : "Not connected"}</strong>
     </header>
-
     {statusNotice ? <p className={styles.notice} role="status">{statusNotice}</p> : null}
+    {insight.lastError ? <p role="alert" className={styles.error}>Square needs attention: {insight.lastError}</p> : null}
 
     {!insight.connected ? <section className={styles.setup}>
       <p>Read-only Square connection</p>
       <h2>Connect Bodega without sharing passwords or access tokens.</h2>
-      <p>Square stays the source of truth for matched prices and removals. New names, categories, descriptions and artwork remain review-only so the Fina Calle layout stays intact.</p>
+      <p>Catalog changes appear in this private view. Connecting or syncing does not publish prices, remove items or replace the guest menu.</p>
       {insight.appConfigured ? <div className={styles.actions}>
         <a className={styles.primaryAction} href="/api/integrations/square/connect?restaurant_id=bodega">Connect Square</a>
-      </div> : <ol><li>Create the Fina Calle Square application.</li><li>Add its server-only OAuth, webhook and encryption values in Vercel.</li><li>Return here and connect Bodega through Square’s authorization screen.</li></ol>}
+      </div> : <ol><li>Create the Fina Calle Square application.</li><li>Add its server-only OAuth, webhook and encryption values in Vercel.</li><li>Apply the prepared migrations, then connect through Square’s authorization screen.</li></ol>}
       <p className={styles.quiet}>Fina Calle requests ITEMS_READ and MERCHANT_PROFILE_READ only. It does not receive permission to edit Bodega’s Square catalog.</p>
     </section> : <>
       <section className={styles.metrics} aria-label="Square connection summary">
-        <div><span>Active items</span><strong>{insight.activeItems}</strong></div>
+        <div><span>Active catalog items</span><strong>{insight.activeItems}</strong></div>
         <div><span>Last catalog sync</span><strong>{when(insight.lastSyncedAt)}</strong></div>
         {insight.merchantName ? <div><span>Square merchant</span><strong>{insight.merchantName}</strong></div> : null}
       </section>
-      {insight.lastError ? <p role="alert" className={styles.error}>Last sync needs attention: {insight.lastError}</p> : null}
       <div className={styles.actions}>
         <form action="/api/integrations/square/sync" method="post"><input type="hidden" name="restaurant_id" value="bodega" /><button className={styles.primaryAction} type="submit">Sync now</button></form>
         <form action="/api/integrations/square/disconnect" method="post"><input type="hidden" name="restaurant_id" value="bodega" /><button className={styles.secondaryAction} type="submit">Disconnect Square</button></form>
       </div>
-      <section className={styles.changes} aria-labelledby="changes-heading"><header><p>Square catalog</p><h2 id="changes-heading">Recent menu changes.</h2></header>
+      <section className={styles.changes} aria-labelledby="changes-heading"><header><p>Private Square catalog</p><h2 id="changes-heading">Recent menu changes.</h2></header>
         {insight.recent.length ? <ul>{insight.recent.map((item) => <li key={item.id}>
-          <div><strong>{item.name}</strong><span>{item.type}{item.deleted ? " · Removed in Square" : ""}</span></div><time>{when(item.updatedAt)}</time>
+          <div><strong>{item.name}</strong><span>{item.type}{item.deleted ? " · Removed in Square only" : ""}</span></div><time>{when(item.updatedAt)}</time>
         </li>)}</ul> : <p>No Square catalog objects have been synced yet.</p>}
       </section>
     </>}
-
-    <section className={styles.guardrail}><h2>Automatic where safe. Review where creative.</h2><p>Exact matched prices and Square removals can flow into the QR menu automatically. New items, renamed products, categories, descriptions and visual presentation stay in review so Square never flattens Bodega’s designed menu.</p></section>
+    <section className={styles.guardrail}><h2>Review before publishing.</h2><p>The QR menu keeps its approved content and design. Automatic price updates require a separate, reviewed publishing workflow with confirmed product, size and location mappings. Removals, names, descriptions and artwork are not published from this screen.</p></section>
   </div></main>;
 }

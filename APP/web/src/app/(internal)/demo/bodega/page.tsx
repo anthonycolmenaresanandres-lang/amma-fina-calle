@@ -7,7 +7,6 @@ import { classicDrinks, classicExtras, espressoDrinks, formatMenuPrice, draftMen
 import { BodegaSignalLogo } from "./bodega-signal-logo";
 import { FinaCalleSignature } from "./fina-calle-signature";
 import { FallSessions } from "./fall-sessions";
-import { getSquareMenuOverlay, squareItemVisible, squarePrice } from "@/lib/square/menu-overlay";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -29,8 +28,7 @@ export const metadata: Metadata = {
 
 const shortDays: Record<string, string> = { "Monday - Friday": "Mon–Fri", Saturday: "Sat", Sunday: "Sun" };
 
-export default async function BodegaMenuReviewPage() {
-  const squareOverlay = await getSquareMenuOverlay("bodega");
+export default function BodegaMenuReviewPage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
@@ -50,12 +48,12 @@ export default async function BodegaMenuReviewPage() {
               <h2 id="bodega-classics-title">Bodega Classics</h2>
             </header>
             <ul className={styles.itemList}>
-              {espressoDrinks.filter((item) => squareItemVisible(squareOverlay, item.name)).map((item) => <li className={styles.item} key={item.name}>
+              {espressoDrinks.map((item) => <li className={styles.item} key={item.name}>
                 <div className={styles.priceRow}>
                   <h3 className={styles.itemName}>{item.name}</h3>
-                  <dl className={styles.espressoPrices}>{item.prices?.map((price) => <div key={price.label || "price"}>
+                  <dl className={styles.espressoPrices}>{item.prices?.map((price) => <div key={price.label}>
                     <dt className={price.label ? undefined : styles.srOnly}>{price.label || "Price"}</dt>
-                    <dd>{formatMenuPrice(squarePrice(squareOverlay, item.name, price.label, price.cents))}</dd>
+                    <dd>{formatMenuPrice(price.cents)}</dd>
                   </div>)}</dl>
                 </div>
               </li>)}
@@ -63,12 +61,9 @@ export default async function BodegaMenuReviewPage() {
             <table className={styles.priceTable}>
               <caption className={styles.srOnly}>Bodega Classics prices by cup size, in US dollars</caption>
               <thead><tr><th scope="col">Drink</th><th scope="col">12 oz</th><th scope="col">16 oz</th></tr></thead>
-              <tbody>{classicDrinks.filter((item) => squareItemVisible(squareOverlay, item.name)).map((item) => <tr key={item.name}>
+              <tbody>{classicDrinks.map((item) => <tr key={item.name}>
                 <th scope="row">{item.name}</th>
-                {item.prices?.map((price) => {
-                  const resolved = squarePrice(squareOverlay, item.name, price.label, price.cents);
-                  return <td key={price.label} className={resolved === null ? styles.unknownPrice : undefined}>{formatMenuPrice(resolved)}</td>;
-                })}
+                {item.prices?.map((price) => <td key={price.label} className={price.cents === null ? styles.unknownPrice : undefined}>{formatMenuPrice(price.cents)}</td>)}
               </tr>)}</tbody>
             </table>
             <ul className={styles.extras} aria-label="Classic drink extras">
@@ -77,7 +72,6 @@ export default async function BodegaMenuReviewPage() {
             <p className={styles.sectionNote}>Ask us about sizes without a listed price.</p>
           </section>
           {draftMenuSections.map((section) => {
-            const visibleItems = section.items.filter((item) => squareItemVisible(squareOverlay, item.name));
             return (
               <section className={styles.menuSection} id={section.id} key={section.id} aria-labelledby={`${section.id}-title`}>
                 <header className={`${styles.sectionHeader} ${!section.art ? styles.textHeader : ""}`}>
@@ -86,7 +80,7 @@ export default async function BodegaMenuReviewPage() {
                 </header>
                 <p className={styles.sectionNote}>{section.note}</p>
                 <ul className={styles.itemList}>
-                  {visibleItems.map((item) => <li className={styles.item} key={item.name}>
+                  {section.items.map((item) => <li className={styles.item} key={item.name}>
                     <h3 className={styles.itemName}>{item.name}</h3>
                     {item.description && <p className={styles.itemDescription}>{item.description}</p>}
                   </li>)}
@@ -127,7 +121,7 @@ export default async function BodegaMenuReviewPage() {
           </a>
           <details id="review-notes">
             <summary>Menu details</summary>
-            <p>Preview menu transcribed from Bodega’s photographed boards and bakery labels. Listed prices come from the Classics board; connected Square prices supersede matched listed prices. Ask the café for unlisted prices and current availability. The signature lineup is partial. Hours await confirmation. Artwork is illustrative.</p>
+            <p>Preview menu transcribed from Bodega’s photographed boards and bakery labels. Listed prices come from the Classics board; ask the café for unlisted prices and current availability. The signature lineup is partial. Hours await confirmation. Artwork is illustrative.</p>
           </details>
         </footer>
       </div>
