@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Bodega Fall Rush | Bodega Cafe",
-  description: "Five ten-second rounds of café catches, five finds, and a cinematic collection finale at Bodega Cafe.",
+  description: "Five rounds, ten seconds each. Catch every café find and avoid Bad Vibes in Bodega Fall Rush.",
   robots: {
     index: false,
     follow: false,

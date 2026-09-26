@@ -25,14 +25,23 @@
 .evidenceNote { margin: 14px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; text-align: center; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.landing { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 0; text-align: center; }
+.landing { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 0 30px; text-align: center; }
 .eyebrow, .offerState { font: 700 11px/1.35 var(--font-geist-mono), monospace; letter-spacing: .13em; }
-.landing h1 { margin: 0; font-size: clamp(45px, 10vw, 76px); font-weight: 850; line-height: .95; letter-spacing: -.065em; text-wrap: balance; }
+.landing h1 { margin: 0; font-size: clamp(45px, 9vw, 64px); font-weight: 850; line-height: .95; letter-spacing: -.065em; text-wrap: balance; }
 .offerState { display: inline-block; margin: 0; padding: 8px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-.heroArt { width: min(56vw, 210px); height: min(56vw, 210px); display: grid; place-items: center; margin: 4px 0 0; }
+.heroArt { width: min(40vw, 132px); height: min(40vw, 132px); display: grid; place-items: center; margin: 2px 0 0; }
 .heroArt img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 12px rgb(0 0 0 / 12%)); }
-.landingInstruction { margin: 0; max-width: 34ch; font-size: 18px; line-height: 1.3; font-weight: 650; letter-spacing: -.025em; }
 .landingNote, .offerRules { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.rules { width: min(100%, 560px); display: flex; flex-direction: column; gap: 8px; margin: 3px 0 6px; text-align: left; }
+.rules h2 { margin: 0; font-size: clamp(24px, 4vw, 31px); font-weight: 850; line-height: .94; letter-spacing: -.055em; text-align: center; }
+.rulesSamples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 5px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.rulesSamples > div { min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.rulesSamples img { width: 52px; height: 52px; object-fit: contain; }
+.rulesSamples span { max-width: 11ch; font: 700 10px/1.2 var(--font-geist-mono), monospace; letter-spacing: .08em; }
+.rulesList { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.rulesList li { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.rulesList strong { font-size: 12px; line-height: 1.25; }
+.rulesList span { color: var(--muted); font-size: 11px; line-height: 1.35; }
 .landing .collectionStrip { width: min(100%, 430px); margin: 4px 0; }
 .collectionStrip { display: flex; align-items: end; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .collectionStrip li { min-width: 0; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 0 6px; border-bottom: 2px solid transparent; }
@@ -83,6 +92,14 @@
 .catchOverlay .primary { width: min(100%, 300px); min-height: 52px; font-size: 14px; }
 .catchLegend { margin: 7px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
 
+.loss { min-height: min(620px, 78svh); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; padding: 30px 10px; text-align: center; }
+.loss > img { width: min(43vw, 176px); height: auto; object-fit: contain; animation: loss-stamp .42s ease-out both; }
+.loss > span { font: 700 11px var(--font-geist-mono), monospace; letter-spacing: .13em; }
+.loss h2 { max-width: 12ch; margin: 0; font-size: clamp(38px, 8vw, 60px); font-weight: 850; line-height: .94; letter-spacing: -.06em; }
+.loss p { max-width: 36ch; margin: 0 0 5px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.loss .playButton { max-width: 350px; }
+@keyframes loss-stamp { from { opacity: 0; transform: scale(1.18) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+
 .chapterInterlude { min-height: min(620px, 75svh); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 38px 20px; text-align: center; }
 .chapterInterlude > img { width: 136px; height: 136px; object-fit: contain; }
 .chapterInterlude > span, .victoryCopy > span { font: 700 11px var(--font-geist-mono), monospace; letter-spacing: .14em; }
@@ -116,10 +133,15 @@
 }
 @media (max-width: 700px) {
   .shell { padding: 12px 16px max(16px, env(safe-area-inset-bottom)); }
-  .landing { gap: 10px; padding: 22px 0; }
-  .landing h1 { font-size: clamp(44px, 11vw, 66px); }
-  .heroArt { width: min(52vw, 210px); height: min(52vw, 210px); }
-  .landingInstruction { font-size: 16px; }
+  .landing { gap: 8px; padding: 16px 0 26px; }
+  .landing h1 { font-size: clamp(43px, 10.5vw, 60px); }
+  .heroArt { width: min(33vw, 132px); height: min(33vw, 132px); }
+  .rules { gap: 7px; }
+  .rules h2 { font-size: 25px; }
+  .rulesList { grid-template-columns: 1fr; gap: 5px; }
+  .rulesList li { display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 1fr); gap: 8px; border-top: 1px solid var(--line); padding-top: 5px; }
+  .rulesList li strong { font-size: 11px; }
+  .rulesList li span { font-size: 11px; }
   .playButton { min-height: 60px; font-size: 16px; }
   .catchControls { padding-top: 4px; }
   .chapterHeading { padding-top: 7px; }
@@ -142,5 +164,5 @@
   .game[data-playing="true"] .timerReadout strong { font-size: 26px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .victoryArt img { animation: none; }
+  .victoryArt img, .loss > img { animation: none; }
 }

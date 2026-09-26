@@ -1,13 +1,13 @@
 import { CAFERUSH_LEVELS } from "../caferush/config";
 import type { CafeRushCatch, CafeRushLevel, CafeRushSpawn } from "../caferush/types";
 
-export const BODEGA_ROUND_VERSION = 3;
+export const BODEGA_ROUND_VERSION = 4;
 export const BODEGA_ITEM_SCALE = 1.75;
 export const BODEGA_ITEM_RADIUS = 0.075 * BODEGA_ITEM_SCALE;
 export const BODEGA_POINTS: Record<string, number> = {
-  spanish: 10, green: 10, bites: 15, vinyl: 20, muffin: 25, spill: -25,
+  spanish: 10, green: 10, bites: 15, vinyl: 20, muffin: 25, "bad-vibes": 0,
 };
-export const MUFFIN_TERMS = "One free muffin per person for this promotion. In-store redemption only. Expires after one use or at the end of the day earned (Virginia Beach time), whichever comes first.";
+export const MUFFIN_TERMS = "One free muffin per person for this promotion. Redeem in store only. Expires after one use or at the end of the day earned (Virginia Beach time), whichever comes first.";
 
 export const BODEGA_CHAPTERS = [
   { id: "cafecito", title: "Cafecito", keepsake: "Spanish latte", required: "spanish", durationSec: 10, targetScore: 60, spawnEveryMs: 650, spawnMinMs: 610, fallSpeed: [0.85, 1.05] as [number, number], hazardPeriod: 0, pool: ["spanish", "green"] },
@@ -30,7 +30,7 @@ export const BODEGA_LEVELS: CafeRushLevel[] = BODEGA_CHAPTERS.map((chapter, chap
     spawnEveryMs: chapter.spawnEveryMs, spawnMinMs: chapter.spawnMinMs,
     spawnRampMs: 1, fallSpeed: chapter.fallSpeed,
     finishAtTarget: false, badChance: chapter.hazardPeriod ? 1 / chapter.hazardPeriod : 0,
-    dropPenalty: 0,
+    dropPenalty: 0, failOnBadCatch: true,
   },
 }));
 
@@ -49,8 +49,8 @@ export function makeBodegaRound(seed: number, chapterIndex: number): CafeRushSpa
     if (id > 0) atMs += Math.max(rules.spawnMinMs, rules.spawnEveryMs - id * rules.spawnRampMs);
     if (atMs > chapter.durationSec * 1000 - finalFlightMs) break;
     const required = id % 7 === 2;
-    const hazard = !required && chapter.hazardPeriod > 0 && id % chapter.hazardPeriod === hazardOffset;
-    const itemId = required ? chapter.required : hazard ? "spill" : chapter.pool[Math.floor(random() * chapter.pool.length)];
+    const hazard = !required && chapter.hazardPeriod > 0 && atMs >= 1400 && id % chapter.hazardPeriod === hazardOffset;
+    const itemId = required ? chapter.required : hazard ? "bad-vibes" : chapter.pool[Math.floor(random() * chapter.pool.length)];
     const margin = BODEGA_ITEM_RADIUS * 1.3;
     let xFrac = margin + random() * (1 - 2 * margin);
     const previous = result.at(-1);
@@ -77,6 +77,7 @@ function verifyChapter(seed: number, chapterIndex: number, input: unknown): { sc
     if (!Number.isInteger(event.id) || !Number.isInteger(event.atMs) || seen.has(event.id)) return null;
     const spawn = plan[event.id];
     if (!spawn || event.atMs < previousTime || event.atMs < 0 || event.atMs >= chapter.durationSec * 1000) return null;
+    if (spawn.itemId === "bad-vibes") return null;
     const y = -BODEGA_ITEM_RADIUS + spawn.speed * (event.atMs - spawn.atMs) / 1000;
     if (y < -0.002 || y > 1.002) return null;
     seen.add(event.id);

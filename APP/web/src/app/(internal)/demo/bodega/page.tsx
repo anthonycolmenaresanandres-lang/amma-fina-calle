@@ -91,7 +91,7 @@ export default function BodegaMenuReviewPage() {
 
         <section className={styles.sessionsTeaser} aria-labelledby="fall-rush-title">
           <Image src="/assets/bodega/fall/cereal-bites.webp" alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
-          <div><h2 id="fall-rush-title">Fall Rush</h2><p>Five 10-second rounds. Collect every café find.</p></div>
+          <div><h2 id="fall-rush-title">Fall Rush</h2><p>Five rounds, ten seconds each. Catch café finds and avoid Bad Vibes.</p></div>
           <Link href="/bodega-sessions-review">Play Bodega Rush</Link>
         </section>
 

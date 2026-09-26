@@ -14,11 +14,12 @@ async function main() {
       assert.deepEqual(makeBodegaRound(seed, chapterIndex), plan);
       assert.equal(new Set(plan.map((p) => p.id)).size, plan.length);
       assert(plan.filter((p) => p.itemId === chapter.required).length >= 2, "Required item must appear reliably");
-      const good = plan.filter((p) => p.itemId !== "spill");
+      const good = plan.filter((p) => p.itemId !== "bad-vibes");
       assert(good.reduce((sum, p) => sum + BODEGA_POINTS[p.itemId], 0) >= chapter.targetScore, "Every schedule must be winnable");
       for (const spawn of plan) {
         assert(spawn.atMs + (1 + BODEGA_ITEM_RADIUS) / spawn.speed * 1000 < chapter.durationSec * 1000, "Complete flight fits");
         assert(spawn.xFrac >= BODEGA_ITEM_RADIUS * 1.3 && spawn.xFrac <= 1 - BODEGA_ITEM_RADIUS * 1.3);
+        if (spawn.itemId === "bad-vibes") assert(spawn.atMs >= 1400, "Hazards leave an opening moment");
       }
       const events = good.map((p) => ({ id: p.id, atMs: Math.round(p.atMs + (BODEGA_ITEM_RADIUS + 0.4) / p.speed * 1000) })).sort((a, b) => a.atMs - b.atMs);
       runs.push({ chapterIndex, events });
@@ -34,6 +35,12 @@ async function main() {
       assert.equal(verifyBodegaCampaign(seed, [{ ...runs[0], events: [{ id: 9999, atMs: 2000 }] }, ...runs.slice(1)], BODEGA_CAMPAIGN_MS + 1000), null);
       assert.equal(verifyBodegaCampaign(seed, [{ ...runs[0], events: [] }, ...runs.slice(1)], BODEGA_CAMPAIGN_MS + 1000), null);
       assert.equal(verifyBodegaCampaign(seed, [{ ...runs[0], events: [...runs[0].events].reverse() }, ...runs.slice(1)], BODEGA_CAMPAIGN_MS + 1000), null);
+      const hazardRound = BODEGA_CHAPTERS.findIndex((_, index) => makeBodegaRound(seed, index).some((p) => p.itemId === "bad-vibes"));
+      assert(hazardRound >= 1, "Later rounds include Bad Vibes");
+      const hazard = makeBodegaRound(seed, hazardRound).find((p) => p.itemId === "bad-vibes")!;
+      const hazardEvent = { id: hazard.id, atMs: Math.round(hazard.atMs + (BODEGA_ITEM_RADIUS + 0.4) / hazard.speed * 1000) };
+      const altered = runs.map((run, index) => index === hazardRound ? { ...run, events: [...run.events, hazardEvent].sort((a, b) => a.atMs - b.atMs) } : run);
+      assert.equal(verifyBodegaCampaign(seed, altered, BODEGA_CAMPAIGN_MS + 1000), null, "A touched Bad Vibes item invalidates a perfect score");
     }
   }
   assert.equal(JSON.stringify(CAFERUSH_LEVELS), baseline, "Other café presets stay unchanged");

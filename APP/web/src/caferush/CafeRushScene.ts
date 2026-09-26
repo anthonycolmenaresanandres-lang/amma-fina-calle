@@ -229,6 +229,13 @@ export class CafeRushScene extends Phaser.Scene {
       const gfx = this.add.graphics();
       this.drawItem(gfx, item, this.size().min * rFrac);
       container.add(gfx);
+      if (item.shape === "bad-vibes") {
+        const r = this.size().min * rFrac;
+        container.add(this.add.text(0, r * 0.77, "BAD VIBES", {
+          fontFamily: "Arial, sans-serif", fontSize: `${Math.max(11, r * 0.35)}px`,
+          fontStyle: "bold", color: "#fff2d8",
+        }).setOrigin(0.5));
+      }
     }
 
     this.falling.push({
@@ -266,6 +273,15 @@ export class CafeRushScene extends Phaser.Scene {
     if (this.phase !== "playing" || f.settled) return;
     f.settled = true;
     f.container.destroy();
+    if (f.item.kind === "bad" && this.level.rules.failOnBadCatch) {
+      this.events.emit("cafe-catch", f.item.id);
+      if (f.planned) this.events.emit("cafe-catch-record", {
+        id: f.planned.id, atMs: Math.round(this.level.rules.durationSec * 1000 - this.remainingMs),
+      } satisfies CafeRushCatch);
+      this.endRound(true);
+      this.updateHud(this.size().w);
+      return;
+    }
     const previousScore = this.score;
     this.score = this.level.rules.finishAtTarget
       ? Math.min(this.level.rules.targetScore, this.score + f.item.points)
@@ -301,10 +317,10 @@ export class CafeRushScene extends Phaser.Scene {
     }
   }
 
-  private endRound(): void {
+  private endRound(forcedLoss = false): void {
     this.phase = "over";
     const target = this.level.rules.targetScore;
-    const won = this.score >= target;
+    const won = !forcedLoss && this.score >= target;
     this.banner
       .setText(
         `${won ? "Order up! 🎉" : "Round over"}\n${this.score} / ${target}\n${ratingFor(this.score, target)}\n\nTap to play again`,
@@ -399,6 +415,13 @@ export class CafeRushScene extends Phaser.Scene {
     const { fill, accent } = item;
     g.clear();
     switch (item.shape) {
+      case "bad-vibes": {
+        g.lineStyle(Math.max(12, r * 0.38), fill, 1);
+        g.lineBetween(-r * 0.72, -r * 0.92, r * 0.72, r * 0.42);
+        g.lineBetween(r * 0.72, -r * 0.92, -r * 0.72, r * 0.42);
+        g.fillStyle(fill, 1).fillRoundedRect(-r, r * 0.48, r * 2, r * 0.62, 3);
+        break;
+      }
       case "cup": {
         // Hot cup: tapered body, cream lid rim, small handle.
         g.fillStyle(fill, 1).fillRoundedRect(-r * 0.7, -r * 0.75, r * 1.4, r * 1.5, { tl: 6, tr: 6, bl: 12, br: 12 });
