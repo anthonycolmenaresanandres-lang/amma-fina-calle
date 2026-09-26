@@ -44,7 +44,8 @@ export default async function BodegaSquareInsightsPage({ searchParams }: PagePro
       : <section className={styles.message}><h2>Owner access is not ready.</h2><p>{context.state === "unauthorized" ? "This account is not authorized for Bodega." : "The Bodega owner connection has not been configured."}</p></section>}
   </div></main>;
 
-  const [insight, params] = await Promise.all([getSquareInsight("bodega"), searchParams ?? Promise.resolve({})]);
+  const [insight, rawParams] = await Promise.all([getSquareInsight("bodega"), searchParams ?? Promise.resolve({})]);
+  const params: { square?: string | string[] } = rawParams;
   const squareStatus = typeof params.square === "string" ? params.square : undefined;
   const statusNotice = notice(squareStatus);
   return <main className={styles.page}><div className={styles.shell}>
