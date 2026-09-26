@@ -1,7 +1,7 @@
 import { CAFERUSH_LEVELS } from "../caferush/config";
 import type { CafeRushCatch, CafeRushLevel, CafeRushSpawn } from "../caferush/types";
 
-export const BODEGA_ROUND_VERSION = 4;
+export const BODEGA_ROUND_VERSION = 5;
 export const BODEGA_ITEM_SCALE = 1.75;
 export const BODEGA_ITEM_RADIUS = 0.075 * BODEGA_ITEM_SCALE;
 export const BODEGA_POINTS: Record<string, number> = {
@@ -10,11 +10,11 @@ export const BODEGA_POINTS: Record<string, number> = {
 export const MUFFIN_TERMS = "One free muffin per person for this promotion. Redeem in store only. Expires after one use or at the end of the day earned (Virginia Beach time), whichever comes first.";
 
 export const BODEGA_CHAPTERS = [
-  { id: "cafecito", title: "Cafecito", keepsake: "Spanish latte", required: "spanish", durationSec: 10, targetScore: 60, spawnEveryMs: 650, spawnMinMs: 610, fallSpeed: [0.85, 1.05] as [number, number], hazardPeriod: 0, pool: ["spanish", "green"] },
-  { id: "morning-rush", title: "Morning Rush", keepsake: "Green café drink", required: "green", durationSec: 10, targetScore: 80, spawnEveryMs: 560, spawnMinMs: 520, fallSpeed: [1, 1.2] as [number, number], hazardPeriod: 12, pool: ["spanish", "green", "bites"] },
-  { id: "bakery-break", title: "Bakery Break", keepsake: "Cereal bites", required: "bites", durationSec: 10, targetScore: 100, spawnEveryMs: 480, spawnMinMs: 440, fallSpeed: [1.15, 1.4] as [number, number], hazardPeriod: 9, pool: ["spanish", "green", "bites"] },
-  { id: "vinyl-sessions", title: "Vinyl Sessions", keepsake: "Vinyl record", required: "vinyl", durationSec: 10, targetScore: 120, spawnEveryMs: 420, spawnMinMs: 380, fallSpeed: [1.3, 1.6] as [number, number], hazardPeriod: 7, pool: ["spanish", "green", "bites", "vinyl"] },
-  { id: "last-order", title: "The Last Order", keepsake: "Golden muffin", required: "muffin", durationSec: 10, targetScore: 150, spawnEveryMs: 360, spawnMinMs: 320, fallSpeed: [1.45, 1.8] as [number, number], hazardPeriod: 5, pool: ["spanish", "green", "bites", "vinyl", "muffin"] },
+  { id: "cafecito", title: "Cafecito", keepsake: "Spanish latte", required: "spanish", durationSec: 10, targetScore: 60, spawnEveryMs: 650, spawnMinMs: 610, fallSpeed: [1.02, 1.26] as [number, number], hazardPeriod: 0, pool: ["spanish", "green"] },
+  { id: "morning-rush", title: "Morning Rush", keepsake: "Green café drink", required: "green", durationSec: 10, targetScore: 80, spawnEveryMs: 560, spawnMinMs: 520, fallSpeed: [1.2, 1.44] as [number, number], hazardPeriod: 12, pool: ["spanish", "green", "bites"] },
+  { id: "bakery-break", title: "Bakery Break", keepsake: "Cereal bites", required: "bites", durationSec: 10, targetScore: 100, spawnEveryMs: 480, spawnMinMs: 440, fallSpeed: [1.38, 1.68] as [number, number], hazardPeriod: 9, pool: ["spanish", "green", "bites"] },
+  { id: "vinyl-sessions", title: "Vinyl Sessions", keepsake: "Vinyl record", required: "vinyl", durationSec: 10, targetScore: 120, spawnEveryMs: 420, spawnMinMs: 380, fallSpeed: [1.56, 1.92] as [number, number], hazardPeriod: 7, pool: ["spanish", "green", "bites", "vinyl"] },
+  { id: "last-order", title: "The Last Order", keepsake: "Golden muffin", required: "muffin", durationSec: 10, targetScore: 150, spawnEveryMs: 360, spawnMinMs: 320, fallSpeed: [1.74, 2.16] as [number, number], hazardPeriod: 5, pool: ["spanish", "green", "bites", "vinyl", "muffin"] },
 ] as const;
 
 export const BODEGA_CAMPAIGN_MS = BODEGA_CHAPTERS.reduce((sum, chapter) => sum + chapter.durationSec * 1000, 0);

@@ -2795,3 +2795,11 @@ Anthony explicitly requested executing and merging the approved muffin-progress 
 ## 2026-09-26 OUT — Bodega muffin meter and loss copy
 
 Replaced the five collectible icons with a muffin silhouette and five-step percentage meter. Each completed round contributes 20 percent; practice completion does not issue a claim. The meter is available throughout the campaign and resets after loss. Bad Vibes and missed goals have distinct New York-style copy and art, with “RUN IT BACK” returning to round one. Targeted ESLint, production build, desktop and phone browser checks passed. No reward activation or database migration.
+
+## 2026-09-26 IN — Bodega no-save and faster falls
+
+Anthony requested that exiting discard won rounds and restart from round one, with faster item falls at every level. Branch codex/bodega-no-save-faster-20260926 from production main 1e5b321. Preserve reward-off state and prepare only a version migration.
+
+## 2026-09-26 OUT — Bodega no-save and faster falls
+
+Removed local campaign saves, resume actions and old saved-state copy; cleared legacy keys and reset pages restored from browser history. Leaving after winning a round and reentering starts at round one with a 0% muffin meter. All five chapter fall-speed ranges increased 20%. Bumped deterministic round version to 5 with an unapplied additive SQL migration for future claim verification. Targeted ESLint, deterministic and PGlite self-tests, production build and browser round-win/leave/reenter checks passed. Rewards remain off and daily cap zero. Review PR is the production release gate.
