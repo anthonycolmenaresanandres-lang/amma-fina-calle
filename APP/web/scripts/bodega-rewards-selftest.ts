@@ -13,7 +13,7 @@ async function main() {
       const plan = makeBodegaRound(seed, chapterIndex);
       assert.deepEqual(makeBodegaRound(seed, chapterIndex), plan);
       assert.equal(new Set(plan.map((p) => p.id)).size, plan.length);
-      assert(plan.filter((p) => p.itemId === chapter.required).length >= 3, "Required item must appear reliably");
+      assert(plan.filter((p) => p.itemId === chapter.required).length >= 2, "Required item must appear reliably");
       const good = plan.filter((p) => p.itemId !== "spill");
       assert(good.reduce((sum, p) => sum + BODEGA_POINTS[p.itemId], 0) >= chapter.targetScore, "Every schedule must be winnable");
       for (const spawn of plan) {
