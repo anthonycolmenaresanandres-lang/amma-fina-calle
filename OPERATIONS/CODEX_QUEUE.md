@@ -597,3 +597,10 @@ Authority: Anthony approved the five-step muffin-meter and New York loss-screen 
 Base: origin/main e3ac98e; branch codex/bodega-muffin-meter-20260926.
 Scope: Replace the five-find game tracker with a muffin image filling in 20 percent steps, retain separate per-round points, show meter on desktop and mobile, reset to zero after a loss, update transient and final loss copy, and keep practice results distinct from reward claims. No reward activation, migration or other venue changes.
 Result: The muffin meter appears on landing, play, chapter transition, loss and finale. Completed rounds alone advance it; a failed run returns it to zero. Bad Vibes uses “NAH, NOT TODAY.” and a timed or score miss uses “MISSED YOUR STOP.” Both offer “RUN IT BACK.” Timed misses show a faded muffin instead of the Bad Vibes X. Targeted ESLint, production build, desktop/mobile browser layout and round-loss checks passed. Prize claims remain inactive.
+
+## [x] 68 - Bodega restart on exit and faster falls
+
+Authority: Anthony requested that exiting the game discards all won rounds and that items fall faster at every level. Muffin rewards remain off until he chooses a daily cap.
+Base: origin/main 1e5b321; branch codex/bodega-no-save-faster-20260926.
+Scope: Remove local completed-round persistence and resume, reset browser history restores, accelerate every chapter by 20%, update explanatory copy and deterministic round version. Prepare the additive SQL version migration without applying it. Review PR before production merge.
+Result: Exiting and returning starts at round one with 0% muffin progress, including after winning a round and using browser Back. In-page pause remains. Five fall-speed ranges are each 20% faster with existing chapter progression intact. Targeted ESLint, deterministic/PGlite game reward self-tests, production build and browser win/leave/reenter checks passed. Rewards stay inactive, migration unapplied. Production merge and deployment require review.
