@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "bodega-rewards:selftest": "tsx scripts/bodega-rewards-selftest.ts && node scripts/bodega-rewards-db-selftest.mjs",
+    "bodega-launch:selftest": "tsx scripts/bodega-launch-selftest.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

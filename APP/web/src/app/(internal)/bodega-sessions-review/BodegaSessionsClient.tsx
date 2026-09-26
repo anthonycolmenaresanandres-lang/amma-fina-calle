@@ -243,10 +243,12 @@ export default function BodegaSessionsClient() {
           <label className={styles.eligibility}><input type="checkbox" checked={eligible} onChange={(event) => setEligible(event.target.checked)} />I can redeem in-store today and have not received this promotion before.</label>
           <button className={styles.playButton} disabled={!eligible || preparing} onClick={() => { void beginPrize(); }}>{preparing ? "GETTING READY…" : "PLAY FOR A MUFFIN"}</button>
           <p className={styles.offerRules}>{MUFFIN_TERMS} Redeem during cafe hours.</p>
+          <Link className={styles.rulesLink} href="/bodega-vibra-rules">Read the muffin offer terms</Link>
         </div>}
         <button className={rewards.enabled ? styles.practiceButton : `${styles.playButton} ${styles.vibraPlay}`} onClick={() => beginPractice()}>{rewards.enabled ? "PLAY BODEGA VIBRA FOR FUN" : "PLAY BODEGA VIBRA"}</button>
         <p className={styles.landingNote}>Leave or lose and the muffin meter resets to 0%.</p>
         <p className={styles.offerRules} role="status">{startMessage || rewards.message || (rewards.checking ? "Checking prize availability…" : !rewards.enabled ? "Muffin claims are not active yet." : "Practice play does not issue a muffin claim.")}</p>
+        <Link className={styles.rulesLink} href="/bodega-vibra-rules">Muffin offer terms</Link>
         <MuffinMeter completedRounds={0} />
       </div>}
       {view === "playing" && campaign && chapter && <div className={styles.catchLayout}>

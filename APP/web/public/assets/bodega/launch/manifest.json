@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-09-26T14:11:07.359Z",
+  "method": "Deterministic SVG composition rendered with Sharp; no generated logos or text.",
+  "sourceAssets": [
+    "bodega-round-seal-review.webp",
+    "cinnamon-muffin.webp",
+    "spanish-latte.webp",
+    "bad-vibes.webp"
+  ],
+  "assets": [
+    {
+      "file": "feed-01-vibra-live.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "6b7412cdd7af99051588a3fbd7e3fdd2274ee8b95c10ed40b14b46a82563b5f4"
+    },
+    {
+      "file": "feed-02-how-to-play.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "5ad849542149aab721fc3c21cc045222fddac28ab24caf5b5cf9e973e258ac89"
+    },
+    {
+      "file": "feed-03-free-muffin.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "e1c9fc81391ced8fd71e8aa3fd826fa5947a980caf2f07622454c54865c8e7e2"
+    },
+    {
+      "file": "feed-04-five-daily.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "18905c57610faa3c0664fce8ddffe97eac60dddc286d636a2699b75a33bdbe85"
+    },
+    {
+      "file": "feed-05-seven-days.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "73e4ad2c0d3b748c4901de1ba3e69fc749909561dfbc52a771c14fca5d81df06"
+    },
+    {
+      "file": "feed-06-play-while-you-wait.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "e797f3e977aca340d947cb47f20a2a1c558354a399a9ee18a5a12f0a025f9538"
+    },
+    {
+      "file": "feed-07-launch-details.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "7413e63858b8511534f3a761869636e3b45dcde144f212f841e758091b0c48c9"
+    },
+    {
+      "file": "story-01-launch.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "3f11ab7eaf5efd5fc775db09c581b814c15a3d33ef17ffa1a207226b06c5ca4d"
+    },
+    {
+      "file": "story-02-how-to-play.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "3a65533f85b8fc5477583c79ec228eec6f42c9d7230dc517ac63d1f1d5b312f9"
+    },
+    {
+      "file": "story-03-muffin.png",
+      "width": 1080,
+      "height": 1920,
+      "sha256": "9f96b9b4fb7813c418136ad887ce6da6463bc703027616420e58ce4077d0916a"
+    }
+  ]
+}

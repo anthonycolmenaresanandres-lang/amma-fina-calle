@@ -28,8 +28,9 @@ export default function BodegaOwnerHub() {
         <h2 id="links-title">Keep these handy.</h2>
         <div className={styles.links}>
           <Link href="/demo/bodega"><strong>Open the menu</strong><span>The customer-facing menu ↗</span></Link>
-          <Link href="/bodega-sessions-review"><strong>Play Fall Rush</strong><span>Open the current Bodega game ↗</span></Link>
+          <Link href="/bodega-sessions-review"><strong>Play Bodega Vibra</strong><span>Open the current Bodega game ↗</span></Link>
           <a href="/owner/bodega/qr" download="bodega-menu-qr.svg"><strong>Download menu QR</strong><span>Scalable SVG for your printed insert ↓</span></a>
+          <Link href="/owner/bodega/insights"><strong>Square menu watch</strong><span>Private read-only menu changes ↗</span></Link>
         </div>
       </section>
       <section className={styles.offer} aria-labelledby="offer-title">

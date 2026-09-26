@@ -12,13 +12,28 @@ export const validSecret = (value?: string) => value && /^[a-f0-9]{64}$/.test(va
 // Distinct recovery capability: exposing a claim does not reveal the session cookie.
 export const claimCode = (secret: string) => createHmac("sha256", secret).update("bodega-muffin-claim-v1").digest("hex").slice(0, 32);
 
-export async function campaignEnabled(): Promise<boolean> {
-  if (process.env.BODEGA_REWARDS_ENABLED !== "true") return false;
+export type CampaignDetails = { enabled: boolean; dailyLimit: number; startsAt?: string; endsAt?: string };
+
+export async function campaignDetails(): Promise<CampaignDetails> {
+  if (process.env.BODEGA_REWARDS_ENABLED !== "true") return { enabled: false, dailyLimit: 5 };
   try {
     const { data, error } = await getSupabaseAdmin().from("bodega_reward_campaigns")
-      .select("active,daily_limit").eq("id", CAMPAIGN).maybeSingle();
-    return !error && data?.active === true && data.daily_limit > 0;
-  } catch { return false; }
+      .select("active,daily_limit,starts_at,ends_at").eq("id", CAMPAIGN).maybeSingle();
+    const now = Date.now();
+    const enabled = !error && data?.active === true && data.daily_limit > 0
+      && typeof data.starts_at === "string" && Date.parse(data.starts_at) <= now
+      && typeof data.ends_at === "string" && Date.parse(data.ends_at) > now;
+    return {
+      enabled,
+      dailyLimit: typeof data?.daily_limit === "number" ? data.daily_limit : 5,
+      ...(typeof data?.starts_at === "string" ? { startsAt: data.starts_at } : {}),
+      ...(typeof data?.ends_at === "string" ? { endsAt: data.ends_at } : {}),
+    };
+  } catch { return { enabled: false, dailyLimit: 5 }; }
+}
+
+export async function campaignEnabled(): Promise<boolean> {
+  return (await campaignDetails()).enabled;
 }
 
 export async function receiptFor(secret: string): Promise<MuffinReceipt | undefined> {
