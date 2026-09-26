@@ -2803,3 +2803,11 @@ Anthony requested that exiting discard won rounds and restart from round one, wi
 ## 2026-09-26 OUT — Bodega no-save and faster falls
 
 Removed local campaign saves, resume actions and old saved-state copy; cleared legacy keys and reset pages restored from browser history. Leaving after winning a round and reentering starts at round one with a 0% muffin meter. All five chapter fall-speed ranges increased 20%. Bumped deterministic round version to 5 with an unapplied additive SQL migration for future claim verification. Targeted ESLint, deterministic and PGlite self-tests, production build and browser round-win/leave/reenter checks passed. Rewards remain off and daily cap zero. Review PR is the production release gate.
+
+## 2026-09-26 IN — Bodega Vibra and prominent menu return
+
+Anthony approved the plan and requested execution plus merge after completion. Branch codex/bodega-vibra-menu-20260926 from production main b1fd179. Rename menu/game presentation to Bodega Vibra, redesign its actions, and make the menu return prominent in every game state. Preserve menu content, game rules, reward-off state and unapplied reward migration.
+
+## 2026-09-26 OUT — Bodega Vibra and prominent menu return
+
+Renamed game entry points and presentation to Bodega Vibra, with “Es que no entienden la vibra” on the menu. Replaced the floating and inline entry actions with a reusable black rectangular rhythm treatment using waveform bars, clear type, arrow, offset shadow and press feedback. The landing Play action carries the same visual signature. Replaced every small menu return with a large black “Bodega Menu” control, including gameplay, loss, chapter transition and victory. Targeted ESLint and production build passed. Browser review at 1280px and 390px covered the menu, landing, live game and loss state with no overflow or console errors. Reward activation and reward migration remain untouched.

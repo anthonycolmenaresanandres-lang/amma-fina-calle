@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import styles from "./page.module.css";
+import { BodegaVibraLink } from "./bodega-vibra-link";
 
 const sections = [
   { id: "fall-sessions", label: "Fall" },
@@ -47,6 +47,6 @@ export function BodegaMenuNav() {
     <nav className={styles.sectionNav} aria-label="Menu categories">
     {sections.map(({ id, label }) => <a href={`#${id}`} key={id} onClick={() => setActive(id)} aria-current={active === id ? "location" : undefined}>{label}</a>)}
     </nav>
-    <Link className={styles.floatingPlay} href="/bodega-sessions-review" prefetch={false}>PLAY BODEGA RUSH</Link>
+    <BodegaVibraLink floating />
   </>;
 }

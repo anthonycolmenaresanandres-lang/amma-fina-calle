@@ -14,8 +14,10 @@
 .page button:focus-visible, .page a:focus-visible, .catchCanvas:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .shell { width: min(100%, 760px); min-height: 100svh; margin: auto; padding: 18px 24px max(20px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; }
 .utilityRow { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-.utilityRow a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 14px; font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
+.utilityRow a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 14px; font-weight: 650; }
 .utilityRow .identity { text-decoration: none; }
+.utilityRow .menuAction { min-height: 52px; padding: 0 18px; border: 2px solid var(--ink); background: var(--ink); color: #fff; font-size: 14px; font-weight: 850; letter-spacing: .04em; text-decoration: none; }
+.utilityRow .menuAction:hover { background: #333; }
 .identity img { display: block; border-radius: 50%; }
 .skipLink { position: absolute; z-index: 150; top: 8px; left: 8px; transform: translateY(-200%); min-height: 44px; padding: 11px 14px; background: var(--ink); color: #fff; }
 .skipLink:focus { transform: translateY(0); }
@@ -65,6 +67,11 @@
 .progressNote { margin: 2px 0 0; font-size: 13px; font-weight: 650; }
 .playButton, .primary { width: min(100%, 420px); min-height: 62px; display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; border: 2px solid var(--ink); background: var(--ink); color: #fff; font-size: 17px; font-weight: 780; letter-spacing: .025em; text-align: center; text-decoration: none; }
 .playButton:hover, .primary:hover { background: #333; }
+.vibraPlay { min-height: 70px; gap: 13px; font-weight: 850; letter-spacing: .04em; box-shadow: 5px 5px 0 #d8d8d8; transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease; }
+.vibraPlay::before { content: "▶"; font-size: 15px; line-height: 1; }
+.vibraPlay::after { content: ""; width: 31px; height: 28px; background: linear-gradient(#fff, #fff) 0 50% / 3px 8px no-repeat, linear-gradient(#fff, #fff) 7px 50% / 3px 17px no-repeat, linear-gradient(#fff, #fff) 14px 50% / 3px 26px no-repeat, linear-gradient(#fff, #fff) 21px 50% / 3px 17px no-repeat, linear-gradient(#fff, #fff) 28px 50% / 3px 8px no-repeat; }
+.vibraPlay:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 #d8d8d8; }
+.vibraPlay:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #d8d8d8; }
 .practiceButton { min-height: 44px; padding: 8px 12px; border: 0; background: transparent; color: var(--ink); font-size: 14px; font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
 .prizeOffer { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 11px; }
 .eligibility { display: flex; align-items: flex-start; gap: 12px; max-width: 420px; padding: 5px 0; text-align: left; font-size: 13px; line-height: 1.5; }
@@ -73,9 +80,10 @@
 
 .catchLayout { width: 100%; max-width: 660px; margin: auto; display: flex; flex-direction: column; }
 .catchControls { display: flex; align-items: center; gap: 8px; padding: 12px 0 10px; border-bottom: 1px solid var(--line); }
-.backLink { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
-.backLink:hover, .utilityRow a:hover, .practiceButton:hover { color: var(--muted); }
-.catchControls .backLink { margin-right: auto; }
+.backLink { width: min(100%, 350px); min-height: 56px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; border: 2px solid var(--ink); background: var(--ink); color: #fff; font-size: 14px; font-weight: 850; letter-spacing: .04em; text-decoration: none; white-space: nowrap; }
+.backLink:hover { background: #333; }
+.practiceButton:hover { color: var(--muted); }
+.catchControls .backLink { width: auto; min-height: 50px; margin-right: auto; padding: 10px 14px; }
 .pause { min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 12px; font-weight: 650; white-space: nowrap; }
 .pause:hover:not(:disabled) { border-color: var(--ink); }
 .chapterHeading { display: flex; flex-direction: column; gap: 2px; padding: 12px 0 7px; }
@@ -125,7 +133,7 @@
 .victoryCopy h2 { max-width: 13ch; margin: 0; font-size: clamp(40px, 8vw, 65px); font-weight: 850; line-height: .94; letter-spacing: -.07em; text-wrap: balance; }
 .victoryCopy p { margin: 0; line-height: 1.45; }
 .victoryCopy > strong { font-size: clamp(20px, 4vw, 29px); font-weight: 760; letter-spacing: -.04em; }
-.victoryCopy .playButton { margin-top: 7px; }
+.victoryCopy .backLink { margin-top: 7px; }
 .victory[data-revealed="false"] .victoryCopy > :not(.skipReveal) { opacity: 0; }
 .skipReveal { position: fixed; z-index: 2; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); min-height: 48px; padding: 8px 14px; border: 1px solid var(--ink); background: #fff; color: var(--ink); font-size: 12px; font-weight: 650; }
 @keyframes victory-arrive { from { transform: scale(1.08); filter: brightness(.7); } to { transform: scale(1); filter: brightness(1); } }
@@ -163,7 +171,8 @@
   .scoreReadout { min-width: 92px; }
 }
 @media (max-width: 360px) {
-  .backLink { font-size: 12px; }
+  .utilityRow .menuAction { padding-inline: 13px; font-size: 12px; }
+  .catchControls .backLink { padding-inline: 10px; font-size: 11px; }
   .pause { padding-inline: 8px; font-size: 11px; }
   .muffinMeterCompact .muffinMeterArt { width: 40px; height: 40px; }
 }
@@ -179,4 +188,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .victoryArt img, .loss > img, .muffinMeterFill { animation: none !important; }
+  .vibraPlay { transition: none; }
 }
