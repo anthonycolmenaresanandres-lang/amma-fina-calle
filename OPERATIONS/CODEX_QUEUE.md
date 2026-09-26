@@ -1,6 +1,6 @@
 # Codex Queue — canonical live queue
 
-## [ ] 65 - Grúa cable-crane game that doubles as robot-training data (R&D, internal)
+## [ ] 67 - Grúa cable-crane game that doubles as robot-training data (R&D, internal)
 
 **State:** IMPLEMENTED - DRAFT PR, AWAITING ANTHONY (no merge authorized).
 **Authority:** Anthony shared the Neufangled "Why CDPRs are the best robot for household work" reel on 2026-09-25, asked to research the tech and incorporate it, then chose "The game however we will be using the players to train the technology". Scoped to a draft PR. **No merge, no production, no public link** without a separate approval.

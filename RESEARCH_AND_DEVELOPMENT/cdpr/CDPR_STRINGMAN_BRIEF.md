@@ -1,6 +1,6 @@
 # Cable-driven parallel robots (CDPR) — Stringman research brief
 
-_2026-09-25 · Claude (cloud) · queue 65 · trigger: Neufangled Instagram reel "Why CDPRs are the best robot for household work"_
+_2026-09-25 · Claude (cloud) · queue 67 · trigger: Neufangled Instagram reel "Why CDPRs are the best robot for household work"_
 
 ## Bottom line
 
