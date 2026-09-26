@@ -77,7 +77,7 @@ export default async function BodegaTrafficPage() {
         <div className="space-y-5">
           {report.state !== "ready" ? (
             <Panel>
-              <SectionHeading tone="danger" icon={<Activity size={13} aria-hidden />}>
+              <SectionHeading tone="gold" icon={<Activity size={13} aria-hidden />}>
                 Analytics connection
               </SectionHeading>
               <h2 className="mt-5 text-2xl font-semibold text-[#f4f6f7]">
@@ -172,7 +172,7 @@ export default async function BodegaTrafficPage() {
               </div>
 
               <Panel>
-                <SectionHeading tone="neutral">What this measures</SectionHeading>
+                <SectionHeading tone="gold">What this measures</SectionHeading>
                 <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
                   The headline visitor number is deduplicated by Vercel across all
                   pageviews matching the Bodega production hostname. Game opens are
