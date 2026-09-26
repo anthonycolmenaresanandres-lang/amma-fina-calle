@@ -2781,3 +2781,24 @@ VERIFIED:
 NOT VERIFIED: real phones or iOS Safari, human playability, hardware behaviour, finger-sign convention (inferred from firmware).
 UNTOUCHED: the other five repos (no fit, or parked — see brief §3); Client OS routes; Supabase; payments; secrets; stable QR URLs.
 FLAGGED FOR ANTHONY: upload/consent/storage/minors policy; public release; any dataset sharing with Neufangled or Hugging Face; any hardware purchase. Draft PR only — no merge.
+
+## 2026-09-26 IN — Bodega five-chapter campaign
+Anthony requested execution of the five-level, ten-minute Bodega game and cinematic muffin finale, then clarified that muffin rewards must stay off until he chooses a daily cap. Isolated branch codex/bodega-five-levels-20260926 from origin/main acb8c72. Port prior unreleased reward work without touching its worktree; preserve live owner portal and other tenants.
+
+## 2026-09-26 OUT — Bodega five-chapter campaign
+Implemented 75/105/120/135/165-second chapters with progressive targets, fall speed and spills, required café finds, saved completed chapters, pause/retry, larger menu and landing Play actions, and an illustrated final reveal. Reward API/database/staff foundation validates all five timed chapters and one claim per campaign, but env switch remains off, campaign inactive and daily limit zero. Local reward/game PGlite self-tests, owner self-tests, targeted ESLint, TypeScript, production build and phone-sized browser play/pause/reload passed. Finale artwork saved under the project outputs. No production migration, reward activation, merge or deploy; review PR before publication and choose cap before enabling muffin claims.
+
+## 2026-09-26 IN — Bodega one-minute Rush redesign
+Anthony requested execution of the reviewed plan: five 10-second rounds, faster falling, menu-style white/black presentation, clear Back to menu and muffin-forward landing with honest coming-soon state while rewards stay off. Branch codex/bodega-minute-rush-20260926 from production main cab51ef. Prepare v3 round contract and additive SQL migration without activating claims.
+
+## 2026-09-26 OUT — Bodega one-minute Rush redesign
+
+Implemented five exact 10-second rounds with faster falling and progressive targets, new vinyl find art, v3 saved progress and deterministic server verification. Added an additive SQL migration for future reward sessions; reward feature switch remains off, campaign inactive and daily cap zero. Redesigned landing, game, interludes and finale in the Bodega menu's white/black style. The landing leads with the free-muffin idea but visibly says Coming soon and offers practice play; the game has a clear Back to menu link. Deterministic/PGlite game and reward self-tests, targeted ESLint and production build passed. Browser checks covered desktop first-screen CTA, desktop game navigation, phone layout and successful 10-second round advancement with saved progress. No production migration, reward activation, merge or deploy; PR review before publication.
+
+## 2026-09-26 IN — Bodega Bad Vibes and full restart
+
+Anthony requested execution of the reviewed Bad Vibes plan: an original X above BAD VIBES sprite replaces the Bodega spill, touching it ends the attempt, any failed round resets the collection to round one, and the front page explains the rules without dash symbols. Branch codex/bodega-bad-vibes-reset-20260926 from production main d66046b. Keep muffin claims inactive with zero daily cap and prepare only an additive version migration.
+
+## 2026-09-26 OUT — Bodega Bad Vibes and full restart
+
+Generated and optimized an original painted X above BAD VIBES sprite, used it for every Bodega negative spawn, and retained a primitive X fallback when optional art cannot load. The shared Café Rush engine gained an optional instant-loss rule used only by Bodega. A bad catch stops scoring and the round immediately; the server verifier rejects any hazard catch. Missing a required find or score goal also clears all saved finds and resets the next attempt to round one. The landing explains the catch, avoid and restart rules before Play without dash wording; the menu teaser matches. Added v4 saved progress and an additive prepared reward session migration. Deterministic/PGlite tests, targeted ESLint, TypeScript and production build passed. Desktop and 390px browser checks covered first-screen Play, success into round two, timeout reset, Bad Vibes touch reset and cleared progress after reload. Reward activation, database migration, production merge and deployment remain pending review; daily cap stays zero.

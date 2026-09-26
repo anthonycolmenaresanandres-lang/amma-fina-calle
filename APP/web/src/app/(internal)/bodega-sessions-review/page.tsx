@@ -7,8 +7,8 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Bodega Fall Rush — cafecito weather",
-  description: "A 20-second fall café game starring Bodega drinks and Cereal Bites. Owner-review concept.",
+  title: "Bodega Fall Rush | Bodega Cafe",
+  description: "Five rounds, ten seconds each. Catch every café find and avoid Bad Vibes in Bodega Fall Rush.",
   robots: {
     index: false,
     follow: false,
@@ -25,13 +25,13 @@ export default function BodegaSessionsReviewPage() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
+        <a className={styles.skipLink} href="#fall-game">Skip to game</a>
         <nav className={styles.utilityRow} aria-label="Bodega navigation">
           <Link className={styles.identity} href="/demo/bodega"><Image src="/assets/bodega/review/bodega-round-seal-review.webp" width={38} height={38} alt="Bodega Cafe" /></Link>
-          <Link href="/demo/bodega">Menu</Link>
+          <Link href="/demo/bodega" prefetch={false}>← Back to menu</Link>
         </nav>
         <BodegaSessionsClient />
 
-        <p className={styles.evidenceNote}>Preview · Play for fun</p>
       </div>
     </main>
   );

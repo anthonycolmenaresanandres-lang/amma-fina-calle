@@ -26,7 +26,7 @@ export type CafeRushColors = {
 };
 
 /** How a falling item is drawn as a primitive when it has no image asset. */
-export type ItemShape = "cup" | "iced" | "muffin" | "pastry" | "disc" | "wedge" | "spill";
+export type ItemShape = "cup" | "iced" | "muffin" | "pastry" | "disc" | "wedge" | "spill" | "bad-vibes";
 
 /**
  * One kind of falling item. `good` items score when caught; `bad` items (a
@@ -67,7 +67,12 @@ export type CafeRushAssets = {
 /** Read-only presentation updates; never used to determine game rules. */
 export type CafeRushStatus = { score: number; seconds: number; target: number; over: boolean };
 
+/** Optional precomputed round. Server and renderer can agree on available items. */
+export type CafeRushSpawn = { id: number; atMs: number; itemId: string; xFrac: number; speed: number };
+export type CafeRushCatch = { id: number; atMs: number };
+
 export type CafeRushPresentation = {
+  roundPlan?: readonly CafeRushSpawn[];
   externalHud?: boolean;
   reducedMotion?: boolean;
   catchLight?: boolean;
@@ -130,6 +135,8 @@ export type CafeRushRules = {
   badChance: number;
   /** Missing a good item costs this many points (0 = only bad-catches hurt). */
   dropPenalty: number;
+  /** End the round immediately when a bad item is caught. Other skins keep score penalties. */
+  failOnBadCatch?: boolean;
 };
 
 export type CafeRushLevel = {
