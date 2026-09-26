@@ -33,12 +33,20 @@ async function main() {
   assert.match(rewardMigration, /starts_at timestamptz/);
   assert.match(rewardMigration, /ends_at timestamptz/);
 
+  const rateLimitMigration = await readFile(path.resolve("supabase/migrations/0021_bodega_guest_note_rate_limit.sql"), "utf8");
+  assert.match(rateLimitMigration, /consume_public_intake_rate_limit/);
+  assert.match(rateLimitMigration, /for update/);
+  assert.match(rateLimitMigration, /grant execute .* to service_role/i);
+
   const guestRoute = await readFile(path.resolve("src/app/api/bodega/guest-notes/route.ts"), "utf8");
   assert.match(guestRoute, /restaurantId: "bodega"/);
   assert.match(guestRoute, /BODEGA_GUEST_NOTES_EMAIL/);
+  assert.match(guestRoute, /consume_public_intake_rate_limit/);
+  assert.match(guestRoute, /RATE_LIMIT_MAX = 30/);
+  assert.match(guestRoute, /Retry-After/);
   assert(!/@[a-z0-9.-]+\.[a-z]{2,}/i.test(guestRoute), "No Bodega email address may be committed");
 
-  console.log("PASS: Square signature tamper checks, ten deterministic social exports, inactive five-per-day launch migration, and Bodega note routing without a committed recipient.");
+  console.log("PASS: Square signature checks, deterministic social exports, inactive reward window, durable guest-note throttling, and Bodega note routing without a committed recipient.");
 }
 
 main().catch((error) => { console.error(error); process.exitCode = 1; });
