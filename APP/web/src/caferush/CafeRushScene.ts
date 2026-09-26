@@ -9,9 +9,10 @@
 import Phaser from "phaser";
 import { DEFAULT_CAFERUSH_LEVEL, ratingFor, spawnIntervalMs } from "./config";
 import { DEFAULT_CAFERUSH_SKIN } from "./skins";
-import type { CafeRushItem, CafeRushLevel, CafeRushPresentation, CafeRushSkin, CafeRushStatus } from "./types";
+import type { CafeRushItem, CafeRushLevel, CafeRushPresentation, CafeRushSkin, CafeRushStatus, CafeRushSpawn, CafeRushCatch } from "./types";
 
 type FallingItem = {
+  planned?: CafeRushSpawn;
   container: Phaser.GameObjects.Container;
   item: CafeRushItem;
   xFrac: number;
@@ -162,10 +163,18 @@ export class CafeRushScene extends Phaser.Scene {
       this.remainingMs -= deltaMs;
       this.sinceSpawnMs += deltaMs;
 
-      const interval = spawnIntervalMs(this.level.rules, this.spawnedCount);
-      if (this.sinceSpawnMs >= interval) {
-        this.sinceSpawnMs = 0;
-        this.spawnItem();
+      const plan = this.presentation.roundPlan;
+      if (plan) {
+        const elapsed = this.level.rules.durationSec * 1000 - this.remainingMs;
+        while (this.spawnedCount < plan.length && plan[this.spawnedCount].atMs <= elapsed && this.remainingMs > 0) {
+          this.spawnItem(plan[this.spawnedCount]);
+        }
+      } else {
+        const interval = spawnIntervalMs(this.level.rules, this.spawnedCount);
+        if (this.sinceSpawnMs >= interval) {
+          this.sinceSpawnMs = 0;
+          this.spawnItem();
+        }
       }
 
       this.advanceItems(dt);
@@ -191,13 +200,14 @@ export class CafeRushScene extends Phaser.Scene {
     return weighted[Math.floor(Math.random() * weighted.length)] ?? good[0] ?? this.skin.items[0];
   }
 
-  private spawnItem(): void {
+  private spawnItem(planned?: CafeRushSpawn): void {
     const rules = this.level.rules;
-    const item = this.pickItem();
+    const item = planned ? this.skin.items.find((entry) => entry.id === planned.itemId) : this.pickItem();
+    if (!item) throw new Error("Round contains an unknown item");
     const rFrac = 0.075 * (this.presentation.itemScale ?? 1);
     const margin = rFrac * 1.3;
-    let xFrac = clamp(0.1 + Math.random() * 0.8, margin, 1 - margin);
-    if (this.presentation.separateSpawns) {
+    let xFrac = clamp(planned?.xFrac ?? (0.1 + Math.random() * 0.8), margin, 1 - margin);
+    if (!planned && this.presentation.separateSpawns) {
       let previous: FallingItem | undefined;
       for (let i = this.falling.length - 1; i >= 0; i -= 1) {
         if (!this.falling[i].settled) { previous = this.falling[i]; break; }
@@ -207,7 +217,7 @@ export class CafeRushScene extends Phaser.Scene {
         xFrac = previous.xFrac < 0.5 ? 1 - margin : margin;
       }
     }
-    const speed = rules.fallSpeed[0] + Math.random() * (rules.fallSpeed[1] - rules.fallSpeed[0]);
+    const speed = planned?.speed ?? (rules.fallSpeed[0] + Math.random() * (rules.fallSpeed[1] - rules.fallSpeed[0]));
 
     const container = this.add.container(0, 0);
     container.setDepth(10);
@@ -222,6 +232,7 @@ export class CafeRushScene extends Phaser.Scene {
     }
 
     this.falling.push({
+      planned,
       container,
       item,
       xFrac,
@@ -238,7 +249,10 @@ export class CafeRushScene extends Phaser.Scene {
   private advanceItems(dt: number): void {
     for (const f of this.falling) {
       if (f.settled) continue;
-      f.yFrac += f.speed * dt;
+      if (f.planned) {
+        const elapsed = this.level.rules.durationSec * 1000 - this.remainingMs;
+        f.yFrac = -f.rFrac + f.speed * (elapsed - f.planned.atMs) / 1000;
+      } else f.yFrac += f.speed * dt;
       if (!this.presentation.reducedMotion) f.container.rotation += f.spin * dt;
 
       if (f.yFrac - f.rFrac > 1) {
@@ -271,6 +285,9 @@ export class CafeRushScene extends Phaser.Scene {
       good ? this.skin.colors.goodText : this.skin.colors.badText,
     );
     this.events.emit("cafe-catch", f.item.id);
+    if (f.planned) this.events.emit("cafe-catch-record", {
+      id: f.planned.id, atMs: Math.round(this.level.rules.durationSec * 1000 - this.remainingMs),
+    } satisfies CafeRushCatch);
     if (this.level.rules.finishAtTarget && this.score >= this.level.rules.targetScore) this.endRound();
     this.updateHud(this.size().w);
   }

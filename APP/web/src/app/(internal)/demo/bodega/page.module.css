@@ -34,13 +34,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 12px 22px;
+  min-height: 64px;
+  min-width: 225px;
+  padding: 14px 26px;
   border-radius: 999px;
   background: var(--ink);
   color: #fff;
-  font-size: 15px;
-  font-weight: 650;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: .045em;
   text-decoration: none;
   white-space: nowrap;
   box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
@@ -87,7 +89,7 @@
 .sessionsTeaser > img { width: 72px; height: 72px; object-fit: contain; }
 .sessionsTeaser h2 { font-size: 24px; font-weight: 700; letter-spacing: -.04em; }
 .sessionsTeaser p { margin-top: 5px; font-size: 14px; line-height: 1.4; color: var(--muted); }
-.sessionsTeaser a { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 10px 20px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 3px; }
+.sessionsTeaser a { display: inline-flex; min-height: 60px; align-items: center; justify-content: center; padding: 12px 24px; background: var(--ink); color: #fff; font-size: 17px; font-weight: 750; text-decoration: none; border-radius: 3px; }
 .sessionsTeaser a:hover { background: #333; }
 .hours { display: grid; gap: 24px; padding: 42px 0; }
 .page .address { max-width: 30ch; margin-top: 16px; color: var(--muted); font-size: 15px; line-height: 1.55; }
@@ -135,5 +137,11 @@
   .sectionHeader img { width: 128px; height: 140px; }
   .sessionsTeaser { grid-template-columns: minmax(0, 1fr) auto; }
   .sessionsTeaser > img { display: none; }
+}
+@media (max-width: 699px) {
+  .shell { padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
+  .floatingPlay { left: 16px; right: 16px; min-width: 0; min-height: 68px; border-radius: 4px; font-size: 18px; }
+  .sessionsTeaser { grid-template-columns: 72px minmax(0, 1fr); }
+  .sessionsTeaser a { grid-column: 1 / -1; width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .sealMotionToggle { display: none; } }

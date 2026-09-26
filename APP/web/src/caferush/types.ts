@@ -67,7 +67,12 @@ export type CafeRushAssets = {
 /** Read-only presentation updates; never used to determine game rules. */
 export type CafeRushStatus = { score: number; seconds: number; target: number; over: boolean };
 
+/** Optional precomputed round. Server and renderer can agree on available items. */
+export type CafeRushSpawn = { id: number; atMs: number; itemId: string; xFrac: number; speed: number };
+export type CafeRushCatch = { id: number; atMs: number };
+
 export type CafeRushPresentation = {
+  roundPlan?: readonly CafeRushSpawn[];
   externalHud?: boolean;
   reducedMotion?: boolean;
   catchLight?: boolean;

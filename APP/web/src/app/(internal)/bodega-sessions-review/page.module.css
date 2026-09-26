@@ -85,6 +85,20 @@
 .playButton:hover { background:#333; }
 .playButton:active { background:#000; }
 .landingNote { color:#666; font-size:11px; line-height:1.5; }
+.offerCopy { font-weight:750; margin:8px 0 0; }
+.offerRules { max-width:400px; margin:0; font-size:12px; line-height:1.65; color:#555; }
+.eligibility { display:flex; align-items:flex-start; gap:10px; text-align:left; max-width:360px; font-size:12px; line-height:1.6; padding:10px 0; }
+.eligibility input { flex:none; width:22px; height:22px; margin:0; }
+.practiceButton { min-height:44px; border:0; background:transparent; color:#111; text-decoration:underline; font-weight:700!important; padding:10px 16px; }
+.muffinTicket { width:min(100%,400px); padding:20px; text-align:left; color:#111; background:#fff2d8; border:2px dashed #183d31; }
+.muffinTicket h3 { margin:6px 0 12px; font:32px/1.1 Impact,"Arial Narrow",sans-serif; }
+.muffinTicket p { font-size:12px; line-height:1.5; margin:8px 0; }
+.muffinTicket .ticketEyebrow { font:10px var(--font-geist-mono),monospace; text-transform:uppercase; letter-spacing:.1em; }
+.muffinTicket code { display:block; user-select:all; overflow-wrap:anywhere; font:14px/1.8 var(--font-geist-mono),monospace; margin:12px 0; }
+.ticketButton { min-height:44px; padding:10px 14px; border:1px solid #111; background:#111; color:white; }
+.muffinTicket [role="status"] { font-size:12px; }
+.catchOverlay { overflow-y:auto; justify-content:safe center; gap:16px; }
+.catchOverlay > * { flex-shrink:0; }
 @media(max-height:500px) {
   .shell { padding-top:8px; padding-bottom:8px; }
   .landing { gap:6px; padding:8px 0; }
@@ -93,3 +107,41 @@
   .playButton { min-height:44px; padding:8px 20px; }
   .evidenceNote { margin-top:6px; }
 }
+.playButton { width:min(100%,400px); min-height:68px; padding:16px 24px; font-size:19px!important; letter-spacing:.08em; }
+.prizeOffer { display:flex; flex-direction:column; align-items:center; gap:12px; max-width:440px; }
+.progressNote { font-size:13px; font-weight:700; line-height:1.5; }
+.srOnly { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.chapterHeading { display:flex; flex-direction:column; align-items:center; gap:3px; padding:4px 16px 9px; text-align:center; }
+.chapterHeading span { font:10px var(--font-geist-mono),monospace; letter-spacing:.16em; }
+.chapterHeading strong { font:26px/.95 Impact,"Arial Narrow",sans-serif; letter-spacing:.025em; text-transform:uppercase; }
+.chapterHeading small { font-size:11px; color:#fff2d8; }
+.collectionStrip { display:flex; justify-content:center; gap:22px; padding:0 12px 10px; color:#fff2d880; font-size:18px; }
+.collectionStrip [data-collected="true"] { color:var(--gold); }
+.chapterInterlude { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; min-height:75svh; padding:44px 24px; text-align:center; }
+.chapterInterlude > span { font:12px var(--font-geist-mono),monospace; letter-spacing:.2em; color:var(--gold); }
+.chapterInterlude h2 { margin:0; font:clamp(40px,9vw,68px)/.95 Impact,"Arial Narrow",sans-serif; text-transform:uppercase; }
+.chapterInterlude p { max-width:32ch; line-height:1.55; }
+.chapterInterlude .playButton { background:var(--gold); border-color:var(--gold); color:#111; }
+.chapterInterlude .practiceButton { color:#fff2d8; }
+.victory { position:relative; color:#fff2d8; background:#0c291f; overflow:hidden; text-align:center; }
+.victoryArt { position:relative; height:clamp(380px,75svh,680px); overflow:hidden; }
+.victoryArt img { object-fit:cover; object-position:center 42%; animation:victory-arrive 3s ease-out both; }
+.victoryCopy { position:relative; z-index:1; margin-top:-90px; padding:100px 22px 36px; display:flex; flex-direction:column; align-items:center; gap:14px; background:linear-gradient(transparent,#0c291f 85px); }
+.victoryCopy > span { font:11px var(--font-geist-mono),monospace; letter-spacing:.19em; color:var(--gold); }
+.victoryCopy h2 { margin:0; font:clamp(48px,11vw,78px)/.9 Impact,"Arial Narrow",sans-serif; text-wrap:balance; }
+.victoryCopy p { margin:0; line-height:1.45; }
+.victoryCopy > strong { font:clamp(22px,5vw,32px)/1.1 Impact,"Arial Narrow",sans-serif; color:var(--gold); }
+.victoryCopy .muffinTicket { margin-top:12px; }
+.victoryCopy .practiceButton { color:#fff2d8; }
+.victory[data-revealed="false"] .victoryCopy > :not(.skipReveal) { opacity:0; }
+.skipReveal { position:fixed; z-index:2; right:22px; bottom:24px; min-height:48px; padding:8px 16px; border:1px solid #fff2d8; background:#0c291f; color:#fff2d8; }
+@keyframes victory-arrive { from { transform:scale(1.10); filter:brightness(.55); } to { transform:scale(1); filter:brightness(1); } }
+@media(max-width:700px) {
+  .chapterHeading strong { font-size:22px; }
+  .collectionStrip { padding-bottom:5px; }
+  .victoryArt { height:65svh; }
+}
+@media(max-width:700px), (max-height:500px) and (pointer:coarse) {
+  .game[data-playing="true"] .chapterHeading,.game[data-playing="true"] .collectionStrip { flex:none; }
+}
+@media(prefers-reduced-motion:reduce) { .victoryArt img { animation:none; } }

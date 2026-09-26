@@ -47,6 +47,6 @@ export function BodegaMenuNav() {
     <nav className={styles.sectionNav} aria-label="Menu categories">
     {sections.map(({ id, label }) => <a href={`#${id}`} key={id} onClick={() => setActive(id)} aria-current={active === id ? "location" : undefined}>{label}</a>)}
     </nav>
-    <Link className={styles.floatingPlay} href="/bodega-sessions-review" prefetch={false}>Play game</Link>
+    <Link className={styles.floatingPlay} href="/bodega-sessions-review" prefetch={false}>PLAY BODEGA RUSH</Link>
   </>;
 }
