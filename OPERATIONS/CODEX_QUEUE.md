@@ -604,3 +604,10 @@ Authority: Anthony requested that exiting the game discards all won rounds and t
 Base: origin/main 1e5b321; branch codex/bodega-no-save-faster-20260926.
 Scope: Remove local completed-round persistence and resume, reset browser history restores, accelerate every chapter by 20%, update explanatory copy and deterministic round version. Prepare the additive SQL version migration without applying it. Review PR before production merge.
 Result: Exiting and returning starts at round one with 0% muffin progress, including after winning a round and using browser Back. In-page pause remains. Five fall-speed ranges are each 20% faster with existing chapter progression intact. Targeted ESLint, deterministic/PGlite game reward self-tests, production build and browser win/leave/reenter checks passed. Rewards stay inactive, migration unapplied. Production merge and deployment require review.
+
+## [x] 69 - Bodega Vibra and prominent menu return
+
+Authority: Anthony approved the Bodega Vibra plan and explicitly requested implementation and merge after validation. Muffin rewards remain off until he chooses a daily cap.
+Base: origin/main b1fd179; branch codex/bodega-vibra-menu-20260926.
+Scope: Rename the experience and menu actions to Bodega Vibra, add the line “Es que no entienden la vibra,” redesign both game-entry actions with a rhythm mark, and make every return to the Bodega menu a large high-contrast control. Verify desktop and phone layout, run scoped lint/build, open a PR, and merge after checks pass.
+Result: Renamed the menu invitation, game metadata and landing presentation to Bodega Vibra. Added the approved Spanish line and a shared black rectangular game action with waveform mark, directional arrow, offset shadow and tactile press response; the in-game Play control uses the same rhythm language. Every return now reads “Bodega Menu” as a large high-contrast action on landing, gameplay, loss, interlude and victory. Targeted ESLint, production build, 1280px desktop and 390px phone browser checks passed with no overflow or console errors. Muffin claims remain inactive.

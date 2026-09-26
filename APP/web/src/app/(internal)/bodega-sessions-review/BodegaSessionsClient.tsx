@@ -217,10 +217,10 @@ export default function BodegaSessionsClient() {
       void rewards.refresh();
     } finally { preparingRef.current = false; setPreparing(false); }
   }
-  return <section id="fall-game" className={styles.game} data-playing={view === "playing"} aria-label="Bodega Fall Rush">
+  return <section id="fall-game" className={styles.game} data-playing={view === "playing"} aria-label="Bodega Vibra">
     <div className={styles.stage}>
       {view === "landing" && <div className={styles.landing}>
-        <span className={styles.eyebrow}>BODEGA CAFE · FALL RUSH</span>
+        <span className={styles.eyebrow}>BODEGA CAFE · BODEGA VIBRA</span>
         <h1>WIN A FREE<br />MUFFIN</h1>
         <p className={styles.offerState}>{rewards.enabled ? "THE CHALLENGE IS OPEN" : "COMING SOON · PLAY FOR FUN TODAY"}</p>
         <div className={styles.heroArt}>
@@ -244,14 +244,14 @@ export default function BodegaSessionsClient() {
           <button className={styles.playButton} disabled={!eligible || preparing} onClick={() => { void beginPrize(); }}>{preparing ? "GETTING READY…" : "PLAY FOR A MUFFIN"}</button>
           <p className={styles.offerRules}>{MUFFIN_TERMS} Redeem during cafe hours.</p>
         </div>}
-        <button className={rewards.enabled ? styles.practiceButton : styles.playButton} onClick={() => beginPractice()}>PLAY FOR FUN</button>
+        <button className={rewards.enabled ? styles.practiceButton : `${styles.playButton} ${styles.vibraPlay}`} onClick={() => beginPractice()}>{rewards.enabled ? "PLAY BODEGA VIBRA FOR FUN" : "PLAY BODEGA VIBRA"}</button>
         <p className={styles.landingNote}>Leave or lose and the muffin meter resets to 0%.</p>
         <p className={styles.offerRules} role="status">{startMessage || rewards.message || (rewards.checking ? "Checking prize availability…" : !rewards.enabled ? "Muffin claims are not active yet." : "Practice play does not issue a muffin claim.")}</p>
         <MuffinMeter completedRounds={0} />
       </div>}
       {view === "playing" && campaign && chapter && <div className={styles.catchLayout}>
         <div className={styles.catchControls}>
-          <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
+          <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← BODEGA MENU</Link>
           <button className={styles.pause} onClick={() => { const next = !muted; setMuted(next); if (!audio.current) audio.current = new BodegaCatchAudio(); audio.current.setMuted(next); }} aria-pressed={muted} aria-label={muted ? "Unmute catch sounds" : "Mute catch sounds"}>{muted ? "Sound off" : "Sound on"}</button>
           <button className={styles.pause} onClick={togglePause} disabled={loading || error || status.over}>{paused ? "Resume" : "Pause"}</button>
         </div>
@@ -274,7 +274,7 @@ export default function BodegaSessionsClient() {
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button>
               : paused ? <button className={styles.primary} onClick={togglePause}>Resume catching</button>
               : null}
-            {paused && <><p>Pause here or leave and start again at round one.</p><Link className={styles.backLink} href="/demo/bodega" prefetch={false}>Back to menu</Link></>}
+            {paused && <p>Pause here or leave and start again at round one. The Bodega menu is above.</p>}
           </div>}
         </div>
         <p className={styles.catchLegend}>Tap café finds · Avoid Bad Vibes</p>
@@ -286,7 +286,7 @@ export default function BodegaSessionsClient() {
         <p>{lossReason === "bad-vibes" ? "Bad Vibes caught you." : "The rush got away."} Back to the first stop.</p>
         <MuffinMeter completedRounds={0} previousRounds={lossProgress} compact />
         <button className={styles.playButton} onClick={() => beginStage(campaign)}>RUN IT BACK</button>
-        <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
+        <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← BODEGA MENU</Link>
       </div>}
       {view === "chapter" && campaign && <div className={styles.chapterInterlude}>
         <Image src={FIND_ART[campaign.runs.length - 1]} alt="" width={136} height={136} />
@@ -295,7 +295,7 @@ export default function BodegaSessionsClient() {
         <p>Next: {BODEGA_CHAPTERS[campaign.chapterIndex]?.title}. Keep going. Leaving resets your muffin meter.</p>
         <MuffinMeter completedRounds={campaign.runs.length} compact />
         <button className={styles.playButton} onClick={() => beginStage(campaign)}>NEXT ROUND NOW</button>
-        <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
+        <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← BODEGA MENU</Link>
       </div>}
       {view === "victory" && <div className={styles.victory} data-revealed={reveal}>
         <div className={styles.victoryArt}><Image src={FINALE} alt="A glowing muffin on the Bodega counter, the cat watching beside espresso and a vinyl record" fill sizes="(max-width:700px) 100vw, 720px" /></div>
@@ -314,7 +314,7 @@ export default function BodegaSessionsClient() {
           {rewards.receipt && <MuffinClaim receipt={rewards.receipt} />}
           {campaign?.mode === "prize" && rewards.message && <button className={styles.primary} disabled={rewards.verifying} onClick={rewards.retry}>Retry result check</button>}
           {!reveal && <button className={styles.skipReveal} onClick={() => setReveal(true)}>Skip reveal</button>}
-          <Link className={styles.playButton} href="/demo/bodega" prefetch={false}>← BACK TO MENU</Link>
+          <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← BODEGA MENU</Link>
           <button className={styles.practiceButton} onClick={() => { setReveal(false); beginPractice(); }}>Play again for fun</button>
         </div>
       </div>}
