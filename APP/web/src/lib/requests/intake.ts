@@ -5,6 +5,7 @@ import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured, REQUEST_UPLOAD_BUCKET } from "@/lib/supabase/config";
 
 export type ChangeRequestPayload = {
+  restaurantId?: string | null;
   businessName: string;
   contactName: string;
   contactInfo: string;
@@ -40,7 +41,7 @@ export async function persistChangeRequest(
       p_message: payload.message,
       p_source_page: payload.sourcePage,
       p_reference_id: payload.referenceId,
-      p_restaurant_id: null,
+      p_restaurant_id: payload.restaurantId ?? null,
     });
 
     if (error) {
@@ -258,12 +259,18 @@ function looksLikeEmail(value: string) {
  */
 export async function sendChangeRequestEmail(
   payload: ChangeRequestPayload,
+  options: { additionalRecipients?: Array<string | undefined> } = {},
 ): Promise<{ sent: boolean }> {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.REQUESTS_NOTIFICATION_EMAIL;
   const from = process.env.REQUESTS_FROM_EMAIL;
 
   if (!apiKey || !to || !from) return { sent: false };
+
+  const recipients = [to, ...(options.additionalRecipients ?? [])]
+    .map((value) => value?.trim() ?? "")
+    .filter((value, index, values) => looksLikeEmail(value) && values.indexOf(value) === index);
+  if (recipients.length === 0) return { sent: false };
 
   const lines = [
     `Reference: ${payload.referenceId}`,
@@ -290,7 +297,7 @@ export async function sendChangeRequestEmail(
       },
       body: JSON.stringify({
         from,
-        to: [to],
+        to: recipients,
         subject: `New request — ${payload.businessName} [${payload.priority}]`,
         text: lines.join("\n"),
         ...(looksLikeEmail(payload.contactInfo) ? { reply_to: payload.contactInfo } : {}),

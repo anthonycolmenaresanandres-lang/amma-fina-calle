@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { BodegaMenuNav } from "./bodega-menu-nav";
 import { BodegaVibraLink } from "./bodega-vibra-link";
+import { BodegaGuestNoteForm } from "./bodega-guest-note-form";
 import { classicDrinks, classicExtras, espressoDrinks, formatMenuPrice, draftMenuSections, publishedBusinessDetails } from "./menu-draft";
 import { BodegaSignalLogo } from "./bodega-signal-logo";
 import { FinaCalleSignature } from "./fina-calle-signature";
@@ -110,6 +111,8 @@ export default function BodegaMenuReviewPage() {
             ))}
           </ul>
         </section>
+
+        <BodegaGuestNoteForm />
 
         <footer className={styles.footer}>
           <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com">

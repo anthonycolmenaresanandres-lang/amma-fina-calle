@@ -143,6 +143,7 @@
 .muffinTicket p { margin: 8px 0; font-size: 12px; line-height: 1.5; }
 .ticketEyebrow { font: 700 10px var(--font-geist-mono), monospace; letter-spacing: .13em; text-transform: uppercase; }
 .muffinTicket code { display: block; margin: 12px 0; font: 14px/1.6 var(--font-geist-mono), monospace; overflow-wrap: anywhere; user-select: all; }
+.rulesLink { display:inline-flex; min-height:44px; align-items:center; justify-content:center; color:var(--ink); font-size:12px; font-weight:750; text-underline-offset:5px; }
 .ticketButton { min-height: 44px; padding: 10px 14px; border: 1px solid var(--ink); background: var(--ink); color: #fff; font-weight: 650; }
 
 @media (max-width: 700px), (max-height: 500px) and (pointer: coarse) {
