@@ -2806,3 +2806,22 @@ Generated and optimized an original painted X above BAD VIBES sprite, used it fo
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in
 The PR was out of date after main gained #261 and #262. Merged origin/main into claude/tech-research-integration-s66gw7 (5bb2173). The only conflict was this log, where both sides appended; both kept in chronological order. After the merge: lint 0 errors, grua:test 14/14, TypeScript, owner self-tests, bodega-rewards self-tests and production build all pass.
 Renumbered the Grúa queue item from 65 to 67 because main's queue now uses 64–66 for Bodega. References updated in the queue, spec and brief. No behaviour change. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-26 IN — Bodega muffin meter and loss copy
+
+Anthony explicitly requested executing and merging the approved muffin-progress and New York loss-screen plan. Started codex/bodega-muffin-meter-20260926 from production main e3ac98e. Preserve reward-off state and all game rules.
+
+## 2026-09-26 OUT — Bodega muffin meter and loss copy
+
+Replaced the five collectible icons with a muffin silhouette and five-step percentage meter. Each completed round contributes 20 percent; practice completion does not issue a claim. The meter is available throughout the campaign and resets after loss. Bad Vibes and missed goals have distinct New York-style copy and art, with “RUN IT BACK” returning to round one. Targeted ESLint, production build, desktop and phone browser checks passed. No reward activation or database migration.
+
+## 2026-09-26 IN — Bodega no-save and faster falls
+
+Anthony requested that exiting discard won rounds and restart from round one, with faster item falls at every level. Branch codex/bodega-no-save-faster-20260926 from production main 1e5b321. Preserve reward-off state and prepare only a version migration.
+
+## 2026-09-26 OUT — Bodega no-save and faster falls
+
+Removed local campaign saves, resume actions and old saved-state copy; cleared legacy keys and reset pages restored from browser history. Leaving after winning a round and reentering starts at round one with a 0% muffin meter. All five chapter fall-speed ranges increased 20%. Bumped deterministic round version to 5 with an unapplied additive SQL migration for future claim verification. Targeted ESLint, deterministic and PGlite self-tests, production build and browser round-win/leave/reenter checks passed. Rewards remain off and daily cap zero. Review PR is the production release gate.
+
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (12:23 UTC)
+The PR was out of date again after main gained #263 and #264. Merged origin/main (b1fd179) into claude/tech-research-integration-s66gw7. The only conflict was this log, where both sides appended; both kept in chronological order. Renumbered the Grúa queue item from 67 to 69 because main's queue now uses 67 and 68 for Bodega; references updated in the queue, spec and brief. No behaviour change. Still a draft awaiting Anthony; no merge.

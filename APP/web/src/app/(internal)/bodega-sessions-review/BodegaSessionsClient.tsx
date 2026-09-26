@@ -12,9 +12,9 @@ import { BodegaCatchAudio } from "@/bodega-fall/audio";
 import { useMuffinRewards } from "@/bodega-fall/useMuffinRewards";
 import type { RewardCampaignSession } from "@/lib/bodega-rewards/contracts";
 import MuffinClaim from "./MuffinClaim";
+import MuffinMeter from "./MuffinMeter";
 import styles from "./page.module.css";
 
-const STORAGE_KEY = "bodega-fall-campaign-v4";
 const FINALE = "/assets/bodega/fall/collection-complete.png";
 const BAD_VIBES_ART = "/assets/bodega/fall/bad-vibes.webp";
 const FIND_ART = [
@@ -26,21 +26,6 @@ const FIND_ART = [
 ];
 type Campaign = { mode: "practice" | "prize"; id?: string; seed: number; chapterIndex: number; runs: BodegaRun[] };
 type View = "landing" | "playing" | "chapter" | "loss" | "victory";
-
-function readSaved(): Campaign | null {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw || raw.length > 100000) return null;
-    const value: unknown = JSON.parse(raw);
-    if (!value || typeof value !== "object") return null;
-    const saved = value as Campaign;
-    if (!["practice", "prize"].includes(saved.mode) || !Number.isInteger(saved.seed) || saved.seed < 0 || saved.seed > 0xffffffff
-      || !Number.isInteger(saved.chapterIndex) || saved.chapterIndex < 0 || saved.chapterIndex > BODEGA_CHAPTERS.length
-      || !Array.isArray(saved.runs) || saved.runs.length !== saved.chapterIndex) return null;
-    if (saved.mode === "prize" && typeof saved.id !== "string") return null;
-    return saved;
-  } catch { return null; }
-}
 
 export default function BodegaSessionsClient() {
   const [view, setView] = useState<View>("landing");
@@ -58,13 +43,12 @@ export default function BodegaSessionsClient() {
   const [muted, setMuted] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [lossReason, setLossReason] = useState<"bad-vibes" | "round">("round");
-  const [hydrated, setHydrated] = useState(false);
+  const [lossProgress, setLossProgress] = useState(0);
   const mount = useRef<HTMLDivElement>(null);
   const game = useRef<Game | null>(null);
   const audio = useRef<BodegaCatchAudio | null>(null);
   const pausedRef = useRef(false);
   const preparingRef = useRef(false);
-  const recoveryAttempted = useRef(false);
   const rewards = useMuffinRewards();
   const finishReward = rewards.finish;
   const chapterIndex = campaign?.chapterIndex ?? 0;
@@ -82,29 +66,15 @@ export default function BodegaSessionsClient() {
 
   useEffect(() => () => { audio.current?.dispose(); audio.current = null; }, []);
   useEffect(() => {
-    const saved = readSaved();
-    if (saved) { setCampaign(saved); if (saved.chapterIndex === BODEGA_CHAPTERS.length) setView("victory"); }
-    if (window.localStorage.getItem("bodega-fall-campaign-v2") || window.localStorage.getItem("bodega-fall-campaign-v3")) {
-      window.localStorage.removeItem("bodega-fall-campaign-v2");
-      window.localStorage.removeItem("bodega-fall-campaign-v3");
-      if (!saved) setStartMessage("The challenge rules have changed. Start a fresh run.");
-    }
-    setHydrated(true);
+    // Clear saves from previous releases. A visit now always starts at round one.
+    try {
+      for (const version of [1, 2, 3, 4]) window.localStorage.removeItem("bodega-fall-campaign-v" + version);
+    } catch { /* Storage may be unavailable; in-memory play still works. */ }
+    // Browser back can restore a page from its back-forward cache with React state intact.
+    const resetOnRestore = (event: PageTransitionEvent) => { if (event.persisted) window.location.reload(); };
+    window.addEventListener("pageshow", resetOnRestore);
+    return () => window.removeEventListener("pageshow", resetOnRestore);
   }, []);
-  useEffect(() => {
-    if (!hydrated) return;
-    if (campaign) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(campaign));
-    else window.localStorage.removeItem(STORAGE_KEY);
-  }, [campaign, hydrated]);
-  useEffect(() => {
-    if (campaign?.mode === "prize" && rewards.campaign && rewards.campaign.id === campaign.id) setPrizePlan(rewards.campaign);
-  }, [campaign?.id, campaign?.mode, rewards.campaign]);
-  useEffect(() => {
-    if (recoveryAttempted.current || !hydrated || rewards.checking || campaign?.mode !== "prize"
-      || campaign.chapterIndex !== BODEGA_CHAPTERS.length || rewards.receipt || !campaign.id) return;
-    recoveryAttempted.current = true;
-    void finishReward(campaign.id, campaign.runs);
-  }, [campaign, finishReward, hydrated, rewards.checking, rewards.receipt]);
   useEffect(() => {
     if (view !== "victory") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setReveal(true); return; }
@@ -132,8 +102,8 @@ export default function BodegaSessionsClient() {
   }, [view, campaign, chapterWon, status.over, chapterIndex, roundCatches, finishReward]);
   useEffect(() => {
     if (view !== "playing" || !campaign || !status.over || chapterWon) return;
-    window.localStorage.removeItem(STORAGE_KEY);
     setLossReason(badVibesCaught ? "bad-vibes" : "round");
+    setLossProgress(campaign.runs.length);
     setCampaign({ ...campaign, seed: campaign.mode === "practice" ? crypto.getRandomValues(new Uint32Array(1))[0] : campaign.seed, chapterIndex: 0, runs: [] });
     setView("loss");
   }, [view, campaign, status.over, chapterWon, badVibesCaught]);
@@ -165,8 +135,6 @@ export default function BodegaSessionsClient() {
             setStatus(next);
             if (next.over) {
               setRoundCatches([...catches]);
-              if (next.score < chapter.targetScore || !catches.some((event) => plan?.[event.id]?.itemId === chapter.required)
-                || catches.some((event) => plan?.[event.id]?.itemId === "bad-vibes")) window.localStorage.removeItem(STORAGE_KEY);
             }
           });
           this.events.on("cafe-catch-record", (event: CafeRushCatch) => { if (!cancelled) catches.push(event); });
@@ -218,8 +186,8 @@ export default function BodegaSessionsClient() {
     if (!next) mount.current?.focus({ preventScroll: true });
   }
   function beginStage(nextCampaign: Campaign, prepared?: RewardCampaignSession) {
-    if (nextCampaign.mode === "prize" && !prepared && !prizePlan && !rewards.campaign) {
-      setStartMessage("Reconnecting to your saved prize session. Try again in a moment.");
+    if (nextCampaign.mode === "prize" && prepared?.id !== nextCampaign.id && prizePlan?.id !== nextCampaign.id) {
+      setStartMessage("Start a new muffin challenge to play.");
       return;
     }
     setCampaign(nextCampaign);
@@ -231,9 +199,8 @@ export default function BodegaSessionsClient() {
     setRunNonce((n) => n + 1);
     unlockAudio();
   }
-  function beginPractice(fresh = false) {
-    const next: Campaign = !fresh && campaign?.mode === "practice" && campaign.chapterIndex < BODEGA_CHAPTERS.length
-      ? campaign : { mode: "practice", seed: crypto.getRandomValues(new Uint32Array(1))[0], chapterIndex: 0, runs: [] };
+  function beginPractice() {
+    const next: Campaign = { mode: "practice", seed: crypto.getRandomValues(new Uint32Array(1))[0], chapterIndex: 0, runs: [] };
     setStartMessage("");
     beginStage(next);
   }
@@ -250,8 +217,6 @@ export default function BodegaSessionsClient() {
       void rewards.refresh();
     } finally { preparingRef.current = false; setPreparing(false); }
   }
-  const hasPrizeResume = campaign?.mode === "prize" && campaign.chapterIndex < BODEGA_CHAPTERS.length
-    && prizePlan && prizePlan.id === campaign.id && Date.parse(prizePlan.expiresAt) > Date.now();
   return <section id="fall-game" className={styles.game} data-playing={view === "playing"} aria-label="Bodega Fall Rush">
     <div className={styles.stage}>
       {view === "landing" && <div className={styles.landing}>
@@ -270,26 +235,19 @@ export default function BodegaSessionsClient() {
           <ol className={styles.rulesList}>
             <li><strong>Catch café favorites.</strong><span>Find the featured item and reach your points goal.</span></li>
             <li><strong>Ten seconds. Five rounds.</strong><span>Each round falls faster.</span></li>
-            <li><strong>Avoid Bad Vibes.</strong><span>One touch ends your run. Every loss starts at round one.</span></li>
+            <li><strong>Avoid Bad Vibes.</strong><span>One touch ends your run. Leave or lose and start at round one.</span></li>
           </ol>
         </div>
-        {campaign && campaign.chapterIndex > 0 && campaign.chapterIndex < BODEGA_CHAPTERS.length && <p className={styles.progressNote}>{campaign.runs.length} of 5 rounds saved · Up next: {BODEGA_CHAPTERS[campaign.chapterIndex].title}</p>}
         {rewards.receipt && <MuffinClaim receipt={rewards.receipt} />}
-        {rewards.enabled && !rewards.receipt && !hasPrizeResume && <div className={styles.prizeOffer}>
+        {rewards.enabled && !rewards.receipt && <div className={styles.prizeOffer}>
           <label className={styles.eligibility}><input type="checkbox" checked={eligible} onChange={(event) => setEligible(event.target.checked)} />I can redeem in-store today and have not received this promotion before.</label>
           <button className={styles.playButton} disabled={!eligible || preparing} onClick={() => { void beginPrize(); }}>{preparing ? "GETTING READY…" : "PLAY FOR A MUFFIN"}</button>
           <p className={styles.offerRules}>{MUFFIN_TERMS} Redeem during cafe hours.</p>
         </div>}
-        {hasPrizeResume && campaign && <button className={styles.playButton} onClick={() => beginStage(campaign)}>{campaign.chapterIndex > 0 ? "RESUME MUFFIN CHALLENGE" : "START MUFFIN CHALLENGE"}</button>}
-        <button className={rewards.enabled ? styles.practiceButton : styles.playButton} onClick={() => beginPractice()}>
-          {campaign?.mode === "practice" && campaign.chapterIndex > 0 && campaign.chapterIndex < BODEGA_CHAPTERS.length ? "RESUME FOR FUN" : "PLAY FOR FUN"}
-        </button>
-        <p className={styles.landingNote}>Leave and keep completed rounds. Lose and start at round one.</p>
+        <button className={rewards.enabled ? styles.practiceButton : styles.playButton} onClick={() => beginPractice()}>PLAY FOR FUN</button>
+        <p className={styles.landingNote}>Leave or lose and the muffin meter resets to 0%.</p>
         <p className={styles.offerRules} role="status">{startMessage || rewards.message || (rewards.checking ? "Checking prize availability…" : !rewards.enabled ? "Muffin claims are not active yet." : "Practice play does not issue a muffin claim.")}</p>
-        <ol className={styles.collectionStrip} aria-label="Five café finds">
-          {BODEGA_CHAPTERS.map((entry, index) => <li key={entry.id}><Image src={FIND_ART[index]} alt="" width={52} height={52} /><span>{["Latte", "Green", "Bites", "Vinyl", "Muffin"][index]}</span></li>)}
-        </ol>
-        {campaign?.mode === "prize" && !hasPrizeResume && !rewards.checking && !rewards.receipt && <p className={styles.offerRules}>Your previous prize session is unavailable. You can play for fun while the offer is checked.</p>}
+        <MuffinMeter completedRounds={0} />
       </div>}
       {view === "playing" && campaign && chapter && <div className={styles.catchLayout}>
         <div className={styles.catchControls}>
@@ -298,9 +256,7 @@ export default function BodegaSessionsClient() {
           <button className={styles.pause} onClick={togglePause} disabled={loading || error || status.over}>{paused ? "Resume" : "Pause"}</button>
         </div>
         <div className={styles.chapterHeading}><span>ROUND {chapterIndex + 1} OF 5 · 10 SECONDS</span><strong>{chapter.title}</strong><small>Catch {chapter.keepsake} · reach {chapter.targetScore} points</small></div>
-        <ol className={styles.collectionStrip} aria-label="Collection progress">
-          {BODEGA_CHAPTERS.map((entry, index) => <li key={entry.id} data-collected={index < campaign.runs.length} data-current={index === chapterIndex}><Image src={FIND_ART[index]} alt="" width={52} height={52} /><span className={styles.srOnly}>{entry.keepsake} {index < campaign.runs.length ? "collected" : index === chapterIndex ? "current find" : "remaining"}</span></li>)}
-        </ol>
+        <MuffinMeter completedRounds={campaign.runs.length} compact />
         <div className={styles.hud} aria-label="Game progress and time">
           <div className={styles.scoreReadout}><span>{status.score >= status.target ? "GOAL COMPLETE" : "POINTS"}</span><strong>{displayScore}<small>/{status.target}</small></strong></div>
           <div className={styles.scoreTrack} role="progressbar" aria-label="Round points" aria-valuemin={0} aria-valuemax={status.target} aria-valuenow={displayScore}><span style={{ width: `${displayScore / status.target * 100}%` }} /></div>
@@ -313,29 +269,31 @@ export default function BodegaSessionsClient() {
             game.current?.scene.getScenes(true).forEach((scene) => (scene as import("@/caferush/CafeRushScene").CafeRushScene).handleKey(event.key));
           }} />
           {(loading || paused || error || status.over) && <div className={styles.catchOverlay} role="status">
-            <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : paused ? "Paused." : chapterWon ? "Find collected." : badVibesCaught ? "Bad Vibes got you." : "Round missed."}</h2>
-            {status.over && <p>{chapterWon ? `${chapter.keepsake} is in your collection. Next round starts now.` : `Catch ${chapter.keepsake} and reach ${chapter.targetScore} points.`}<br />{status.score} points</p>}
+            <h2>{error ? "The game couldn’t load." : loading ? "Opening the bodega…" : paused ? "Paused." : chapterWon ? "Find collected." : badVibesCaught ? "Nah, not today." : "Missed your stop."}</h2>
+            {status.over && <p>{chapterWon ? `${chapter.keepsake} is in your collection. Next round starts now.` : badVibesCaught ? "Bad Vibes caught you. Back to the first stop." : "The rush got away. Back to the first stop."}<br />{status.score} points</p>}
             {error ? <button className={styles.primary} onClick={() => window.location.reload()}>Reload game</button>
               : paused ? <button className={styles.primary} onClick={togglePause}>Resume catching</button>
               : null}
-            {paused && <><p>Leaving keeps completed rounds. Losing starts you at round one.</p><Link className={styles.backLink} href="/demo/bodega" prefetch={false}>Back to menu</Link></>}
+            {paused && <><p>Pause here or leave and start again at round one.</p><Link className={styles.backLink} href="/demo/bodega" prefetch={false}>Back to menu</Link></>}
           </div>}
         </div>
         <p className={styles.catchLegend}>Tap café finds · Avoid Bad Vibes</p>
       </div>}
-      {view === "loss" && campaign && <div className={styles.loss} role="status">
-        <Image src={BAD_VIBES_ART} alt="Bad Vibes painted X" width={176} height={176} />
-        <span>THE COLLECTION RESETS</span>
-        <h2>{lossReason === "bad-vibes" ? "BAD VIBES GOT YOU" : "ROUND MISSED"}</h2>
-        <p>{lossReason === "bad-vibes" ? "One touch ended this run." : "Catch the featured find and reach the points goal before time runs out."} All five finds are back in play.</p>
-        <button className={styles.playButton} onClick={() => beginStage(campaign)}>START FROM ROUND ONE</button>
+      {view === "loss" && campaign && <div className={styles.loss} data-reason={lossReason} role="status">
+        <Image src={lossReason === "bad-vibes" ? BAD_VIBES_ART : "/assets/bodega/fall/cinnamon-muffin.webp"} alt={lossReason === "bad-vibes" ? "Bad Vibes painted X" : "Faded Bodega muffin"} width={176} height={176} />
+        <span>MUFFIN METER RESET TO 0%</span>
+        <h2>{lossReason === "bad-vibes" ? "NAH, NOT TODAY." : "MISSED YOUR STOP."}</h2>
+        <p>{lossReason === "bad-vibes" ? "Bad Vibes caught you." : "The rush got away."} Back to the first stop.</p>
+        <MuffinMeter completedRounds={0} previousRounds={lossProgress} compact />
+        <button className={styles.playButton} onClick={() => beginStage(campaign)}>RUN IT BACK</button>
         <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
       </div>}
       {view === "chapter" && campaign && <div className={styles.chapterInterlude}>
         <Image src={FIND_ART[campaign.runs.length - 1]} alt="" width={136} height={136} />
         <span>FIND {campaign.runs.length} OF 5</span>
         <h2>{BODEGA_CHAPTERS[campaign.runs.length - 1]?.keepsake} collected.</h2>
-        <p>Next: {BODEGA_CHAPTERS[campaign.chapterIndex]?.title}. Your completed rounds are saved.</p>
+        <p>Next: {BODEGA_CHAPTERS[campaign.chapterIndex]?.title}. Keep going. Leaving resets your muffin meter.</p>
+        <MuffinMeter completedRounds={campaign.runs.length} compact />
         <button className={styles.playButton} onClick={() => beginStage(campaign)}>NEXT ROUND NOW</button>
         <Link className={styles.backLink} href="/demo/bodega" prefetch={false}>← Back to menu</Link>
       </div>}
@@ -345,6 +303,7 @@ export default function BodegaSessionsClient() {
           <span>FIVE FINDS · ONE FINAL RUSH</span>
           <h2>COLLECTION COMPLETE</h2>
           <p>You collected them all.</p>
+          <MuffinMeter completedRounds={5} compact />
           {campaign?.mode === "prize" ? rewards.receipt?.status === "valid" ? <strong>THE MUFFIN IS YOURS.</strong>
             : rewards.verifying ? <strong>Confirming your muffin…</strong>
             : rewards.receipt?.status === "redeemed" ? <strong>Your muffin has been redeemed.</strong>
@@ -356,7 +315,7 @@ export default function BodegaSessionsClient() {
           {campaign?.mode === "prize" && rewards.message && <button className={styles.primary} disabled={rewards.verifying} onClick={rewards.retry}>Retry result check</button>}
           {!reveal && <button className={styles.skipReveal} onClick={() => setReveal(true)}>Skip reveal</button>}
           <Link className={styles.playButton} href="/demo/bodega" prefetch={false}>← BACK TO MENU</Link>
-          <button className={styles.practiceButton} onClick={() => { setReveal(false); beginPractice(true); }}>Play again for fun</button>
+          <button className={styles.practiceButton} onClick={() => { setReveal(false); beginPractice(); }}>Play again for fun</button>
         </div>
       </div>}
     </div>

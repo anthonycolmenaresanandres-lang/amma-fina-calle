@@ -5,7 +5,7 @@
 | Route | `/grua-lab` (internal: noindex, unlisted, linked only from the Command Center) |
 | Code | `APP/web/src/grua/` (engine, recorder, scene, bot, tests) · page `APP/web/src/app/(internal)/grua-lab/` |
 | Status | R&D build, draft PR. **Not public, no client skin, no data upload.** |
-| Queue | `OPERATIONS/CODEX_QUEUE.md` item 67 · research: `RESEARCH_AND_DEVELOPMENT/cdpr/CDPR_STRINGMAN_BRIEF.md` |
+| Queue | `OPERATIONS/CODEX_QUEUE.md` item 69 · research: `RESEARCH_AND_DEVELOPMENT/cdpr/CDPR_STRINGMAN_BRIEF.md` |
 
 ## The game
 The café is closed. The player flies a four-cable crane over the floor and clears 8 items in 60 seconds:
