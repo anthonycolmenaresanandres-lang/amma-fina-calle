@@ -2765,3 +2765,9 @@ Base6bbe2a8, branch codex/bodega-articulated-signature. Implement approved foote
 
 ## 2026-09-25 OUT — articulated Fina Calle signature
 Added Bodega-only FinaCalleSignature with source-preserving SVG clip layers, staggered3.6s arm/elbow/jaw choreography and fixed protected lettering/QR. Native SVG interpolation, one-shot visibility trigger, offscreen/document-hidden pause, image-load gating, static original at completion/reduced-motion/unsupported APIs/no-JS, cleanup of observers/listeners. Existing source unchanged; signature184px. TypeScript, scoped ESLint, timeline and diff checks passed. Required remote CI/build gates before explicit merge. Browser/device playback not certified; no post-merge tests.
+
+## 2026-09-26 IN — Bodega five-chapter campaign
+Anthony requested execution of the five-level, ten-minute Bodega game and cinematic muffin finale, then clarified that muffin rewards must stay off until he chooses a daily cap. Isolated branch codex/bodega-five-levels-20260926 from origin/main acb8c72. Port prior unreleased reward work without touching its worktree; preserve live owner portal and other tenants.
+
+## 2026-09-26 OUT — Bodega five-chapter campaign
+Implemented 75/105/120/135/165-second chapters with progressive targets, fall speed and spills, required café finds, saved completed chapters, pause/retry, larger menu and landing Play actions, and an illustrated final reveal. Reward API/database/staff foundation validates all five timed chapters and one claim per campaign, but env switch remains off, campaign inactive and daily limit zero. Local reward/game PGlite self-tests, owner self-tests, targeted ESLint, TypeScript, production build and phone-sized browser play/pause/reload passed. Finale artwork saved under the project outputs. No production migration, reward activation, merge or deploy; review PR before publication and choose cap before enabling muffin claims.
