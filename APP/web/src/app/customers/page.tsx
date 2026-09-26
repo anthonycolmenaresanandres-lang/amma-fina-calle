@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  Activity,
   CalendarDays,
   ExternalLink,
   IdCard,
@@ -80,6 +81,13 @@ export default async function CustomersPage() {
   return (
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
+        <Link
+          href="/customers/bodega-traffic"
+          className="inline-flex items-center gap-1.5 transition hover:text-white"
+        >
+          <Activity size={13} strokeWidth={1.75} aria-hidden />
+          Bodega Traffic
+        </Link>
         <Link
           href="/customers/payments"
           className="inline-flex items-center gap-1.5 transition hover:text-white"

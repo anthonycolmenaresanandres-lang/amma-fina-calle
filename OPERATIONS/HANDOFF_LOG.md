@@ -2849,3 +2849,6 @@ Design lock: guests see an open editorial note form inside the existing monochro
 
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in (21:42 UTC)
 Main gained #266 (Bodega launch foundation and Square connector). Merged origin/main (860a5c8). Three append-style conflicts, all resolved by keeping both sides: the web CI workflow (Grúa engine step and the new Bodega launch/Square cleanup step both run), the queue (Grúa 100 and Bodega 70 both at the top), and this log (chronological). No queue-number collision with 100. No Grúa code change. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-26 — Claude (cloud) — PR #259 check-in (23:49 UTC)
+Main gained #267 (private Bodega traffic dashboard). Merged origin/main (5a5866e) cleanly; no conflicts. CI now also runs `bodega-traffic:selftest`. No Grúa code change. Still a draft awaiting Anthony; no merge.
