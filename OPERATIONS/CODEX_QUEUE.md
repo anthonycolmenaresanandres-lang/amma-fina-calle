@@ -1,5 +1,15 @@
 # Codex Queue — canonical live queue
 
+## [x] 70 - Bodega launch notes, seven-day reward controls and Square-ready owner insights
+
+**State:** IMPLEMENTED AND VERIFIED - REVIEW PR READY
+**Authority:** Anthony approved the decision-complete plan and requested implementation on 2026-09-26.
+**Base:** origin/main 8518155; branch codex/bodega-launch-guest-notes-square-20260926 in the existing isolated Bodega worktree.
+**Scope:** Add a Bodega-branded guest-note footer with Fina Calle-only delivery until a Bodega recipient is configured; prepare an inactive five-per-day, seven-local-day reward window and official rules; create deterministic joint Instagram carousel/Story exports; add a disconnected, read-only Square catalog/owner-insights foundation for later credentials. Preserve current menu/game routes and no-save gameplay.
+**Boundaries:** No Bodega email, Square credential, database migration application, reward activation, social publishing, external send, production merge or deployment. Square may not write to Square or auto-publish menu changes. Any later token is server-only and configured outside source control.
+**Verify:** Guest-note failure honesty and accessibility, reward concurrency/window regressions, Square webhook signature/idempotency/deletion behavior, protected owner insights, deterministic export dimensions/copy, scoped ESLint, reward self-tests, production build, and responsive browser comparison before a review PR.
+**Result:** Added the Bodega guest-note footer with honest delivery fallback, inactive five-per-day seven-day reward window and official terms, ten exact-size Instagram assets plus caption guide, and a protected disconnected Square read model/webhook/owner view. No Bodega email or credential is committed; both migrations remain unapplied and the campaign remains off. Targeted ESLint, launch/reward self-tests, local endpoint checks, production webpack build and browser review pass. Square implementation matches the official 2026-09-16 Catalog and webhook signature contracts.
+
 ## [ ] 64 - Release Bodega public owner desk only
 
 Authority: Anthony requested "merge owner portal I want to see it live" on 2026-09-25. Scoped push/PR/merge and normal production deployment authorized.

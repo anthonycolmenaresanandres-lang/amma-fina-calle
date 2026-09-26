@@ -14,10 +14,16 @@ try {
   await db.exec(await readFile(new URL("../supabase/migrations/0016_bodega_one_minute_campaign.sql", import.meta.url), "utf8"));
   await db.exec(await readFile(new URL("../supabase/migrations/0017_bodega_bad_vibes_round_version.sql", import.meta.url), "utf8"));
   await db.exec(await readFile(new URL("../supabase/migrations/0018_bodega_no_save_faster_round_version.sql", import.meta.url), "utf8"));
+  await db.exec(await readFile(new URL("../supabase/migrations/0019_bodega_seven_day_launch_window.sql", import.meta.url), "utf8"));
   const start = (guest, secret) => rpc("select public.bodega_start_round($1,$2,123) result", [h(guest), h(secret)]);
   const finish = (secret, token, score) => rpc("select public.bodega_finish_round($1,$2,$3) result", [h(secret), h(token), score]);
   assert.equal((await start(1, 101)).status, "closed");
-  await db.exec("update public.bodega_reward_campaigns set active = true, daily_limit = 2;");
+  const configured = (await db.query("select active, daily_limit, starts_at, ends_at from public.bodega_reward_campaigns")).rows[0];
+  assert.equal(configured.active, false);
+  assert.equal(configured.daily_limit, 5);
+  assert.equal(configured.starts_at, null);
+  assert.equal(configured.ends_at, null);
+  await db.exec("update public.bodega_reward_campaigns set active = true, daily_limit = 2, starts_at = now() - interval '1 minute', ends_at = now() + interval '7 days';");
   // Leave time for the new one-minute challenge before a New York day closes.
   const nearMidnight = (await db.query("select ((date_trunc('day', now() at time zone 'America/New_York') + interval '1 day') at time zone 'America/New_York') - now() < interval '2 minutes' as closing")).rows[0].closing;
   if (nearMidnight) throw new Error("Run this clock-dependent integration test outside the last two minutes of the New York day.");
@@ -58,6 +64,10 @@ try {
   assert.equal((await rpc("select public.bodega_redeem_muffin($1,true) result", [h(203)])).status, "expired");
   assert.equal((await rpc("select public.bodega_redeem_muffin($1,false) result", [h(999)])).status, "invalid");
   await db.exec("reset role;");
+  await db.exec("update public.bodega_reward_campaigns set active = true, starts_at = now() + interval '1 hour', ends_at = now() + interval '7 days';");
+  assert.equal((await start(9, 109)).status, "closed", "Future launch does not accept entries");
+  await db.exec("update public.bodega_reward_campaigns set starts_at = now() - interval '8 days', ends_at = now() - interval '1 day';");
+  assert.equal((await start(9, 109)).status, "closed", "Seven-day window self-closes");
   for (const [input, expected] of [
     ["2026-09-25T18:00:00Z", "2026-09-26T04:00:00.000Z"],
     ["2026-03-08T06:00:00Z", "2026-03-09T04:00:00.000Z"],
@@ -66,6 +76,6 @@ try {
     const row = (await db.query("select ((date_trunc('day', $1::timestamptz at time zone 'America/New_York') + interval '1 day') at time zone 'America/New_York') as expiry", [input])).rows[0];
     assert.equal(new Date(row.expiry).toISOString(), expected);
   }
-  console.log("PASS: migration, disabled default, capacity reservations, cooldown, early finish, lost/won/retry, per-browser limit, anonymous/other-tenant/reset rejection, one-use redemption, expiry, pause honors reservations, and DST day boundaries.");
+  console.log("PASS: migration, inactive five-per-day setup, launch window, capacity reservations, cooldown, early finish, lost/won/retry, per-browser limit, anonymous/other-tenant/reset rejection, one-use redemption, expiry, pause honors reservations, and DST day boundaries.");
   console.log("NOTE: PGlite serializes one connection. Competing calls are tested; multi-connection contention requires a staging Postgres check before activation.");
 } finally { await db.close(); }
