@@ -7,6 +7,7 @@
 - The 30-day free trial began 2026-09-26. First planned automatic charge: 2026-10-26 (Stripe trial end at 12:00 UTC / 08:00 Virginia Beach time). Subsequent charges follow Stripe's monthly billing cycle.
 - Owner may cancel future renewals anytime before the next charge. Configure the Stripe customer portal to permit cancellation; verify this in test mode before enrollment.
 - Terms version `bodega-basic-2026-09-27` lives in `APP/web/src/lib/billing/bodega-terms.ts`. Changing price, date, setup fee, or cancellation rule requires a new terms version and explicit client review.
+- Production Stripe product `prod_VKxaNwSLj4NS3X` has a dedicated active flat-rate Price `price_1UKHewKCddGPSxQCZDTLfUSB` (lookup key `bodega_basic_monthly_199`). Created 2026-09-27 in Amma Ventures LLC. Stripe showed zero active subscriptions at setup.
 
 ## What the system records
 
@@ -20,6 +21,8 @@ The owner opens `/owner/bodega/billing`, receives a one-time email link, reads t
 4. Enable Stripe-hosted billing portal access to invoices, payment-method updates, and cancellation before the next renewal. Review Stripe's failed-payment retry and customer notification settings. This does not create a Bodega subscription.
 5. Verify passwordless link delivery and both allowed redirect URLs. Test checkout in a non-production Stripe mode with the same price/interval, trial date, duplicate-click behavior, completed authorization record, renewal status, failed payment, and cancellation. Confirm the live page is private, mobile-friendly, and the public owner desk links to it.
 6. Give the exact private URL to the approved owner. The owner enters payment details and confirms their own subscription in Stripe. Check the verified webhook record and Stripe status before marking enrollment complete. Never submit Checkout or payment details on the owner's behalf.
+
+Production setup readback on 2026-09-27: migration applied; Bodega row matches 19900 USD/month and 2026-10-26, with one approved owner, no Stripe customer or subscription, and RLS on `billing_authorizations`. Vercel Production Config `STRIPE_RECURRING_PRICE_ID_BODEGA` was saved to the dedicated Price above. Stripe Customer Portal already has invoice history, customer information, payment-method updates, and subscription cancellation enabled, with cancellation at the end of the current billing period. The owner still must complete Checkout; none was opened for them.
 
 ## Exceptions
 
