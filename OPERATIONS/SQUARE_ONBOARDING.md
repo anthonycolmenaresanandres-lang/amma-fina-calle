@@ -35,6 +35,19 @@ The current client-specific evidence and unsent invitation draft are in [BODEGA_
 
 Access is limited to designated AMMA administrators. Review access quarterly and at staff departure. Rotate application secret, webhook key, and encryption key using a documented maintenance window; **re-encrypt stored OAuth tokens before changing the encryption key** or all existing connections become unreadable. After suspected exposure, revoke the affected Square authorization, rotate the affected credential, review webhook/connection logs, reconnect the merchant, and record the incident without copying the secret into the incident record.
 
+### Exact production credential handoff
+
+The company custodian enters these values into **Vercel → amma-fina-calle → Environment Variables → Production** as **Secret** type, from the indicated source. Do not reveal them in screenshots or send them in email/chat. The five already-saved public Config variables remain separate.
+
+| Vercel Secret name | Source / action |
+| --- | --- |
+| `SQUARE_APPLICATION_SECRET` | [Fina Calle Connector → OAuth → Production](https://developer.squareup.com/console/en/apps/sq0idp-lFTKZfAvjszQvlWyI1nzPg/oauth), masked Production Application secret |
+| `SQUARE_WEBHOOK_SIGNATURE_KEY` | [Fina Calle Connector → Webhooks → Production](https://developer.squareup.com/console/en/apps/sq0idp-lFTKZfAvjszQvlWyI1nzPg/webhooks), open `Fina Calle Catalog Mirror` and use its masked Signature key |
+| `SQUARE_TOKEN_ENCRYPTION_KEY` | Generate a fresh random 32-byte key, base64-encode it, and preserve it in the company password manager; rotating it later requires re-encrypting existing OAuth tokens |
+| `CRON_SECRET` | Generate a separate high-entropy random secret and preserve it in the company password manager for the protected refresh job |
+
+Use separate password-manager items labeled `AMMA / Fina Calle Connector / Production application secret`, `AMMA / Fina Calle Catalog Mirror / Production signing key`, `AMMA / Fina Calle / Square token encryption key`, and `AMMA / Fina Calle / cron secret`. Verify only that all four Vercel **names** exist with Production scope; never copy their values into this record. After the reviewed code and variables are deployed, test Sandbox in an isolated deployment/database before asking Bodega to authorize Production. The live webhook currently returns 503 while its required secrets are absent; an enabled subscription is not proof of delivery.
+
 ## Sandbox first
 
 1. Configure Sandbox OAuth redirect and webhook URL in the Square Developer Console. Select `catalog.version.updated` and `oauth.authorization.revoked`; verify the current Square API version and available event names in the Console.
