@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-27 (morning check-in, `claude-opus-4-8`). **No new breakage this run; the one open regression (VBFH Daily Run) is unchanged.** The **VBFH Daily Run is still DOWN** pending Anthony's fix choice — the last two attempts both cancelled at the 45-min job timeout on 09-26 (scheduled **#115** 16:26→17:11 UTC, diagnostic re-run **#116** 21:46→22:31 UTC) on unchanged code `b7af2c9`. **Today's (09-27) scheduled run had not yet fired/completed at check time** — its result will confirm transient-vs-persistent. New diagnostic detail this run: the `daily:run` step produced **zero console output for the full 44 minutes** (per-league progress writes to the run-log file inside the artifact, not the console), and the `leagues:discover` step reported **40 leagues** — so ~40 sequential DaySmart scrapes with a slow upstream overran the 45-min cap. Per-op Playwright timeouts exist in `dash-fetcher.ts`; the gap is the missing **global time budget**. **The fix is an accuracy-vs-completion trade-off (raise timeout / cut retries / add a global budget with partial-run handling / pinpoint+skip the slow league), so it stays Anthony's call — no speculative change pushed into the fail-closed scrape pipeline.** **amma advanced since last run:** `main` `860a5c8`→`8a8b1ad` via **three of Anthony's own merges** — **#267** "Add private Bodega Web Analytics dashboard" (admin-only 30-day traffic view, 09-26 23:35 UTC), **#268** "Prepare Square onboarding and require Bodega location selection" (09-27 11:31 UTC), and **#269** "Make Bodega Square onboarding a one-link owner flow" (09-27 12:06 UTC). All three `CI — web` **✅** (#252 / #257 / #259). **No new Supabase migrations** — the set is unchanged at **`0015`–`0022`** (plus `0009` Marbel); #268/#269 reuse the existing `0020_bodega_square_read_model.sql`. #268 also documents an **exact Square secret handoff** — activating Square (credentials + seller OAuth) remains Anthony's gate. **Anthony's own merges → no caretaker merge/undo; recorded.** Default branches re-verified live: amma **`8a8b1ad`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**run #259** on main tip `8a8b1ad`) + `CI — voice-gateway` ✅ (path-filtered off this web/Square wave); vbfh build `CI` ✅ (**run #26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run** (#115 + #116 cancelled). shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held; #259 got another merge-of-`main` this run, `CI — web` re-ran; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-09-27 (afternoon/evening check-in, `claude-opus-4-8`). **🔴 THIRD STRIKE — VBFH Daily Run is now confirmed persistently DOWN.** Today's **09-27 scheduled run #117 fired and ALSO CANCELLED** (16:59→17:45 UTC; the `daily:run` step ran 17:00:54→17:44:58 ≈ 44 min then was killed at the 45-min job cap; artifact uploaded). That's **three consecutive cancellations on unchanged code `b7af2c9`** (#115 + #116 on 09-26, now #117 on 09-27) → definitively persistent, not a flake. Root cause unchanged: **the live DaySmart scrape (~40 leagues, sequential) now exceeds the 45-min budget**; per-op Playwright timeouts exist in `dash-fetcher.ts`, the gap is the missing **global time budget** — clean insertion point confirmed in `lib/services/orchestration/daily-runner.ts` (the per-league `for` loop, ~line 329). **Option-C pinpoint is BLOCKED from this cloud session:** the failed run's artifact (the per-league run-log) is hosted on Azure blob storage, which the session's egress proxy denies (**HTTP 403, org network policy**) — so only Anthony (or a runner with artifact access) can inspect which league stalls. **The fix remains an accuracy-vs-completion trade-off (raise timeout / cut retries / add a global budget with partial-run handling / pinpoint+skip the slow league), so it stays Anthony's call — no speculative change pushed into the fail-closed scrape pipeline.** **amma advanced since last run:** `main` `8a8b1ad`→`02af585` via **one of Anthony's own merges** — **#270** "Bodega Basic: private monthly billing enrollment" (09-27 13:03 UTC), `CI — web` **✅** (#263). **#270 adds ONE new Supabase migration `0023_bodega_basic_billing.sql`** → pending set is now **`0015`–`0023`** (plus `0009` Marbel). #270 also **wires Stripe billing for Bodega Basic** (`/owner/bodega/billing`, `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`) — Stripe activation (keys + going live) stays Anthony's gate; the route is the bodega-specific owner page, **not** the guarded dynamic `/owner/[id]`. **Anthony's own merge → no caretaker merge/undo; recorded.** Default branches re-verified live: amma **`02af585`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**run #263** on main tip `02af585`) + `CI — voice-gateway` ✅ (path-filtered off this billing wave); vbfh build `CI` ✅ (**run #26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run** (#115 + #116 + #117 all cancelled). shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held; #259 base-synced again after the #270 merge, only the Vercel deploy bot commented; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,15 +12,17 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🔴 **STILL OPEN (day 2) — Your VBFH daily media pipeline is down; pick how to fix it.**
-   The scheduled **VBFH Daily Run failed on 09-26 — twice** (the 8:17am ET scheduled run #115 and a
-   diagnostic re-run #116 I kicked off). Both ran the full **45 minutes and got killed** on the content-generation
-   step. **Today's (09-27) scheduled run had not yet fired/completed when I checked** — I'll report its result next
-   run; if it also fails, that's a third strike. It's the **first failure since July** and the code hasn't changed —
-   the **DaySmart website the run scrapes has gotten slow enough that the run (40 leagues, one after another) no
-   longer finishes inside its 45-minute limit.** Until this is fixed, **no daily graphics/recap are generated** (and
-   once your SMTP secrets are set, no email would arrive either). I did **not** guess at a fix, because the sensible
-   options trade off against each other and the choice is yours:
+🔴 **CONFIRMED DOWN (day 2, THIRD STRIKE) — Your VBFH daily media pipeline is down; pick how to fix it.**
+   The scheduled **VBFH Daily Run has now failed three times in a row** — #115 + #116 on 09-26 and, as of today,
+   the **8:17am ET scheduled run #117 (09-27) cancelled at the same 45-minute cap.** Each one ran the full ~44
+   minutes on the content-generation step and got killed. Three-for-three on unchanged code means this is **not a
+   fluke — it's now a standing outage.** The **DaySmart website the run scrapes has gotten slow enough that the run
+   (~40 leagues, one after another) no longer finishes inside its 45-minute limit.** Until this is fixed, **no daily
+   graphics/recap are generated** (and once your SMTP secrets are set, no email would arrive either). **I tried to
+   auto-diagnose which single league is the culprit (Option C), but the run's log file is stored on Microsoft/Azure
+   servers that this cloud session is firewalled from (403) — so that inspection has to run from your machine or a
+   runner with access.** I did **not** guess at a fix, because the sensible options trade off against each other and
+   the choice is yours:
    - **(A) Give it more time** — raise the run's time limit from 45 to, say, 75–90 minutes. Simplest; costs more
      Actions minutes and only helps if the site is *slow*, not *stuck*.
    - **(B) Make it finish faster** — cut the retry attempts / per-page wait so slow leagues are skipped instead of
@@ -30,16 +32,25 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    **Tell me A, B, or C (or "you decide") and I'll implement it as a PR.** My recommendation: **C then B** — find
    the stall, then add a hard overall time budget so one bad page can never eat the whole run again.
 
-🟡 **Supabase migrations still pending — `0015` through `0022` (unchanged this run).** #267/#268/#269 added
-   **no new migrations** (Square onboarding reuses the existing `0020_bodega_square_read_model.sql`).
+🟡 **Supabase migrations still pending — now `0015` through `0023` (one new this run).** This run's **#270
+   "Bodega Basic billing"** added **`0023_bodega_basic_billing.sql`** (billing enrollment table). #267/#268/#269
+   added **no** migrations (Square onboarding reuses the existing `0020_bodega_square_read_model.sql`).
    Your earlier **#266 "Bodega launch foundation + Square connector"** merge added four:
    `0019_bodega_seven_day_launch_window.sql`, `0020_bodega_square_read_model.sql`,
    `0021_bodega_guest_note_rate_limit.sql`, `0022_square_lifecycle_and_guest_note_cleanup.sql` — on top of the
    Bodega rewards `0015`–`0018` from #260–#264. All under `APP/web/supabase/migrations/`. The site **builds and
    deploys green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square read-model
-   features **error at runtime until these are applied.** **What to do:** Supabase SQL editor → run `0015`…`0022`
-   in order (or `supabase db push` from `APP/web/`, which also folds in the `0009` Marbel admin grant). **Skip any
-   you've already run.** _(I never run SQL against Supabase — the migrations are prepared code; you run them.)_
+   features (plus the new Bodega Basic billing enrollment) **error at runtime until these are applied.** **What to
+   do:** Supabase SQL editor → run `0015`…`0023` in order (or `supabase db push` from `APP/web/`, which also folds
+   in the `0009` Marbel admin grant). **Skip any you've already run.** _(I never run SQL against Supabase — the
+   migrations are prepared code; you run them.)_
+
+🆕 **Bodega Basic billing (Stripe) is now wired — activation is yours (payments territory).** Your own merge
+   **#270** added a **private monthly billing enrollment** for Bodega Basic (`/owner/bodega/billing`, a Stripe
+   webhook handler at `api/stripe/webhook`, and `lib/billing/*` + `lib/stripe/server.ts` changes) plus migration
+   `0023` and `OPERATIONS/BODEGA_BASIC_BILLING.md`. `CI — web` #263 ✅. The code half is landed, but **charging real
+   money needs you** to set the live Stripe keys/price and switch it on — nothing bills automatically. (Bodega-
+   specific owner route, not the guarded dynamic `/owner/[id]`; your own merge → no caretaker action, recorded.)
 
 🟡 **Square connector activation is yours (payments/POS territory — I don't touch it) — now with a documented secret handoff.**
    #266 added the Square OAuth connector (`/api/integrations/square/connect|callback|refresh|webhook|sync`,
@@ -94,7 +105,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the seven open draft heads.
 
-_Resolved / no action needed from you:_ **amma #267/#268/#269 (Bodega analytics dashboard + Square onboarding one-link flow) — your own merges** (09-26/09-27; `CI — web` green; no new migrations). **amma #266 (Bodega launch + Square connector) — your own merge** (09-26; migrations `0019`–`0022` + Square activation gate). **amma #260–#264 (Bodega Fall Rush) — your own merges** (09-26; migrations `0015`–`0018`). **amma #257/#258** — your own merges (09-25). **GitHub API access** healthy. **amma #29 ("AI Request Desk — Phase 0")** — closed since 07-18.
+_Resolved / no action needed from you:_ **amma #270 (Bodega Basic monthly billing enrollment) — your own merge** (09-27; `CI — web` #263 green; adds migration `0023` + Stripe billing wiring — recorded above). **amma #267/#268/#269 (Bodega analytics dashboard + Square onboarding one-link flow) — your own merges** (09-26/09-27; `CI — web` green; no new migrations). **amma #266 (Bodega launch + Square connector) — your own merge** (09-26; migrations `0019`–`0022` + Square activation gate). **amma #260–#264 (Bodega Fall Rush) — your own merges** (09-26; migrations `0015`–`0018`). **amma #257/#258** — your own merges (09-25). **GitHub API access** healthy. **amma #29 ("AI Request Desk — Phase 0")** — closed since 07-18.
 
 ---
 
@@ -105,8 +116,8 @@ _Resolved / no action needed from you:_ **amma #267/#268/#269 (Bodega analytics 
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8a8b1ad`** ("Make Bodega Square onboarding a one-link owner flow (#269)," 09-27 12:06 UTC; **Anthony's own merge**). **Advanced since last run** `860a5c8`→`8a8b1ad` via **#267** (private admin-only Bodega Web Analytics dashboard), **#268** (Square onboarding + Bodega location selection + documented secret handoff), **#269** (one-link Square owner flow). `CI — web` **✅** on main (#252/#257/#259); `CI — voice-gateway` ✅ (path-filtered off this web/Square wave). **No new Supabase migrations** — set unchanged at **`0015`–`0022`** (#268/#269 reuse `0020_bodega_square_read_model.sql`). Routes are bodega-specific static + `/api/integrations/square/*` + admin-only analytics, **not** the guarded dynamic `/owner/[id]`/`/m/[id]` Client OS routes. **Anthony's own merges → no caretaker action.** **Seven** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26.** Scheduled **#115 (16:26→17:11 UTC) CANCELLED** at the 45-min job timeout on `npm run daily:run`; diagnostic re-run **#116 (21:46→22:31 UTC) ALSO CANCELLED** at the same ceiling. **Two-for-two on unchanged code (`b7af2c9`)** → persistent, not a flake. **Today's (09-27) run had not yet fired/completed at check time.** Prior runs #111–#114 (and all of 07-21…09-25) were ✅; #114 finished in ~26 min. **Root cause: external — the live DaySmart scrape (40 leagues, sequential) now exceeds the 45-min budget** (per-op Playwright timeouts exist in `dash-fetcher.ts`; the gap is the lack of a global time budget). New this run: the `daily:run` step logged **zero console output for the full 44 min** (per-league log goes to the artifact, not stdout). **Fix awaits Anthony's choice (raise timeout / cut retries / global budget / pinpoint slow league) — not pushed blind (accuracy-vs-completion trade-off).** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`02af585`** ("Bodega Basic: private monthly billing enrollment (#270)," 09-27 13:03 UTC; **Anthony's own merge**). **Advanced since last run** `8a8b1ad`→`02af585` via **#270** (Bodega Basic monthly billing enrollment). `CI — web` **✅** on main (**#263**); `CI — voice-gateway` ✅ (path-filtered off this billing wave). **One new Supabase migration** — set is now **`0015`–`0023`** (#270 adds `0023_bodega_basic_billing.sql`). #270 wires Stripe billing (`/owner/bodega/billing`, `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`) — bodega-specific owner route, **not** the guarded dynamic `/owner/[id]`/`/m/[id]` Client OS routes; Stripe go-live stays Anthony's gate. **Anthony's own merge → no caretaker action.** **Seven** open drafts held (see Open PRs). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26 — THIRD STRIKE this run.** Scheduled **#115 (09-26 16:26→17:11) CANCELLED**, diagnostic re-run **#116 (09-26 21:46→22:31) CANCELLED**, and now scheduled **#117 (09-27 16:59→17:45 UTC) ALSO CANCELLED** — the `daily:run` step ran 17:00:54→17:44:58 (≈44 min) then killed at the 45-min cap; artifact uploaded. **Three-for-three on unchanged code (`b7af2c9`)** → confirmed persistent standing outage, not a flake. Prior runs #111–#114 (and all of 07-21…09-25) were ✅; #114 finished in ~26 min. **Root cause: external — the live DaySmart scrape (~40 leagues, sequential) now exceeds the 45-min budget** (per-op Playwright timeouts exist in `dash-fetcher.ts`; the gap is the lack of a **global time budget** — clean insertion point at the per-league loop ~line 329 of `lib/services/orchestration/daily-runner.ts`). **Option-C pinpoint blocked in-cloud:** the run artifact (per-league log) lives on Azure blob storage, denied by the session egress proxy (HTTP 403) — only Anthony/a runner with access can inspect it. **Fix awaits Anthony's choice (raise timeout / cut retries / global budget / pinpoint slow league) — not pushed blind (accuracy-vs-completion trade-off in a fail-closed pipeline).** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -133,9 +144,15 @@ _Resolved / no action needed from you:_ **amma #267/#268/#269 (Bodega analytics 
 
 ## Merged / closed since last run
 
-Since the 09-26 afternoon run, amma `main` advanced `860a5c8`→`8a8b1ad` via **three of Anthony's own merges**;
-nothing closed unmerged; **no new human review comments** anywhere.
+Since the 09-27 morning run, amma `main` advanced `8a8b1ad`→`02af585` via **one of Anthony's own merges** (#270);
+nothing closed unmerged; **no new human review comments** anywhere (the only new PR comment was the Vercel deploy
+bot on #259 after its base-sync).
 
+- **amma #270 — "Bodega Basic: private monthly billing enrollment."** Merged `02af585` 09-27 13:03 UTC, `CI — web`
+  **#263 ✅**. Adds a private monthly Stripe billing enrollment for Bodega Basic (`/owner/bodega/billing`,
+  `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`), migration **`0023_bodega_basic_billing.sql`**, and
+  `OPERATIONS/BODEGA_BASIC_BILLING.md`. Stripe go-live stays Anthony's gate. **Anthony's own merge → no caretaker
+  action; recorded.**
 - **amma #269 — "Make Bodega Square onboarding a one-link owner flow."** Merged `8a8b1ad` 09-27 12:06 UTC,
   `CI — web` **#259 ✅**. Owner-facing single-link Square onboarding entry.
 - **amma #268 — "Prepare Square onboarding and require Bodega location selection."** Merged `24fde05` 09-27
@@ -208,6 +225,23 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-27 (afternoon/evening check-in, `claude-opus-4-8`):** **🔴 THIRD STRIKE — VBFH Daily Run confirmed
+  persistently DOWN.** Today's scheduled **#117 (16:59→17:45 UTC) CANCELLED** at the 45-min cap (`daily:run` ran
+  ≈44 min, 17:00:54→17:44:58, then killed; artifact uploaded) — **three consecutive cancellations on unchanged code
+  `b7af2c9`** (#115/#116 09-26, #117 09-27). Root cause unchanged (external DaySmart slowdown; ~40 sequential
+  scrapes overrun the 45-min budget; missing global time budget, insertion point at `daily-runner.ts` ~line 329).
+  **Tried Option-C auto-pinpoint but the run artifact is on Azure blob storage, denied by the session egress proxy
+  (HTTP 403) — inspection must run from Anthony's machine / a runner with access.** Held on a blind fix
+  (accuracy-vs-completion trade-off in a fail-closed pipeline is Anthony's call). **amma `main` advanced
+  `8a8b1ad`→`02af585`** via **#270** "Bodega Basic: private monthly billing enrollment" — **Anthony's own merge**,
+  `CI — web` #263 ✅; **one new migration `0023_bodega_basic_billing.sql`** (pending set now `0015`–`0023`) and
+  Stripe billing wiring for Bodega Basic (`/owner/bodega/billing`; go-live is Anthony's gate). Default branches
+  re-verified: amma `02af585` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma
+  `CI — web` #263 ✅ + `CI — voice-gateway` ✅; vbfh build `CI` #26 ✅ (only the Daily Run is down). Seven open amma
+  drafts held (#259 base-synced after #270; only the Vercel bot commented; no new human review comments). No
+  merge-conflict/base-branch notices; GitHub API healthy. #218 governance question open; #29 closed. Branch cleanup
+  still 403-blocked. **Push notification + email sent** — VBFH still needs Anthony's fix decision (now day-2 third
+  strike) + the new `0023` migration to run.
 - **2026-09-27 (morning check-in, `claude-opus-4-8`):** **No new breakage; one open regression carried forward.**
   **VBFH Daily Run still DOWN** — last attempts #115/#116 (09-26) both cancelled at the 45-min timeout on unchanged
   code `b7af2c9`; **today's 09-27 run had not yet fired/completed at check time.** New diagnostic: `daily:run`
