@@ -23,6 +23,13 @@
 4. Human phone playtest (Anthony).
 5. Client skins (client approval).
 
+## [x] 71 - Square onboarding execution and Bodega connection readiness
+
+Authority: Anthony asked to execute the Square onboarding plan and advance as far as possible on 2026-09-27. Work in isolated branch `codex/square-onboarding-20260927` from production `origin/main` 5a5866e.
+Scope: close the cross-domain OAuth callback gap, make Bodega's selected Square location explicit before menu mapping, document account and credential custody without storing secrets, verify the read-only connector and current deployment status, and prepare the exact owner connection steps. Keep the public menu and muffin rewards unchanged.
+Acceptance: scoped tests/build, no plaintext credentials in source control, no invented Square account or Bodega owner identity, and a clear record of completed versus human-only steps.
+Result: OAuth now starts on its registered callback host, explicitly sends the redirect URI, and checks the callback origin. Bodega must choose an active Square location before the first private import; manual sync also requires a selection. Added owner location controls, reconnect path, company onboarding/custody and Bodega connection records, an unsent invitation draft, and unique temporary-password guidance with a 12-character owner reset minimum. Production read-only check still shows zero Bodega tenant/owner and zero Square connections/catalog. Square signup is open but password, terms and MFA remain Anthony's steps. Square connector, owner manifest and PGlite lifecycle tests, scoped ESLint, TypeScript and final production build pass. No production app credentials, restaurant authorization or public-menu publication was performed.
+
 ## [x] 70 - Bodega launch notes, seven-day reward controls and Square-ready owner insights
 
 **State:** IMPLEMENTED AND VERIFIED - REVIEW PR READY
@@ -644,3 +651,18 @@ Authority: Anthony approved the Bodega Vibra plan and explicitly requested imple
 Base: origin/main b1fd179; branch codex/bodega-vibra-menu-20260926.
 Scope: Rename the experience and menu actions to Bodega Vibra, add the line “Es que no entienden la vibra,” redesign both game-entry actions with a rhythm mark, and make every return to the Bodega menu a large high-contrast control. Verify desktop and phone layout, run scoped lint/build, open a PR, and merge after checks pass.
 Result: Renamed the menu invitation, game metadata and landing presentation to Bodega Vibra. Added the approved Spanish line and a shared black rectangular game action with waveform mark, directional arrow, offset shadow and tactile press response; the in-game Play control uses the same rhythm language. Every return now reads “Bodega Menu” as a large high-contrast action on landing, gameplay, loss, interlude and victory. Targeted ESLint, production build, 1280px desktop and 390px phone browser checks passed with no overflow or console errors. Muffin claims remain inactive.
+## [ ] 72 - Finish Fina Calle Square activation and Bodega consent
+
+Authority: Anthony confirmed the company has a Square account, supplied `bodegacafe757@gmail.com` as Bodega contact, approved the Square Developer Terms/application creation, and approved the production catalog/revocation webhook on 2026-09-27.
+
+Scope: Under Amma Ventures, create the least-privilege connector application and exact production callback/webhook registration; record non-secret IDs and verify Vercel/database readiness. Do not copy secrets into repository records, equate Amma's merchant with Bodega's merchant, grant owner access before the person is verified, or publish menu changes. Keep Bodega's guest-note recipient unconfigured and muffin rewards off.
+
+Progress: `Fina Calle Connector` created (Production app ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg`), production callback saved, and `Fina Calle Catalog Mirror` webhook enabled with only catalog-update/revocation events (subscription ID `wbhk_7a625ade3c0e49a5aa4fffb62932f4ad`). Five non-secret, Production-only Square Config variables were saved in Vercel; a new deployment is needed. Square secret variables and `CRON_SECRET` are absent from project/shared scopes. Production Supabase still has no Bodega restaurant, owner allowlist/Auth user, or Square connection. Bodega owner identity/merchant and signed plan details remain to verify; production keys, sandbox isolation/test, PR merge, and consent remain outstanding.
+
+## [x] 73 - Bodega Square one-link owner onboarding
+
+Authority: Anthony confirmed `bodegacafe757@gmail.com` is controlled by Bodega's Square owner and directed Fina Calle to connect Bodega first with minimal computer work for the client. Branch `codex/bodega-square-one-link-20260927` from `origin/main` in the existing data-center worktree.
+
+Scope: make Bodega's private Square screen a plain-language, passwordless email-link entry point; auto-select a sole active Square location after owner consent; keep multiple-location choice explicit; update company handoff instructions. Do not grant production access, install/read secrets, send an invitation, merge, or publish in this branch. Bodega email remains separate from the guest-note recipient.
+
+Result: Bodega-only allowlist-gated magic link, one clear Square approval action, automatic sole-active-store selection/private sync, named multi-store choices with address, safer disconnect confirmation, and updated owner/company handoff. Scoped ESLint/TypeScript, Square/Bodega self-tests, isolated SQL lifecycle test, production build, and local owner-page browser pass completed. Production link flow cannot be exercised until Bodega allowlist, Square secrets, and seller consent exist; PR review and explicit release approval remain.

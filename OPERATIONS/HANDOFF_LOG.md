@@ -2841,6 +2841,14 @@ Renamed game entry points and presentation to Bodega Vibra, with “Es que no en
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in (13:27 UTC)
 Main gained #265, which again appended to this log and took queue number 69 for Bodega Vibra. Merged origin/main (8518155); both log sides kept in order. Codex numbers new items from main, where Grúa does not exist until the PR merges, so each "next free" number collided within the hour (65, 67, 69). Moved Grúa to 100, outside Codex's near-term range, in the queue, spec and brief. Label only; Anthony can pick another. No behaviour change. Still a draft awaiting Anthony; no merge.
 
+## 2026-09-27 IN — Square onboarding and Bodega connection readiness
+
+Anthony requested execution of the Square OAuth onboarding plan. Branch `codex/square-onboarding-20260927` from origin/main 5a5866e in a separate data-center worktree. Verify account/configuration status, repair the callback-origin path, add explicit location review, and write company custody and onboarding procedures. Preserve the private read-only mirror and existing public menu; record any human-only sign-up, terms, credential, or restaurant authorization step exactly.
+
+## 2026-09-27 OUT — Square onboarding and Bodega connection readiness
+
+Canonical OAuth origin/redirect URI and callback check added. Owner must select an active Square location before the first private sync; manual sync also guards this. Private view displays merchant/location choice and reconnect. Replaced the shared `1234` owner provisioning instruction with a unique random temporary credential, and raised required replacement to 12–128 characters. Added company Square onboarding/custody SOP and a Bodega-specific status/invitation record, without secret values. Production Supabase read-only query: zero Square connections, zero catalog objects, zero `bodega` restaurant records and zero owner allowlist rows. Square signup page is open in Chrome, but no account or app creation is confirmed; password, terms, MFA and Bodega owner authorization remain human-controlled. Square connector self-test, owner app self-test, PGlite lifecycle test, scoped ESLint, TypeScript and production build pass. Local anonymous owner screen rendered without layout errors; the connected state cannot be browser-verified before a test merchant/owner exists. Public menu and muffin promotion unchanged. Branch ready for PR review; no production activation.
+
 ## 2026-09-26 IN — Bodega launch guest notes, reward window and Square foundation
 
 Anthony requested implementation of the approved launch plan. Branch codex/bodega-launch-guest-notes-square-20260926 starts from production origin/main 8518155. Add Bodega guest notes with Fina Calle-only delivery, prepare but do not activate a five-per-day seven-day promotion, create exact-size carousel/Story exports, and build a disconnected read-only Square catalog/owner-insights foundation. No Bodega email, secret handling, database application, reward activation, social publish, production merge or deployment.
@@ -2852,3 +2860,22 @@ Main gained #266 (Bodega launch foundation and Square connector). Merged origin/
 
 ## 2026-09-26 — Claude (cloud) — PR #259 check-in (23:49 UTC)
 Main gained #267 (private Bodega traffic dashboard). Merged origin/main (5a5866e) cleanly; no conflicts. CI now also runs `bodega-traffic:selftest`. No Grúa code change. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-27 IN — Square account activation follow-up
+
+Anthony said the company Square account exists, supplied `bodegacafe757@gmail.com` as Bodega contact, and asked for the integration to advance. Reused the Square onboarding worktree/PR. Confirm Square and Vercel settings, record only non-secret identifiers, and preserve the owner-access and merchant-consent gates.
+
+## 2026-09-27 OUT — Square account activation follow-up
+
+Confirmed Amma Ventures Square seller and Developer Console sign-in. Anthony approved Square Developer Terms acceptance and company application creation. Created **Fina Calle Connector** (Production app ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg`), saved/read back the canonical production OAuth redirect, and, after separate approval, created the enabled **Fina Calle Catalog Mirror** production webhook (subscription ID `wbhk_7a625ade3c0e49a5aa4fffb62932f4ad`) with only catalog updates and authorization revocations. Saved five non-secret Square Config values in Vercel Production; read back their names/scope. Vercel reports a new deployment is needed. No Square application secret, webhook signing key, token encryption key, or cron secret is installed. Production Supabase read-only check found no Bodega restaurant, owner allowlist/Auth user, or Square connection; no access was granted. The supplied email is recorded as an unverified Bodega contact and does not change the guest-note recipient. Bodega must confirm its owner identity and separate Square merchant/location before consent; Sandbox testing and PR merge are pending. Public menu and muffin rewards unchanged.
+
+## 2026-09-27 IN — Bodega Square owner one-link flow
+
+Anthony confirmed `bodegacafe757@gmail.com` controls Bodega's Square account and asked to connect Bodega first with minimal owner friction. Reused the free data-center Square worktree on branch `codex/bodega-square-one-link-20260927` from production main. Build a Bodega-specific email-link owner entry and clearer Square approval screen, with automatic selection only when Square returns one active location. Preserve access, secrets, external-send, and production release gates.
+
+## 2026-09-27 OUT — Bodega Square owner one-link flow
+
+Prepared Bodega's private Square page for passwordless email sign-in followed by seller consent in Square. Only an allowlisted Bodega address can trigger account creation; server-side owner authorization remains restaurant-specific. A sole active Square location is selected and privately synced after consent; multiple stores require an explicit owner choice by name and address. Owner-facing setup text is nontechnical, the owner desk has one clear entry, and disconnect now takes a confirmation step. Company SOP and Bodega connection record identify Anthony's owner-email attestation and the exact remaining production gates. Square connector and Bodega launch self-tests, PGlite lifecycle self-test, scoped ESLint/TypeScript, and production build pass. Local browser review confirmed the public owner link and safe unconfigured state; the email and connected states cannot be exercised without the production owner assignment and Square secrets. No owner access, secrets, invitation, merge, or live Bodega Square connection was made.
+
+## 2026-09-27 — Claude (cloud) — PR #259 check-in (12:10 UTC)
+Main gained #268 and #269 (Square onboarding). Merged origin/main (8a8b1ad). Append-style conflicts in the queue and this log; both sides kept, main's own entry order preserved unchanged. No collision with queue 100 (main now uses 71–73). No Grúa code change; package.json and CI unchanged by main. Still a draft awaiting Anthony; no merge.

@@ -1,6 +1,6 @@
 import "server-only";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
-import { getSquareAppConfig } from "./config";
+import { getSquareAppConfig, getSquareOAuthCallbackUrl } from "./config";
 import { getSquareConnection } from "./connection";
 
 type SquareCatalogObject = {
@@ -95,7 +95,7 @@ export async function syncSquareCatalog(
 }
 
 export type SquareInsight = {
-  connected: boolean; appConfigured: boolean; environment?: string; merchantName?: string;
+  connected: boolean; appConfigured: boolean; environment?: string; merchantName?: string; locationId?: string;
   lastSyncedAt?: string; lastError?: string; activeItems: number;
   recent: Array<{ id: string; type: string; name: string; updatedAt?: string; deleted: boolean }>;
 };
@@ -108,11 +108,11 @@ function objectName(payload: Record<string, unknown>): string {
 }
 export async function getSquareInsight(restaurantId: string): Promise<SquareInsight> {
   const config = getSquareAppConfig();
-  const appConfigured = Boolean(config);
+  const appConfigured = Boolean(config && getSquareOAuthCallbackUrl());
   try {
     const admin = getSupabaseAdmin();
     const [connectionResult, countResult, recentResult] = await Promise.all([
-      admin.from("square_connections").select("environment,merchant_name,last_synced_at,last_error")
+      admin.from("square_connections").select("environment,merchant_name,location_id,last_synced_at,last_error")
         .eq("restaurant_id", restaurantId).maybeSingle(),
       admin.from("square_catalog_objects").select("square_id", { count: "exact", head: true })
         .eq("restaurant_id", restaurantId).eq("object_type", "ITEM").eq("deleted", false),
@@ -124,6 +124,7 @@ export async function getSquareInsight(restaurantId: string): Promise<SquareInsi
     return {
       connected: Boolean(connection && config && connection.environment === config.environment), appConfigured,
       environment: connection?.environment, merchantName: connection?.merchant_name ?? undefined,
+      locationId: connection?.location_id ?? undefined,
       lastSyncedAt: connection?.last_synced_at ?? undefined, lastError: connection?.last_error ?? undefined,
       activeItems: countResult.count ?? 0,
       recent: (recentResult.data ?? []).map((row) => ({ id: row.square_id, type: row.object_type,

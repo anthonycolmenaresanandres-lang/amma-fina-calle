@@ -2,8 +2,8 @@
 
 ## Standard
 
-- Use `1234` as the standard one-time temporary password for a newly provisioned owner account.
-- Require immediate replacement before exposing any portal data or actions; never use `1234` as the owner's private password.
+- Generate a different cryptographically random temporary password of at least 20 characters for every new owner account. Never reuse a shared default.
+- Require immediate replacement before exposing any portal data or actions.
 - Mark every newly provisioned Supabase Auth user with app metadata:
 
 ```json
@@ -16,7 +16,11 @@
 - Send the utilization email without the temporary password.
 - Deliver the temporary password separately by a verified phone call, text, or another agreed channel.
 - On first sign-in, the portal must show the password-reset screen and withhold dashboard data and actions.
-- The owner selects a private password of 4–128 characters. AMMA does not request or record it.
+- The owner selects a private password of 12–128 characters. AMMA does not request or record it.
+
+## Approved passwordless Square pilot
+
+For a separately approved, read-only Square onboarding pilot, the owner can use a one-time email sign-in link instead of a temporary password. First confirm the exact restaurant row and owner email assignment. The application checks `owner_emails` before requesting a link, and checks it again after email verification; non-allowlisted addresses receive the same neutral response. The link flow may create the Supabase Auth user only after this restaurant-specific allowlist check. Do not set `owner_password_reset_required` for a passwordless-only user; an existing account with that flag still completes the required reset before access. Verify the Supabase Magic Link template and allowed redirect URL point to the canonical Fina Calle owner page. The owner approves Square in Square and never shares a Square password or token with AMMA. This exception does not authorize billing, guest-menu publication, or another tenant's access.
 
 ## Activation checklist
 
@@ -34,7 +38,7 @@
 
 ### 3. Authentication provisioning
 
-1. Set the standard one-time temporary password to `1234`. Never place an owner-selected private password in chat, email, source control, tickets, documents, logs, or the client ledger.
+1. Generate a unique temporary password with an approved password manager or cryptographically secure generator. Never place it or an owner-selected private password in chat, email, source control, tickets, documents, logs, or the client ledger. Store a temporary copy only in the approved password manager until delivery and first-login verification, then remove it.
 2. Create or update the Supabase Auth user server-side and confirm the exact email.
 3. Set `owner_password_reset_required: true` in `app_metadata`.
 4. Read the user and metadata back; PASS requires the exact email, confirmed user state, and reset flag `true`.
@@ -49,7 +53,7 @@
 
 1. Sign in once with the temporary credential through the exact customer URL.
 2. PASS requires the first-sign-in reset screen to appear while menu, billing, Zelle, change-request, and Checkout controls remain unavailable.
-3. Do not enter the owner’s private replacement password. Deliver the temporary credential separately through a verified channel and have the owner choose the final 4–128 character password.
+3. Do not enter the owner’s private replacement password. Deliver the unique temporary credential separately through a verified channel and have the owner choose the final 12–128 character password.
 4. After the owner completes the reset, verify the dashboard opens, the reset flag is false, and the client sees only their restaurant.
 
 ### 6. Billing and handoff
