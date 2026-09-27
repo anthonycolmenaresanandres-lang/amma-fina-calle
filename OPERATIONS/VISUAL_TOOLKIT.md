@@ -31,3 +31,9 @@ Skill versions and upstream hashes are locked in `skills-lock.json`.
 - Storybook: useful once AMMA maintains a reusable component catalog, but premature today and adds a large toolchain.
 - A new component library: Fina Calle already has React, Tailwind, and Lucide. Another library would increase sameness and maintenance without solving the visual-judgment problem.
 - Lighthouse as an npm dependency: a trial added 532 packages and reported 19 moderate advisories. It was removed; the Chrome DevTools version provides the audit without application bloat.
+
+## Fina Calle owner-page signature (2026-09-27)
+
+Anthony selected the open layout introduced for Bodega's owner tools as the Fina Calle direction for future owner and client pages. Lead with a clear oversized statement, use whitespace and short rules to group information, and let the most important number or action carry the page. A single restrained brand color may accent a heading or action. Keep each restaurant's own mark and palette; this is a layout language, not a shared Bodega theme.
+
+Avoid repeated text boxes, nested cards, filled status tiles, and explanatory paragraphs that repeat a control label. Reserve full outlines and strong contrast for form fields, keyboard focus, payment consent, errors, and irreversible choices. The Bodega Basic billing page expresses this with one large $199 figure, three open facts, and one explicit authorization; the Square owner entry uses the same open section rhythm. Copy names the next action in ordinary owner language.

@@ -69,11 +69,13 @@ export async function requestMagicLink(
   return neutral;
 }
 
-/** Bodega's Square pilot needs only a verified email link, not a new password. */
-export async function requestBodegaSquareLink(
+/** Bodega's private owner tools share one allowlist-gated email sign-in. */
+export async function requestBodegaOwnerLink(
+  destination: "insights" | "billing",
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  const safeDestination = destination === "billing" ? "billing" : "insights";
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   if (!email || !email.includes("@") || email.length > 300) {
     return { ok: false, message: "Enter a valid email address." };
@@ -98,10 +100,14 @@ export async function requestBodegaSquareLink(
     options: {
       // A tenant-specific allowlist must exist before a passwordless user can be created.
       shouldCreateUser: true,
-      emailRedirectTo: `${origin}/owner/bodega/insights`,
+      emailRedirectTo: `${origin}/owner/bodega/${safeDestination}`,
     },
   });
   return neutral;
+}
+
+export async function requestBodegaSquareLink(prev: ActionState, formData: FormData): Promise<ActionState> {
+  return requestBodegaOwnerLink("insights", prev, formData);
 }
 
 export async function signInOwnerWithPassword(

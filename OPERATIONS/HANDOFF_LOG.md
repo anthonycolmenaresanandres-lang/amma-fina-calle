@@ -2879,3 +2879,14 @@ Prepared Bodega's private Square page for passwordless email sign-in followed by
 
 ## 2026-09-27 — Claude (cloud) — PR #259 check-in (12:10 UTC)
 Main gained #268 and #269 (Square onboarding). Merged origin/main (8a8b1ad). Append-style conflicts in the queue and this log; both sides kept, main's own entry order preserved unchanged. No collision with queue 100 (main now uses 71–73). No Grúa code change; package.json and CI unchanged by main. Still a draft awaiting Anthony; no merge.
+
+## 2026-09-27 IN — Bodega Basic recurring billing
+
+Anthony confirmed a $199/month Basic plan and a 30-day free trial beginning 2026-09-26, chose in-portal terms/autopay acceptance, and requested implementation plus merge. Reused the free data-center worktree on `codex/bodega-basic-billing-20260927` from current production main. Build a private Bodega billing route, exact approved terms, consent evidence, a lighter owner design, and a reproducible setup path. Do not create a charge or subscription on the owner's behalf; enrollment remains their explicit Checkout action.
+
+## 2026-09-27 OUT — Bodega Basic recurring billing implementation
+
+PR #270 contains the private $199/month Bodega owner page, versioned consent and verified Checkout authorization evidence, tenant-scoped Price verification, and the open Fina Calle owner-page treatment. The production migration was applied and read back: one Bodega owner, the October 26 first-charge date, and no Stripe customer or subscription. In Amma Ventures Stripe, created dedicated active Price `price_1UKHewKCddGPSxQCZDTLfUSB` with zero active subscriptions; saved its ID in Vercel Production as `STRIPE_RECURRING_PRICE_ID_BODEGA`. The Stripe customer portal already permits invoice history, payment method updates, and cancellation at period end. The existing live webhook subscribes to Checkout completion and subscription/invoice events. Targeted ESLint, TypeScript, production build, 19 billing checks, 13 owner-account checks, and Bodega/owner-app self-tests passed; PR #270 checks passed before the final documentation update. Bodega's owner must accept the terms and finish Stripe Checkout to activate autopay. No client charge or subscription was created by staff.
+
+## 2026-09-27 — Claude (cloud) — PR #259 check-in (13:16 UTC)
+Main gained #270 (Bodega Basic billing enrollment). Merged origin/main (02af585). Append-style conflict in this log only; both sides kept, main's entry order unchanged. No collision with queue 100 (main now at 74). No Grúa code change; package.json and CI unchanged by main. Still a draft awaiting Anthony; no merge.

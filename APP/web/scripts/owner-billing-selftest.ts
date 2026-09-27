@@ -6,6 +6,7 @@ import type Stripe from "stripe";
 import { approvedTrialEnd, automaticCollectionEnabled, BillingSetupPendingError, priceMatchesApprovedTerms, trustedStripeUrl, webhookClaimState, type ApprovedBillingTerms } from "../src/lib/billing/policy";
 import { recurringCheckoutDestination } from "../src/lib/billing/checkout";
 import { billingEventCustomer, currentBillingSnapshot, retrieveCurrentBilling } from "../src/lib/billing/reconciliation";
+import { BODEGA_BASIC_TERMS, bodegaTermsMatch } from "../src/lib/billing/bodega-terms";
 
 let passed = 0;
 async function test(name: string, run: () => void | Promise<void>) { await run(); passed++; console.log(`PASS ${name}`); }
@@ -41,18 +42,19 @@ function fakeStripe(subscriptions: Stripe.Subscription[] = []) {
   return { client, requests, counts: () => ({ creates, portalCreates }), setOpen: (value: Stripe.Checkout.Session[]) => { open = value; }, hideOpen: () => { hideOpen = true; }, setStatus: (value: Stripe.Checkout.Session.Status) => { status = value; } };
 }
 
-function webhookFixture() {
-  let tick = now, providerFails = true, stateReads = 0;
+function webhookFixture(eventOverride?: Stripe.Event, restaurantId = "sample-restaurant") {
+  let tick = now, providerFails = !eventOverride, stateReads = 0;
   const rows: Record<string, Record<string, unknown>[]> = {
     stripe_webhook_events: [],
-    restaurant_billing: [{ restaurant_id: "sample-restaurant", stripe_customer_id: "cus_fixture", updated_at: new Date(now - 1000).toISOString(), last_payment_at: null }],
+    restaurant_billing: [{ restaurant_id: restaurantId, stripe_customer_id: "cus_fixture", updated_at: new Date(now - 1000).toISOString(), last_payment_at: null }],
+    billing_authorizations: [],
   };
   const admin = { from: (table: string) => {
     const filters: [string, unknown][] = [];
     let patch: Record<string, unknown> | null = null;
     const query = {
       insert: async (row: Record<string, unknown>) => {
-        if (rows[table].some((item) => item.id === row.id)) return { error: { code: "23505" } };
+        if (rows[table].some((item) => (row.id && item.id === row.id) || (row.checkout_session_id && item.checkout_session_id === row.checkout_session_id))) return { error: { code: "23505" } };
         rows[table].push({ processed_at: null, ...row }); return { error: null };
       },
       select: () => query,
@@ -68,7 +70,7 @@ function webhookFixture() {
     return query;
   } };
   const fake = fakeStripe([subscription({ status: "unpaid" })]);
-  const event = { id: "evt_fixture", type: "invoice.paid", data: { object: invoice() } } as Stripe.Event;
+  const event = eventOverride ?? { id: "evt_fixture", type: "invoice.paid", data: { object: invoice() } } as Stripe.Event;
   const provider = { ...fake.client, webhooks: { constructEvent: () => event } };
   const originalList = fake.client.subscriptions.list;
   provider.subscriptions.list = (async (...args: Parameters<typeof originalList>) => {
@@ -87,6 +89,7 @@ function webhookFixture() {
     if (name === "@/lib/stripe/server") return { getStripe: () => provider, getStripeWebhookSecret: () => "synthetic-fixture-only" };
     if (name === "@/lib/billing/policy") return { webhookClaimState: (row: Parameters<typeof webhookClaimState>[0]) => webhookClaimState(row, tick) };
     if (name === "@/lib/billing/reconciliation") return { billingEventCustomer, retrieveCurrentBilling };
+    if (name === "@/lib/billing/bodega-terms") return { BODEGA_BASIC_TERMS };
     throw new Error(`Unexpected webhook dependency: ${name}`);
   } });
   return {
@@ -138,6 +141,12 @@ async function main() {
     assert.equal(priceMatchesApprovedTerms({ ...price, active: false }, terms), false);
     assert.equal(priceMatchesApprovedTerms({ ...price, recurring: { ...price.recurring!, usage_type: "metered" } }, terms), false);
   });
+  await test("Bodega Basic terms require exactly $199 monthly after the agreed trial", () => {
+    const approved = { amount_cents: 19900, currency: "usd", billing_interval: "month", billing_interval_count: 1, scheduled_first_charge_on: "2026-10-26" };
+    assert.equal(bodegaTermsMatch(approved), true);
+    assert.equal(bodegaTermsMatch({ ...approved, amount_cents: 14900 }), false);
+    assert.equal(bodegaTermsMatch({ ...approved, scheduled_first_charge_on: "2026-10-25" }), false);
+  });
   await test("provider redirects reject lookalike hosts, credentials and insecure URLs", () => {
     for (const url of ["http://checkout.stripe.com/c/pay/x", "https://checkout.stripe.com.evil.invalid/x", "https://evil.invalid/?checkout.stripe.com", "https://user@checkout.stripe.com/x", "https://checkout.stripe.com:444/x", "javascript:alert(1)"]) assert.throws(() => trustedStripeUrl(url, "checkout"));
     assert.throws(() => trustedStripeUrl("https://billing.stripe.com/p/test", "checkout"));
@@ -155,6 +164,21 @@ async function main() {
     const fake = fakeStripe(); fake.hideOpen();
     const [first, second] = await Promise.all([recurringCheckoutDestination(fake.client, options), recurringCheckoutDestination(fake.client, options)]);
     assert.equal(first, second); assert.equal(fake.counts().creates, 1);
+  });
+  await test("Bodega checkout keeps its billing return, collects address and versions accepted terms", async () => {
+    const fake = fakeStripe();
+    const bodegaOptions = { ...options, restaurantId: "bodega", trialEnd: Date.parse("2026-10-26T12:00:00Z") / 1000,
+      agreement: { version: BODEGA_BASIC_TERMS.version, acceptedBy: "bodegacafe757@gmail.com" } };
+    await recurringCheckoutDestination(fake.client, bodegaOptions);
+    const request = fake.requests[0];
+    assert.equal(request.billing_address_collection, "required");
+    assert.equal(request.customer_update?.address, "auto");
+    assert.equal(request.metadata?.terms_version, BODEGA_BASIC_TERMS.version);
+    assert.equal(request.success_url, "https://finacalleos.com/owner/bodega/billing?billing=success");
+    assert.equal(request.cancel_url, "https://finacalleos.com/owner/bodega/billing?billing=canceled");
+    assert.equal(await recurringCheckoutDestination(fake.client, bodegaOptions), "https://checkout.stripe.com/c/pay/cs_fixture");
+    await assert.rejects(recurringCheckoutDestination(fake.client, { ...bodegaOptions,
+      agreement: { ...bodegaOptions.agreement, acceptedBy: "other@example.com" } }), BillingSetupPendingError);
   });
   await test("unpaid, paused, incomplete and active subscriptions route to management", async () => {
     for (const status of ["unpaid", "paused", "incomplete", "active", "trialing", "past_due"] as const) {
@@ -230,6 +254,19 @@ async function main() {
     const duplicate = await fixture.send();
     assert.equal(duplicate.status, 200); assert.equal(duplicate.body.duplicate, true);
     assert.equal(fixture.reads(), 2);
+  });
+  await test("verified Bodega Checkout records the accepted offer once", async () => {
+    const event = { id: "evt_bodega_checkout", type: "checkout.session.completed", created: Math.floor(now / 1000),
+      data: { object: { id: "cs_bodega", mode: "subscription", status: "complete", created: Math.floor(now / 1000),
+        customer: "cus_fixture", subscription: "sub_fixture", client_reference_id: "bodega",
+        metadata: { restaurant_id: "bodega", terms_version: BODEGA_BASIC_TERMS.version, accepted_by: "bodegacafe757@gmail.com" } } } } as unknown as Stripe.Event;
+    const fixture = webhookFixture(event, "bodega");
+    assert.equal((await fixture.send()).status, 200);
+    assert.equal(fixture.rows.billing_authorizations.length, 1);
+    assert.equal(fixture.rows.billing_authorizations[0].accepted_by_email, "bodegacafe757@gmail.com");
+    assert.equal((fixture.rows.billing_authorizations[0].terms_snapshot as Record<string, unknown>).amount_cents, 19900);
+    assert.equal((await fixture.send()).status, 200);
+    assert.equal(fixture.rows.billing_authorizations.length, 1);
   });
   await test("admin detail prefers the private billing ledger and labels legacy status unavailable", async () => {
     const compiled = ts.transpileModule(readFileSync("src/data/customers.ts", "utf8"), {

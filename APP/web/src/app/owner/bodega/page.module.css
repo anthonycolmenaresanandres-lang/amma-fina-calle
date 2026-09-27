@@ -15,8 +15,9 @@
 .page p { line-height:1.65; }
 .section { padding:28px 0; border-top:1px solid #d7d7d7; scroll-margin-top:16px; }
 .section h2 { font-size:24px; font-weight:750; margin:0 0 20px; }
-.links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+.links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:40px; row-gap:0; }
 .links a { display:flex; flex-direction:column; padding:12px 0; text-decoration:none; }
+.links a:nth-child(n+3) { border-top:1px solid #e2e2e2; }
 .links strong { font-size:18px; }
 .links span { font-size:13px; line-height:1.6; margin-top:8px; }
 .links a:hover strong { text-decoration:underline; }

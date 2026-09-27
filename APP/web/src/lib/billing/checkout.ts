@@ -4,10 +4,10 @@ import { BillingSetupPendingError, subscriptionStillExists, trustedStripeUrl } f
 /** All inputs originate from reauthorized server-side restaurant/Stripe records. */
 export async function recurringCheckoutDestination(
   stripe: Stripe,
-  options: { customerId: string; restaurantId: string; priceId: string; trialEnd: number; appUrl: string },
+  options: { customerId: string; restaurantId: string; priceId: string; trialEnd: number; appUrl: string; agreement?: { version: string; acceptedBy: string } },
 ): Promise<string> {
-  const { customerId, restaurantId, priceId, trialEnd, appUrl } = options;
-  const ownerPath = `/owner/${encodeURIComponent(restaurantId)}`;
+  const { customerId, restaurantId, priceId, trialEnd, appUrl, agreement } = options;
+  const ownerPath = restaurantId === "bodega" ? "/owner/bodega/billing" : `/owner/${encodeURIComponent(restaurantId)}`;
   const subscriptions = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 100 });
   if (subscriptions.has_more) throw new BillingSetupPendingError();
   if (subscriptions.data.some((subscription) => subscriptionStillExists(subscription.status))) {
@@ -15,13 +15,14 @@ export async function recurringCheckoutDestination(
     return trustedStripeUrl(portal.url, "portal");
   }
 
-  const enrollmentKey = `amma-owner-enroll-${customerId}-${priceId}-${trialEnd}`;
+  const enrollmentKey = `amma-owner-enroll-${customerId}-${priceId}-${trialEnd}-${agreement?.version ?? "standard"}`;
   const open = await stripe.checkout.sessions.list({ customer: customerId, status: "open", limit: 100 });
   if (open.has_more) throw new BillingSetupPendingError();
   const subscriptionSessions = open.data.filter((session) => session.mode === "subscription");
   if (subscriptionSessions.length) {
     if (subscriptionSessions.length !== 1 ||
         subscriptionSessions[0].metadata?.enrollment_key !== enrollmentKey ||
+        (agreement && subscriptionSessions[0].metadata?.accepted_by !== agreement.acceptedBy) ||
         subscriptionSessions[0].client_reference_id !== restaurantId) throw new BillingSetupPendingError();
     return trustedStripeUrl(subscriptionSessions[0].url, "checkout");
   }
@@ -31,7 +32,9 @@ export async function recurringCheckoutDestination(
     customer: customerId,
     client_reference_id: restaurantId,
     line_items: [{ price: priceId, quantity: 1 }],
-    metadata: { restaurant_id: restaurantId, enrollment_key: enrollmentKey },
+    metadata: { restaurant_id: restaurantId, enrollment_key: enrollmentKey,
+      ...(agreement ? { terms_version: agreement.version, accepted_by: agreement.acceptedBy } : {}) },
+    ...(agreement ? { billing_address_collection: "required" as const, customer_update: { address: "auto" as const } } : {}),
     subscription_data: {
       metadata: { restaurant_id: restaurantId },
       trial_end: trialEnd,
