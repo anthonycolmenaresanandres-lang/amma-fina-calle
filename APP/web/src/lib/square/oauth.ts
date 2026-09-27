@@ -11,20 +11,19 @@ export type SquareOAuthToken = {
   token_type?: string;
 };
 
-export type SquareMerchantContext = {
-  merchantName?: string;
-  locationId?: string;
-};
+export type SquareMerchantContext = { merchantName?: string; locationId?: string };
+export type SquareLocation = { id: string; name: string; status: string };
 
 function errorMessage(payload: { errors?: SquareError[] }, fallback: string) {
   return payload.errors?.[0]?.detail || payload.errors?.[0]?.code || fallback;
 }
 
-export function buildSquareAuthorizationUrl(config: SquareAppConfig, state: string): string {
+export function buildSquareAuthorizationUrl(config: SquareAppConfig, state: string, callbackUrl: URL): string {
   const url = new URL(`${config.oauthBase}/authorize`);
   url.searchParams.set("client_id", config.applicationId);
   url.searchParams.set("scope", config.scopes.join(" "));
   url.searchParams.set("state", state);
+  url.searchParams.set("redirect_uri", callbackUrl.toString());
   if (config.environment === "production") url.searchParams.set("session", "false");
   return url.toString();
 }
@@ -45,8 +44,8 @@ async function tokenRequest(config: SquareAppConfig, body: Record<string, string
   return payload as SquareOAuthToken;
 }
 
-export function obtainSquareOAuthToken(config: SquareAppConfig, authorizationCode: string) {
-  return tokenRequest(config, { grant_type: "authorization_code", code: authorizationCode });
+export function obtainSquareOAuthToken(config: SquareAppConfig, authorizationCode: string, callbackUrl: URL) {
+  return tokenRequest(config, { grant_type: "authorization_code", code: authorizationCode, redirect_uri: callbackUrl.toString() });
 }
 
 export function refreshSquareOAuthToken(config: SquareAppConfig, refreshToken: string) {
@@ -77,21 +76,26 @@ export async function fetchSquareMerchantContext(
   merchantId: string,
 ): Promise<SquareMerchantContext> {
   const headers = { Authorization: `Bearer ${accessToken}`, "Square-Version": config.apiVersion };
-  const [merchantResponse, locationsResponse] = await Promise.all([
-    fetch(`${config.apiBase}/v2/merchants/${encodeURIComponent(merchantId)}`, { headers, cache: "no-store", signal: AbortSignal.timeout(10000) }),
-    fetch(`${config.apiBase}/v2/locations`, { headers, cache: "no-store", signal: AbortSignal.timeout(10000) }),
-  ]);
+  const merchantResponse = await fetch(`${config.apiBase}/v2/merchants/${encodeURIComponent(merchantId)}`, { headers, cache: "no-store", signal: AbortSignal.timeout(10000) });
 
   let merchantName: string | undefined;
-  let locationId: string | undefined;
   if (merchantResponse.ok) {
     const payload = await merchantResponse.json() as { merchant?: { business_name?: string } };
     merchantName = payload.merchant?.business_name?.trim() || undefined;
   }
-  if (locationsResponse.ok) {
-    const payload = await locationsResponse.json() as { locations?: Array<{ id?: string; status?: string }> };
-    locationId = payload.locations?.find((location) => location.status === "ACTIVE" && location.id)?.id
-      ?? payload.locations?.find((location) => location.id)?.id;
-  }
-  return { merchantName, locationId };
+  // A merchant may have several stores. The owner chooses the location later.
+  return { merchantName };
+}
+
+export async function listSquareLocations(config: SquareAppConfig, accessToken: string): Promise<SquareLocation[]> {
+  const response = await fetch(`${config.apiBase}/v2/locations`, {
+    headers: { Authorization: `Bearer ${accessToken}`, "Square-Version": config.apiVersion },
+    cache: "no-store", signal: AbortSignal.timeout(10000),
+  });
+  const payload = await response.json() as { locations?: Array<{ id?: string; name?: string; status?: string }>; errors?: SquareError[] };
+  if (!response.ok || payload.errors?.length) throw new Error(errorMessage(payload, "Square locations could not be loaded."));
+  return (payload.locations ?? []).filter((location): location is SquareLocation =>
+    Boolean(location.id && location.name && location.status)).map((location) => ({
+      id: location.id, name: location.name, status: location.status,
+    }));
 }

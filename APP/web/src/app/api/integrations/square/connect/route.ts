@@ -2,8 +2,9 @@ import { randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { isSafeRestaurantId } from "@/lib/owner/app-manifest";
-import { getSquareAppConfig } from "@/lib/square/config";
+import { getSquareAppConfig, getSquareOAuthCallbackUrl } from "@/lib/square/config";
 import { buildSquareAuthorizationUrl } from "@/lib/square/oauth";
+import { canonicalSquareConnectUrl } from "@/lib/square/oauth-origin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,6 +16,12 @@ function returnPath(restaurantId: string) {
 export async function GET(request: NextRequest) {
   const restaurantId = request.nextUrl.searchParams.get("restaurant_id")?.trim() ?? "";
   if (!isSafeRestaurantId(restaurantId)) return NextResponse.json({ ok: false }, { status: 400 });
+
+  const callbackUrl = getSquareOAuthCallbackUrl();
+  if (!callbackUrl) return NextResponse.redirect(new URL(`${returnPath(restaurantId)}?square=config_missing`, request.url), 303);
+  if (request.nextUrl.origin !== callbackUrl.origin) {
+    return NextResponse.redirect(canonicalSquareConnectUrl(callbackUrl, restaurantId), 303);
+  }
 
   const owner = await getOwnerContext(restaurantId);
   if (owner.state !== "authorized") {
@@ -32,7 +39,7 @@ export async function GET(request: NextRequest) {
     expiresAt: Date.now() + 10 * 60 * 1000,
   })).toString("base64url");
 
-  const response = NextResponse.redirect(buildSquareAuthorizationUrl(config, state), 303);
+  const response = NextResponse.redirect(buildSquareAuthorizationUrl(config, state, callbackUrl), 303);
   response.cookies.set("fc_square_oauth_state", cookiePayload, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

@@ -4,6 +4,8 @@ import OwnerLogin from "../../[id]/OwnerLogin";
 import RequiredPasswordReset from "../../[id]/RequiredPasswordReset";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { getSquareInsight } from "@/lib/square/catalog";
+import { getSquareLocationsForOwner } from "@/lib/square/connection";
+import type { SquareLocation } from "@/lib/square/oauth";
 import styles from "./square-insights.module.css";
 
 export const dynamic = "force-dynamic";
@@ -18,9 +20,7 @@ function when(value?: string) {
 
 function notice(status?: string) {
   switch (status) {
-    case "connected": return "Square connected. The first read-only catalog sync completed.";
-    case "connected_sync_pending": return "Square connected. A catalog sync is already running; check its status before retrying.";
-    case "connected_sync_error": return "Square connected, but the first catalog sync needs attention.";
+    case "connected_choose_location": return "Square connected. Choose Bodega’s location to start the first private catalog sync.";
     case "synced": return "Square catalog synced to this private view. The guest menu is unchanged.";
     case "sync_busy": return "A Square sync is already running.";
     case "disconnected": return "The Square disconnect request completed. Its cached catalog is removed with the connection.";
@@ -33,6 +33,11 @@ function notice(status?: string) {
     case "auth_required": return "Sign in with an authorized Bodega owner account before connecting Square.";
     case "environment_error": return "The stored connection belongs to a different Square environment. Contact Fina Calle.";
     case "not_connected": return "No configured Square connection was found for this environment.";
+    case "location_saved": return "Square location saved for Bodega. The guest menu is unchanged.";
+    case "location_saved_sync_pending": return "Square location saved. A private catalog sync is already running.";
+    case "location_saved_sync_error": return "Square location saved, but the private catalog sync failed. Use Sync now to retry.";
+    case "location_error": return "The Square location could not be saved. Choose an active location and try again.";
+    case "choose_location": return "Choose Bodega’s Square location before syncing the private catalog.";
     default: return null;
   }
 }
@@ -51,6 +56,13 @@ export default async function BodegaSquareInsightsPage({ searchParams }: PagePro
   const params: { square?: string | string[] } = rawParams;
   const squareStatus = typeof params.square === "string" ? params.square : undefined;
   const statusNotice = notice(squareStatus);
+  let locations: SquareLocation[] = [];
+  let locationsUnavailable = false;
+  if (insight.connected) {
+    try { locations = await getSquareLocationsForOwner("bodega"); }
+    catch { locationsUnavailable = true; }
+  }
+  const selectedLocation = locations.find((location) => location.id === insight.locationId);
   return <main className={styles.page}><div className={styles.shell}>
     <nav className={styles.nav}><Link href="/owner/bodega">← Owner desk</Link><Link href="/demo/bodega">Guest menu</Link></nav>
     <header className={styles.hero}>
@@ -75,8 +87,25 @@ export default async function BodegaSquareInsightsPage({ searchParams }: PagePro
         <div><span>Last catalog sync</span><strong>{when(insight.lastSyncedAt)}</strong></div>
         {insight.merchantName ? <div><span>Square merchant</span><strong>{insight.merchantName}</strong></div> : null}
       </section>
+      <section className={styles.location} aria-labelledby="square-location-heading">
+        <p className={styles.eyebrow}>Bodega counter</p>
+        <h2 id="square-location-heading">Choose the Square location.</h2>
+        <p>Square can hold several stores under one account. Confirm the Bodega location before any future menu mapping. Saving it here does not change the guest menu.</p>
+        {locationsUnavailable ? <p className={styles.error} role="alert">Square locations are unavailable right now. Refresh this page to retry.</p>
+          : locations.length ? <form action="/api/integrations/square/location" method="post" className={styles.locationForm}>
+            <input type="hidden" name="restaurant_id" value="bodega" />
+            <label htmlFor="square-location">Active Square locations</label>
+            <select id="square-location" name="location_id" required defaultValue={insight.locationId ?? ""}>
+              <option value="" disabled>Select Bodega’s location</option>
+              {locations.map((location) => <option key={location.id} value={location.id}>{location.name} · {location.id}</option>)}
+            </select>
+            <button className={styles.primaryAction} type="submit">Save location</button>
+          </form> : <p>No active Square locations were returned. Check the merchant account in Square.</p>}
+        {insight.locationId ? <p className={styles.quiet}>Selected: {selectedLocation?.name ?? insight.locationId}</p> : <p className={styles.unselected}>No location selected yet.</p>}
+      </section>
       <div className={styles.actions}>
-        <form action="/api/integrations/square/sync" method="post"><input type="hidden" name="restaurant_id" value="bodega" /><button className={styles.primaryAction} type="submit">Sync now</button></form>
+        {insight.locationId ? <form action="/api/integrations/square/sync" method="post"><input type="hidden" name="restaurant_id" value="bodega" /><button className={styles.primaryAction} type="submit">Sync now</button></form> : null}
+        <a className={styles.secondaryAction} href="/api/integrations/square/connect?restaurant_id=bodega">Reconnect Square</a>
         <form action="/api/integrations/square/disconnect" method="post"><input type="hidden" name="restaurant_id" value="bodega" /><button className={styles.secondaryAction} type="submit">Disconnect Square</button></form>
       </div>
       <section className={styles.changes} aria-labelledby="changes-heading"><header><p>Private Square catalog</p><h2 id="changes-heading">Recent menu changes.</h2></header>

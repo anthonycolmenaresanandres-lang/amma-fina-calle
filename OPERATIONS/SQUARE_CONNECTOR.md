@@ -1,26 +1,28 @@
 # Fina Calle Square Connector
 
 ## Current scope
-Prepared, private, read-only catalog integration. Bodega owners authorize Fina Calle through Square OAuth; they do not share passwords or personal access tokens. Permissions: `ITEMS_READ` and `MERCHANT_PROFILE_READ`. No `ITEMS_WRITE`, sales, customer or payment permissions.
+Prepared, private, read-only catalog integration. Bodega owners authorize Fina Calle through Square OAuth; they do not share passwords or personal access tokens. Permissions: `ITEMS_READ` and `MERCHANT_PROFILE_READ`. No `ITEMS_WRITE`, sales, customer or payment permissions. Current onboarding and credential custody: [SQUARE_ONBOARDING.md](SQUARE_ONBOARDING.md).
 
 The public QR menu is NOT connected to this mirror. Syncing only updates the private insights view. A future publishing workflow must use approved stable product/variation IDs, an explicitly chosen location, environment isolation and a validated complete snapshot. Exact-name matching is not a safe publication contract. Removals, names, descriptions, categories and artwork require review. The current cleanup removes the earlier automatic name-based overlay.
 
 ## Configuration (manual, separate from this PR)
 Square Developer Console, separately for Sandbox and Production:
 - OAuth redirect: `https://finacalleos.com/api/integrations/square/callback`
+- Set `SQUARE_OAUTH_CALLBACK_URL` to this exact URL, or use `NEXT_PUBLIC_APP_URL=https://finacalleos.com`. Connect requests on another host redirect to this origin before setting the OAuth state cookie. Register the matching callback URL separately for Sandbox and Production.
 - Webhook: `https://finacalleos.com/api/integrations/square/webhook`
 - Events: `catalog.version.updated` and `oauth.authorization.revoked`
 - API version in the prepared configuration: `2026-09-16`; verify against the selected app before activation.
 
-Server-only values: `SQUARE_ENVIRONMENT`, `SQUARE_APPLICATION_ID`, `SQUARE_APPLICATION_SECRET`, `SQUARE_WEBHOOK_SIGNATURE_KEY`, `SQUARE_WEBHOOK_URL`, `SQUARE_TOKEN_ENCRYPTION_KEY` (base64-encoded 32 bytes), `SQUARE_API_VERSION`, and `CRON_SECRET`. No real secret was added by this change. Start OAuth from the configured callback's origin so its state cookie returns to the same host. Production and Sandbox credentials/databases must not be mixed.
+Server-only values: `SQUARE_ENVIRONMENT`, `SQUARE_APPLICATION_ID`, `SQUARE_APPLICATION_SECRET`, `SQUARE_OAUTH_CALLBACK_URL`, `SQUARE_WEBHOOK_SIGNATURE_KEY`, `SQUARE_WEBHOOK_URL`, `SQUARE_TOKEN_ENCRYPTION_KEY` (base64-encoded 32 bytes), `SQUARE_API_VERSION`, and `CRON_SECRET`. No real secret was added by this change. Production and Sandbox credentials/databases must not be mixed.
 
 ## Storage and lifecycle
-Apply prepared migrations `0020`, `0021`, then `0022` in a controlled environment. Earlier migrations are not rewritten by the cleanup.
+Migrations `0020`, `0021`, then `0022` were reported applied to the production Supabase project on 2026-09-26; verify the target project's migration history before any further application. Earlier migrations are not rewritten by the cleanup.
 - Access and refresh tokens are encrypted with AES-256-GCM.
 - Fresh OAuth authorization atomically replaces the connection and clears the previous catalog. Failed replacement rolls back both changes.
 - Disconnect/revocation cascades to the cached catalog in the same database transaction.
 - Catalog writes validate the connection generation and active sync lease; an old worker cannot repopulate a reconnected restaurant.
 - Catalog versions and successful checkpoints remain monotonic. The mirror is private; partially completed imports never alter the guest menu.
+- No Square location is selected automatically. The owner chooses an active location in the private insights view; the server verifies it against Square before starting the first private catalog sync. A location choice does not publish menu data.
 - Webhook duplicates return success only for completed processing. In-flight/failed work remains retryable.
 - The prepared daily Vercel Cron refreshes tokens older than six days. It is not active until configured and deployed. Review failed refreshes; a stored connection is not proof that credentials remain valid.
 

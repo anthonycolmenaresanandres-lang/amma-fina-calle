@@ -1,4 +1,5 @@
 import "server-only";
+import { resolveSquareOAuthCallbackUrl } from "./oauth-origin";
 
 export type SquareEnvironment = "sandbox" | "production";
 
@@ -48,6 +49,14 @@ export function getSquareAppConfig(): SquareAppConfig | null {
     oauthBase: `${apiBase}/oauth2`,
     scopes: DEFAULT_SCOPES,
   };
+}
+
+export function getSquareOAuthCallbackUrl(): URL | null {
+  return resolveSquareOAuthCallbackUrl(
+    value("SQUARE_OAUTH_CALLBACK_URL"),
+    value("NEXT_PUBLIC_APP_URL"),
+    value("SQUARE_ENVIRONMENT") === "production" ? "production" : "sandbox",
+  );
 }
 
 export function getSquareWebhookConfig(): SquareWebhookConfig | null {
