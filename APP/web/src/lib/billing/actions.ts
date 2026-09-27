@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { recurringCheckoutDestination } from "./checkout";
+import { BODEGA_BASIC_TERMS, bodegaTermsMatch } from "./bodega-terms";
 import { approvedTrialEnd, BillingSetupPendingError, priceMatchesApprovedTerms, stripeObjectId, subscriptionStillExists, trustedStripeUrl, type ApprovedBillingTerms } from "./policy";
 import {
   getBillingAppUrl,
@@ -38,18 +39,15 @@ function stripeCustomerProfile(
     postal_code: restaurant.billing_address_postal_code?.trim() ?? "",
     country: restaurant.billing_address_country?.trim().toUpperCase() ?? "",
   };
-  if (
-    !(restaurant.billing_name?.trim() || restaurant.business_name.trim()) ||
-    !email.includes("@") ||
-    Object.values(address).some((value) => !value)
-  ) {
+  if (!(restaurant.billing_name?.trim() || restaurant.business_name.trim()) || !email.includes("@") ||
+      (restaurantId !== "bodega" && Object.values(address).some((value) => !value))) {
     throw new Error("Restaurant billing identity is incomplete.");
   }
   return {
     name: restaurant.billing_name?.trim() || restaurant.business_name.trim(),
     email,
     phone: restaurant.contact_phone?.trim() || undefined,
-    address,
+    ...(Object.values(address).every(Boolean) ? { address } : {}),
     metadata: {
       restaurant_id: restaurantId,
       billing_contact: restaurant.contact_name?.trim() || "Owner",
@@ -58,7 +56,7 @@ function stripeCustomerProfile(
 }
 
 function ownerPath(restaurantId: string, notice?: string): string {
-  const base = "/owner/" + encodeURIComponent(restaurantId);
+  const base = restaurantId === "bodega" ? "/owner/bodega/billing" : "/owner/" + encodeURIComponent(restaurantId);
   return notice ? base + "?billing=" + encodeURIComponent(notice) : base;
 }
 
@@ -68,8 +66,11 @@ async function requireOwner(restaurantId: string) {
   return context;
 }
 
-export async function startRecurringBilling(restaurantId: string): Promise<void> {
-  await requireOwner(restaurantId);
+export async function startRecurringBilling(restaurantId: string, formData?: FormData): Promise<void> {
+  const owner = await requireOwner(restaurantId);
+  if (restaurantId === "bodega" && formData?.get("accept_terms") !== BODEGA_BASIC_TERMS.version) {
+    redirect(ownerPath(restaurantId, "terms-required"));
+  }
   let checkoutUrl: string | null = null;
 
   try {
@@ -117,6 +118,7 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
     if (!checkoutUrl) {
       if (!isBillingRuntimeConfigured(restaurantId)) throw new BillingSetupPendingError();
       const terms = billing as ApprovedBillingTerms;
+      if (restaurantId === "bodega" && !bodegaTermsMatch(terms)) throw new BillingSetupPendingError();
       const trialEnd = approvedTrialEnd(terms);
       const priceId = getRecurringPriceId(restaurantId);
       const price = await stripe.prices.retrieve(priceId);
@@ -146,7 +148,8 @@ export async function startRecurringBilling(restaurantId: string): Promise<void>
           if (mappingError || current?.stripe_customer_id !== customerId) throw new BillingSetupPendingError();
         }
       }
-      checkoutUrl = await recurringCheckoutDestination(stripe, { customerId, restaurantId, priceId, trialEnd, appUrl });
+      checkoutUrl = await recurringCheckoutDestination(stripe, { customerId, restaurantId, priceId, trialEnd, appUrl,
+        ...(restaurantId === "bodega" ? { agreement: { version: BODEGA_BASIC_TERMS.version, acceptedBy: owner.email } } : {}) });
     }
   } catch (error) {
     redirect(ownerPath(restaurantId, error instanceof BillingSetupPendingError ? "setup-pending" : "unavailable"));

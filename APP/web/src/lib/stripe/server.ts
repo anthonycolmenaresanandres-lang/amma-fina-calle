@@ -31,6 +31,7 @@ export function getRecurringPriceId(restaurantId?: string): string {
   const suffix = restaurantId?.replaceAll("-", "_").toUpperCase();
   const scoped = suffix && /^[A-Z0-9_]+$/.test(suffix)
     ? process.env[`STRIPE_RECURRING_PRICE_ID_${suffix}`]?.trim() : undefined;
+  if (restaurantId === "bodega") return scoped || requiredEnv("STRIPE_RECURRING_PRICE_ID_BODEGA");
   return scoped || requiredEnv("STRIPE_RECURRING_PRICE_ID");
 }
 
