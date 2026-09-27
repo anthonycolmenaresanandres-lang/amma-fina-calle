@@ -18,6 +18,10 @@
 - On first sign-in, the portal must show the password-reset screen and withhold dashboard data and actions.
 - The owner selects a private password of 12–128 characters. AMMA does not request or record it.
 
+## Approved passwordless Square pilot
+
+For a separately approved, read-only Square onboarding pilot, the owner can use a one-time email sign-in link instead of a temporary password. First confirm the exact restaurant row and owner email assignment. The application checks `owner_emails` before requesting a link, and checks it again after email verification; non-allowlisted addresses receive the same neutral response. The link flow may create the Supabase Auth user only after this restaurant-specific allowlist check. Do not set `owner_password_reset_required` for a passwordless-only user; an existing account with that flag still completes the required reset before access. Verify the Supabase Magic Link template and allowed redirect URL point to the canonical Fina Calle owner page. The owner approves Square in Square and never shares a Square password or token with AMMA. This exception does not authorize billing, guest-menu publication, or another tenant's access.
+
 ## Activation checklist
 
 ### 1. Intake and identity

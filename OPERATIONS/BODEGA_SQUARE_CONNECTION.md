@@ -5,8 +5,8 @@ Checked 2026-09-27. **Not connected.** This record contains identifiers and evid
 | Field | Verified value / status |
 | --- | --- |
 | Fina Calle tenant ID | `bodega` in application routes; production `restaurants` row not yet present |
-| Bodega contact email supplied by Anthony | `bodegacafe757@gmail.com`; owner identity and authority still to be verified |
-| Authorized Bodega owner name and contact | Unconfirmed; do not equate the supplied contact address with a verified owner login yet |
+| Bodega owner email confirmed by Anthony | `bodegacafe757@gmail.com`; Anthony says this owner controls Bodega's Square account |
+| Authorized Bodega owner name and contact | Name not supplied; Square consent and portal sign-in have not yet occurred |
 | Production owner allowlist | No `owner_emails` row for `bodega` at last read-only check |
 | Square Developer application | `Fina Calle Connector`, created under Amma Ventures on 2026-09-27. Production application ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg`; [Developer Console](https://developer.squareup.com/console/en/apps/sq0idp-lFTKZfAvjszQvlWyI1nzPg/oauth) |
 | Production OAuth redirect | `https://finacalleos.com/api/integrations/square/callback`; saved and confirmed in Developer Console |
@@ -21,7 +21,7 @@ Checked 2026-09-27. **Not connected.** This record contains identifiers and evid
 | Guest-note email recipient | Unconfigured; separate from owner email |
 | Muffin reward | Off; daily limit still requires Anthony's choice |
 
-Before filling the owner field or granting portal access, verify that the supplied address belongs to the authorized Bodega owner through an approved channel, and confirm the signed client/plan details required by the [owner access SOP](OWNER_PORTAL_ACCESS_SOP.md). There is no `bodega` production restaurant row, `owner_emails` row, or Auth user for this address at the 2026-09-27 check. Before filling merchant/location fields, have that owner connect Bodega's own Square merchant in Square and confirm the location in the private insights page. Read back the connection and sync state from production, then record the date, evidence link, and reviewer. Never infer IDs from a business name or from the separate Amma Ventures seller account.
+Anthony has confirmed the address belongs to the Square-controlling Bodega owner. Before granting portal access, record the approved service scope and create/read back the `bodega` restaurant and exact `owner_emails` assignment; this is a separate production access gate. There is no `bodega` production restaurant row, `owner_emails` row, or Auth user for this address at the 2026-09-27 check. The new passwordless path creates the Auth user only after that allowlist exists and the owner requests a link. Before filling merchant/location fields, have that owner connect Bodega's own Square merchant in Square. A sole active location is selected automatically; several active locations require owner choice. Read back the connection and sync state from production, then record the date, evidence link, and reviewer. Never infer IDs from a business name or from the separate Amma Ventures seller account.
 
 The guest-note recipient remains unconfigured. Anthony's contact email for onboarding does not change that earlier instruction.
 
@@ -29,14 +29,14 @@ The guest-note recipient remains unconfigured. Anthony's contact email for onboa
 
 Subject: Connect Bodega's Square menu to Fina Calle
 
-Hi [verified owner name],
+Hi Bodega team,
 
-Fina Calle is preparing a private view of Bodega's Square catalog so we can compare menu details with the Bodega QR menu. Please sign in at [approved owner URL] with your Bodega owner account, open **Square menu watch**, and select **Connect Square**. Square will ask you to approve read-only access to catalog items and your merchant profile. Fina Calle cannot edit your Square catalog, view payments or customer records, or change the guest menu through this connection.
+Fina Calle is preparing a private view of Bodega's Square menu so we can compare it with the Bodega QR menu. Open https://finacalleos.com/owner/bodega/insights, enter your Bodega owner email, and tap the link we send you. Then select **Connect Bodega's Square**. Sign in on Square's screen and approve read-only access to your items and store name. Fina Calle cannot edit your Square menu, view payments or customer records, or change the guest menu through this connection.
 
-After approval, choose the Bodega Square location shown in the private view and let us know if its merchant or store name looks wrong. You can disconnect from the same page. We will review any proposed guest-menu changes with you separately.
+If Square lists several stores, choose Bodega's store by name. If there is one active store, it is selected automatically. Let us know if the merchant or store name looks wrong. You can disconnect from the same page. We will review any proposed guest-menu changes with you separately.
 
-If you have questions or did not expect this invitation, contact [approved Fina Calle support channel] before connecting.
+If you have questions or did not expect this invitation, use the contact link on the Fina Calle website before connecting.
 
 Fina Calle
 
-Do not send this draft with placeholders. Do not include a temporary password in the invitation. Record send/acceptance only after evidence exists.
+Do not send this draft before the owner link, production access, Square secrets, and private sync have been verified. No temporary password is needed. Record send/acceptance only after evidence exists.

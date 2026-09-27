@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { guestNoteClientKey } from "../src/lib/requests/guest-note-policy";
 import { canonicalSquareConnectUrl, resolveSquareOAuthCallbackUrl } from "../src/lib/square/oauth-origin";
+import { onlyActiveSquareLocation } from "../src/lib/square/location-choice";
 
 async function text(relative: string) { return readFile(path.resolve(relative), "utf8"); }
 
@@ -15,6 +16,10 @@ async function main() {
   assert.equal(resolveSquareOAuthCallbackUrl("https://evil.example/callback", "https://finacalleos.com", "production"), null);
   assert.equal(resolveSquareOAuthCallbackUrl("http://localhost:3000/api/integrations/square/callback", "", "sandbox")?.origin, "http://localhost:3000");
   assert.equal(resolveSquareOAuthCallbackUrl("", "", "sandbox"), null);
+  assert.equal(onlyActiveSquareLocation([]), undefined);
+  assert.equal(onlyActiveSquareLocation([{ id: "A", name: "Bodega", status: "ACTIVE" }]), "A");
+  assert.equal(onlyActiveSquareLocation([{ id: "A", name: "Bodega", status: "ACTIVE" }, { id: "B", name: "Other", status: "ACTIVE" }]), undefined);
+  assert.equal(onlyActiveSquareLocation([{ id: "A", name: "Bodega", status: "ACTIVE" }, { id: "B", name: "Closed", status: "INACTIVE" }]), "A");
   const deployed = { vercel: true, production: true };
   const key = (address: string) => guestNoteClientKey(new Headers({ "x-vercel-forwarded-for": address }), deployed);
   assert.match(key("192.0.2.1")!, /^[a-f0-9]{64}$/);
@@ -45,7 +50,9 @@ async function main() {
   assert.match(locationRoute, /isSameOrigin\(request\)/);
   assert.match(locationRoute, /selectSquareLocation/);
   assert.match(locationRoute, /syncSquareCatalog/);
-  assert(!callback.includes("syncSquareCatalog"), "Owner must choose a location before the first catalog import");
+  assert.match(callback, /onlyActiveSquareLocation/);
+  assert.match(callback, /syncSquareCatalog/);
+  assert(callback.indexOf("await saveSquareOAuthConnection") < callback.indexOf("await syncSquareCatalog"), "A connection must be saved before its catalog is read");
   assert.match(manualSync, /!connection\?\.locationId/);
   assert(!config.includes("ITEMS_WRITE"));
   assert(!menu.includes("@/lib/square/"), "Square imports must not auto-publish to the public menu");

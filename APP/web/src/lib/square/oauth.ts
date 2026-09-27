@@ -12,7 +12,7 @@ export type SquareOAuthToken = {
 };
 
 export type SquareMerchantContext = { merchantName?: string; locationId?: string };
-export type SquareLocation = { id: string; name: string; status: string };
+export type SquareLocation = { id: string; name: string; status: string; addressLabel?: string };
 
 function errorMessage(payload: { errors?: SquareError[] }, fallback: string) {
   return payload.errors?.[0]?.detail || payload.errors?.[0]?.code || fallback;
@@ -92,10 +92,11 @@ export async function listSquareLocations(config: SquareAppConfig, accessToken: 
     headers: { Authorization: `Bearer ${accessToken}`, "Square-Version": config.apiVersion },
     cache: "no-store", signal: AbortSignal.timeout(10000),
   });
-  const payload = await response.json() as { locations?: Array<{ id?: string; name?: string; status?: string }>; errors?: SquareError[] };
+  const payload = await response.json() as { locations?: Array<{ id?: string; name?: string; status?: string; address?: { address_line_1?: string; locality?: string } }>; errors?: SquareError[] };
   if (!response.ok || payload.errors?.length) throw new Error(errorMessage(payload, "Square locations could not be loaded."));
-  return (payload.locations ?? []).filter((location): location is SquareLocation =>
+  return (payload.locations ?? []).filter((location) =>
     Boolean(location.id && location.name && location.status)).map((location) => ({
-      id: location.id, name: location.name, status: location.status,
+      id: location.id!, name: location.name!, status: location.status!,
+      addressLabel: [location.address?.address_line_1, location.address?.locality].filter(Boolean).join(", ") || undefined,
     }));
 }
