@@ -643,3 +643,11 @@ Authority: Anthony confirmed `bodegacafe757@gmail.com` is controlled by Bodega's
 Scope: make Bodega's private Square screen a plain-language, passwordless email-link entry point; auto-select a sole active Square location after owner consent; keep multiple-location choice explicit; update company handoff instructions. Do not grant production access, install/read secrets, send an invitation, merge, or publish in this branch. Bodega email remains separate from the guest-note recipient.
 
 Result: Bodega-only allowlist-gated magic link, one clear Square approval action, automatic sole-active-store selection/private sync, named multi-store choices with address, safer disconnect confirmation, and updated owner/company handoff. Scoped ESLint/TypeScript, Square/Bodega self-tests, isolated SQL lifecycle test, production build, and local owner-page browser pass completed. Production link flow cannot be exercised until Bodega allowlist, Square secrets, and seller consent exist; PR review and explicit release approval remain.
+
+## [ ] 74 - Bodega Basic recurring billing and open owner design
+
+Authority: Anthony confirmed Bodega closed at $199/month Basic, its 30-day free trial began 2026-09-26, selected in-portal terms acceptance/autopay authorization, chose cancellation before the next charge, and explicitly requested implementation and merge after verification. No setup fee was specified, so none is included.
+
+Scope: Reuse the existing Stripe owner billing flow for Bodega with a private email-link entry, exact $199/month terms, first proposed charge 2026-10-26, recorded authorization, and a simpler typography-led Fina Calle owner layout. Prepare tenant/billing database migration and company design/billing runbook. Prevent enrollment until the matching Stripe price, owner access, and required provider settings are ready. Preserve Square read-only behavior, guest menu, game, and reward-off state.
+
+PASS: Owner sees clear terms and first-charge date, can accept once and enter Stripe Checkout only when server-approved terms match, can later manage invoices/payment methods, and never sees private billing data anonymously. Targeted billing/auth tests, lint, build, and responsive browser review pass; PR checks pass before the authorized merge.

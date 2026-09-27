@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { getStripe, getStripeWebhookSecret } from "@/lib/stripe/server";
 import { webhookClaimState } from "@/lib/billing/policy";
 import { billingEventCustomer, retrieveCurrentBilling } from "@/lib/billing/reconciliation";
+import { BODEGA_BASIC_TERMS } from "@/lib/billing/bodega-terms";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -35,6 +36,43 @@ async function reconcileCustomer(admin: SupabaseClient, customerId: string): Pro
   if (!updated) throw new Error("Billing state changed; retry reconciliation.");
   // Owner and ledger RPCs read restaurant_billing first. Do not dual-write the
   // legacy restaurants.billing_status column outside a database transaction.
+}
+
+async function recordBodegaAuthorization(admin: SupabaseClient, event: Stripe.Event): Promise<void> {
+  if (event.type !== "checkout.session.completed") return;
+  const session = event.data.object as Stripe.Checkout.Session;
+  if (session.metadata?.terms_version !== BODEGA_BASIC_TERMS.version) return;
+  const customerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
+  const subscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id;
+  const acceptedBy = session.metadata.accepted_by?.trim().toLowerCase();
+  if (session.client_reference_id !== "bodega" || session.metadata.restaurant_id !== "bodega" ||
+      !customerId || !subscriptionId || !acceptedBy || session.status !== "complete") {
+    throw new Error("Bodega authorization data is incomplete.");
+  }
+  const { data: account, error: accountError } = await admin.from("restaurant_billing")
+    .select("restaurant_id").eq("stripe_customer_id", customerId).eq("restaurant_id", "bodega").maybeSingle();
+  if (accountError || !account) throw new Error("Bodega billing customer mismatch.");
+  const { error } = await admin.from("billing_authorizations").insert({
+    checkout_session_id: session.id,
+    restaurant_id: "bodega",
+    stripe_customer_id: customerId,
+    stripe_subscription_id: subscriptionId,
+    accepted_by_email: acceptedBy,
+    terms_version: BODEGA_BASIC_TERMS.version,
+    terms_snapshot: {
+      plan: BODEGA_BASIC_TERMS.plan,
+      amount_cents: BODEGA_BASIC_TERMS.amountCents,
+      currency: BODEGA_BASIC_TERMS.currency,
+      trial_started_on: BODEGA_BASIC_TERMS.trialStartedOn,
+      first_charge_on: BODEGA_BASIC_TERMS.firstChargeOn,
+      billing_interval: BODEGA_BASIC_TERMS.interval,
+      setup_fee_cents: BODEGA_BASIC_TERMS.setupFeeCents,
+      cancellation: BODEGA_BASIC_TERMS.cancellation,
+    },
+    accepted_at: new Date(session.created * 1000).toISOString(),
+    checkout_completed_at: new Date(event.created * 1000).toISOString(),
+  });
+  if (error && error.code !== "23505") throw error;
 }
 
 export async function POST(request: Request) {
@@ -75,6 +113,7 @@ export async function POST(request: Request) {
   try {
     const customerId = billingEventCustomer(event);
     if (customerId) await reconcileCustomer(admin, customerId);
+    await recordBodegaAuthorization(admin, event);
     const { data: processed, error: processedError } = await admin.from("stripe_webhook_events")
       .update({ processed_at: new Date().toISOString() }).eq("id", event.id)
       .eq("received_at", lease).is("processed_at", null).select("id").maybeSingle();

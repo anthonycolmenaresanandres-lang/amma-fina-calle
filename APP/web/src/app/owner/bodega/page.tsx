@@ -31,6 +31,7 @@ export default function BodegaOwnerHub() {
           <Link href="/bodega-sessions-review"><strong>Play Bodega Vibra</strong><span>Open the current Bodega game ↗</span></Link>
           <a href="/owner/bodega/qr" download="bodega-menu-qr.svg"><strong>Download menu QR</strong><span>Scalable SVG for your printed insert ↓</span></a>
           <Link href="/owner/bodega/insights"><strong>Connect Bodega’s Square</strong><span>One email link, then approve in Square ↗</span></Link>
+          <Link href="/owner/bodega/billing"><strong>Your Basic plan</strong><span>Review the free trial and set up monthly payments ↗</span></Link>
         </div>
       </section>
       <section className={styles.offer} aria-labelledby="offer-title">

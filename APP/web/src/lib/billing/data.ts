@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { getRecurringPriceId, getStripe, isBillingManagementConfigured, isBillingRuntimeConfigured } from "@/lib/stripe/server";
 import { approvedTrialEnd, priceMatchesApprovedTerms } from "./policy";
+import { bodegaTermsMatch } from "./bodega-terms";
 import {
   normalizeBillingStatus,
   type BillingSummary,
@@ -75,6 +76,7 @@ export async function getOwnerBillingSummary(
         if (!accountError && account && ["not_started", "canceled", "incomplete_expired"].includes(row.billing_status ?? "") &&
             isBillingRuntimeConfigured(restaurantId)) {
           approvedTrialEnd(row);
+          if (restaurantId === "bodega" && !bodegaTermsMatch(row)) throw new Error("Bodega terms do not match the approved offer.");
           const price = await getStripe().prices.retrieve(getRecurringPriceId(restaurantId));
           enrollmentEnabled = priceMatchesApprovedTerms(price, row);
         }
@@ -117,6 +119,8 @@ export function getBillingNotice(value: unknown): string | null {
       return "Your billing account is not connected yet. Contact Anthony to arrange invoice access.";
     case "setup-pending":
       return "Your plan or first-payment date needs confirmation. Contact Anthony; no new checkout was opened.";
+    case "terms-required":
+      return "Review the terms and check the authorization box before continuing to secure checkout.";
     case "unavailable":
       return "Billing is temporarily unavailable. Contact AMMA if you need immediate help.";
     default:
