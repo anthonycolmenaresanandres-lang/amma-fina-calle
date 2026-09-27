@@ -5,9 +5,14 @@ Checked 2026-09-27. **Not connected.** This record contains identifiers and evid
 | Field | Verified value / status |
 | --- | --- |
 | Fina Calle tenant ID | `bodega` in application routes; production `restaurants` row not yet present |
-| Authorized Bodega owner name and contact | Unconfirmed |
+| Bodega contact email supplied by Anthony | `bodegacafe757@gmail.com`; owner identity and authority still to be verified |
+| Authorized Bodega owner name and contact | Unconfirmed; do not equate the supplied contact address with a verified owner login yet |
 | Production owner allowlist | No `owner_emails` row for `bodega` at last read-only check |
-| Square Developer application | Account and application creation unconfirmed |
+| Square Developer application | `Fina Calle Connector`, created under Amma Ventures on 2026-09-27. Production application ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg`; [Developer Console](https://developer.squareup.com/console/en/apps/sq0idp-lFTKZfAvjszQvlWyI1nzPg/oauth) |
+| Production OAuth redirect | `https://finacalleos.com/api/integrations/square/callback`; saved and confirmed in Developer Console |
+| Production webhook | Enabled `Fina Calle Catalog Mirror`, subscription ID `wbhk_7a625ade3c0e49a5aa4fffb62932f4ad`, API version `2026-09-16`; `catalog.version.updated` and `oauth.authorization.revoked` to `https://finacalleos.com/api/integrations/square/webhook`. Signing key is not in Vercel yet |
+| Vercel production configuration | Five non-secret Square Config variables saved and read back by name/scope; secret values and a new deployment still needed |
+| Square seller account currently signed in | Amma Ventures; this is the company account, not evidence of Bodega's Square merchant authorization |
 | Square environment, merchant ID and name | No connection |
 | Selected Bodega location ID and name | None |
 | Requested permissions | `ITEMS_READ`, `MERCHANT_PROFILE_READ` in source |
@@ -16,7 +21,9 @@ Checked 2026-09-27. **Not connected.** This record contains identifiers and evid
 | Guest-note email recipient | Unconfigured; separate from owner email |
 | Muffin reward | Off; daily limit still requires Anthony's choice |
 
-Before filling the owner field, verify the person and exact email with Bodega through an approved channel. Before filling merchant/location fields, have that owner connect in Square and confirm the location in the private insights page. Read back the connection and sync state from production, then record the date, evidence link, and reviewer. Never infer IDs from a business name.
+Before filling the owner field or granting portal access, verify that the supplied address belongs to the authorized Bodega owner through an approved channel, and confirm the signed client/plan details required by the [owner access SOP](OWNER_PORTAL_ACCESS_SOP.md). There is no `bodega` production restaurant row, `owner_emails` row, or Auth user for this address at the 2026-09-27 check. Before filling merchant/location fields, have that owner connect Bodega's own Square merchant in Square and confirm the location in the private insights page. Read back the connection and sync state from production, then record the date, evidence link, and reviewer. Never infer IDs from a business name or from the separate Amma Ventures seller account.
+
+The guest-note recipient remains unconfigured. Anthony's contact email for onboarding does not change that earlier instruction.
 
 ## Owner invitation draft — send only after contact verification
 

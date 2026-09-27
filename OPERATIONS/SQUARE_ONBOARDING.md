@@ -7,7 +7,10 @@ The current client-specific evidence and unsent invitation draft are in [BODEGA_
 ## Verified state and next gate
 
 - Connector code and read-only owner view are in the Fina Calle repo. The production database has Square migrations `0020`, `0021`, and `0022`, but the last read-only audit found **zero Square connections** and **zero Bodega owner allowlist/restaurant records**. Recheck the live database before an owner connects.
-- A Square Developer signup page was opened on 2026-09-27; account creation was **not** confirmed. Do not record an application ID, password, or owner contact as if it exists.
+- The Amma Ventures Square seller Dashboard and signed-in Developer Console were confirmed on 2026-09-27. Anthony approved Square Developer Terms acceptance and application creation. The application is **Fina Calle Connector** (Square's form disallowed the word “Square” in the name), Production ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg`, [Console](https://developer.squareup.com/console/en/apps/sq0idp-lFTKZfAvjszQvlWyI1nzPg/oauth). The production OAuth redirect was saved and read back as `https://finacalleos.com/api/integrations/square/callback`. No app secret or token was copied into the repo.
+- The Vercel `amma-fina-calle` project now has five Production-only, non-secret Config variables: `SQUARE_ENVIRONMENT=production`, `SQUARE_APPLICATION_ID`, `SQUARE_OAUTH_CALLBACK_URL`, `SQUARE_WEBHOOK_URL`, and `SQUARE_API_VERSION=2026-09-16`. They were read back by name and Production scope on 2026-09-27. Vercel confirmed **a new deployment is needed** for them to take effect. No Square secret variables or `CRON_SECRET` were present in project/shared scopes at the check; production OAuth, webhook verification, and refresh cron are therefore not ready.
+- Anthony approved a production webhook subscription. `Fina Calle Catalog Mirror` is enabled in Square with ID `wbhk_7a625ade3c0e49a5aa4fffb62932f4ad`, API version `2026-09-16`, URL `https://finacalleos.com/api/integrations/square/webhook`, and only `catalog.version.updated` plus `oauth.authorization.revoked`. Its signature key remains masked in the Console and is not installed in Vercel. Until all server-only settings are in place, the endpoint returns 503 and cannot process events; do not run Bodega authorization yet.
+- Anthony supplied `bodegacafe757@gmail.com` as the Bodega contact. It is not yet independently verified as an authorized owner login, and the production database has no Bodega restaurant, owner allowlist, or matching Auth user. Keep the email out of the guest-note recipient setting.
 - Bodega's Square merchant and exact operating location must be confirmed by Bodega's authorized owner. AMMA must not ask for their Square password or personal access token.
 - The OAuth callback and webhook endpoints are `https://finacalleos.com/api/integrations/square/callback` and `https://finacalleos.com/api/integrations/square/webhook`. An OAuth attempt always starts on the callback's origin, so its host-only state cookie returns to the same host.
 
@@ -15,20 +18,20 @@ The current client-specific evidence and unsent invitation draft are in [BODEGA_
 
 1. Anthony chooses the company-controlled mailbox and country matching AMMA's legal business. Check whether a Square Developer account already exists for that mailbox before creating another.
 2. Anthony enters the new password, reviews and accepts Square's terms, completes any captcha and email/MFA verification himself. Enable MFA and save recovery codes in the company password manager. Do not put passwords, codes, screenshots of secrets, or recovery codes in this repo or chat.
-3. In the Developer Console create one application named **Fina Calle Square Connector** under the AMMA/Fina Calle company account. Use its separate Sandbox and Production credential sets. Do not create a seller payment account or activate payment acceptance just to use the developer APIs.
+3. In the Developer Console use the application **Fina Calle Connector** under the Amma Ventures account. Use its separate Sandbox and Production credential sets. Do not activate payment acceptance just to use the developer APIs.
 4. Record only non-secret metadata here: application name, environment, application ID, Console link, creator/custodian, creation date, business owner, rotation review date, and the password-manager **item names**. Never record values for the application secret, token encryption key, webhook signature key, OAuth tokens, or owner passwords.
 
 ### Credential register (fill identifiers after creation, never values)
 
 | Item | Environment | System of record | Custodian | Status |
 | --- | --- | --- | --- | --- |
-| Square Developer account login + MFA recovery | Company | Company password manager | Anthony | Account unconfirmed |
-| Square application ID | Sandbox / Production | Developer Console and Vercel env | Anthony | Unset |
+| Square Developer account login + MFA recovery | Company | Company password manager | Anthony | Amma Ventures sign-in confirmed; MFA/recovery custody not checked |
+| Square application ID | Sandbox / Production | Developer Console and Vercel env | Anthony | Production ID `sq0idp-lFTKZfAvjszQvlWyI1nzPg` in Console and Production Vercel Config; deployment pending |
 | Square application secret | Sandbox / Production | Company password manager → Vercel server env | Anthony | Unset |
 | Square webhook signature key | Sandbox / Production | Company password manager → Vercel server env | Anthony | Unset |
 | `SQUARE_TOKEN_ENCRYPTION_KEY` | Sandbox / Production | Company password manager → Vercel server env | Anthony | Unset |
-| `CRON_SECRET` | Deployment | Company password manager → Vercel server env | Anthony | Check existing value without revealing it |
-| Bodega owner access | Production | Supabase Auth + `owner_emails` | Anthony + verified Bodega owner | Owner identity/assignment unconfirmed |
+| `CRON_SECRET` | Deployment | Company password manager → Vercel server env | Anthony | Not found in project or shared Vercel env on 2026-09-27 |
+| Bodega owner access | Production | Supabase Auth + `owner_emails` | Anthony + verified Bodega owner | Supplied contact address recorded; owner identity/assignment unconfirmed |
 
 Access is limited to designated AMMA administrators. Review access quarterly and at staff departure. Rotate application secret, webhook key, and encryption key using a documented maintenance window; **re-encrypt stored OAuth tokens before changing the encryption key** or all existing connections become unreadable. After suspected exposure, revoke the affected Square authorization, rotate the affected credential, review webhook/connection logs, reconnect the merchant, and record the incident without copying the secret into the incident record.
 
