@@ -20,12 +20,24 @@
 .metrics div { display:grid; gap:10px; background:#fff; padding:22px; }
 .metrics span { font-size:12px; color:#555; text-transform:uppercase; letter-spacing:.08em; }
 .metrics strong { font-size:clamp(20px,4vw,34px); letter-spacing:-.04em; overflow-wrap:anywhere; }
+.location { margin-top:44px; border-top:4px solid #111; padding-top:24px; }
+.eyebrow { margin:0; font:700 11px/1.4 var(--font-geist-mono),monospace; letter-spacing:.1em; text-transform:uppercase; }
+.location h2 { margin:12px 0; font-size:clamp(30px,5vw,48px); line-height:1; letter-spacing:-.05em; text-wrap:balance; }
+.location>p:not(.eyebrow) { max-width:62ch; line-height:1.6; }
+.locationForm { display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin-top:22px; }
+.locationForm label { flex-basis:100%; font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.08em; }
+.locationForm select { min-height:46px; max-width:100%; flex:1 1 270px; border:2px solid #111; border-radius:0; background:#fff; color:#111; padding:9px 12px; font:600 14px/1.3 var(--font-geist-sans),sans-serif; }
+.locationForm select:focus-visible { outline:3px solid #588bbc; outline-offset:4px; }
+.unselected { font-weight:750; }
 .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
 .actions form { margin:0; }
 .primaryAction,.secondaryAction { min-height:46px; display:inline-flex; align-items:center; justify-content:center; border:2px solid #111; padding:11px 16px; font:750 12px/1.2 var(--font-geist-sans),sans-serif; text-decoration:none; cursor:pointer; }
 .primaryAction { background:#111; color:#fff; }
+.primaryAction:hover { background:#333; border-color:#333; }
 .setup .primaryAction { background:#fff3da; border-color:#fff3da; color:#173c30; }
+.setup .primaryAction:hover { background:#fff; border-color:#fff; }
 .secondaryAction { background:#fff; color:#111; }
+.secondaryAction:hover { background:#eee; }
 .error { margin:24px 0 0; border-left:4px solid #ad2e24; background:#fff1ef; padding:14px 16px; color:#761c16; }
 .changes { margin-top:50px; border-top:4px solid #111; padding-top:28px; }
 .changes h2 { margin:8px 0 26px; font-size:clamp(32px,6vw,56px); letter-spacing:-.055em; }

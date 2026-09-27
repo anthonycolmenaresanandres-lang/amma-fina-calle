@@ -1,5 +1,12 @@
 # Codex Queue — canonical live queue
 
+## [x] 71 - Square onboarding execution and Bodega connection readiness
+
+Authority: Anthony asked to execute the Square onboarding plan and advance as far as possible on 2026-09-27. Work in isolated branch `codex/square-onboarding-20260927` from production `origin/main` 5a5866e.
+Scope: close the cross-domain OAuth callback gap, make Bodega's selected Square location explicit before menu mapping, document account and credential custody without storing secrets, verify the read-only connector and current deployment status, and prepare the exact owner connection steps. Keep the public menu and muffin rewards unchanged.
+Acceptance: scoped tests/build, no plaintext credentials in source control, no invented Square account or Bodega owner identity, and a clear record of completed versus human-only steps.
+Result: OAuth now starts on its registered callback host, explicitly sends the redirect URI, and checks the callback origin. Bodega must choose an active Square location before the first private import; manual sync also requires a selection. Added owner location controls, reconnect path, company onboarding/custody and Bodega connection records, an unsent invitation draft, and unique temporary-password guidance with a 12-character owner reset minimum. Production read-only check still shows zero Bodega tenant/owner and zero Square connections/catalog. Square signup is open but password, terms and MFA remain Anthony's steps. Square connector, owner manifest and PGlite lifecycle tests, scoped ESLint, TypeScript and final production build pass. No production app credentials, restaurant authorization or public-menu publication was performed.
+
 ## [x] 70 - Bodega launch notes, seven-day reward controls and Square-ready owner insights
 
 **State:** IMPLEMENTED AND VERIFIED - REVIEW PR READY

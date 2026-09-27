@@ -136,8 +136,8 @@ export async function completeRequiredPasswordReset(
   const normalized = password.toLowerCase();
   const emailName = context.email.split("@", 1)[0]?.toLowerCase() ?? "";
 
-  if (password.length < 4 || password.length > 128) {
-    return { ok: false, message: "Choose a password between 4 and 128 characters." };
+  if (password.length < 12 || password.length > 128) {
+    return { ok: false, message: "Choose a password between 12 and 128 characters." };
   }
   if (password !== confirmation) {
     return { ok: false, message: "The two passwords do not match." };

@@ -92,7 +92,7 @@ export default function RequiredPasswordReset({
           autoComplete="new-password"
         />
         <p className="text-xs leading-5 text-[#7f8a91]">
-          Use at least 4 characters. Avoid names, repeated characters, and common passwords.
+          Use at least 12 characters. Avoid names, repeated characters, and common passwords.
         </p>
         <button
           type="submit"

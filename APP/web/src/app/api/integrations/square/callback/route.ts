@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { isSafeRestaurantId } from "@/lib/owner/app-manifest";
-import { syncSquareCatalog } from "@/lib/square/catalog";
 import { saveSquareOAuthConnection } from "@/lib/square/connection";
-import { getSquareAppConfig } from "@/lib/square/config";
+import { getSquareAppConfig, getSquareOAuthCallbackUrl } from "@/lib/square/config";
 import { fetchSquareMerchantContext, obtainSquareOAuthToken } from "@/lib/square/oauth";
 
 export const runtime = "nodejs";
@@ -37,6 +36,10 @@ function redirect(request: NextRequest, state: OAuthState, status: string) {
 }
 
 export async function GET(request: NextRequest) {
+  const callbackUrl = getSquareOAuthCallbackUrl();
+  if (!callbackUrl || request.nextUrl.origin !== callbackUrl.origin || request.nextUrl.pathname !== callbackUrl.pathname) {
+    return NextResponse.json({ ok: false, message: "Square callback host is not configured." }, { status: 400 });
+  }
   const state = readState(request.cookies.get("fc_square_oauth_state")?.value);
   if (!state) return NextResponse.json({ ok: false, message: "Square authorization state expired." }, { status: 400 });
   if (request.nextUrl.searchParams.get("state") !== state.state) return redirect(request, state, "state_error");
@@ -49,15 +52,10 @@ export async function GET(request: NextRequest) {
   if (!code || !config) return redirect(request, state, "config_missing");
 
   try {
-    const token = await obtainSquareOAuthToken(config, code);
+    const token = await obtainSquareOAuthToken(config, code, callbackUrl);
     const merchant = await fetchSquareMerchantContext(config, token.access_token, token.merchant_id);
     await saveSquareOAuthConnection(state.restaurantId, token, merchant);
-    try {
-      const sync = await syncSquareCatalog(state.restaurantId, { trigger: "oauth" });
-      return redirect(request, state, sync.skipped ? "connected_sync_pending" : "connected");
-    } catch {
-      return redirect(request, state, "connected_sync_error");
-    }
+    return redirect(request, state, "connected_choose_location");
   } catch {
     return redirect(request, state, "connect_error");
   }

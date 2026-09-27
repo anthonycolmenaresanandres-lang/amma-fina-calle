@@ -2,7 +2,7 @@ import "server-only";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { decryptSquareToken, encryptSquareToken } from "./crypto";
 import { getSquareAppConfig, type SquareEnvironment } from "./config";
-import { refreshSquareOAuthToken, type SquareMerchantContext, type SquareOAuthToken } from "./oauth";
+import { listSquareLocations, refreshSquareOAuthToken, type SquareLocation, type SquareMerchantContext, type SquareOAuthToken } from "./oauth";
 
 const REFRESH_AFTER_MS = 6 * 24 * 60 * 60 * 1000;
 
@@ -135,6 +135,28 @@ export async function getSquareConnection(
 export async function getSquareConnectionMetadata(restaurantId: string) {
   const row = await loadConnectionRow(restaurantId);
   return row ? { merchantId: row.merchant_id, environment: row.environment, generation: row.connection_generation } : null;
+}
+
+export async function getSquareLocationsForOwner(restaurantId: string): Promise<SquareLocation[]> {
+  const config = getSquareAppConfig();
+  const connection = await getSquareConnection(restaurantId);
+  if (!config || !connection) throw new Error("Square is not connected for this restaurant.");
+  return (await listSquareLocations(config, connection.accessToken)).filter((location) => location.status === "ACTIVE");
+}
+
+export async function selectSquareLocation(restaurantId: string, locationId: string): Promise<void> {
+  const config = getSquareAppConfig();
+  const connection = await getSquareConnection(restaurantId);
+  if (!config || !connection) throw new Error("Square is not connected for this restaurant.");
+  const locations = await listSquareLocations(config, connection.accessToken);
+  if (!locations.some((location) => location.id === locationId && location.status === "ACTIVE")) {
+    throw new Error("The selected Square location is not active for this merchant.");
+  }
+  const { data, error } = await getSupabaseAdmin().from("square_connections")
+    .update({ location_id: locationId, updated_at: new Date().toISOString() })
+    .eq("restaurant_id", restaurantId).eq("merchant_id", connection.merchantId)
+    .eq("connection_generation", connection.generation).select("restaurant_id").maybeSingle();
+  if (error || !data) throw new Error("Square connection changed before the location was saved.");
 }
 
 export async function deleteSquareConnection(restaurantId: string, expectedGeneration?: string) {
