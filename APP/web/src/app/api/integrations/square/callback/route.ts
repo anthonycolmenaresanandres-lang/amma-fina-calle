@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { isSafeRestaurantId } from "@/lib/owner/app-manifest";
 import { saveSquareOAuthConnection } from "@/lib/square/connection";
+import { syncSquareCatalog } from "@/lib/square/catalog";
 import { getSquareAppConfig, getSquareOAuthCallbackUrl } from "@/lib/square/config";
-import { fetchSquareMerchantContext, obtainSquareOAuthToken } from "@/lib/square/oauth";
+import { onlyActiveSquareLocation } from "@/lib/square/location-choice";
+import { fetchSquareMerchantContext, listSquareLocations, obtainSquareOAuthToken } from "@/lib/square/oauth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,7 +56,22 @@ export async function GET(request: NextRequest) {
   try {
     const token = await obtainSquareOAuthToken(config, code, callbackUrl);
     const merchant = await fetchSquareMerchantContext(config, token.access_token, token.merchant_id);
+    // One active location needs no decision from the owner. Ambiguous or unavailable
+    // locations stay unselected so a wrong store is never silently attached.
+    if (state.restaurantId === "bodega") {
+      try {
+        merchant.locationId = onlyActiveSquareLocation(await listSquareLocations(config, token.access_token));
+      } catch { /* Save the connection and let the owner retry location selection. */ }
+    }
     await saveSquareOAuthConnection(state.restaurantId, token, merchant);
+    if (merchant.locationId) {
+      try {
+        await syncSquareCatalog(state.restaurantId, { trigger: "oauth" });
+        return redirect(request, state, "synced");
+      } catch {
+        return redirect(request, state, "location_saved_sync_error");
+      }
+    }
     return redirect(request, state, "connected_choose_location");
   } catch {
     return redirect(request, state, "connect_error");

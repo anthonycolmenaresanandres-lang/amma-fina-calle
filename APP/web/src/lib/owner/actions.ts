@@ -69,6 +69,41 @@ export async function requestMagicLink(
   return neutral;
 }
 
+/** Bodega's Square pilot needs only a verified email link, not a new password. */
+export async function requestBodegaSquareLink(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  if (!email || !email.includes("@") || email.length > 300) {
+    return { ok: false, message: "Enter a valid email address." };
+  }
+  const neutral: ActionState = {
+    ok: true,
+    message: "If this is Bodega’s owner email, check its inbox for your sign-in link. The link may take a minute to arrive.",
+  };
+  const supabase = await createServerSupabase();
+  if (!supabase) return { ok: false, message: "Sign-in is temporarily unavailable. Please contact Fina Calle." };
+  const { data: allowed } = await supabase.rpc("is_email_allowed", {
+    p_restaurant_id: "bodega", p_email: email,
+  });
+  if (!allowed) return neutral;
+
+  const headerList = await headers();
+  const proto = headerList.get("x-forwarded-proto") ?? "https";
+  const host = headerList.get("host");
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? `${proto}://${host}`;
+  await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      // A tenant-specific allowlist must exist before a passwordless user can be created.
+      shouldCreateUser: true,
+      emailRedirectTo: `${origin}/owner/bodega/insights`,
+    },
+  });
+  return neutral;
+}
+
 export async function signInOwnerWithPassword(
   restaurantId: string,
   _prev: ActionState,
