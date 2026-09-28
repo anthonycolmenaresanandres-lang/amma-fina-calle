@@ -11,8 +11,9 @@ no password, API key, auth token, EIN, personal mobile number, or other secret.
 - Twilio confirmed Voice, SMS, and MMS capability in US1. The number purchase is complete.
 - Voice and SMS are **not yet live on the number**. Do not configure the live webhooks until
   the code on branch `codex/fina-calle-voice-1118` is reviewed and deployed.
-- US A2P 10DLC registration is **not submitted**. SMS must remain unconfigured until the
-  campaign is approved.
+- The Customer Profile is active, but the first A2P Brand submission failed with Error
+  30795. The Campaign has not been submitted. SMS must remain unconfigured until the
+  Brand and Campaign are approved.
 - The existing Render gateway is healthy at
   `https://fina-calle-voice-gateway.onrender.com`. On 2026-09-28, `/runtime` reported an
   OpenAI key configured and five tenants; `/runtime/realtime-probe` returned `ok: true`
@@ -59,9 +60,29 @@ outbound campaign path.
 
 ## Twilio A2P registration plan
 
-The Twilio Console is at **US A2P 10DLC Registration → New registration → Customer
-Profile**. It currently asks whether the registered entity is in the United States or
-Canada. Nothing has been submitted.
+The Twilio Console is at **US A2P 10DLC Registration → Register Brand** with the failed
+Brand correction form open. The Customer Profile is active; the Campaign remains in
+Needs Information state.
+
+### Brand rejection diagnosed on 2026-09-28
+
+Twilio email and Console both report **Error 30795: Tax ID data mismatch** with this
+specific feedback: the submitted legal company name does not match the US EIN record.
+The submitted Brand name is `AMMA VENTURES LLC`. Twilio shows **2 of 3 resubmission
+attempts remaining**.
+
+Do not resubmit by guessing. Compare both the legal name and EIN directly against the
+IRS CP 575 EIN assignment notice or an IRS 147C letter. Enter the legal name exactly as
+shown there, including every word, suffix, space, and punctuation mark. Do not add
+`Fina Calle`, `DBA Fina Calle`, or another trade name unless it appears in the IRS legal
+name field. Also confirm the number is the business EIN rather than an SSN or a number
+belonging to another entity.
+
+If the current name and EIN already match the IRS notice exactly, do not spend another
+automatic attempt. Open Twilio Support from the failed Brand page and request manual
+review with the CP 575 or 147C. Twilio's current Error 30795 guidance says this manual
+re-vetting can involve a $10 fee. The Brand page and email were inspected read-only; no
+field was changed, no document was uploaded, and no resubmission was made.
 
 Recommended classification: **Low-Volume Standard** if AMMA Ventures LLC has an EIN.
 Do not choose Sole Proprietor if the entity has an EIN. The Console displayed these fees

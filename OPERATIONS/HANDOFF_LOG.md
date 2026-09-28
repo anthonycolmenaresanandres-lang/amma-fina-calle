@@ -2,6 +2,12 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-IN/OUT] Codex - 2026-09-28 - Twilio Brand rejection diagnosis
+Did: Read the verified Twilio rejection email and failed Brand page. Confirmed Error 30795: submitted legal company name does not match the US EIN record. The submitted name is `AMMA VENTURES LLC`; two of three resubmission attempts remain. Recorded the correction and manual-review path in the phone-line operating record without recording the EIN or other private identifiers.
+State now: No Twilio field, credential, registration, payment, email, or external record was changed. The failed Brand page remains available for correction.
+Next / handoff to: Anthony -> compare the legal name and EIN directly with the IRS CP 575 or 147C. If different, provide only the exact legal name and correct the form after confirming transmission; if already identical, use Twilio Support for manual review rather than consuming another attempt.
+Blocked on Anthony: The exact IRS legal-name text cannot be inferred safely from the Twilio error. Resubmission certifies legal information and uses one of two remaining attempts.
+
 ### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle phone 757-300-1118
 Did: Assigned +1 757 300 1118 to a truth-bounded Fina Calle voice tenant; added inbound AI SMS with tenant routing, output limits, safe HELP/failure behavior, opt-out suppression, caller limits, and prepared Twilio signature validation; added a dry-run-first Twilio API configurator; recorded A2P copy, fees, identity requirements, activation order, and every file location in the company/Claude handoff.
 State now: Work is local on `codex/fina-calle-voice-1118`. Existing production Render/OpenAI Realtime was independently healthy before this change. TypeScript, the full existing simulator, 9 SMS checks, live local voice/SMS route checks, signature fail-closed check, JSON routing check, `git diff --check`, and `npm audit --omit=dev` pass. Twilio's A2P tab is preserved at its first unsubmitted question. No credential, identity number, personal mobile, webhook change, registration submission, production release, or external message was made.
