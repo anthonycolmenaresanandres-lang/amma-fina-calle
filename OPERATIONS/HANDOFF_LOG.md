@@ -2,6 +2,12 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-IN/OUT] Codex - 2026-09-28 - Fina Calle phone branch merge gate
+Did: Anthony requested the branch merge. Refreshed `origin/main`, confirmed the branch is based directly on current production main with zero behind/two commits ahead, committed the Twilio rejection diagnosis, and reran the exact-head gateway checks.
+State now: `codex/fina-calle-voice-1118` at `9695459` is merge-ready. TypeScript, the complete voice simulator, 9/9 deterministic SMS checks, `npm audit --omit=dev`, and `git diff --check` pass. Working tree is clean after this log closeout commit. No push, PR, merge, deploy, Twilio resubmission, or production webhook change was made.
+Next / handoff to: Anthony -> publish the branch, open the PR, wait for required checks, and merge only the exact reviewed head. Then verify Render before connecting the number.
+Blocked on Anthony: Repository constitution reserves push, PR publication, production merge, and deployment for Anthony. Twilio Brand correction separately requires the exact IRS legal name and explicit resubmission certification.
+
 ### [CHECK-IN/OUT] Codex - 2026-09-28 - Twilio Brand rejection diagnosis
 Did: Read the verified Twilio rejection email and failed Brand page. Confirmed Error 30795: submitted legal company name does not match the US EIN record. The submitted name is `AMMA VENTURES LLC`; two of three resubmission attempts remain. Recorded the correction and manual-review path in the phone-line operating record without recording the EIN or other private identifiers.
 State now: No Twilio field, credential, registration, payment, email, or external record was changed. The failed Brand page remains available for correction.
