@@ -21,18 +21,18 @@ const companyNav = [
 ];
 
 export const metadata: Metadata = {
-  title: "Fina Calle | Family-owned consulting & digital delivery",
-  description: "Family-owned consulting in Virginia Beach. Clear business direction and hands-on digital delivery, with verified work and a written scope for every project.",
+  title: "Fina Calle | Family owned consulting and digital delivery",
+  description: "Family owned consulting in Virginia Beach. Clear business direction and hands on digital delivery, with verified work and a written scope for every project.",
   openGraph: {
-    title: "Fina Calle | Clear direction. Hands-on delivery.",
-    description: "Family-owned consulting and digital delivery for local businesses. Explore working projects and start a consultation.",
+    title: "Fina Calle | Clear direction. Hands on delivery.",
+    description: "Family owned consulting and digital delivery for local businesses. Explore working projects and start a consultation.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Fina Calle | Family-owned consulting & digital delivery",
-    description: "Clear business direction. Hands-on digital delivery. Start with a conversation and a written scope.",
+    title: "Fina Calle | Family owned consulting and digital delivery",
+    description: "Clear business direction. Hands on digital delivery. Start with a conversation and a written scope.",
   },
 };
 
@@ -73,10 +73,10 @@ export default function Home() {
         <div className={motion.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy} data-motion-reveal="copy">
-            <p className={styles.eyebrow}>Family-owned consulting · Virginia Beach</p>
+            <p className={styles.eyebrow}>Family owned consulting · Virginia Beach</p>
             <h1 id="hero-heading" className={styles.heroTitle}>
               <span>Clear direction.</span>
-              <em>Hands-on delivery.</em>
+              <em>Hands on delivery.</em>
             </h1>
             <p className={styles.heroBody}>
               We help local businesses make a plan and build the website,
@@ -118,43 +118,76 @@ export default function Home() {
       <section id="work" data-page="02" className={styles.work} aria-labelledby="proof-heading" tabIndex={-1}>
         <div className={motion.registrationPlate} data-motion-plate aria-hidden="true" />
         <div className={styles.sectionInner}>
-          <div className={styles.workGrid}>
-            <div className={styles.proofVisual} data-motion-reveal="panel">
-              <div className={styles.proofImageWrap}>
-                <Image
-                  src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
-                  alt="Coffee and pastry presentation used in the Colattao digital menu"
-                  fill
-                  className={`${motion.proofImage} ${styles.proofImage}`}
-                  data-dust-target="proof"
-                  sizes="(max-width: 900px) 86vw, 36vw"
-                />
-              </div>
-            </div>
-
-            <div className={styles.workCopy} data-motion-reveal="copy">
-              <p className={styles.label}>Live client menu</p>
-              <h2 id="proof-heading" className={styles.sectionTitle}>Colattao.</h2>
-              <p className={styles.proofBody}>
-                A real café. A working mobile menu. Explore the categories,
-                dishes and prices in your browser.
-              </p>
-              <div className={styles.workLinks}>
-                <a href="https://colattao-cafe-rush.vercel.app/menu" target="_blank" rel="noopener noreferrer" className={styles.primaryAction}>
-                  Open the live menu <span aria-hidden="true">↗</span>
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
-                <Link href="/case-studies/colattao" className={styles.secondaryAction}>
-                  View case study <span aria-hidden="true">↗</span>
-                </Link>
-              </div>
-              <Link href="/penalty-shootout" className={styles.demoLink}>
-                <span className={styles.label}>Playable demo</span>
-                <strong>Penalty Shootout <span aria-hidden="true">↗</span></strong>
-                <p>Five shots. Try the game engine. Client branding and custom work are scoped separately.</p>
-              </Link>
-            </div>
+          <div className={styles.workHeader} data-motion-reveal="copy">
+            <p className={styles.label}>Two live café experiences</p>
+            <h2 id="proof-heading" className={styles.sectionTitle}>Client work.</h2>
           </div>
+
+          <div className={styles.clientGrid}>
+            <article className={styles.clientProject} data-motion-reveal="panel">
+              <div className={styles.proofVisual}>
+                <div className={styles.proofImageWrap}>
+                  <Image
+                    src="/assets/colattao/colattao-menu-hero-4x5-v1.webp"
+                    alt="Coffee and pastry presentation used in the Colattao digital menu"
+                    fill
+                    className={`${motion.proofImage} ${styles.proofImage}`}
+                    data-dust-target="proof"
+                    sizes="(max-width: 760px) 86vw, 42vw"
+                  />
+                </div>
+              </div>
+              <div className={styles.clientCopy}>
+                <p className={styles.label}>Live menu</p>
+                <h3 className={styles.clientTitle}>Colattao.</h3>
+                <p className={styles.clientBody}>
+                  A fast mobile menu with clear categories, current prices and a warm café story.
+                </p>
+                <div className={styles.workLinks}>
+                  <a href="https://colattao-cafe-rush.vercel.app/menu" target="_blank" rel="noopener noreferrer" className={styles.primaryAction}>
+                    Open Colattao <span aria-hidden="true">↗</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                  <Link href="/case-studies/colattao" className={styles.secondaryAction}>
+                    View case study <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </div>
+            </article>
+
+            <article className={styles.clientProject} data-motion-reveal="panel">
+              <div className={styles.proofVisual}>
+                <div className={`${styles.proofImageWrap} ${styles.bodegaImageWrap}`}>
+                  <Image
+                    src="/assets/bodega/fall/cafe-interior.webp"
+                    alt="Bodega Cafe counter with its green street sign, white brick and hanging roses"
+                    fill
+                    className={styles.proofImage}
+                    sizes="(max-width: 760px) 86vw, 42vw"
+                  />
+                </div>
+              </div>
+              <div className={styles.clientCopy}>
+                <p className={styles.label}>Live menu and game</p>
+                <h3 className={styles.clientTitle}>Bodega Cafe.</h3>
+                <p className={styles.clientBody}>
+                  A table ready menu with café favorites, seasonal drinks and a game built for the wait.
+                </p>
+                <div className={styles.workLinks}>
+                  <a href="https://bodegacafe757.com/" target="_blank" rel="noopener noreferrer" className={styles.primaryAction}>
+                    Open Bodega <span aria-hidden="true">↗</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <Link href="/penalty-shootout" className={styles.demoLink} data-motion-reveal="action">
+            <span className={styles.label}>Fina Calle game demo</span>
+            <strong>Penalty Shootout <span aria-hidden="true">↗</span></strong>
+            <p>Five shots. Try the game engine. Client branding and custom work are scoped separately.</p>
+          </Link>
         </div>
       </section>
 
@@ -202,7 +235,7 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
-          <p>Family-owned. Built with care.</p>
+          <p>Family owned. Built with care.</p>
           <a href="https://www.instagram.com/fina_calle?igsh=MXUyZjZwODg3a3hjag==" target="_blank" rel="noopener noreferrer" aria-label="Fina Calle on Instagram (opens in a new tab)">@fina_calle ↗</a>
         </div>
         <div className={styles.footerMeta}>

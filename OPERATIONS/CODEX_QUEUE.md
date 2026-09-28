@@ -1,5 +1,17 @@
 # Codex Queue — canonical live queue
 
+## [ ] 72 - Add Bodega beside Colattao on the Fina Calle homepage
+
+**State:** DONE LOCALLY, READY FOR REVIEW
+**Authority:** Anthony requested the homepage update directly on 2026-09-28.
+**Base:** `origin/main` at `02af585`; isolated branch `codex/landing-bodega-clients-20260928`.
+**Scope:** Public homepage only. Present Bodega Cafe beside Colattao as current client work, revise the section language for multiple clients, and remove visible hyphen and dash punctuation from homepage copy and metadata. Preserve technical hyphens required by URLs, route names, CSS, HTML attributes and code syntax.
+**Design:** Keep the current Ink, Graphite, Gold and Paper comic editorial identity, Barlow Condensed display type, Geist body type, original crest motion, and open section hierarchy. The client section becomes a paired proof layout using existing approved repository assets and verified live destinations.
+**Boundaries:** No owner portal, menu, game, billing, database, access, secret, customer message, deployment, merge or production change.
+**PASS:** Bodega and Colattao appear together at desktop and stack cleanly on mobile; links reach their live menus; no visible homepage wording contains a hyphen or dash; keyboard focus, reduced motion and existing landing motion remain intact; targeted ESLint, production build and browser comparison pass.
+**STOP:** Stop before push, PR, merge, deployment or production access without a separate explicit instruction.
+**Result:** The Work section now presents Colattao and Bodega Cafe in a balanced two column desktop layout and a clean mobile stack, using existing approved repository artwork and verified live menu destinations. Homepage metadata, hero and footer use punctuation free `Family owned` and `Hands on` language. Browser checks at 1440 and 390 widths confirm both clients, loaded images, visible keyboard focus, zero horizontal overflow, zero visible hyphen or dash matches and zero console errors. Targeted ESLint and the complete Next production build pass. No push, PR, merge or deployment was performed.
+
 ## [x] 71 - Square onboarding execution and Bodega connection readiness
 
 Authority: Anthony asked to execute the Square onboarding plan and advance as far as possible on 2026-09-27. Work in isolated branch `codex/square-onboarding-20260927` from production `origin/main` 5a5866e.
