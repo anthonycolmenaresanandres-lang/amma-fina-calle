@@ -8,12 +8,16 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "simulate": "tsx src/simulate.ts",
+    "simulate:sms": "tsx src/simulateSms.ts",
+    "configure:twilio": "node scripts/configure-twilio-number.mjs",
     "simulate:checkin": "tsx src/checkin/simulate.ts",
     "report": "tsx src/report.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "openai": "^7.23.0",
+    "twilio": "^6.1.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {

@@ -2,6 +2,30 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-IN/OUT] Codex - 2026-09-28 - Fina Calle phone branch merge gate
+Did: Anthony requested the branch merge. Refreshed `origin/main`, confirmed the branch is based directly on current production main with zero behind/two commits ahead, committed the Twilio rejection diagnosis, and reran the exact-head gateway checks.
+State now: `codex/fina-calle-voice-1118` at `9695459` is merge-ready. TypeScript, the complete voice simulator, 9/9 deterministic SMS checks, `npm audit --omit=dev`, and `git diff --check` pass. Working tree is clean after this log closeout commit. No push, PR, merge, deploy, Twilio resubmission, or production webhook change was made.
+Next / handoff to: Anthony -> publish the branch, open the PR, wait for required checks, and merge only the exact reviewed head. Then verify Render before connecting the number.
+Blocked on Anthony: Repository constitution reserves push, PR publication, production merge, and deployment for Anthony. Twilio Brand correction separately requires the exact IRS legal name and explicit resubmission certification.
+
+### [CHECK-IN/OUT] Codex - 2026-09-28 - Twilio Brand rejection diagnosis
+Did: Read the verified Twilio rejection email and failed Brand page. Confirmed Error 30795: submitted legal company name does not match the US EIN record. The submitted name is `AMMA VENTURES LLC`; two of three resubmission attempts remain. Recorded the correction and manual-review path in the phone-line operating record without recording the EIN or other private identifiers.
+State now: No Twilio field, credential, registration, payment, email, or external record was changed. The failed Brand page remains available for correction.
+Next / handoff to: Anthony -> compare the legal name and EIN directly with the IRS CP 575 or 147C. If different, provide only the exact legal name and correct the form after confirming transmission; if already identical, use Twilio Support for manual review rather than consuming another attempt.
+Blocked on Anthony: The exact IRS legal-name text cannot be inferred safely from the Twilio error. Resubmission certifies legal information and uses one of two remaining attempts.
+
+### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle phone 757-300-1118
+Did: Assigned +1 757 300 1118 to a truth-bounded Fina Calle voice tenant; added inbound AI SMS with tenant routing, output limits, safe HELP/failure behavior, opt-out suppression, caller limits, and prepared Twilio signature validation; added a dry-run-first Twilio API configurator; recorded A2P copy, fees, identity requirements, activation order, and every file location in the company/Claude handoff.
+State now: Work is local on `codex/fina-calle-voice-1118`. Existing production Render/OpenAI Realtime was independently healthy before this change. TypeScript, the full existing simulator, 9 SMS checks, live local voice/SMS route checks, signature fail-closed check, JSON routing check, `git diff --check`, and `npm audit --omit=dev` pass. Twilio's A2P tab is preserved at its first unsubmitted question. No credential, identity number, personal mobile, webhook change, registration submission, production release, or external message was made.
+Next / handoff to: Anthony -> review this branch. After an approved PR/deploy, verify the production tenant and OpenAI probe, install the Twilio auth token, then explicitly authorize the dry-run-reviewed voice webhook update. Enter legal identity data directly in Twilio, publish SMS Privacy/Terms/opt-in copy, and separately approve the A2P submission fees; attach SMS only after campaign approval.
+Blocked on Anthony: Production release and Twilio routing are irreversible operational gates. A2P also needs exact legal entity/EIN/address/authorized-contact data, public SMS policy URLs, and action-time approval for submission and fees.
+
+### [CHECK-IN] Codex - 2026-09-28 - Fina Calle phone 757-300-1118
+Picking up: Finish the purchased Fina Calle phone line, prepare inbound AI voice and SMS routing, stage Twilio A2P registration, and create a durable company and Claude handoff.
+State I see: Twilio confirms +1 757 300 1118 is purchased with Voice, SMS, and MMS capability. The existing Render voice gateway is healthy and its OpenAI Realtime probe opens successfully. The `fina-calle` tenant exists but has no number or safe company knowledge. Twilio A2P onboarding is open but still needs Anthony's exact legal identity details and an action-time review before paid submission.
+Plan: Add a truth-bounded Fina Calle tenant, inbound SMS assistant, webhook validation controls, rate limits, dry-run-first Twilio configuration automation, tests, and a complete operating record. Keep secrets out of git and stop before production routing, credential creation, A2P submission, fees, or release.
+Boundaries: Work only on isolated branch `codex/fina-calle-voice-1118`. No push, PR, merge, deploy, paid registration, API-key creation, secret handling, or external form submission.
+
 ### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle homepage client pair
 Did: Added Bodega Cafe beside Colattao in the public Work section with an open paired proof layout, existing approved imagery and direct live menu links. Updated singular client language and removed visible hyphen and dash punctuation from homepage copy and metadata while preserving technical code syntax and URLs.
 State now: Targeted ESLint and the full Next production build pass. Local production browser checks at 1440 and 390 widths confirm both clients and images, visible keyboard focus, no horizontal overflow, no visible dash punctuation and no console errors. Existing crest to Colattao dust motion still resolves to the full source image. Changes remain local on `codex/landing-bodega-clients-20260928`.

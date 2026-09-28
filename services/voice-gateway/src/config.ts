@@ -37,6 +37,7 @@ export const config = {
 
   openaiApiKey: process.env.OPENAI_API_KEY ?? "",
   realtimeModel: realtimeModel(),
+  smsModel: process.env.OPENAI_SMS_MODEL?.trim() || "gpt-5-mini",
   voice: process.env.OPENAI_VOICE ?? "alloy",
   // Spoken language the agent answers in. OpenAI Realtime voices are not language-locked —
   // the timbre comes from `voice`, the language/accent from instructions — so we steer it
@@ -86,6 +87,15 @@ export const config = {
     wrapUpBufferSeconds: Number(process.env.WRAP_UP_SECONDS ?? 30), // warn the bot to close warmly this many secs before the cap
     maxConcurrentCalls: Number(process.env.MAX_CONCURRENT_CALLS ?? 12), // reject new calls beyond this
     perCallerMaxPerHour: Number(process.env.PER_CALLER_MAX_PER_HOUR ?? 12), // simple anti-robodialer cap per number/hour
+    smsPerCallerMaxPerHour: Number(process.env.SMS_PER_CALLER_MAX_PER_HOUR ?? 20),
+    smsMaxOutputChars: Number(process.env.SMS_MAX_OUTPUT_CHARS ?? 600),
+  },
+
+  // Twilio webhook verification is prepared but opt-in so existing deployments do not
+  // fail closed until TWILIO_AUTH_TOKEN has been installed in the secret store.
+  twilio: {
+    authToken: process.env.TWILIO_AUTH_TOKEN ?? "",
+    validateWebhooks: (process.env.TWILIO_VALIDATE_WEBHOOKS ?? "false").toLowerCase() === "true",
   },
 
   // Per-client Knowledge Pack (v0 keeps it inline; later loaded per phone number).
