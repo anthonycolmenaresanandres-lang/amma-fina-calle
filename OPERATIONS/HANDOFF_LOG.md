@@ -2,6 +2,18 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle phone 757-300-1118
+Did: Assigned +1 757 300 1118 to a truth-bounded Fina Calle voice tenant; added inbound AI SMS with tenant routing, output limits, safe HELP/failure behavior, opt-out suppression, caller limits, and prepared Twilio signature validation; added a dry-run-first Twilio API configurator; recorded A2P copy, fees, identity requirements, activation order, and every file location in the company/Claude handoff.
+State now: Work is local on `codex/fina-calle-voice-1118`. Existing production Render/OpenAI Realtime was independently healthy before this change. TypeScript, the full existing simulator, 9 SMS checks, live local voice/SMS route checks, signature fail-closed check, JSON routing check, `git diff --check`, and `npm audit --omit=dev` pass. Twilio's A2P tab is preserved at its first unsubmitted question. No credential, identity number, personal mobile, webhook change, registration submission, production release, or external message was made.
+Next / handoff to: Anthony -> review this branch. After an approved PR/deploy, verify the production tenant and OpenAI probe, install the Twilio auth token, then explicitly authorize the dry-run-reviewed voice webhook update. Enter legal identity data directly in Twilio, publish SMS Privacy/Terms/opt-in copy, and separately approve the A2P submission fees; attach SMS only after campaign approval.
+Blocked on Anthony: Production release and Twilio routing are irreversible operational gates. A2P also needs exact legal entity/EIN/address/authorized-contact data, public SMS policy URLs, and action-time approval for submission and fees.
+
+### [CHECK-IN] Codex - 2026-09-28 - Fina Calle phone 757-300-1118
+Picking up: Finish the purchased Fina Calle phone line, prepare inbound AI voice and SMS routing, stage Twilio A2P registration, and create a durable company and Claude handoff.
+State I see: Twilio confirms +1 757 300 1118 is purchased with Voice, SMS, and MMS capability. The existing Render voice gateway is healthy and its OpenAI Realtime probe opens successfully. The `fina-calle` tenant exists but has no number or safe company knowledge. Twilio A2P onboarding is open but still needs Anthony's exact legal identity details and an action-time review before paid submission.
+Plan: Add a truth-bounded Fina Calle tenant, inbound SMS assistant, webhook validation controls, rate limits, dry-run-first Twilio configuration automation, tests, and a complete operating record. Keep secrets out of git and stop before production routing, credential creation, A2P submission, fees, or release.
+Boundaries: Work only on isolated branch `codex/fina-calle-voice-1118`. No push, PR, merge, deploy, paid registration, API-key creation, secret handling, or external form submission.
+
 ### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle homepage client pair
 Did: Added Bodega Cafe beside Colattao in the public Work section with an open paired proof layout, existing approved imagery and direct live menu links. Updated singular client language and removed visible hyphen and dash punctuation from homepage copy and metadata while preserving technical code syntax and URLs.
 State now: Targeted ESLint and the full Next production build pass. Local production browser checks at 1440 and 390 widths confirm both clients and images, visible keyboard focus, no horizontal overflow, no visible dash punctuation and no console errors. Existing crest to Colattao dust motion still resolves to the full source image. Changes remain local on `codex/landing-bodega-clients-20260928`.

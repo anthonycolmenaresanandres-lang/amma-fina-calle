@@ -6,6 +6,9 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 
 ## What's here
 - `src/server.ts` — HTTP `/twiml` (Twilio webhook) + WS `/media` (bidirectional Media Stream).
+- `src/sms.ts` — inbound, user-initiated SMS replies through the OpenAI Responses API;
+  tenant knowledge, short output, XML escaping, caller rate limits, and a deterministic
+  safe fallback are enforced before Twilio sends the reply.
 - `src/realtime.ts` — OpenAI Realtime WS client (g711 μ-law in/out, tools, barge-in).
 - `src/orchestrator.ts` — **draft-first** tool handlers; `confirm_booking` is **idempotent**;
   `take_message` captures a lead when we can't book; `finalizeCall` writes an end-of-call
@@ -25,6 +28,8 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
   booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
+- `src/simulateSms.ts` — verifies SMS output clipping, escaping, HELP copy, and TwiML
+  with **no phone, API request, or keys**.
 - `src/checkin/*` — attendance check-in scaffolding (built + unit-tested, not wired into
   live tools yet): `types.ts` (the `CheckInConnector` interface + domain types), `rules.ts`
   (a deterministic rules-pack evaluator — identity match, roster match for the session, a
@@ -82,6 +87,32 @@ before go-live (see file header).
   a `<Stream><Parameter name="tenant">`; the Media Stream `start` event carries it back,
   so the `RealtimeSession` uses that business's pack + connector. A tenant with an empty
   `phoneNumbers` is the catch-all; unknown numbers fall back to it (then the first tenant).
+- **Fina Calle:** `+1 757 300 1118` is assigned to the `fina-calle` tenant in
+  `tenants.json`. Voice uses `/twiml`; inbound text uses `/sms`. Do not point the number
+  at these routes until this tenant version is deployed. Do not enable SMS routing until
+  the US A2P campaign is approved.
+
+## Inbound SMS assistant
+
+`POST /sms` accepts Twilio's form-encoded `To`, `From`, and `Body` fields, resolves the
+same tenant registry as voice, and returns TwiML containing one short response. It is
+inbound/customer-care only: there is no broadcast, campaign, scheduled, or cold-outreach
+code. `HELP` returns deterministic support instructions. Standard opt-out keywords return
+empty TwiML so Twilio can apply its configured carrier-compliance response without a
+second AI-generated message.
+
+Runtime controls:
+
+- `OPENAI_SMS_MODEL` defaults to `gpt-5-mini`.
+- `SMS_PER_CALLER_MAX_PER_HOUR` defaults to `20`.
+- `SMS_MAX_OUTPUT_CHARS` defaults to `600`.
+- `TWILIO_AUTH_TOKEN` is secret and must be installed in the host secret store.
+- `TWILIO_VALIDATE_WEBHOOKS` defaults to `false` only to avoid breaking the existing
+  deployment before the token exists. Set it to `true` immediately after the token is
+  installed and verify a real signed Twilio request.
+
+The deployed service already owns `OPENAI_API_KEY`; never copy that value into source,
+logs, local documentation, or Twilio.
 
 ## Call analytics / ROI
 - **`GET /stats`** (`?tenant=<id>` to scope to one business) — live JSON rollup:
@@ -120,7 +151,30 @@ before go-live (see file header).
 npm install
 npm run typecheck
 npm run simulate   # proves draft→confirm→commit + idempotency (no double-book)
+npm run simulate:sms # deterministic SMS checks; no network or messages sent
 ```
+
+## Configure the Twilio number reproducibly
+
+The checked-in helper is dry-run-first and prints no credentials:
+
+```bash
+npm run configure:twilio
+```
+
+After the deployed tenant is verified, provide a scoped Twilio API key through the
+process environment and add `--apply` to configure voice. Add `--include-sms` only after
+the A2P campaign is approved:
+
+```bash
+npm run configure:twilio -- --apply
+npm run configure:twilio -- --apply --include-sms
+```
+
+Required only for apply mode: `TWILIO_ACCOUNT_SID`, `TWILIO_API_KEY`, and
+`TWILIO_API_SECRET`. Optional overrides are `TWILIO_PHONE_SID`, `TWILIO_PHONE_NUMBER`,
+and `PUBLIC_HOST`. The default target is `+1 757 300 1118` at
+`fina-calle-voice-gateway.onrender.com`.
 
 ## Go live (the remaining wiring — needs accounts)
 1. **Deploy** to an **always-on** host — **not** Vercel serverless (media streams are
@@ -131,8 +185,10 @@ npm run simulate   # proves draft→confirm→commit + idempotency (no double-bo
    `voice.example.com`), and optionally a `TENANTS_FILE` (per-client packs) or the
    single-tenant `BOOKING_CONNECTOR` + that connector's creds. Language defaults to
    English; override with `AGENT_LANGUAGE` / per-tenant `language` (see Language lock).
-3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`. (For
-   multi-tenant, add each client's number to a tenant's `phoneNumbers`.)
+3. Buy a **Twilio** number → set its **Voice webhook** to `https://<host>/twiml`. Set its
+   fallback to `https://<host>/voice-fallback`. After US A2P approval, set the messaging
+   webhook to `https://<host>/sms`. (For multi-tenant, add each client's number to a
+   tenant's `phoneNumbers`.)
 4. Call the number. The agent greets + discloses, then books into the connector.
 5. Durability: `STORE_SNAPSHOT` (set to `/data/store.json` in `render.yaml`) keeps state
    across restarts on a single instance. To scale to multiple instances, apply

@@ -11,7 +11,7 @@ RUN npm ci
 # App source
 COPY tsconfig.json ./
 COPY src ./src
-# Tenant registry (Colattao info line + Fina Calle catch-all); TENANTS_FILE points here.
+# Tenant registry (multiple client lines plus the dedicated Fina Calle number).
 COPY tenants.json ./tenants.json
 
 ENV NODE_ENV=production

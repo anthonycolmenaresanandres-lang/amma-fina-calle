@@ -13,6 +13,11 @@ Read in order:
 4. `OPERATIONS/HANDOFF_LOG.md` — log IN/OUT every session
 5. `OPERATIONS/CODEX_QUEUE.md` — hand coding specs to Codex here
 
+Active phone-line handoff: before any Twilio, OpenAI, Render, SMS-policy, A2P, or
+assistant-personality work for **+1 757 300 1118**, read
+`OPERATIONS/FINA_CALLE_PHONE_20260928.md`. Its implementation branch is
+`codex/fina-calle-voice-1118`; live routing and registration are not yet complete.
+
 Parallel work → a sibling worktree under `C:\dev\amma\worktrees\<task>`, never elsewhere.
 
 Guardrails: never handle secrets, grant access, publish/send, or ship to `main` — prep those and hand Anthony exact steps.

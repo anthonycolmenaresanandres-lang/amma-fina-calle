@@ -2,6 +2,15 @@
 
 Use this checklist for every AMMA / Fina Calle handoff.
 
+## Current phone-line handoff
+
+For the purchased Fina Calle number **+1 757 300 1118**, read
+`OPERATIONS/FINA_CALLE_PHONE_20260928.md` before making any Twilio, Render, OpenAI, A2P,
+website-policy, or assistant-personality change. Active implementation is isolated on
+branch `codex/fina-calle-voice-1118` in
+`C:\dev\amma\worktrees\fina-calle-voice-1118`. Voice/SMS routing and A2P submission are
+not yet live; the document records the exact human gates and safe activation order.
+
 ## Start here
 
 Open Claude in `C:\Dev\amma\amma-fina-calle`, then read:

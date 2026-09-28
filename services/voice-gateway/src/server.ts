@@ -6,12 +6,14 @@
 
 import http from "node:http";
 import OpenAIWebSocket, { WebSocketServer, type RawData, type WebSocket } from "ws";
+import twilio from "twilio";
 import { config } from "./config";
 import { connectStreamTwiML, mediaFrame, clearFrame, sayHangupTwiML } from "./twilio";
 import { RealtimeSession, buildGreetingResponse, buildRealtimeSessionUpdate } from "./realtime";
 import { store } from "./store";
 import { finalizeCall } from "./orchestrator";
 import { getTenantById, getTenantByNumber, allTenants } from "./tenant";
+import { emptyTwiML, generateSmsReply, messageTwiML, smsFallbackReply } from "./sms";
 import type { CallRecord } from "./types";
 
 function readBody(req: http.IncomingMessage): Promise<string> {
@@ -21,6 +23,26 @@ function readBody(req: http.IncomingMessage): Promise<string> {
     req.on("end", () => resolve(body));
     req.on("error", () => resolve(""));
   });
+}
+
+function twilioWebhookUrl(url: URL): string {
+  const host = config.publicHost || url.host;
+  const protocol = config.publicHost ? "https:" : url.protocol;
+  return `${protocol}//${host}${url.pathname}${url.search}`;
+}
+
+function validTwilioWebhook(req: http.IncomingMessage, url: URL, params: URLSearchParams): boolean {
+  if (!config.twilio.validateWebhooks) return true;
+  if (!config.twilio.authToken) return false;
+  const rawSignature = req.headers["x-twilio-signature"];
+  const signature = Array.isArray(rawSignature) ? rawSignature[0] : rawSignature;
+  if (!signature) return false;
+  return twilio.validateRequest(
+    config.twilio.authToken,
+    signature,
+    twilioWebhookUrl(url),
+    Object.fromEntries(params.entries()),
+  );
 }
 
 function probeRealtime(): Promise<Record<string, unknown>> {
@@ -93,6 +115,7 @@ function probeRealtimeSession(tenantId: string): Promise<Record<string, unknown>
 // Live-call accounting for the safety gates (denial-of-wallet / abuse on a public line).
 let activeCalls = 0;
 const callerHistory = new Map<string, number[]>(); // from-number -> recent call timestamps (ms)
+const smsHistory = new Map<string, number[]>(); // from-number -> recent text timestamps (ms)
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -108,6 +131,8 @@ const server = http.createServer(async (req, res) => {
       publicHost: config.publicHost,
       openaiApiKeyConfigured: Boolean(config.openaiApiKey),
       realtimeModel: config.realtimeModel,
+      smsModel: config.smsModel,
+      twilioWebhookValidation: config.twilio.validateWebhooks,
       tenantsFileConfigured: Boolean(process.env.TENANTS_FILE),
       tenantCount: allTenants().length,
       linePaused: config.safety.linePaused,
@@ -147,6 +172,7 @@ const server = http.createServer(async (req, res) => {
     // Twilio posts form-encoded (To, From); also accept query for GET. Route by `To`.
     const body = await readBody(req);
     const params = new URLSearchParams(body || "");
+    if (!validTwilioWebhook(req, url, params)) { res.writeHead(403).end("invalid signature"); return; }
     const to = params.get("To") ?? url.searchParams.get("To") ?? undefined;
     const from = params.get("From") ?? url.searchParams.get("From") ?? "";
 
@@ -169,6 +195,41 @@ const server = http.createServer(async (req, res) => {
 
     const tenant = getTenantByNumber(to ?? undefined);
     res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id, from));
+    return;
+  }
+  if (url.pathname === "/sms") {
+    const body = await readBody(req);
+    const params = body ? new URLSearchParams(body) : url.searchParams;
+    if (!validTwilioWebhook(req, url, params)) { res.writeHead(403).end("invalid signature"); return; }
+
+    const to = params.get("To") ?? undefined;
+    const from = params.get("From") ?? "unknown";
+    const inbound = params.get("Body") ?? "";
+    const tenant = getTenantByNumber(to);
+    const sendXml = (xml: string) => res.writeHead(200, { "Content-Type": "text/xml" }).end(xml);
+
+    if (!inbound.trim()) { sendXml(emptyTwiML()); return; }
+    if (config.safety.linePaused) {
+      sendXml(messageTwiML("Fina Calle's assistant is paused right now. Please visit finacalleos.com/contact#support."));
+      return;
+    }
+
+    const now = Date.now();
+    const recent = (smsHistory.get(from) ?? []).filter((timestamp) => timestamp > now - 3_600_000);
+    if (config.safety.smsPerCallerMaxPerHour > 0 && recent.length >= config.safety.smsPerCallerMaxPerHour) {
+      sendXml(messageTwiML("You've reached the text limit for now. Please visit finacalleos.com/contact#support."));
+      return;
+    }
+    recent.push(now);
+    smsHistory.set(from, recent);
+
+    try {
+      const reply = await generateSmsReply(tenant, inbound);
+      sendXml(reply ? messageTwiML(reply) : emptyTwiML());
+    } catch (error) {
+      console.error(`[voice-gateway] SMS reply failed for tenant ${tenant.id}:`, error instanceof Error ? error.message : "unknown error");
+      sendXml(messageTwiML(smsFallbackReply()));
+    }
     return;
   }
   res.writeHead(404).end("not found");
