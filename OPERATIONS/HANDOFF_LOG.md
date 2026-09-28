@@ -2,6 +2,18 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-28 - Fina Calle homepage client pair
+Did: Added Bodega Cafe beside Colattao in the public Work section with an open paired proof layout, existing approved imagery and direct live menu links. Updated singular client language and removed visible hyphen and dash punctuation from homepage copy and metadata while preserving technical code syntax and URLs.
+State now: Targeted ESLint and the full Next production build pass. Local production browser checks at 1440 and 390 widths confirm both clients and images, visible keyboard focus, no horizontal overflow, no visible dash punctuation and no console errors. Existing crest to Colattao dust motion still resolves to the full source image. Changes remain local on `codex/landing-bodega-clients-20260928`.
+Next / handoff to: Anthony -> review the local branch and separately authorize push, PR or production release if desired.
+Blocked on Anthony: Repository publication and production deployment remain separate approvals.
+
+### [CHECK-IN] Codex - 2026-09-28 - Fina Calle homepage client pair
+Picking up: Add Bodega Cafe beside Colattao in the public homepage client section, update singular wording for the paired proof, and remove visible hyphen and dash punctuation from homepage copy.
+State I see: Production currently presents only Colattao in the Work section. The active application is `APP/web` on `origin/main` `02af585`. Existing approved Bodega assets and the live `https://bodegacafe757.com/` destination are already in the repository and production ecosystem.
+Plan: Preserve the existing comic editorial identity and crest motion; reshape only the Work section into an open two client layout; update homepage metadata and visible copy; verify lint, build, responsive browser output, focus, links and absence of visible dash punctuation.
+Boundaries: Local isolated branch only. No push, PR, merge, deploy, production write, access, billing, database, secret or customer communication.
+
 ## 2026-09-26 OUT — Bodega guest notes, launch kit and Square foundation
 
 Branch codex/bodega-launch-guest-notes-square-20260926 is ready for review. It adds the menu guest-note footer routed through the existing Fina Calle intake, prepared inactive five-per-day/seven-day reward controls and official terms, seven feed plus three Story PNGs with deterministic manifest and posting guide, and a protected read-only Square catalog mirror/webhook/owner-insights foundation. No Bodega recipient, Square secret, migration application, reward activation, social publish, merge or deployment occurred. Targeted ESLint, both reward/launch self-tests, endpoint failure-state check, production webpack build and browser visual/accessibility review pass. Social exports were visually inspected and packaged for Anthony.

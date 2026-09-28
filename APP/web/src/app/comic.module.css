@@ -293,20 +293,26 @@
   background: linear-gradient(118deg, transparent 72%, #c8aa7209 72%), var(--comic-graphite);
 }
 
-.workGrid {
+.workHeader {
+  max-width: 52rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.clientGrid {
   display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(3rem, 8vw, 8rem);
-  max-width: 72rem;
-  margin-inline: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.clientProject {
+  min-width: 0;
 }
 
 .proofVisual {
   position: relative;
   min-width: 0;
-  width: min(100%, 26rem);
-  justify-self: start;
+  width: 100%;
   padding: 0 0.7rem 0.7rem 0;
 }
 
@@ -314,7 +320,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 10;
   border: 5px solid var(--comic-paper);
   background: var(--comic-ink);
   box-shadow: 9px 9px 0 var(--comic-gold);
@@ -322,6 +328,10 @@
 
 .proofImage {
   object-fit: cover;
+}
+
+.bodegaImageWrap .proofImage {
+  object-position: center 18%;
 }
 
 .sectionTitle {
@@ -334,9 +344,37 @@
   margin-top: 1.2rem;
 }
 
+.clientCopy {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #c8aa7266;
+}
+
+.clientTitle {
+  margin: 0.4rem 0 0;
+  color: var(--comic-paper);
+  font-family: var(--font-fc-display), Impact, sans-serif;
+  font-size: clamp(2.8rem, 4.4vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.clientBody {
+  max-width: 32rem;
+  margin-top: 1rem;
+  color: var(--comic-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
 .demoLink {
   display: block;
-  margin-top: 2.5rem;
+  max-width: 48rem;
+  margin-top: clamp(3rem, 6vw, 5rem);
   border-top: 1px solid #c8aa7266;
   padding-top: 1.25rem;
 }
@@ -582,7 +620,7 @@
   .headerInner { gap: 1rem; }
   .heroTitle { font-size: clamp(3.8rem, 8vw, 5.4rem); }
   .heroGrid { gap: 1.5rem; }
-  .workGrid { gap: 3rem; }
+  .clientGrid { gap: 2rem; }
   .restaurantInner { grid-template-columns: 1fr 1fr; gap: 1.2rem 2rem; }
   .restaurantLink { grid-column: 1 / -1; }
 }
@@ -613,10 +651,13 @@
   .page .instrumentWrap { width: min(78vw, 20rem); margin: 0 auto; justify-self: center; }
   .artCaption { font-size: 0.75rem; }
   .work, .process { padding-block: 3rem; }
-  .workGrid { grid-template-columns: 1fr; gap: 2.1rem; }
-  .proofVisual { width: min(100%, 21rem); justify-self: center; }
+  .workHeader { margin-bottom: 2.4rem; }
+  .clientGrid { grid-template-columns: 1fr; gap: 3.2rem; }
+  .proofVisual { width: 100%; }
   .sectionTitle { font-size: clamp(3.25rem, 12.5vw, 4.5rem); }
   .proofBody { margin-top: 1rem; }
+  .clientTitle { font-size: clamp(3rem, 12vw, 4rem); }
+  .clientBody { font-size: 1rem; line-height: 1.65; }
   .workLinks { gap: 0.75rem 1.5rem; margin-top: 1.3rem; }
   .demoLink { margin-top: 1.9rem; padding-top: 1.2rem; }
   .demoLink > strong { font-size: 1.85rem; }
