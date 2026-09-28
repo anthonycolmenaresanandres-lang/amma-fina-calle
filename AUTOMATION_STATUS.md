@@ -3,8 +3,8 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-27 (afternoon/evening check-in, `claude-opus-4-8`). **🔴 THIRD STRIKE — VBFH Daily Run is now confirmed persistently DOWN.** Today's **09-27 scheduled run #117 fired and ALSO CANCELLED** (16:59→17:45 UTC; the `daily:run` step ran 17:00:54→17:44:58 ≈ 44 min then was killed at the 45-min job cap; artifact uploaded). That's **three consecutive cancellations on unchanged code `b7af2c9`** (#115 + #116 on 09-26, now #117 on 09-27) → definitively persistent, not a flake. Root cause unchanged: **the live DaySmart scrape (~40 leagues, sequential) now exceeds the 45-min budget**; per-op Playwright timeouts exist in `dash-fetcher.ts`, the gap is the missing **global time budget** — clean insertion point confirmed in `lib/services/orchestration/daily-runner.ts` (the per-league `for` loop, ~line 329). **Option-C pinpoint is BLOCKED from this cloud session:** the failed run's artifact (the per-league run-log) is hosted on Azure blob storage, which the session's egress proxy denies (**HTTP 403, org network policy**) — so only Anthony (or a runner with artifact access) can inspect which league stalls. **The fix remains an accuracy-vs-completion trade-off (raise timeout / cut retries / add a global budget with partial-run handling / pinpoint+skip the slow league), so it stays Anthony's call — no speculative change pushed into the fail-closed scrape pipeline.** **amma advanced since last run:** `main` `8a8b1ad`→`02af585` via **one of Anthony's own merges** — **#270** "Bodega Basic: private monthly billing enrollment" (09-27 13:03 UTC), `CI — web` **✅** (#263). **#270 adds ONE new Supabase migration `0023_bodega_basic_billing.sql`** → pending set is now **`0015`–`0023`** (plus `0009` Marbel). #270 also **wires Stripe billing for Bodega Basic** (`/owner/bodega/billing`, `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`) — Stripe activation (keys + going live) stays Anthony's gate; the route is the bodega-specific owner page, **not** the guarded dynamic `/owner/[id]`. **Anthony's own merge → no caretaker merge/undo; recorded.** Default branches re-verified live: amma **`02af585`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**run #263** on main tip `02af585`) + `CI — voice-gateway` ✅ (path-filtered off this billing wave); vbfh build `CI` ✅ (**run #26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run** (#115 + #116 + #117 all cancelled). shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held; #259 base-synced again after the #270 merge, only the Vercel deploy bot commented; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
-**Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
+**Last updated:** 2026-09-28 (morning/midday check-in, `claude-opus-4-8`). **No new breakage; the one standing outage (VBFH Daily Run) is unchanged and still awaiting Anthony's fix decision.** Since the 09-27 afternoon run, amma `main` advanced **`02af585`→`8e8576b`** via **two of Anthony's own merges** — **#271** "web: add Bodega to homepage client work" (09-28 08:27 UTC, `CI — web` **#266 ✅**; homepage `page.tsx`/`comic.module.css` + docs, **no migration**) and **#272** "Prepare Fina Calle voice and SMS line" (09-28 12:25 UTC, `CI — voice-gateway` **#19 ✅**; voice-gateway SMS handling + Twilio number-config script + `OPERATIONS/FINA_CALLE_PHONE_20260928.md`, **no migration**). Both are **Anthony's own merges → no caretaker action; recorded.** **#272 is Twilio/SMS phone-line territory** (the +1 757 300 1118 handoff) — the prep is landed and green, but **live Twilio registration / A2P / routing remain Anthony's manual activation gates**, not caretaker work. **VBFH Daily Run status unchanged:** latest attempt is still scheduled **#117 (09-27, CANCELLED)** — three-for-three cancellations on unchanged code `b7af2c9` (#115/#116 09-26, #117 09-27); **today's 09-28 scheduled run had NOT yet fired at check time (~12:30 UTC; it historically fires ~16:30–17:15 UTC)**, so there is no 4th strike yet. Root cause and fix options unchanged (external DaySmart slowdown; ~40 sequential scrapes overrun the 45-min job cap; missing global time budget — insertion point at the per-league loop ~line 329 of `lib/services/orchestration/daily-runner.ts` / the adapter loop in `lib/services/intake/dash-registry-adapter.ts`). **No blind fix pushed** — the choices trade accuracy against completion in a fail-closed pipeline, and Anthony's A/B/C decision (asked twice: 09-27 morning + afternoon) is still open. Pending Supabase migrations **unchanged at `0015`–`0023`** (+`0009` Marbel) — #271/#272 added none. Default branches re-verified live: amma **`8e8576b`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#266** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run**. shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
 
@@ -12,68 +12,68 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🔴 **CONFIRMED DOWN (day 2, THIRD STRIKE) — Your VBFH daily media pipeline is down; pick how to fix it.**
-   The scheduled **VBFH Daily Run has now failed three times in a row** — #115 + #116 on 09-26 and, as of today,
-   the **8:17am ET scheduled run #117 (09-27) cancelled at the same 45-minute cap.** Each one ran the full ~44
-   minutes on the content-generation step and got killed. Three-for-three on unchanged code means this is **not a
-   fluke — it's now a standing outage.** The **DaySmart website the run scrapes has gotten slow enough that the run
+🔴 **STILL DOWN — Your VBFH daily media pipeline needs you to pick a fix (A, B, or C). Nothing new broke; this is the same open decision from yesterday.**
+   The scheduled **VBFH Daily Run has failed three times in a row** — #115 + #116 (09-26) and #117 (09-27), each
+   running the full ~44 minutes on the content-generation step then getting killed at the 45-minute cap. **Today's
+   09-28 run hadn't fired yet when I checked (it usually fires in the late afternoon UTC), so there's no new strike —
+   but nothing is fixed either.** The **DaySmart website the run scrapes has gotten slow enough that the run
    (~40 leagues, one after another) no longer finishes inside its 45-minute limit.** Until this is fixed, **no daily
-   graphics/recap are generated** (and once your SMTP secrets are set, no email would arrive either). **I tried to
-   auto-diagnose which single league is the culprit (Option C), but the run's log file is stored on Microsoft/Azure
-   servers that this cloud session is firewalled from (403) — so that inspection has to run from your machine or a
-   runner with access.** I did **not** guess at a fix, because the sensible options trade off against each other and
-   the choice is yours:
-   - **(A) Give it more time** — raise the run's time limit from 45 to, say, 75–90 minutes. Simplest; costs more
-     Actions minutes and only helps if the site is *slow*, not *stuck*.
+   graphics/recap are generated.** I did **not** guess at a fix, because the sensible options trade off against each
+   other and the choice is yours:
+   - **(A) Give it more time** — raise the run's time limit from 45 to ~75–90 minutes. Simplest; costs more Actions
+     minutes and only helps if the site is *slow*, not *stuck*.
    - **(B) Make it finish faster** — cut the retry attempts / per-page wait so slow leagues are skipped instead of
      retried. Faster + reliable, but a slow league's results could be missing that day.
-   - **(C) Find the culprit** — I download the failed run's log artifact, identify which league page stalls, and
-     target just that one.
+   - **(C) Find the culprit** — inspect the failed run's log artifact to identify which league page stalls, and
+     target just that one. _(Note: this cloud session is firewalled (HTTP 403) from the Azure blob storage that
+     hosts the run artifacts, so the download has to run from your machine or a runner with access.)_
    **Tell me A, B, or C (or "you decide") and I'll implement it as a PR.** My recommendation: **C then B** — find
    the stall, then add a hard overall time budget so one bad page can never eat the whole run again.
 
-🟡 **Supabase migrations still pending — now `0015` through `0023` (one new this run).** This run's **#270
-   "Bodega Basic billing"** added **`0023_bodega_basic_billing.sql`** (billing enrollment table). #267/#268/#269
-   added **no** migrations (Square onboarding reuses the existing `0020_bodega_square_read_model.sql`).
-   Your earlier **#266 "Bodega launch foundation + Square connector"** merge added four:
-   `0019_bodega_seven_day_launch_window.sql`, `0020_bodega_square_read_model.sql`,
-   `0021_bodega_guest_note_rate_limit.sql`, `0022_square_lifecycle_and_guest_note_cleanup.sql` — on top of the
-   Bodega rewards `0015`–`0018` from #260–#264. All under `APP/web/supabase/migrations/`. The site **builds and
-   deploys green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square read-model
-   features (plus the new Bodega Basic billing enrollment) **error at runtime until these are applied.** **What to
-   do:** Supabase SQL editor → run `0015`…`0023` in order (or `supabase db push` from `APP/web/`, which also folds
-   in the `0009` Marbel admin grant). **Skip any you've already run.** _(I never run SQL against Supabase — the
-   migrations are prepared code; you run them.)_
+🆕 **Fina Calle voice + SMS line prep landed (#272) — live Twilio activation is yours (phone-line territory).**
+   Your own merge **#272** "Prepare Fina Calle voice and SMS line" added SMS handling to the voice-gateway
+   (`services/voice-gateway/src/sms.ts`, `simulateSms.ts`, a `configure-twilio-number.mjs` helper), `render.yaml`
+   deploy config, `tenants.json`, and the handoff doc `OPERATIONS/FINA_CALLE_PHONE_20260928.md`. `CI — voice-gateway`
+   #19 ✅. The code half is in; **live routing, Twilio number registration, and A2P/10DLC brand approval for
+   +1 757 300 1118 remain your manual steps** (the doc calls the implementation branch `codex/fina-calle-voice-1118`
+   and notes routing/registration are not yet complete). Nothing dials or texts automatically. (Your own merge → no
+   caretaker action, recorded.)
 
-🆕 **Bodega Basic billing (Stripe) is now wired — activation is yours (payments territory).** Your own merge
-   **#270** added a **private monthly billing enrollment** for Bodega Basic (`/owner/bodega/billing`, a Stripe
-   webhook handler at `api/stripe/webhook`, and `lib/billing/*` + `lib/stripe/server.ts` changes) plus migration
-   `0023` and `OPERATIONS/BODEGA_BASIC_BILLING.md`. `CI — web` #263 ✅. The code half is landed, but **charging real
-   money needs you** to set the live Stripe keys/price and switch it on — nothing bills automatically. (Bodega-
-   specific owner route, not the guarded dynamic `/owner/[id]`; your own merge → no caretaker action, recorded.)
+🟡 **Supabase migrations still pending — `0015` through `0023` (unchanged this run; #271/#272 added none).**
+   Set is `0015`–`0023` under `APP/web/supabase/migrations/` (rewards `0015`–`0018` from #260–#264; Bodega launch +
+   Square `0019`–`0022` from #266; Bodega Basic billing `0023` from #270), plus `0009` Marbel admin grant. The site
+   **builds and deploys green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square
+   read-model + Bodega Basic billing features **error at runtime until these are applied.** **What to do:** Supabase
+   SQL editor → run `0015`…`0023` in order (or `supabase db push` from `APP/web/`, which also folds in the `0009`
+   Marbel admin grant). **Skip any you've already run.** _(I never run SQL against Supabase — the migrations are
+   prepared code; you run them.)_
 
-🟡 **Square connector activation is yours (payments/POS territory — I don't touch it) — now with a documented secret handoff.**
-   #266 added the Square OAuth connector (`/api/integrations/square/connect|callback|refresh|webhook|sync`,
-   `/owner/bodega/insights`); this run **#268/#269** prepared the **owner onboarding + Bodega location selection**
-   and turned it into a **one-link owner flow**, and **#268 documents the exact Square secret handoff**. Square
-   stays **read-only/private** with **credentials + seller OAuth as separate activation gates**; new env vars are in
-   `APP/web/.env.example`. If/when you want it live, **you** set the Square app credentials + run the OAuth connect.
-   Nothing here is auto-activated. (All three are your own merges; CI green.)
+🆕 **Bodega Basic billing (Stripe) is wired — activation is yours (payments territory).** Prior merge **#270**
+   added a **private monthly billing enrollment** for Bodega Basic (`/owner/bodega/billing`, a Stripe webhook handler
+   at `api/stripe/webhook`, `lib/billing/*` + `lib/stripe/server.ts`) plus migration `0023` and
+   `OPERATIONS/BODEGA_BASIC_BILLING.md`. The code half is landed, but **charging real money needs you** to set the
+   live Stripe keys/price and switch it on — nothing bills automatically. (Bodega-specific owner route, not the
+   guarded dynamic `/owner/[id]`.)
+
+🟡 **Square connector activation is yours (payments/POS territory — I don't touch it).** #266 added the Square OAuth
+   connector; #268/#269 prepared owner onboarding + Bodega location selection as a one-link flow and documented the
+   exact Square secret handoff. Square stays **read-only/private** with **credentials + seller OAuth as separate
+   activation gates**; new env vars are in `APP/web/.env.example`. If/when you want it live, **you** set the Square
+   app credentials + run the OAuth connect. Nothing here is auto-activated.
 
 ⚠️ **Governance question inside draft PR #218 — please confirm or deny (no action taken).**
-   Draft **PR #218** ("E-Myth Revision 4", docs-only under `OPERATIONS/E_MYTH` + `HANDOFF_LOG.md`,
-   guardrail-clean, Vercel Ready ✅) contains an **open governance flag**: its Revision-4 commits were authored
-   by **"Clone"** and logged asserting *"Anthony explicitly directed `Revise pr218`."* That direction isn't
-   recorded in the session that opened the PR, and `CLAUDE.md` scopes Clone to **watching**, not authoring.
-   **Did you direct that revision?** If yes, it stays a held draft for your merge call. If no, you may want to
-   close it / reset the branch. I've taken no action either way.
+   Draft **PR #218** ("E-Myth Revision 4", docs-only, guardrail-clean, Vercel ✅) contains an **open governance
+   flag**: its Revision-4 commits were authored by **"Clone"** and logged asserting *"Anthony explicitly directed
+   `Revise pr218`."* That direction isn't recorded in the session that opened the PR, and `CLAUDE.md` scopes Clone to
+   **watching**, not authoring. **Did you direct that revision?** If yes, it stays a held draft for your merge call.
+   If no, you may want to close it / reset the branch. I've taken no action either way.
 
 🆕 **Draft PR #238 "Menu Control owner app plan" — two things still need your call (held docs draft).**
-   `claude/menu-control-app`, docs only, guardrail-clean, Vercel Ready ✅. Two items only you can settle:
+   `claude/menu-control-app`, docs only, guardrail-clean, Vercel ✅. Two items only you can settle:
    - **Reconcile the Colattao menu (blocks queue item 49).** Guest menu at the printed QR is a **static file**
-     while the owner portal writes to **Supabase**; the two have already **drifted** ("Fall Drinks"/51 vs
-     "Seasonal Drinks"/~54). Before any owner-editable menu goes live for Colattao you need to say — item by item —
-     which version is correct.
+     while the owner portal writes to **Supabase**; the two have **drifted** ("Fall Drinks"/51 vs "Seasonal
+     Drinks"/~54). Before any owner-editable menu goes live for Colattao you need to say — item by item — which
+     version is correct.
    - **A confirmed live bug on the guest menu (I can't fix it — guarded `/m/[id]` route).** A price of `0` should
      read "Ask staff," but the guest screen renders it `$0.00` (a free item). `House Brew` is seeded at `0` and is
      first on the menu. Queued for Codex (item 49); touching `/m/[id]` is outside what I'm allowed to do.
@@ -84,7 +84,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    - **#219 Las Palmas lotería hero** — playable penalty shootout minting a lotería card per goal. Vercel ✅.
    Open each preview and merge if you like it, or tell me what to change. **I don't auto-merge your drafts.**
    _(#259 "Grúa cable-crane R&D game" also stays held — internal noindex `/grua-lab`, body says "do not merge
-   without Anthony's approval"; its base was merged up to the new `main` this run.)_
+   without Anthony's approval".)_
    _(**#215's Table Duel deploy step is still yours** — set the Render blueprint + `NEXT_PUBLIC_TABLE_DUEL_WS`.)_
 
 1. **Add the 5 VBFH email secrets — exact Gmail values below (for anthonycolmenaresanandres@gmail.com).**
@@ -105,19 +105,27 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the seven open draft heads.
 
-_Resolved / no action needed from you:_ **amma #270 (Bodega Basic monthly billing enrollment) — your own merge** (09-27; `CI — web` #263 green; adds migration `0023` + Stripe billing wiring — recorded above). **amma #267/#268/#269 (Bodega analytics dashboard + Square onboarding one-link flow) — your own merges** (09-26/09-27; `CI — web` green; no new migrations). **amma #266 (Bodega launch + Square connector) — your own merge** (09-26; migrations `0019`–`0022` + Square activation gate). **amma #260–#264 (Bodega Fall Rush) — your own merges** (09-26; migrations `0015`–`0018`). **amma #257/#258** — your own merges (09-25). **GitHub API access** healthy. **amma #29 ("AI Request Desk — Phase 0")** — closed since 07-18.
+_Resolved / no action needed from you:_ **amma #271 (Bodega added to homepage client work) — your own merge**
+(09-28; `CI — web` #266 green; no migration). **amma #272 (Fina Calle voice + SMS line prep) — your own merge**
+(09-28; `CI — voice-gateway` #19 green; no migration; Twilio go-live is a separate manual gate — see above).
+**amma #270 (Bodega Basic monthly billing enrollment) — your own merge** (09-27; `CI — web` #263 green; migration
+`0023` + Stripe billing wiring). **amma #267/#268/#269 (Bodega analytics dashboard + Square onboarding one-link
+flow) — your own merges** (09-26/09-27; `CI — web` green; no new migrations). **amma #266 (Bodega launch + Square
+connector) — your own merge** (09-26; migrations `0019`–`0022` + Square activation gate). **amma #260–#264 (Bodega
+Fall Rush) — your own merges** (09-26; migrations `0015`–`0018`). **GitHub API access** healthy. **amma #29 ("AI
+Request Desk — Phase 0")** — closed since 07-18.
 
 ---
 
-## Build health (as of 2026-09-27, morning)
+## Build health (as of 2026-09-28, midday)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`02af585`** ("Bodega Basic: private monthly billing enrollment (#270)," 09-27 13:03 UTC; **Anthony's own merge**). **Advanced since last run** `8a8b1ad`→`02af585` via **#270** (Bodega Basic monthly billing enrollment). `CI — web` **✅** on main (**#263**); `CI — voice-gateway` ✅ (path-filtered off this billing wave). **One new Supabase migration** — set is now **`0015`–`0023`** (#270 adds `0023_bodega_basic_billing.sql`). #270 wires Stripe billing (`/owner/bodega/billing`, `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`) — bodega-specific owner route, **not** the guarded dynamic `/owner/[id]`/`/m/[id]` Client OS routes; Stripe go-live stays Anthony's gate. **Anthony's own merge → no caretaker action.** **Seven** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26 — THIRD STRIKE this run.** Scheduled **#115 (09-26 16:26→17:11) CANCELLED**, diagnostic re-run **#116 (09-26 21:46→22:31) CANCELLED**, and now scheduled **#117 (09-27 16:59→17:45 UTC) ALSO CANCELLED** — the `daily:run` step ran 17:00:54→17:44:58 (≈44 min) then killed at the 45-min cap; artifact uploaded. **Three-for-three on unchanged code (`b7af2c9`)** → confirmed persistent standing outage, not a flake. Prior runs #111–#114 (and all of 07-21…09-25) were ✅; #114 finished in ~26 min. **Root cause: external — the live DaySmart scrape (~40 leagues, sequential) now exceeds the 45-min budget** (per-op Playwright timeouts exist in `dash-fetcher.ts`; the gap is the lack of a **global time budget** — clean insertion point at the per-league loop ~line 329 of `lib/services/orchestration/daily-runner.ts`). **Option-C pinpoint blocked in-cloud:** the run artifact (per-league log) lives on Azure blob storage, denied by the session egress proxy (HTTP 403) — only Anthony/a runner with access can inspect it. **Fix awaits Anthony's choice (raise timeout / cut retries / global budget / pinpoint slow league) — not pushed blind (accuracy-vs-completion trade-off in a fail-closed pipeline).** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8e8576b`** ("Prepare Fina Calle voice and SMS line (#272)," 09-28 12:25 UTC; **Anthony's own merge**). **Advanced since last run** `02af585`→`8e8576b` via **#271** (Bodega on homepage; `CI — web` **#266 ✅**) then **#272** (Fina Calle voice/SMS line prep; `CI — voice-gateway` **#19 ✅**). **No new Supabase migrations** — set stays **`0015`–`0023`**. #272 adds voice-gateway SMS handling + a Twilio number-config script + `OPERATIONS/FINA_CALLE_PHONE_20260928.md`; **Twilio registration/A2P/live routing for +1 757 300 1118 remain Anthony's manual gates.** **Both are Anthony's own merges → no caretaker action.** **Seven** open drafts held (see Open PRs). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26 (three strikes on unchanged code `b7af2c9`).** Scheduled **#115 (09-26) CANCELLED**, diagnostic re-run **#116 (09-26) CANCELLED**, scheduled **#117 (09-27 16:59→17:45 UTC) CANCELLED** — the `daily:run` step ran ≈44 min then was killed at the 45-min cap. **Today's 09-28 scheduled run had NOT yet fired at check time (~12:30 UTC).** Prior runs #111–#114 (07-21…09-25) were ✅; #114 finished in ~26 min. **Root cause: external — the live DaySmart scrape (~40 leagues, sequential) now exceeds the 45-min budget** (per-op Playwright timeouts of 45 s each exist in `dash-fetcher.ts`; the gap is the lack of a **global time budget** across the per-league loop — insertion points at `daily-runner.ts` ~line 329 and the loop in `dash-registry-adapter.ts`). **Option-C pinpoint blocked in-cloud:** run artifacts live on Azure blob storage, denied by the session egress proxy (HTTP 403). **Fix awaits Anthony's choice (raise timeout / cut retries / global budget / pinpoint slow league) — not pushed blind (accuracy-vs-completion trade-off in a fail-closed pipeline).** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -125,8 +133,9 @@ _Resolved / no action needed from you:_ **amma #270 (Bodega Basic monthly billin
 
 - **amma #259 (draft) — "Grúa: cable-crane R&D game on Stringman CDPR physics…"** Head
   `claude/tech-research-integration-s66gw7`, base `main`. Internal noindex `/grua-lab` Phaser 4 game + opt-in,
-  on-device training recorder + docs. Guardrail-clean per diff/body. Got a **merge-of-`main` this run** (`d871d4a`);
-  `CI — web` re-ran. PR body: *"Do not merge without Anthony's approval."* **Held — his draft; no caretaker merge.**
+  on-device training recorder + docs. Guardrail-clean per diff/body. Vercel ✅ (head `52b6eac`). PR body: *"Do not
+  merge without Anthony's approval."* Only the Vercel bot has commented (last 09-27). **Held — his draft; no
+  caretaker merge.**
 - **amma #238 (draft, docs-only) — "Menu Control owner app plan + Codex queue 49/50."** Guardrail-clean, Vercel ✅,
   `mergeable_state: clean`. **Held.** Surfaces two items for Anthony (Colattao static-vs-Supabase menu; `$0.00` vs
   "Ask staff" bug on `/m/[id]`).
@@ -144,32 +153,35 @@ _Resolved / no action needed from you:_ **amma #270 (Bodega Basic monthly billin
 
 ## Merged / closed since last run
 
-Since the 09-27 morning run, amma `main` advanced `8a8b1ad`→`02af585` via **one of Anthony's own merges** (#270);
-nothing closed unmerged; **no new human review comments** anywhere (the only new PR comment was the Vercel deploy
-bot on #259 after its base-sync).
+Since the 09-27 afternoon run, amma `main` advanced `02af585`→`8e8576b` via **two of Anthony's own merges**
+(#271, #272); nothing closed unmerged; **no new human review comments** anywhere (the only PR comment is the
+Vercel deploy bot on #259).
+
+- **amma #272 — "Prepare Fina Calle voice and SMS line."** Merged `8e8576b` 09-28 12:25 UTC, `CI — voice-gateway`
+  **#19 ✅**. Adds voice-gateway SMS handling (`services/voice-gateway/src/sms.ts`, `simulateSms.ts`), a
+  `configure-twilio-number.mjs` helper, `render.yaml`/`tenants.json` config, and the handoff doc
+  `OPERATIONS/FINA_CALLE_PHONE_20260928.md`. **No migration.** Twilio registration / A2P / live routing for
+  +1 757 300 1118 remain Anthony's manual gates. **Anthony's own merge → no caretaker action; recorded.**
+- **amma #271 — "web: add Bodega to homepage client work."** Merged `62a0aabe` 09-28 08:27 UTC, `CI — web`
+  **#266 ✅**. Homepage `page.tsx` + `comic.module.css` add Bodega to the client-work section; docs touch-ups
+  (`CODEX_QUEUE.md`, `HANDOFF_LOG.md`). **No migration.** **Anthony's own merge → no caretaker action; recorded.**
+
+Prior merges retained below for the audit trail.
 
 - **amma #270 — "Bodega Basic: private monthly billing enrollment."** Merged `02af585` 09-27 13:03 UTC, `CI — web`
-  **#263 ✅**. Adds a private monthly Stripe billing enrollment for Bodega Basic (`/owner/bodega/billing`,
+  **#263 ✅**. Private monthly Stripe billing enrollment for Bodega Basic (`/owner/bodega/billing`,
   `api/stripe/webhook`, `lib/billing/*`, `lib/stripe/server.ts`), migration **`0023_bodega_basic_billing.sql`**, and
-  `OPERATIONS/BODEGA_BASIC_BILLING.md`. Stripe go-live stays Anthony's gate. **Anthony's own merge → no caretaker
-  action; recorded.**
+  `OPERATIONS/BODEGA_BASIC_BILLING.md`. Stripe go-live stays Anthony's gate. **Anthony's own merge.**
 - **amma #269 — "Make Bodega Square onboarding a one-link owner flow."** Merged `8a8b1ad` 09-27 12:06 UTC,
   `CI — web` **#259 ✅**. Owner-facing single-link Square onboarding entry.
 - **amma #268 — "Prepare Square onboarding and require Bodega location selection."** Merged `24fde05` 09-27
   11:31 UTC, `CI — web` **#257 ✅**. Prepares Square OAuth onboarding + owner location selection; **documents the
   exact Square secret handoff** (Anthony's activation gate). No new migrations.
 - **amma #267 — "Add private Bodega Web Analytics dashboard."** Merged `5a5866e` 09-26 23:35 UTC, `CI — web`
-  **#252 ✅**. Admin-only 30-day Bodega traffic dashboard (visitors/pageviews/game opens/top paths/referrers for
-  bodegacafe757.com) backed by Vercel Web Analytics. No new migrations.
-- All three are **Anthony's own merges → no caretaker action; recorded.**
-
-Prior merges retained below for the audit trail.
-
+  **#252 ✅**. Admin-only 30-day Bodega traffic dashboard (Vercel Web Analytics). No new migrations.
 - **amma #266 — "Release Bodega launch foundation and cleaned Square connector."** Merged `860a5c8` 09-26
-  20:47 UTC, `CI — web` **#248 ✅**. Adds **Square OAuth connector** (`/api/integrations/square/*`,
-  `/owner/bodega/insights`), a **Bodega guest-notes** API + rate-limit, **migrations `0019`–`0022`**, launch
-  assets. Commit gates migrations + credentials + seller OAuth as separate activation (Anthony's). His own merge.
-
+  20:47 UTC, `CI — web` **#248 ✅**. Square OAuth connector (`/api/integrations/square/*`, `/owner/bodega/insights`),
+  Bodega guest-notes API + rate-limit, **migrations `0019`–`0022`**, launch assets. His own merge.
 - **amma #260–#264 (Bodega Fall Rush wave) — Anthony's own merges 09-26** (`acb8c72`→`b1fd1793`; migrations
   `0015`–`0018`; five-chapter game + gated muffin finale). `CI — web` green throughout (#216→#226).
 - **vbfh Daily Run #114 — FIRED + SUCCEEDED** 09-25 17:14→17:40 UTC (~26 min; master `b7af2c9`). Last green run
@@ -190,7 +202,7 @@ caretaker branches, **the seven open-draft heads** `claude/tech-research-integra
 `claude/menu-control-app` (#238), `claude/instagram-dm-ordering-m8i210` (#225), `claude/blissful-darwin-gtt3su`
 (#221), `claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218),
 `claude/las-palmas-menu-game-59vtbg` (#197) (deleting any closes its open draft), unmerged `voice/*` (Anthony's
-judgment). **Newly eligible** (merged since, no longer open-draft-protected): the eight Bodega codex branches from
+judgment). **Eligible** (merged since, no longer open-draft-protected): the eight Bodega codex branches from
 #257/#258/#260–#264 plus `codex/bodega-launch-guest-notes-square-20260926` (#266) — add them to your local delete
 run. Still not auto-deleted here (proxy 403 + no branch-delete API).
 
@@ -225,57 +237,43 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-28 (morning/midday check-in, `claude-opus-4-8`):** **No new breakage; the VBFH outage is unchanged and
+  still awaiting Anthony's A/B/C fix decision.** amma `main` advanced **`02af585`→`8e8576b`** via **#271** "Bodega on
+  homepage" (`CI — web` #266 ✅) and **#272** "Prepare Fina Calle voice and SMS line" (`CI — voice-gateway` #19 ✅) —
+  **both Anthony's own merges, both green, no new migrations** (set stays `0015`–`0023`). #272 lands voice-gateway
+  SMS handling + Twilio number-config script + `OPERATIONS/FINA_CALLE_PHONE_20260928.md`; Twilio registration/A2P/
+  live routing for +1 757 300 1118 stay Anthony's manual gates. **VBFH Daily Run still DOWN** — latest attempt still
+  #117 (09-27, cancelled; three strikes on unchanged `b7af2c9`); **today's 09-28 scheduled run had NOT yet fired at
+  check time (~12:30 UTC).** Held on a blind fix (accuracy-vs-completion trade-off in a fail-closed pipeline is
+  Anthony's call — A/B/C asked twice already, still open). Default branches re-verified: amma `8e8576b` (advanced),
+  vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #266 ✅ + `CI — voice-gateway`
+  #19 ✅; vbfh build `CI` #26 ✅ (only the Daily Run is down). Seven open amma drafts held, all Vercel ✅; only the
+  Vercel bot commented (on #259); no new human review comments. No merge-conflict/base-branch notices; GitHub API
+  healthy. #218 governance question open; #29 closed. Branch cleanup still 403-blocked. **Push notification + email
+  sent** — VBFH still needs Anthony's fix decision (standing item, no new strike this run).
 - **2026-09-27 (afternoon/evening check-in, `claude-opus-4-8`):** **🔴 THIRD STRIKE — VBFH Daily Run confirmed
-  persistently DOWN.** Today's scheduled **#117 (16:59→17:45 UTC) CANCELLED** at the 45-min cap (`daily:run` ran
-  ≈44 min, 17:00:54→17:44:58, then killed; artifact uploaded) — **three consecutive cancellations on unchanged code
-  `b7af2c9`** (#115/#116 09-26, #117 09-27). Root cause unchanged (external DaySmart slowdown; ~40 sequential
-  scrapes overrun the 45-min budget; missing global time budget, insertion point at `daily-runner.ts` ~line 329).
-  **Tried Option-C auto-pinpoint but the run artifact is on Azure blob storage, denied by the session egress proxy
-  (HTTP 403) — inspection must run from Anthony's machine / a runner with access.** Held on a blind fix
-  (accuracy-vs-completion trade-off in a fail-closed pipeline is Anthony's call). **amma `main` advanced
-  `8a8b1ad`→`02af585`** via **#270** "Bodega Basic: private monthly billing enrollment" — **Anthony's own merge**,
-  `CI — web` #263 ✅; **one new migration `0023_bodega_basic_billing.sql`** (pending set now `0015`–`0023`) and
-  Stripe billing wiring for Bodega Basic (`/owner/bodega/billing`; go-live is Anthony's gate). Default branches
-  re-verified: amma `02af585` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma
-  `CI — web` #263 ✅ + `CI — voice-gateway` ✅; vbfh build `CI` #26 ✅ (only the Daily Run is down). Seven open amma
-  drafts held (#259 base-synced after #270; only the Vercel bot commented; no new human review comments). No
-  merge-conflict/base-branch notices; GitHub API healthy. #218 governance question open; #29 closed. Branch cleanup
-  still 403-blocked. **Push notification + email sent** — VBFH still needs Anthony's fix decision (now day-2 third
-  strike) + the new `0023` migration to run.
+  persistently DOWN.** Scheduled **#117 (16:59→17:45 UTC) CANCELLED** at the 45-min cap (`daily:run` ran ≈44 min) —
+  three consecutive cancellations on unchanged code `b7af2c9` (#115/#116 09-26, #117 09-27). Root cause external
+  (DaySmart slowdown; ~40 sequential scrapes overrun the 45-min budget; missing global time budget, insertion point
+  at `daily-runner.ts` ~line 329). Option-C auto-pinpoint blocked (run artifact on Azure blob storage, session
+  egress proxy 403). Held on a blind fix. **amma `main` advanced `8a8b1ad`→`02af585`** via **#270** "Bodega Basic:
+  private monthly billing enrollment" — Anthony's own merge, `CI — web` #263 ✅; one new migration
+  `0023_bodega_basic_billing.sql` + Stripe billing wiring. Default branches re-verified. Seven drafts held. Push +
+  email sent.
 - **2026-09-27 (morning check-in, `claude-opus-4-8`):** **No new breakage; one open regression carried forward.**
-  **VBFH Daily Run still DOWN** — last attempts #115/#116 (09-26) both cancelled at the 45-min timeout on unchanged
-  code `b7af2c9`; **today's 09-27 run had not yet fired/completed at check time.** New diagnostic: `daily:run`
-  logged **zero console output for 44 min** (per-league log is in the artifact, not stdout) and `leagues:discover`
-  reported **40 leagues** → ~40 sequential DaySmart scrapes overran the cap. Held on a blind fix (accuracy-vs-
-  completion trade-off is Anthony's call). **amma `main` advanced `860a5c8`→`8a8b1ad`** via **#267** (private
-  admin-only Bodega analytics dashboard), **#268** (Square onboarding + location selection + documented secret
-  handoff), **#269** (one-link Square owner flow) — all **Anthony's own merges**, all `CI — web` ✅ (#252/#257/#259),
-  **no new migrations** (set unchanged at `0015`–`0022`). Default branches re-verified: amma `8a8b1ad` (advanced),
-  vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #259 ✅ + `CI — voice-gateway`
-  ✅; vbfh build `CI` #26 ✅ (only the Daily Run is down). Seven open amma drafts held (#259 got another merge-of-
-  `main`; rest unchanged; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy.
-  #218 governance question open; #29 closed. Branch cleanup still 403-blocked. **Push notification + email sent** —
-  VBFH still needs Anthony's fix decision.
+  VBFH Daily Run still DOWN (#115/#116 09-26 cancelled; 09-27 run had not yet fired at check time). Diagnostic:
+  `daily:run` logged zero console output for 44 min; `leagues:discover` reported 40 leagues → ~40 sequential
+  DaySmart scrapes overran the cap. amma `main` advanced `860a5c8`→`8a8b1ad` via #267/#268/#269 (Bodega analytics +
+  Square onboarding one-link flow), all Anthony's own merges, all `CI — web` ✅, no new migrations. Seven drafts
+  held. Push + email sent.
 - **2026-09-26 (afternoon/evening check-in, `claude-opus-4-8`):** **🔴 Real regression found: the VBFH Daily Run is
-  DOWN.** Scheduled **#115 (16:26→17:11 UTC) CANCELLED** at the 45-min job timeout on `daily:run`; I dispatched a
-  diagnostic re-run **#116 (21:46→22:31 UTC) which ALSO CANCELLED** at the same ceiling — **two-for-two on unchanged
-  code (`b7af2c9`)**, so persistent, not a flake (first failure after a green streak 07-21…09-25; #114 ran ~26 min).
-  Root cause external: the live DaySmart scrape now overruns the 45-min budget (per-op timeouts exist in
-  `dash-fetcher.ts`; missing global time budget makes retries×~40 leagues overrun). **Did not push a blind fix** —
-  the options trade off (raise timeout / cut retries / pinpoint slow league) and it's Anthony's call; artifacts hold
-  the per-league log. **amma `main` advanced `b1fd1793`→`860a5c8`** via **#266** (Anthony's own merge; Square OAuth
-  connector + guest-notes + migrations `0019`–`0022` + Square activation gate) — `CI — web` #248 ✅; his merge → no
-  caretaker action; recorded. Pending Supabase migrations now **`0015`–`0022`** (+`0009`). Default branches
-  re-verified: amma `860a5c8` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma
-  `CI — web` #248 ✅ + `CI — voice-gateway` ✅ on main; vbfh build `CI` #26 ✅ (only the Daily Run is failing). Seven
-  open amma drafts held (#259 merged-up + CI re-ran; rest unchanged; no new human review comments). No
-  merge-conflict/base-branch notices; GitHub API healthy. #218 governance question open; #29 closed. Branch cleanup
-  still 403-blocked (added #266's codex branch to the eligible list). **Push notification + email sent** — the VBFH
-  Daily Run being down (and needing Anthony to choose the fix approach) is a genuine action item.
+  DOWN.** Scheduled #115 CANCELLED at the 45-min timeout; diagnostic re-run #116 ALSO CANCELLED — two-for-two on
+  unchanged code (first failure after a green streak 07-21…09-25; #114 ran ~26 min). Root cause external (DaySmart
+  scrape overruns the 45-min budget). Did not push a blind fix. amma `main` advanced `b1fd1793`→`860a5c8` via #266
+  (Anthony's own merge; Square OAuth connector + guest-notes + migrations `0019`–`0022`). Push + email sent.
 - **2026-09-26 (morning check-in, `claude-opus-4-8`):** All four green; nothing needed fixing; no caretaker merge.
   amma `main` advanced `acb8c72`→`b1fd1793` via five of Anthony's own merges (#260–#264, Bodega Fall Rush; migrations
-  `0015`–`0018`). VBFH Daily Run latest completed #114 (09-25 ✅); the 09-26 run had not yet fired at check time
-  (~12:30 UTC). Push notification + email sent (new Supabase migration `0015`–`0018` requirement).
+  `0015`–`0018`). VBFH Daily Run latest completed #114 (09-25 ✅). Push + email sent (new migration requirement).
 - **2026-09-25 (afternoon, `claude-opus-4-8`):** All four green. amma `main` `2b26bab8`→`acb8c72` via #257/#258
   (Anthony's own; guardrail-clean). New draft #259 opened + held. VBFH Daily Run #114 fired + SUCCEEDED. No push.
 - **2026-09-25 (morning, `claude-opus-4-8`):** All four green. amma `main` `6167d3e0`→`2b26bab8` (Anthony's Bodega
