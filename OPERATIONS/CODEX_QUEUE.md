@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [ ] 75 - Project Seed menu and Seed Rush review preview
+
+**State:** COMPLETE LOCALLY — PENDING CLIENT SIGN-OFF AND RELEASE
+**Authority:** Anthony requested execution of the September 29 Project Seed plan.
+**Base:** `origin/main` at `51b0d61`; isolated branch `codex/project-seed-menu-game-20260929`.
+**Scope:** Implement a source-backed, responsive provisional menu and a playable three-round Seed Rush using the shared tap-to-catch Café Rush engine. Connect exact drink anchors, official ordering, retry/pause and local best. Keep the menu independent of the game.
+**Boundaries:** No Project Seed logo or photos without rights confirmation; no invented prices, seasonal stock, reward, guest intake, owner portal, domain acquisition, customer contact, production deployment or published QR. Brand treatment and assets remain pending written client approval under the game protocol.
+**PASS:** Exact official item inventory, unknown-price honesty, noindex review routes, game/menu interaction, phone/desktop, keyboard/reduced motion, targeted lint/build, and local browser checks pass.
+**STOP:** Stop before push, PR, merge and publication pending current menu details and client asset/brand approval.
+**Result:** Built 25 source-backed drink records, a noindex responsive menu concept, stable local redirect, official pre-order/visit links, and a three-round reward-free Seed Rush on the shared tap engine. No business imagery or logo was copied. Source/route checks, scoped ESLint, TypeScript/production build, and 320/390/768/1440 px browser checks passed. Browser verified menu counts/anchors, no overflow, game boot, keyboard scoring, pause/resume, exit, loss/retry, and zero application errors. Local preview remains unpublished; no live QR exists yet.
+
 ## [x] 74 - Begin Fina Calle self-service foundation
 
 **State:** PHASE 0 COMPLETE LOCALLY — READY FOR REVIEW; PHASE 1 NOT STARTED

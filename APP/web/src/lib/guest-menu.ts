@@ -5,6 +5,7 @@ const STABLE_GUEST_MENU_PATHS: Readonly<Record<string, string>> = {
   colattao: "/m/colattao",
   "las-palmas-lynnhaven": "/demo/las-palmas",
   scrambled: "/scrambled/menu",
+  "project-seed": "/project-seed/menu",
 };
 
 // Keep printed Fina Calle URLs stable while a client's approved menu is hosted
