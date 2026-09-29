@@ -47,7 +47,7 @@ export default async function BodegaBillingPage({ searchParams }: PageProps) {
       <Link href="/demo/bodega">Bodega menu ↗</Link>
     </nav>
     <header className={styles.hero}>
-      <div><p className={styles.eyebrow}>Bodega Cafe / Fina Calle</p><h1>Your plan.<br /><em>Your pace.</em></h1></div>
+      <div><p className={styles.eyebrow}>Bodega Cafe / Fina Calle</p><h1>Your Bodega<br /><em>plan.</em></h1></div>
       <Image src="/assets/bodega/review/bodega-round-seal-review.webp" width={108} height={108} alt="" aria-hidden priority />
     </header>
 

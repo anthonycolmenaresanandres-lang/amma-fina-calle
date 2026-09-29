@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [x] 73 - Simplify Bodega and Colattao owner portals
+
+**State:** DONE LOCALLY, READY FOR REVIEW
+**Authority:** Anthony approved the visual plan and requested execution on 2026-09-29.
+**Base:** `origin/main` at `8e8576b`; branch `codex/owner-portals-open-20260929` in the existing clean managed worktree.
+**Scope:** Implement the selected open Bodega owner-desk concept and the revised warm espresso-brown Colattao owner-portal concept. Put the public live-menu action before sign-in, reduce decorative containers and repeated copy, preserve actual client marks, and keep Colattao menu changes request-based. Create a static, clearly labeled sample-data owner preview only if it can remain isolated from real account data and mutations.
+**Boundaries:** Preserve all authentication, authorization, billing, Stripe, Zelle, Square, request, menu-data and audit behavior. No credential, access, database, customer contact, push, PR, merge, deployment or production change.
+**PASS:** Bodega and Colattao signed-out entries visibly prioritize their existing public menus; authenticated/sample states use the approved hierarchy and brand palettes; preview actions cannot save or reveal private data; desktop/mobile, keyboard focus, reduced motion, scoped lint, TypeScript, production build and same-viewport visual comparison pass.
+**STOP:** Stop at a verified local branch and local preview. Anthony separately approves push, PR, merge and production deployment.
+**Result:** Bodega now opens as a minimal ivory, black and pine owner desk with its live menu first and 5 plain owner-tool rows. Colattao now uses the warm espresso-brown menu palette, cream/champagne typography, a public-menu link before sign-in, a simpler split sign-in screen and a request-first authenticated dashboard. Existing request, auth, Stripe, Zelle, Square, menu and audit behavior remains intact. Desktop/mobile browser checks, visible keyboard focus, zero horizontal overflow, clean console, request preview, scoped ESLint, TypeScript, 4 owner/payment self-test suites, `git diff --check`, production build and combined source/implementation design comparison pass. The temporary sample route and comparison assets were removed. No push, PR, merge, deployment, production write or customer contact was performed.
+
 ## [ ] 72 - Add Bodega beside Colattao on the Fina Calle homepage
 
 **State:** DONE LOCALLY, READY FOR REVIEW

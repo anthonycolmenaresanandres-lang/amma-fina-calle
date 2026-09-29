@@ -109,6 +109,7 @@ export default function AskBar({
   const [pending, startTransition] = useTransition();
 
   const interactive = demo || Boolean(restaurantId);
+  const menuRequest = restaurantId === "colattao";
 
   useEffect(() => {
     if (!text.trim() && files.length === 0 && !retryUpload) return;
@@ -320,10 +321,12 @@ export default function AskBar({
     <Panel className={styles.requestSurface}>
       <p className={styles.requestKicker}>
         <MessageCircle size={15} strokeWidth={1.5} aria-hidden />
-        Contact Fina Calle
+        {menuRequest ? "Menu request" : "Contact Fina Calle"}
       </p>
-      <h2 className={styles.requestTitle}>What can we help with?</h2>
-      <p className={styles.requestIntro}>A menu update, an account question or a new idea. Tell us what you need, where it belongs and when you need it. Add a photo or PDF if it helps.</p>
+      <h2 className={styles.requestTitle}>{menuRequest ? "Request a menu change." : "What can we help with?"}</h2>
+      <p className={styles.requestIntro}>{menuRequest
+        ? "Tell us the item and what should change. Fina Calle reviews every request before publishing."
+        : "A menu update, an account question or a new idea. Tell us what you need, where it belongs and when you need it. Add a photo or PDF if it helps."}</p>
 
       <form
         onSubmit={(event) => {
@@ -348,7 +351,7 @@ export default function AskBar({
             disabled={!interactive || pending}
             autoComplete="off"
             maxLength={OWNER_REQUEST_MAX_TEXT_LENGTH}
-            placeholder="Example: Replace the dinner cover with the attached logo by Friday…"
+            placeholder={menuRequest ? "Example: Change the Churro Latte price to $8.50…" : "Example: Replace the dinner cover with the attached logo by Friday…"}
             className={styles.briefTextarea}
           />
         </div>

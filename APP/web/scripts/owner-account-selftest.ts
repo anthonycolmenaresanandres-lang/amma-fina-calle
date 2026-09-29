@@ -51,6 +51,7 @@ test("preview does not adopt Colattao terms", () => {
 });
 test("Colattao separate guest site stays request-managed", () => {
   const dashboard = readFileSync("src/app/owner/[id]/OwnerDashboard.tsx", "utf8");
-  assert.match(dashboard, /data.restaurantId === "colattao" \? <div[\s\S]*?separate Colattao site[\s\S]*?Request a menu update[\s\S]*?: <MenuQuickEdit/);
+  assert.match(dashboard, /const isColattao = data\.restaurantId === "colattao"/);
+  assert.match(dashboard, /isColattao \? <div[\s\S]*?public café site[\s\S]*?Request a menu change[\s\S]*?: <MenuQuickEdit/);
 });
 console.log(`${passed} account/payment presentation checks passed. No Stripe calls or database writes performed.`);

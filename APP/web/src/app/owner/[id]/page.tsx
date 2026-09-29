@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Bodoni_Moda } from "next/font/google";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShieldX, Wrench } from "lucide-react";
@@ -27,6 +28,12 @@ import OwnerDashboard, {
 } from "./OwnerDashboard";
 import styles from "./owner-portal.module.css";
 
+const display = Bodoni_Moda({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-owner-display",
+});
+
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -37,12 +44,14 @@ type PageProps = {
 function Shell({
   children,
   center = false,
+  restaurantId,
 }: {
   children: React.ReactNode;
   center?: boolean;
+  restaurantId?: string;
 }) {
   return (
-    <main className={styles.portal}>
+    <main className={cn(styles.portal, display.variable, restaurantId === "colattao" && styles.colattaoPortal)}>
       <a href="#owner-main" className={styles.skipLink}>
         Skip to tools
       </a>
@@ -130,10 +139,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export function generateViewport(): Viewport {
+export async function generateViewport({ params }: PageProps): Promise<Viewport> {
+  const { id } = await params;
   return {
     colorScheme: "dark",
-    themeColor: "#171b19",
+    themeColor: id === "colattao" ? "#24150d" : "#171b19",
   };
 }
 
@@ -161,7 +171,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (!isSupabaseConfigured) {
     return (
-      <Shell center>
+      <Shell center restaurantId={id}>
         <SetupNotice restaurantId={id} />
       </Shell>
     );
@@ -170,7 +180,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   const businessName = await getPublicBusinessName(id);
   if (businessName === null) {
     if (Object.hasOwn(PREPARING_OWNER_PORTALS, id)) {
-      return <Shell center><SetupNotice restaurantId={id} /></Shell>;
+      return <Shell center restaurantId={id}><SetupNotice restaurantId={id} /></Shell>;
     }
     notFound();
   }
@@ -179,7 +189,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (ctx.state === "anonymous") {
     return (
-      <Shell center>
+      <Shell center restaurantId={id}>
         <OwnerLogin restaurantId={id} businessName={businessName} notice={notice} />
       </Shell>
     );
@@ -187,7 +197,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (ctx.state === "unauthorized") {
     return (
-      <Shell center>
+      <Shell center restaurantId={id}>
         <div className={cn("fc-panel mx-auto w-full text-center", styles.authFrame)}>
           <span className={styles.authIcon}>
             <ShieldX size={18} strokeWidth={1.75} aria-hidden />
@@ -213,7 +223,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
 
   if (ctx.state === "password_reset_required") {
     return (
-      <Shell center>
+      <Shell center restaurantId={id}>
         <RequiredPasswordReset
           restaurantId={id}
           businessName={businessName}
@@ -227,7 +237,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   const supabase = await createServerSupabase();
   if (ctx.state !== "authorized" || !supabase) {
     return (
-      <Shell center>
+      <Shell center restaurantId={id}>
         <SetupNotice />
       </Shell>
     );
@@ -322,7 +332,7 @@ export default async function OwnerPage({ params, searchParams }: PageProps) {
   };
 
   return (
-    <Shell>
+    <Shell restaurantId={id}>
       <OwnerDashboard data={data} />
     </Shell>
   );

@@ -11,7 +11,7 @@ export default function BodegaSquareLogin({ destination = "insights" }: { destin
   const billing = destination === "billing";
   return <section className={styles.setup} aria-labelledby="square-sign-in-title">
     <p>One link to get started</p>
-    <h2 id="square-sign-in-title">{billing ? "Your plan, one place." : "Let’s connect your menu."}</h2>
+    <h2 id="square-sign-in-title">{billing ? "One secure sign-in." : "Let’s connect your menu."}</h2>
     <p>{billing ? "Enter your Bodega email. We’ll send one link to review your plan and set up payments." : "Enter your Bodega email. Open the link we send, then approve the connection in Square."}</p>
     <form action={formAction} className={styles.emailForm}>
       <label htmlFor="bodega-square-email">Bodega owner email</label>
