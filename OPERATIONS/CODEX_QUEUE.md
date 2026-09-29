@@ -686,3 +686,13 @@ Authority: Anthony confirmed Bodega closed at $199/month Basic, its 30-day free 
 Scope: Reuse the existing Stripe owner billing flow for Bodega with a private email-link entry, exact $199/month terms, first proposed charge 2026-10-26, recorded authorization, and a simpler typography-led Fina Calle owner layout. Prepare tenant/billing database migration and company design/billing runbook. Prevent enrollment until the matching Stripe price, owner access, and required provider settings are ready. Preserve Square read-only behavior, guest menu, game, and reward-off state.
 
 PASS: Owner sees clear terms and first-charge date, can accept once and enter Stripe Checkout only when server-approved terms match, can later manage invoices/payment methods, and never sees private billing data anonymously. Targeted billing/auth tests, lint, build, and responsive browser review pass; PR checks pass before the authorized merge.
+
+## [ ] 75 - Publish the Scrambled menu preview and verified QR artwork
+
+**State:** IN PROGRESS
+**Codex effort:** HIGH
+**Authority:** Anthony supplied Scrambled menu and brand-reference images, approved the plan, and explicitly directed Codex on 2026-09-29 to execute it, create the menu and working QR artwork, and publish the Fina Calle version. Domain acquisition is explicitly excluded.
+**Branch base:** `origin/main` at `4556010`; branch `codex/scrambled-menu-preview-20260929` in `C:/dev/amma/worktrees/scrambled-menu-20260929`.
+**Scope:** Add a self-contained Scrambled guest-menu preview based on the current Bodega menu's open mobile layout; preserve the supplied photographed menu as the provisional source; add stable Fina Calle routing; create printable branded QR artwork only after the destination exists; verify the encoded URL and responsive result. Exclude a guest intake form. Document the owner portal as the next step without implementing it. Do not alter Bodega or Colattao behavior.
+**Boundaries:** No domain search checkout, registration, purchase, transfer, or DNS change. No Scrambled owner account, portal, billing, database row, invitation, message, or CRM mutation. No restaurant contact. Publication is limited to the explicitly requested Scrambled menu route and its working QR destination.
+**PASS:** Menu route presents the supplied breakfast, Mediterranean, diner, sides and drink inventory with honest unknown-price handling; no guest intake form exists; desktop/mobile and keyboard checks pass; targeted lint and production build pass; a verified public Fina Calle URL is live; SVG/PNG printable artwork encodes that exact URL and passes independent payload plus scan/navigation verification; owner portal next step is documented and unimplemented.
