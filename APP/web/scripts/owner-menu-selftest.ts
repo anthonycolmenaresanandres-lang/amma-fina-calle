@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { guestMenuAbsoluteUrl, guestMenuPath, guestMenuRedirectUrl } from "../src/lib/guest-menu";
 import { displayMenuValue, LAS_PALMAS_RESTAURANT_ID, normalizedMenuValue, ownerGuestMenuPath, validateMenuEdit, type MenuEdit } from "../src/lib/owner/menu-control";
-import { publicMenuSections } from "../src/lib/owner/public-menu-adapter";
+import { publicMenuItemPriceDisplay, publicMenuSections } from "../src/lib/owner/public-menu-adapter";
 import { localPilotPreviewAllowed } from "../src/lib/owner/local-pilot-preview";
 let passed = 0;
 function test(label: string, fn: () => void) { fn(); passed++; console.log(`PASS ${label}`); }
@@ -19,7 +20,13 @@ test("unknown field rejected", () => assert.throws(() => validateMenuEdit({ ...b
 test("missing size rejected", () => assert.throws(() => validateMenuEdit({ ...base, field: "size_price" })));
 test("valid size accepted", () => assert.equal(validateMenuEdit({ ...base, field: "size_price", sizeLabel: "Large" }).sizeLabel, "Large"));
 test("stable Las Palmas destination", () => assert.equal(ownerGuestMenuPath(LAS_PALMAS_RESTAURANT_ID), "/demo/las-palmas"));
-test("Colattao destination unchanged", () => assert.equal(ownerGuestMenuPath("colattao"), "https://colattao-cafe-rush.vercel.app/menu"));
+test("stable Bodega destination", () => assert.equal(guestMenuPath("bodega"), "/demo/bodega"));
+test("stable Colattao destination", () => assert.equal(ownerGuestMenuPath("colattao"), "/m/colattao"));
+test("Colattao stable path resolves to approved current menu", () => assert.equal(guestMenuRedirectUrl("colattao"), "https://colattao-cafe-rush.vercel.app/menu"));
+test("Colattao QR keeps the stable Fina Calle URL", () => assert.equal(guestMenuAbsoluteUrl("colattao"), "https://finacalleos.com/m/colattao"));
+test("unknown restaurants stay on their encoded Fina Calle route", () => assert.equal(guestMenuPath("café test"), "/m/caf%C3%A9%20test"));
+test("public zero price says ask staff", () => assert.equal(publicMenuItemPriceDisplay({ price: 0 }), "Ask staff"));
+test("public size prices retain labels", () => assert.equal(publicMenuItemPriceDisplay({ price: 0, sizes: [{ label: "Small", price: 5.5 }, { label: "Large", price: 0 }] }), "Small $5.50 · Large Ask staff"));
 const data = { restaurant: { id: LAS_PALMAS_RESTAURANT_ID }, categories: [{ id: "cat", name: "Lunch", items: [{ id: "one", name: "Sample", price: "12.50", is_available: true, sizes: [] as { label: string; price: number }[] }] }] };
 test("guest adapter reads updated price", () => assert.equal(publicMenuSections(data, LAS_PALMAS_RESTAURANT_ID)[0].items[0].priceDisplay, "$12.50"));
 test("sold out disappears", () => { const hidden = structuredClone(data); hidden.categories[0].items[0].is_available = false; assert.deepEqual(publicMenuSections(hidden, LAS_PALMAS_RESTAURANT_ID), []); });
@@ -35,4 +42,6 @@ test("preview blocked on Vercel", () => assert.equal(localPilotPreviewAllowed("1
 // Contract checks supplement pure tests; they do not replace live RLS proof.
 test("server action re-authorizes and scopes item", () => { const source = readFileSync("src/lib/owner/menu-control-actions.ts", "utf8"); assert.match(source, /getOwnerContext\(change.restaurantId\)/); assert.match(source, /ctx.state !== "authorized"/); assert.match(source, /\.eq\("restaurant_id", change.restaurantId\)/); assert.match(source, /applyOwnerChange/); assert.doesNotMatch(source, /\.from\([^)]*\)\.update/); });
 test("connected menu opt-in", () => { const source = readFileSync("src/lib/owner/las-palmas-menu.ts", "utf8"); assert.match(source, /LAS_PALMAS_OWNER_MENU_ENABLED !== "true"/); assert.match(source, /sections: \[\]/); });
+test("public menu follows approved external destinations before reading sample data", () => { const source = readFileSync("src/app/m/[id]/page.tsx", "utf8"); assert.match(source, /guestMenuRedirectUrl\(id\)/); assert.match(source, /redirect\(currentPublishedMenu\)/); assert.doesNotMatch(source, /Sample menu|fc-watermark/); });
+test("menu QR routes use the shared stable destination", () => { for (const file of ["src/app/owner/colattao/qr/route.ts", "src/app/owner/bodega/qr/route.ts"]) assert.match(readFileSync(file, "utf8"), /guestMenuAbsoluteUrl/); });
 console.log(`${passed} owner-menu checks passed. No live database or access tests performed.`);

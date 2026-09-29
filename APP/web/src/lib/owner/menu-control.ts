@@ -1,10 +1,10 @@
+import { guestMenuPath } from "@/lib/guest-menu";
+
 /** Shared, deterministic menu controls. No AI/API provider or browser authority. */
 export const LAS_PALMAS_RESTAURANT_ID = "las-palmas-lynnhaven";
 
 export function ownerGuestMenuPath(restaurantId: string): string {
-  if (restaurantId === "colattao") return "https://colattao-cafe-rush.vercel.app/menu";
-  if (restaurantId === LAS_PALMAS_RESTAURANT_ID) return "/demo/las-palmas";
-  return `/m/${encodeURIComponent(restaurantId)}`;
+  return guestMenuPath(restaurantId);
 }
 
 export const MENU_EDIT_FIELDS = ["name", "description", "price", "is_available", "size_price"] as const;
