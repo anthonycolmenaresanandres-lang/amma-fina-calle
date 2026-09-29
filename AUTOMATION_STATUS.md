@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-28 (afternoon/evening check-in, `claude-opus-4-8`). **One change since the midday run: today's VBFH Daily Run fired and was cancelled — a 4th consecutive strike — confirming the outage is persistent, not transient. Still awaiting Anthony's fix decision; nothing else changed.** Since the 09-27 afternoon run, amma `main` advanced **`02af585`→`8e8576b`** via **two of Anthony's own merges** — **#271** "web: add Bodega to homepage client work" (09-28 08:27 UTC, `CI — web` **#266 ✅**; homepage `page.tsx`/`comic.module.css` + docs, **no migration**) and **#272** "Prepare Fina Calle voice and SMS line" (09-28 12:25 UTC, `CI — voice-gateway` **#19 ✅**; voice-gateway SMS handling + Twilio number-config script + `OPERATIONS/FINA_CALLE_PHONE_20260928.md`, **no migration**). Both are **Anthony's own merges → no caretaker action; recorded.** **#272 is Twilio/SMS phone-line territory** (the +1 757 300 1118 handoff) — the prep is landed and green, but **live Twilio registration / A2P / routing remain Anthony's manual activation gates**, not caretaker work. **VBFH Daily Run — 4th consecutive cancellation:** today's scheduled **#118 (09-28 19:41→20:27 UTC) CANCELLED** at the 45-min cap (`daily:run` ran ≈44 min with zero console output, `chrome-headless-shell` still alive at cleanup — a browser/scrape hang), making it four-for-four on unchanged code `b7af2c9` (#115/#116 09-26, #117 09-27, #118 09-28). Root cause and fix options unchanged (external DaySmart slowdown; ~40 sequential scrapes overrun the 45-min job cap; missing global time budget — insertion point at the per-league loop ~line 329 of `lib/services/orchestration/daily-runner.ts` / the adapter loop in `lib/services/intake/dash-registry-adapter.ts`). **No blind fix pushed** — the choices trade accuracy against completion in a fail-closed pipeline, and Anthony's A/B/C decision (asked twice: 09-27 morning + afternoon) is still open. Pending Supabase migrations **unchanged at `0015`–`0023`** (+`0009` Marbel) — #271/#272 added none. Default branches re-verified live: amma **`8e8576b`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#266** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run**. shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-09-29 (morning check-in, `claude-opus-4-8`). **Two things this run: (1) amma `main` advanced `8e8576b`→`b7317440` via THREE of Anthony's own owner-portal merges (all `CI — web` green, no new migrations); (2) the VBFH Daily Run outage is unchanged — today's 09-29 scheduled run had not yet fired at check time, so it's still the 4-strike #118. To break the stalemate, the VBFH ask is now reframed from a 4-option menu into a single recommendation + one-word go-ahead (see 🔴 below).** Since the 09-28 evening run, amma `main` advanced **`8e8576b`→`b7317440`** via **three of Anthony's own merges/pushes** — **#273** "Simplify owner portals" (09-29 10:43 UTC, `CI — web` **#268 ✅**; refactors the guarded `/owner/[id]` login/dashboard + `/owner/bodega` pages + selftests, **no migration**), **"Make owner plans and payments easy to find"** (09-29 12:05 UTC, `CI — web` **#270 ✅**; adds `/owner/PlanContents`, a new **`/owner/colattao/plan`** page + **`/owner/colattao/qr`** route + `lib/billing/colattao-terms.ts`, **no migration**), and **"Set update batches by Basic plan"** (09-29 12:15 UTC, `CI — web` **#272 ✅**; 1-line `PlanContents.tsx` tweak). All three are **Anthony's own merges → no caretaker action; recorded.** Note the new `/owner/colattao/qr` route is an **owner-side** QR helper — it does **not** change the printed Café Rush menu URL (stable-QR guardrail intact). **VBFH Daily Run — still DOWN (4 strikes, unchanged):** latest is still scheduled **#118 (09-28 19:41→20:27 UTC) CANCELLED** at the 45-min cap (`daily:run` ran ≈44 min, zero stdout, `chrome-headless-shell` alive at cleanup — a browser/scrape hang), four-for-four on unchanged code `b7af2c9` (#115/#116 09-26, #117 09-27, #118 09-28). **Today's 09-29 scheduled run had NOT yet fired at check time (~12:5x UTC — cron is 08:17 ET, GitHub delays it); it will likely fire during/after this run and, on current code, become a 5th strike.** Root cause external (DaySmart slowdown; ~40 sequential scrapes overrun the 45-min cap; **no global time budget** — the two loops are `dash-registry-adapter.ts` ~line 96 and `daily-runner.ts` `runLegacyLeagueLoop` ~line 329). Read the code this run to gauge a confident fix: the only *effective* fix (a global wall-clock budget that breaks the loop early) is the **accuracy-vs-completion trade-off** (a slow league's results could be missing that day) and is **timing-dependent behavior this cloud session cannot integration-test** (no live DaySmart; artifacts 403-blocked) — so a blind push does **not** meet the "fix if confident" bar. **Held (consistent with the four prior runs); the ask is now a single recommendation + go-ahead instead of a menu.** Pending Supabase migrations **unchanged at `0015`–`0023`** (+`0009` Marbel) — this run's three merges added none. Default branches re-verified live: amma **`b7317440`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#272** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#26** on master — build/test CI is fine; only the scheduled Daily Run is down). Zero failing workflow runs across repos **except the VBFH Daily Run**. shadow & EscapeTheBomb have no CI workflows (0 runs). **Seven** open amma drafts (#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259; **no new human review comments** anywhere, all seven `updated_at` stale). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,22 +12,26 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🔴 **STILL DOWN (now 4 days running) — Your VBFH daily media pipeline needs you to pick a fix (A, B, or C). This is the same open decision from yesterday; today's run failed the same way, so it's clearly not a one-off.**
-   The scheduled **VBFH Daily Run has now failed four times in a row** — #115 + #116 (09-26), #117 (09-27), and
-   today's **#118 (09-28)** — each running the full ~44 minutes on the content-generation step then getting killed at
-   the 45-minute cap. The **DaySmart website the run scrapes has gotten slow enough that the run
-   (~40 leagues, one after another) no longer finishes inside its 45-minute limit.** Until this is fixed, **no daily
-   graphics/recap are generated.** I did **not** guess at a fix, because the sensible options trade off against each
-   other and the choice is yours:
-   - **(A) Give it more time** — raise the run's time limit from 45 to ~75–90 minutes. Simplest; costs more Actions
-     minutes and only helps if the site is *slow*, not *stuck*.
-   - **(B) Make it finish faster** — cut the retry attempts / per-page wait so slow leagues are skipped instead of
-     retried. Faster + reliable, but a slow league's results could be missing that day.
-   - **(C) Find the culprit** — inspect the failed run's log artifact to identify which league page stalls, and
-     target just that one. _(Note: this cloud session is firewalled (HTTP 403) from the Azure blob storage that
-     hosts the run artifacts, so the download has to run from your machine or a runner with access.)_
-   **Tell me A, B, or C (or "you decide") and I'll implement it as a PR.** My recommendation: **C then B** — find
-   the stall, then add a hard overall time budget so one bad page can never eat the whole run again.
+🔴 **STILL DOWN (5 days running) — your VBFH daily media pipeline. Just reply "go" and I'll build the fix.**
+   The scheduled **VBFH Daily Run has failed every day since 09-26** — #115/#116 (09-26), #117 (09-27), #118 (09-28),
+   and today's 09-29 run will make it five — each running ~44 minutes then getting killed at the 45-minute cap. The
+   **DaySmart website the run scrapes got slow/stuck enough that the run (~40 league pages, one after another) no
+   longer finishes in time**, so **no daily graphics/recap are generated.** I've asked you to pick A/B/C four times
+   with no reply — you're clearly busy on the Bodega/Colattao owner portals — so I'm dropping the menu and giving you
+   **one recommendation**:
+   - **My plan (reply "go"):** add a **hard overall time budget** — the run works through leagues until, say, 38
+     minutes, then stops cleanly, **logs exactly which league it was stuck on** (so we finally learn the culprit
+     without needing the 403-blocked artifact download), and still saves whatever it finished. This turns a silent
+     44-minute kill that produces *nothing* into a run that produces most of the day's content **plus** a name for
+     the slow page — then I can target that one page next.
+   - **Trade-off I'm not deciding for you:** on a genuinely slow day this means **a slow league's results could be
+     missing** from that day's recap (the pipeline is "fail-closed" by design — it currently prefers nothing over
+     partial). That product call — partial-but-reliable vs. all-or-nothing — is **yours**, which is why I've held
+     rather than pushed it blind. It's also timing behavior I can't fully test from this cloud session (no live
+     DaySmart access here), so I'll ship it as a **draft PR for you to review**, not a blind merge.
+   - **Alternatives if you'd rather:** just say **"more time"** (I raise the 45-min cap to ~90 — simplest, but if the
+     page is *stuck* not *slow* it'll still hit the wall and burn double the minutes) or **"you decide"** (I'll do the
+     time-budget plan above). **Any one-word reply unblocks this.**
 
 🆕 **Fina Calle voice + SMS line prep landed (#272) — live Twilio activation is yours (phone-line territory).**
    Your own merge **#272** "Prepare Fina Calle voice and SMS line" added SMS handling to the voice-gateway
@@ -38,7 +42,7 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    and notes routing/registration are not yet complete). Nothing dials or texts automatically. (Your own merge → no
    caretaker action, recorded.)
 
-🟡 **Supabase migrations still pending — `0015` through `0023` (unchanged this run; #271/#272 added none).**
+🟡 **Supabase migrations still pending — `0015` through `0023` (unchanged this run; the three 09-29 owner-portal merges added none).**
    Set is `0015`–`0023` under `APP/web/supabase/migrations/` (rewards `0015`–`0018` from #260–#264; Bodega launch +
    Square `0019`–`0022` from #266; Bodega Basic billing `0023` from #270), plus `0009` Marbel admin grant. The site
    **builds and deploys green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square
@@ -104,7 +108,11 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the seven open draft heads.
 
-_Resolved / no action needed from you:_ **amma #271 (Bodega added to homepage client work) — your own merge**
+_Resolved / no action needed from you:_ **amma owner-portal wave (09-29) — your own merges** — **#273 "Simplify
+owner portals"** (`CI — web` #268 green; refactors `/owner/[id]` + `/owner/bodega`, no migration), **"Make owner
+plans and payments easy to find"** (`CI — web` #270 green; new `/owner/colattao/plan` + `/owner/colattao/qr` +
+`lib/billing` terms, no migration, printed Café Rush QR untouched), **"Set update batches by Basic plan"** (`CI — web`
+#272 green; 1-line). All three recorded, no caretaker action. **amma #271 (Bodega added to homepage client work) — your own merge**
 (09-28; `CI — web` #266 green; no migration). **amma #272 (Fina Calle voice + SMS line prep) — your own merge**
 (09-28; `CI — voice-gateway` #19 green; no migration; Twilio go-live is a separate manual gate — see above).
 **amma #270 (Bodega Basic monthly billing enrollment) — your own merge** (09-27; `CI — web` #263 green; migration
@@ -116,15 +124,15 @@ Request Desk — Phase 0")** — closed since 07-18.
 
 ---
 
-## Build health (as of 2026-09-28, afternoon/evening)
+## Build health (as of 2026-09-29, morning)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API.
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8e8576b`** ("Prepare Fina Calle voice and SMS line (#272)," 09-28 12:25 UTC; **Anthony's own merge**). **Advanced since last run** `02af585`→`8e8576b` via **#271** (Bodega on homepage; `CI — web` **#266 ✅**) then **#272** (Fina Calle voice/SMS line prep; `CI — voice-gateway` **#19 ✅**). **No new Supabase migrations** — set stays **`0015`–`0023`**. #272 adds voice-gateway SMS handling + a Twilio number-config script + `OPERATIONS/FINA_CALLE_PHONE_20260928.md`; **Twilio registration/A2P/live routing for +1 757 300 1118 remain Anthony's manual gates.** **Both are Anthony's own merges → no caretaker action.** **Seven** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26 (FOUR strikes on unchanged code `b7af2c9`).** Scheduled **#115 (09-26) CANCELLED**, diagnostic re-run **#116 (09-26) CANCELLED**, scheduled **#117 (09-27 16:59→17:45 UTC) CANCELLED**, scheduled **#118 (09-28 19:41→20:27 UTC) CANCELLED** — each `daily:run` step ran ≈44 min then was killed at the 45-min cap. **This run confirmed #118's job log:** steps 1–8 (checkout→`npm ci`→playwright install→`leagues:discover`) all ✅ in ~60 s, then step 9 `daily:run` emitted **zero console output for 44 min** (`logLine` writes to a file, not stdout) and a **`chrome-headless-shell` process was still alive at cleanup** — a browser/scrape hang. Prior runs #111–#114 (07-21…09-25) were ✅; #114 finished in ~26 min. **Root cause: external — the live DaySmart scrape now exceeds the 45-min budget.** Code-level detail confirmed this run: `scrapeLeague` retries **up to 3×/league** and, in standings mode, also fetches **team pages** (2 attempts each, `requireScorePair`); each page runs sequential 45 s waits (`goto`+`waitForSelector`+`waitForFunction`), so any page that no longer matches the expected content burns ~90–180 s, and across ~40 leagues the total overruns 45 min. The gap is the lack of a **global time budget** — insertion points at `daily-runner.ts` per-league loop (~line 329) and the loop in `dash-registry-adapter.ts`; per-op timeouts (45 s) already exist in `dash-fetcher.ts`. **Option-C pinpoint blocked in-cloud:** run artifacts live on Azure blob storage, denied by the session egress proxy (HTTP 403). **Fix awaits Anthony's choice (raise timeout / cut retries / global budget / pinpoint slow league) — not pushed blind (accuracy-vs-completion trade-off in a fail-closed pipeline).** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`b7317440`** ("Set update batches by Basic plan," 09-29 12:15 UTC; **Anthony's own push**). **Advanced since last run** `8e8576b`→`b7317440` via **three of Anthony's own owner-portal merges/pushes** — **#273** "Simplify owner portals" (`CI — web` **#268 ✅**; refactors guarded `/owner/[id]` login/dashboard + `/owner/bodega`, no migration), **"Make owner plans and payments easy to find"** (`CI — web` **#270 ✅**; new `/owner/colattao/plan` page + `/owner/colattao/qr` route + `lib/billing/colattao-terms.ts`, no migration — printed Café Rush QR unchanged), **"Set update batches by Basic plan"** (`CI — web` **#272 ✅**; 1-line `PlanContents.tsx`). **No new Supabase migrations** — set stays **`0015`–`0023`**. **All three are Anthony's own → no caretaker action; recorded.** **Seven** open drafts held (see Open PRs). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **🔴 "VBFH Daily Run" is DOWN since 09-26 (FOUR strikes on unchanged code `b7af2c9`; today's 09-29 run not yet fired at check time → likely a 5th).** Scheduled **#115 (09-26) CANCELLED**, diagnostic re-run **#116 (09-26) CANCELLED**, scheduled **#117 (09-27 16:59→17:45 UTC) CANCELLED**, scheduled **#118 (09-28 19:41→20:27 UTC) CANCELLED** — each `daily:run` step ran ≈44 min then was killed at the 45-min cap (`timeout-minutes: 45` in `daily.yml`). #118's job log: steps 1–8 (checkout→`npm ci`→playwright install→`leagues:discover` = 40 leagues) all ✅ in ~60 s, then step 9 `daily:run` emitted **zero stdout for 44 min** (`logLine` writes to a file, not stdout) with a **`chrome-headless-shell` alive at cleanup** — a browser/scrape hang. Prior runs #111–#114 (07-21…09-25) ✅; #114 ran ~26 min. **Root cause: external — the live DaySmart scrape now exceeds the 45-min budget.** Confirmed in code this run: **two sequential loops with no global time budget** — the primary `dash-registry-adapter.ts` `scrapeSeasonRegistryToIntake` (loop ~line 96) and the fallback `daily-runner.ts` `runLegacyLeagueLoop` (~line 329); `scrapeLeague` retries up to 3×/league + team-page fetches, each with 45 s Playwright waits, so ~40 leagues overrun 45 min. **Effective fix = a global wall-clock budget that breaks the loop early — but that is the accuracy-vs-completion product trade-off (a slow league could be dropped that day) AND timing behavior this cloud session cannot integration-test (no live DaySmart; artifacts 403-blocked), so it fails the "fix-if-confident" bar for a blind push.** Held (as in the four prior runs); the ask to Anthony is now a single recommendation + one-word go-ahead (build the time-budget-with-diagnostic as a **draft PR** he reviews). Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -152,12 +160,22 @@ Request Desk — Phase 0")** — closed since 07-18.
 
 ## Merged / closed since last run
 
-**Nothing merged or closed since the 09-28 midday run** — all four default-branch tips are unchanged
-(amma `8e8576b`, vbfh `b7af2c9`, shadow `5113ce5`, EscapeTheBomb `eee6a37`) and **no new review comments**
-anywhere. The two merges below happened earlier on 09-28, before the midday run; retained for the audit trail.
-Since the 09-27 afternoon run, amma `main` advanced `02af585`→`8e8576b` via **two of Anthony's own merges**
-(#271, #272); nothing closed unmerged; **no new human review comments** anywhere (the only PR comment is the
-Vercel deploy bot on #259).
+**Since the 09-28 evening run, amma `main` advanced `8e8576b`→`b7317440` via THREE of Anthony's own owner-portal
+merges/pushes** (all `CI — web` green, no new migrations); nothing closed unmerged; **no new human review comments**
+anywhere (all seven draft `updated_at` stale; the only PR comment remains the Vercel deploy bot on #259). vbfh,
+shadow and EscapeTheBomb tips unchanged (`b7af2c9` / `5113ce5` / `eee6a37`).
+
+- **amma #273 — "Simplify owner portals."** Merged `fd1f324` 09-29 10:43 UTC, `CI — web` **#268 ✅**. Refactors the
+  guarded `/owner/[id]` login/dashboard/AskBar + `/owner/bodega` pages and their CSS, plus owner selftests and docs
+  (`CODEX_QUEUE.md`, `HANDOFF_LOG.md`, `design-qa.md`). **No migration.** **Anthony's own merge → no caretaker action; recorded.**
+- **amma "Make owner plans and payments easy to find."** Merged `749355f` 09-29 12:05 UTC, `CI — web` **#270 ✅**.
+  Adds `/owner/PlanContents`, a new **`/owner/colattao/plan`** page + login + **`/owner/colattao/qr`** route, and
+  `lib/billing/colattao-terms.ts` (Colattao $149 enrollment terms) + billing/owner action tweaks. **No migration.**
+  The new QR route is owner-side and does **not** change the printed Café Rush menu URL. **Anthony's own → recorded.**
+- **amma "Set update batches by Basic plan."** Merged `b7317440` 09-29 12:15 UTC, `CI — web` **#272 ✅**. 1-line
+  `owner/PlanContents.tsx` change (Colattao/Bodega monthly update batches). **Anthony's own → recorded.**
+
+Prior 09-28 merges retained below for the audit trail.
 
 - **amma #272 — "Prepare Fina Calle voice and SMS line."** Merged `8e8576b` 09-28 12:25 UTC, `CI — voice-gateway`
   **#19 ✅**. Adds voice-gateway SMS handling (`services/voice-gateway/src/sms.ts`, `simulateSms.ts`), a
@@ -239,6 +257,25 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-09-29 (morning check-in, `claude-opus-4-8`):** **No new breakage; VBFH outage unchanged; three of Anthony's
+  own owner-portal merges landed green.** amma `main` advanced **`8e8576b`→`b7317440`** via **#273** "Simplify owner
+  portals" (`CI — web` #268 ✅; refactors guarded `/owner/[id]` + `/owner/bodega`, no migration), **"Make owner plans
+  and payments easy to find"** (`CI — web` #270 ✅; new `/owner/colattao/plan` + `/owner/colattao/qr` route +
+  `lib/billing/colattao-terms.ts`, no migration, printed Café Rush QR untouched) and **"Set update batches by Basic
+  plan"** (`CI — web` #272 ✅; 1-line) — **all Anthony's own → no caretaker action; recorded.** Migration set stays
+  **`0015`–`0023`** (added none). **VBFH Daily Run still DOWN** — latest is still #118 (09-28 cancelled, 4th strike on
+  unchanged `b7af2c9`); **today's 09-29 scheduled run had NOT yet fired at check time (~12:5x UTC)** and will likely
+  become a 5th strike. Read the runner code this run: the only *effective* fix (a global wall-clock budget) is the
+  accuracy-vs-completion product trade-off AND untestable timing behavior from this cloud session (no live DaySmart;
+  artifacts 403-blocked), so **held on a blind push** (as in the four prior runs) — but **reframed the ask** from a
+  4-option A/B/C menu (unanswered ×4) into a single recommendation + one-word go-ahead: reply "go" → I build a
+  time-budget-with-slow-league-diagnostic as a **draft PR** he reviews. Default branches re-verified: amma
+  `b7317440` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #272 ✅ +
+  `CI — voice-gateway` #19 ✅; vbfh build `CI` #26 ✅ (only the Daily Run is down); shadow & EscapeTheBomb no CI (0
+  runs). Seven open amma drafts held, all Vercel ✅, all `updated_at` stale; only the Vercel bot has commented (#259);
+  no new human review comments; no merges/closes of PRs; no merge-conflict/base-branch notices; GitHub API healthy.
+  #218 governance question open; #29 closed. Branch cleanup still 403-blocked. **Push notification + email sent** —
+  VBFH needs Anthony's one-word go-ahead.
 - **2026-09-28 (afternoon/evening check-in, `claude-opus-4-8`):** **🔴 FOURTH STRIKE — VBFH Daily Run failed again
   today.** Today's scheduled **#118 (19:41→20:27 UTC) CANCELLED** at the 45-min cap — four consecutive cancellations
   on unchanged code `b7af2c9` (#115/#116 09-26, #117 09-27, #118 09-28), confirming a persistent outage. Pulled #118's
