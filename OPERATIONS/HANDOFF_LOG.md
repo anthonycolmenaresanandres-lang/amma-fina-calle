@@ -2,6 +2,17 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-29 - Preserve seasonal skins specification and queue item 75
+
+**State:** QUEUED — NOT STARTED. Documentation-only branch `codex/seasonal-skins-queue-20260929`; the canonical main queue receives this entry only after review and merge.
+**Outcome:** Preserved the full seasonal engineering specification and its 13-row CSV register in [OPERATIONS/WORK_ORDERS/SEASONAL_SKINS](WORK_ORDERS/SEASONAL_SKINS/). Added [queue item 75](CODEX_QUEUE.md) with the original scope, dependencies, user-friendly acceptance gates and first action FC-SEAS-00. Original “Ready for planning” statuses remain archival; no work order is in progress.
+**Validation:** The source register contains FC-SEAS-00 through FC-SEAS-12 exactly once. The queue and this log retain their previous contents. This change is limited to four documentation files; application testing is not applicable.
+**Handoff:** System lead assignment pending. Review current integration/release state before starting FC-SEAS-00. No application, billing, access, production data or customer communication changed.
+
+### [CHECK-IN] Codex - 2026-09-29 - Queue seasonal skins work for later
+
+Anthony asked to save the previously prepared seasonal-skins work orders and put them in the queue. Scope is preservation and backlog registration only. Read the live queue and handoff before selecting unused item 75. The AMMA business-intelligence router returned low-confidence “inspect”; its required evidence sources were reviewed directly. Operating role: delivery coordinator. Bottleneck: the detailed handoff lacked a canonical repository backlog link. Target for this session: preserve both files, add one queued item, and record the handoff with 13 of 13 work orders retained. No implementation assignment or start date is inferred.
+
 ### [CHECK-OUT] Codex - 2026-09-29 - Open owner portals implementation
 
 - Did: Rebuilt Bodega’s public owner desk as an open menu-first page and restyled Colattao’s sign-in/dashboard around the approved warm espresso-brown menu palette. Put each public menu before authentication, removed repeated card containers and guidance, moved Colattao’s request flow first, and retained real tenant marks and existing artwork.
