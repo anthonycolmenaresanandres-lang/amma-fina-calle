@@ -48,3 +48,32 @@ Final local production build/TypeScript, targeted ESLint and95 landing checks pa
 ## Live confirmation
 
 PR #230 application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9 reached Ready production withfinacalleos.com. Exact permanent QR returns200 without redirect. Inspected `live-iab.png` and `live-390.png`, matching the final layout;39 items, native keyboard expansion, correct canonical and loaded original dropdown image confirmed. Production browser error logs returned none. Public-source/approval warnings remain. Design QA and live presentation verification: passed.
+# Owner portals design QA — 2026-09-29
+
+## Scope
+
+- Bodega public owner desk at `/owner/bodega`
+- Colattao owner sign-in and authenticated dashboard at `/owner/colattao`
+- Desktop comparison plus 390 × 844 responsive review
+- Keyboard focus, overflow, request review, guest-menu access, and browser console checks
+
+## Reference comparison
+
+| Portal | Approved source | Implementation capture | Combined comparison |
+| --- | --- | --- | --- |
+| Bodega | `C:\dev\amma\evidence\owner-portals-open-20260929\source-bodega.png` · 1487 × 1058 | `C:\dev\amma\evidence\owner-portals-open-20260929\implementation-bodega-desktop-1440.jpg` · 1425 × 928 | `C:\dev\amma\evidence\owner-portals-open-20260929\comparison-bodega.jpg` |
+| Colattao | `C:\dev\amma\evidence\owner-portals-open-20260929\source-colattao.png` · 1487 × 1058 | `C:\dev\amma\evidence\owner-portals-open-20260929\implementation-colattao-dashboard-1440.jpg` · 1425 × 928 | `C:\dev\amma\evidence\owner-portals-open-20260929\comparison-colattao.jpg` |
+
+The source and implementation were inspected together in the combined comparison images at the same displayed width. Full-view comparison was sufficient because the main type, artwork, navigation, and request controls remained readable without cropping.
+
+## Results
+
+- Bodega preserves the approved editorial hierarchy, open layout, ivory field, dark-green primary action, large display type, and coffee/vinyl artwork. Production content adds two owner-tool rows while retaining the source rhythm.
+- Colattao uses the approved warm espresso-brown field, cream type, champagne accents, restrained imagery, and request-first hierarchy. Green is limited to semantic input surfaces and is no longer the dominant page color.
+- The 390 × 844 captures show no horizontal overflow. Colattao artwork collapses cleanly on mobile; Bodega keeps the menu action and owner tools prominent.
+- The live-menu action is available before authentication for both restaurants. Bodega opens `/demo/bodega`; Colattao opens its public café menu.
+- The request preview produced the expected review state and was cancelled without persistence. Browser console checks returned no errors.
+- Keyboard checks produced visible focus rings on the first actionable links. Reduced-motion rules, image dimensions, labels, autocomplete values, inline status announcements, and 44 px touch targets are present.
+- Web Interface Guidelines audit: no unresolved findings in the touched owner-portal files.
+
+final result: passed

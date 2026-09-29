@@ -5,18 +5,18 @@
   --owner-muted: #b5b8ac;
   --owner-gold: #dec390;
   --owner-line: #f8f4e924;
-  --owner-display: Georgia, "Times New Roman", serif;
+  --owner-display: var(--font-owner-display), Georgia, "Times New Roman", serif;
   position: relative;
   min-height: 100dvh;
   isolation: isolate;
   padding: clamp(1.25rem, 4vw, 3rem);
   padding-bottom: max(2rem, env(safe-area-inset-bottom));
-  background: radial-gradient(ellipse at 80% 0, #65755c18, transparent 48rem), var(--owner-ink);
+  background: var(--owner-ink);
   color: var(--owner-paper);
   color-scheme: dark;
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
-.portal::before { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ffffff' opacity='.25' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E"); content: ""; }
+.colattaoPortal { --owner-ink: #24150d; --owner-graphite: #321f14; --owner-paper: #f8f1e4; --owner-muted: #c8baaa; --owner-gold: #ddbe84; --owner-line: #f8f1e426; }
 .portal ::selection { background: #dec39050; color: #fff; }
 .portal :global(.fc-grain), .portal :global(.fc-vignette) { display: none; }
 .shellContent { position: relative; z-index: 1; width: 100%; min-width: 0; }
@@ -42,22 +42,26 @@
 .brandLogo { width: auto; max-width: 9rem; height: 3.4rem; object-fit: contain; object-position: left center; }
 .restaurantName { max-width: 20rem; font-size: .82rem; color: var(--owner-paper); overflow-wrap: anywhere; }
 .brandName { margin: 0; font-family: var(--owner-display); font-size: 1.9rem; line-height: 1.1; }
-.utilityActions { display: flex; flex: none; align-items: center; gap: .5rem; }
-.utilityActions :is(a, button) { border-radius: 999px; padding: .65rem .9rem; }
-.welcome { display: flex; align-items: end; justify-content: space-between; gap: 2rem; padding: clamp(2.5rem, 7vw, 5rem) 0 2.8rem; }
+.utilityActions { display: flex; flex: none; align-items: center; gap: 1.4rem; }
+.liveMenuLink, .signOut { display: inline-flex; min-height: 44px; align-items: center; gap: .45rem; color: var(--owner-gold); font-size: .82rem; text-decoration: none; }
+.liveMenuLink:hover { color: var(--owner-paper); text-decoration: underline; text-underline-offset: .35em; }
+.signOut { border: 0; background: none; color: var(--owner-muted); cursor: pointer; }
+.signOut:hover:not(:disabled) { color: var(--owner-paper); }
+.signOut:disabled { cursor: not-allowed; opacity: .48; }
+.welcome { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, .34fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); padding: clamp(2.8rem, 7vw, 5.4rem) 0 3rem; }
 .welcome h1 { margin-top: 1rem; font-size: clamp(2.85rem, 6vw, 4.7rem); line-height: 1.02; }
 .welcome h1 em { color: var(--owner-gold); font-weight: 400; }
 .welcomeIntro { max-width: 29rem; margin-top: 1.3rem; color: var(--owner-muted); font-size: .95rem; line-height: 1.65; }
+.welcomeArt { width: 100%; max-height: 19rem; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; }
 .guideLink { display: flex; flex: none; align-items: center; gap: .85rem; max-width: 20rem; padding: 1rem 0; color: var(--owner-gold); text-decoration: none; border-bottom: 1px solid #dec39060; }
 .guideLink span { color: var(--owner-muted); font-size: .75rem; }
 .guideLink strong { display: block; margin-top: .2rem; color: var(--owner-paper); font-size: .85rem; font-weight: 500; }
 .guideLink:hover strong { color: var(--owner-gold); }
 .sectionIndex { margin-bottom: 3.6rem; }
-.indexList { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0; margin: 0; list-style: none; border: 1px solid #dec39050; border-radius: 12px; background: #dec39008; }
+.indexList { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--owner-line); border-bottom: 1px solid var(--owner-line); }
 .indexList > li { min-width: 0; }
-.indexList > li + li { border-left: 1px solid #dec39030; }
-.indexLink { display: flex; height: 100%; align-items: center; gap: .8rem; padding: 1.2rem; color: var(--owner-gold); text-decoration: none; transition: background-color 160ms ease; }
-.indexLink:hover { background: #dec39012; }
+.indexLink { display: flex; height: 100%; align-items: center; gap: .8rem; padding: 1.2rem 1rem 1.2rem 0; color: var(--owner-gold); text-decoration: none; }
+.indexLink:hover span { color: var(--owner-gold); }
 .indexLink span { color: var(--owner-paper); font-size: .85rem; font-weight: 500; }
 .indexLink small { display: block; margin-top: .25rem; color: var(--owner-muted); font-size: .65rem; font-weight: 400; }
 .indexArrow { margin-left: auto; flex: none; }
@@ -147,15 +151,22 @@
 .footerMark a:first-child { display: block; font-family: var(--owner-display); font-size: 1.5rem; }
 .footerMark a span { display: block; margin-top: .25rem; font-family: var(--font-geist-sans), Arial, sans-serif; color: var(--owner-muted); font-size: .7rem; }
 .footerMark a:hover { color: var(--owner-paper); }
-.portal .authFrame { max-width: 33rem; padding: clamp(1.5rem, 4vw, 3rem); margin-block: 1.5rem; border: 1px solid #dec39050; border-radius: 20px; background: linear-gradient(135deg, #2f362b80, #202622); box-shadow: 0 30px 100px #0003; }
-.authBrand { display: flex; align-items: center; gap: .8rem; padding-bottom: 1.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--owner-line); }
+.portal .authFrame { width: 100%; max-width: 33rem; padding: clamp(1rem, 3vw, 2rem) 0; margin-block: 1.5rem; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.portal .loginFrame { max-width: 72rem; }
+.authBrand { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-bottom: 1.5rem; margin-bottom: clamp(2.5rem, 6vw, 5rem); border-bottom: 1px solid var(--owner-line); }
 .authLogo { width: auto; max-width: 10rem; height: 3.5rem; object-fit: contain; object-position: left; }
-.authBrand span { color: var(--owner-muted); font-size: .7rem; line-height: 1.55; }
+.authMenuLink { display: inline-flex; min-height: 44px; align-items: center; gap: .45rem; color: var(--owner-gold); font-size: .85rem; text-decoration: none; }
+.authMenuLink:hover { color: var(--owner-paper); text-decoration: underline; text-underline-offset: .35em; }
+.authGrid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr); align-items: center; gap: clamp(3rem, 8vw, 8rem); }
+.authGridSingle { grid-template-columns: minmax(0, 34rem); }
+.authCopy { width: 100%; max-width: 34rem; }
+.authArt { align-self: stretch; min-height: 33rem; }
+.authArt img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .portal .authFrame h1 { margin-top: .8rem; color: var(--owner-paper); font-size: clamp(2.5rem, 8vw, 3.5rem); line-height: 1.04; }
 .authIntro { margin-top: 1rem; color: var(--owner-muted); font-size: .87rem; line-height: 1.65; overflow-wrap: anywhere; }
 .authForm { display: grid; gap: .65rem; margin-top: 1.75rem; }
 .authLabel { display: block; margin-top: .35rem; color: var(--owner-paper); font-size: .8rem; }
-.authInput { width: 100%; min-width: 0; padding: .8rem 1rem; border: 1px solid #f8f4e940; border-radius: 8px; background: #171d18; color: var(--owner-paper); font-size: 1rem; }
+.authInput { width: 100%; min-width: 0; padding: .8rem 1rem; border: 1px solid #f8f4e95c; border-radius: 8px; background: var(--owner-graphite); color: var(--owner-paper); font-size: 1rem; }
 .authInput::placeholder { color: #a6afa3; }
 .passwordInput { padding-right: 3rem; }
 .passwordToggle { position: absolute; inset-block: 0; right: 0; display: flex; width: 48px; align-items: center; justify-content: center; color: var(--owner-muted); }
@@ -163,6 +174,9 @@
 .authForm > .primaryAction { margin-top: .65rem; }
 .authSecurity { display: flex; align-items: start; justify-content: center; gap: .45rem; margin-top: 1.3rem; color: var(--owner-muted); font-size: .7rem; line-height: 1.6; }
 .authSecurity svg { flex: none; margin-top: .15rem; color: var(--owner-gold); }
+.authNotice { padding: .8rem 0 .8rem 1rem; margin-top: 1rem; border-left: 2px solid var(--owner-gold); color: var(--owner-paper); font-size: .82rem; line-height: 1.55; }
+.authSuccess { color: #cde6c8; border-color: #9bc496; }
+.authError { color: #ffc0b6; border-color: #ff8e7b; }
 .authHelp { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--owner-line); }
 .authHelp a { display: inline-flex; align-items: center; gap: .4rem; color: var(--owner-gold); font-size: .75rem; }
 .authHelp a:hover { color: var(--owner-paper); }
@@ -182,17 +196,17 @@
   .brandEyebrow { font-size: .55rem; letter-spacing: .1em; }
   .brandEyebrow span { margin-inline: .25rem; }
   .brandLogo { max-width: 7.5rem; height: 2.7rem; }
-  .utilityActions { align-items: end; flex-direction: column; gap: .3rem; }
-  .utilityActions :is(a, button) { min-height: 44px; padding: .5rem .75rem; font-size: .7rem; }
-  .welcome { flex-direction: column; gap: 1.4rem; padding: 2.7rem 0 1.6rem; }
+  .utilityActions { align-items: end; flex-direction: column; gap: .2rem; }
+  .liveMenuLink, .signOut { min-height: 44px; font-size: .72rem; }
+  .welcome { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; padding: 2.7rem 0 1.6rem; }
   .welcome h1 { font-size: clamp(2.75rem, 11vw, 3.5rem); }
   .welcomeIntro { font-size: .85rem; }
   .guideLink { align-self: start; width: 100%; max-width: none; padding-block: .8rem; }
   .guideLink > svg:last-child { margin-left: auto; }
   .sectionIndex { margin-bottom: 2.7rem; }
+  .welcomeArt { display: none; }
   .indexList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .indexList > li:nth-child(3) { border-left: 0; }
-  .indexList > li:nth-child(n+3) { border-top: 1px solid #dec39030; }
+  .indexList > li:nth-child(n+3) { border-top: 1px solid var(--owner-line); }
   .indexLink { padding: .95rem .85rem; gap: .75rem; }
   .indexLink span { font-size: .8rem; }
   .indexLink small { font-size: .6rem; }
@@ -204,9 +218,10 @@
   .fileDock { padding: 1rem 0 0; border-left: 0; border-top: 1px solid var(--owner-line); }
   .requestSubmit { width: 100%; }
   .footerMark { margin-top: 3rem; }
-  .portal .authFrame { margin-block: 1rem; padding: 1.6rem; border-radius: 16px; }
+  .portal .authFrame { margin-block: 1rem; padding: 1rem 0; }
+  .authGrid { grid-template-columns: minmax(0, 1fr); }
+  .authArt { display: none; }
   .authBrand { padding-bottom: 1.3rem; margin-bottom: 1.6rem; }
-  .authBrand span { font-size: .65rem; }
 }
 @media (max-width: 350px) {
   .portal { padding-inline: .9rem; }

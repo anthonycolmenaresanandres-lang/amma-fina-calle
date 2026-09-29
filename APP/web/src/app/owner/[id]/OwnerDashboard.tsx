@@ -1,17 +1,13 @@
 import {
   ArrowUpRight,
   BookOpen,
-  CreditCard,
   ExternalLink,
   History,
   LogOut,
-  MessageCircle,
-  Utensils,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import {
-  Button,
-  ButtonLink,
   Panel,
   SectionHeading,
   cn,
@@ -82,10 +78,10 @@ const FIELD_LABELS: Record<string, string> = {
 };
 
 const OWNER_SECTIONS = [
-  { label: "Edit menu", detail: "One item at a time", icon: Utensils, href: "#owner-menu" },
-  { label: "Payments", detail: "Your account, clearly", icon: CreditCard, href: "#owner-billing" },
-  { label: "Contact", detail: "Talk to Fina Calle", icon: MessageCircle, href: "#owner-request" },
-  { label: "History", detail: "Your recent changes", icon: History, href: "#owner-history" },
+  { label: "Menu", detail: "View or update", href: "#owner-menu" },
+  { label: "Requests", detail: "Tell us what changed", href: "#owner-request" },
+  { label: "Account & payments", detail: "Billing details", href: "#owner-billing" },
+  { label: "History", detail: "Recent changes", href: "#owner-history" },
 ] as const;
 
 /** Human label for an audit field, including per-size prices ("sizes:Large" → "Large price"). */
@@ -115,6 +111,30 @@ export default function OwnerDashboard({
   const allItems = data.categories.flatMap((c) =>
     c.items.map((it) => ({ ...it, category: c.name })),
   );
+  const isColattao = data.restaurantId === "colattao";
+  const sections = isColattao
+    ? [OWNER_SECTIONS[1], OWNER_SECTIONS[0], OWNER_SECTIONS[2], OWNER_SECTIONS[3]]
+    : OWNER_SECTIONS;
+
+  const menuSection = (
+    <section id="owner-menu" aria-labelledby="owner-menu-heading" tabIndex={-1} className={cn(styles.menuFrame, styles.sectionAnchor)}>
+      <div className={styles.sectionHeading}>
+        <p className={styles.kicker}>Menu</p>
+        <h2 id="owner-menu-heading" className={styles.frameLabel}>{isColattao ? "Your live menu." : "Update your menu."}</h2>
+      </div>
+      {data.menuConnectionNotice ? <p role="status" className={styles.connectionNotice}>{data.menuConnectionNotice}</p> : null}
+      {readOnly ? <p className={styles.emptyState}>Menu changes require an authorized owner. This preview does not save.</p>
+        : isColattao ? <div className={styles.menuRequest}><p>Colattao’s guest menu runs on its public café site. Send the item and change you need; Fina Calle reviews it before publishing.</p><a href="#owner-request" className={styles.textLink}>Request a menu change <ArrowUpRight size={17} aria-hidden /></a><span>Direct publishing is not connected.</span></div>
+          : <MenuQuickEdit restaurantId={data.restaurantId} categories={data.categories} />}
+    </section>
+  );
+
+  const requestSection = (
+    <section id="owner-request" aria-label="Contact Fina Calle" tabIndex={-1} className={cn(styles.requestFrame, styles.sectionAnchor)}>
+      <AskBar restaurantId={data.restaurantId} items={allItems.map((item) => ({ name: item.name, price: item.price, is_available: item.is_available }))} demo={readOnly} />
+    </section>
+  );
+
   return (
     <div className={styles.dashboard}>
       <header className={styles.masthead}>
@@ -139,21 +159,14 @@ export default function OwnerDashboard({
           </div>
         </div>
         <div className={styles.utilityActions}>
-          <ButtonLink href={ownerGuestMenuPath(data.restaurantId)} variant="ghost">
-            <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
-            Guest menu
-          </ButtonLink>
+          <Link href={ownerGuestMenuPath(data.restaurantId)} className={styles.liveMenuLink}>
+            View live menu <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
+          </Link>
           {readOnly ? (
-            <Button variant="subtle" disabled>
-              <LogOut size={14} strokeWidth={1.75} aria-hidden />
-              Sign out
-            </Button>
+            <button type="button" className={styles.signOut} disabled><LogOut size={14} strokeWidth={1.75} aria-hidden />Sign out</button>
           ) : (
             <form action={`/owner/${data.restaurantId}/signout`} method="post">
-              <Button variant="subtle" type="submit">
-                <LogOut size={14} strokeWidth={1.75} aria-hidden />
-                Sign out
-              </Button>
+              <button type="submit" className={styles.signOut}><LogOut size={14} strokeWidth={1.75} aria-hidden />Sign out</button>
             </form>
           )}
         </div>
@@ -161,23 +174,19 @@ export default function OwnerDashboard({
 
       <div className={styles.welcome}>
         <div>
-          <p className={styles.kicker}>A little less admin. More hospitality.</p>
-          <h1>Your restaurant.<br /><em>At your fingertips.</em></h1>
-          <p className={styles.welcomeIntro}>A place for the small updates that keep your business moving.</p>
+          <p className={styles.kicker}>Owner portal</p>
+          <h1>{isColattao ? <>A little less admin.<br /><em>More hospitality.</em></> : <>Your restaurant.<br /><em>Within reach.</em></>}</h1>
+          <p className={styles.welcomeIntro}>{isColattao ? "Keep your menu looking its best." : "The tools for the small updates that keep your business moving."}</p>
         </div>
-        <Link href="/owner/guide" className={styles.guideLink}>
-          <BookOpen size={20} strokeWidth={1.5} aria-hidden />
-          <span>New here?<strong>Open your owner guide</strong></span>
-          <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden />
-        </Link>
+        {isColattao ? <Image className={styles.welcomeArt} src="/assets/colattao/colattao-menu-hero-4x5-v1.webp" width={1080} height={1350} alt="Colattao coffee and pastry" priority />
+          : <Link href="/owner/guide" className={styles.guideLink}><BookOpen size={20} strokeWidth={1.5} aria-hidden /><span>New here?<strong>Open your owner guide</strong></span><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden /></Link>}
       </div>
 
       <nav className={styles.sectionIndex} aria-label="Owner portal sections">
         <ul className={styles.indexList}>
-          {OWNER_SECTIONS.map((section) => (
+          {sections.map((section) => (
             <li key={section.href}>
               <a className={styles.indexLink} href={section.href}>
-                <section.icon size={20} strokeWidth={1.5} aria-hidden />
                 <span>{section.label}<small>{section.detail}</small></span>
                 <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden className={styles.indexArrow} />
               </a>
@@ -187,13 +196,8 @@ export default function OwnerDashboard({
       </nav>
 
       <div className={styles.board}>
-        <section id="owner-menu" aria-labelledby="owner-menu-heading" tabIndex={-1} className={cn(styles.menuFrame, styles.sectionAnchor)}>
-          <div className={styles.sectionHeading}><p className={styles.kicker}>The everyday essentials</p><h2 id="owner-menu-heading" className={styles.frameLabel}>Make a small menu update.</h2></div>
-          {data.menuConnectionNotice ? <p role="status" className={styles.connectionNotice}>{data.menuConnectionNotice}</p> : null}
-          {readOnly ? <p className={styles.emptyState}>Direct menu editing is available only to an authorized owner. This preview does not save changes.</p>
-            : data.restaurantId === "colattao" ? <div className={styles.menuRequest}><p>Your guest menu runs on the separate Colattao site. Send us the one or two items you need to change; Fina Calle will review the update.</p><a href="#owner-request" className={styles.textLink}>Request a menu update <ArrowUpRight size={17} aria-hidden /></a><span>Direct publishing to the Colattao menu is not connected here yet.</span></div>
-              : <MenuQuickEdit restaurantId={data.restaurantId} categories={data.categories} />}
-        </section>
+        {isColattao ? requestSection : menuSection}
+        {isColattao ? menuSection : null}
 
         <section
           id="owner-billing"
@@ -201,7 +205,7 @@ export default function OwnerDashboard({
           className={cn(styles.moneyFrame, styles.sectionAnchor)}
           aria-labelledby="owner-billing-heading"
         >
-          <div className={styles.sectionHeading}><p className={styles.kicker}>Everything in its place</p><h2 id="owner-billing-heading" className={styles.frameLabel}>Your account &amp; payments.</h2></div>
+          <div className={styles.sectionHeading}><p className={styles.kicker}>Account</p><h2 id="owner-billing-heading" className={styles.frameLabel}>Account &amp; payments.</h2></div>
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
@@ -221,9 +225,7 @@ export default function OwnerDashboard({
           <AccountInfo businessName={data.businessName} email={data.email} profile={data.account ?? null} />
         </section>
 
-        <section id="owner-request" aria-label="Contact Fina Calle" tabIndex={-1} className={cn(styles.requestFrame, styles.sectionAnchor)}>
-          <AskBar restaurantId={data.restaurantId} items={allItems.map((item) => ({ name: item.name, price: item.price, is_available: item.is_available }))} demo={readOnly} />
-        </section>
+        {!isColattao ? requestSection : null}
 
         <section
           id="owner-history"

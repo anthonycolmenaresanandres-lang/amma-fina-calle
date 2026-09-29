@@ -162,9 +162,9 @@ assert.doesNotMatch(
 );
 // Task navigation stays available without the previous robotic step numbering.
 for (const [id, label] of [
-  ["owner-menu", "Edit menu"],
-  ["owner-billing", "Payments"],
-  ["owner-request", "Contact"],
+  ["owner-menu", "Menu"],
+  ["owner-billing", "Account & payments"],
+  ["owner-request", "Requests"],
   ["owner-history", "History"],
 ]) {
   assert.ok(dashboardSource.includes(`href: "#${id}"`), `missing navigation ${id}`);
@@ -173,6 +173,7 @@ for (const [id, label] of [
 }
 assert.match(dashboardSource, /MenuQuickEdit/);
 assert.match(dashboardSource, /ownerGuestMenuPath/);
+assert.match(dashboardSource, /View live menu/);
 assert.match(dashboardSource, /readOnly \?/);
 assert.doesNotMatch(ownerPageSource, /promosRes|type Promo/);
 assert.doesNotMatch(ownerPageSource, /Lilita_One/);

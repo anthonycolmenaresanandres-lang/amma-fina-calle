@@ -2,6 +2,21 @@
 
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
+### [CHECK-OUT] Codex - 2026-09-29 - Open owner portals implementation
+
+- Did: Rebuilt Bodega’s public owner desk as an open menu-first page and restyled Colattao’s sign-in/dashboard around the approved warm espresso-brown menu palette. Put each public menu before authentication, removed repeated card containers and guidance, moved Colattao’s request flow first, and retained real tenant marks and existing artwork.
+- State now: Local branch `codex/owner-portals-open-20260929` is ready for review. Targeted ESLint, TypeScript, owner app/request/account/billing self-tests, `git diff --check`, a 40-page production build, desktop/mobile browser checks, request preview, focus/overflow/console checks and combined visual comparison pass. Design evidence is in `C:\dev\amma\evidence\owner-portals-open-20260929`; `design-qa.md` records `final result: passed`.
+- Next / handoff to: Anthony -> review the local production preview and branch, then separately authorize push, PR or production release if desired.
+- Boundaries held: No auth, authorization, billing, Stripe, Zelle, Square, data model or customer-facing mutation. No push, PR, merge, deployment, production access or customer contact.
+
+### [CHECK-IN] Codex - 2026-09-29 - Open owner portals implementation
+
+- Authority: Anthony approved the owner-portal design plan, selected the warm espresso-brown Colattao revision, and requested execution.
+- Base: clean managed worktree at production `origin/main` `8e8576b`; implementation branch `codex/owner-portals-open-20260929`.
+- Direction: Bodega uses white, black and pine with a menu-first open desk; Colattao uses espresso brown, ivory and restrained champagne with request-first authenticated tools. Both expose the existing public menu before sign-in. Forms, focus, payment/security states and real client marks retain explicit boundaries.
+- Signature: a quiet open index of owner actions separated by short rules, with one café-specific still-life asset per tenant. Secondary guidance moves behind concise links instead of dominating the page.
+- Scope and stop: presentation, copy, navigation and a safe sample-data preview only. Preserve owner auth, billing/payment, Square, Zelle, data and request behavior. Stop before push, PR, merge, deployment, production access or customer contact.
+
 ### [CHECK-IN/OUT] Codex - 2026-09-28 - Fina Calle phone branch merge gate
 Did: Anthony requested the branch merge. Refreshed `origin/main`, confirmed the branch is based directly on current production main with zero behind/two commits ahead, committed the Twilio rejection diagnosis, and reran the exact-head gateway checks.
 State now: `codex/fina-calle-voice-1118` at `9695459` is merge-ready. TypeScript, the complete voice simulator, 9/9 deterministic SMS checks, `npm audit --omit=dev`, and `git diff --check` pass. Working tree is clean after this log closeout commit. No push, PR, merge, deploy, Twilio resubmission, or production webhook change was made.
