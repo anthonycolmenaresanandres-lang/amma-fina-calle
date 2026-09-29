@@ -115,6 +115,23 @@ export async function signInOwnerWithPassword(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  return signInOwnerWithPasswordAt(restaurantId, "dashboard", _prev, formData);
+}
+
+export async function signInOwnerForPlan(
+  restaurantId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  return signInOwnerWithPasswordAt(restaurantId, "plan", _prev, formData);
+}
+
+async function signInOwnerWithPasswordAt(
+  restaurantId: string,
+  destination: "dashboard" | "plan",
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const email = String(formData.get("email") ?? "")
     .trim()
     .toLowerCase();
@@ -149,7 +166,7 @@ export async function signInOwnerWithPassword(
     return { ok: false, message: "Email or password is incorrect." };
   }
 
-  redirect(`/owner/${encodeURIComponent(restaurantId)}`);
+  redirect(`/owner/${encodeURIComponent(restaurantId)}${destination === "plan" && restaurantId === "colattao" ? "/plan" : ""}`);
 }
 
 const COMMON_OWNER_PASSWORDS = new Set([

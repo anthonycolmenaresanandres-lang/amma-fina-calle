@@ -7,7 +7,8 @@ export async function recurringCheckoutDestination(
   options: { customerId: string; restaurantId: string; priceId: string; trialEnd: number; appUrl: string; agreement?: { version: string; acceptedBy: string } },
 ): Promise<string> {
   const { customerId, restaurantId, priceId, trialEnd, appUrl, agreement } = options;
-  const ownerPath = restaurantId === "bodega" ? "/owner/bodega/billing" : `/owner/${encodeURIComponent(restaurantId)}`;
+  const ownerPath = restaurantId === "bodega" ? "/owner/bodega/billing"
+    : restaurantId === "colattao" ? "/owner/colattao/plan" : `/owner/${encodeURIComponent(restaurantId)}`;
   const subscriptions = await stripe.subscriptions.list({ customer: customerId, status: "all", limit: 100 });
   if (subscriptions.has_more) throw new BillingSetupPendingError();
   if (subscriptions.data.some((subscription) => subscriptionStillExists(subscription.status))) {

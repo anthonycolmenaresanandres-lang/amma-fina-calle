@@ -1,4 +1,5 @@
 import { CalendarDays, CreditCard, RefreshCw, ReceiptText } from "lucide-react";
+import Link from "next/link";
 import { Panel, StatusPill, type PillTone } from "@/components/ui";
 import { openBillingPortal, startRecurringBilling } from "@/lib/billing/actions";
 import type { BillingStatus, BillingSummary } from "@/lib/billing/types";
@@ -69,12 +70,13 @@ export default function BillingCard({ restaurantId, billing, notice, readOnly = 
         {readOnly ? <button type="button" className={styles.primaryAction} disabled>Invoices &amp; payment methods</button> : <form action={manageAction}>
           <button type="submit" className={styles.primaryAction} disabled={!canManage}><ReceiptText size={16} aria-hidden />Invoices &amp; payment methods</button>
         </form>}
-        {needsCheckout ? readOnly ? <button type="button" className={styles.secondaryAction} disabled>Set up automatic payments</button> : <form action={enrollmentAction}>
+        {needsCheckout && restaurantId === "colattao" && !readOnly ? <Link href="/owner/colattao/plan#payments" className={styles.secondaryAction}><RefreshCw size={15} aria-hidden />Review plan &amp; set up automatic payments</Link> : needsCheckout ? readOnly ? <button type="button" className={styles.secondaryAction} disabled>Set up automatic payments</button> : <form action={enrollmentAction}>
           <button type="submit" className={styles.secondaryAction} disabled={!canEnroll}><RefreshCw size={15} aria-hidden />Set up automatic payments</button>
         </form> : readOnly ? <button type="button" className={styles.secondaryAction} disabled>Manage automatic payments</button> : <form action={manageAction}>
           <button type="submit" className={styles.secondaryAction} disabled={!canManage}><RefreshCw size={15} aria-hidden />Manage automatic payments</button>
         </form>}
       </div>
+      {restaurantId === "colattao" ? <p className={styles.billingHelp}><Link href="/owner/colattao/plan">What’s included, optional extras and all payment options →</Link></p> : null}
       <p className={styles.billingHelp}>In Stripe, review invoices, pay an open invoice and manage the payment methods available for your account. Automatic payments are a separate choice: saving a card or opening the portal does not enroll you.</p>
       {needsCheckout ? <p className={styles.billingHelp}>Choose automatic payments only after reviewing the amount and schedule in Stripe. Enrollment requires your confirmation there.</p> : null}
       {readOnly ? <p className={styles.billingNotice}>Preview only. Payment actions are disabled; no payment method or subscription will be created.</p> : billing.setupMessage ? <p className={styles.billingNotice}>{billing.setupMessage}</p> : (!canManage || (needsCheckout && !canEnroll)) ? <p className={styles.billingHelp}>Some payment tools are not connected yet. Contact Fina Calle below to complete your account setup.</p> : null}

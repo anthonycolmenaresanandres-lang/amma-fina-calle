@@ -101,7 +101,7 @@ export default function OwnerLogin({
             <ShieldCheck size={14} strokeWidth={1.75} aria-hidden />
             Use your assigned email and password. Sign out on shared devices.
           </p>
-          <div className={styles.authHelp}><Link href="/owner/guide">Owner guide</Link><Link href="/owner/guide#sign-in-help">Sign-in help</Link></div>
+          <div className={styles.authHelp}>{isColattao ? <Link href="/owner/colattao/plan">View your Basic plan</Link> : null}<Link href="/owner/guide">Owner guide</Link><Link href="/owner/guide#sign-in-help">Sign-in help</Link></div>
         </div>
 
         {isColattao ? (

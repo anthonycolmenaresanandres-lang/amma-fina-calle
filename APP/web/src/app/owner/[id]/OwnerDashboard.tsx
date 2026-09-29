@@ -206,6 +206,7 @@ export default function OwnerDashboard({
           aria-labelledby="owner-billing-heading"
         >
           <div className={styles.sectionHeading}><p className={styles.kicker}>Account</p><h2 id="owner-billing-heading" className={styles.frameLabel}>Account &amp; payments.</h2></div>
+          {isColattao ? <p className={styles.billingHelp}><Link href="/owner/colattao/plan">Your Basic plan, included service and optional extras →</Link></p> : null}
           {data.billing ? (
             <BillingCard
               restaurantId={data.restaurantId}
