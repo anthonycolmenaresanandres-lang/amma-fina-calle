@@ -1,8 +1,10 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Clock, ExternalLink, Sparkles } from "lucide-react";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getBrandAssets } from "@/lib/brand";
+import { guestMenuRedirectUrl } from "@/lib/guest-menu";
+import { publicMenuItemPriceDisplay } from "@/lib/owner/public-menu-adapter";
 
 export const dynamic = "force-dynamic";
 
@@ -13,18 +15,13 @@ type PublicMenu = {
   categories: {
     id: string;
     name: string;
-    items: { id: string; name: string; description: string | null; price: number | string; photo_url: string | null }[];
+    items: { id: string; name: string; description: string | null; price: number | string; photo_url: string | null; sizes?: { label: string; price: number | string }[] }[];
   }[];
   hours: { day_of_week: number; open_time: string | null; close_time: string | null; is_closed: boolean }[];
   promos: { text: string }[];
 };
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-function formatPrice(price: number | string) {
-  const num = typeof price === "string" ? Number(price) : price;
-  return Number.isFinite(num) ? `$${num.toFixed(2)}` : "";
-}
 
 // "09:00:00" / "9:00" -> "9:00 AM" (presentation only; leaves anything unexpected as-is).
 function formatTime(t: string | null): string {
@@ -49,6 +46,8 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function PublicMenuPage({ params }: PageProps) {
   const { id } = await params;
+  const currentPublishedMenu = guestMenuRedirectUrl(id);
+  if (currentPublishedMenu) redirect(currentPublishedMenu);
 
   if (!isSupabaseConfigured) {
     return (
@@ -69,11 +68,12 @@ export default async function PublicMenuPage({ params }: PageProps) {
 
   return (
     <main className="fc-bg-warm relative isolate min-h-dvh overflow-hidden px-5 py-10 text-[#f4f6f7] sm:px-8">
+      <a href="#menu-content" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:not-sr-only focus:rounded-md focus:bg-[#f4d99c] focus:px-4 focus:py-2 focus:font-semibold focus:text-[#1a1009] focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+        Skip to menu
+      </a>
       <div className="fc-grain" aria-hidden />
       <div className="fc-vignette" aria-hidden />
-      <div className="fc-watermark" aria-hidden />
-      <span className="sr-only">Sample menu</span>
-      <div className="relative z-[1] mx-auto w-full max-w-2xl">
+      <div id="menu-content" tabIndex={-1} className="relative z-[1] mx-auto w-full max-w-2xl">
         <header className="text-center">
           {brand.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -97,7 +97,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
               href={data.restaurant.site_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8b36d]/45 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#f4d99c] transition hover:bg-[#d8b36d]/20"
+              className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-[#d8b36d]/45 bg-[#d8b36d]/10 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#f4d99c] transition hover:bg-[#d8b36d]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4d99c] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060403]"
             >
               <ExternalLink size={14} strokeWidth={1.75} aria-hidden />
               Visit website
@@ -137,7 +137,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
               <a
                 key={category.id}
                 href={`#cat-${slugify(category.name)}`}
-                className="shrink-0 rounded-full border border-[#cfd6da]/20 px-3.5 py-1.5 text-xs font-medium text-[#c8d0d4] transition hover:border-[#d8b36d]/60 hover:bg-[#d8b36d]/10 hover:text-[#f4d99c]"
+                className="shrink-0 rounded-full border border-[#cfd6da]/20 px-3.5 py-1.5 text-xs font-medium text-[#c8d0d4] transition hover:border-[#d8b36d]/60 hover:bg-[#d8b36d]/10 hover:text-[#f4d99c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4d99c] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060403]"
               >
                 {category.name}
               </a>
@@ -174,7 +174,7 @@ export default async function PublicMenuPage({ params }: PageProps) {
                         ) : null}
                       </div>
                       <span className="shrink-0 font-semibold tabular-nums text-[#f4d99c]">
-                        {formatPrice(item.price)}
+                        {publicMenuItemPriceDisplay(item)}
                       </span>
                     </li>
                   ))}

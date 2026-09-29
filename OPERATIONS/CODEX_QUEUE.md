@@ -1,5 +1,17 @@
 # Codex Queue — canonical live queue
 
+## [x] 74 - Begin Fina Calle self-service foundation
+
+**State:** PHASE 0 COMPLETE LOCALLY — READY FOR REVIEW; PHASE 1 NOT STARTED
+**Authority:** Anthony requested execution of the approved self-service roadmap on 2026-09-29.
+**Base:** `origin/main` at `b7317440de2edfca85cad12eda80b7b09a766257`; isolated branch `codex/self-service-foundation`.
+**Scope:** Execute Phase 0 first: revalidate authoritative Bodega and Colattao guest-menu destinations, make Fina Calle menu and QR links resolve to approved current content, correct misleading sample/price behavior, and add regression coverage. Preserve existing paths so printed QR codes remain useful. Prepare the next access/configuration phase only after this gate passes.
+**Boundaries:** No new subscription, charge, repricing, owner access, credential, customer communication, production database write, push, PR, merge or deployment. Preserve Bodega $199/October 26 and Colattao $149/October 20 terms.
+**PASS:** All current owner/plan/menu/QR entry points resolve to the approved guest menu; unknown prices render as ask-staff behavior rather than free; focused menu/owner tests, lint, TypeScript/build and local browser verification pass; rollback is the isolated branch.
+**STOP:** Stop before push, PR, merge or production deployment unless Anthony gives separate release authorization. Stop menu-data migration if an authoritative source cannot be verified.
+
+**Result:** Centralized stable guest-menu paths and QR destinations for Bodega, Colattao and Las Palmas. Colattao's stable Fina Calle URL now redirects to its verified current café menu; owner and plan links use that stable URL. Removed the production sample label/watermark path, added honest ask-staff rendering for unknown prices, and added keyboard skip/focus treatment to the shared menu. The focused menu suite passes 49/49 checks, owner suites pass, targeted ESLint and the production build pass, exact generated QR payloads match the two approved stable URLs, and local browser verification reaches the live Colattao menu. No production data, billing, access, customer communication or deployment was changed.
+
 ## [x] 73 - Simplify Bodega and Colattao owner portals
 
 **State:** DONE LOCALLY, READY FOR REVIEW

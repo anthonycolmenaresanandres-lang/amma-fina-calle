@@ -8,6 +8,7 @@ import { startRecurringBilling, openBillingPortal } from "@/lib/billing/actions"
 import { getBillingNotice, getOwnerBillingSummary } from "@/lib/billing/data";
 import { COLATTAO_BASIC_TERMS } from "@/lib/billing/colattao-terms";
 import type { BillingSummary } from "@/lib/billing/types";
+import { guestMenuPath } from "@/lib/guest-menu";
 import ColattaoPlanLogin from "./ColattaoPlanLogin";
 import styles from "./plan.module.css";
 
@@ -29,7 +30,7 @@ export default async function ColattaoPlanPage({ searchParams }: PageProps) {
   const notice = getBillingNotice(typeof params.billing === "string" ? params.billing : null);
   return <main className={styles.page}><div className={styles.shell}>
     <a href="#main-content" className={styles.skip}>Skip to your plan</a>
-    <nav className={styles.nav} aria-label="Colattao plan navigation"><Link href="/owner/colattao">← Owner portal</Link><span className={styles.navTools}><a href="/owner/colattao/qr" download="colattao-menu-qr.svg">Menu QR ↓</a><Link href="/m/colattao">Live menu ↗</Link></span></nav>
+    <nav className={styles.nav} aria-label="Colattao plan navigation"><Link href="/owner/colattao">← Owner portal</Link><span className={styles.navTools}><a href="/owner/colattao/qr" download="colattao-menu-qr.svg">Menu QR ↓</a><Link href={guestMenuPath("colattao")}>Live menu ↗</Link></span></nav>
     <header className={styles.hero}><div><p className={styles.kicker}>Colattao / Fina Calle</p><h1>Your plan.<br /><em>More time for coffee.</em></h1><a href="#payments" className={styles.jump}>Go to payments ↓</a></div><Image src="/assets/colattao/colattao-menu-hero-4x5-v1.webp" width={400} height={500} alt="Colattao coffee and pastry" priority /></header>
     <div id="main-content" tabIndex={-1}>
       <PlanContents restaurant="colattao" part="included" />
