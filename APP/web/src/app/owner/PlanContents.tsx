@@ -19,7 +19,7 @@ export default function PlanContents({ restaurant, part }: { restaurant: Restaur
         <li>Menu QR artwork ready to download and print</li>
         <li>{bodega ? "Bodega Vibra" : "Your current café game"}</li>
         <li>Private owner tools, hosting and link support</li>
-        <li>Two grouped menu-update requests each month, up to five straightforward edits to existing items or copy per request</li>
+        <li>{bodega ? "Two" : "One"} grouped menu-update request{bodega ? "s" : ""} each month, up to five straightforward edits to existing items or copy per request</li>
       </ul>
       <p className={styles.small}>Send related edits together. Price, wording and availability updates count; a correction to our work does not. Direct owner editing is available only where connected. An existing agreement with a broader allowance still applies.</p>
     </section>;
