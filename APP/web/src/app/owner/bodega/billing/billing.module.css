@@ -7,11 +7,16 @@
 .page a,.page button { touch-action:manipulation; }
 .page a:focus-visible,.page button:focus-visible,.page input:focus-visible { outline:3px solid #588bbc; outline-offset:4px; }
 .nav { display:flex; justify-content:space-between; gap:24px; font-weight:750; }
+.navTools { display:flex; flex-wrap:wrap; gap:10px 24px; }
 .hero { display:flex; justify-content:space-between; align-items:end; gap:24px; padding:54px 0 38px; }
 .hero img { flex:none; width:clamp(70px,12vw,108px); height:auto; }
 .eyebrow { margin:0; font:700 11px/1.5 var(--font-geist-mono),monospace; letter-spacing:.11em; text-transform:uppercase; }
 .hero h1 { margin:12px 0 0; font-size:clamp(52px,9vw,94px); line-height:.87; letter-spacing:-.075em; }
 .hero em { color:#173c30; font-style:normal; }
+.jump { display:flex; flex-wrap:wrap; gap:12px 28px; margin:0 0 22px; font-size:13px; font-weight:750; }
+.jump a { display:inline-flex; align-items:center; min-height:44px; }
+.payments { border-top:3px solid #111; padding:36px 0 48px; scroll-margin-top:16px; }
+.payments>h2 { margin:9px 0 28px; font-size:clamp(36px,5vw,58px); letter-spacing:-.06em; line-height:1; }
 .plan { border-top:3px solid #111; padding:19px 0 0; }
 .planTop { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
 .state { margin:0; color:#173c30; font-size:13px; font-weight:800; }
@@ -26,6 +31,9 @@
 .facts dt { color:#5b5b5b; font:700 11px/1.5 var(--font-geist-mono),monospace; text-transform:uppercase; letter-spacing:.08em; }
 .facts dd { margin:8px 0 0; font-size:clamp(15px,2.2vw,19px); font-weight:750; font-variant-numeric:tabular-nums; }
 .agreement { max-width:650px; padding:48px 0 54px; }
+.paymentTools { max-width:650px; padding:24px 0 42px; border-top:1px solid #aaa; }
+.paymentTools h3 { font-size:22px; letter-spacing:-.035em; }
+.paymentTools p { max-width:58ch; color:#454545; line-height:1.6; }
 .agreement h2,.pending h2 { margin:10px 0 22px; font-size:clamp(34px,5vw,56px); line-height:1; letter-spacing:-.055em; }
 .agreement>p:not(.eyebrow):not(.setupNote):not(.invoice),.pending p { max-width:58ch; color:#454545; line-height:1.65; }
 .consent { display:flex; gap:13px; align-items:start; margin:28px 0 18px; font-weight:650; line-height:1.55; cursor:pointer; }

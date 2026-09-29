@@ -5,6 +5,7 @@ import { getOwnerContext } from "@/lib/owner/auth";
 import { getRecurringPriceId, getStripe, isBillingManagementConfigured, isBillingRuntimeConfigured } from "@/lib/stripe/server";
 import { approvedTrialEnd, priceMatchesApprovedTerms } from "./policy";
 import { bodegaTermsMatch } from "./bodega-terms";
+import { colattaoTermsMatch } from "./colattao-terms";
 import {
   normalizeBillingStatus,
   type BillingSummary,
@@ -77,6 +78,7 @@ export async function getOwnerBillingSummary(
             isBillingRuntimeConfigured(restaurantId)) {
           approvedTrialEnd(row);
           if (restaurantId === "bodega" && !bodegaTermsMatch(row)) throw new Error("Bodega terms do not match the approved offer.");
+          if (restaurantId === "colattao" && !colattaoTermsMatch(row)) throw new Error("Colattao terms do not match the approved offer.");
           const price = await getStripe().prices.retrieve(getRecurringPriceId(restaurantId));
           enrollmentEnabled = priceMatchesApprovedTerms(price, row);
         }

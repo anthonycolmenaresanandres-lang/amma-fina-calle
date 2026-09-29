@@ -8,6 +8,7 @@ import { startRecurringBilling, openBillingPortal } from "@/lib/billing/actions"
 import { getOwnerBillingSummary, getBillingNotice } from "@/lib/billing/data";
 import { BODEGA_BASIC_TERMS } from "@/lib/billing/bodega-terms";
 import type { BillingSummary } from "@/lib/billing/types";
+import PlanContents from "../../PlanContents";
 import styles from "./billing.module.css";
 
 export const dynamic = "force-dynamic";
@@ -41,17 +42,21 @@ export default async function BodegaBillingPage({ searchParams }: PageProps) {
   const billingNotice = getBillingNotice(typeof params.billing === "string" ? params.billing : null);
 
   return <main className={styles.page}><div className={styles.shell}>
-    <a className={styles.skip} href="#billing-main">Skip to billing</a>
+    <a className={styles.skip} href="#billing-main">Skip to plan and payments</a>
     <nav className={styles.nav} aria-label="Bodega billing navigation">
       <Link href="/owner/bodega">← Owner desk</Link>
-      <Link href="/demo/bodega">Bodega menu ↗</Link>
+      <span className={styles.navTools}><a href="/owner/bodega/qr" download="bodega-menu-qr.svg">Menu QR ↓</a><Link href="/demo/bodega">Bodega menu ↗</Link></span>
     </nav>
     <header className={styles.hero}>
       <div><p className={styles.eyebrow}>Bodega Cafe / Fina Calle</p><h1>Your Bodega<br /><em>plan.</em></h1></div>
       <Image src="/assets/bodega/review/bodega-round-seal-review.webp" width={108} height={108} alt="" aria-hidden priority />
     </header>
+    <p className={styles.jump}><a href="#payments">Go to payments ↓</a><Link href="/demo/bodega">View live menu ↗</Link></p>
 
     <div id="billing-main" tabIndex={-1}>
+      <PlanContents restaurant="bodega" part="included" />
+      <section id="payments" className={styles.payments} aria-labelledby="payments-title">
+        <p className={styles.eyebrow}>Private account</p><h2 id="payments-title">Plan &amp; payments.</h2>
       {context.state === "anonymous" ? <>
         {params.auth ? <p className={styles.notice} role="status">That sign-in link has expired. Enter your email for a fresh one.</p> : null}
         <BodegaSquareLogin destination="billing" />
@@ -60,6 +65,9 @@ export default async function BodegaBillingPage({ searchParams }: PageProps) {
         : context.state !== "authorized" ?
           <section className={styles.pending}><h2>Owner access is being prepared.</h2><p>{context.state === "unauthorized" ? "This email does not have Bodega owner access." : "Fina Calle is finishing your private owner account."} Contact Fina Calle if you expected to sign in today.</p></section>
           : <AuthorizedBilling notice={billingNotice} />}
+      </section>
+      <PlanContents restaurant="bodega" part="extras" />
+      <PlanContents restaurant="bodega" part="help" />
     </div>
     <footer className={styles.footer}><span>Fina Calle</span><span>Made for Bodega Cafe</span></footer>
   </div></main>;
@@ -105,8 +113,12 @@ export function BodegaBillingContent({ billing, notice }: { billing: BillingSumm
       <h2 id="manage-title">Payments in one place.</h2>
       <p>{billing.status === "trialing" ? "Your trial is active. Your first automatic payment is scheduled after it ends." : "Review invoices and update your payment method in Stripe. To cancel before the next charge, use Stripe’s cancellation option or contact Fina Calle."}</p>
       {billing.latestInvoiceStatus ? <p className={styles.invoice}>Latest invoice: <strong>{billing.latestInvoiceStatus.replaceAll("_", " ")}</strong></p> : null}
-      <form action={openBillingPortal.bind(null, "bodega")}><button className={styles.primary} type="submit" disabled={!canManage}>Manage payments &amp; invoices <span aria-hidden>↗</span></button></form>
-      {!canManage ? <p className={styles.setupNote}>Payment management is temporarily unavailable. Contact Fina Calle for help.</p> : null}
     </section>}
+    <section className={styles.paymentTools} aria-label="Invoices and payment methods">
+      <h3>Invoices, receipts &amp; payment methods</h3>
+      <p>Open your secure Stripe billing account to see available invoices, pay an open invoice and update your payment method. Opening it does not start automatic payments.</p>
+      <form action={openBillingPortal.bind(null, "bodega")}><button className={styles.primary} type="submit" disabled={!canManage}>Open invoices &amp; payment methods <span aria-hidden>↗</span></button></form>
+      {!canManage ? <p className={styles.setupNote}>Invoice access will appear after your billing account is connected. <Link href="/contact">Contact Fina Calle</Link> if you need an invoice now.</p> : null}
+    </section>
   </>;
 }

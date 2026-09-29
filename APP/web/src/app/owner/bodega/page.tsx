@@ -39,7 +39,7 @@ export default function BodegaOwnerHub() {
         <h2 id="links-title">Owner tools</h2>
         <div className={styles.links}>
           <a href="/owner/bodega/qr" download="bodega-menu-qr.svg"><strong>Menu QR</strong><span>Download for your counter</span><b aria-hidden>↓</b></a>
-          <Link href="/owner/bodega/billing"><strong>Your Basic plan</strong><span>Billing and automatic payments</span><b aria-hidden>→</b></Link>
+          <Link href="/owner/bodega/billing"><strong>Your Basic plan</strong><span>What’s included, extras &amp; payments</span><b aria-hidden>→</b></Link>
           <Link href="/owner/bodega/insights"><strong>Square connection</strong><span>Menu and sales insights</span><b aria-hidden>→</b></Link>
           <Link href="/bodega-sessions-review"><strong>Bodega Vibra</strong><span>Open the current café game</span><b aria-hidden>↗</b></Link>
           <Link href="/owner/guide"><strong>Owner guide</strong><span>Sign-in help and everyday essentials</span><b aria-hidden>→</b></Link>

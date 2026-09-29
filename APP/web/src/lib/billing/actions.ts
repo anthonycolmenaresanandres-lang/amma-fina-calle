@@ -5,6 +5,7 @@ import { getOwnerContext } from "@/lib/owner/auth";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { recurringCheckoutDestination } from "./checkout";
 import { BODEGA_BASIC_TERMS, bodegaTermsMatch } from "./bodega-terms";
+import { COLATTAO_BASIC_TERMS, colattaoTermsMatch } from "./colattao-terms";
 import { approvedTrialEnd, BillingSetupPendingError, priceMatchesApprovedTerms, stripeObjectId, subscriptionStillExists, trustedStripeUrl, type ApprovedBillingTerms } from "./policy";
 import {
   getBillingAppUrl,
@@ -56,7 +57,8 @@ function stripeCustomerProfile(
 }
 
 function ownerPath(restaurantId: string, notice?: string): string {
-  const base = restaurantId === "bodega" ? "/owner/bodega/billing" : "/owner/" + encodeURIComponent(restaurantId);
+  const base = restaurantId === "bodega" ? "/owner/bodega/billing"
+    : restaurantId === "colattao" ? "/owner/colattao/plan" : "/owner/" + encodeURIComponent(restaurantId);
   return notice ? base + "?billing=" + encodeURIComponent(notice) : base;
 }
 
@@ -68,7 +70,9 @@ async function requireOwner(restaurantId: string) {
 
 export async function startRecurringBilling(restaurantId: string, formData?: FormData): Promise<void> {
   const owner = await requireOwner(restaurantId);
-  if (restaurantId === "bodega" && formData?.get("accept_terms") !== BODEGA_BASIC_TERMS.version) {
+  const requiredTerms = restaurantId === "bodega" ? BODEGA_BASIC_TERMS.version
+    : restaurantId === "colattao" ? COLATTAO_BASIC_TERMS.version : null;
+  if (requiredTerms && formData?.get("accept_terms") !== requiredTerms) {
     redirect(ownerPath(restaurantId, "terms-required"));
   }
   let checkoutUrl: string | null = null;
@@ -119,6 +123,7 @@ export async function startRecurringBilling(restaurantId: string, formData?: For
       if (!isBillingRuntimeConfigured(restaurantId)) throw new BillingSetupPendingError();
       const terms = billing as ApprovedBillingTerms;
       if (restaurantId === "bodega" && !bodegaTermsMatch(terms)) throw new BillingSetupPendingError();
+      if (restaurantId === "colattao" && !colattaoTermsMatch(terms)) throw new BillingSetupPendingError();
       const trialEnd = approvedTrialEnd(terms);
       const priceId = getRecurringPriceId(restaurantId);
       const price = await stripe.prices.retrieve(priceId);
@@ -149,7 +154,7 @@ export async function startRecurringBilling(restaurantId: string, formData?: For
         }
       }
       checkoutUrl = await recurringCheckoutDestination(stripe, { customerId, restaurantId, priceId, trialEnd, appUrl,
-        ...(restaurantId === "bodega" ? { agreement: { version: BODEGA_BASIC_TERMS.version, acceptedBy: owner.email } } : {}) });
+        ...(requiredTerms ? { agreement: { version: requiredTerms, acceptedBy: owner.email } } : {}) });
     }
   } catch (error) {
     redirect(ownerPath(restaurantId, error instanceof BillingSetupPendingError ? "setup-pending" : "unavailable"));

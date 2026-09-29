@@ -7,6 +7,7 @@ import { approvedTrialEnd, automaticCollectionEnabled, BillingSetupPendingError,
 import { recurringCheckoutDestination } from "../src/lib/billing/checkout";
 import { billingEventCustomer, currentBillingSnapshot, retrieveCurrentBilling } from "../src/lib/billing/reconciliation";
 import { BODEGA_BASIC_TERMS, bodegaTermsMatch } from "../src/lib/billing/bodega-terms";
+import { COLATTAO_BASIC_TERMS, colattaoTermsMatch } from "../src/lib/billing/colattao-terms";
 
 let passed = 0;
 async function test(name: string, run: () => void | Promise<void>) { await run(); passed++; console.log(`PASS ${name}`); }
@@ -147,6 +148,12 @@ async function main() {
     assert.equal(bodegaTermsMatch({ ...approved, amount_cents: 14900 }), false);
     assert.equal(bodegaTermsMatch({ ...approved, scheduled_first_charge_on: "2026-10-25" }), false);
   });
+  await test("Colattao Basic terms require exactly $149 monthly from October 20", () => {
+    const approved = { amount_cents: 14900, currency: "usd", billing_interval: "month", billing_interval_count: 1, scheduled_first_charge_on: "2026-10-20" };
+    assert.equal(colattaoTermsMatch(approved), true);
+    assert.equal(colattaoTermsMatch({ ...approved, amount_cents: 15000 }), false);
+    assert.equal(colattaoTermsMatch({ ...approved, scheduled_first_charge_on: "2026-09-20" }), false);
+  });
   await test("provider redirects reject lookalike hosts, credentials and insecure URLs", () => {
     for (const url of ["http://checkout.stripe.com/c/pay/x", "https://checkout.stripe.com.evil.invalid/x", "https://evil.invalid/?checkout.stripe.com", "https://user@checkout.stripe.com/x", "https://checkout.stripe.com:444/x", "javascript:alert(1)"]) assert.throws(() => trustedStripeUrl(url, "checkout"));
     assert.throws(() => trustedStripeUrl("https://billing.stripe.com/p/test", "checkout"));
@@ -179,6 +186,16 @@ async function main() {
     assert.equal(await recurringCheckoutDestination(fake.client, bodegaOptions), "https://checkout.stripe.com/c/pay/cs_fixture");
     await assert.rejects(recurringCheckoutDestination(fake.client, { ...bodegaOptions,
       agreement: { ...bodegaOptions.agreement, acceptedBy: "other@example.com" } }), BillingSetupPendingError);
+  });
+  await test("Colattao checkout returns to its plan and records accepted terms", async () => {
+    const fake = fakeStripe();
+    await recurringCheckoutDestination(fake.client, { ...options, restaurantId: "colattao",
+      trialEnd: Date.parse("2026-10-20T12:00:00Z") / 1000,
+      agreement: { version: COLATTAO_BASIC_TERMS.version, acceptedBy: "owner@colattao.invalid" } });
+    const request = fake.requests[0];
+    assert.equal(request.success_url, "https://finacalleos.com/owner/colattao/plan?billing=success");
+    assert.equal(request.cancel_url, "https://finacalleos.com/owner/colattao/plan?billing=canceled");
+    assert.equal(request.metadata?.terms_version, COLATTAO_BASIC_TERMS.version);
   });
   await test("unpaid, paused, incomplete and active subscriptions route to management", async () => {
     for (const status of ["unpaid", "paused", "incomplete", "active", "trialing", "past_due"] as const) {
