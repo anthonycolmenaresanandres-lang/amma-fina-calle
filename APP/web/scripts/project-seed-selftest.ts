@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync, statSync } from "node:fs";
 import { gameFeatures, OFFICIAL_MENU_URL, seedMenuGroups, seedMenuItemHref } from "../src/app/(internal)/demo/project-seed/menu-data";
 import { seedRounds, seedSkin, seedSkinForRound } from "../src/app/play/project-seed/config";
 import { guestMenuAbsoluteUrl } from "../src/lib/guest-menu";
@@ -18,7 +19,13 @@ assert.deepEqual(seedRounds.map((round) => round.rules.durationSec), [20, 25, 30
 assert.deepEqual(seedRounds.map((round) => round.rules.targetScore), [120, 180, 300]);
 assert.ok(seedRounds.every((round) => round.rules.failOnBadCatch));
 assert.ok(seedSkin.prospect);
-assert.ok(!seedSkin.assets, "No client-owned imagery or logo is allowed before approval");
-assert.deepEqual(seedRounds.map((_, index) => seedSkinForRound(index).items.map((item) => item.id)), [["ube", "spill"], ["pandan", "spill"], ["turon", "spill"]]);
+assert.ok(!seedSkin.assets, "No client-owned logo, background, or catcher art is allowed before approval");
+assert.deepEqual(seedRounds.map((_, index) => seedSkinForRound(index).items.map((item) => item.id)), [["ube", "aswang"], ["pandan", "aswang"], ["turon", "aswang"]]);
+const aswang = seedSkin.items.find((item) => item.id === "aswang");
+assert.deepEqual(aswang && { kind: aswang.kind, shape: aswang.shape, asset: aswang.asset }, { kind: "bad", shape: "bad-vibes", asset: "/assets/project-seed/seed-rush/aswang-v1.webp" });
+assert.ok(statSync(new URL("../public/assets/project-seed/seed-rush/aswang-v1.webp", import.meta.url)).size <= 40_000, "Aswang game asset must remain lightweight");
+const gameSource = readFileSync(new URL("../src/app/play/project-seed/SeedRushClient.tsx", import.meta.url), "utf8");
+assert.equal(gameSource.match(/Tabi-tabi po\./g)?.length, 1, "Respectful passage phrase must appear exactly once");
+assert.match(gameSource, /A respectful request for passage in Filipino folk tradition\./);
 assert.equal(guestMenuAbsoluteUrl("project-seed"), "https://finacalleos.com/project-seed/menu");
 console.log("Project Seed menu/game source and route checks passed.");
