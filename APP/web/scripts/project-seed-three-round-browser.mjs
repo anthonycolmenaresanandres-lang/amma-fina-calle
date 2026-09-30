@@ -66,7 +66,7 @@ for (let round = 0; round < 3; round += 1) {
   } else if (outcome !== "GROWN." || !details.complete) throw new Error(`Final round did not complete: ${JSON.stringify(details)}`);
 }
 if (errors.length) throw new Error(`Browser errors after ${JSON.stringify(rounds)}: ${errors.join(" | ")}`);
-const expected = ["dwende-latte-v1.webp", "kapre-latte-v1.webp", "mumu-latte-v1.webp", "manang-latte-v1.webp", "pms-latte-v1.webp", "bbl-refresher-v1.webp", "aswang-v1.webp", "cafe-backdrop-v1.webp"];
+const expected = ["buko-pandan-latte-v1.webp", "dark-iced-coffee-v1.webp", "borahae-latte-v1.webp", "iced-green-latte-v1.webp", "sugar-custard-swirl-pastry-v1.webp", "purple-rolled-pastry-v1.webp", "aswang-v1.webp", "cafe-roof-map-portrait-v2.webp"];
 const missing = expected.filter((name) => !assetLoads.has(name));
 if (missing.length) throw new Error(`Gameplay did not load assets: ${missing.join(", ")}`);
 console.log(JSON.stringify({ rounds, assetLoads: [...assetLoads], errors }, null, 2));

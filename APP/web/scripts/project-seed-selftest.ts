@@ -58,17 +58,16 @@ assert.deepEqual(octoberRounds.map((round) => round.rules.spawnEveryMs), [900, 8
 assert.deepEqual(octoberRounds.map((round) => round.rules.fallSpeed), [[1.28, 1.58], [1.50, 1.80], [1.73, 2.10]]);
 assert.deepEqual(octoberRounds.map((round) => round.rules.durationSec), [20, 25, 30]);
 assert.ok(octoberRounds.every((round) => round.rules.failOnBadCatch));
-assert.deepEqual(octoberRoundShowcase.flatMap((round) => round.itemIds), octoberItems.slice(0, 6).map((entry) => entry.id));
+assert.deepEqual(octoberRoundShowcase, seedRoundShowcase);
 assert.ok(octoberRoundShowcase.every((round, index) => {
   const good = octoberSkinForRound(index).items.filter((entry) => entry.kind === "good");
-  return good.length === 2 && good.every((entry) => octoberItems.some((menuItem) => menuItem.id === entry.id));
+  return good.length === 2 && good.every((entry) => products.some((product) => product.id === entry.id));
 }));
 assert.equal(octoberSkin.items.filter((entry) => entry.kind === "bad").length, 1);
 assert.ok(octoberSkin.assets?.background);
 for (const entry of octoberSkin.items.filter((item) => item.kind === "good")) {
-  assert.ok(entry.asset?.startsWith("/assets/project-seed/october/"));
+  assert.ok(entry.asset?.startsWith("/assets/project-seed/seed-rush/"));
   assert.ok(statSync(new URL(`../public${entry.asset}`, import.meta.url)).size < 40_000);
-  assert.equal(seedMenuItemHref(entry.id), `/project-seed/menu#${entry.id}`);
 }
 assert.ok(statSync(new URL(`../public${octoberSkin.assets.background}`, import.meta.url)).size < 100_000);
 // Even with the planned hazard share, enough good items can arrive to reach each target.

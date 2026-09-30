@@ -104,7 +104,7 @@ await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent
 await waitFor(`!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))`);
 await pause(500);
 await send("Network.setCacheDisabled", { cacheDisabled: true });
-await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*", "*dwende-latte-v1.webp*", "*kapre-latte-v1.webp*", "*cafe-backdrop-v1.webp*"] });
+await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*", "*buko-pandan-latte-v1.webp*", "*dark-iced-coffee-v1.webp*", "*cafe-roof-map-*-v2.webp*"] });
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))?.click()`);
 await waitFor(`!!document.querySelector('canvas') && !document.body.innerText.includes('Preparing cups')`);
 await evalInPage(`(() => { const original = Math.random; let calls = 0; Math.random = () => calls++ < 4 ? 0 : original(); })()`);

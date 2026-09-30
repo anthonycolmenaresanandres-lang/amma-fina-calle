@@ -61,7 +61,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
         width: mount.current.clientWidth || 390,
         height: mount.current.clientHeight || 550,
         backgroundColor: "#f4e8d6",
-        scene: [new SeedScene(round, seedSkinForRound(roundIndex), { externalHud: true, catchLight: true, separateSpawns: true, itemScale: 3.75, reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches })],
+        scene: [new SeedScene(round, seedSkinForRound(roundIndex, mount.current.clientWidth / mount.current.clientHeight > 0.9), { externalHud: true, catchLight: true, separateSpawns: true, itemScale: 3.75, reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches })],
         audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE },
       });
@@ -124,18 +124,18 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
 
   return <main className={styles.page}>
     <a className={styles.skip} href="#game-content">Skip to game content</a>
-    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee" width={132} height={124} /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><a href="/project-seed/menu">Browse menu ↗</a></header>
+    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee" width={132} height={124} /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><div className={styles.headerLinks}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={40} height={20} /><a href="/project-seed/menu">Menu ↗</a></div></header>
     <div className={styles.shell} id="game-content">
       {view === "intro" ? <section className={styles.intro} aria-labelledby="game-title">
-        <p className={styles.eyebrow}>October edition · Six drinks · Three quick rounds</p>
+        <p className={styles.eyebrow}>Project Seed Coffee · Three quick rounds</p>
         <h1 id="game-title">SEED<br /><span>RUSH</span></h1>
-        <p className={styles.introLead}>Catch the October drinks. Let the aswang pass. Each round moves faster.</p>
+        <p className={styles.introLead}>Catch the coffee and pastries. Let the aswang pass. Each round moves faster.</p>
         <div className={styles.roundLineup} role="group" aria-label="Three Seed Rush rounds">{seedRoundShowcase.map((entry, index) => <div className={styles.roundCard} key={entry.title}>
           <span className={styles.featureNumber}>ROUND 0{index + 1} · {seedRounds[index].rules.durationSec}s</span>
           <div className={styles.roundArt}>{entry.itemIds.map((id) => <PreviewItem key={id} itemId={id} />)}</div>
           <strong>{entry.title}</strong>
         </div>)}</div>
-        <div className={styles.instructions}><PreviewItem itemId="dwende-latte" /><span>Drinks · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
+        <div className={styles.instructions}><PreviewItem itemId="buko-pandan" /><span>Products · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
         <p className={styles.folklore}><span>Tabi-tabi po.</span> A respectful request for passage in Filipino folk tradition.</p>
         <button type="button" className={styles.primary} onClick={() => begin(0, true)}>Start Seed Rush <span aria-hidden="true">→</span></button>
         <p className={styles.fine}>{octoberLive ? "October menu is here." : "October menu arrives October 1."} No sign-up, reward, or purchase required. Arrow keys select an item; Space or Enter collects it. Personal best: {best}.</p>
@@ -158,7 +158,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
         {progress}<p className={styles.eyebrow}>{view === "complete" ? "Collection complete" : `Round ${roundIndex + 1} / 3`}</p>
         <h1>{view === "complete" ? "GROWN." : view === "won" ? "NICE CATCH." : "TRY AGAIN."}</h1>
         <p>{view === "lost" ? aswangCaught.current ? "An aswang ended this round. Let it pass next time." : `You scored ${status.score} of ${status.target}. Try this round again.` : view === "complete" ? `You finished all three rounds with ${totalScore} points. Personal best: ${best}.` : `You scored ${status.score} points. Next up: ${seedRoundShowcase[roundIndex + 1].title}.`}</p>
-        {discovered && view !== "lost" ? <div className={styles.discovery}><strong>{discovered.label}</strong><span>{octoberDrinkNotes[discovered.id]}</span><a href={seedMenuItemHref(discovered.id)}>Find it on the October menu ↗</a></div> : null}
+        {discovered && view !== "lost" ? <div className={styles.discovery}><strong>{discovered.label}</strong><span>{octoberDrinkNotes[discovered.id]}</span><a href={discovered.id === "buko-pandan" ? seedMenuItemHref(discovered.id) : "/project-seed/menu"}>Explore the menu ↗</a></div> : null}
         <div className={styles.resultActions}>
           {view === "lost" ? <button type="button" className={styles.primary} onClick={() => begin(roundIndex)}>Retry this round →</button> : null}
           {view === "won" ? <button type="button" className={styles.primary} onClick={() => begin(roundIndex + 1)}>Next round →</button> : null}

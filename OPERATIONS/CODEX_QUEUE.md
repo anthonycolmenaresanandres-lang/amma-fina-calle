@@ -1,5 +1,12 @@
 # Codex Queue — canonical live queue
 
+## [x] 81 - Project Seed restrained visual cleanup
+
+**State:** IMPLEMENTED — RELEASE DETAILS TRACKED IN THE MERGE PR
+**Authority:** Anthony rejected the October cartoon cups and posted flyer, requested the earlier actual product artwork, a restrained red-roof/Philippines-map game backdrop, and the Philippine flag on menu and game. Explicitly requested no tests and merge.
+**Scope:** Reuse existing photo-based product cutouts with their original labels; keep October menu entries as text; simplify decorative styling; add a faithful flag asset and geographic Philippines silhouette. Preserve current game speed, hazard rates, shared menu structure, stable routes, and noindex concept state. No local tests or browser test runs for this pass, per the user's instruction.
+**Result:** Removed the displayed flyer and all active cartoon October cup references. Restored the six earlier photo-based products in the menu/game without assigning them seasonal names. The menu uses restrained red/white styling and text-only October sections. Both headers display the Philippine flag. Game backdrops contain only the red roof, warm wall, and Natural Earth Philippines silhouette, with portrait/landscape exports and no animated glow. Updated existing asset expectations without running tests. No local lint, build, browser tests, or game playthrough run for this user-requested pass.
+
 ## [x] 80 - Project Seed October menu and café visual update
 
 **State:** IMPLEMENTED AND LOCALLY VERIFIED — RELEASE DETAILS TRACKED IN THE MERGE PR
