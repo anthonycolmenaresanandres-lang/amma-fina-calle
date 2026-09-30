@@ -1,5 +1,15 @@
 # Codex Queue — canonical live queue
 
+## [ ] 76 - Merge Project Seed noindex concept preview
+
+**State:** LOCAL CHECKS PASS — PR/DEPLOY GATES PENDING
+**Authority:** Anthony directly requested “merge” on 2026-09-30 after reviewing the local menu/game preview. This authorizes the scoped main-branch release of the visibly pending-approval, noindex prospect demo; it does not claim Project Seed's own approval.
+**Scope:** Reverify commit `c7b0d06`, push its isolated branch, obtain exact-head checks on a PR, merge only the Project Seed concept routes/data/game and task records, and verify production URLs.
+**Boundaries:** Keep pending-client-approval labeling and noindex. No Project Seed logo/photos, unconfirmed prices/seasonal availability, QR printing/distribution, owner portal, guest intake, reward, domain, customer contact, CRM, billing or access change. Do not call this the restaurant's official menu.
+**PASS:** Scoped self-test/lint/build, PR checks and preview, exact-head merge, production deployment and route/browser smoke with zero relevant errors.
+**STOP:** Stop if scope expands, exact-head checks fail, production differs from the reviewed concept, or publication would imply client sign-off.
+**Local verification:** Project Seed source/route self-test, scoped ESLint and Next production build/TypeScript pass on 2026-09-30. Prior full browser pass on the same application commit covered 320/390/768/1440 px, keyboard scoring, pause/resume, exit and loss/retry. No application code changed in this release pass.
+
 ## [ ] 75 - Project Seed menu and Seed Rush review preview
 
 **State:** COMPLETE LOCALLY — PENDING CLIENT SIGN-OFF AND RELEASE
