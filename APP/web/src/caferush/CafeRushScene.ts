@@ -35,6 +35,7 @@ export class CafeRushScene extends Phaser.Scene {
   private selected?: FallingItem;
   private hud!: Phaser.GameObjects.Text;
   private banner!: Phaser.GameObjects.Text;
+  private feedback!: Phaser.GameObjects.Text;
   private backgroundArt?: Phaser.GameObjects.Image;
   private lastStatus = "";
 
@@ -101,6 +102,11 @@ export class CafeRushScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setDepth(30)
       .setVisible(false);
+    this.feedback = this.add.text(0, 0, "", {
+      fontFamily: "var(--font-mono, monospace)", fontSize: "20px", fontStyle: "bold",
+      color: this.skin.colors.goodText,
+    }).setOrigin(0.5).setDepth(25).setVisible(false);
+    if (this.presentation.catchLight) this.feedback.setBackgroundColor("#fff2d8").setPadding(6, 3);
 
     // The shared standard: one direct tap/click catches one visible item.
     // Hit areas are measured in CSS pixels and stay generous on short phones.
@@ -137,7 +143,7 @@ export class CafeRushScene extends Phaser.Scene {
 
   /** Focus stays on the play area; arrows select a visible item, Space/Enter catches it. */
   handleKey(key: string): void {
-    if (!this.scene.isActive() || this.phase !== "playing") return;
+    if (!this.canCollect()) return;
     const visible = this.falling.filter((f) => !f.settled && f.yFrac >= 0 && f.yFrac <= 1)
       .sort((a, b) => a.xFrac - b.xFrac || a.yFrac - b.yFrac);
     if (!visible.length) return;
@@ -270,7 +276,7 @@ export class CafeRushScene extends Phaser.Scene {
   }
 
   private catchItem(f: FallingItem): void {
-    if (!this.scene.isActive() || this.phase !== "playing" || f.settled) return;
+    if (!this.canCollect() || f.settled) return;
     f.settled = true;
     f.container.destroy();
     if (f.item.kind === "bad" && this.level.rules.failOnBadCatch) {
@@ -366,25 +372,23 @@ export class CafeRushScene extends Phaser.Scene {
   }
 
   private popFeedback(xFrac: number, yFrac: number, text: string, color: string): void {
+    // Reuse one label so rapid catches never allocate extra Phaser text canvases.
     const { w, h } = this.size();
-    const label = this.add
-      .text(xFrac * w, yFrac * h, text, {
-        fontFamily: "var(--font-mono, monospace)",
-        fontSize: "20px",
-        fontStyle: "bold",
-        color,
-      })
-      .setOrigin(0.5)
-      .setDepth(25);
-    if (this.presentation.catchLight) label.setBackgroundColor("#fff2d8").setPadding(6, 3);
+    const label = this.feedback;
+    this.tweens.killTweensOf(label);
+    label.setText(text).setColor(color).setPosition(xFrac * w, yFrac * h).setAlpha(1).setVisible(true);
     this.tweens.add({
       targets: label,
       y: yFrac * h - (this.presentation.reducedMotion ? 0 : 46),
       alpha: 0,
       duration: 650,
       ease: "Cubic.easeOut",
-      onComplete: () => label.destroy(),
+      onComplete: () => label.setVisible(false),
     });
+  }
+
+  private canCollect(): boolean {
+    return this.scene.isActive() && this.phase === "playing";
   }
 
   // --- Primitive rendering (the no-404 fallback that IS the default) --------

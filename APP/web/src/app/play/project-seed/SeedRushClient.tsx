@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import type { Game } from "phaser";
 import Image from "next/image";
 import type { CafeRushStatus } from "@/caferush/types";
-import { seedRounds, seedRoundShowcase, seedSkin, seedSkinForRound } from "./config";
+import { seedMenuItemHref } from "../../(internal)/demo/project-seed/menu-data";
+import { octoberDrinkNotes, octoberRounds as seedRounds, octoberRoundShowcase as seedRoundShowcase, octoberSkin as seedSkin, octoberSkinForRound as seedSkinForRound } from "./october-config";
 import styles from "./page.module.css";
 
 type View = "intro" | "playing" | "won" | "lost" | "complete";
-const BEST_KEY = "project-seed-rush-best-v2";
+const BEST_KEY = "project-seed-rush-october-best-v1";
 
 function PreviewItem({ itemId }: { itemId: string }) {
   const [failed, setFailed] = useState(false);
@@ -18,7 +19,7 @@ function PreviewItem({ itemId }: { itemId: string }) {
   </span>;
 }
 
-export default function SeedRushClient() {
+export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }) {
   const [view, setView] = useState<View>("intro");
   const [roundIndex, setRoundIndex] = useState(0);
   const [roundKey, setRoundKey] = useState(0);
@@ -32,6 +33,7 @@ export default function SeedRushClient() {
   const mount = useRef<HTMLDivElement>(null);
   const game = useRef<Game | null>(null);
   const aswangCaught = useRef(false);
+  const lastDrinkCaught = useRef<string | null>(null);
   const round = seedRounds[roundIndex];
   const showcase = seedRoundShowcase[roundIndex];
 
@@ -47,7 +49,7 @@ export default function SeedRushClient() {
       if (cancelled || !mount.current) return;
       class SeedScene extends CafeRushScene {
         create() {
-          this.events.on("cafe-catch", (id: string) => { if (id === "aswang") aswangCaught.current = true; });
+          this.events.on("cafe-catch", (id: string) => { if (id === "aswang") aswangCaught.current = true; else lastDrinkCaught.current = id; });
           this.events.on("cafe-status", (next: CafeRushStatus) => { if (!cancelled) setStatus(next); });
           super.create();
           if (!cancelled) setLoading(false);
@@ -103,6 +105,7 @@ export default function SeedRushClient() {
     setRoundIndex(index);
     setStatus({ score: 0, seconds: seedRounds[index].rules.durationSec, target: seedRounds[index].rules.targetScore, over: false });
     aswangCaught.current = false;
+    lastDrinkCaught.current = null;
     setPaused(false); setLoadError(false); setLoading(true);
     setRoundKey((value) => value + 1);
     setView("playing");
@@ -117,23 +120,25 @@ export default function SeedRushClient() {
 
   const progress = <div className={styles.progress} aria-label={`${completed} of 3 rounds complete`}>{seedRounds.map((entry, index) => <span key={entry.id} className={index < completed ? styles.grown : ""} aria-hidden="true">{index < completed ? "✳" : "●"}</span>)}</div>;
 
+  const discovered = lastDrinkCaught.current && seedSkin.items.find((item) => item.id === lastDrinkCaught.current);
+
   return <main className={styles.page}>
     <a className={styles.skip} href="#game-content">Skip to game content</a>
-    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}>PROJECT <span>SEED</span><small>Concept preview</small></a><a href="/project-seed/menu">Browse menu ↗</a></header>
+    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee" width={132} height={124} /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><a href="/project-seed/menu">Browse menu ↗</a></header>
     <div className={styles.shell} id="game-content">
       {view === "intro" ? <section className={styles.intro} aria-labelledby="game-title">
-        <p className={styles.eyebrow}>Six treats · Three quick rounds</p>
+        <p className={styles.eyebrow}>October edition · Six drinks · Three quick rounds</p>
         <h1 id="game-title">SEED<br /><span>RUSH</span></h1>
-        <p className={styles.introLead}>Catch the drinks and pastries. Let the aswang pass. Each round moves a little faster.</p>
+        <p className={styles.introLead}>Catch the October drinks. Let the aswang pass. Each round moves faster.</p>
         <div className={styles.roundLineup} role="group" aria-label="Three Seed Rush rounds">{seedRoundShowcase.map((entry, index) => <div className={styles.roundCard} key={entry.title}>
           <span className={styles.featureNumber}>ROUND 0{index + 1} · {seedRounds[index].rules.durationSec}s</span>
           <div className={styles.roundArt}>{entry.itemIds.map((id) => <PreviewItem key={id} itemId={id} />)}</div>
           <strong>{entry.title}</strong>
         </div>)}</div>
-        <div className={styles.instructions}><PreviewItem itemId="buko-pandan" /><span>Products · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
+        <div className={styles.instructions}><PreviewItem itemId="dwende-latte" /><span>Drinks · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
         <p className={styles.folklore}><span>Tabi-tabi po.</span> A respectful request for passage in Filipino folk tradition.</p>
         <button type="button" className={styles.primary} onClick={() => begin(0, true)}>Start Seed Rush <span aria-hidden="true">→</span></button>
-        <p className={styles.fine}>No sign-up, reward, or purchase required. Arrow keys select an item; Space or Enter collects it. Personal best: {best}.</p>
+        <p className={styles.fine}>{octoberLive ? "October menu is here." : "October menu arrives October 1."} No sign-up, reward, or purchase required. Arrow keys select an item; Space or Enter collects it. Personal best: {best}.</p>
       </section> : null}
 
       {view === "playing" ? <section className={styles.playing} aria-labelledby="round-title">
@@ -153,6 +158,7 @@ export default function SeedRushClient() {
         {progress}<p className={styles.eyebrow}>{view === "complete" ? "Collection complete" : `Round ${roundIndex + 1} / 3`}</p>
         <h1>{view === "complete" ? "GROWN." : view === "won" ? "NICE CATCH." : "TRY AGAIN."}</h1>
         <p>{view === "lost" ? aswangCaught.current ? "An aswang ended this round. Let it pass next time." : `You scored ${status.score} of ${status.target}. Try this round again.` : view === "complete" ? `You finished all three rounds with ${totalScore} points. Personal best: ${best}.` : `You scored ${status.score} points. Next up: ${seedRoundShowcase[roundIndex + 1].title}.`}</p>
+        {discovered && view !== "lost" ? <div className={styles.discovery}><strong>{discovered.label}</strong><span>{octoberDrinkNotes[discovered.id]}</span><a href={seedMenuItemHref(discovered.id)}>Find it on the October menu ↗</a></div> : null}
         <div className={styles.resultActions}>
           {view === "lost" ? <button type="button" className={styles.primary} onClick={() => begin(roundIndex)}>Retry this round →</button> : null}
           {view === "won" ? <button type="button" className={styles.primary} onClick={() => begin(roundIndex + 1)}>Next round →</button> : null}

@@ -20,7 +20,7 @@ socket.addEventListener("message", (event) => {
   if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails.text);
   if (message.method === "Log.entryAdded" && message.params.entry.level === "error" && !message.params.entry.text.includes("/_vercel/insights/script.js") && !message.params.entry.text.startsWith("Failed to load resource:")) errors.push(message.params.entry.text);
   if (message.method === "Network.responseReceived" && message.params.response.status >= 400 && !message.params.response.url.includes("/_vercel/insights/script.js")) badResponses.push(`${message.params.response.status} ${message.params.response.url}`);
-  if (message.method === "Network.responseReceived" && message.params.response.url.includes("/assets/project-seed/seed-rush/") && message.params.response.url.endsWith("-v1.webp")) spriteResponses.push({ url: message.params.response.url, status: message.params.response.status, fromDiskCache: message.params.response.fromDiskCache });
+  if (message.method === "Network.responseReceived" && message.params.response.url.includes("/assets/project-seed/") && message.params.response.url.endsWith("-v1.webp")) spriteResponses.push({ url: message.params.response.url, status: message.params.response.status, fromDiskCache: message.params.response.fromDiskCache });
 });
 function send(method, params = {}) { const current = ++id; socket.send(JSON.stringify({ id: current, method, params })); return new Promise((resolve, reject) => pending.set(current, { resolve, reject })); }
 async function pause(ms = 700) { await new Promise((resolve) => setTimeout(resolve, ms)); }
@@ -104,7 +104,7 @@ await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent
 await waitFor(`!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))`);
 await pause(500);
 await send("Network.setCacheDisabled", { cacheDisabled: true });
-await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*", "*buko-pandan-latte-v1.webp*", "*dark-iced-coffee-v1.webp*"] });
+await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*", "*dwende-latte-v1.webp*", "*kapre-latte-v1.webp*", "*cafe-backdrop-v1.webp*"] });
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))?.click()`);
 await waitFor(`!!document.querySelector('canvas') && !document.body.innerText.includes('Preparing cups')`);
 await evalInPage(`(() => { const original = Math.random; let calls = 0; Math.random = () => calls++ < 4 ? 0 : original(); })()`);
@@ -114,9 +114,9 @@ await shot("game-playing-fallback-mobile.png");
 await send("Network.setBlockedURLs", { urls: [] });
 await send("Network.setCacheDisabled", { cacheDisabled: false });
 const failures = [];
-if (mobileMenu.href !== "/demo/project-seed" || mobileMenu.items !== 25 || !mobileMenu.nav || mobileMenu.forms || !mobileMenu.gameLink || !mobileMenu.noindex?.includes("noindex")) failures.push("mobile menu route/content");
+if (mobileMenu.href !== "/demo/project-seed" || mobileMenu.items !== 33 || !mobileMenu.nav || mobileMenu.forms || !mobileMenu.gameLink || !mobileMenu.noindex?.includes("noindex")) failures.push("mobile menu route/content");
 if (mobileMenu.scroll > mobileMenu.width || narrowMenu.scroll > narrowMenu.width || tabletMenu.scroll > tabletMenu.width || desktopMenu.scroll > desktopMenu.width || intro.scroll > intro.width || narrowIntro.scroll > narrowIntro.width || desktopIntro.scroll > desktopIntro.width || playing.scroll > playing.width) failures.push("horizontal overflow");
-if (desktopMenu.items !== 25 || !intro.start || intro.rounds !== 3 || !playing.canvas || !playing.pause) failures.push("desktop menu or game boot");
+if (desktopMenu.items !== 33 || !intro.start || intro.rounds !== 3 || !playing.canvas || !playing.pause) failures.push("desktop menu or game boot");
 if (!intro.aswang || intro.passage !== 1) failures.push("aswang legend or respectful passage framing");
 if (intro.images.length !== 6 || intro.images.some((entry) => !entry.loaded)) failures.push("six product preview sprites");
 if (!spriteResponses.some((entry) => entry.url.includes("aswang-v1.webp") && entry.status === 200)) failures.push("aswang asset did not load successfully");

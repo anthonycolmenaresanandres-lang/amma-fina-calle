@@ -1,0 +1,11 @@
+.brandLogo { display: block; width: min(150px, 100%); height: auto; margin: auto; border-radius: 50%; box-shadow: 0 0 0 5px #fff9f1, 0 0 0 7px #9f1c2b; }
+.octoberSleeve { border-top: 9px solid #791423; background: repeating-linear-gradient(165deg, #9f1c2b 0 62px, #751421 63px 72px, #a62230 73px 125px); }
+.octoberSleeve img { filter: drop-shadow(0 12px 9px rgb(37 9 9 / 35%)); }
+.octoberSleeve h2 { color: #fffaf2; padding: 14px 18px; text-shadow: 0 2px 0 #6a1320; }
+.posterLink { display: block; color: #8f1e2d; font-size: 12px; font-weight: 800; text-align: center; text-decoration: underline; text-underline-offset: 4px; }
+.posterLink img { margin-bottom: 8px; border: 2px solid #9f1c2b; }
+.launchNote { color: #8f1e2d; font-weight: 800; }
+@media (max-width: 699px) {
+  .octoberSleeve h2 { max-width: 58%; font-size: clamp(27px, 9vw, 38px); }
+  .brandLogo { width: 138px; }
+}

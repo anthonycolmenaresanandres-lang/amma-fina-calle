@@ -73,7 +73,7 @@
 .menuGrid { display: grid; gap: 42px; padding: 42px 0; }
 .menuSection { min-width: 0; border-top: 1px solid var(--line); }
 .sectionHeader { display: grid; grid-template-columns: minmax(0, 1fr) 150px; align-items: center; gap: 16px; min-height: 160px; padding: 12px 0; }
-.sectionHeader h2, .hours h2 { font-size: clamp(32px, 4vw, 42px); font-weight: 750; letter-spacing: -.045em; line-height: 1.1; }
+.sectionHeader h2, .hours h2 { color: var(--venue-heading, var(--ink)); font-size: clamp(32px, 4vw, 42px); font-weight: 750; letter-spacing: -.045em; line-height: 1.1; }
 .sectionHeader img { display: block; width: 150px; height: 150px; object-fit: contain; }
 .item { padding: 17px 0; border-bottom: 1px solid var(--line); font-size: 18px; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; break-inside: avoid; }
 .sectionHeader.textHeader { grid-template-columns: minmax(0, 1fr); min-height: 110px; }
@@ -97,7 +97,7 @@
 .extras li > :last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .sessionsTeaser { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 22px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .sessionsTeaser > img { width: 72px; height: 72px; object-fit: contain; }
-.sessionsTeaser h2 { font-size: 24px; font-weight: 700; letter-spacing: -.04em; }
+.sessionsTeaser h2 { color: var(--venue-heading, var(--ink)); font-size: 24px; font-weight: 700; letter-spacing: -.04em; }
 .sessionsTeaser p { margin-top: 5px; font-size: 14px; line-height: 1.4; color: var(--muted); }
 .sessionsTeaser .teaserPlay { display: grid; grid-template-columns: 36px minmax(0, 1fr) 18px; align-items: center; gap: 10px; min-height: 68px; padding: 10px 14px; border: 2px solid var(--ink); border-radius: 3px; background: var(--ink); color: #fff; text-decoration: none; box-shadow: 4px 4px 0 var(--venue-shadow, #d8d8d8); transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease; }
 .sessionsTeaser .teaserPlay:hover { transform: translate(-1px, -1px); background: var(--venue-hover, #282828); box-shadow: 5px 5px 0 var(--venue-shadow, #d8d8d8); }

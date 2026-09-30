@@ -17,6 +17,12 @@ export type SeedMenuGroup = {
 export const OFFICIAL_MENU_URL = "https://www.projectseedcoffee.com/menu";
 export const OFFICIAL_ORDER_URL = "https://www.projectseedcoffee.com/pre-order";
 export const MENU_CHECKED = "September 29, 2026";
+export const OCTOBER_MENU_DATE = "October 1, 2026";
+export const OCTOBER_FLYER_URL = "/assets/project-seed/brand/october-menu-reference.png";
+export const OCTOBER_SOURCE = "Project Seed October menu flyer supplied September 30, 2026";
+export const OCTOBER_LAUNCH_AT = Date.parse("2026-10-01T00:00:00-04:00");
+
+export function octoberMenuIsLive(now = Date.now()): boolean { return now >= OCTOBER_LAUNCH_AT; }
 
 const item = (id: string, name: string, description?: string, options?: string): SeedMenuItem => ({
   id, name, description, options, price: null, source: OFFICIAL_MENU_URL,
@@ -74,6 +80,33 @@ export const seedMenuGroups: SeedMenuGroup[] = [
       item("faux-latte", "Faux Latte"),
       item("mockaccino", "Mockaccino"),
       item("calamansi-juice", "Calamansi Juice"),
+    ],
+  },
+];
+
+const octoberItem = (id: string, name: string, description?: string, options?: string): SeedMenuItem => ({
+  id, name, description, options, price: null, source: OCTOBER_SOURCE,
+});
+
+export const octoberMenuGroups: SeedMenuGroup[] = [
+  {
+    id: "october-lattes", name: "October lattes",
+    note: "Seasonal lineup from Project Seed's October flyer. Ask staff about prices and availability.",
+    items: [
+      octoberItem("dwende-latte", "Dwende Latte", "Toasted marshmallow, chocolate, honey, and graham crackers with vanilla foam.", "Also available in cold brew"),
+      octoberItem("kapre-latte", "Kapre Latte", "Spiced caramel apple cider."),
+      octoberItem("mumu-latte", "Mumu Latte", "White chocolate and pistachio."),
+      octoberItem("manang-latte", "Manang Latte", "Raspberry and dark chocolate."),
+      octoberItem("pms-latte", "PMS Latte", "Pumpkin maple spice.", "Also available in cold brew"),
+    ],
+  },
+  {
+    id: "october-non-coffee", name: "October non-coffee",
+    note: "The flyer lists these together. Ask staff how the two foams are served.",
+    items: [
+      octoberItem("bbl-refresher", "BBL Refresher", "Blackberry lychee."),
+      octoberItem("salted-maple-foam", "Salted Maple Foam"),
+      octoberItem("pumpkin-cheesecake-foam", "Pumpkin Cheesecake Foam"),
     ],
   },
 ];

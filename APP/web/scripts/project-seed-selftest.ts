@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync, statSync } from "node:fs";
-import { gameFeatures, OFFICIAL_MENU_URL, seedMenuGroups, seedMenuItemHref } from "../src/app/(internal)/demo/project-seed/menu-data";
+import { gameFeatures, OCTOBER_LAUNCH_AT, OCTOBER_SOURCE, OFFICIAL_MENU_URL, octoberMenuGroups, octoberMenuIsLive, seedMenuGroups, seedMenuItemHref } from "../src/app/(internal)/demo/project-seed/menu-data";
 import { seedRounds, seedRoundShowcase, seedSkin, seedSkinForRound } from "../src/app/play/project-seed/config";
+import { octoberRounds, octoberRoundShowcase, octoberSkin, octoberSkinForRound } from "../src/app/play/project-seed/october-config";
 import { BODEGA_CHAPTERS } from "../src/bodega-fall/campaign";
 import { guestMenuAbsoluteUrl } from "../src/lib/guest-menu";
 
@@ -44,4 +45,32 @@ assert.match(gameSource, /itemScale: 3\.75/, "Product display size must be three
 assert.equal(gameSource.match(/Tabi-tabi po\./g)?.length, 1, "Respectful passage phrase must appear exactly once");
 assert.match(gameSource, /A respectful request for passage in Filipino folk tradition\./);
 assert.equal(guestMenuAbsoluteUrl("project-seed"), "https://finacalleos.com/project-seed/menu");
+const octoberItems = octoberMenuGroups.flatMap((group) => group.items);
+assert.equal(octoberItems.length, 8);
+assert.equal(new Set(octoberItems.map((entry) => entry.id)).size, 8);
+assert.ok(octoberItems.every((entry) => entry.source === OCTOBER_SOURCE && entry.price === null));
+assert.deepEqual(octoberMenuGroups.map((group) => group.id), ["october-lattes", "october-non-coffee"]);
+assert.deepEqual(octoberItems.filter((entry) => entry.options?.includes("cold brew")).map((entry) => entry.id), ["dwende-latte", "pms-latte"]);
+assert.equal(octoberMenuIsLive(OCTOBER_LAUNCH_AT - 1), false);
+assert.equal(octoberMenuIsLive(OCTOBER_LAUNCH_AT), true);
+assert.deepEqual(octoberRounds.map((round) => round.rules.badChance), [0.30, 0.38, 0.45]);
+assert.deepEqual(octoberRounds.map((round) => round.rules.spawnEveryMs), [900, 800, 700]);
+assert.deepEqual(octoberRounds.map((round) => round.rules.fallSpeed), [[1.28, 1.58], [1.50, 1.80], [1.73, 2.10]]);
+assert.deepEqual(octoberRounds.map((round) => round.rules.durationSec), [20, 25, 30]);
+assert.ok(octoberRounds.every((round) => round.rules.failOnBadCatch));
+assert.deepEqual(octoberRoundShowcase.flatMap((round) => round.itemIds), octoberItems.slice(0, 6).map((entry) => entry.id));
+assert.ok(octoberRoundShowcase.every((round, index) => {
+  const good = octoberSkinForRound(index).items.filter((entry) => entry.kind === "good");
+  return good.length === 2 && good.every((entry) => octoberItems.some((menuItem) => menuItem.id === entry.id));
+}));
+assert.equal(octoberSkin.items.filter((entry) => entry.kind === "bad").length, 1);
+assert.ok(octoberSkin.assets?.background);
+for (const entry of octoberSkin.items.filter((item) => item.kind === "good")) {
+  assert.ok(entry.asset?.startsWith("/assets/project-seed/october/"));
+  assert.ok(statSync(new URL(`../public${entry.asset}`, import.meta.url)).size < 40_000);
+  assert.equal(seedMenuItemHref(entry.id), `/project-seed/menu#${entry.id}`);
+}
+assert.ok(statSync(new URL(`../public${octoberSkin.assets.background}`, import.meta.url)).size < 100_000);
+// Even with the planned hazard share, enough good items can arrive to reach each target.
+assert.ok(octoberRounds.every((round) => Math.floor(round.rules.durationSec * 1000 / round.rules.spawnEveryMs) * (1 - round.rules.badChance) * 10 >= round.rules.targetScore));
 console.log("Project Seed menu/game source and route checks passed.");
