@@ -1,11 +1,19 @@
-.brandLogo { display: block; width: min(150px, 100%); height: auto; margin: auto; border-radius: 50%; box-shadow: 0 0 0 5px #fff9f1, 0 0 0 7px #9f1c2b; }
-.octoberSleeve { border-top: 9px solid #791423; background: repeating-linear-gradient(165deg, #9f1c2b 0 62px, #751421 63px 72px, #a62230 73px 125px); }
-.octoberSleeve img { filter: drop-shadow(0 12px 9px rgb(37 9 9 / 35%)); }
-.octoberSleeve h2 { color: #fffaf2; padding: 14px 18px; text-shadow: 0 2px 0 #6a1320; }
-.posterLink { display: block; color: #8f1e2d; font-size: 12px; font-weight: 800; text-align: center; text-decoration: underline; text-underline-offset: 4px; }
-.posterLink img { margin-bottom: 8px; border: 2px solid #9f1c2b; }
-.launchNote { color: #8f1e2d; font-weight: 800; }
+.brandLogo { display: block; width: 138px; height: auto; margin: auto; border-radius: 50%; }
+.heritage { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 8px; color: #675852; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.heritage img { display: block; width: 36px; height: 18px; }
+.octoberSleeve { overflow: hidden; border-top: 6px solid #731926; background: #9f1c2b; }
+.octoberSleeve > img { object-position: 91% center; padding: 22px 0; }
+.octoberSleeve > div { max-width: 53%; left: 24px; }
+.octoberSleeve h2 { color: #fff; font-weight: 650; font-size: clamp(29px, 4.8vw, 52px); letter-spacing: -.045em; }
+.seasonalNote { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px; margin-top: 28px; padding: 20px 0; border-top: 1px solid #dfc9b8; border-bottom: 1px solid #dfc9b8; }
+.seasonalNote > span { color: #9f1c2b; font-size: 11px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.seasonalNote p { flex: 1 1 280px; color: #675852; font-size: 14px; line-height: 1.5; }
+.seasonalNote a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #9f1c2b; font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
+.seasonalNote a:hover { color: #741421; }
 @media (max-width: 699px) {
-  .octoberSleeve h2 { max-width: 58%; font-size: clamp(27px, 9vw, 38px); }
-  .brandLogo { width: 138px; }
+  .brandLogo { margin-top: 24px; }
+  .octoberSleeve > div { left: 18px; }
+  .octoberSleeve > img { object-position: right center; padding-block: 35px; }
+  .seasonalNote { gap: 4px; }
+  .seasonalNote > span, .seasonalNote p { flex-basis: 100%; }
 }

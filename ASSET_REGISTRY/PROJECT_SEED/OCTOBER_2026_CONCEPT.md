@@ -1,5 +1,7 @@
 # Project Seed October 2026 concept assets
 
+**Superseded visual direction:** Anthony rejected the displayed flyer and cartoon cup illustrations after review. The flyer is retained as a copy source only; its image and the v1 illustrations/backdrop are no longer used by the active pages. See `VISUAL_CLEANUP_20260930.md` for the restored product art, roof/map background, and flag sources.
+
 **Source:** Anthony supplied three image attachments on September 30, 2026: a café interior photograph, the circular Project Seed Coffee logo, and an October menu flyer. Copied byte-for-byte to `APP/web/public/assets/project-seed/brand/` before implementation. The October menu wording is transcribed from that flyer. The official site menu is a separate source for the regular menu.
 
 **Use:** Labeled noindex Fina Calle Project Seed concept menu and Seed Rush game at `/demo/project-seed` and `/play/project-seed`. Project Seed approval and confirmation of product prices, availability, foam preparation, and image rights are pending. Anthony authorized implementation and merge of this concept on September 30; this record does not claim client approval or an official channel launch.

@@ -5,7 +5,7 @@ import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav, type VenueMenuNavSection } from "@/venue-menu/VenueMenuNav";
 import { VenueMenuSection } from "@/venue-menu/VenueMenuSection";
 import { FinaCalleSignature } from "../bodega/fina-calle-signature";
-import { MENU_CHECKED, OCTOBER_FLYER_URL, OCTOBER_MENU_DATE, OFFICIAL_MENU_URL, OFFICIAL_ORDER_URL, octoberMenuGroups, octoberMenuIsLive, seedMenuGroups } from "./menu-data";
+import { MENU_CHECKED, OCTOBER_MENU_DATE, OFFICIAL_MENU_URL, OFFICIAL_ORDER_URL, octoberMenuGroups, octoberMenuIsLive, seedMenuGroups } from "./menu-data";
 import styles from "@/venue-menu/venue-menu.module.css";
 import seedStyles from "./october.module.css";
 
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 };
 
 const artBase = "/assets/project-seed/seed-rush";
-const octoberArt = "/assets/project-seed/october";
 const seedTheme = {
   "--venue-ink": "#302426", "--venue-muted": "#675852", "--venue-line": "#dfc9b8",
   "--venue-surface": "#fffaf2", "--venue-accent": "#9f1c2b", "--venue-heading": "#9f1c2b", "--venue-hover": "#741421",
@@ -33,6 +32,7 @@ const seedSections: VenueMenuNavSection[] = [
 function SeedBrand() {
   return <div className={styles.sealStage}>
     <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee circular logo" width={132} height={124} priority />
+    <div className={seedStyles.heritage}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={36} height={18} /><span>Virginia Beach</span></div>
   </div>;
 }
 
@@ -47,20 +47,20 @@ function SeedRushLink({ floating = false }: { floating?: boolean }) {
 function SeedFeatured({ launched }: { launched: boolean }) {
   return <section id="seed-picks" className={styles.fallSessions} aria-labelledby="seed-picks-title">
     <div className={`${styles.fallSleeve} ${seedStyles.octoberSleeve}`}>
-      <Image src={`${octoberArt}/dwende-latte-v1.webp`} alt="" width={1200} height={800} sizes="(max-width: 700px) 100vw, 1200px" priority />
-      <div className={styles.fallTitle}><h2 id="seed-picks-title">October<br />Menu</h2></div>
+      <Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 180px, 280px" priority />
+      <div className={styles.fallTitle}><h2 id="seed-picks-title">Coffee.<br />The Seed way.</h2></div>
     </div>
     <div className={styles.fallLineup}>
       <ul className={styles.fallTracks}>
-        <li><Image src={`${octoberArt}/dwende-latte-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>Dwende Latte</h3><p>Toasted marshmallow, chocolate, honey, graham crackers, vanilla foam.</p></div></li>
-        <li><Image src={`${octoberArt}/mumu-latte-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>Mumu Latte</h3><p>White chocolate and pistachio.</p></div></li>
-        <li><Image src={`${octoberArt}/pms-latte-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>PMS Latte</h3><p>Pumpkin maple spice.</p></div></li>
+        <li><Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>Buko Pandan</h3><p>Coconut, pandan, and espresso.</p></div></li>
+        <li><Image src={`${artBase}/dark-iced-coffee-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>Iced coffee</h3><p>Something cold for your coffee break.</p></div></li>
+        <li><Image src={`${artBase}/sugar-custard-swirl-pastry-v1.webp`} alt="" width={112} height={112} sizes="112px" /><div><h3>Something sweet</h3><p>Ask about today’s pastries.</p></div></li>
       </ul>
       <figure className={styles.greenFeature}>
-        <a className={seedStyles.posterLink} href={OCTOBER_FLYER_URL} target="_blank" rel="noreferrer"><Image src={OCTOBER_FLYER_URL} alt="Project Seed October menu flyer" width={437} height={541} sizes="(max-width: 700px) 220px, 360px" />View the original flyer ↗</a>
+        <Image src={`${artBase}/borahae-latte-v1.webp`} alt="Borahae Latte" width={256} height={256} sizes="(max-width: 700px) 160px, 240px" />
       </figure>
     </div>
-    <p className={styles.sectionNote}><span className={seedStyles.launchNote}>{launched ? "October menu is here." : `Arriving ${OCTOBER_MENU_DATE}.`}</span> Seasonal wording follows the supplied flyer. Artwork is illustrative; ask staff about prices and availability.</p>
+    <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><p>Marshmallow, pistachio, spiced apple, and more.</p><a href="#october-lattes">Explore the seasonal menu <span aria-hidden="true">↗</span></a></div>
   </section>;
 }
 
@@ -73,12 +73,12 @@ export default function ProjectSeedMenuPage() {
     featured={<SeedFeatured launched={octoberLive} />}
     skipHref="#october-lattes" skipLabel="Skip to October menu" previewLabel="Concept preview · Pending approval" theme={seedTheme}
     menu={<>
-      {octoberMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} art={group.id === "october-lattes" ? `${octoberArt}/dwende-latte-v1.webp` : `${octoberArt}/bbl-refresher-v1.webp`} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
+      {octoberMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
       {seedMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} art={group.id === "signature" ? `${artBase}/buko-pandan-latte-v1.webp` : undefined} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
     </>}
     game={<section className={styles.sessionsTeaser} aria-labelledby="seed-rush-title">
-      <Image src={`${octoberArt}/bbl-refresher-v1.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
-      <div><h2 id="seed-rush-title">Seed Rush · October edition</h2><p>Catch the seasonal drinks in three fast rounds, then find each one on this menu. Avoid the Aswang.</p></div>
+      <Image src={`${artBase}/borahae-latte-v1.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
+      <div><h2 id="seed-rush-title">Seed Rush</h2><p>Coffee, pastries, and three fast rounds. Catch your favorites. Avoid the Aswang.</p></div>
       <SeedRushLink />
     </section>}
     visit={<section className={styles.hours} id="hours" aria-labelledby="visit-title">

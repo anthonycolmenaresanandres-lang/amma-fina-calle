@@ -91,7 +91,7 @@ const octoberItem = (id: string, name: string, description?: string, options?: s
 export const octoberMenuGroups: SeedMenuGroup[] = [
   {
     id: "october-lattes", name: "October lattes",
-    note: "Seasonal lineup from Project Seed's October flyer. Ask staff about prices and availability.",
+    note: "October’s seasonal lineup. Ask about today’s availability.",
     items: [
       octoberItem("dwende-latte", "Dwende Latte", "Toasted marshmallow, chocolate, honey, and graham crackers with vanilla foam.", "Also available in cold brew"),
       octoberItem("kapre-latte", "Kapre Latte", "Spiced caramel apple cider."),
@@ -102,7 +102,7 @@ export const octoberMenuGroups: SeedMenuGroup[] = [
   },
   {
     id: "october-non-coffee", name: "October non-coffee",
-    note: "The flyer lists these together. Ask staff how the two foams are served.",
+    note: "Blackberry, lychee, and autumn flavors. Ask how the seasonal foams are served.",
     items: [
       octoberItem("bbl-refresher", "BBL Refresher", "Blackberry lychee."),
       octoberItem("salted-maple-foam", "Salted Maple Foam"),

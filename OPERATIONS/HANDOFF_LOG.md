@@ -1,5 +1,13 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-09-30 OUT — Project Seed visual cleanup release candidate
+
+Restored the existing photo-based drink/pastry cutouts with their original labels and removed the posted flyer and cartoon cups from active page/game use. October items remain clean menu text. Added a public-domain 2:1 Philippine flag to menu and game headers. Replaced the game photo collage, lamps, foliage, and glow with a restrained red-roof/wall/Philippines-map background, exported for portrait and landscape. Source and output assets are recorded in `ASSET_REGISTRY/PROJECT_SEED/VISUAL_CLEANUP_20260930.md`. No local tests, lint/build, or browser/game test runs were performed, as Anthony explicitly requested. Existing scripts' asset expectations were aligned without execution. Merge authorized; release receipt tracked in the PR.
+
+## 2026-09-30 IN — Project Seed restrained visual cleanup
+
+Anthony requested removal of the posted flyer and cartoon drink art, restoration of the earlier photo-based products, a game backdrop limited to the red roof and Philippines map, and the Philippine flag on both menu and game. Execute and merge authorized; no tests requested. Work on `codex/project-seed-polish-20260930` from merged main `597bef0`. This pass stays in Project Seed presentation and assets, retaining speed, hazard rates, shared engine, and menu content.
+
 _Newest entries first. This file is the live bridge between Claude, Codex, and Clone._
 
 ### [CHECK-OUT] Codex - 2026-09-29 - Open owner portals implementation
