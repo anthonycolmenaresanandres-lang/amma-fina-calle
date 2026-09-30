@@ -7,7 +7,9 @@ import { classicDrinks, classicExtras, espressoDrinks, formatMenuPrice, draftMen
 import { BodegaSignalLogo } from "./bodega-signal-logo";
 import { FinaCalleSignature } from "./fina-calle-signature";
 import { FallSessions } from "./fall-sessions";
-import styles from "./page.module.css";
+import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
+import { VenueMenuSection } from "@/venue-menu/VenueMenuSection";
+import styles from "@/venue-menu/venue-menu.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -30,19 +32,14 @@ const shortDays: Record<string, string> = { "Monday - Friday": "Mon–Fri", Satu
 
 export default function BodegaMenuReviewPage() {
   return (
-    <main className={styles.page}>
-      <div className={styles.shell}>
-        <a className={styles.skipLink} href="#bodega-classics">Skip to menu prices</a>
-        <header className={styles.hero}>
-          <span className={styles.preview}>Preview</span>
-          <h1 className={styles.srOnly}>Bodega Cafe menu</h1>
-          <BodegaSignalLogo />
-        </header>
-
-        <BodegaMenuNav />
-        <FallSessions />
-
-        <div className={styles.menuGrid}>
+    <VenueMenuLayout
+      brandName="Bodega Cafe"
+      brand={<BodegaSignalLogo />}
+      nav={<BodegaMenuNav />}
+      featured={<FallSessions />}
+      skipHref="#bodega-classics"
+      skipLabel="Skip to menu prices"
+      menu={<>
           <section className={styles.menuSection} id="bodega-classics" aria-labelledby="bodega-classics-title">
             <header className={`${styles.sectionHeader} ${styles.textHeader}`}>
               <h2 id="bodega-classics-title">Bodega Classics</h2>
@@ -71,32 +68,14 @@ export default function BodegaMenuReviewPage() {
             </ul>
             <p className={styles.sectionNote}>Ask us about sizes without a listed price.</p>
           </section>
-          {draftMenuSections.map((section) => {
-            return (
-              <section className={styles.menuSection} id={section.id} key={section.id} aria-labelledby={`${section.id}-title`}>
-                <header className={`${styles.sectionHeader} ${!section.art ? styles.textHeader : ""}`}>
-                  <h2 id={`${section.id}-title`}>{section.title}</h2>
-                  {section.art && <Image src={`/assets/bodega/menu/premium/${section.art}.webp`} alt="" width={640} height={640} sizes="(max-width: 700px) 150px, 240px" />}
-                </header>
-                <p className={styles.sectionNote}>{section.note}</p>
-                <ul className={styles.itemList}>
-                  {section.items.map((item) => <li className={styles.item} key={item.name}>
-                    <h3 className={styles.itemName}>{item.name}</h3>
-                    {item.description && <p className={styles.itemDescription}>{item.description}</p>}
-                  </li>)}
-                </ul>
-              </section>
-            );
-          })}
-        </div>
-
-        <section className={styles.sessionsTeaser} aria-labelledby="fall-rush-title">
+          {draftMenuSections.map((section) => <VenueMenuSection key={section.id} id={section.id} title={section.title} note={section.note} art={section.art ? `/assets/bodega/menu/premium/${section.art}.webp` : undefined} items={section.items} />)}
+      </>}
+      game={<section className={styles.sessionsTeaser} aria-labelledby="fall-rush-title">
           <Image src="/assets/bodega/fall/cereal-bites.webp" alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
           <div><h2 id="fall-rush-title">Bodega Vibra</h2><p>Es que no entienden la vibra. Five fast rounds. Catch café finds and avoid Bad Vibes.</p></div>
           <BodegaVibraLink />
-        </section>
-
-        <section className={styles.hours} id="hours" aria-labelledby="visit-title">
+        </section>}
+      visit={<section className={styles.hours} id="hours" aria-labelledby="visit-title">
           <div>
             <h2 id="visit-title">Visit</h2>
             <p className={styles.address}>{publishedBusinessDetails.address}</p>
@@ -110,11 +89,9 @@ export default function BodegaMenuReviewPage() {
               <li key={entry.days}><span>{shortDays[entry.days] ?? entry.days}</span><span>{entry.time}</span></li>
             ))}
           </ul>
-        </section>
-
-        <BodegaGuestNoteForm />
-
-        <footer className={styles.footer}>
+        </section>}
+      engagement={<BodegaGuestNoteForm />}
+      footer={<>
           <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com">
             <span>Powered by</span>
             <FinaCalleSignature />
@@ -123,8 +100,7 @@ export default function BodegaMenuReviewPage() {
             <summary>Menu details</summary>
             <p>Preview menu transcribed from Bodega’s photographed boards and bakery labels. Listed prices come from the Classics board; ask the café for unlisted prices and current availability. The signature lineup is partial. Hours await confirmation. Artwork is illustrative.</p>
           </details>
-        </footer>
-      </div>
-    </main>
+      </>}
+    />
   );
 }

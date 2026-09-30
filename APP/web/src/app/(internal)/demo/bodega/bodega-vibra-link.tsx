@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "@/venue-menu/venue-menu.module.css";
 
 export function BodegaVibraLink({ floating = false }: { floating?: boolean }) {
   return (

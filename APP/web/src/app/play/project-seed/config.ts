@@ -1,9 +1,9 @@
 import type { CafeRushLevel, CafeRushSkin } from "@/caferush/types";
 
 export const seedRounds: CafeRushLevel[] = [
-  { id: "first-pour", levelNumber: 1, levelName: "First Pour", selectText: "Catch the coffee and pandan. Let the aswang pass.", rules: { durationSec: 20, targetScore: 80, spawnEveryMs: 1150, spawnMinMs: 1000, spawnRampMs: 3, fallSpeed: [0.48, 0.62], badChance: 0.1, dropPenalty: 0, failOnBadCatch: true } },
-  { id: "color-rush", levelNumber: 2, levelName: "Color Rush", selectText: "Follow the purple and green drinks.", rules: { durationSec: 25, targetScore: 110, spawnEveryMs: 1050, spawnMinMs: 900, spawnRampMs: 3, fallSpeed: [0.53, 0.7], badChance: 0.15, dropPenalty: 0, failOnBadCatch: true } },
-  { id: "sweet-finish", levelNumber: 3, levelName: "Sweet Finish", selectText: "Catch the pastries for one last rush.", rules: { durationSec: 30, targetScore: 140, spawnEveryMs: 950, spawnMinMs: 800, spawnRampMs: 3, fallSpeed: [0.6, 0.78], badChance: 0.18, dropPenalty: 0, failOnBadCatch: true } },
+  { id: "first-pour", levelNumber: 1, levelName: "First Pour", selectText: "Catch the coffee and pandan. Let the aswang pass.", rules: { durationSec: 20, targetScore: 80, spawnEveryMs: 1150, spawnMinMs: 1000, spawnRampMs: 3, fallSpeed: [1.02, 1.26], badChance: 0.1, dropPenalty: 0, failOnBadCatch: true } },
+  { id: "color-rush", levelNumber: 2, levelName: "Color Rush", selectText: "Follow the purple and green drinks.", rules: { durationSec: 25, targetScore: 110, spawnEveryMs: 1050, spawnMinMs: 900, spawnRampMs: 3, fallSpeed: [1.2, 1.44], badChance: 0.15, dropPenalty: 0, failOnBadCatch: true } },
+  { id: "sweet-finish", levelNumber: 3, levelName: "Sweet Finish", selectText: "Catch the pastries for one last rush.", rules: { durationSec: 30, targetScore: 140, spawnEveryMs: 950, spawnMinMs: 800, spawnRampMs: 3, fallSpeed: [1.38, 1.68], badChance: 0.18, dropPenalty: 0, failOnBadCatch: true } },
 ];
 
 const artBase = "/assets/project-seed/seed-rush";

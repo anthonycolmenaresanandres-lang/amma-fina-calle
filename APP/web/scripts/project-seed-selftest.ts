@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, statSync } from "node:fs";
 import { gameFeatures, OFFICIAL_MENU_URL, seedMenuGroups, seedMenuItemHref } from "../src/app/(internal)/demo/project-seed/menu-data";
 import { seedRounds, seedRoundShowcase, seedSkin, seedSkinForRound } from "../src/app/play/project-seed/config";
+import { BODEGA_CHAPTERS } from "../src/bodega-fall/campaign";
 import { guestMenuAbsoluteUrl } from "../src/lib/guest-menu";
 
 const items = seedMenuGroups.flatMap((group) => group.items);
@@ -18,7 +19,7 @@ assert.equal(seedRounds.length, 3);
 assert.deepEqual(seedRounds.map((round) => round.rules.durationSec), [20, 25, 30]);
 assert.deepEqual(seedRounds.map((round) => round.rules.targetScore), [80, 110, 140]);
 assert.ok(seedRounds.every((round) => round.rules.failOnBadCatch));
-assert.ok(seedRounds.every((round) => round.rules.fallSpeed[0] >= 0.48));
+assert.deepEqual(seedRounds.map((round) => round.rules.fallSpeed), BODEGA_CHAPTERS.slice(0, 3).map((chapter) => chapter.fallSpeed), "Seed Rush should use the first three Bodega fall-speed ranges");
 assert.ok(seedSkin.prospect);
 assert.ok(!seedSkin.assets, "No client-owned logo, background, or catcher art is allowed before approval");
 assert.deepEqual(seedRounds.map((_, index) => seedSkinForRound(index).items.map((item) => item.id)), [

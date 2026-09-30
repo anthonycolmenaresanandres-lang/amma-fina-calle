@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { seasonalDrinks, seasonalNote } from "./menu-draft";
-import styles from "./page.module.css";
+import styles from "@/venue-menu/venue-menu.module.css";
 
 export function FallSessions() {
   return <section id="fall-sessions" className={styles.fallSessions} aria-labelledby="fall-sessions-title">
