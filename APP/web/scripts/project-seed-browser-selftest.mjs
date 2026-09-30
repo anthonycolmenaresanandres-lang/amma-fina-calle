@@ -11,6 +11,7 @@ const socket = new WebSocket(target.webSocketDebuggerUrl);
 const pending = new Map();
 const errors = [];
 const badResponses = [];
+const aswangResponses = [];
 let id = 0;
 await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
 socket.addEventListener("message", (event) => {
@@ -19,12 +20,14 @@ socket.addEventListener("message", (event) => {
   if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails.text);
   if (message.method === "Log.entryAdded" && message.params.entry.level === "error" && !message.params.entry.text.includes("/_vercel/insights/script.js") && !message.params.entry.text.startsWith("Failed to load resource:")) errors.push(message.params.entry.text);
   if (message.method === "Network.responseReceived" && message.params.response.status >= 400 && !message.params.response.url.includes("/_vercel/insights/script.js")) badResponses.push(`${message.params.response.status} ${message.params.response.url}`);
+  if (message.method === "Network.responseReceived" && message.params.response.url.includes("/assets/project-seed/seed-rush/aswang-v1.webp")) aswangResponses.push({ status: message.params.response.status, fromDiskCache: message.params.response.fromDiskCache });
 });
 function send(method, params = {}) { const current = ++id; socket.send(JSON.stringify({ id: current, method, params })); return new Promise((resolve, reject) => pending.set(current, { resolve, reject })); }
 async function pause(ms = 700) { await new Promise((resolve) => setTimeout(resolve, ms)); }
 async function nav(url) { await send("Page.navigate", { url }); await send("Page.bringToFront"); await pause(1800); }
 async function viewport(width, height, mobile) { await send("Emulation.setDeviceMetricsOverride", { width, height, screenWidth: width, screenHeight: height, deviceScaleFactor: 1, mobile }); }
 async function evalInPage(expression) { const result = await send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true }); return result.result.value; }
+async function waitFor(expression, timeoutMs = 12_000) { const deadline = Date.now() + timeoutMs; while (Date.now() < deadline) { if (await evalInPage(expression)) return true; await pause(250); } return false; }
 async function shot(name) { const result = await send("Page.captureScreenshot", { format: "png", fromSurface: true }); await writeFile(path.join(output, name), Buffer.from(result.data, "base64")); }
 
 await mkdir(output, { recursive: true });
@@ -48,10 +51,14 @@ const desktopMenu = await evalInPage(`(() => ({ width:innerWidth, scroll:documen
 await shot("menu-desktop.png");
 await viewport(390, 844, true);
 await nav(`${app}/play/project-seed`);
-const intro = await evalInPage(`(() => ({ title:document.title, heading:document.querySelector('h1')?.innerText, width:innerWidth, scroll:document.documentElement.scrollWidth, start:!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush')) }))()`);
+const intro = await evalInPage(`(() => ({ title:document.title, heading:document.querySelector('h1')?.innerText, width:innerWidth, scroll:document.documentElement.scrollWidth, start:!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush')), aswang:document.body.innerText.includes('Aswang · avoid'), passage:(document.body.innerText.match(/Tabi-tabi po\./g)||[]).length }))()`);
 await shot("game-intro-mobile.png");
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush')).click()`);
-await pause(5000);
+await waitFor(`!!document.querySelector('canvas') && !document.body.innerText.includes('Preparing cups')`);
+await evalInPage(`(() => { const original = Math.random; let calls = 0; Math.random = () => calls++ < 4 ? 0 : original(); })()`);
+await pause(1600);
+await shot("game-playing-aswang-mobile.png");
+await pause(3400);
 const playing = await evalInPage(`(() => ({ canvas:!!document.querySelector('canvas'), round:document.querySelector('h1')?.innerText, hud:document.querySelector('[class*="hud"]')?.innerText, width:innerWidth, scroll:document.documentElement.scrollWidth, pause:!![...document.querySelectorAll('button')].find(b=>b.textContent==='Pause'), hidden:document.hidden }))()`);
 await shot("game-playing-mobile.png");
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent==='Pause')?.click()`);
@@ -75,22 +82,40 @@ for (let attempt = 0; attempt < 3; attempt += 1) {
 }
 const caught = await evalInPage(`(() => ({ hud:document.querySelector('[class*="hud"]')?.innerText, result:!!document.querySelector('[class*="result"]') }))()`);
 await nav(`${app}/play/project-seed`);
+await waitFor(`!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))`);
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))?.click()`);
+await waitFor(`!!document.querySelector('canvas')`);
 await pause(22500);
 const loss = await evalInPage(`(() => ({ heading:document.querySelector('h1')?.innerText, retry:!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Retry this round')) }))()`);
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Retry this round'))?.click()`);
 await pause(1300);
 const retry = await evalInPage(`(() => ({ canvas:!!document.querySelector('canvas'), heading:document.querySelector('h1')?.innerText }))()`);
+await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent==='Exit game')?.click()`);
+await waitFor(`!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))`);
+await pause(500);
+await send("Network.setCacheDisabled", { cacheDisabled: true });
+await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*"] });
+await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))?.click()`);
+await waitFor(`!!document.querySelector('canvas') && !document.body.innerText.includes('Preparing cups')`);
+await evalInPage(`(() => { const original = Math.random; let calls = 0; Math.random = () => calls++ < 4 ? 0 : original(); })()`);
+await pause(4200);
+const fallback = await evalInPage(`(() => ({ canvas:!!document.querySelector('canvas'), loadError:document.body.innerText.includes('Game could not load.'), help:document.querySelector('[class*="roundHelp"]')?.innerText }))()`);
+await shot("game-playing-fallback-mobile.png");
+await send("Network.setBlockedURLs", { urls: [] });
+await send("Network.setCacheDisabled", { cacheDisabled: false });
 const failures = [];
 if (mobileMenu.href !== "/demo/project-seed" || mobileMenu.items !== 25 || !mobileMenu.nav || mobileMenu.forms || !mobileMenu.gameLink || !mobileMenu.noindex?.includes("noindex")) failures.push("mobile menu route/content");
 if (mobileMenu.scroll > mobileMenu.width || narrowMenu.scroll > narrowMenu.width || tabletMenu.scroll > tabletMenu.width || desktopMenu.scroll > desktopMenu.width || intro.scroll > intro.width || playing.scroll > playing.width) failures.push("horizontal overflow");
 if (desktopMenu.items !== 25 || !intro.start || !playing.canvas || !playing.pause) failures.push("desktop menu or game boot");
+if (!intro.aswang || intro.passage !== 1) failures.push("aswang legend or respectful passage framing");
+if (!aswangResponses.some((entry) => entry.status === 200)) failures.push("aswang asset did not load successfully");
 if (!paused.label || paused.hud !== stillPaused || paused.hud === resumed) failures.push("pause/resume behavior");
 if ((!caught.hud || !/SCORE\s+\d*[1-9]\d*/.test(caught.hud)) && !caught.result) failures.push("keyboard catch did not change game state");
 if (!exited) failures.push("exit game did not return to intro");
 if (!loss.retry || !retry.canvas) failures.push("loss/retry behavior");
+if (!fallback.canvas || fallback.loadError || !fallback.help?.includes("Avoid the aswang")) failures.push("missing-asset primitive fallback");
 if (errors.length) failures.push(`browser errors: ${errors.join(" | ")}`);
 if (badResponses.length) failures.push(`HTTP errors: ${badResponses.join(" | ")}`);
-console.log(JSON.stringify({ mobileMenu, narrowMenu, tabletMenu, desktopMenu, intro, playing, paused, stillPaused, resumed, caught, exited, loss, retry, errors, badResponses, failures }, null, 2));
+console.log(JSON.stringify({ mobileMenu, narrowMenu, tabletMenu, desktopMenu, intro, playing, paused, stillPaused, resumed, caught, exited, loss, retry, fallback, aswangResponses, errors, badResponses, failures }, null, 2));
 socket.close();
 if (failures.length) process.exitCode = 1;
