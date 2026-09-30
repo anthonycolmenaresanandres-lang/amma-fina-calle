@@ -117,7 +117,7 @@ const failures = [];
 if (mobileMenu.href !== "/demo/project-seed" || mobileMenu.items !== 33 || !mobileMenu.nav || mobileMenu.forms || !mobileMenu.gameLink || !mobileMenu.noindex?.includes("noindex")) failures.push("mobile menu route/content");
 if (mobileMenu.scroll > mobileMenu.width || narrowMenu.scroll > narrowMenu.width || tabletMenu.scroll > tabletMenu.width || desktopMenu.scroll > desktopMenu.width || intro.scroll > intro.width || narrowIntro.scroll > narrowIntro.width || desktopIntro.scroll > desktopIntro.width || playing.scroll > playing.width) failures.push("horizontal overflow");
 if (desktopMenu.items !== 33 || !intro.start || intro.rounds !== 3 || !playing.canvas || !playing.pause) failures.push("desktop menu or game boot");
-if (!intro.aswang || intro.passage !== 1) failures.push("aswang legend or respectful passage framing");
+if (!intro.aswang || intro.passage !== 0) failures.push("aswang legend or removed passage text");
 if (intro.images.length !== 6 || intro.images.some((entry) => !entry.loaded)) failures.push("six product preview sprites");
 if (!spriteResponses.some((entry) => entry.url.includes("aswang-v1.webp") && entry.status === 200)) failures.push("aswang asset did not load successfully");
 if (!paused.label || paused.hud !== stillPaused || paused.hud === resumed) failures.push("pause/resume behavior");

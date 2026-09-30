@@ -42,8 +42,7 @@ assert.deepEqual(aswang && { kind: aswang.kind, shape: aswang.shape, asset: aswa
 assert.ok(statSync(new URL("../public/assets/project-seed/seed-rush/aswang-v1.webp", import.meta.url)).size <= 40_000, "Aswang game asset must remain lightweight");
 const gameSource = readFileSync(new URL("../src/app/play/project-seed/SeedRushClient.tsx", import.meta.url), "utf8");
 assert.match(gameSource, /itemScale: 3\.75/, "Product display size must be three times the previous 1.25 scale");
-assert.equal(gameSource.match(/Tabi-tabi po\./g)?.length, 1, "Respectful passage phrase must appear exactly once");
-assert.match(gameSource, /A respectful request for passage in Filipino folk tradition\./);
+assert.doesNotMatch(gameSource, /Tabi-tabi po/);
 assert.equal(guestMenuAbsoluteUrl("project-seed"), "https://finacalleos.com/project-seed/menu");
 const octoberItems = octoberMenuGroups.flatMap((group) => group.items);
 assert.equal(octoberItems.length, 8);
