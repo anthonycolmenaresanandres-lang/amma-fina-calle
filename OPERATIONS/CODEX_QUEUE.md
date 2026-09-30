@@ -1,5 +1,15 @@
 # Codex Queue — canonical live queue
 
+## [x] 80 - Project Seed October menu and café visual update
+
+**State:** IMPLEMENTED AND LOCALLY VERIFIED — RELEASE DETAILS TRACKED IN THE MERGE PR
+**Authority:** Anthony supplied the café interior, circular Project Seed logo, and October menu artwork, then asked to execute and merge both plans on September 30, 2026.
+**Base:** `origin/main` at `99699fe`; branch `codex/project-seed-october-20260930`.
+**Scope:** Keep the shared Bodega menu layout; apply Project Seed's supplied red-and-white identity; add the October 1 seasonal menu as accessible source-backed content and poster; update Seed Rush's three rounds to six seasonal collectible names with distinct artwork, faster drops and 30/38/45% Aswang chances; create a café-inspired game backdrop and direct item-to-menu links.
+**Boundaries:** Preserve Bodega, stable routes, noindex and pending Project Seed approval, supplied logo integrity, honest uncertainty about foam entries and prices, primitive game fallbacks, and playable mobile/keyboard controls. Do not present October drinks as already on sale before October 1 or re-label old generated art as new products.
+**PASS:** Menu text and launch state match the supplied flyer; visual review at mobile/desktop; six game items map to six October menu anchors; mixed hazard runs remain winnable; source checks, scoped lint, production build, PR checks, merge, and live verification pass.
+**Local result:** The supplied circular logo, café photo, and October flyer are preserved in the asset registry. The shared Bodega menu layout displays 8 seasonal entries above the regular menu, retains noindex and pending-approval language, and changes its October launch label on October 1 Eastern time. Seed Rush reuses the shared game scene for three faster rounds with six illustrated seasonal catches, 30/38/45% Aswang rates, direct menu links, and primitive fallbacks. Source checks, scoped ESLint, TypeScript/Next production build, 320/390/768/1440 px browser checks, blocked-art fallback, and a complete three-round 390 px browser playthrough passed with zero browser exceptions. Bodega menu geometry matched the pre-change capture at mobile and desktop. Evidence: `C:/dev/amma/evidence/project-seed-october-20260930` and `C:/dev/amma/evidence/shared-menu-20260930`. Exact-head PR checks and live verification are the release gate; Project Seed sign-off remains pending.
+
 ## [x] 79 - Share Bodega menu layout with Project Seed and speed up Seed Rush
 
 **State:** IMPLEMENTED AND LOCALLY VERIFIED — RELEASE DETAILS TRACKED IN THE MERGE PR

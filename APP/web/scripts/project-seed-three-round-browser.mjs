@@ -18,7 +18,7 @@ socket.addEventListener("message", (event) => {
   const message = JSON.parse(event.data);
   if (message.id && pending.has(message.id)) { const { resolve, reject } = pending.get(message.id); pending.delete(message.id); if (message.error) reject(new Error(message.error.message)); else resolve(message.result); }
   if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails.exception?.description ?? JSON.stringify(message.params.exceptionDetails));
-  if (message.method === "Network.responseReceived" && inGame && message.params.response.status < 400 && message.params.response.url.includes("/assets/project-seed/seed-rush/")) assetLoads.add(path.basename(new URL(message.params.response.url).pathname));
+  if (message.method === "Network.responseReceived" && inGame && message.params.response.status < 400 && message.params.response.url.includes("/assets/project-seed/")) assetLoads.add(path.basename(new URL(message.params.response.url).pathname));
 });
 function send(method, params = {}) { const current = ++id; socket.send(JSON.stringify({ id: current, method, params })); return new Promise((resolve, reject) => pending.set(current, { resolve, reject })); }
 async function pause(ms = 300) { await new Promise((resolve) => setTimeout(resolve, ms)); }
@@ -66,7 +66,7 @@ for (let round = 0; round < 3; round += 1) {
   } else if (outcome !== "GROWN." || !details.complete) throw new Error(`Final round did not complete: ${JSON.stringify(details)}`);
 }
 if (errors.length) throw new Error(`Browser errors after ${JSON.stringify(rounds)}: ${errors.join(" | ")}`);
-const expected = ["buko-pandan-latte-v1.webp", "dark-iced-coffee-v1.webp", "borahae-latte-v1.webp", "iced-green-latte-v1.webp", "sugar-custard-swirl-pastry-v1.webp", "purple-rolled-pastry-v1.webp", "aswang-v1.webp"];
+const expected = ["dwende-latte-v1.webp", "kapre-latte-v1.webp", "mumu-latte-v1.webp", "manang-latte-v1.webp", "pms-latte-v1.webp", "bbl-refresher-v1.webp", "aswang-v1.webp", "cafe-backdrop-v1.webp"];
 const missing = expected.filter((name) => !assetLoads.has(name));
 if (missing.length) throw new Error(`Gameplay did not load assets: ${missing.join(", ")}`);
 console.log(JSON.stringify({ rounds, assetLoads: [...assetLoads], errors }, null, 2));

@@ -8,3 +8,20 @@
 @media(max-width:600px){.roundLineup{gap:8px;margin-top:30px}.roundCard{min-height:130px}.roundCard strong{font-size:12px}.roundArt{min-height:66px}.roundArt .previewArt{width:52px;height:52px}.roundArt .previewArt+.previewArt{margin-left:-10px}.roundCard .featureNumber{font-size:9px;letter-spacing:0}.instructions .previewArt{width:30px;height:30px}}
 .controls button:hover{background:#f3e4df}.page a:hover{text-decoration-thickness:2px}
 @media(max-width:380px){.header{gap:10px}.brand{font-size:18px;white-space:nowrap}.header>a:last-child{font-size:11px;white-space:nowrap}}
+.page{--cream:#fffaf2;--ink:#302426;--red:#9f1c2b;--line:#dfc9b8}
+.brand{display:flex;align-items:center;gap:12px;font-size:17px;letter-spacing:.01em}
+.brandLogo{display:block;width:52px;height:52px;object-fit:cover;border-radius:50%;flex:none}
+.brand .brandWords{display:block;color:var(--ink)}
+.brandWords span{color:var(--red)}
+.intro h1{width:fit-content;max-width:100%;padding:18px 22px 25px;background:repeating-linear-gradient(165deg,#9f1c2b 0 58px,#751421 59px 67px,#a62230 68px 122px);color:#fffaf2;font-size:clamp(74px,13vw,136px);line-height:.82;box-shadow:7px 7px 0 #d7ac8d}
+.intro h1 span{color:#fffaf2}
+.roundHead h1{display:inline-block;padding:8px 12px;background:var(--red);color:#fffaf2}
+.result h1{max-width:100%;padding:10px 17px 18px;background:var(--red);color:#fffaf2;font-size:clamp(52px,12vw,110px);overflow-wrap:anywhere}
+.playfieldWrap::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 17% 23%,rgb(255 246 193 / 13%) 0 5%,transparent 20%),radial-gradient(circle at 48% 21%,rgb(255 246 193 / 10%) 0 5%,transparent 18%),radial-gradient(circle at 84% 20%,rgb(255 246 193 / 12%) 0 5%,transparent 20%);animation:seedLampGlow 6s ease-in-out infinite alternate}
+@keyframes seedLampGlow{from{opacity:.35}to{opacity:.85}}
+.discovery{display:grid;gap:6px;max-width:45ch;margin-top:24px;padding:14px 18px;border-left:5px solid var(--red);background:#fff4e8}
+.discovery strong{font-size:19px}
+.discovery span{color:#665c54;font-size:14px;line-height:1.4}
+.discovery a{margin-top:5px;color:var(--red);font-size:13px;font-weight:800;text-underline-offset:4px}
+@media(max-width:600px){.brandLogo{width:42px;height:42px}.brand{gap:8px;font-size:14px}.intro h1{font-size:clamp(68px,19vw,100px);padding:15px 18px 20px}.result h1{font-size:clamp(48px,13vw,80px)}}
+@media(prefers-reduced-motion:reduce){.playfieldWrap::after{animation:none;opacity:.6}}
