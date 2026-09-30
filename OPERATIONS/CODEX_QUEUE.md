@@ -1,5 +1,15 @@
 # Codex Queue — canonical live queue
 
+## [x] 79 - Share Bodega menu layout with Project Seed and speed up Seed Rush
+
+**State:** IMPLEMENTED AND LOCALLY VERIFIED — RELEASE DETAILS TRACKED IN THE MERGE PR
+**Authority:** Anthony asked to execute and merge the plan to use Bodega's finished menu as the shared layout, apply Project Seed's items, colors and theme through a skin, and make Seed Rush fall faster.
+**Base:** `origin/main` at `ca80ddab0c81bef25a3206b13e751ec3fb820730`; branch `codex/shared-bodega-seed-menu-20260930`.
+**Scope:** Extract Bodega's layout and menu section presentation without changing its visible geometry or behavior; render Project Seed through that template with its source-backed menu data and concept theme; configure Seed Rush with the first three Bodega fall-speed ranges as the pace baseline. Keep three rounds, large generated artwork, and primitive fallbacks.
+**Boundaries:** Preserve stable routes, noindex and pending-approval labels, correct venue links, and Bodega's existing data and guest-note behavior. Project Seed's unverified names and prices remain unverified; do not enable Bodega guest intake or rewards for Project Seed.
+**PASS:** Bodega before/after captures match at mobile and desktop; Project Seed follows the same layout, all menu anchors and links work, game remains playable across three faster rounds on touch and keyboard, missing art falls back, targeted checks and production build pass, then merge and verify live routes.
+**Local result:** Bodega and Project Seed now render the same `VenueMenuLayout`, `VenueMenuNav`, `VenueMenuSection`, and CSS module. Bodega's mobile and desktop document heights, section counts, navigation labels, and geometry match the live baseline; warm screenshot differences are under 1% of pixels and limited to late artwork rendering. Project Seed retains 25 source-backed menu items, noindex, pending-approval language, and official links with no guest form. Seed Rush uses Bodega's first three fall-speed ranges and retains three rounds, 3× display scale, seven generated assets, and primitive fallbacks. Scoped ESLint, source assertions, TypeScript/Next production build, 320/390/768/1440 px browser checks, blocked-art fallback, and a complete three-round 390 px browser playthrough passed with zero relevant errors. Evidence: `C:/dev/amma/evidence/shared-menu-20260930`. Exact-head PR checks and live verification are the release gate; Project Seed sign-off remains pending.
+
 ## [x] 78 - Redesign Seed Rush around the six generated products
 
 **State:** DONE — LIVE NOINDEX CONCEPT VERIFIED; PROJECT SEED SIGN-OFF STILL PENDING

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./page.module.css";
+import styles from "@/venue-menu/venue-menu.module.css";
 
 const NOTE_TYPES = ["Loved something", "Menu idea", "Order issue", "Event or catering", "Other"] as const;
 type SubmitStatus = "idle" | "loading" | "success" | "error";

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BodegaSealLettering } from "./bodega-seal-lettering";
-import styles from "./page.module.css";
+import styles from "@/venue-menu/venue-menu.module.css";
 
 const LEFT = "82,483 138,483 163,514 180,470 201,525 237,445 254,495 343,495";
 const RIGHT = "411,495 494,495 512,445 539,525 566,470 583,483 635,483";
