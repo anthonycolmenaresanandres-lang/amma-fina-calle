@@ -1,8 +1,8 @@
 # Codex Queue — canonical live queue
 
-## [ ] 77 - Add aswang hazard to Project Seed noindex concept
+## [x] 77 - Add aswang hazard to Project Seed noindex concept
 
-**State:** READY FOR EXACT-HEAD PR GATES — LOCAL EXPERIENCE VERIFIED; CLIENT SIGN-OFF STILL PENDING
+**State:** DONE — LIVE NOINDEX CONCEPT VERIFIED; PROJECT SEED SIGN-OFF STILL PENDING
 **Authority:** Anthony reviewed the generated folklore concept and directed “execute. and merge” on 2026-09-30. This authorizes the scoped Fina Calle concept update and release; it does not claim Project Seed approval.
 **Base:** `origin/main` at `28a7ed990f59b17a438d30681474d140ffd461e3`; branch `codex/project-seed-aswang-20260930`.
 **Scope:** Replace the generic spill hazard in Seed Rush with the reviewed, nonhuman aswang concept art; introduce “Tabi-tabi po” once as respectful passage language; retain the existing three-round rules, menu data, stable routes and local-best behavior; verify enhanced art and primitive fallback; release through an exact-head PR and verify production.
@@ -10,6 +10,7 @@
 **PASS:** Asset provenance/status recorded; aswang loads at game scale; missing-asset fallback remains distinct; phrase appears once and is culturally framed; source checks, scoped lint/build, 320/390/768/1440 browser coverage, PR checks, merge and production verification pass with no relevant errors.
 **STOP:** Stop if cultural framing becomes sensational or supernatural instruction, the asset reads as gore/real-person imagery, the fallback is unclear, exact-head checks fail, or release would imply Project Seed sign-off.
 **Local verification:** Source/route assertions, scoped ESLint and browser-test syntax pass. A constrained local webpack production bundle compiled all 46 pages. Production-mode browser coverage passed at 320/390/768/1440 px with zero relevant page/HTTP errors, including the aswang asset, keyboard scoring, pause/resume, exit, loss/retry and a same-size missing-asset fallback run. The standard local Next 16.2.11 type gate remains blocked by the pre-existing named `BodegaBillingContent` export in `owner/bodega/billing/page.tsx`; this task does not alter that billing surface, so exact-head hosted checks remain the release authority.
+**Release result:** PR #282 passed GitHub web CI, Vercel and Preview Comments on exact head `abca5a2e18f437751bae35c07a4b8b97ad23ff63`, then merged as `56ea72d8a476ec5d475e31fd1967fa8d21f5ca93`. Vercel production deployment `6758944771` completed successfully. Live HTTP checks confirm the game and menu return 200, the stable menu route returns 307 to the demo, the 21,886-byte WebP returns 200, and noindex/pending-approval language remains. A fresh production browser run passed at 320/390/768/1440 px with enhanced aswang art, visually distinct blocked-image fallback, keyboard scoring, pause/resume, exit and loss/retry, with zero relevant browser or HTTP errors.
 
 ## [x] 76 - Merge Project Seed noindex concept preview
 
