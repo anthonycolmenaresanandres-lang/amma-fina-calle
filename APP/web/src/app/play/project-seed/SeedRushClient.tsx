@@ -120,7 +120,7 @@ export default function SeedRushClient() {
         <p className={styles.introLead}>Tap the drinks. Let the aswang pass. Grow a little flavor collection while you wait.</p>
         <div className={styles.featurePicker} aria-label="Featured drinks">{gameFeatures.map((entry, index) => <button type="button" key={entry.id} onClick={() => setSelected(index)} aria-pressed={selected === index}><span className={styles.featureNumber}>0{index + 1}</span><strong>{entry.name}</strong><small>{entry.group}</small></button>)}</div>
         <p className={styles.selectedNote}>{gameFeatures[selected].note} <a href={seedMenuItemHref(gameFeatures[selected].id)}>See it on the menu ↗</a></p>
-        <div className={styles.instructions}><span aria-hidden="true" className={styles.demoCup}>▣</span><span>Drinks · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
+        <div className={styles.instructions}><span aria-hidden="true" className={`${styles.demoCup} ${selected === 1 ? styles.demoPandan : ""}`}>▣</span><span>Drinks · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
         <p className={styles.folklore}><span>Tabi-tabi po.</span> A respectful request for passage in Filipino folk tradition.</p>
         <button type="button" className={styles.primary} onClick={() => begin(0, true)}>Start Seed Rush <span aria-hidden="true">→</span></button>
         <p className={styles.fine}>No sign-up, reward, or purchase required. Arrow keys select a cup; Space or Enter collects it. Personal best: {best}.</p>

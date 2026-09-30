@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [ ] 78 - Replace Seed Rush drink drawings with matched generated art
+
+**State:** PARTIAL LOCAL REVIEW VERIFIED — MATCHING UBE/TURON ART PENDING
+**Authority:** Anthony asked Codex to execute the reviewed drink-art integration plan on 2026-09-30. This authorizes local concept implementation and checks, not client approval or publication.
+**Base:** `origin/main` at `e814611aef4d9aae9ee3e5c07d3215bed3358c97`; branch `codex/project-seed-drink-art-20260930`.
+**Scope:** Integrate generated Project Seed drink sprites only where the depicted product matches a featured Seed Rush item; preserve the three-round rules, accurate menu anchors, same-origin image fallback, noindex status, and pending-approval language. Record provenance and review status.
+**Boundaries:** The six-image review pack confirms Buko Pandan Latte; it does not establish Ube Cold Brew or Turon Latte artwork. Do not mislabel another sprite. No logo, QR distribution, reward, owner portal, guest intake, customer contact, domain, billing, or access change.
+**PASS:** Matched art loads in the intended round at phone size, remains legible and tappable, blocked-image primitive fallback works, scoped self-test/lint/build and browser checks pass. Provide local review evidence.
+**STOP:** Stop before publishing or sending client artwork externally without specific authorization and before claiming Project Seed approval.
+**Local result:** Buko Pandan's 20,318-byte WebP is wired to the matched round with its `cup` fallback and a conditional intro preview. Source/route self-test, scoped ESLint, script syntax, full Next production build and browser self-test passed. The browser covered 320/390/768/1440 menu layouts, 390 game intro and play, Buko image load, keyboard scoring, pause/resume, loss/retry and the existing blocked-image fallback with zero relevant errors. Ube Cold Brew and Turon Latte still need verified matching art or an explicit change to featured drinks before their drawings can be replaced.
+
 ## [x] 77 - Add aswang hazard to Project Seed noindex concept
 
 **State:** DONE — LIVE NOINDEX CONCEPT VERIFIED; PROJECT SEED SIGN-OFF STILL PENDING

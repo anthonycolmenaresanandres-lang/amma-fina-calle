@@ -6,7 +6,7 @@ export const seedRounds: CafeRushLevel[] = [
   { id: "neighborhood-rush", levelNumber: 3, levelName: "Neighborhood Rush", selectText: "One last rush for Turon Latte.", rules: { durationSec: 30, targetScore: 300, spawnEveryMs: 490, spawnMinMs: 340, spawnRampMs: 3, fallSpeed: [0.43, 0.56], badChance: 0.18, dropPenalty: 0, failOnBadCatch: true } },
 ];
 
-// Concept colors, primitive drinks, and generated folklore art only. No Project Seed logo, photos, or brand assets ship before sign-off.
+// Fina Calle concept colors with a matched Buko Pandan sprite and primitive fallbacks. Project Seed approval remains pending.
 export const seedSkin: CafeRushSkin = {
   id: "project-seed-concept",
   displayName: "Project Seed",
@@ -21,7 +21,7 @@ export const seedSkin: CafeRushSkin = {
   },
   items: [
     { id: "ube", kind: "good", points: 10, shape: "iced", fill: 0x8e72a2, accent: 0xd7c8e0, label: "Ube" },
-    { id: "pandan", kind: "good", points: 10, shape: "cup", fill: 0x5d8664, accent: 0xc7dfbb, label: "Pandan" },
+    { id: "pandan", kind: "good", points: 10, shape: "cup", fill: 0x5d8664, accent: 0xc7dfbb, label: "Pandan", asset: "/assets/project-seed/seed-rush/buko-pandan-latte-v1.webp" },
     { id: "turon", kind: "good", points: 10, shape: "cup", fill: 0xb7774d, accent: 0xf5d6ac, label: "Turon" },
     { id: "aswang", kind: "bad", points: -15, shape: "bad-vibes", fill: 0x2d2528, accent: 0xa92732, label: "Aswang", asset: "/assets/project-seed/seed-rush/aswang-v1.webp" },
   ],

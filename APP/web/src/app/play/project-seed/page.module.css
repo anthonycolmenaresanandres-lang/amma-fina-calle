@@ -4,3 +4,4 @@
 @media(prefers-reduced-motion:reduce){.page *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 .instructions{margin-bottom:14px}.demoAswang{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#2d2528 url('/assets/project-seed/seed-rush/aswang-v1.webp') center/contain no-repeat}.folklore{max-width:54ch;margin:0 0 24px!important;color:#665c54;font-size:11px;line-height:1.5}.folklore span{color:var(--red);font-weight:850}
 .page button,.page a{touch-action:manipulation}.playing h1,.result h1{text-wrap:balance}.hud{font-variant-numeric:tabular-nums}.footer{padding-bottom:max(30px,env(safe-area-inset-bottom))}
+.demoPandan{position:relative}.demoPandan::after{content:"";position:absolute;inset:0;background:url('/assets/project-seed/seed-rush/buko-pandan-latte-v1.webp') center/contain no-repeat}
