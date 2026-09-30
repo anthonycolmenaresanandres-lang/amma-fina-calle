@@ -137,7 +137,7 @@ export class CafeRushScene extends Phaser.Scene {
 
   /** Focus stays on the play area; arrows select a visible item, Space/Enter catches it. */
   handleKey(key: string): void {
-    if (this.phase !== "playing") return;
+    if (!this.scene.isActive() || this.phase !== "playing") return;
     const visible = this.falling.filter((f) => !f.settled && f.yFrac >= 0 && f.yFrac <= 1)
       .sort((a, b) => a.xFrac - b.xFrac || a.yFrac - b.yFrac);
     if (!visible.length) return;
@@ -270,7 +270,7 @@ export class CafeRushScene extends Phaser.Scene {
   }
 
   private catchItem(f: FallingItem): void {
-    if (this.phase !== "playing" || f.settled) return;
+    if (!this.scene.isActive() || this.phase !== "playing" || f.settled) return;
     f.settled = true;
     f.container.destroy();
     if (f.item.kind === "bad" && this.level.rules.failOnBadCatch) {

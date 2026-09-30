@@ -1,15 +1,15 @@
 # Codex Queue — canonical live queue
 
-## [ ] 78 - Replace Seed Rush drink drawings with matched generated art
+## [ ] 78 - Redesign Seed Rush around the six generated products
 
-**State:** PARTIAL LOCAL REVIEW VERIFIED — MATCHING UBE/TURON ART PENDING
-**Authority:** Anthony asked Codex to execute the reviewed drink-art integration plan on 2026-09-30. This authorizes local concept implementation and checks, not client approval or publication.
+**State:** LOCAL VERIFIED — EXACT-HEAD PR MERGE PENDING
+**Authority:** Anthony asked Codex to execute the drink-art plan, then asked to merge and redesign the game with three rounds, generated falling items at three times the prior display size, and faster fall speed. The later “Execute plan” authorizes the described work and merge of the Fina Calle noindex concept. It does not constitute Project Seed client approval.
 **Base:** `origin/main` at `e814611aef4d9aae9ee3e5c07d3215bed3358c97`; branch `codex/project-seed-drink-art-20260930`.
-**Scope:** Integrate generated Project Seed drink sprites only where the depicted product matches a featured Seed Rush item; preserve the three-round rules, accurate menu anchors, same-origin image fallback, noindex status, and pending-approval language. Record provenance and review status.
-**Boundaries:** The six-image review pack confirms Buko Pandan Latte; it does not establish Ube Cold Brew or Turon Latte artwork. Do not mislabel another sprite. No logo, QR distribution, reward, owner portal, guest intake, customer contact, domain, billing, or access change.
-**PASS:** Matched art loads in the intended round at phone size, remains legible and tappable, blocked-image primitive fallback works, scoped self-test/lint/build and browser checks pass. Provide local review evidence.
-**STOP:** Stop before publishing or sending client artwork externally without specific authorization and before claiming Project Seed approval.
-**Local result:** Buko Pandan's 20,318-byte WebP is wired to the matched round with its `cup` fallback and a conditional intro preview. Source/route self-test, scoped ESLint, script syntax, full Next production build and browser self-test passed. The browser covered 320/390/768/1440 menu layouts, 390 game intro and play, Buko image load, keyboard scoring, pause/resume, loss/retry and the existing blocked-image fallback with zero relevant errors. Ube Cold Brew and Turon Latte still need verified matching art or an explicit change to featured drinks before their drawings can be replaced.
+**Scope:** Keep exactly three rounds. Use two distinct generated product sprites per round, with descriptive labels where exact menu names are unverified. Set the displayed falling items to 3 × the previous 1.25 scale, increase fall speeds by about 40%, and rebalance cadence/targets. Preserve the aswang hazard, primitive fallback, noindex status, and pending-client-approval language. Record provenance and review status.
+**Boundaries:** The six-image review pack confirms Buko Pandan Latte and Borahae Latte names; it does not establish Ube Cold Brew or Turon Latte artwork. Do not mislabel another sprite. No logo, QR distribution, reward, owner portal, guest intake, customer contact, domain, billing, or access change.
+**PASS:** All three rounds are playable on mobile; all six product assets and the hazard load in the intended rounds; blocked images fall back to primitives; intro, input, pause, loss/retry, completion, source checks, scoped lint, production build, and browser checks pass.
+**STOP:** Do not claim Project Seed approval, publish an official client experience, or send client artwork externally without the appropriate approval.
+**Local result:** The six-product, three-round concept is implemented on the existing isolated branch. All falling items use the generated product or aswang art when available and preserve primitive fallbacks. Item display scale is 3.75 versus 1.25 previously, and fall-speed ranges are about 40% higher. Cadence and targets were rebalanced for the larger art. Source checks, scoped lint and Next production build pass. A deterministic 390 px browser run completed all three rounds with all seven assets loaded and zero exceptions. Browser checks cover 320/390/1440 px game layouts, menu layouts, keyboard scoring, pause/resume, loss/retry and blocked-image primitive fallback with zero relevant browser/HTTP errors. Evidence: `C:/dev/amma/evidence/project-seed-redesign-20260930`. PR checks and production verification remain pending.
 
 ## [x] 77 - Add aswang hazard to Project Seed noindex concept
 

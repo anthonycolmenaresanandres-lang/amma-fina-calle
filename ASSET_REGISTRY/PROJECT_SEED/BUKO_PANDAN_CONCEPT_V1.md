@@ -10,7 +10,7 @@ DATE ADDED: 2026-09-30
 
 STATUS: Fina Calle concept review only; Project Seed product-image rights and client approval pending.
 
-INTENDED USE: The labeled, noindex Fina Calle Seed Rush concept at `/play/project-seed`, as the positive item in the Buko Pandan round.
+INTENDED USE: The labeled, noindex Fina Calle Seed Rush concept at `/play/project-seed`, as a positive item in round one.
 
 FORBIDDEN USE: Official Project Seed menu or launch, paid campaign, printed QR, client-owned channel, or another customer's game without the appropriate rights and approval.
 
@@ -24,6 +24,6 @@ OWNER / APPROVER: Anthony for local Fina Calle concept preparation. Project Seed
 - Dimensions: 256 × 256 pixels with transparency
 - File size: 20,318 bytes
 - SHA-256: `9F1D1A71C911F25873194EA4D5B5EC370CF2F560158C324C4226B59222CF614E`
-- Runtime item id: `pandan`
+- Runtime item id: `buko-pandan`
 - Runtime fallback: green `cup` primitive
-- Other generated review-pack images were not mapped to Ube Cold Brew or Turon Latte because the pack does not verify those product identities.
+- The rest of the generated review pack is registered in `FALLING_RUSH_PRODUCT_ART_V1.md`; no artwork is mapped to Ube Cold Brew or Turon Latte because the pack does not verify those product identities.
