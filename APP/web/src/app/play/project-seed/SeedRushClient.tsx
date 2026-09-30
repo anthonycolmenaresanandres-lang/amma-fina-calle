@@ -7,6 +7,7 @@ import type { CafeRushStatus } from "@/caferush/types";
 import { seedMenuItemHref } from "../../(internal)/demo/project-seed/menu-data";
 import { octoberDrinkNotes, octoberRounds as seedRounds, octoberRoundShowcase as seedRoundShowcase, octoberSkin as seedSkin, octoberSkinForRound as seedSkinForRound } from "./october-config";
 import styles from "./page.module.css";
+import { HalloweenWeb } from "./HalloweenWeb";
 
 type View = "intro" | "playing" | "won" | "lost" | "complete";
 const BEST_KEY = "project-seed-rush-october-best-v1";
@@ -122,12 +123,13 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
 
   const discovered = lastDrinkCaught.current && seedSkin.items.find((item) => item.id === lastDrinkCaught.current);
 
-  return <main className={styles.page}>
+  return <main className={`${styles.page} ${view === "intro" ? styles.halloween : ""}`}>
+    {view === "intro" ? <div className={styles.webLayer} aria-hidden="true"><HalloweenWeb className={styles.webLeft} /><HalloweenWeb className={styles.webRight} spider /></div> : null}
     <a className={styles.skip} href="#game-content">Skip to game content</a>
     <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee" width={132} height={124} /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><div className={styles.headerLinks}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={40} height={20} /><a href="/project-seed/menu">Menu ↗</a></div></header>
     <div className={styles.shell} id="game-content">
       {view === "intro" ? <section className={styles.intro} aria-labelledby="game-title">
-        <p className={styles.eyebrow}>Project Seed Coffee · Three quick rounds</p>
+        <p className={styles.eyebrow}>Project Seed Coffee · Halloween edition</p>
         <h1 id="game-title">SEED<br /><span>RUSH</span></h1>
         <p className={styles.introLead}>Catch the coffee and pastries. Let the aswang pass. Each round moves faster.</p>
         <div className={styles.roundLineup} role="group" aria-label="Three Seed Rush rounds">{seedRoundShowcase.map((entry, index) => <div className={styles.roundCard} key={entry.title}>
@@ -136,7 +138,6 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
           <strong>{entry.title}</strong>
         </div>)}</div>
         <div className={styles.instructions}><PreviewItem itemId="buko-pandan" /><span>Products · +10</span><span aria-hidden="true" className={styles.demoAswang} /><span>Aswang · avoid</span></div>
-        <p className={styles.folklore}><span>Tabi-tabi po.</span> A respectful request for passage in Filipino folk tradition.</p>
         <button type="button" className={styles.primary} onClick={() => begin(0, true)}>Start Seed Rush <span aria-hidden="true">→</span></button>
         <p className={styles.fine}>{octoberLive ? "October menu is here." : "October menu arrives October 1."} No sign-up, reward, or purchase required. Arrow keys select an item; Space or Enter collects it. Personal best: {best}.</p>
       </section> : null}

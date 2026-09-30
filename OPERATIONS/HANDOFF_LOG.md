@@ -1,5 +1,13 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-09-30 OUT — Halloween Seed Rush landing release candidate
+
+Added a landing-only dark plum, ivory, and warm orange treatment, with lightweight original SVG corner webs and a hanging spider. Removed the Tabi-tabi po line and explanation. Product cutouts, flag, logo, three rounds, speed/hazards, and the roof/map game background are retained. The theme ends when a round starts. Existing phrase assertions were updated without execution; no local tests/build/lint/browser runs, following Anthony's preference. Release receipt tracked in the PR.
+
+## 2026-09-30 IN — Seed Rush Halloween landing
+
+Anthony requested a spooky Halloween landing with spiderwebs and removal of the Tabi-tabi po text. Branch `codex/project-seed-halloween-landing-20260930` starts from merged main `c3299eb`. This is a landing presentation change only; preserve products, flag, game rules, and roof/map playfield. Carry forward the authorized merge workflow and no local test preference.
+
 ## 2026-09-30 OUT — Project Seed visual cleanup release candidate
 
 Restored the existing photo-based drink/pastry cutouts with their original labels and removed the posted flyer and cartoon cups from active page/game use. October items remain clean menu text. Added a public-domain 2:1 Philippine flag to menu and game headers. Replaced the game photo collage, lamps, foliage, and glow with a restrained red-roof/wall/Philippines-map background, exported for portrait and landscape. Source and output assets are recorded in `ASSET_REGISTRY/PROJECT_SEED/VISUAL_CLEANUP_20260930.md`. No local tests, lint/build, or browser/game test runs were performed, as Anthony explicitly requested. Existing scripts' asset expectations were aligned without execution. Merge authorized; release receipt tracked in the PR.

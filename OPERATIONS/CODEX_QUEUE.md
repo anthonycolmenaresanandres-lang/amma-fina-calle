@@ -1,5 +1,12 @@
 # Codex Queue — canonical live queue
 
+## [x] 82 - Seed Rush Halloween landing page
+
+**State:** IMPLEMENTED — RELEASE DETAILS TRACKED IN THE MERGE PR
+**Authority:** Anthony requested a Halloween game landing page with spiderwebs and a spooky atmosphere, removal of the Tabi-tabi po line, and preservation of the remaining game. Continuing the authorized execute/merge workflow and no-local-tests preference.
+**Scope:** Landing-only charcoal, warm orange, ivory styling and decorative vector webs/spider. Retain the logo, flag, products, three rounds, current speed/hazards, and roof/map playfield. Remove the passage phrase and its explanation. No local test/build/browser runs.
+**Result:** Added original lightweight SVG spiderwebs and a hanging spider, a dark plum landing palette, ivory/orange title, and orange start control. The theme is conditional on the intro view, so the café playfield and other game views retain their existing skin. Removed the passage text and aligned existing assertions without running tests. No local tests, build, lint, or browser runs were performed.
+
 ## [x] 81 - Project Seed restrained visual cleanup
 
 **State:** IMPLEMENTED — RELEASE DETAILS TRACKED IN THE MERGE PR
