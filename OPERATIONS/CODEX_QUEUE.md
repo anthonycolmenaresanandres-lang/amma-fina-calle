@@ -1,5 +1,16 @@
 # Codex Queue — canonical live queue
 
+## [ ] 78 - Redesign Seed Rush around the six generated products
+
+**State:** LOCAL VERIFIED — EXACT-HEAD PR MERGE PENDING
+**Authority:** Anthony asked Codex to execute the drink-art plan, then asked to merge and redesign the game with three rounds, generated falling items at three times the prior display size, and faster fall speed. The later “Execute plan” authorizes the described work and merge of the Fina Calle noindex concept. It does not constitute Project Seed client approval.
+**Base:** `origin/main` at `e814611aef4d9aae9ee3e5c07d3215bed3358c97`; branch `codex/project-seed-drink-art-20260930`.
+**Scope:** Keep exactly three rounds. Use two distinct generated product sprites per round, with descriptive labels where exact menu names are unverified. Set the displayed falling items to 3 × the previous 1.25 scale, increase fall speeds by about 40%, and rebalance cadence/targets. Preserve the aswang hazard, primitive fallback, noindex status, and pending-client-approval language. Record provenance and review status.
+**Boundaries:** The six-image review pack confirms Buko Pandan Latte and Borahae Latte names; it does not establish Ube Cold Brew or Turon Latte artwork. Do not mislabel another sprite. No logo, QR distribution, reward, owner portal, guest intake, customer contact, domain, billing, or access change.
+**PASS:** All three rounds are playable on mobile; all six product assets and the hazard load in the intended rounds; blocked images fall back to primitives; intro, input, pause, loss/retry, completion, source checks, scoped lint, production build, and browser checks pass.
+**STOP:** Do not claim Project Seed approval, publish an official client experience, or send client artwork externally without the appropriate approval.
+**Local result:** The six-product, three-round concept is implemented on the existing isolated branch. All falling items use the generated product or aswang art when available and preserve primitive fallbacks. Item display scale is 3.75 versus 1.25 previously, and fall-speed ranges are about 40% higher. Cadence and targets were rebalanced for the larger art. Source checks, scoped lint and Next production build pass. A deterministic 390 px browser run completed all three rounds with all seven assets loaded and zero exceptions. Browser checks cover 320/390/1440 px game layouts, menu layouts, keyboard scoring, pause/resume, loss/retry and blocked-image primitive fallback with zero relevant browser/HTTP errors. Evidence: `C:/dev/amma/evidence/project-seed-redesign-20260930`. PR checks and production verification remain pending.
+
 ## [x] 77 - Add aswang hazard to Project Seed noindex concept
 
 **State:** DONE — LIVE NOINDEX CONCEPT VERIFIED; PROJECT SEED SIGN-OFF STILL PENDING
