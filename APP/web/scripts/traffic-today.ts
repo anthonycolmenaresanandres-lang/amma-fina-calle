@@ -1,6 +1,8 @@
 // Codex / local CLI: prints today's traffic report from the protected endpoint.
 //
-//   npm run traffic:today
+//   npm run traffic:today -- bodega
+//   npm run traffic:today -- fina-calle
+//   npm run traffic:today -- colattao
 //
 // Reads config from env (never prints secrets):
 //   TRAFFIC_REPORT_URL    base URL of the deployment (default http://localhost:3000)
@@ -8,6 +10,8 @@
 
 const baseUrl = (process.env.TRAFFIC_REPORT_URL || "http://localhost:3000").replace(/\/+$/, "");
 const token = process.env.TRAFFIC_REPORT_TOKEN;
+const siteId = process.argv[2];
+const VALID_SITES = new Set(["bodega", "fina-calle", "colattao"]);
 
 function bar(count: number, max: number, width = 24): string {
   if (max <= 0) return "";
@@ -15,13 +19,18 @@ function bar(count: number, max: number, width = 24): string {
 }
 
 async function main(): Promise<void> {
+  if (!VALID_SITES.has(siteId)) {
+    console.error("Specify exactly one site: bodega, fina-calle, or colattao. Mixed-site totals are not available.");
+    process.exitCode = 1;
+    return;
+  }
   if (!token) {
     console.error("TRAFFIC_REPORT_TOKEN is not set. Aborting (no token, no request).");
     process.exitCode = 1;
     return;
   }
 
-  const url = `${baseUrl}/api/internal/traffic/today`;
+  const url = `${baseUrl}/api/internal/traffic/today?site=${encodeURIComponent(siteId)}`;
   let response: Response;
   try {
     response = await fetch(url, { headers: { authorization: `Bearer ${token}` } });
@@ -38,6 +47,7 @@ async function main(): Promise<void> {
   }
 
   const report = (await response.json()) as {
+    siteId: string;
     date: string;
     timezone: string;
     pageviews: number;
@@ -48,7 +58,12 @@ async function main(): Promise<void> {
   };
 
   console.log("");
-  console.log(`  Traffic — ${report.date} (${report.timezone})`);
+  if (report.siteId !== siteId) {
+    console.error("Report site mismatch; refusing to print traffic.");
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`  ${report.siteId} traffic — ${report.date} (${report.timezone})`);
   console.log(`  ${"─".repeat(40)}`);
   console.log(`  Pageviews        ${report.pageviews}`);
   console.log(`  Unique visitors  ${report.uniqueVisitors}`);

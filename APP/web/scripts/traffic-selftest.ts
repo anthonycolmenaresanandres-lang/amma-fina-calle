@@ -14,6 +14,8 @@ import { parseDrainPayload } from "../src/lib/traffic/parse-drain";
 import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { verifyDrainRequest } from "../src/lib/traffic/signature";
 import { __test } from "../src/lib/traffic/store";
+import { siteFilter, siteForPublicVisit, TRAFFIC_SITES } from "../src/lib/traffic/sites";
+import { todayRange } from "../src/lib/traffic/date";
 
 let failures = 0;
 function check(name: string, condition: boolean, detail?: string): void {
@@ -44,21 +46,32 @@ async function main(): Promise<void> {
   // --- drain parsing (NDJSON + JSON array, both Vercel-documented shapes) ---
   const ts = nowMs();
   const ndjson = [
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalle.com", path: "/m/colattao" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 11111, origin: "https://finacalle.com", path: "/m/colattao", referrer: "https://www.instagram.com/" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalle.com", path: "/api/secret" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "event", eventName: "button_click", timestamp: ts, deviceId: 67890, origin: "https://finacalle.com", path: "/m/colattao" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 11111, origin: "https://finacalleos.com", path: "/for-restaurants", referrer: "https://www.instagram.com/" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/api/secret" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "event", eventName: "button_click", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 999, origin: "https://finacalleos.com", path: "/customers/traffic" }),
+    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 999, origin: "https://amma-fina-calle-abc.vercel.app", path: "/for-restaurants" }),
   ].join("\n");
   const parsed = parseDrainPayload(ndjson);
   check("api event dropped during parse", parsed.every((e) => !e.path.startsWith("/api")), JSON.stringify(parsed.map((e) => e.path)));
-  check("pageviews parsed (3 non-api events)", parsed.length === 3, `got ${parsed.length}`);
+  check("only verified public events parsed", parsed.length === 3, `got ${parsed.length}`);
+  check("all Fina events attributed to Fina", parsed.every((e) => e.siteId === "fina-calle"));
   check("instagram referrer host extracted", parsed.some((e) => e.referrerHost === "instagram.com"));
 
   const arrayPayload = JSON.stringify([
-    { schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 222, origin: "https://finacalle.com", path: "/penalty-shootout" },
+    { schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 222, origin: "https://colattao-cafe-rush.vercel.app", path: "/menu" },
   ]);
   check("json array payload parsed", parseDrainPayload(arrayPayload).length === 1);
   check("garbage payload is empty, not thrown", parseDrainPayload("not json at all").length === 0);
+  check("same project Bodega host stays Bodega", siteForPublicVisit("bodegacafe757.com", "/demo/bodega")?.id === "bodega");
+  check("hosted client path never becomes Fina marketing", !siteForPublicVisit("finacalleos.com", "/demo/project-seed"));
+  check("preview deployment never becomes Colattao", !siteForPublicVisit("colattao-cafe-rush-abc.vercel.app", "/menu"));
+  check("every API filter contains its own hostname", TRAFFIC_SITES.every((site) => siteFilter(site).includes(`requestHostname eq '${site.domains[0]}'`)));
+  const spring = todayRange("America/New_York", Date.parse("2026-03-08T15:00:00Z"));
+  const fall = todayRange("America/New_York", Date.parse("2026-11-01T15:00:00Z"));
+  check("Eastern spring reporting day spans 23 hours", spring.dateStr === "2026-03-08" && spring.endMs - spring.startMs === 23 * 3600000);
+  check("Eastern fall reporting day spans 25 hours", fall.dateStr === "2026-11-01" && fall.endMs - fall.startMs === 25 * 3600000);
 
   // --- signature ---
   const secret = "test-secret-123";
@@ -73,15 +86,24 @@ async function main(): Promise<void> {
   const store = new __test.FileTrafficStore(dir);
   await store.insertEvents(parsed);
   await store.insertEvents(parseDrainPayload(arrayPayload));
+  // Historical file rows without a site ID cannot safely enter any site report.
+  await fs.appendFile(path.join(dir, "traffic-events.jsonl"), JSON.stringify({
+    ts, path: "/for-restaurants", referrerHost: null, visitorId: "legacy", eventType: "pageview",
+  }) + "\n", "utf8");
   // An event from yesterday must be excluded from "today".
-  await store.insertEvents([{ ts: ts - 48 * 60 * 60 * 1000, path: "/old", referrerHost: null, visitorId: "999", eventType: "pageview" }]);
+  await store.insertEvents([{ siteId: "fina-calle", ts: ts - 48 * 60 * 60 * 1000, path: "/old", referrerHost: null, visitorId: "999", eventType: "pageview" }]);
 
-  const report = await store.getTodayReport("America/New_York");
-  check("today pageviews = 3 (2x menu + 1 penalty)", report.pageviews === 3, `got ${report.pageviews}`);
-  check("unique visitors = 3 (67890, 11111, 222)", report.uniqueVisitors === 3, `got ${report.uniqueVisitors}`);
-  check("top path is the menu with 2 views", report.topPaths[0]?.path === "/m/colattao" && report.topPaths[0]?.count === 2);
+  const report = await store.getTodayReport("fina-calle", "America/New_York");
+  const colattaoReport = await store.getTodayReport("colattao", "America/New_York");
+  check("Fina pageviews exclude Colattao", report.pageviews === 2, `got ${report.pageviews}`);
+  check("Fina visitors exclude Colattao", report.uniqueVisitors === 2, `got ${report.uniqueVisitors}`);
+  check("Colattao remains separate", colattaoReport.siteId === "colattao" && colattaoReport.pageviews === 1 && colattaoReport.uniqueVisitors === 1);
+  check("top path is the Fina marketing page", report.topPaths[0]?.path === "/for-restaurants" && report.topPaths[0]?.count === 2);
   check("yesterday excluded from today", !report.topPaths.some((p) => p.path === "/old"));
   check("top referrer is instagram", report.topReferrers[0]?.referrer === "instagram.com");
+  let unknownRejected = false;
+  try { await store.getTodayReport("unknown-site", "America/New_York"); } catch { unknownRejected = true; }
+  check("unknown site report rejected", unknownRejected);
 
   await fs.rm(dir, { recursive: true, force: true });
 

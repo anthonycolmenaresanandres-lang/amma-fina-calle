@@ -1,10 +1,11 @@
-// Protected report endpoint. Returns today's aggregates for a local CLI
+// Protected report endpoint. Returns today's aggregates for one site to a local CLI
 // (scripts/traffic-today.ts) or any internal caller holding TRAFFIC_REPORT_TOKEN.
 // Bearer token, constant-time compare, never logged.
 
 import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { getTrafficStore } from "@/lib/traffic/store";
+import { trafficSite } from "@/lib/traffic/sites";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,8 +34,12 @@ export async function GET(request: Request) {
   }
 
   const timezone = process.env.TRAFFIC_TIMEZONE || "America/New_York";
+  const siteId = new URL(request.url).searchParams.get("site") || "";
+  if (!trafficSite(siteId)) {
+    return NextResponse.json({ ok: false, reason: "valid_site_required" }, { status: 400 });
+  }
   try {
-    const report = await getTrafficStore().getTodayReport(timezone);
+    const report = await getTrafficStore().getTodayReport(siteId, timezone);
     return NextResponse.json({ ok: true, ...report });
   } catch (error) {
     console.error("[traffic/today] report error:", error instanceof Error ? error.message : error);

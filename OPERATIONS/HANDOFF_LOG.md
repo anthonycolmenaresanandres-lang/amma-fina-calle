@@ -1,5 +1,15 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-01 OUT — multi-site traffic implementation ready for review
+
+On `codex/multisite-traffic-20261001`, added a verified production-site registry for Bodega (`bodegacafe757.com` + www), Fina Calle OS (`finacalleos.com` + www), and Colattao (`colattao-cafe-rush.vercel.app`, the current Vercel production alias with no custom alias). The shared AMMA project is separated by both hostname and public-path allowlist; client demos/private/admin/API pages and preview hosts are excluded. The admin page `/customers/traffic` displays independent site reports without a combined total. A `12:12 UTC` Vercel cron prepares the previous Eastern day's three separate sections and sends only when all API reports and explicit Resend/recipient configuration are ready. The old drain and CLI now require a site ID; legacy unattributed rows are omitted. No live email or production change occurred.
+
+Verification: 29 drain/registry/DST checks pass; multi-site dashboard/email source/format checks pass; scoped ESLint passes; TypeScript passed before Next generated its route types. Webpack production source compilation succeeds, then the known unrelated named-export errors in Bodega billing and Colattao plan pages stop its local type gate. Default Turbopack build is locally blocked by the external `node_modules` junction. Draft PR #290 on exact head `5b509c3` passed GitHub web CI (including the new isolation self-test), Vercel preview, and Preview Comments on 2026-10-01. Next: Anthony reviews the PR, configures production server-only Web Analytics token (both projects), `CRON_SECRET`, `RESEND_API_KEY`, `REQUESTS_FROM_EMAIL`, and `TRAFFIC_MORNING_REPORT_EMAIL`, then verifies one authenticated cron result/email and per-site live dashboard. Preserve the screenshot ledger as a separate manual record.
+
+## 2026-10-01 IN — multi-site traffic and morning report
+
+Anthony requested an upgrade of the existing Bodega traffic system into centralized multi-site reporting, with strict per-client separation, verified Vercel production domains, internal/demo exclusions and a morning report. Started from clean `origin/main` `43ebcaf` on branch `codex/multisite-traffic-20261001`. Inspected Bodega API dashboard/helper, first-party drain, scripts, `BUSINESS/ANALYTICS`, caretaker schedule, Vercel project/deployment aliases and public route inventories before editing. Scope is app/report code and documentation; no CRM, customer contact, production secret, merge or deployment change.
+
 ## 2026-09-30 OUT — Halloween Seed Rush landing release candidate
 
 Added a landing-only dark plum, ivory, and warm orange treatment, with lightweight original SVG corner webs and a hanging spider. Removed the Tabi-tabi po line and explanation. Product cutouts, flag, logo, three rounds, speed/hazards, and the roof/map game background are retained. The theme ends when a round starts. Existing phrase assertions were updated without execution; no local tests/build/lint/browser runs, following Anthony's preference. Release receipt tracked in the PR.

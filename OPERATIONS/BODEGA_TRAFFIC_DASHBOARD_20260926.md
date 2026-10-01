@@ -46,10 +46,10 @@ No token is exposed to the browser. If the deployment OIDC token is not accepted
 
 Optional project/team overrides:
 
-- `VERCEL_WEB_ANALYTICS_PROJECT_ID`
 - `VERCEL_WEB_ANALYTICS_TEAM_ID`
 
-The Fina Calle production project/team IDs are safe non-secret defaults in the helper.
+The verified project IDs and host/path scopes now live in the multi-site registry
+(`APP/web/src/lib/traffic/sites.ts`), not a Bodega-only helper override.
 
 ## Privacy / interpretation
 
@@ -59,7 +59,9 @@ This dashboard displays aggregated Web Analytics only. It does not store IP addr
 
 ## Existing traffic drain
 
-The older `/api/traffic/drain` pipeline remains untouched. It can still be activated separately for retained first-party copies/automation, but this dashboard does not depend on that database or drain.
+The older `/api/traffic/drain` pipeline remains independent of this dashboard.
+As of 2026-10-01, it tags verified events by site and excludes unattributable
+legacy rows from reports; see `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`.
 
 ## Verification
 

@@ -1,6 +1,6 @@
 # First-party traffic counter (Colattao / Fina Calle)
 
-Dashboard-free traffic reports, sourced from **Vercel Web Analytics** and stored
+Site-scoped first-party traffic copies, sourced from **Vercel Web Analytics** and stored
 in **our own database** so we can read numbers from a terminal and keep them
 going forward.
 
@@ -14,7 +14,7 @@ Vercel Web Analytics  ──(Drain: vercel.analytics.v2)──►  POST /api/tra
                                                    separate store (Postgres or
                                                    local file fallback)
                                                               ▲
-   npm run traffic:today ──►  GET /api/internal/traffic/today │  (bearer token)
+   npm run traffic:today -- <site> ──► GET /api/internal/traffic/today?site=<site> │ (bearer token)
 ```
 
 We **reuse Vercel's own analytics as the source of truth** (same numbers as the
@@ -41,7 +41,9 @@ we control. This is *not* a second, parallel counter.
 - **Customer routes protected.** `sanitizePath` keeps **public** storefront
   paths (e.g. `/m/colattao` — that's the traffic we want) but collapses
   authenticated portals to non-identifying labels: `/owner/...` → `/owner/:private`,
-  `/customers/...` → `/customers/:private`. `/api`, `/auth`, `/_next` are dropped.
+  `/customers/...` → `/customers/:private`. These private labels are **not** in
+  any site's public allowlist, so they are excluded from traffic reports.
+  `/api`, `/auth`, `/_next` are dropped.
   Opaque ids (UUID/long-hex/numeric) collapse to `:id`.
 - The drain endpoint is **public**, so it authenticates every request
   (`x-traffic-secret`, constant-time compare; also accepts Vercel's
@@ -113,8 +115,11 @@ done in this PR. Nothing here ships without your approval.
    fallback; the key requirements are the Analytics v2 schema, our URL, and the
    `x-traffic-secret` header.)
 
-6. **Verify live:** browse the site, then `npm run traffic:today` — confirm real
-   pageviews arrive.
+6. **Verify live:** browse one verified public site, then run
+   `npm run traffic:today -- <site>` — confirm only that site's pageviews arrive.
+   Unattributable historical rows are intentionally omitted. This drain is not
+   the source of the admin multi-site dashboard or morning email; see
+   `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`.
 
 ## Local development / testing
 
@@ -133,4 +138,4 @@ TRAFFIC_DRAIN_SECRET=s TRAFFIC_REPORT_TOKEN=t npm run build && npx next start
   **prune raw events** past a retention window (cost + privacy). The live report
   currently queries raw events directly, which is fine at a single storefront's
   volume.
-- Multi-day / per-restaurant report ranges.
+- Multi-day ranges for the first-party drain copy. Per-site reporting is now mandatory.
