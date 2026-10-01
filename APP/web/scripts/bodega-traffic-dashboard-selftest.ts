@@ -10,8 +10,9 @@ async function read(relative: string) {
 }
 
 async function main() {
-  const [lib, sites, page, central, customers, env, cron, morning] = await Promise.all([
+  const [lib, store, sites, page, central, customers, env, cron, morning] = await Promise.all([
     read("src/lib/traffic/site-traffic.ts"),
+    read("src/lib/traffic/store.ts"),
     read("src/lib/traffic/sites.ts"),
     read("src/app/customers/bodega-traffic/page.tsx"),
     read("src/app/customers/traffic/page.tsx"),
@@ -28,7 +29,9 @@ async function main() {
   assert.match(sites, /colattao-cafe-rush\.vercel\.app/);
   assert.match(lib, /getTrafficStore\(\)\.getRangeReport/);
   assert.match(lib, /"\/bodega-sessions-review"/);
-  assert.match(lib, /TRAFFIC_DATABASE_URL/);
+  assert.match(lib, /trafficDatabaseUrl/);
+  assert.match(store, /TRAFFIC_DATABASE_DATABASE_URL/);
+  assert.match(store, /TRAFFIC_DATABASE_URL/);
   assert.match(lib, /getAllSiteTrafficReports/);
   assert.match(lib, /Promise\.all\(TRAFFIC_SITES\.map/);
   assert(!lib.includes("NEXT_PUBLIC_VERCEL"), "Analytics credentials must stay server-only");
