@@ -2,13 +2,15 @@
 //
 // Vercel delivers `vercel.analytics.v2` events either as a JSON array or as
 // newline-delimited JSON (NDJSON). Fields we rely on: timestamp, path,
-// eventType, deviceId/sessionId. `referrer` is read when present (the v2
+// eventType, deviceId/sessionId, and origin/hostname for strict site
+// attribution. `referrer` is read when present (the v2
 // schema does not always include an external referrer — topReferrers is
 // best-effort). Unparseable lines are skipped, never thrown, so a single bad
 // record can't drop a whole batch.
 
 import type { NormalizedEvent } from "./types";
 import { referrerHost, sanitizePath } from "./sanitize";
+import { siteForPublicVisit } from "./sites";
 
 interface RawAnalyticsEvent {
   schema?: string;
@@ -17,6 +19,7 @@ interface RawAnalyticsEvent {
   timestamp?: number;
   path?: string;
   origin?: string;
+  requestHostname?: string;
   referrer?: string;
   deviceId?: number | string;
   sessionId?: number | string;
@@ -53,12 +56,19 @@ export function parseDrainPayload(body: string): NormalizedEvent[] {
     const eventType = raw.eventType === "event" ? raw.eventName || "event" : raw.eventType || "pageview";
     const path = sanitizePath(typeof raw.path === "string" ? raw.path : "");
     if (path === null) continue; // dropped route (api/auth/etc.)
+    let host = typeof raw.requestHostname === "string" ? raw.requestHostname : "";
+    if (!host && raw.origin) {
+      try { host = new URL(raw.origin).hostname; } catch { /* no attributable host */ }
+    }
+    const site = siteForPublicVisit(host, path);
+    if (!site) continue; // Unknown/preview/private routes never enter a site report.
 
     const visitorRaw = raw.deviceId ?? raw.sessionId;
     const visitorId = visitorRaw === undefined || visitorRaw === null ? "unknown" : String(visitorRaw);
     const ts = typeof raw.timestamp === "number" && Number.isFinite(raw.timestamp) ? raw.timestamp : Date.now();
 
     normalized.push({
+      siteId: site.id,
       ts,
       path,
       referrerHost: referrerHost(raw.referrer, raw.origin),

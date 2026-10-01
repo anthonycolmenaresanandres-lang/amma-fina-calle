@@ -6,19 +6,21 @@
 //   - File (dev/test/fallback): JSONL under TRAFFIC_DATA_DIR (default .data),
 //     used automatically when TRAFFIC_DATABASE_URL is absent.
 //
-// The report query runs directly against raw events — fine for a single
-// storefront's volume. A daily rollup table is documented as a future
+// Each report query is scoped to one verified site_id. It runs directly
+// against raw events; a daily rollup table is documented as a future
 // optimization in TECH_ARCHITECTURE/TRAFFIC_COUNTER.md.
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { DailyReport, NormalizedEvent, PathCount, ReferrerCount, TrafficStore } from "./types";
 import { todayRange } from "./date";
+import { trafficSite } from "./sites";
 
 const TOP_LIMIT = 10;
 
 function buildReport(
   events: NormalizedEvent[],
+  siteId: string,
   timezone: string,
   dateStr: string,
 ): DailyReport {
@@ -48,6 +50,7 @@ function buildReport(
     .slice(0, TOP_LIMIT);
 
   return {
+    siteId,
     date: dateStr,
     timezone,
     pageviews,
@@ -67,30 +70,32 @@ class FileTrafficStore implements TrafficStore {
 
   async insertEvents(events: NormalizedEvent[]): Promise<void> {
     if (!events.length) return;
+    if (events.some((event) => !trafficSite(event.siteId))) throw new Error("Unknown traffic site");
     await fs.mkdir(path.dirname(this.file), { recursive: true });
     const lines = events.map((event) => JSON.stringify(event)).join("\n") + "\n";
     await fs.appendFile(this.file, lines, "utf8");
   }
 
-  async getTodayReport(timezone: string): Promise<DailyReport> {
+  async getTodayReport(siteId: string, timezone: string): Promise<DailyReport> {
+    if (!trafficSite(siteId)) throw new Error("Unknown traffic site");
     const { dateStr, startMs, endMs } = todayRange(timezone);
     let raw = "";
     try {
       raw = await fs.readFile(this.file, "utf8");
     } catch {
-      return buildReport([], timezone, dateStr);
+      return buildReport([], siteId, timezone, dateStr);
     }
     const events: NormalizedEvent[] = [];
     for (const line of raw.split("\n")) {
       if (!line.trim()) continue;
       try {
         const event = JSON.parse(line) as NormalizedEvent;
-        if (event.ts >= startMs && event.ts < endMs) events.push(event);
+        if (event.siteId === siteId && event.ts >= startMs && event.ts < endMs) events.push(event);
       } catch {
         // skip corrupt line
       }
     }
-    return buildReport(events, timezone, dateStr);
+    return buildReport(events, siteId, timezone, dateStr);
   }
 }
 
@@ -119,7 +124,10 @@ class PostgresTrafficStore implements TrafficStore {
           event_type TEXT NOT NULL
         )
       `;
+      // Legacy rows are deliberately left NULL: their site cannot be proven.
+      await this.pool.sql`ALTER TABLE traffic_events ADD COLUMN IF NOT EXISTS site_id TEXT`;
       await this.pool.sql`CREATE INDEX IF NOT EXISTS traffic_events_ts_idx ON traffic_events (ts)`;
+      await this.pool.sql`CREATE INDEX IF NOT EXISTS traffic_events_site_ts_idx ON traffic_events (site_id, ts)`;
       this.initialized = true;
     }
     return this.pool;
@@ -127,16 +135,18 @@ class PostgresTrafficStore implements TrafficStore {
 
   async insertEvents(events: NormalizedEvent[]): Promise<void> {
     if (!events.length) return;
+    if (events.some((event) => !trafficSite(event.siteId))) throw new Error("Unknown traffic site");
     const pool = await this.getPool();
     for (const event of events) {
       await pool.sql`
-        INSERT INTO traffic_events (ts, path, referrer_host, visitor_id, event_type)
-        VALUES (to_timestamp(${event.ts} / 1000.0), ${event.path}, ${event.referrerHost}, ${event.visitorId}, ${event.eventType})
+        INSERT INTO traffic_events (site_id, ts, path, referrer_host, visitor_id, event_type)
+        VALUES (${event.siteId}, to_timestamp(${event.ts} / 1000.0), ${event.path}, ${event.referrerHost}, ${event.visitorId}, ${event.eventType})
       `;
     }
   }
 
-  async getTodayReport(timezone: string): Promise<DailyReport> {
+  async getTodayReport(siteId: string, timezone: string): Promise<DailyReport> {
+    if (!trafficSite(siteId)) throw new Error("Unknown traffic site");
     const pool = await this.getPool();
     const { dateStr, startMs, endMs } = todayRange(timezone);
     const start = new Date(startMs).toISOString();
@@ -148,23 +158,24 @@ class PostgresTrafficStore implements TrafficStore {
         COUNT(DISTINCT visitor_id) AS unique_visitors,
         MAX(ts) AS last_updated
       FROM traffic_events
-      WHERE ts >= ${start} AND ts < ${end}
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
     `;
     const paths = await pool.sql`
       SELECT path, COUNT(*) AS count
       FROM traffic_events
-      WHERE ts >= ${start} AND ts < ${end} AND event_type = 'pageview'
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND event_type = 'pageview'
       GROUP BY path ORDER BY count DESC LIMIT ${TOP_LIMIT}
     `;
     const referrers = await pool.sql`
       SELECT referrer_host AS referrer, COUNT(*) AS count
       FROM traffic_events
-      WHERE ts >= ${start} AND ts < ${end} AND referrer_host IS NOT NULL
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND referrer_host IS NOT NULL
       GROUP BY referrer_host ORDER BY count DESC LIMIT ${TOP_LIMIT}
     `;
 
     const row = totals.rows[0] ?? {};
     return {
+      siteId,
       date: dateStr,
       timezone,
       pageviews: Number(row.pageviews ?? 0),

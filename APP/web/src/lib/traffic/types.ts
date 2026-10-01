@@ -7,6 +7,8 @@
 // phone numbers, or IPs are ever stored — only Vercel's anonymized device id.
 
 export interface NormalizedEvent {
+  /** Verified public site registry ID. Events without one are discarded. */
+  siteId: string;
   /** Epoch milliseconds. */
   ts: number;
   /** Sanitized path (dynamic ids collapsed, query string dropped). */
@@ -30,6 +32,7 @@ export interface ReferrerCount {
 }
 
 export interface DailyReport {
+  siteId: string;
   date: string; // YYYY-MM-DD in `timezone`
   timezone: string;
   pageviews: number;
@@ -41,5 +44,5 @@ export interface DailyReport {
 
 export interface TrafficStore {
   insertEvents(events: NormalizedEvent[]): Promise<void>;
-  getTodayReport(timezone: string): Promise<DailyReport>;
+  getTodayReport(siteId: string, timezone: string): Promise<DailyReport>;
 }

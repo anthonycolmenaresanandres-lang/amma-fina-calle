@@ -82,11 +82,11 @@ export default async function CustomersPage() {
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
         <Link
-          href="/customers/bodega-traffic"
+          href="/customers/traffic"
           className="inline-flex items-center gap-1.5 transition hover:text-white"
         >
           <Activity size={13} strokeWidth={1.75} aria-hidden />
-          Bodega Traffic
+          Site Traffic
         </Link>
         <Link
           href="/customers/payments"
