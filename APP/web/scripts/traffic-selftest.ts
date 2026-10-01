@@ -13,7 +13,7 @@ import { createHmac } from "node:crypto";
 import { parseDrainPayload } from "../src/lib/traffic/parse-drain";
 import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { verifyDrainRequest } from "../src/lib/traffic/signature";
-import { __test } from "../src/lib/traffic/store";
+import { __test, trafficDatabaseUrl } from "../src/lib/traffic/store";
 import { siteForPublicVisit, TRAFFIC_SITES } from "../src/lib/traffic/sites";
 import { previousEasternDay, todayRange } from "../src/lib/traffic/date";
 
@@ -33,6 +33,23 @@ function nowMs(): number {
 
 async function main(): Promise<void> {
   console.log("\nTraffic counter self-test\n");
+
+  const priorNeonUrl = process.env.TRAFFIC_DATABASE_DATABASE_URL;
+  const priorManualUrl = process.env.TRAFFIC_DATABASE_URL;
+  try {
+    process.env.TRAFFIC_DATABASE_DATABASE_URL = "postgres://neon-pooler.test/traffic";
+    process.env.TRAFFIC_DATABASE_URL = "postgres://manual-pooler.test/traffic";
+    check("Neon Marketplace traffic URL takes precedence", trafficDatabaseUrl() === "postgres://neon-pooler.test/traffic");
+    delete process.env.TRAFFIC_DATABASE_DATABASE_URL;
+    check("manual traffic URL remains a fallback", trafficDatabaseUrl() === "postgres://manual-pooler.test/traffic");
+    delete process.env.TRAFFIC_DATABASE_URL;
+    check("missing traffic database URL fails closed", trafficDatabaseUrl() === undefined);
+  } finally {
+    if (priorNeonUrl === undefined) delete process.env.TRAFFIC_DATABASE_DATABASE_URL;
+    else process.env.TRAFFIC_DATABASE_DATABASE_URL = priorNeonUrl;
+    if (priorManualUrl === undefined) delete process.env.TRAFFIC_DATABASE_URL;
+    else process.env.TRAFFIC_DATABASE_URL = priorManualUrl;
+  }
 
   // --- sanitization / privacy ---
   check("public menu path preserved", sanitizePath("/m/colattao") === "/m/colattao");

@@ -1,10 +1,11 @@
 // Storage for traffic events. SEPARATE from Supabase by design (project
 // guardrail). Two backends, chosen by env:
 //
-//   - Postgres (production): set TRAFFIC_DATABASE_URL to a dedicated database
-//     connection string (Vercel Postgres / Neon / etc. — NOT the Supabase one).
+//   - Postgres (production): connect the dedicated Neon Marketplace resource
+//     with prefix TRAFFIC_DATABASE, which injects TRAFFIC_DATABASE_DATABASE_URL.
+//     TRAFFIC_DATABASE_URL remains a manual fallback. Never use Supabase here.
 //   - File (dev/test only): JSONL under TRAFFIC_DATA_DIR (default .data).
-//     Production fails closed when TRAFFIC_DATABASE_URL is absent.
+//     Production fails closed when neither Postgres URL is available.
 //
 // Each report query is scoped to one verified site_id. It runs directly
 // against raw events; a daily rollup table is documented as a future
@@ -337,9 +338,13 @@ class PostgresTrafficStore implements TrafficStore {
 
 let cached: TrafficStore | null = null;
 
+export function trafficDatabaseUrl(): string | undefined {
+  return process.env.TRAFFIC_DATABASE_DATABASE_URL?.trim() || process.env.TRAFFIC_DATABASE_URL?.trim();
+}
+
 export function getTrafficStore(): TrafficStore {
   if (cached) return cached;
-  const connectionString = process.env.TRAFFIC_DATABASE_URL;
+  const connectionString = trafficDatabaseUrl();
   if (connectionString) {
     cached = new PostgresTrafficStore(connectionString);
   } else {

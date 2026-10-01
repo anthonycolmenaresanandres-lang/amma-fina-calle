@@ -38,7 +38,8 @@ equal the Vercel project's unfiltered dashboard total.
   uses Vercel's already-anonymized `deviceId`. (We never compute or store IP
   hashes ourselves; Vercel did the sensitive part upstream.)
 - **Separate from Supabase** by design (project guardrail). The store uses its
-  own `TRAFFIC_DATABASE_URL` — never the Supabase connection.
+  own Neon-injected `TRAFFIC_DATABASE_DATABASE_URL` (or manual
+  `TRAFFIC_DATABASE_URL` fallback) — never the Supabase connection.
 - **Customer routes protected.** `sanitizePath` keeps **public** storefront
   paths (e.g. `/m/colattao` — that's the traffic we want) but collapses
   authenticated portals to non-identifying labels: `/owner/...` → `/owner/:private`,
@@ -55,9 +56,10 @@ equal the Vercel project's unfiltered dashboard total.
 
 | Var | Where | Purpose |
 |---|---|---|
-| `TRAFFIC_DRAIN_SECRET` | Vercel project | Shared secret; sent by the drain as the `x-traffic-secret` header. |
+| `TRAFFIC_DRAIN_SECRET` | Vercel project Production Secret | Shared secret; Vercel signs the drain body in `x-vercel-signature`. |
 | `TRAFFIC_REPORT_TOKEN` | Vercel project + local | Bearer token for the report endpoint / CLI. |
-| `TRAFFIC_DATABASE_URL` | Vercel project | **Separate** Postgres connection (Vercel Postgres / Neon). If unset, a local `.data/` file store is used (dev/test only). |
+| `TRAFFIC_DATABASE_DATABASE_URL` | Neon integration, Vercel project Production | **Separate** pooled Postgres connection. The integration injects it automatically. |
+| `TRAFFIC_DATABASE_URL` | Vercel project (optional fallback) | Manual dedicated Postgres connection only when the Neon integration key is unavailable. With neither URL, a local `.data/` file store is used in dev/test only. |
 | `TRAFFIC_TIMEZONE` | Vercel project | Report day boundary. Default `America/New_York`. |
 | `TRAFFIC_REPORT_URL` | local | Base URL the CLI hits. Default `http://localhost:3000`. |
 

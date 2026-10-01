@@ -1,7 +1,7 @@
 import "server-only";
 
 import { previousEasternDay } from "./date";
-import { getTrafficStore } from "./store";
+import { getTrafficStore, trafficDatabaseUrl } from "./store";
 import { TRAFFIC_SITES, trafficSite, type TrafficSite } from "./sites";
 
 export type TrafficRange = { since: string; until: string };
@@ -31,7 +31,7 @@ function period(days: number): TrafficRange {
 export async function getSiteTrafficReport(site: TrafficSite, range: TrafficRange): Promise<TrafficReport> {
   if (process.env.VERCEL_ENV === "production") {
     const missing = [
-      !process.env.TRAFFIC_DATABASE_URL?.trim() ? "dedicated traffic database" : null,
+      !trafficDatabaseUrl() ? "dedicated traffic database" : null,
       !process.env.TRAFFIC_DRAIN_SECRET?.trim() ? "analytics drain signing secret" : null,
     ].filter(Boolean);
     if (missing.length) {

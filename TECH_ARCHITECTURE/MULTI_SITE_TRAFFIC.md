@@ -58,33 +58,39 @@ figures for the day or email configuration is absent.
 
 ## Production configuration observed on 2026-10-01
 
-The Vercel team is on Pro. Team Settings → Drains says **no drains are associated
-with this team**. The AMMA project's Storage view offers two **suspended
-Supabase** databases and a Blob store, but no dedicated traffic Postgres. Its
-Project environment list contains `REQUESTS_FROM_EMAIL` but none of
-`TRAFFIC_DATABASE_URL`, `TRAFFIC_DRAIN_SECRET`, `CRON_SECRET`,
-`RESEND_API_KEY`, or `TRAFFIC_MORNING_REPORT_EMAIL`. Team Shared variables is
-empty. No secret values were revealed. Colattao has its own project-scoped
-`RESEND_API_KEY`; that value is not available to the AMMA project.
+The Vercel team is on Pro. Anthony accepted the Neon/Vercel terms and approved
+connecting a new Free Neon database, `fina-calle-traffic`, to
+`amma-fina-calle` **Production only**. No Preview or Development connection or
+deployment branch was enabled. The integration injected sensitive Production
+variables with the `TRAFFIC_DATABASE_` prefix; the pooled connection variable
+is `TRAFFIC_DATABASE_DATABASE_URL`. The app now reads that integration key
+first, with manually configured `TRAFFIC_DATABASE_URL` as a fallback. Neither
+value should be copied to chat, source control, or a client-side variable.
+
+At this checkpoint, Team Settings → Drains still has no active traffic drain;
+`TRAFFIC_DRAIN_SECRET`, `CRON_SECRET`, `RESEND_API_KEY`, and
+`TRAFFIC_MORNING_REPORT_EMAIL` were not in the AMMA Production environment.
+`REQUESTS_FROM_EMAIL` exists. Team Shared variables is empty. No secret values
+were revealed. Colattao has its own project-scoped `RESEND_API_KEY`; that value
+is not available to the AMMA project. The database connection alone does not
+produce traffic numbers.
 
 ## Owner activation steps
 
 Database creation, credential entry, drain creation, and email activation are
 production account changes. The code merge alone cannot produce live numbers.
 
-1. In Vercel Storage, create a **dedicated Neon Postgres** traffic database,
-   separate from the suspended Supabase application stores. The Neon setup
-   currently pauses at **Accept and Create**, which accepts Vercel and Neon legal
-   terms and shares Vercel account details with Neon; Anthony must complete
-   that decision. Connect the new database only to `amma-fina-calle`, and set
-   its pooled production connection string as the server-only
-   `TRAFFIC_DATABASE_URL`. The current `@vercel/postgres` adapter requires a
-   Neon **pooled** URL (host contains `-pooler.`). The receiver creates its table
-   and indexes on first write. Confirm the Vercel/Neon plan and limits before
-   creation.
-2. Create a drain signing secret and set it as the production server-only
-   `TRAFFIC_DRAIN_SECRET`. Do not paste it in chat, commit it, or use
-   `NEXT_PUBLIC_*`. Redeploy after production environment changes.
+1. The dedicated Free Neon `fina-calle-traffic` database is connected to
+   `amma-fina-calle` Production only. Deploy the app version that reads its
+   injected server-only `TRAFFIC_DATABASE_DATABASE_URL`. Do not manually copy
+   the secret into a second variable. The current `@vercel/postgres` adapter
+   requires a Neon **pooled** URL (host contains `-pooler.`); verify a real write
+   after deployment. The receiver creates its table and indexes on first write.
+2. Anthony approved a Vercel-generated signing secret for the 100%-sampled
+   two-project drain. Have the owner enter it as the production server-only
+   Secret `TRAFFIC_DRAIN_SECRET` in `amma-fina-calle`; do not paste it in chat,
+   commit it, or use `NEXT_PUBLIC_*`. Redeploy after production environment
+   changes.
 3. In Vercel team Drains, create a **Web Analytics** drain at 100% sampling for
    the verified `amma-fina-calle` and `colattao-cafe-rush` projects. Send JSON
    or NDJSON to `https://finacalleos.com/api/traffic/drain`. Configure
