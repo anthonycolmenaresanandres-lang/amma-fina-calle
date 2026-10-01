@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { sendMorningReport } from "@/lib/traffic/morning-email";
-import { getMorningTrafficReports } from "@/lib/traffic/vercel-web-analytics";
+import { getMorningTrafficReports } from "@/lib/traffic/site-traffic";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

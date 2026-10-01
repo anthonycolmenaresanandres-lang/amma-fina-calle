@@ -8,7 +8,7 @@ import {
   Users,
 } from "lucide-react";
 import { getAdminContext } from "@/lib/admin/auth";
-import { getBodegaTrafficReport } from "@/lib/traffic/vercel-web-analytics";
+import { getBodegaTrafficReport } from "@/lib/traffic/site-traffic";
 import {
   Eyebrow,
   Lede,
@@ -66,7 +66,7 @@ export default async function BodegaTrafficPage() {
           <PageTitle>Traffic pulse</PageTitle>
           <Lede>
             Last 30 days across the Bodega production hostname, sourced directly
-            from Vercel Web Analytics.
+            from a site-verified Vercel Web Analytics drain.
           </Lede>
           <p className="mt-6 text-xs leading-6 text-[#7f8a91]">
             Bot-filtered Web Analytics. No customer IP addresses or personal data
@@ -81,14 +81,14 @@ export default async function BodegaTrafficPage() {
                 Analytics connection
               </SectionHeading>
               <h2 className="mt-5 text-2xl font-semibold text-[#f4f6f7]">
-                Report is built, but Vercel authorization still needs attention.
+                Traffic collection needs attention.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[#aeb7bd]">
                 {report.reason}
               </p>
               <p className="mt-4 text-xs leading-5 text-[#7f8a91]">
-                This page is admin-only and fails closed. It never falls back to
-                runtime-request counts or guesses.
+                This page is admin-only and fails closed. Historical data may still
+                be visible in Vercel Analytics after filtering by the Bodega hostname.
               </p>
             </Panel>
           ) : (
@@ -174,8 +174,8 @@ export default async function BodegaTrafficPage() {
               <Panel>
                 <SectionHeading tone="gold">What this measures</SectionHeading>
                 <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-                  The headline visitor number is deduplicated by Vercel across all
-                  pageviews matching the Bodega production hostname. Game opens are
+                  The headline visitor number counts distinct anonymized visitor IDs
+                  among forwarded Bodega production pageviews in this period. Game opens are
                   pageviews for <code>/bodega-sessions-review</code>. This is website
                   traffic, not a guaranteed count of physical QR scans.
                 </p>

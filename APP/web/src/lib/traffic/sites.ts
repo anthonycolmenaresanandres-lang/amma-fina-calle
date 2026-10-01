@@ -4,6 +4,7 @@ export type TrafficSite = {
   id: "bodega" | "fina-calle" | "colattao";
   name: string;
   projectId: string;
+  analyticsUrl: string;
   domains: readonly string[];
   publicPaths: readonly string[];
   publicPathPrefixes: readonly string[];
@@ -17,6 +18,7 @@ export const TRAFFIC_SITES: readonly TrafficSite[] = [
     id: "bodega",
     name: "Bodega Cafe",
     projectId: "prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4",
+    analyticsUrl: "https://vercel.com/anthonycolmenaresanandres-8844s-projects/amma-fina-calle/analytics",
     domains: ["bodegacafe757.com", "www.bodegacafe757.com"],
     publicPaths: ["/", "/demo/bodega", "/bodega-sessions-review", "/bodega-vibra-rules"],
     publicPathPrefixes: [],
@@ -26,6 +28,7 @@ export const TRAFFIC_SITES: readonly TrafficSite[] = [
     id: "fina-calle",
     name: "Fina Calle OS",
     projectId: "prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4",
+    analyticsUrl: "https://vercel.com/anthonycolmenaresanandres-8844s-projects/amma-fina-calle/analytics",
     domains: ["finacalleos.com", "www.finacalleos.com"],
     // Marketing/editorial pages only. Hosted client menus, games, demos,
     // owner/customer portals and internal tools are deliberately not counted
@@ -41,6 +44,7 @@ export const TRAFFIC_SITES: readonly TrafficSite[] = [
     id: "colattao",
     name: "Colattao Coffee House",
     projectId: "prj_QQgDyof5KInoe8v8M02Q3iDuUWG9",
+    analyticsUrl: "https://vercel.com/anthonycolmenaresanandres-8844s-projects/colattao-cafe-rush/analytics",
     // Current READY production deployment's stable public alias (2026-10-01).
     // No custom Colattao hostname was present in its production aliases.
     domains: ["colattao-cafe-rush.vercel.app"],
@@ -49,29 +53,6 @@ export const TRAFFIC_SITES: readonly TrafficSite[] = [
     importantPaths: ["/menu", "/penalty", "/market"],
   },
 ] as const;
-
-const SAFE_PUBLIC_PATH = /^\/[A-Za-z0-9/_-]*$/;
-const SAFE_HOST = /^[a-z0-9.-]+$/;
-
-function quoted(value: string): string {
-  return `'${value.replaceAll("'", "''")}'`;
-}
-
-/** A fail-closed OData filter: project + verified hostname + explicit public paths. */
-export function siteFilter(site: TrafficSite): string {
-  if (!site.projectId.startsWith("prj_") || !site.domains.length ||
-      site.domains.some((host) => !SAFE_HOST.test(host)) ||
-      [...site.publicPaths, ...site.publicPathPrefixes].some((path) => !SAFE_PUBLIC_PATH.test(path)) ||
-      (!site.publicPaths.length && !site.publicPathPrefixes.length)) {
-    throw new Error(`Invalid traffic site registry entry: ${site.id}`);
-  }
-  const hosts = site.domains.map((host) => `requestHostname eq ${quoted(host)}`).join(" or ");
-  const paths = [
-    ...site.publicPaths.map((path) => `requestPath eq ${quoted(path)}`),
-    ...site.publicPathPrefixes.map((prefix) => `startswith(requestPath, ${quoted(prefix)})`),
-  ].join(" or ");
-  return `(${hosts}) and (${paths})`;
-}
 
 export function trafficSite(id: string): TrafficSite | undefined {
   return TRAFFIC_SITES.find((site) => site.id === id);

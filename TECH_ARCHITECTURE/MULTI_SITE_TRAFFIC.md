@@ -1,92 +1,95 @@
-# Production traffic by site — 2026-10-01
+# Production traffic by site — repair prepared 2026-10-01
+
+## Why the first version did not display numbers
+
+The deployed `/customers/traffic` page queried Vercel's Web Analytics API with a
+`requestHostname` filter. [Vercel's public API reference](https://vercel.com/docs/rest-api/web-analytics/aggregates-page-views)
+does **not** support that dimension as an API filter, even though the native
+Analytics UI can filter by Hostnames. The main AMMA project serves both Bodega
+and Fina Calle; removing the hostname filter would combine their traffic, so
+that is not a safe fix. The count endpoint also reports lifetime production
+traffic, not the 30-day period the page labeled. Finally, production had no
+project-scoped Web Analytics access token, traffic database, or drain secret.
+The native Vercel Analytics dashboard is collecting data, but its unfiltered
+project total must never be displayed as either client's total.
 
 ## Source and isolation
 
-`APP/web/src/lib/traffic/sites.ts` is the production-site registry. The API
-helper in `vercel-web-analytics.ts` sends an independent query for each site,
-with its own `projectId` and an OData filter containing **both** a verified
-production hostname and an allowlist of public paths. It never requests an
-unfiltered project total. A shared Vercel project does not imply shared client
-traffic. Visitor totals are deduplicated within each site's filter; they must
-not be summed across sites because the same person can visit multiple sites.
+The repaired dashboard and morning email read the existing first-party
+`/api/traffic/drain` copy of **Vercel Web Analytics pageviews**. It is not a
+parallel client-side counter. An event enters storage only when its Vercel
+project ID, production environment, production hostname, and explicitly
+allowed public path match one registry entry in `APP/web/src/lib/traffic/sites.ts`.
+Preview, staging, unknown domains, private portals, API routes, demos not
+approved as live menus, and custom events are excluded. Replayed drain events
+are deduplicated. Each report query is scoped by `site_id`; no project-wide
+number or combined cross-client total exists.
 
-| Site | Vercel project | Verified public production hostname(s) | Public scope |
-|---|---|---|---|
-| Bodega Cafe | `amma-fina-calle` (`prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4`) | `bodegacafe757.com`, `www.bodegacafe757.com` | Live Bodega root/menu/game pages |
-| Fina Calle OS | same shared project | `finacalleos.com`, `www.finacalleos.com` | Marketing/editorial pages only |
-| Colattao Coffee House | `colattao-cafe-rush` (`prj_QQgDyof5KInoe8v8M02Q3iDuUWG9`) | `colattao-cafe-rush.vercel.app` | Published client home/menu/game/market pages |
+| Site | Vercel project | Verified production hostnames |
+|---|---|---|
+| Bodega Cafe | `amma-fina-calle` | `bodegacafe757.com`, `www.bodegacafe757.com` |
+| Fina Calle OS | `amma-fina-calle` | `finacalleos.com`, `www.finacalleos.com` |
+| Colattao Coffee House | `colattao-cafe-rush` | `colattao-cafe-rush.vercel.app` |
 
-These hostnames and project IDs were checked against the Vercel team's READY
-production deployment aliases on 2026-10-01. The Colattao deployment had **no
-custom domain** in its alias list; the stable public `vercel.app` alias is the
-current production hostname, not a guessed future domain. The team also has
-`fina-calle-landing` (legacy landing redirect to OS) and `newsroom-agent`
-(internal tool); neither is a separate customer/public website in this report.
-Preview deployment URLs, team-generated aliases, localhost, staging, abandoned
-demos, owner/customer portals, API/auth routes and internal tools are excluded.
-New customer sites require a verified production deployment/domain and deliberate
-registry entry; they are never auto-enrolled from a Vercel project list.
+The production hostnames and project IDs were checked against READY deployment
+aliases on 2026-10-01. Colattao had no custom hostname in its production
+aliases. The Fina Calle marketing scope excludes hosted client menus and games.
+`/demo/bodega` is a live Bodega guest menu and is deliberately included only
+on Bodega's production hostname. New sites need a reviewed registry entry.
 
-The explicit path allowlists are intentionally conservative. They may omit a
-new public page until its ownership is reviewed and the registry is updated.
-The `/demo/bodega` path is an exception to the generic demo exclusion because
-it is Bodega's **live guest menu** on its production hostname. Project Seed and
-Scrambled concept/demo routes on `finacalleos.com` are not counted as Fina
-Calle marketing traffic, nor assigned to a client site without launch approval.
+## Meaning of the numbers
 
-## Private dashboard
+The dashboard shows the last 30 days of **forwarded, verified public pageviews**
+and distinct anonymized Vercel device/session IDs within each site. The daily
+rows use Eastern calendar dates. Referrer detail is best-effort because Vercel
+does not always forward an external referrer. The latest received event is
+visible for freshness. This measures website visits, not guaranteed physical
+QR scans. It is not a historical backfill: collection starts only after the
+drain is enabled. Native Vercel Analytics retains earlier project data and can
+be filtered by Hostnames in the Vercel UI.
 
-`/customers/traffic` requires the existing Fina Calle admin session and is
-`noindex`. It displays each site's own 30-day visitors, pageviews and public
-path/day detail. There is no grand total. A denied, missing or malformed Web
-Analytics response shows “unavailable — not zero.” The older
-`/customers/bodega-traffic` detail view remains, now using the same registry
-and filter. Vercel Analytics measures website traffic, **not QR scans**.
+If the dedicated production database is absent, a query fails, or no verified
+events arrive for a site in the selected period, that site displays
+**unavailable, not zero**. A missing event stream cannot establish a genuine
+zero. The previous complete Eastern day report sends nothing unless all three
+sites have verified data for that day and email configuration is ready.
 
-## Morning report
+## Owner activation steps (not completed by code merge)
 
-Vercel Cron calls `GET /api/internal/traffic/morning` at `12:12 UTC` every day
-(07:12 EST or 08:12 EDT). The report covers the **previous complete Eastern
-calendar day**, respecting DST. The handler requires Vercel's `CRON_SECRET`
-Bearer header. It queries all registered sites independently, then sends **one
-email with separate labeled sections** via the existing Resend HTTP integration.
-It sends nothing when any site is unavailable, rather than presenting a partial
-or misleading report. A deterministic Resend idempotency key for the report
-date avoids duplicate deliveries on retries within Resend's idempotency window.
+These are account, credential, storage, and production changes for Anthony to
+approve and perform. Merging this code alone will **not** make numbers appear.
 
-Production server-only settings:
+1. Provision a **dedicated Postgres** traffic database, separate from the
+   Supabase application database. Set its server-only production connection
+   string as `TRAFFIC_DATABASE_URL` on the `amma-fina-calle` Vercel project.
+   The receiver creates its table and indexes on first write.
+2. Generate a drain signing secret and set it as the production server-only
+   `TRAFFIC_DRAIN_SECRET`. Do not paste it in chat, commit it, or use
+   `NEXT_PUBLIC_*`. Redeploy after production env changes.
+3. In Vercel team Drains, create a **Web Analytics** drain at 100% sampling for
+   the verified `amma-fina-calle` and `colattao-cafe-rush` projects. Send JSON
+   or NDJSON to `https://finacalleos.com/api/traffic/drain`. Configure
+   `x-traffic-secret` with the same signing secret, or use Vercel's signature
+   secret and `x-vercel-signature`. Preserve `projectId`, `vercelEnvironment`,
+   `origin`, `path`, `eventType`, `timestamp`, and `deviceId`/`sessionId` fields.
+4. Verify the drain's test delivery and then visit one listed public path on
+   each production hostname. In the private dashboard, verify each site
+   receives only its own pageviews. A missing site remains unavailable; do not
+   replace it with the unfiltered Vercel project count.
+5. Only after all sites are verified, configure `CRON_SECRET`, `RESEND_API_KEY`,
+   `REQUESTS_FROM_EMAIL`, and `TRAFFIC_MORNING_REPORT_EMAIL` for the private
+   morning report. The cron route uses a previous complete Eastern day and
+   sends one email with separate labeled sections. Confirm the recipient and
+   one report before relying on the automation.
 
-- `VERCEL_WEB_ANALYTICS_TOKEN` (recommended access token with Web Analytics
-  access to **both** Vercel projects; deployment OIDC is attempted if available)
-- `CRON_SECRET` (Vercel Cron bearer secret; existing Square cron also uses it)
-- `RESEND_API_KEY` and `REQUESTS_FROM_EMAIL` (already used by the request inbox)
-- `TRAFFIC_MORNING_REPORT_EMAIL` (explicit private recipient)
-- Optional `VERCEL_WEB_ANALYTICS_TEAM_ID` override
-
-Do not place any of these secrets in `NEXT_PUBLIC_*`. The cron is code/config
-only until the production variables are set, the PR is approved/deployed, and
-the first authenticated run confirms delivery. Do not send a test email to an
-unverified address. Inspect cron logs for `analytics_unavailable` or
-`email_not_configured`; neither should be treated as zero traffic.
-
-## First-party drain compatibility
-
-The older `/api/traffic/drain` is **not** the dashboard/email data source. It
-now requires a verified public hostname/path before an event is stored, writes
-`site_id` to its dedicated Postgres table/JSONL record, and its protected
-`/api/internal/traffic/today?site=<id>` endpoint requires one site. Existing
-untagged historical rows remain `NULL` and are omitted because attribution
-cannot be reconstructed safely. The CLI likewise requires an explicit site:
-`npm run traffic:today -- bodega` (or `fina-calle` / `colattao`). Do not add the
-drain counts to Web Analytics totals; it is a separate operational copy.
+The database and drain have no safe historical backfill from the Web Analytics
+API because that API cannot filter by hostname for the shared project. Do not
+mix manual Vercel dashboard exports into live counters. Historical screenshot
+ledger entries remain separately labeled in `BUSINESS/ANALYTICS`.
 
 ## Verification
 
-Run from `APP/web`: `npm run traffic:selftest`,
-`npm run bodega-traffic:selftest`, scoped ESLint, TypeScript and a production
-build. After deployment, verify the admin page loads each site's own values,
-that a synthetic preview/private event is excluded from drain tests, and that
-one authenticated cron invocation yields three distinct sections. Review the
-first email's date against the previous Eastern calendar day. If an API filter
-is rejected by Vercel, fix the scope/query; never replace it with an unfiltered
-project-wide total.
+Run `npm run traffic:selftest`, `npm run bodega-traffic:selftest`, scoped
+ESLint/TypeScript and a production build from `APP/web`. After an approved
+deployment, inspect one event per production host, a preview/private exclusion,
+the timestamp and site labels, and the first complete morning report.
