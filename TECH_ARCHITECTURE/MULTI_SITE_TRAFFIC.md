@@ -1,4 +1,4 @@
-# Production traffic by site — repair prepared 2026-10-01
+# Production traffic by site — activation runbook (2026-10-01)
 
 ## Why the first version did not display numbers
 
@@ -40,47 +40,68 @@ on Bodega's production hostname. New sites need a reviewed registry entry.
 ## Meaning of the numbers
 
 The dashboard shows the last 30 days of **forwarded, verified public pageviews**
-and distinct anonymized Vercel device/session IDs within each site. The daily
+and distinct anonymized Vercel device/session IDs within each site. These are
+tracked devices, not a count of identifiable people. The daily
 rows use Eastern calendar dates. Referrer detail is best-effort because Vercel
-does not always forward an external referrer. The latest received event is
-visible for freshness. This measures website visits, not guaranteed physical
+does not always forward an external referrer. The first and latest verified
+pageviews are visible for coverage and freshness. This measures website visits, not guaranteed physical
 QR scans. It is not a historical backfill: collection starts only after the
 drain is enabled. Native Vercel Analytics retains earlier project data and can
 be filtered by Hostnames in the Vercel UI.
 
-If the dedicated production database is absent, a query fails, or no verified
-events arrive for a site in the selected period, that site displays
-**unavailable, not zero**. A missing event stream cannot establish a genuine
-zero. The previous complete Eastern day report sends nothing unless all three
-sites have verified data for that day and email configuration is ready.
+The dashboard distinguishes missing production settings, a failed store query,
+waiting for a site's first verified pageview, and an empty selected period after
+earlier verified pageviews. It never turns an absent feed into a zero visit claim.
+The previous complete Eastern day report can include available site figures and
+label another site's missing coverage. It sends nothing if no site has verified
+figures for the day or email configuration is absent.
 
-## Owner activation steps (not completed by code merge)
+## Production configuration observed on 2026-10-01
 
-These are account, credential, storage, and production changes for Anthony to
-approve and perform. Merging this code alone will **not** make numbers appear.
+The Vercel team is on Pro. Team Settings → Drains says **no drains are associated
+with this team**. The AMMA project's Storage view offers two **suspended
+Supabase** databases and a Blob store, but no dedicated traffic Postgres. Its
+Project environment list contains `REQUESTS_FROM_EMAIL` but none of
+`TRAFFIC_DATABASE_URL`, `TRAFFIC_DRAIN_SECRET`, `CRON_SECRET`,
+`RESEND_API_KEY`, or `TRAFFIC_MORNING_REPORT_EMAIL`. Team Shared variables is
+empty. No secret values were revealed. Colattao has its own project-scoped
+`RESEND_API_KEY`; that value is not available to the AMMA project.
 
-1. Provision a **dedicated Postgres** traffic database, separate from the
-   Supabase application database. Set its server-only production connection
-   string as `TRAFFIC_DATABASE_URL` on the `amma-fina-calle` Vercel project.
-   The receiver creates its table and indexes on first write.
-2. Generate a drain signing secret and set it as the production server-only
+## Owner activation steps
+
+Database creation, credential entry, drain creation, and email activation are
+production account changes. The code merge alone cannot produce live numbers.
+
+1. In Vercel Storage, create a **dedicated Neon Postgres** traffic database,
+   separate from the suspended Supabase application stores. The Neon setup
+   currently pauses at **Accept and Create**, which accepts Vercel and Neon legal
+   terms and shares Vercel account details with Neon; Anthony must complete
+   that decision. Connect the new database only to `amma-fina-calle`, and set
+   its pooled production connection string as the server-only
+   `TRAFFIC_DATABASE_URL`. The current `@vercel/postgres` adapter requires a
+   Neon **pooled** URL (host contains `-pooler.`). The receiver creates its table
+   and indexes on first write. Confirm the Vercel/Neon plan and limits before
+   creation.
+2. Create a drain signing secret and set it as the production server-only
    `TRAFFIC_DRAIN_SECRET`. Do not paste it in chat, commit it, or use
-   `NEXT_PUBLIC_*`. Redeploy after production env changes.
+   `NEXT_PUBLIC_*`. Redeploy after production environment changes.
 3. In Vercel team Drains, create a **Web Analytics** drain at 100% sampling for
    the verified `amma-fina-calle` and `colattao-cafe-rush` projects. Send JSON
    or NDJSON to `https://finacalleos.com/api/traffic/drain`. Configure
    `x-traffic-secret` with the same signing secret, or use Vercel's signature
    secret and `x-vercel-signature`. Preserve `projectId`, `vercelEnvironment`,
    `origin`, `path`, `eventType`, `timestamp`, and `deviceId`/`sessionId` fields.
-4. Verify the drain's test delivery and then visit one listed public path on
+4. A drain test that returns HTTP 200 only confirms delivery; the test payload
+   may contain zero accepted site pageviews. Visit one listed public path on
    each production hostname. In the private dashboard, verify each site
-   receives only its own pageviews. A missing site remains unavailable; do not
+   receives only its own pageviews and its first/latest observation timestamps.
+   Check the receiver's `received` and `sites` response or runtime log. A missing site remains waiting; do not
    replace it with the unfiltered Vercel project count.
 5. Only after all sites are verified, configure `CRON_SECRET`, `RESEND_API_KEY`,
    `REQUESTS_FROM_EMAIL`, and `TRAFFIC_MORNING_REPORT_EMAIL` for the private
    morning report. The cron route uses a previous complete Eastern day and
-   sends one email with separate labeled sections. Confirm the recipient and
-   one report before relying on the automation.
+   sends one email with separate labeled sections and explicit missing-coverage
+   status. Confirm the recipient and one report before relying on the automation.
 
 The database and drain have no safe historical backfill from the Web Analytics
 API because that API cannot filter by hostname for the shared project. Do not

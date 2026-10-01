@@ -15,7 +15,7 @@ import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { verifyDrainRequest } from "../src/lib/traffic/signature";
 import { __test } from "../src/lib/traffic/store";
 import { siteForPublicVisit, TRAFFIC_SITES } from "../src/lib/traffic/sites";
-import { todayRange } from "../src/lib/traffic/date";
+import { previousEasternDay, todayRange } from "../src/lib/traffic/date";
 
 let failures = 0;
 function check(name: string, condition: boolean, detail?: string): void {
@@ -85,6 +85,12 @@ async function main(): Promise<void> {
   const fall = todayRange("America/New_York", Date.parse("2026-11-01T15:00:00Z"));
   check("Eastern spring reporting day spans 23 hours", spring.dateStr === "2026-03-08" && spring.endMs - spring.startMs === 23 * 3600000);
   check("Eastern fall reporting day spans 25 hours", fall.dateStr === "2026-11-01" && fall.endMs - fall.startMs === 25 * 3600000);
+  const springReport = previousEasternDay(Date.parse("2026-03-09T12:12:00Z"));
+  const fallReport = previousEasternDay(Date.parse("2026-11-02T12:12:00Z"));
+  check("spring morning report covers the complete preceding Eastern day",
+    springReport.date === "2026-03-08" && Date.parse(springReport.range.until) - Date.parse(springReport.range.since) === 23 * 3600000);
+  check("fall morning report covers the complete preceding Eastern day",
+    fallReport.date === "2026-11-01" && Date.parse(fallReport.range.until) - Date.parse(fallReport.range.since) === 25 * 3600000);
 
   // --- signature ---
   const secret = "test-secret-123";
@@ -112,6 +118,12 @@ async function main(): Promise<void> {
   check("Fina pageviews exclude Colattao", report.pageviews === 2, `got ${report.pageviews}`);
   const range = await store.getRangeReport("fina-calle", ts - 60_000, ts + 60_000, "America/New_York");
   check("range report deduplicates retry and isolates site", range.pageviews === 2 && range.uniqueVisitors === 2 && range.topPaths[0]?.path === "/for-restaurants");
+  const observed = await store.getObservationWindow("fina-calle");
+  const colattaoObserved = await store.getObservationWindow("colattao");
+  check("first and last observation remain site scoped",
+    observed.firstObservedAt === new Date(ts - 48 * 60 * 60 * 1000).toISOString() &&
+    observed.lastObservedAt === new Date(ts).toISOString() &&
+    colattaoObserved.firstObservedAt === new Date(ts).toISOString());
   check("range daily row matches verified views", range.daily.length === 1 && range.daily[0].pageviews === 2);
   check("Fina visitors exclude Colattao", report.uniqueVisitors === 2, `got ${report.uniqueVisitors}`);
   check("Colattao remains separate", colattaoReport.siteId === "colattao" && colattaoReport.pageviews === 1 && colattaoReport.uniqueVisitors === 1);

@@ -21,6 +21,13 @@ function displayDay(value: string) {
   }).format(new Date(`${value}T00:00:00Z`));
 }
 
+function statusTitle(state: "unconfigured" | "unavailable" | "waiting" | "empty") {
+  if (state === "unconfigured") return "Collection not connected";
+  if (state === "waiting") return "Waiting for the first verified pageview";
+  if (state === "empty") return "No pageviews received in this period";
+  return "Traffic store unavailable";
+}
+
 export default async function TrafficPage() {
   const admin = await getAdminContext();
   if (admin.state !== "authorized") return <AdminGate ctx={admin} />;
@@ -39,7 +46,7 @@ export default async function TrafficPage() {
         <div className="lg:sticky lg:top-10">
           <Eyebrow>Private analytics · production only</Eyebrow>
           <PageTitle>Traffic by site</PageTitle>
-          <Lede>One report per website. Visitors and pageviews are never added across clients.</Lede>
+          <Lede>One report per website. Device and pageview counts stay with their own site.</Lede>
           <p className="mt-6 text-xs leading-6 text-[#7f8a91]">
             Last 30 days of verified pageviews forwarded by Vercel Web Analytics. Collection begins when the production drain is connected; earlier Vercel history remains in the native Analytics dashboard. This is website traffic, not a count of physical QR scans.
           </p>
@@ -52,8 +59,9 @@ export default async function TrafficPage() {
               </SectionHeading>
               {report.state !== "ready" ? (
                 <div className="mt-4" role="status">
-                  <p className="text-sm font-semibold text-[#f4f6f7]">Traffic unavailable — not zero</p>
+                  <p className="text-sm font-semibold text-[#f4f6f7]">{statusTitle(report.state)}</p>
                   <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">{report.reason}</p>
+                  {report.state === "empty" && <p className="mt-2 text-xs text-[#7f8a91]">Last verified pageview: {new Date(report.lastObservedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>}
                   <p className="mt-3 text-xs leading-5 text-[#7f8a91]">Vercel may still have historical data. In its Hostnames panel, filter to {report.domains.join(" or ")}. Do not use the unfiltered project total.</p>
                   <a href={report.analyticsUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#bfdcff] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bfdcff]">
                     <ExternalLink size={13} aria-hidden /> Open {report.siteName} in Vercel
@@ -63,8 +71,9 @@ export default async function TrafficPage() {
                 <>
                   <p className="mt-2 break-all text-xs text-[#7f8a91]">{report.domains.join(" · ")}</p>
                   <p className="mt-1 text-xs text-[#7f8a91]">Latest verified event: {new Date(report.lastUpdated).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>
+                  <p className="mt-1 text-xs text-[#7f8a91]">First verified pageview: {new Date(report.firstObservedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET{Date.parse(report.firstObservedAt) > Date.parse(report.since) ? " · Earlier traffic is not backfilled" : ""}</p>
                   <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-                    <StatTile label="Unique visitors" icon={<Users size={12} aria-hidden />}>
+                    <StatTile label="Distinct devices" icon={<Users size={12} aria-hidden />}>
                       {report.visitors.toLocaleString()}
                     </StatTile>
                     <StatTile label="Pageviews" icon={<MousePointerClick size={12} aria-hidden />}>
@@ -104,7 +113,7 @@ export default async function TrafficPage() {
           <Panel>
             <SectionHeading tone="gold" icon={<Activity size={13} aria-hidden />}>How to read this</SectionHeading>
             <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-              Each number is deduplicated within one site&apos;s hostname and public-page scope. A person who visits two sites may count once on each; there is deliberately no cross-client total. Private portals, API routes, preview URLs, internal tools and unapproved demos are excluded.
+              Device counts use anonymized Vercel identifiers; they are not a count of identifiable people. A device visiting two sites may count once on each. Private portals, API routes, preview URLs, internal tools and unapproved demos are excluded.
             </p>
             <Link href="/customers/bodega-traffic" className="mt-4 inline-block text-sm font-semibold text-[#bfdcff] hover:text-white">
               Bodega detail →
