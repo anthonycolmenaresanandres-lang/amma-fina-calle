@@ -2,11 +2,12 @@
 
 ## [ ] 83 - Multi-site production traffic and morning report
 
-**State:** CODE COMPLETE LOCALLY — PR review and production configuration pending.
+**State:** DRAFT PR #290 CHECKS GREEN — review and production configuration pending.
 **Authority:** Anthony requested a centralized traffic system and automated morning report, with every client/site kept separate and the live Vercel project/domain inventory verified first.
 **Scope:** Refactor the Bodega Web Analytics helper through an explicit production site registry; add a private multi-site view and scheduled per-site morning email; prevent the legacy drain counter from presenting mixed-site totals. Document inclusion/exclusion and setup. No customer outreach, CRM changes, production deployment, or merge requested.
 **Boundaries:** Use only verified production hostnames. Exclude preview, localhost, private/admin/API/staging/demo/tool paths. Fail closed on authorization or unattributable events; never infer zero traffic from a failed query or add site visitor counts into a combined number.
 **Result:** Vercel production aliases verified for the three sites; legacy Fina landing and newsroom agent excluded. Added per-site registry and admin view, guarded previous-Eastern-day Resend cron, and site-scoped legacy drain/CLI. Source tests, scoped lint and pre-build TypeScript pass. Webpack production compilation passes; its Next-generated type gate hits pre-existing named exports in owner billing/plan pages, and normal Turbopack build cannot follow this worktree's external node_modules junction. No production credentials, recipient or email were set; no report was sent. Activation requires reviewed PR/deploy, Web Analytics credential for both projects, cron secret and explicit report recipient/sender/Resend settings, then live verification.
+**PR gate:** Draft PR #290 on exact head `5b509c3` passed GitHub web CI (including the new site-isolation self-test), Vercel preview build, and Preview Comments on 2026-10-01. No merge or production deployment.
 
 ## [x] 82 - Seed Rush Halloween landing page
 
