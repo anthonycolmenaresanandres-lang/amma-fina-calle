@@ -81,7 +81,9 @@ export default async function BodegaTrafficPage() {
                 Analytics connection
               </SectionHeading>
               <h2 className="mt-5 text-2xl font-semibold text-[#f4f6f7]">
-                Traffic collection needs attention.
+                {report.state === "waiting" ? "Waiting for the first verified pageview." :
+                  report.state === "empty" ? "No pageviews received in this period." :
+                  "Traffic collection needs attention."}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[#aeb7bd]">
                 {report.reason}
@@ -90,6 +92,7 @@ export default async function BodegaTrafficPage() {
                 This page is admin-only and fails closed. Historical data may still
                 be visible in Vercel Analytics after filtering by the Bodega hostname.
               </p>
+              {report.state === "empty" && <p className="mt-2 text-xs text-[#7f8a91]">Last verified pageview: {date(report.lastObservedAt)}</p>}
             </Panel>
           ) : (
             <>
@@ -98,7 +101,7 @@ export default async function BodegaTrafficPage() {
                   {date(report.since)} – {date(report.until)}
                 </SectionHeading>
                 <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                  <StatTile label="Unique visitors" icon={<Users size={12} aria-hidden />}>
+                  <StatTile label="Distinct devices" icon={<Users size={12} aria-hidden />}>
                     {report.visitors.toLocaleString()}
                   </StatTile>
                   <StatTile label="Pageviews" icon={<MousePointerClick size={12} aria-hidden />}>
@@ -107,12 +110,16 @@ export default async function BodegaTrafficPage() {
                   <StatTile label="Game opens" icon={<Gamepad2 size={12} aria-hidden />}>
                     {report.gamePageviews.toLocaleString()}
                   </StatTile>
-                  <StatTile label="Game visitors" icon={<Users size={12} aria-hidden />}>
+                  <StatTile label="Game devices" icon={<Users size={12} aria-hidden />}>
                     {report.gameVisitors.toLocaleString()}
                   </StatTile>
                 </dl>
                 <p className="mt-4 text-xs text-[#667178]">
                   Source: {report.source} · production hostname bodegacafe757.com
+                </p>
+                <p className="mt-1 text-xs text-[#7f8a91]">
+                  First verified pageview: {date(report.firstObservedAt)} · latest: {date(report.lastUpdated)}
+                  {Date.parse(report.firstObservedAt) > Date.parse(report.since) ? " · Earlier traffic is not backfilled" : ""}
                 </p>
               </Panel>
 
@@ -174,7 +181,7 @@ export default async function BodegaTrafficPage() {
               <Panel>
                 <SectionHeading tone="gold">What this measures</SectionHeading>
                 <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-                  The headline visitor number counts distinct anonymized visitor IDs
+                  The headline device number counts distinct anonymized device IDs
                   among forwarded Bodega production pageviews in this period. Game opens are
                   pageviews for <code>/bodega-sessions-review</code>. This is website
                   traffic, not a guaranteed count of physical QR scans.

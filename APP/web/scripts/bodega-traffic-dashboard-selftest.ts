@@ -36,7 +36,7 @@ async function main() {
   assert.match(page, /getAdminContext\(\)/);
   assert.match(page, /admin\.state !== "authorized"/);
   assert.match(page, /getBodegaTrafficReport\(30\)/);
-  assert.match(page, /Unique visitors/);
+  assert.match(page, /Distinct devices/);
   assert.match(page, /Game opens/);
   assert.match(page, /not a guaranteed count of physical QR scans/);
   assert.match(central, /getAdminContext\(\)/);
@@ -48,24 +48,28 @@ async function main() {
   assert.match(env, /TRAFFIC_MORNING_REPORT_EMAIL=/);
   assert.match(cron, /\/api\/internal\/traffic\/morning/);
   assert.match(morning, /CRON_SECRET/);
-  assert.match(morning, /unavailable\.length/);
+  assert.match(morning, /ready\.length/);
 
   const sampleReports: TrafficReport[] = TRAFFIC_SITES.map((site, index) => ({
     state: "ready", siteId: site.id, siteName: site.name, domains: site.domains, analyticsUrl: site.analyticsUrl,
     source: "Vercel Web Analytics drain", lastUpdated: "2026-09-30T12:00:00.000Z",
+    firstObservedAt: "2026-09-30T12:00:00.000Z",
     since: "2026-09-30T04:00:00.000Z", until: "2026-10-01T04:00:00.000Z",
     pageviews: (index + 1) * 10, visitors: index + 1,
     daily: [], topPaths: [], topReferrers: [],
   }));
   const email = renderMorningReport("2026-09-30", sampleReports);
   for (const site of TRAFFIC_SITES) assert.match(email.text, new RegExp(site.name));
-  assert.equal((email.text.match(/Unique visitors:/g) ?? []).length, TRAFFIC_SITES.length);
+  assert.equal((email.text.match(/Distinct tracked devices:/g) ?? []).length, TRAFFIC_SITES.length);
   assert.equal((email.text.match(/Pageviews:/g) ?? []).length, TRAFFIC_SITES.length);
   assert(!email.text.includes("Total visitors:"), "No cross-client visitor total");
-  assert.throws(() => renderMorningReport("2026-09-30", [...sampleReports.slice(0, -1), {
+  const partial = renderMorningReport("2026-09-30", [...sampleReports.slice(0, -1), {
     state: "unavailable", siteId: "colattao", siteName: "Colattao Coffee House",
     domains: TRAFFIC_SITES[2].domains, analyticsUrl: TRAFFIC_SITES[2].analyticsUrl, reason: "test",
-  }]), /INCOMPLETE_SITE_REPORTS/);
+  }]);
+  assert.match(partial.text, /Colattao Coffee House[\s\S]*Status: test/);
+  assert.equal((partial.text.match(/Pageviews:/g) ?? []).length, TRAFFIC_SITES.length - 1);
+  assert.throws(() => renderMorningReport("2026-09-30", sampleReports.slice(0, -1)), /INCOMPLETE_SITE_REPORTS/);
 
   console.log("PASS: per-site production registry, admin dashboard, Bodega compatibility, and guarded morning cron are wired.");
 }

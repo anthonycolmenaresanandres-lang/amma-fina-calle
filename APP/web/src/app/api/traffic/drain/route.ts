@@ -25,6 +25,11 @@ export async function POST(request: Request) {
   }
 
   const events = parseDrainPayload(rawBody);
+  const sites = Object.fromEntries(
+    [...new Set(events.map((event) => event.siteId))].map((siteId) => [
+      siteId, events.filter((event) => event.siteId === siteId).length,
+    ])
+  );
   if (events.length) {
     try {
       await getTrafficStore().insertEvents(events);
@@ -36,7 +41,8 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, received: events.length });
+  console.info("[traffic/drain] verified production pageviews", { received: events.length, sites });
+  return NextResponse.json({ ok: true, received: events.length, sites });
 }
 
 // Vercel's drain setup may probe with a GET/HEAD; respond cheaply.

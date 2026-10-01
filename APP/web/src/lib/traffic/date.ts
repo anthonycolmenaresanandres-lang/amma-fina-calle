@@ -58,3 +58,8 @@ export function todayRange(timeZone: string, now: number = Date.now()): TodayRan
   const endMs = dayStartMs(addDays(dateStr, 1), timeZone);
   return { dateStr, startMs, endMs };
 }
+
+export function previousEasternDay(now = Date.now()): { date: string; range: { since: string; until: string } } {
+  const day = todayRange("America/New_York", now - 86400000);
+  return { date: day.dateStr, range: { since: new Date(day.startMs).toISOString(), until: new Date(day.endMs).toISOString() } };
+}

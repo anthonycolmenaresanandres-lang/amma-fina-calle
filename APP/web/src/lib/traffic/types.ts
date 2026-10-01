@@ -52,8 +52,14 @@ export interface RangeReport {
   lastUpdated: string | null;
 }
 
+export interface ObservationWindow {
+  firstObservedAt: string | null;
+  lastObservedAt: string | null;
+}
+
 export interface TrafficStore {
   insertEvents(events: NormalizedEvent[]): Promise<void>;
   getTodayReport(siteId: string, timezone: string): Promise<DailyReport>;
   getRangeReport(siteId: string, startMs: number, endMs: number, timezone: string, path?: string): Promise<RangeReport>;
+  getObservationWindow(siteId: string): Promise<ObservationWindow>;
 }

@@ -13,7 +13,7 @@
 import { promises as fs } from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
-import type { DailyReport, NormalizedEvent, PathCount, RangeReport, ReferrerCount, TrafficStore } from "./types";
+import type { DailyReport, NormalizedEvent, ObservationWindow, PathCount, RangeReport, ReferrerCount, TrafficStore } from "./types";
 import { todayRange } from "./date";
 import { trafficSite } from "./sites";
 
@@ -164,6 +164,28 @@ class FileTrafficStore implements TrafficStore {
     }
     return buildRangeReport(events, siteId, timezone);
   }
+
+  async getObservationWindow(siteId: string): Promise<ObservationWindow> {
+    if (!trafficSite(siteId)) throw new Error("Unknown traffic site");
+    let raw = "";
+    try { raw = await fs.readFile(this.file, "utf8"); }
+    catch { return { firstObservedAt: null, lastObservedAt: null }; }
+    let first = Infinity;
+    let last = -Infinity;
+    for (const line of raw.split("\n")) {
+      if (!line.trim()) continue;
+      try {
+        const event = JSON.parse(line) as NormalizedEvent;
+        if (event.siteId !== siteId || event.eventType !== "pageview" || !Number.isFinite(event.ts)) continue;
+        first = Math.min(first, event.ts);
+        last = Math.max(last, event.ts);
+      } catch { /* skip corrupt line */ }
+    }
+    return {
+      firstObservedAt: Number.isFinite(first) ? new Date(first).toISOString() : null,
+      lastObservedAt: Number.isFinite(last) ? new Date(last).toISOString() : null,
+    };
+  }
 }
 
 class PostgresTrafficStore implements TrafficStore {
@@ -295,6 +317,20 @@ class PostgresTrafficStore implements TrafficStore {
       topPaths: paths.rows.map((item) => ({ path: String(item.path), count: Number(item.count) })),
       topReferrers: referrers.rows.map((item) => ({ referrer: String(item.referrer), count: Number(item.count) })),
       lastUpdated: row.last_updated ? new Date(row.last_updated).toISOString() : null,
+    };
+  }
+
+  async getObservationWindow(siteId: string): Promise<ObservationWindow> {
+    if (!trafficSite(siteId)) throw new Error("Unknown traffic site");
+    const pool = await this.getPool();
+    const result = await pool.sql`
+      SELECT MIN(ts) AS first_observed, MAX(ts) AS last_observed
+      FROM traffic_events WHERE site_id = ${siteId} AND event_type = 'pageview'
+    `;
+    const row = result.rows[0] ?? {};
+    return {
+      firstObservedAt: row.first_observed ? new Date(row.first_observed).toISOString() : null,
+      lastObservedAt: row.last_observed ? new Date(row.last_observed).toISOString() : null,
     };
   }
 }

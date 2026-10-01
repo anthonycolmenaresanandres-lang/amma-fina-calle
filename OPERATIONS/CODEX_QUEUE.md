@@ -1,5 +1,13 @@
 # Codex Queue — canonical live queue
 
+## [ ] 85 - Activate verified production traffic reporting
+
+**Authority:** Anthony requested execution of the 2026-10-01 plan to make the private traffic dashboard reflect verified site-specific numbers.
+**Scope:** Review live Vercel configuration, improve feed coverage/status display and partial morning reporting, verify Bodega/Fina Calle/Colattao isolation, and prepare or perform the production activation steps supported by existing access and authorization. Preserve source attribution; do not fabricate historical or missing counts.
+**Branch:** `codex/traffic-display-activation-20261001` from merged `origin/main`.
+**Prepared:** Dashboard distinguishes missing settings, first-pageview wait, empty period, and query failure. It shows first/latest verified pageviews and labels anonymized device counts accurately. The previous-Eastern-day email includes available site figures and explicit missing coverage, while requiring at least one verified figure. Vercel Pro, no team drains, no dedicated traffic database, no shared variables, and missing AMMA traffic/email env keys were verified. Neon setup is staged at its legal-terms acceptance step. Source self-tests and scoped ESLint pass; Webpack source compiles, then the known unrelated owner-page Next type error stops local build.
+**Next:** Review/deploy the code change, have Anthony accept the Neon/Vercel terms and choose the database plan, set production connection/signing credentials, create the Analytics drain, verify site-scoped events, then configure email recipient/sender/cron credentials and inspect one report.
+
 ## [ ] 84 - Repair live multi-site traffic display
 
 **Authority:** Anthony reported that Vercel is not displaying the information and requested a fix on 2026-10-01.

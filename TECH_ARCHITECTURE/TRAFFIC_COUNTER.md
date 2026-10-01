@@ -30,11 +30,11 @@ equal the Vercel project's unfiltered dashboard total.
 | Protected report endpoint | `APP/web/src/app/api/internal/traffic/today/route.ts` | ✅ built, tested |
 | Sanitize / parse / signature / store / date libs | `APP/web/src/lib/traffic/*` | ✅ built, tested |
 | Local CLI report | `APP/web/scripts/traffic-today.ts` → `npm run traffic:today` | ✅ built, tested |
-| Pipeline self-test (no DB/network) | `APP/web/scripts/traffic-selftest.ts` → `npm run traffic:selftest` | ✅ 21 checks pass |
+| Pipeline self-test (no DB/network) | `APP/web/scripts/traffic-selftest.ts` → `npm run traffic:selftest` | ✅ source checks pass |
 
 ## Privacy / guardrails
 
-- **No PII ever stored** — no names, emails, phones, or IPs. "Unique visitors"
+- **No direct customer identifiers stored** — no names, emails, phones, or IPs. "Distinct devices"
   uses Vercel's already-anonymized `deviceId`. (We never compute or store IP
   hashes ourselves; Vercel did the sensitive part upstream.)
 - **Separate from Supabase** by design (project guardrail). The store uses its
@@ -63,64 +63,13 @@ equal the Vercel project's unfiltered dashboard total.
 
 Generate secrets with e.g. `openssl rand -hex 32`. Never commit them.
 
-## Go-live checklist (owner-side — needs Anthony + a deploy)
+## Production activation
 
-These steps require account access and a production deploy, so they're **not**
-done in this PR. Nothing here ships without your approval.
-
-1. **Confirm the Vercel plan supports Drains** (historically Pro/Enterprise).
-   Note: the Vercel MCP token in the cloud session sees a different team with no
-   projects, so the plan/project must be confirmed from your account.
-
-2. **Enable Vercel Web Analytics** on the project (Dashboard → Analytics), then
-   instrument the client so pageviews are recorded. This is the one change that
-   touches the shared root layout (and therefore renders on the guarded `/m`,
-   `/owner`, `/customers` routes), so it's left for your explicit sign-off:
-
-   ```bash
-   # in APP/web
-   npm install @vercel/analytics
-   ```
-   ```tsx
-   // APP/web/src/app/layout.tsx — inside <body>, after {children}
-   import { Analytics } from "@vercel/analytics/next";
-   // ...
-   <Analytics />
-   ```
-
-3. **Provision a separate Postgres** (Vercel Postgres / Neon — a NEW database,
-   not Supabase). Copy its connection string to `TRAFFIC_DATABASE_URL`. The
-   `traffic_events` table is created automatically on first write.
-
-4. **Set the env vars** above on the Vercel project. Add `TRAFFIC_REPORT_TOKEN`
-   (and `TRAFFIC_REPORT_URL=https://<your-domain>`) to your local `.env` for the
-   CLI.
-
-5. **Deploy** (with approval), then **create the drain** pointed at the live
-   webhook with the secret as a custom header:
-
-   ```bash
-   curl -X POST "https://api.vercel.com/v1/drains?teamId=<TEAM_ID>" \
-     -H "Authorization: Bearer <VERCEL_ACCESS_TOKEN>" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "name": "traffic-counter",
-       "url": "https://<your-domain>/api/traffic/drain",
-       "deliveryFormat": "ndjson",
-       "schemas": { "analytics": { "version": "v2" } },
-       "headers": { "x-traffic-secret": "<TRAFFIC_DRAIN_SECRET>" }
-     }'
-   ```
-   Validate delivery with `POST https://api.vercel.com/v1/drains/test`. (Exact
-   field names can vary by API version — the Dashboard "Drains" UI is the
-   fallback; the key requirements are the Analytics v2 schema, our URL, and the
-   `x-traffic-secret` header.)
-
-6. **Verify live:** browse one verified public site, then run
-   `npm run traffic:today -- <site>` — confirm only that site's pageviews arrive.
-   Unattributable historical rows are intentionally omitted. This drain is
-   also the source of the private multi-site dashboard and morning email; see
-   `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`.
+The current Vercel inventory, dedicated Neon Postgres setup, production
+environment variables, drain configuration, and per-site verification sequence
+are in [`MULTI_SITE_TRAFFIC.md`](./MULTI_SITE_TRAFFIC.md). Use that runbook for
+activation. The optional local `TRAFFIC_REPORT_TOKEN` CLI is separate from the
+private multi-site dashboard and morning email.
 
 ## Local development / testing
 

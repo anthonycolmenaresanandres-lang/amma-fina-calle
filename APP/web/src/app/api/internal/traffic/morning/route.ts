@@ -20,10 +20,10 @@ export async function GET(request: Request) {
   if (!authorized(request, secret)) return NextResponse.json({ ok: false, reason: "unauthorized" }, { status: 401 });
 
   const { date, reports } = await getMorningTrafficReports();
-  const unavailable = reports.filter((report) => report.state !== "ready").map((report) => report.siteId);
-  if (unavailable.length) {
-    console.error("[traffic/morning] analytics unavailable for sites:", unavailable.join(","));
-    return NextResponse.json({ ok: false, date, reason: "analytics_unavailable", sites: unavailable }, { status: 503 });
+  const ready = reports.filter((report) => report.state === "ready");
+  if (!ready.length) {
+    console.error("[traffic/morning] no verified site figures for:", date);
+    return NextResponse.json({ ok: false, date, reason: "no_verified_figures" }, { status: 503 });
   }
   try {
     const delivery = await sendMorningReport(date, reports);
@@ -31,7 +31,8 @@ export async function GET(request: Request) {
       console.error("[traffic/morning] email not sent:", delivery.reason);
       return NextResponse.json({ ok: false, date, reason: delivery.reason }, { status: 503 });
     }
-    return NextResponse.json({ ok: true, date, sites: reports.map((report) => report.siteId) });
+    return NextResponse.json({ ok: true, date, sites: ready.map((report) => report.siteId),
+      incomplete: reports.filter((report) => report.state !== "ready").map((report) => report.siteId) });
   } catch (error) {
     console.error("[traffic/morning] delivery failed:", error instanceof Error ? error.message : "unknown");
     return NextResponse.json({ ok: false, date, reason: "delivery_failed" }, { status: 502 });
