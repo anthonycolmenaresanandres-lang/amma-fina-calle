@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-09-30 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; VBFH Daily Run #120 fired green.** No red builds and no caretaker fix was needed. Since the 09-30 midday run, amma `main` advanced **`e814611`→`43ebcaf`** via **three more of Anthony's own merges** — the **Project Seed October wave**: **#287** "Add Project Seed October menu and cafe-themed game" (`597bef0`), **#288** "Polish Project Seed with original product art and Philippine identity" (`c3299eb`) and **#289** "Give Seed Rush landing a Halloween theme" (`43ebcaf`). All `CI — web` ✅ (runs **#286 / #288 / #290**), **no migration**. These stay within the **Project Seed concept surface** — `/play/project-seed` (Seed Rush game + Halloween landing skin), `(internal)/demo/project-seed` (October concept menu), `/project-seed/menu`, the `caferush`/`venue-menu` shared bits — plus original product art (`public/assets/project-seed/october/*.webp`), a public-domain 2:1 **Philippine flag** SVG + boundary map, the non-human **aswang** mascot, an original SVG spiderweb/spider, and `ASSET_REGISTRY/PROJECT_SEED/` docs. **Guardrail-clean:** no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe, Square or POS touched; non-human mascot only; no AI-generated client/league logos (the "project-seed-logo-reference" is the concept project's own mark). **Anthony's own merges → no caretaker action; recorded.** **No new drafts** opened and **none of the 8 held drafts changed** since last run. Migration set **unchanged at `0015`–`0023`** (+`0009` Marbel); this wave added none. Default branches re-verified live: amma **`43ebcaf`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#290** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#26** on master). **VBFH "Daily Run": today's scheduled run #120 (09-30) SUCCEEDED** in ~25 min (18:00→18:25 UTC) — the "not yet fired" note from midday is now resolved green. **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259/#277; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-01 (midday check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; VBFH Daily Run #120 (09-30) green.** No red builds and no caretaker fix was needed. Since the 09-30 evening run, amma `main` advanced **`43ebcaf`→`0149b74`** via **three more of Anthony's own merges** — the **site-scoped traffic / morning-report wave**: **#290** "Site-scoped production traffic and morning report" (`e794733`), **#291** "Repair site-separated traffic reporting via verified analytics drain" (`d6ea14e`) and **#292** "Clarify per-site traffic coverage and allow partial morning reports" (`0149b74`). All `CI — web` ✅ (runs **#294 / #296 / #298**), **no migration**. These rework the internal **traffic analytics / morning-report** surface: `src/lib/traffic/*` (new `site-traffic.ts`/`sites.ts`, reworked `store.ts`/`parse-drain.ts`, dropped `vercel-web-analytics.ts`), `src/app/api/(internal/)traffic/*` routes, the internal `/customers/traffic` + `/customers/bodega-traffic` dashboard pages, traffic selftests, `.env.example`/`vercel.json`, and `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md` + `TRAFFIC_COUNTER.md` docs. **Guardrail-clean (caretaker view):** Anthony's own merges, already green; **no Supabase migration, no Stripe/Square/POS, no secrets committed** (`.env.example` lists var names only), no `/m/[id]` or `/owner/[id]` touched. The `/customers/traffic` dashboard pages are *his own* edits — the caretaker did not touch any protected route. **Anthony's own merges → no caretaker action; recorded.** **No new drafts** opened and **none of the 8 held drafts changed** since last run (all `updated_at` predate the 09-30 evening run → **no new human review comments** anywhere). Migration set **unchanged at `0015`–`0023`** (+`0009` Marbel); this wave added none. Default branches re-verified live: amma **`0149b74`** (advanced), vbfh `b7af2c9` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#298** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#26** on master). **VBFH "Daily Run": latest scheduled run #120 (09-30 18:00→18:25 UTC) SUCCEEDED** in ~25 min; today's (10-01) fires later on schedule (normal). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259/#277; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -98,15 +98,15 @@ Desk — Phase 0")** — closed since 07-18.
 
 ---
 
-## Build health (as of 2026-09-30, evening)
+## Build health (as of 2026-10-01, midday)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`43ebcaf`** ("Give Seed Rush landing a Halloween theme (#289)," 09-30; **Anthony's own merge**). **Advanced since last run** `e814611`→`43ebcaf` via the **Project Seed October wave** #287/#288/#289 (`CI — web` **#290 ✅**). Adds October concept menu + original product art (`public/assets/project-seed/october/*.webp`), a public-domain Philippine flag SVG + boundary map, an original SVG spiderweb/spider Halloween landing skin, all within the `/play/project-seed` + `(internal)/demo/project-seed` + `/project-seed/menu` concept surface (+ `caferush`/`venue-menu` shared bits) + `ASSET_REGISTRY/PROJECT_SEED/` docs. **No protected route / Supabase / Stripe / Square touched; no migration** — set stays **`0015`–`0023`**. Non-human aswang mascot only; no AI-generated client/league logo. **Anthony's own → no caretaker action; recorded.** **Eight** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **"VBFH Daily Run" healthy:** today's scheduled **#120 (09-30 18:00→18:25 UTC) green in ~25 min**, following **#119 (09-29) green**. The 09-26→09-28 outage is behind us; the ~40-league scrape now finishes well under the 45-min cap. **No code change needed or pushed.** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`0149b74`** ("Clarify per-site traffic coverage and allow partial morning reports (#292)," 10-01; **Anthony's own merge**). **Advanced since last run** `43ebcaf`→`0149b74` via the **site-scoped traffic / morning-report wave** #290/#291/#292 (`CI — web` **#294/#296/#298 ✅**). Reworks the internal traffic-analytics + morning-report code (`src/lib/traffic/*`, `api/(internal/)traffic/*`, internal `/customers/traffic` + `/customers/bodega-traffic` dashboards, selftests, `.env.example`/`vercel.json`) + `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs. **No Supabase migration; no Stripe/Square/POS; no secrets (var names only); no `/m/[id]` or `/owner/[id]` touched** — set stays **`0015`–`0023`**. The `/customers/traffic` pages are Anthony's own edits (caretaker touched no protected route). **Anthony's own → no caretaker action; recorded.** **Eight** open drafts held (see Open PRs). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`b7af2c9`** (#8, run **#26 ✅**, unchanged). **"VBFH Daily Run" healthy:** latest scheduled **#120 (09-30 18:00→18:25 UTC) green in ~25 min**, following **#119 (09-29) green**; today's (10-01) fires later on schedule. The 09-26→09-28 outage is behind us; the ~40-league scrape now finishes well under the 45-min cap. **No code change needed or pushed.** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -137,11 +137,20 @@ Desk — Phase 0")** — closed since 07-18.
 
 ## Merged / closed since last run
 
-**Since the 09-30 midday run, amma `main` advanced `e814611`→`43ebcaf` via three more of Anthony's own merges** (the
-Project Seed October wave, `CI — web` green, no new migration); nothing closed unmerged; **no new human review comments**
-anywhere (the only PR comments remain Vercel deploy bots on #259/#277). vbfh, shadow and EscapeTheBomb tips unchanged
-(`b7af2c9` / `5113ce5` / `eee6a37`). **VBFH Daily Run #120 (09-30) fired green.**
+**Since the 09-30 evening run, amma `main` advanced `43ebcaf`→`0149b74` via three more of Anthony's own merges** (the
+site-scoped traffic / morning-report wave, `CI — web` green, no new migration); nothing closed unmerged; **no new human
+review comments** anywhere (the only PR comments remain Vercel deploy bots on #259/#277). vbfh, shadow and EscapeTheBomb
+tips unchanged (`b7af2c9` / `5113ce5` / `eee6a37`). **VBFH Daily Run #120 (09-30) stays green; 10-01 fires later on schedule.**
 
+- **amma #290/#291/#292 — site-scoped traffic / morning-report wave.** Merged 10-01 (`e794733` → `d6ea14e` →
+  `0149b74`), `CI — web` **#294 / #296 / #298 ✅**. #290 adds the site-scoped production traffic + morning-report
+  (`src/lib/traffic/{sites,morning-email,morning-format}.ts`, internal `/customers/traffic` dashboard,
+  `api/internal/traffic/morning` route, site-isolation CI tests); #291 repairs site-separated reporting via a verified
+  analytics drain (new `site-traffic.ts`, reworked `store.ts`/`parse-drain.ts`, removes the old `vercel-web-analytics.ts`);
+  #292 clarifies per-site coverage and allows partial morning reports. All within the internal traffic-analytics surface
+  + `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs. **No migration; no Supabase/Stripe/Square/POS;
+  no secrets (`.env.example` var names only); no `/m/[id]` or `/owner/[id]` touched.** The `/customers/traffic` +
+  `/customers/bodega-traffic` dashboard pages are Anthony's own edits. **Anthony's own merges → no caretaker action; recorded.**
 - **amma #287/#288/#289 — Project Seed October wave.** Merged 09-30 (`597bef0` → `c3299eb` → `43ebcaf`), `CI — web`
   **#286 / #288 / #290 ✅**. #287 adds the October concept menu + a cafe-themed game round-config; #288 polishes with
   original product-art cutouts (`public/assets/project-seed/october/*.webp`), a public-domain 2:1 **Philippine flag**
@@ -231,6 +240,23 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-01 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no fix needed.**
+  Zero failing workflow runs across all four repos. amma `main` advanced **`43ebcaf`→`0149b74`** via **three of
+  Anthony's own merges** — the **site-scoped traffic / morning-report wave** #290 (`e794733`) / #291 (`d6ea14e`) /
+  #292 (`0149b74`): reworks the internal traffic-analytics + morning-report code (`src/lib/traffic/*` incl. new
+  `site-traffic.ts`/`sites.ts`, reworked `store.ts`/`parse-drain.ts`, dropped `vercel-web-analytics.ts`;
+  `api/(internal/)traffic/*` routes; internal `/customers/traffic` + `/customers/bodega-traffic` dashboards; traffic
+  selftests; `.env.example`/`vercel.json`) + `MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs. `CI — web`
+  **#294/#296/#298 ✅**; **no migration; no Supabase/Stripe/Square/POS; no secrets (var names only); no `/m/[id]` or
+  `/owner/[id]` touched** → **guardrail-clean (caretaker view), Anthony's own → recorded, no caretaker action** (the
+  `/customers/traffic` pages are his own edits). Migration set unchanged **`0015`–`0023`** (+`0009`). VBFH "Daily Run":
+  latest **#120 (09-30) green**; today's (10-01) fires later on schedule (normal). Default branches re-verified: amma
+  `0149b74` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #298 ✅ +
+  `CI — voice-gateway` #19 ✅; vbfh build `CI` #26 ✅; shadow & EscapeTheBomb no CI (0 runs). **No new drafts; none of
+  the 8 held drafts changed; no new human review comments (all PR `updated_at` predate last run); nothing closed
+  unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218 governance question open; #29 closed.
+  Branch cleanup still 403-blocked. Push notification + email sent (nothing needed from Anthony beyond the standing
+  Supabase-migration to-do).
 - **2026-09-30 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no fix needed; VBFH
   Daily Run #120 fired green.** Zero failing workflow runs across all four repos. **VBFH "Daily Run" #120 (09-30
   18:00→18:25 UTC) SUCCEEDED** in ~25 min — resolves the "not yet fired" note from midday; the 09-26→09-28 outage
