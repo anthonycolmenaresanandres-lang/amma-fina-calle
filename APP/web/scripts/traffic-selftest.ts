@@ -14,7 +14,7 @@ import { parseDrainPayload } from "../src/lib/traffic/parse-drain";
 import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { verifyDrainRequest } from "../src/lib/traffic/signature";
 import { __test } from "../src/lib/traffic/store";
-import { siteFilter, siteForPublicVisit, TRAFFIC_SITES } from "../src/lib/traffic/sites";
+import { siteForPublicVisit, TRAFFIC_SITES } from "../src/lib/traffic/sites";
 import { todayRange } from "../src/lib/traffic/date";
 
 let failures = 0;
@@ -45,29 +45,42 @@ async function main(): Promise<void> {
 
   // --- drain parsing (NDJSON + JSON array, both Vercel-documented shapes) ---
   const ts = nowMs();
+  const shared = { schema: "vercel.analytics.v2", projectId: TRAFFIC_SITES[0].projectId, vercelEnvironment: "production", timestamp: ts };
   const ndjson = [
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 11111, origin: "https://finacalleos.com", path: "/for-restaurants", referrer: "https://www.instagram.com/" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/api/secret" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "event", eventName: "button_click", timestamp: ts, deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 999, origin: "https://finacalleos.com", path: "/customers/traffic" }),
-    JSON.stringify({ schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 999, origin: "https://amma-fina-calle-abc.vercel.app", path: "/for-restaurants" }),
+    JSON.stringify({ ...shared, eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
+    JSON.stringify({ ...shared, eventType: "pageview", deviceId: 11111, origin: "https://finacalleos.com", path: "/for-restaurants", referrer: "https://www.instagram.com/" }),
+    JSON.stringify({ ...shared, eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/api/secret" }),
+    JSON.stringify({ ...shared, eventType: "event", eventName: "button_click", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" }),
+    JSON.stringify({ ...shared, eventType: "pageview", deviceId: 999, origin: "https://finacalleos.com", path: "/customers/traffic" }),
+    JSON.stringify({ ...shared, eventType: "pageview", deviceId: 999, origin: "https://amma-fina-calle-abc.vercel.app", path: "/for-restaurants" }),
   ].join("\n");
   const parsed = parseDrainPayload(ndjson);
   check("api event dropped during parse", parsed.every((e) => !e.path.startsWith("/api")), JSON.stringify(parsed.map((e) => e.path)));
-  check("only verified public events parsed", parsed.length === 3, `got ${parsed.length}`);
+  check("only verified public pageviews parsed", parsed.length === 2, `got ${parsed.length}`);
   check("all Fina events attributed to Fina", parsed.every((e) => e.siteId === "fina-calle"));
   check("instagram referrer host extracted", parsed.some((e) => e.referrerHost === "instagram.com"));
 
   const arrayPayload = JSON.stringify([
-    { schema: "vercel.analytics.v2", eventType: "pageview", timestamp: ts, deviceId: 222, origin: "https://colattao-cafe-rush.vercel.app", path: "/menu" },
+    { schema: "vercel.analytics.v2", projectId: TRAFFIC_SITES[2].projectId, vercelEnvironment: "production", eventType: "pageview", timestamp: ts, deviceId: 222, origin: "https://colattao-cafe-rush.vercel.app", path: "/menu" },
   ]);
   check("json array payload parsed", parseDrainPayload(arrayPayload).length === 1);
   check("garbage payload is empty, not thrown", parseDrainPayload("not json at all").length === 0);
   check("same project Bodega host stays Bodega", siteForPublicVisit("bodegacafe757.com", "/demo/bodega")?.id === "bodega");
+  const sharedRoots = parseDrainPayload(JSON.stringify([
+    { ...shared, eventType: "pageview", deviceId: 700, origin: "https://bodegacafe757.com", path: "/" },
+    { ...shared, eventType: "pageview", deviceId: 701, origin: "https://finacalleos.com", path: "/" },
+  ]));
+  check("identical root paths on shared project stay separated by hostname",
+    sharedRoots.length === 2 && sharedRoots[0].siteId === "bodega" && sharedRoots[1].siteId === "fina-calle");
+  check("documented v1 schema is accepted", parseDrainPayload(JSON.stringify({
+    ...shared, schema: "vercel.analytics.v1", eventType: "pageview", deviceId: 700,
+    origin: "https://bodegacafe757.com", path: "/",
+  })).length === 1);
   check("hosted client path never becomes Fina marketing", !siteForPublicVisit("finacalleos.com", "/demo/project-seed"));
   check("preview deployment never becomes Colattao", !siteForPublicVisit("colattao-cafe-rush-abc.vercel.app", "/menu"));
-  check("every API filter contains its own hostname", TRAFFIC_SITES.every((site) => siteFilter(site).includes(`requestHostname eq '${site.domains[0]}'`)));
+  check("wrong source project rejected", parseDrainPayload(JSON.stringify({ ...shared, projectId: TRAFFIC_SITES[2].projectId, eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
+  check("preview environment rejected", parseDrainPayload(JSON.stringify({ ...shared, vercelEnvironment: "preview", eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
+  check("missing visitor id rejected", parseDrainPayload(JSON.stringify({ ...shared, eventType: "pageview", origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
   const spring = todayRange("America/New_York", Date.parse("2026-03-08T15:00:00Z"));
   const fall = todayRange("America/New_York", Date.parse("2026-11-01T15:00:00Z"));
   check("Eastern spring reporting day spans 23 hours", spring.dateStr === "2026-03-08" && spring.endMs - spring.startMs === 23 * 3600000);
@@ -85,6 +98,7 @@ async function main(): Promise<void> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), "traffic-selftest-"));
   const store = new __test.FileTrafficStore(dir);
   await store.insertEvents(parsed);
+  await store.insertEvents(parsed); // an at-least-once drain delivery must not double the report
   await store.insertEvents(parseDrainPayload(arrayPayload));
   // Historical file rows without a site ID cannot safely enter any site report.
   await fs.appendFile(path.join(dir, "traffic-events.jsonl"), JSON.stringify({
@@ -96,6 +110,9 @@ async function main(): Promise<void> {
   const report = await store.getTodayReport("fina-calle", "America/New_York");
   const colattaoReport = await store.getTodayReport("colattao", "America/New_York");
   check("Fina pageviews exclude Colattao", report.pageviews === 2, `got ${report.pageviews}`);
+  const range = await store.getRangeReport("fina-calle", ts - 60_000, ts + 60_000, "America/New_York");
+  check("range report deduplicates retry and isolates site", range.pageviews === 2 && range.uniqueVisitors === 2 && range.topPaths[0]?.path === "/for-restaurants");
+  check("range daily row matches verified views", range.daily.length === 1 && range.daily[0].pageviews === 2);
   check("Fina visitors exclude Colattao", report.uniqueVisitors === 2, `got ${report.uniqueVisitors}`);
   check("Colattao remains separate", colattaoReport.siteId === "colattao" && colattaoReport.pageviews === 1 && colattaoReport.uniqueVisitors === 1);
   check("top path is the Fina marketing page", report.topPaths[0]?.path === "/for-restaurants" && report.topPaths[0]?.count === 2);

@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { TrafficReport } from "./vercel-web-analytics";
+import type { TrafficReport } from "./site-traffic";
 import { renderMorningReport } from "./morning-format";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";

@@ -14,10 +14,11 @@ The ledger file appears with the first recorded drop.
 
 ## Automated production traffic (2026-10-01)
 
-The new private `/customers/traffic` dashboard and morning email query Vercel Web
-Analytics directly. They do **not** read or update the screenshot ledger. Each
-business is queried independently using its own project ID, verified hostname
-and explicit public-page scope. No combined cross-client visitor number exists.
+The private `/customers/traffic` dashboard and morning email read a verified,
+site-attributed Vercel Web Analytics drain copy in a dedicated traffic database.
+They do **not** read or update the screenshot ledger. The drain only covers
+events after activation; older Vercel Analytics data stays in Vercel's native
+dashboard. No combined cross-client visitor number exists.
 
 The site inventory, exclusions, schedule, setup and verification steps are in
 `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`. Keep screenshot-ledger entries labeled

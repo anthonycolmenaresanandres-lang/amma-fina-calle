@@ -1,4 +1,4 @@
-# First-party traffic counter (Colattao / Fina Calle)
+# First-party, site-separated Vercel traffic copy
 
 Site-scoped first-party traffic copies, sourced from **Vercel Web Analytics** and stored
 in **our own database** so we can read numbers from a terminal and keep them
@@ -17,9 +17,10 @@ Vercel Web Analytics  ──(Drain: vercel.analytics.v2)──►  POST /api/tra
    npm run traffic:today -- <site> ──► GET /api/internal/traffic/today?site=<site> │ (bearer token)
 ```
 
-We **reuse Vercel's own analytics as the source of truth** (same numbers as the
-Vercel dashboard, with Vercel's bot filtering) and just route a copy to a store
-we control. This is *not* a second, parallel counter.
+We **reuse Vercel's own analytics as the source of events** (including its bot
+filtering) and route a verified public-page subset to a store we control. This
+is *not* a second, parallel browser counter, but the scoped numbers need not
+equal the Vercel project's unfiltered dashboard total.
 
 ## What lives where
 
@@ -117,8 +118,8 @@ done in this PR. Nothing here ships without your approval.
 
 6. **Verify live:** browse one verified public site, then run
    `npm run traffic:today -- <site>` — confirm only that site's pageviews arrive.
-   Unattributable historical rows are intentionally omitted. This drain is not
-   the source of the admin multi-site dashboard or morning email; see
+   Unattributable historical rows are intentionally omitted. This drain is
+   also the source of the private multi-site dashboard and morning email; see
    `TECH_ARCHITECTURE/MULTI_SITE_TRAFFIC.md`.
 
 ## Local development / testing
@@ -138,4 +139,5 @@ TRAFFIC_DRAIN_SECRET=s TRAFFIC_REPORT_TOKEN=t npm run build && npx next start
   **prune raw events** past a retention window (cost + privacy). The live report
   currently queries raw events directly, which is fine at a single storefront's
   volume.
-- Multi-day ranges for the first-party drain copy. Per-site reporting is now mandatory.
+- A retention policy for raw events, with sufficient daily rollups for the
+  dashboard's 30-day window and the morning report.

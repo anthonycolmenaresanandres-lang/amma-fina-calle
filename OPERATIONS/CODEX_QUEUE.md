@@ -1,5 +1,12 @@
 # Codex Queue — canonical live queue
 
+## [ ] 84 - Repair live multi-site traffic display
+
+**Authority:** Anthony reported that Vercel is not displaying the information and requested a fix on 2026-10-01.
+**Scope:** Diagnose the deployed traffic dashboard and Vercel source, then prepare a source-correct repair on a branch. Keep Bodega, Fina Calle and Colattao separate; do not publish, provision credentials/storage, configure a drain, send email or merge without Anthony's approval.
+**Evidence:** Production deployment `e794733` is READY. Vercel native Analytics has project-wide data, but the custom dashboard has no configured project access token and its API filter uses `requestHostname`, which the public Web Analytics query API does not support. The current first-party drain is not configured with a durable production store.
+**Prepared result:** Replaced the unusable API query with the existing verified drain/store path, added 30-day and previous-Eastern-day site-scoped reports, replay deduplication, strict production event validation and direct native Vercel project links with hostname guidance. Source tests and scoped lint pass; source compiles, while the existing owner-page Next type gate still fails. Pending Anthony's review/merge and owner-side dedicated database, drain secret, Vercel drain and email activation; live traffic display is not yet restored.
+
 ## [ ] 83 - Multi-site production traffic and morning report
 
 **State:** DRAFT PR #290 CHECKS GREEN — review and production configuration pending.

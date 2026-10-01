@@ -1,4 +1,4 @@
-import type { TrafficReport } from "./vercel-web-analytics";
+import type { TrafficReport } from "./site-traffic";
 import { TRAFFIC_SITES } from "./sites";
 
 export function renderMorningReport(date: string, reports: TrafficReport[]) {
@@ -9,7 +9,7 @@ export function renderMorningReport(date: string, reports: TrafficReport[]) {
   const ready = reports as Extract<TrafficReport, { state: "ready" }>[];
   const lines = [
     `Production website traffic — ${date} (America/New_York)`,
-    "Source: Vercel Web Analytics. Sites are reported separately; there is no combined visitor or pageview total.",
+    "Source: verified Vercel Web Analytics drain pageviews since activation. Sites are reported separately; there is no combined visitor or pageview total.",
     "",
   ];
   for (const report of ready) {

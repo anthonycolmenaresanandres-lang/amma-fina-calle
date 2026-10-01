@@ -1,7 +1,7 @@
 // Shared types for the first-party traffic counter.
 //
 // Source of truth is Vercel Web Analytics, forwarded to us via a Vercel
-// Drain (schema `vercel.analytics.v2`). We normalize those events, store them
+// Drain (Vercel analytics schema v1/v2). We normalize public pageviews, store them
 // in a SEPARATE store (not Supabase — see TECH_ARCHITECTURE/TRAFFIC_COUNTER.md),
 // and serve aggregates from a protected report endpoint. No names, emails,
 // phone numbers, or IPs are ever stored — only Vercel's anonymized device id.
@@ -42,7 +42,18 @@ export interface DailyReport {
   lastUpdated: string; // ISO timestamp of the most recent stored event (or now)
 }
 
+export interface RangeReport {
+  siteId: string;
+  pageviews: number;
+  uniqueVisitors: number;
+  daily: Array<{ date: string; pageviews: number; visitors: number }>;
+  topPaths: PathCount[];
+  topReferrers: ReferrerCount[];
+  lastUpdated: string | null;
+}
+
 export interface TrafficStore {
   insertEvents(events: NormalizedEvent[]): Promise<void>;
   getTodayReport(siteId: string, timezone: string): Promise<DailyReport>;
+  getRangeReport(siteId: string, startMs: number, endMs: number, timezone: string, path?: string): Promise<RangeReport>;
 }

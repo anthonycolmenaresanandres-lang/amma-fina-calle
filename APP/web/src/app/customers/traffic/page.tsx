@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Activity, ExternalLink, Globe2, MousePointerClick, Users } from "lucide-react";
 import { getAdminContext } from "@/lib/admin/auth";
-import { getAllSiteTrafficReports } from "@/lib/traffic/vercel-web-analytics";
+import { getAllSiteTrafficReports } from "@/lib/traffic/site-traffic";
 import {
   Eyebrow, Lede, PageShell, PageTitle, Panel, SectionHeading,
   SignOutButton, StatTile, TopBar,
@@ -29,7 +29,7 @@ export default async function TrafficPage() {
   return (
     <PageShell>
       <TopBar backHref="/customers" backLabel="Customer Accounts">
-        <a href="https://vercel.com/anthonycolmenaresanandres-8844s-projects/analytics"
+        <a href="https://vercel.com/anthonycolmenaresanandres-8844s-projects/amma-fina-calle/analytics"
           target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition hover:text-white">
           <ExternalLink size={13} aria-hidden /> Vercel Analytics
         </a>
@@ -41,7 +41,7 @@ export default async function TrafficPage() {
           <PageTitle>Traffic by site</PageTitle>
           <Lede>One report per website. Visitors and pageviews are never added across clients.</Lede>
           <p className="mt-6 text-xs leading-6 text-[#7f8a91]">
-            Last 30 days of Vercel Web Analytics. Only verified production hostnames and listed public pages are included. This is website traffic, not a count of physical QR scans.
+            Last 30 days of verified pageviews forwarded by Vercel Web Analytics. Collection begins when the production drain is connected; earlier Vercel history remains in the native Analytics dashboard. This is website traffic, not a count of physical QR scans.
           </p>
         </div>
         <div className="space-y-5">
@@ -54,10 +54,15 @@ export default async function TrafficPage() {
                 <div className="mt-4" role="status">
                   <p className="text-sm font-semibold text-[#f4f6f7]">Traffic unavailable — not zero</p>
                   <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">{report.reason}</p>
+                  <p className="mt-3 text-xs leading-5 text-[#7f8a91]">Vercel may still have historical data. In its Hostnames panel, filter to {report.domains.join(" or ")}. Do not use the unfiltered project total.</p>
+                  <a href={report.analyticsUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[#bfdcff] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bfdcff]">
+                    <ExternalLink size={13} aria-hidden /> Open {report.siteName} in Vercel
+                  </a>
                 </div>
               ) : (
                 <>
                   <p className="mt-2 break-all text-xs text-[#7f8a91]">{report.domains.join(" · ")}</p>
+                  <p className="mt-1 text-xs text-[#7f8a91]">Latest verified event: {new Date(report.lastUpdated).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>
                   <dl className="mt-5 grid gap-3 sm:grid-cols-2">
                     <StatTile label="Unique visitors" icon={<Users size={12} aria-hidden />}>
                       {report.visitors.toLocaleString()}
