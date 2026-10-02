@@ -1,5 +1,9 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-02 RELEASE — Bodega complete Matcha and Signature Drinks menu live
+
+PR #295 merged as `1ff51bc1f771b8912aa419777a3568a82e782dee` after exact-head GitHub CI web (lint, existing regressions and production build), Vercel preview and Preview Comments checks passed. Preview inspection confirmed all nine drinks, literal recipes and working Cafecito/Matcha navigation with no page-width overflow. Production Vercel status succeeded; refreshed https://bodegacafe757.com/ visibly showed the five signature drinks and four Matcha drinks. Seven net additions; Spanish Latte/La Isla retained once; unlisted prices stay unlisted. Queue item complete. No further application changes.
+
 ## 2026-10-02 OUT — Bodega board additions prepared
 
 Added Bodega Cat, Coco Loco, Canela Love, Matcha Latte, Banana Cloud Matcha, Crème Brûlée Matcha and Ube Coconut Matcha with source-backed descriptions; kept Spanish Latte and La Isla once each and updated their source references. Added Matcha navigation through the existing shared section, removed confirmed candidates from the pending list and stale partial-lineup wording. Node source checks pass for all nine drinks, seven net additions, unknown prices and preservation of prior menu data. No shared layout/CSS, game, other venues, credentials, access or Square data changed. Required CI/preview/rendered release checks and release receipt tracked in the PR. See OPERATIONS/BODEGA_BOARD_MENU_20261002.md.
