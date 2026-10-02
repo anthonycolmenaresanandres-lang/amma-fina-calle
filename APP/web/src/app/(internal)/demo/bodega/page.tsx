@@ -98,7 +98,7 @@ export default function BodegaMenuReviewPage() {
           </a>
           <details id="review-notes">
             <summary>Menu details</summary>
-            <p>Preview menu transcribed from Bodega’s photographed boards and bakery labels. Listed prices come from the Classics board; ask the café for unlisted prices and current availability. The signature lineup is partial. Hours await confirmation. Artwork is illustrative.</p>
+            <p>Preview menu transcribed from Bodega’s photographed boards and bakery labels. Listed prices come from the Classics board; ask the café for unlisted prices and current availability. Hours await confirmation. Artwork is illustrative.</p>
           </details>
       </>}
     />

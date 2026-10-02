@@ -14,7 +14,7 @@ export type DraftMenuSection = {
   items: DraftMenuItem[];
 };
 
-// Anthony's supplied photos, 2026-09-25. Null means unlisted, not free or unavailable.
+// Anthony's supplied photos, 2026-09-25 and 2026-10-02. Null means unlisted, not free or unavailable.
 const classic = (name: string, small: number, large: number | null): DraftMenuItem => ({
   name, source: "37587.jpg",
   prices: [{ label: "12 oz", cents: small }, { label: "16 oz", cents: large }],
@@ -45,10 +45,22 @@ export const draftMenuSections: DraftMenuSection[] = [
     id: "signature-cafecito",
     title: "Signature cafecito",
     art: "cafecito",
-    note: "Ask us for prices and the full signature lineup.",
+    note: "Ask us for sizes and prices.",
     items: [
-      photoItem("37590.jpg", "Spanish Latte", "Espresso & condensed milk"),
-      photoItem("37590.jpg", "La Isla", "Espresso, mocha & coconut"),
+      photoItem("38582.heic", "Bodega Cat", "Espresso, lavender & white mocha"),
+      photoItem("38582.heic", "Spanish Latte", "Espresso & condensed milk"),
+      photoItem("38582.heic", "Coco Loco", "Espresso, coconut & condensed milk"),
+      photoItem("38582.heic", "La Isla", "Espresso, mocha & coconut"),
+      photoItem("38582.heic", "Canela Love", "Espresso, cinnamon & nutmeg"),
+    ],
+  },
+  {
+    id: "matcha", title: "Matcha", note: "Ask us for sizes and prices.",
+    items: [
+      photoItem("38581.heic", "Matcha Latte"),
+      photoItem("38581.heic", "Banana Cloud Matcha", "Banana matcha & vanilla bean cold foam"),
+      photoItem("38581.heic", "Crème Brûlée Matcha", "Vanilla matcha & toasted sugar cold foam"),
+      photoItem("38581.heic", "Ube Coconut Matcha", "Coconut matcha & ube cold foam"),
     ],
   },
   {
@@ -99,7 +111,7 @@ export const draftMenuSections: DraftMenuSection[] = [
 
 // Internal reconciliation only; absence from a photo does not mean discontinued.
 export const pendingOwnerConfirmation = [
-  "Coco Loco", "Iced Bodega Cat", "Canela Love", "Croissant Sandwich",
+  "Iced Bodega Cat", "Croissant Sandwich",
   "Breakfast Sandwich", "Ham and Cheese", "Sourdough Croissant",
   "Pain au Chocolat", "Coffee Cinnamon Muffin", "Orange / Cranberry Muffin", "Coffee Cake",
 ] as const;
