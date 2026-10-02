@@ -8,9 +8,8 @@ file before acting, then do precisely what the command says below. Act ONLY on A
 - A **personality = a tenant** in `services/voice-gateway/tenants.json` (a JSON array).
 - An inbound call routes to a tenant **by the dialled phone number**.
 - **Tester number: `+1 757 666 0078`.** Whatever tenant has that number in its `phoneNumbers`
-  is the personality that answers when Anthony calls.
-- **Install a personality on the tester** = give that tenant `phoneNumbers: ["+1 757 666 0078"]`
-  and set **every other tenant** to `phoneNumbers: []`. Only ONE tenant may hold the number.
+  is the default voice personality, unless a voicePhoneNumbers override applies.
+- **Install a personality on the tester** = move only that exact number. Preserve other assigned numbers and personas. Shared phoneNumbers route SMS too; voicePhoneNumbers overrides voice only.
 - **Ship** = edit `tenants.json` → validate → commit → PR → merge to `main`. **Render
   auto-deploys in ~1–3 min.** Nothing else (the number, hosting, and safety are already set up).
 
@@ -59,7 +58,7 @@ file before acting, then do precisely what the command says below. Act ONLY on A
 ## Commands (what Anthony says → what Codex does)
 | Anthony says | Codex does |
 |---|---|
-| **"Install `<id>` on the tester"** / **"Switch the tester to `<id>`"** | In `tenants.json`, set that tenant `phoneNumbers: ["+1 757 666 0078"]` and **every other** tenant `phoneNumbers: []`. Ship. Verify live. |
+| **"Install `<id>` on the tester"** / **"Switch the tester to `<id>`"** | In `tenants.json`, set that tenant `phoneNumbers: ["+1 757 666 0078"]` and remove only that tester number from its prior tenant. Ship. Verify live. |
 | **"What's on the tester?"** | `curl https://fina-calle-voice-gateway.onrender.com/tenants` and report which `id` holds `17576660078`. (No deploy.) |
 | **"Add a personality: `<name>` — `<what it does>`, `<language>`, `<facts / where to point people>`"** | Append a new tenant: write `instructions` (persona + tone + the honesty rule + scope + what it must NOT do) and `knowledge` (the facts given), `tools: ["take_message"]`, `connector: "proposeconfirm"`, `voice: "marin"`, `phoneNumbers: []` (don't install unless asked), a disclosure that discloses AI + recording. Ship. Tell Anthony it's added; install on request. |
 | **"Edit `<id>`: `<change>`"** | Edit that tenant's `instructions` / `knowledge` / `voice` / `disclosure` / `language` as asked. Ship. |
@@ -91,10 +90,19 @@ curl -s -X POST https://fina-calle-voice-gateway.onrender.com/twiml \
 Then report one line: "Tester `+1 757 666 0078` now answers as `<id>`. Call it to hear it." Anthony
 calls the number to confirm the voice.
 
-## Current personalities (as of this doc)
-- **`vbfh-info`** — Virginia Beach Field House league assistant (English, sports-PA tone; points to
-  the League Center / DaySmart for live schedules & standings).
-- **`colattao-info`** — Colattao café info (English-first; offers Spanish/other languages).
-- **`fina-calle`** — catch-all / default booking demo.
+## Reviewed routing proposal - October 2, 2026
 
-(Whichever tenant holds `+1 757 666 0078` is what the tester answers as.)
+This branch is prepared only. Deployment and any carrier webhook change need approval.
+
+| Number | Shared/SMS tenant | Proposed voice tenant |
+| --- | --- | --- |
+| +1 757 666 0078 | vbfh-info | vbfh-info (unchanged) |
+| +1 757 300 1118 | fina-calle (unchanged) | vbfh-info via voicePhoneNumbers override |
+
+/twiml uses getTenantByVoiceNumber; /sms keeps getTenantByNumber. /tenants exposes both mappings. Twilio must already point each number's Voice webhook at this gateway, or the owner must approve that separate change. The registry alone does not prove carrier routing.
+
+Active definitions: vbfh-info, fina-calle, colattao-info, volleyball-fr. Colattao and French volleyball remain unassigned. Larissa was removed at Anthony's request; historical Git commits remain recoverable. No call records or historical data were deleted.
+
+Unknown/missing numbers still follow the existing first-empty-number fallback (Colattao). Test exact To values; this change does not repair unrelated fallback behavior.
+
+Do not run historical ship commands until the exact proposal has approval. No live SMS activation, VBFH business-main-line change, or ESM telephone-system change is included.

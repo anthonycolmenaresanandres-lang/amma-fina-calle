@@ -16,6 +16,8 @@ export type ConnectorKind = "mock" | "calcom" | "square" | "webhook" | "proposec
 export interface Tenant {
   id: string;
   phoneNumbers: string[]; // normalized digits; empty array = catch-all
+  // Optional voice-only override; shared phoneNumbers continue to route SMS.
+  voicePhoneNumbers?: string[];
   business: BusinessPack;
   connector: ConnectorKind;
   calcom?: typeof config.calcom;
@@ -57,6 +59,7 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
   return {
     id: t.id ?? `tenant-${i}`,
     phoneNumbers: (t.phoneNumbers ?? []).map(normalizePhone).filter(Boolean),
+    voicePhoneNumbers: (t.voicePhoneNumbers ?? []).map(normalizePhone).filter(Boolean),
     business: { ...def.business, ...(t.business ?? {}) },
     connector: t.connector ?? def.connector,
     calcom: t.calcom ?? def.calcom,
@@ -104,4 +107,11 @@ export function getTenantByNumber(to?: string): Tenant {
     if (hit) return hit;
   }
   return registry().find((t) => t.phoneNumbers.length === 0) ?? registry()[0]!;
+}
+
+/** Voice overrides leave shared/SMS routing and unassigned persona fallback unchanged. */
+export function getTenantByVoiceNumber(to?: string): Tenant {
+  const digits = normalizePhone(to ?? "");
+  const override = digits ? registry().find((t) => t.voicePhoneNumbers?.includes(digits)) : undefined;
+  return override ?? getTenantByNumber(to);
 }

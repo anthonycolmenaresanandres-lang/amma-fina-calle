@@ -12,7 +12,7 @@ import { connectStreamTwiML, mediaFrame, clearFrame, sayHangupTwiML } from "./tw
 import { RealtimeSession, buildGreetingResponse, buildRealtimeSessionUpdate } from "./realtime";
 import { store } from "./store";
 import { finalizeCall } from "./orchestrator";
-import { getTenantById, getTenantByNumber, allTenants } from "./tenant";
+import { getTenantById, getTenantByNumber, getTenantByVoiceNumber, allTenants } from "./tenant";
 import { emptyTwiML, generateSmsReply, messageTwiML, smsFallbackReply } from "./sms";
 import type { CallRecord } from "./types";
 
@@ -155,7 +155,8 @@ const server = http.createServer(async (req, res) => {
     // Ops view — who's wired up, on which numbers, with which connector. No secrets.
     const list = allTenants().map((t) => ({
       id: t.id, business: t.business.name, kind: t.business.kind,
-      phoneNumbers: t.phoneNumbers, connector: t.connector, hours: t.business.hours,
+      phoneNumbers: t.phoneNumbers, voicePhoneNumbers: t.voicePhoneNumbers ?? [],
+      connector: t.connector, hours: t.business.hours,
       services: t.business.services.map((s) => s.name),
     }));
     res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({ count: list.length, tenants: list }, null, 2));
@@ -193,7 +194,7 @@ const server = http.createServer(async (req, res) => {
       }
     } catch { /* fail open — let the call through if a gate errors */ }
 
-    const tenant = getTenantByNumber(to ?? undefined);
+    const tenant = getTenantByVoiceNumber(to ?? undefined);
     res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id, from));
     return;
   }
