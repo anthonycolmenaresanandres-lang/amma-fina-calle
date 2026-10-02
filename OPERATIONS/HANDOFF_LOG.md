@@ -1,5 +1,9 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-02 IN — Bodega complete Matcha and Signature Drinks boards
+
+Anthony asked to reconcile the two supplied boards and add missing items. Verified the current menu source against bodegacafe757.com: Spanish Latte and La Isla exist; Bodega Cat, Coco Loco, Canela Love and all four Matcha drinks are missing. Scope is those seven additions, literal recipes, source filenames, Matcha navigation and accurate menu notes on `codex/bodega-board-items-20261002`; existing prices and other menu/game/tenant behavior remain untouched. Branch/PR workflow with source and required release checks. No credentials, access, Square data, spending or external messages.
+
 ## 2026-10-01 OUT — multi-site traffic implementation ready for review
 
 On `codex/multisite-traffic-20261001`, added a verified production-site registry for Bodega (`bodegacafe757.com` + www), Fina Calle OS (`finacalleos.com` + www), and Colattao (`colattao-cafe-rush.vercel.app`, the current Vercel production alias with no custom alias). The shared AMMA project is separated by both hostname and public-path allowlist; client demos/private/admin/API pages and preview hosts are excluded. The admin page `/customers/traffic` displays independent site reports without a combined total. A `12:12 UTC` Vercel cron prepares the previous Eastern day's three separate sections and sends only when all API reports and explicit Resend/recipient configuration are ready. The old drain and CLI now require a site ID; legacy unattributed rows are omitted. No live email or production change occurred.

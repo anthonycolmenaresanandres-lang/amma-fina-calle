@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] Bodega October 2 board reconciliation
+
+**Authority:** Anthony supplied the complete Matcha and Signature Drinks boards and asked to ensure the items are in Bodega's menu and add missing items.
+**Scope:** Reconcile nine photographed drinks in the existing guest menu; preserve two existing items and add seven missing items with board-backed recipes, one Matcha category link, accurate source provenance and unlisted-price notes. Use a feature branch and PR; validate source and required checks before any release.
+**Sources:** 38581.heic (Matcha) and 38582.heic (Signature Drinks), rendered images provided directly in the task.
+**Boundaries:** Preserve existing Classics prices, seasonal items, game, shared layout, other venues, owner access and Square data. No guessed sizes/prices, drink artwork, allergen/dietary claims, secrets, spending or messages.
+**Branch/base:** `codex/bodega-board-items-20261002` from main `bd7210115e7f3b23e7ff56e463ef180215248b46`.
+**State:** IN — menu source and live menu agree; Spanish Latte and La Isla already exist, seven drinks are missing.
+
 ## [ ] 85 - Activate verified production traffic reporting
 
 **Authority:** Anthony requested execution of the 2026-10-01 plan to make the private traffic dashboard reflect verified site-specific numbers.
