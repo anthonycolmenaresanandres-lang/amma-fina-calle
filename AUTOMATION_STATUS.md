@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-02 (midday check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; no caretaker fix needed. VBFH Daily Run #121 (10-01) green; 10-02 fires later on schedule.** Since the evening run, **vbfh `master` advanced `b7af2c9`→`bef1a8f` via three of Anthony's own merges** — the **VBFH pilot reliability-engineering wave**: **#9** "Repair VBFH Daily Mail content, bounded collection and durable delivery" (run **CI #28 ✅**), **#10** "verify soccer/volleyball source identities" (`3bb0b28`, **CI #31 ✅**), and **#11** "Fix live Dash loading race and false no-game reports" (`bef1a8f`, **CI #33 ✅**). All three are media-engine correctness/reliability fixes (bounded collection + durable retryable mail content, cross-sport source-identity verification, Dash pagination-race repair rejecting false zero-game reports). **Guardrail-clean (caretaker view):** media-engine code + docs only; **production SMTP send and recurring schedules remain disabled by default** per the PR bodies; no Supabase/Stripe/Square/POS, no secrets, no protected routes. **Anthony's own merges → no caretaker action; recorded.** **amma `main` unchanged at `8eb6239`.** **VBFH "Daily Run" #121 (10-01 18:26→18:50 UTC) remains latest and green**, following #119/#120; today's 10-02 run fires later (~18:00 UTC, now on new tip `bef1a8f`). **No new drafts** and **none of the 8 held drafts changed** since last run (all `updated_at` predate this run → **no new human review comments** anywhere). Migration set **unchanged at `0015`–`0023`** (+`0009` Marbel). Default branches re-verified live: amma `8eb6239` (unchanged), vbfh **`bef1a8f`** (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#301** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#33** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259/#277; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-02 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; no caretaker fix needed. One notable (intentional, owner-made) change: the VBFH "Daily Run" is now `activation held` — the auto-schedule was removed, so it no longer fires on its own (manual `workflow_dispatch` only).** Since the midday run, **vbfh `master` advanced `bef1a8f`→`75f9668` via one more of Anthony's own merges** — **#12** "Reduce daily email to results and standings per league" (`cc24f9a`→merge `75f9668`, **CI #34 ✅** on PR, **CI #35 ✅** on master): compacts the daily email to exactly two images per eligible league (results table + standings table), replacing the prior 34-image layout; preserves league/sport/participant verification. **12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only.** PR body: *"no publishing or schedule activation occurs"*, production SMTP/durable backend unverified, next step is "one authorized Gmail real sample" (Anthony's manual dispatch). **Guardrail-clean (caretaker view):** media-engine code + docs only; **production SMTP send and recurring schedules remain disabled by default**; no Supabase/Stripe/Square/POS, no secrets, no protected routes. **Anthony's own merge → no caretaker action; recorded.** **⚠️ Daily Run scheduling change:** the previous master tip `b7af2c9` had an **active** `schedule:` trigger (`cron "17 8 * * *"`); the reliability wave (#9–#12, all Anthony's own) **renamed the workflow to "VBFH Daily Report — activation held" and commented the schedule out**, leaving `workflow_dispatch` only. **Consequence: #121 (10-01) was the last scheduled run; no #122 will auto-fire** — daily content now generates only on manual dispatch / owner-approved persistent-runner activation. This is documented in the workflow file + PR bodies → **intentional, his own → recorded, no caretaker fix** (surfaced below so Anthony knows auto-daily has stopped by design). **amma `main` unchanged at `8eb6239`.** **No new drafts** and **none of the 8 held drafts changed** since last run (all `updated_at` predate this run → **no new human review comments** anywhere). Migration set **unchanged at `0015`–`0023`** (+`0009` Marbel). Default branches re-verified live: amma `8eb6239` (unchanged), vbfh **`75f9668`** (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#301** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259/#277; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,10 +12,19 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-✅ **VBFH daily media pipeline is healthy — nothing needed from you on it.** Today's scheduled run **#121 (10-01)
-   finished green in ~24 minutes** (18:26→18:50 UTC), following **#119 (09-29)** and **#120 (09-30)** green. The
-   09-26→09-28 outage is fully behind us; no code change was needed or pushed. If timeouts recur on future days I'll
-   re-raise the time-budget plan — but for now the pipeline is healthy and generating daily content.
+🆕 **Heads-up (no fix needed, your own change): the VBFH "Daily Run" no longer runs itself.** Your reliability-wave
+   merges (#9–#12) renamed the workflow to *"VBFH Daily Report — activation held"* and removed its auto-schedule, so
+   it's now **manual-dispatch only**. **#121 (10-01, green) was the last automatic run; there will be no daily #122+
+   until you activate it.** This matches what the PRs say ("recurring schedules remain disabled by default", next step
+   is "one authorized Gmail real sample" via manual dispatch). **Nothing is broken** — the build + CI are green. **Your
+   call:** (a) leave it manual and fire it yourself from the Actions tab (`Run workflow`) when you want content, or
+   (b) tell me to re-enable a daily auto-schedule (I can prepare the workflow change as a PR; note the PRs flag that a
+   persistent runner + independent QA watch are the proper home for auto-activation). No action if you're happy running
+   it on demand.
+
+✅ **VBFH build + last run are healthy — nothing broke.** Build `CI #35` green on the new tip; the last daily run
+   **#121 (10-01)** finished green in ~24 min (18:26→18:50 UTC), following #119/#120. The 09-26→09-28 outage stays
+   behind us. No caretaker code change needed or pushed.
 
 🟡 **The one real to-do: run the pending Supabase migrations — `0015` through `0023` (unchanged; nothing new this run).**
    Set is `0015`–`0023` under `APP/web/supabase/migrations/` (rewards `0015`–`0018` from #260–#264; Bodega launch +
@@ -106,7 +115,7 @@ touches `/m/[id]` + owner QR routes + new `lib/guest-menu.ts`, no migration, pri
 | Repo | Build/CI | State |
 |---|---|---|
 | amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8eb6239`** ("Use Neon-injected Production traffic database URL (#293)," 10-01 14:03 UTC; **Anthony's own merge**). **Advanced since last run** `0149b74`→`8eb6239` via **#293** (`CI — web` **#301 ✅**): reads the Neon-integration traffic DB URL + records the activation handoff. Touches `APP/web/.env.example` (var names only), traffic selftests, `src/lib/traffic/{site-traffic,store}.ts`, `OPERATIONS/{CODEX_QUEUE,HANDOFF_LOG}.md`, `TECH_ARCHITECTURE/{MULTI_SITE_TRAFFIC,TRAFFIC_COUNTER}.md` (+78/−33). **The Neon DB is the internal traffic-analytics store, not Supabase; no customer data. No Supabase migration; no Stripe/Square/POS; no secrets (var names only); no `/m/[id]` or `/owner/[id]` touched** — migration set stays **`0015`–`0023`**. **Anthony's own → no caretaker action; recorded.** **Eight** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" scheduled | Build **CI ✅** — master tip **`bef1a8f`** (**advanced** `b7af2c9`→`bef1a8f` via Anthony's own **#9/#10/#11**, latest run **#33 ✅**): a reliability-engineering wave (bounded/durable daily-mail content, soccer/volleyball source-identity verification, live Dash pagination-race repair). Media-engine code + docs only; **production SMTP + recurring schedules stay disabled by default** per the PR bodies. **"VBFH Daily Run" healthy:** latest scheduled **#121 (10-01 18:26→18:50 UTC) green in ~24 min**, following **#119/#120** green; today's 10-02 run fires later (~18:00 UTC) on the new tip. The 09-26→09-28 outage is behind us. **No caretaker code change needed or pushed.** Scheduled mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (**advanced** `bef1a8f`→`75f9668` via Anthony's own **#12**, latest run **#35 ✅**): "Reduce daily email to results and standings per league" — compacts the daily email to two images per eligible league (results + standings tables), replacing the 34-image layout; keeps league/sport/participant verification. 12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only; **production SMTP + recurring schedules stay disabled by default** per the PR body. **⚠️ "VBFH Daily Run" is now `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`b7af2c9` had `cron "17 8 * * *"`; `75f9668` has `on: workflow_dispatch` only, schedule commented out). **Last automatic run was #121 (10-01, green ~24 min); no #122 will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -137,11 +146,23 @@ touches `/m/[id]` + owner QR routes + new `lib/guest-menu.ts`, no migration, pri
 
 ## Merged / closed since last run
 
-**Since the evening run, vbfh `master` advanced `b7af2c9`→`bef1a8f` via three of Anthony's own merges** (#9/#10/#11,
-VBFH reliability-engineering wave, all `CI` green); **amma `main` unchanged at `8eb6239`**; nothing closed unmerged;
-**no new human review comments** anywhere (the only PR comments remain Vercel deploy bots on #259/#277). shadow and
-EscapeTheBomb tips unchanged (`5113ce5` / `eee6a37`). **VBFH Daily Run #121 (10-01) remains latest and green**;
-10-02 fires later on schedule.
+**Since the midday run, vbfh `master` advanced `bef1a8f`→`75f9668` via one more of Anthony's own merges** (#12,
+closing out the VBFH reliability-engineering wave, `CI #34/#35 ✅`); **amma `main` unchanged at `8eb6239`**; nothing
+closed unmerged; **no new human review comments** anywhere (the only PR comments remain Vercel deploy bots on #259/#277).
+shadow and EscapeTheBomb tips unchanged (`5113ce5` / `eee6a37`). **VBFH Daily Run #121 (10-01) remains latest and
+green — and is now the *last* automatic run (workflow moved to `activation held`/manual-dispatch; see headline).**
+
+- **vbfh #12 — "Reduce daily email to results and standings per league."** Merged 10-02 14:03 UTC (`cc24f9a` →
+  merge `75f9668`), runs **CI #34 (PR) / #35 (master) ✅**. Compacts the daily email to exactly two images per eligible
+  league (all verified results in one table, then the full standings table), replacing the prior 34-image cover/slides
+  layout; preserves league/sport/participant verification and all source rows; standalone Instagram carousel unchanged.
+  12 files, +294/−45. Validation per PR: scoped 34 tests, full 50 files / 311 tests, lint/TypeScript/build/actionlint
+  green; six validated JPEGs + combined PDF from a real Sep-30 comparison sample. **Media-engine code +
+  `docs/COMPACT_DAILY_MAIL.md` only; `EMAIL_ENABLED=false`, no publishing/schedule activation; no Supabase/Stripe/
+  Square/POS, no secrets, no protected routes.** PR body: next step is "one authorized Gmail real sample" via manual
+  dispatch; ongoing sends/schedules/secrets/paid services still require separate owner approval. **Anthony's own merge
+  → no caretaker action; recorded.** _(This merge, with #9–#11, also moved the Daily Run workflow to `activation held`
+  — auto-schedule removed; see headline + Build-health vbfh row.)_
 
 - **vbfh #9/#10/#11 — VBFH pilot reliability-engineering wave.** Merged 10-01 22:48 → 10-02 00:23 UTC
   (`b7af2c9` → … → `3bb0b28` → `bef1a8f`), runs **CI #28 / #31 / #33 ✅**. #9 repairs daily-mail content readiness +
@@ -244,6 +265,25 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-02 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
+  needed. One notable (intentional, owner-made) change: the VBFH "Daily Run" moved to `activation held` / manual
+  dispatch.** Zero failing workflow runs across all four repos. **vbfh `master` advanced `bef1a8f`→`75f9668` via one
+  more of Anthony's own merges** — **#12** "Reduce daily email to results and standings per league" (`CI #34/#35 ✅`):
+  compacts the daily email to two images per eligible league (results + standings tables), replacing the 34-image
+  layout; keeps verification; 12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only;
+  `EMAIL_ENABLED=false`, no publishing/schedule activation → guardrail-clean, Anthony's own → recorded, no caretaker
+  action. **⚠️ Daily-Run scheduling change (his own, #9–#12):** the workflow was renamed "VBFH Daily Report —
+  activation held" and its active `schedule:` trigger removed (`b7af2c9` had `cron "17 8 * * *"`; `75f9668` is
+  `on: workflow_dispatch` only). **#121 (10-01, green) was therefore the last automatic run — no #122 auto-fired, and
+  none will until Anthony re-activates.** Build/CI green; documented in the workflow + PR bodies → intentional, not a
+  failure; surfaced to Anthony as a heads-up (his call: run on demand, or ask me to prep a re-enable PR). **amma `main`
+  unchanged at `8eb6239`.** Migration set unchanged **`0015`–`0023`** (+`0009`). Default branches re-verified: amma
+  `8eb6239`, vbfh `75f9668` (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #301 ✅ +
+  `CI — voice-gateway` #19 ✅; vbfh build `CI` #35 ✅; shadow & EscapeTheBomb no CI (0 runs). **No new drafts; none of
+  the 8 held drafts changed; no new human review comments (all PR `updated_at` predate last run); nothing closed
+  unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218 governance question open; #29 closed.
+  Branch cleanup still 403-blocked. Push notification + email sent (nothing needed from Anthony beyond the standing
+  Supabase-migration to-do + the Daily-Run run-on-demand-vs-reactivate heads-up).
 - **2026-10-02 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
   needed.** Zero failing workflow runs across all four repos. **vbfh `master` advanced `b7af2c9`→`bef1a8f` via three
   of Anthony's own merges** — the **VBFH reliability-engineering wave** #9 (daily-mail content + bounded/durable
