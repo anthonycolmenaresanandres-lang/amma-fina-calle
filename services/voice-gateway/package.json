@@ -9,6 +9,7 @@
     "start": "tsx src/server.ts",
     "simulate": "tsx src/simulate.ts",
     "simulate:sms": "tsx src/simulateSms.ts",
+    "simulate:vbfh": "tsx src/simulateVbfh.ts",
     "configure:twilio": "node scripts/configure-twilio-number.mjs",
     "simulate:checkin": "tsx src/checkin/simulate.ts",
     "report": "tsx src/report.ts",
