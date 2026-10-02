@@ -5,6 +5,7 @@ const sections: VenueMenuNavSection[] = [
   { id: "fall-sessions", label: "Fall" },
   { id: "bodega-classics", label: "Classics" },
   { id: "signature-cafecito", label: "Cafecito" },
+  { id: "matcha", label: "Matcha" },
   { id: "non-coffee", label: "Non-coffee" },
   { id: "morning-bites", label: "Bites" },
   { id: "bakery-case", label: "Bakery" },

@@ -7,7 +7,7 @@
 **Sources:** 38581.heic (Matcha) and 38582.heic (Signature Drinks), rendered images provided directly in the task.
 **Boundaries:** Preserve existing Classics prices, seasonal items, game, shared layout, other venues, owner access and Square data. No guessed sizes/prices, drink artwork, allergen/dietary claims, secrets, spending or messages.
 **Branch/base:** `codex/bodega-board-items-20261002` from main `bd7210115e7f3b23e7ff56e463ef180215248b46`.
-**State:** IN — menu source and live menu agree; Spanish Latte and La Isla already exist, seven drinks are missing.
+**State:** PREPARED — seven additions and Matcha category implemented; all nine photographed drinks occur once with exact recipes/source references and no invented prices. Source/preservation checks pass. GitHub CI, Vercel preview and rendered inspection pending; release result tracked in the PR.
 
 ## [ ] 85 - Activate verified production traffic reporting
 

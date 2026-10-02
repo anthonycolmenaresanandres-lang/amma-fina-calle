@@ -1,5 +1,9 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-02 OUT — Bodega board additions prepared
+
+Added Bodega Cat, Coco Loco, Canela Love, Matcha Latte, Banana Cloud Matcha, Crème Brûlée Matcha and Ube Coconut Matcha with source-backed descriptions; kept Spanish Latte and La Isla once each and updated their source references. Added Matcha navigation through the existing shared section, removed confirmed candidates from the pending list and stale partial-lineup wording. Node source checks pass for all nine drinks, seven net additions, unknown prices and preservation of prior menu data. No shared layout/CSS, game, other venues, credentials, access or Square data changed. Required CI/preview/rendered release checks and release receipt tracked in the PR. See OPERATIONS/BODEGA_BOARD_MENU_20261002.md.
+
 ## 2026-10-02 IN — Bodega complete Matcha and Signature Drinks boards
 
 Anthony asked to reconcile the two supplied boards and add missing items. Verified the current menu source against bodegacafe757.com: Spanish Latte and La Isla exist; Bodega Cat, Coco Loco, Canela Love and all four Matcha drinks are missing. Scope is those seven additions, literal recipes, source filenames, Matcha navigation and accurate menu notes on `codex/bodega-board-items-20261002`; existing prices and other menu/game/tenant behavior remain untouched. Branch/PR workflow with source and required release checks. No credentials, access, Square data, spending or external messages.
