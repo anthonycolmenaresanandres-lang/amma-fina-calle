@@ -850,3 +850,11 @@ PASS: Owner sees clear terms and first-charge date, can accept once and enter St
 **Boundaries:** No backend, game mechanics, POS/payment/staff workflow, pricing, credentials, push, PR, merge or deploy. Preserve neighboring venues and existing dirty work.
 **PASS:** Verified source logo pixels, all relevant responsive views, local game presentation, source/lint/build checks with honest limitations, actual screenshots and reviewable local commit.
 **State:** DONE locally. All 30 responsive and 30 functional checks, touch/fallback, scoped lint, TypeScript and production build passed. See OPERATIONS/MARACAIBO_BRAND_REVIEW_20261003.md. Publication remains unapproved.
+
+## [x] Maracaibo premium restraint - October 3
+
+**Authority:** Anthony requested a more premium layout with substantially less copy after reviewing e16d48. Continue in the existing brand worktree; local implementation, verification, screenshots and commit only. No publication approval.
+**Scope:** Keep the exact supplied badge, black/white with restrained citrus, recognizable EAT. PLAY. Stay. and the four actions. Remove redundant headers, labels, badge decoration and explanatory copy throughout landing, menu, service, ordering, lobby, active play and results. Essential owner-preview, no-send, payment-unavailable and game-verification limits remain visible.
+**Design:** One typographic hero; quiet logo/header; plain table label; four simple numbered action rows. Spacious single-column inner pages with Georgia display headings, Geist controls and thin dividers. Black #101112, off-white #F5F5F1, muted #B6B6B0, citrus #E8D43B; orange/leaf stay within game identifiers. No new assets or mechanics.
+**PASS:** Same-state before/after captures, responsive navigation and all affected flows, scoped lint, types, production build and a Library review artifact. No pricing/backend changes; preserve source artwork, existing evidence and canonical dirty work.
+**State:** DONE locally. Production build, scoped lint/types, 30 responsive screens, 30 flow checks, 11 targeted checks and touch/fallback passed. Screenshot saved to Library libfile_34d63d4b01548191853e0e166b059b98. See OPERATIONS/MARACAIBO_PREMIUM_REVIEW_20261003.md. Publication remains held.

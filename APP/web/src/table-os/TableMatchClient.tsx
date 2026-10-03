@@ -191,6 +191,7 @@ export function TableMatchClient({ venue, tableId, onNavigate }: Props): React.J
       skin: tableFootballSkinFromMatchSkin(venue.skin),
       authority: isHost ? "host" : "replica",
       disableAudio: venue.id === "maracaibo",
+      hideHud: venue.id === "maracaibo",
       localPlayerId: selectedRole.playerId,
       initialState: isHost ? undefined : initialState ?? undefined,
       onInput: (message) => {
