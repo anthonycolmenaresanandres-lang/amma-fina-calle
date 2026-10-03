@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { TableMatchClient } from "./TableMatchClient";
+import { MaracaiboExperience } from "./maracaibo/MaracaiboExperience";
 import type { OrderDestination } from "./toast";
 import { tableLabel, type TableOsVenue } from "./venue-config";
 import styles from "./table-experience.module.css";
@@ -33,7 +34,7 @@ const SERVICE_REQUESTS = [
   },
 ] as const;
 
-export function TableExperience({ venue, tableId, orderDestination }: Props): React.JSX.Element {
+function StandardTableExperience({ venue, tableId, orderDestination }: Props): React.JSX.Element {
   const [view, setView] = useState<View>("welcome");
   const [lastRequest, setLastRequest] = useState<string | null>(null);
   const currentTable = tableLabel(tableId);
@@ -216,4 +217,8 @@ export function TableExperience({ venue, tableId, orderDestination }: Props): Re
       </footer>
     </main>
   );
+}
+
+export function TableExperience(props: Props): React.JSX.Element {
+  return props.venue.id === "maracaibo" ? <MaracaiboExperience {...props} /> : <StandardTableExperience {...props} />;
 }
