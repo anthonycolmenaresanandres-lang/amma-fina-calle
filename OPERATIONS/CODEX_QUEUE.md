@@ -841,3 +841,12 @@ PASS: Owner sees clear terms and first-charge date, can accept once and enter St
 **Boundaries:** Preserve prospect, menu-approval and no-orders/no-staff-request disclosures. No game engine/realtime repair or activation, POS/payment configuration, pricing changes, permissions, customer writes, new services or paid generation. Publication is authorized only for this reviewed Maracaibo visual change. Other venues retain their current experience.
 **PASS:** Scoped lint, TypeScript, production build and applicable deterministic game checks; local UI inspection at available viewports, with any unavailable visual/real-device coverage disclosed. Reviewable local commit.
 **State:** Implementation and local review complete; scoped publication authorized, pending clean remote CI. See OPERATIONS/MARACAIBO_VISUAL_REVIEW_20261003.md for validation and local-build limitations.
+
+## [x] Maracaibo brand correction - October 3
+
+**Authority:** Anthony requested revised colors, the actual logo and a less generic identity using three supplied Instagram screenshots. Local code, tests, screenshots and commit only; PR298 publication approval does not extend to this iteration.
+**Base/worktree:** main 40132ecf1536b8a4ce4b40301fd989fe5648d267; codex/maracaibo-brand-iteration-20261003; C:/dev/amma/worktrees/maracaibo-brand-iteration-20261003.
+**Scope:** Exact supplied black/white circular badge, flat black/charcoal/off-white surfaces, small cork/orange/citrus details. Preserve EAT. PLAY. Stay. and four actions. Flag is a secondary single pride accent. No portraits, app chrome, generated food photos or unverified award claims.
+**Boundaries:** No backend, game mechanics, POS/payment/staff workflow, pricing, credentials, push, PR, merge or deploy. Preserve neighboring venues and existing dirty work.
+**PASS:** Verified source logo pixels, all relevant responsive views, local game presentation, source/lint/build checks with honest limitations, actual screenshots and reviewable local commit.
+**State:** DONE locally. All 30 responsive and 30 functional checks, touch/fallback, scoped lint, TypeScript and production build passed. See OPERATIONS/MARACAIBO_BRAND_REVIEW_20261003.md. Publication remains unapproved.

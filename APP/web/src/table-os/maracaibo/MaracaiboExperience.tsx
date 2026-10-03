@@ -5,7 +5,7 @@ import { ArrowDown, ArrowLeft, ArrowUpRight, Bell, Check, GlassWater, ReceiptTex
 import { TableMatchClient } from "../TableMatchClient";
 import type { OrderDestination } from "../toast";
 import { tableLabel, type TableOsVenue } from "../venue-config";
-import { FlagArtwork, TeamMark } from "./MaracaiboMarks";
+import { FlagArtwork, FootballMark, LogoArtwork, PlateMark } from "./MaracaiboMarks";
 import styles from "./maracaibo.module.css";
 
 type View = "welcome" | "menu" | "service" | "match" | "ordering";
@@ -61,8 +61,8 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
       </div>
       <header className={styles.header}>
         <button type="button" className={styles.wordmark} onClick={returnHome} aria-label="Maracaibo Bistro table home">
-          <span>Maracaibo <i>Bistro</i></span>
-          <small>Virginia Beach · Venezuelan kitchen</small>
+          <LogoArtwork className={styles.brandLogo} priority />
+          <span className={styles.brandText}><strong>Maracaibo Bistro</strong><small>Kitchen &amp; Cocktails</small></span>
         </button>
         <span className={styles.tableBadge}>{currentTable}</span>
       </header>
@@ -71,14 +71,14 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
         <section className={styles.welcome} aria-labelledby="maracaibo-title">
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>A little Maracaibo. At your table.</p>
-            <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title">Eat.<br />Play.<br /><em>Stay.</em></h1>
+            <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title">Eat.<br />Play.<br /><em>Stay<span>.</span></em></h1>
             <div className={styles.heroBottom}><div><p className={styles.heroLine}>Good food. Your people.<br />A little friendly competition.</p><p className={styles.heroUtility}>Explore the menu, preview a request, or try a table match.</p></div><FlagArtwork className={styles.heroFlag} prominent /></div>
           </div>
           <div className={styles.actionRail} id="maracaibo-actions" aria-label="Table actions">
-            <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber}>01</span><strong>Explore the menu</strong><small>Public-source menu · owner approval pending</small><ArrowUpRight aria-hidden="true" /></button>
-            <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber}>02</span><strong>Need a hand?</strong><small>Preview table-service requests</small><ArrowUpRight aria-hidden="true" /></button>
-            <button type="button" onClick={() => navigate("ordering")}><span className={styles.actionNumber}>03</span><strong>Current Toast ordering</strong><small>Pickup / delivery only · no table payment</small><ArrowUpRight aria-hidden="true" /></button>
-            <button type="button" onClick={() => navigate("match")}><span className={styles.actionNumber}>04</span><strong>Play a table match</strong><small>Football prototype · try a role</small><TeamMark team="away" /></button>
+            <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber}>01</span><strong>Explore the menu</strong><small>Public-source menu · owner approval pending</small><span className={styles.actionIcon}><PlateMark /></span></button>
+            <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber}>02</span><strong>Need a hand?</strong><small>Preview table-service requests</small><span className={styles.actionIcon}><Bell aria-hidden="true" /></span></button>
+            <button type="button" onClick={() => navigate("ordering")}><span className={styles.actionNumber}>03</span><strong>Current Toast ordering</strong><small>Pickup / delivery only · no table payment</small><span className={styles.actionIcon}><ReceiptText aria-hidden="true" /></span></button>
+            <button type="button" onClick={() => navigate("match")}><span className={styles.actionNumber}>04</span><strong>Play a table match</strong><small>Football prototype · try a role</small><span className={styles.actionIcon}><FootballMark /></span></button>
           </div>
         </section>
       ) : (
@@ -87,7 +87,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
           {view === "menu" ? (
             <section aria-labelledby="menu-title">
-              <div className={`${styles.sectionHeading} ${styles.withArtwork}`}><FlagArtwork className={styles.headingFlag} decorative /><p className={styles.eyebrow}>Pa’ Maracaibo, and more</p><h1 ref={titleRef} tabIndex={-1} id="menu-title">What sounds good?</h1><p>Take a look around the menu.</p></div>
+              <div className={styles.sectionHeading}><p className={styles.eyebrow}>Pa’ Maracaibo, and more</p><h1 ref={titleRef} tabIndex={-1} id="menu-title">What sounds good?</h1><p>Take a look around the menu.</p></div>
               <div className={styles.sourceNotice}><strong>Menu preview · owner confirmation required</strong><p>Public-source items and prices, retrieved {sourceLabel}. Availability, modifiers and prices need confirmation before ordering.</p></div>
               <div className={styles.categoryBar}><span>Browse categories <ArrowDown size={15} aria-hidden="true" /></span><nav aria-label="Menu categories">{venue.menu.map((section) => <a key={section.name} href={`#${categoryId(section.name)}`}>{section.name}</a>)}</nav></div>
               <div className={styles.menuSections}>{venue.menu.map((section) => (
@@ -103,7 +103,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
           {view === "service" ? (
             <section aria-labelledby="service-title">
-              <div className={`${styles.sectionHeading} ${styles.withArtwork}`}><FlagArtwork className={styles.headingFlag} decorative /><p className={styles.eyebrow}>A little help at the table</p><h1 ref={titleRef} tabIndex={-1} id="service-title">Need a hand?</h1><p>{currentTable} · Try a request preview.</p></div>
+              <div className={styles.sectionHeading}><p className={styles.eyebrow}>A little help at the table</p><h1 ref={titleRef} tabIndex={-1} id="service-title">Need a hand?</h1><p>{currentTable} · Try a request preview.</p></div>
               <div className={styles.sourceNotice}><strong>These are example requests.</strong><p>The owner must confirm the options and staff workflow. Nothing here is sent to the restaurant.</p></div>
               <div className={styles.serviceOptions} role="group" aria-label="Choose an example service request">{REQUESTS.map(({ id, label, detail, icon: Icon }) => <button key={id} type="button" aria-pressed={request === id} onClick={() => { setRequest(id); setPreview(null); }}><Icon aria-hidden="true" size={27} /><span><strong>{label}</strong><small>{detail}</small></span><span className={styles.selectionMark} aria-hidden="true">{request === id ? <Check size={18} /> : "+"}</span></button>)}</div>
               <div className={styles.requestAction}><button type="button" className={styles.primaryButton} disabled={!request} onClick={showRequestPreview}>Preview this request</button><p>Stays on this phone. No staff notification.</p></div>

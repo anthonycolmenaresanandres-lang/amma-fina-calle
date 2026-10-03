@@ -57,20 +57,20 @@ const maracaibo: TableOsVenue = {
     tableOrderPayUrls: {},
   },
   skin: {
-    id: "maracaibo-lagoon",
-    name: "Maracaibo Lagoon",
-    background: "#e6ddc4",
-    pitch: "#fff3d4",
-    pitchLine: "#315955",
-    accent: "#315955",
-    text: "#071d20",
-    home: "#f4be32",
-    away: "#762b46",
+    id: "maracaibo-kitchen-cocktails",
+    name: "Maracaibo Kitchen & Cocktails",
+    background: "#101112",
+    pitch: "#202124",
+    pitchLine: "#b6b6b0",
+    accent: "#62645f",
+    text: "#f5f5f1",
+    home: "#f59b20",
+    away: "#6dab36",
   },
   // Proposed table-team identity for the owner-review visual concept only.
   teams: [
-    { id: "lago", label: "Lago", shortLabel: "LAG", primary: "#f4be32", secondary: "#062b2d" },
-    { id: "rayo", label: "Rayo", shortLabel: "RAY", primary: "#762b46", secondary: "#fff3d4" },
+    { id: "lago", label: "Lago", shortLabel: "LAG", primary: "#f59b20", secondary: "#101112" },
+    { id: "rayo", label: "Rayo", shortLabel: "RAY", primary: "#6dab36", secondary: "#f5f5f1" },
   ],
 };
 

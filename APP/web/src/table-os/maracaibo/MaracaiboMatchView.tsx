@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 import type { TeamOption } from "../game";
 import type { RoomMode } from "../realtime";
 import { tableLabel } from "../venue-config";
-import { FlagArtwork, TeamMark } from "./MaracaiboMarks";
+import { LogoArtwork, TeamMark } from "./MaracaiboMarks";
 import styles from "./maracaibo.module.css";
 
 type Role = Readonly<{ playerId: string; team: "home" | "away"; role: "goalkeeper" | "forward"; label: string }>;
@@ -44,7 +44,7 @@ export function MaracaiboMatchView(props: Props): React.JSX.Element {
   if (!joined) {
     return (
       <div>
-        <div className={styles.lobbyHeading}><FlagArtwork className={styles.lobbyFlag} decorative /><h2>Same table.<br />Friendly rivalry.</h2><p>Try a role in the 90-second football prototype.</p></div>
+        <div className={styles.lobbyHeading}><h2>Same table.<br />Friendly rivalry.</h2><p>Try a role in the 90-second football prototype.</p></div>
         <div className={styles.matchMeta}><span>{tableLabel(tableId)} · Your table’s match</span><span>Four roles · Touch or keyboard</span></div>
         <div className={styles.teams}>{(["home", "away"] as const).map((side) => <div key={side} className={styles.teamHeading} data-side={side}><TeamMark team={side} /><div><strong>{teams[side].label}</strong><small>{side === "home" ? "The wave" : "The lightning"}</small></div></div>)}</div>
         <div className={styles.roles} role="group" aria-label="Choose your team and role">{[roles[0], roles[3], roles[1], roles[2]].map((role) => <button key={role.playerId} type="button" className={styles.roleButton} aria-pressed={selectedRole.playerId === role.playerId} onClick={() => onRole(role)}><strong>{roleName(role)}</strong><span>{selectedRole.playerId === role.playerId ? "Your selection" : role.role === "goalkeeper" ? "Defend the goal" : "Lead the attack"}</span>{selectedRole.playerId === role.playerId ? <Check aria-hidden="true" /> : null}</button>)}</div>
@@ -70,7 +70,7 @@ export function MaracaiboMatchView(props: Props): React.JSX.Element {
       </div>
       {finished ? (
         <section className={styles.results} aria-labelledby="match-result-title" aria-live="polite">
-          <FlagArtwork className={styles.resultFlag} decorative />
+          <LogoArtwork className={styles.resultLogo} />
           <p className={styles.eyebrow}>{tableLabel(tableId)} · Full time</p>
           <h2 id="match-result-title">{score.home === score.away ? "Even match. Run it back?" : "Good game. Great company."}</h2>
           <div className={styles.resultScore}><div><strong>{score.home}</strong><span>{home.label}</span></div><span aria-hidden="true">–</span><div><strong>{score.away}</strong><span>{away.label}</span></div></div>
