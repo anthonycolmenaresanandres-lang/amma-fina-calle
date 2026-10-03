@@ -8,7 +8,7 @@ export type TableFootballSceneOptions = Readonly<{
   getState: () => TableFootballState;
   onFrame: (deltaMs: number) => void;
   onInput: (message: TableFootballInputMessage) => void;
-  localPlayerId?: string;
+  localPlayerId?: string | (() => string);
   /** Leave the scoreboard and instructions to an accessible parent presentation. */
   hideHud?: boolean;
 }>;
@@ -86,6 +86,8 @@ export class TableFootballScene extends Phaser.Scene {
       g.fillStyle(team.secondary, 1).fillCircle(rodX, y(player.y), 11);
       g.fillStyle(team.primary, 1).fillCircle(rodX, y(player.y), 8);
       g.lineStyle(1, skin.table, 0.75).strokeCircle(rodX, y(player.y), 8);
+      const localId = typeof this.options.localPlayerId === "function" ? this.options.localPlayerId() : this.options.localPlayerId;
+      if (player.id === localId) g.lineStyle(2, skin.text, 1).strokeCircle(rodX, y(player.y), 15);
     }
     g.fillStyle(skin.ball, 1).fillCircle(x(state.ball.x), y(state.ball.y), Math.max(4, Math.min(fieldWidth, fieldHeight) * 0.018));
     g.lineStyle(1, skin.goal, 0.65).strokeCircle(x(state.ball.x), y(state.ball.y), Math.max(4, Math.min(fieldWidth, fieldHeight) * 0.018));

@@ -129,6 +129,22 @@
 .gameStage { position: relative; height: min(60dvh, 540px); min-height: 320px; width: 100%; background: var(--ink); overflow: hidden; touch-action: none; }
 .gameStage[hidden], .scoreboard[hidden], .connection[hidden] { display: none; }
 .gameStage canvas { display: block; touch-action: none; }
+.roomLabel { display: block; margin: 28px 0 10px; font-size: .9375rem; }
+.roomCodeInput { width: 100%; min-height: 52px; padding: 12px 14px; border: 1px solid var(--muted); background: transparent; color: var(--paper); font: inherit; font-size: 1rem; }
+.roomCodeInput:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.matchRoom { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-block: 12px; border-bottom: 1px solid var(--line); font-size: .9375rem; }
+.matchRoom strong { font-size: 1.25rem; letter-spacing: .16em; font-variant-numeric: tabular-nums; }
+.matchRoom .quietButton { margin-left: auto; }
+.touchControls { position: sticky; bottom: 0; z-index: 4; display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 12px; padding: 16px 0 calc(16px + env(safe-area-inset-bottom)); background: var(--ink); }
+.touchControls button { min-height: 60px; border: 1px solid var(--muted); background: transparent; color: var(--paper); font: inherit; font-size: 1.25rem; touch-action: none; user-select: none; }
+.touchControls .shootButton { background: var(--paper); color: var(--ink); font-size: 1rem; font-weight: 700; }
+.touchControls button:active { opacity: .75; }
+.touchControls button:disabled { opacity: .45; }
+.touchControls button:hover:not(:disabled) { border-color: var(--paper); }
+.page[data-view="match"]:has(.gameStage) .header { padding-block: 12px; }
+.page[data-view="match"]:has(.gameStage) .brandLogo { width: 40px; height: 40px; }
+.playInner:has(.gameStage) .innerTop { margin-bottom: 0; }
+.playInner .gameStage { height: clamp(240px, 42dvh, 360px); min-height: 240px; }
 .loading, .gameError { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; padding: 22px; text-align: center; color: var(--paper); font-size: 1rem; line-height: 1.5; }
 .gameControls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-block: 16px; border-bottom: 1px solid var(--line); }
 .gameControls > span { font-size: .8125rem; line-height: 1.6; color: var(--muted); }

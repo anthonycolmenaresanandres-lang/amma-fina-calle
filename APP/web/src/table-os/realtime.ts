@@ -16,6 +16,7 @@ type BridgeCallbacks<T> = Readonly<{
   onMessage: (message: TableRoomEnvelope<T>) => void;
   onMode: (mode: RoomMode) => void;
   onParticipants: (count: number) => void;
+  onMembers?: (members: readonly { id: string; joinedAt: number; seat?: string }[]) => void;
 }>;
 
 export type TableRoomBridge<T> = Readonly<{
@@ -54,6 +55,7 @@ export function connectTableRoom<T>(
   venueId: string,
   tableId: string,
   callbacks: BridgeCallbacks<T>,
+  presence: Readonly<{ joinedAt?: number; seat?: string }> = {},
 ): TableRoomBridge<T> {
   const roomName = `table-os:${safeRoomPart(venueId)}:${safeRoomPart(tableId)}`;
   const clientId = createClientId();
@@ -62,6 +64,7 @@ export function connectTableRoom<T>(
   const supabase = getBrowserSupabaseClient();
   let remoteChannel: RealtimeChannel | null = null;
   let destroyed = false;
+  let remoteReady = false;
 
   const receive = (candidate: unknown) => {
     if (destroyed || !isEnvelope<T>(candidate) || candidate.senderId === clientId || seen.has(candidate.id)) {
@@ -101,6 +104,12 @@ export function connectTableRoom<T>(
         }
         const states = remoteChannel.presenceState();
         callbacks.onParticipants(Math.max(1, Object.keys(states).length));
+        callbacks.onMembers?.(Object.entries(states).flatMap(([id, entries]) => {
+          const entry = entries[0] as { joinedAt?: unknown; seat?: unknown } | undefined;
+          return entry && typeof entry.joinedAt === "number" && Number.isFinite(entry.joinedAt)
+            ? [{ id, joinedAt: entry.joinedAt, seat: typeof entry.seat === "string" ? entry.seat : undefined }]
+            : [];
+        }).sort((a, b) => a.joinedAt - b.joinedAt || a.id.localeCompare(b.id)).slice(0, 8));
       })
       .subscribe(async (status) => {
         if (destroyed || !remoteChannel) {
@@ -108,12 +117,14 @@ export function connectTableRoom<T>(
         }
 
         if (status === "SUBSCRIBED") {
+          remoteReady = true;
           callbacks.onMode("shared");
-          await remoteChannel.track({ joinedAt: Date.now() });
+          try { await remoteChannel.track({ joinedAt: presence.joinedAt ?? Date.now(), seat: presence.seat }); } catch { remoteReady = false; callbacks.onMode("local"); }
           return;
         }
 
         if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+          remoteReady = false;
           callbacks.onMode("local");
         }
       });
@@ -136,12 +147,12 @@ export function connectTableRoom<T>(
       seen.add(envelope.id);
       localChannel?.postMessage(envelope);
 
-      if (remoteChannel) {
-        await remoteChannel.send({
+      if (remoteChannel && (remoteReady || !callbacks.onMembers)) {
+        try { await remoteChannel.send({
           type: "broadcast",
           event: REMOTE_EVENT,
           payload: envelope,
-        });
+        }); } catch { /* A transient send must not become an unhandled rejection. */ }
       }
     },
     destroy: async () => {
@@ -149,8 +160,8 @@ export function connectTableRoom<T>(
       localChannel?.close();
 
       if (remoteChannel) {
-        await remoteChannel.untrack();
-        await supabase?.removeChannel(remoteChannel);
+        try { await remoteChannel.untrack(); } catch { /* Cleanup continues after a disconnect. */ }
+        try { await supabase?.removeChannel(remoteChannel); } catch { /* Already closed. */ }
       }
     },
   };
