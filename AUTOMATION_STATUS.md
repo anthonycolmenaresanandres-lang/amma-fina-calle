@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-02 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; no caretaker fix needed. One notable (intentional, owner-made) change: the VBFH "Daily Run" is now `activation held` — the auto-schedule was removed, so it no longer fires on its own (manual `workflow_dispatch` only).** Since the midday run, **vbfh `master` advanced `bef1a8f`→`75f9668` via one more of Anthony's own merges** — **#12** "Reduce daily email to results and standings per league" (`cc24f9a`→merge `75f9668`, **CI #34 ✅** on PR, **CI #35 ✅** on master): compacts the daily email to exactly two images per eligible league (results table + standings table), replacing the prior 34-image layout; preserves league/sport/participant verification. **12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only.** PR body: *"no publishing or schedule activation occurs"*, production SMTP/durable backend unverified, next step is "one authorized Gmail real sample" (Anthony's manual dispatch). **Guardrail-clean (caretaker view):** media-engine code + docs only; **production SMTP send and recurring schedules remain disabled by default**; no Supabase/Stripe/Square/POS, no secrets, no protected routes. **Anthony's own merge → no caretaker action; recorded.** **⚠️ Daily Run scheduling change:** the previous master tip `b7af2c9` had an **active** `schedule:` trigger (`cron "17 8 * * *"`); the reliability wave (#9–#12, all Anthony's own) **renamed the workflow to "VBFH Daily Report — activation held" and commented the schedule out**, leaving `workflow_dispatch` only. **Consequence: #121 (10-01) was the last scheduled run; no #122 will auto-fire** — daily content now generates only on manual dispatch / owner-approved persistent-runner activation. This is documented in the workflow file + PR bodies → **intentional, his own → recorded, no caretaker fix** (surfaced below so Anthony knows auto-daily has stopped by design). **amma `main` unchanged at `8eb6239`.** **No new drafts** and **none of the 8 held drafts changed** since last run (all `updated_at` predate this run → **no new human review comments** anywhere). Migration set **unchanged at `0015`–`0023`** (+`0009` Marbel). Default branches re-verified live: amma `8eb6239` (unchanged), vbfh **`75f9668`** (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#301** on main) + `CI — voice-gateway` ✅ (**#19**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; only the Vercel deploy bot has commented on #259/#277; **no new human review comments** anywhere). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-03 (morning check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; no caretaker fix needed. Since the 10-02 evening run, amma `main` advanced `8eb6239`→`40132ec` via FIVE of Anthony's own merges (#294, #295, #296, #297, #298 — all CI green).** The merges: **#294** "Refresh VBFH knowledge and add voice-only second-number routing" (`CI — voice-gateway` **#21 ✅**); **#295** "Complete Bodega signature and matcha menu from photographed boards" (`CI — web` **#303 ✅**); **#296** "Record verified Bodega menu release and close queue" (docs); **#297** "Correct voice call outcomes and staff notification reporting" (`CI — voice-gateway` **#23 ✅**); **#298** "Refresh Maracaibo table demo with approved flag artwork" (`CI — web` **#305 ✅**). **All guardrail-clean (caretaker view):** voice-gateway work is `services/voice-gateway/*` code + docs + `tenants.json` (no live Twilio activation); Bodega menu is `(internal)/demo/bodega/*` + OPERATIONS docs only; Maracaibo refresh is `APP/web/src/table-os/maracaibo/*` + a public-domain Venezuelan-flag **concept** asset (national flag, not a club/league/event mark, no real face, no client logo) + docs. **No Supabase migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]` touched.** **Anthony's own merges → no caretaker action; recorded.** **Migration set unchanged `0015`–`0023`** (+`0009` Marbel). **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere.** Default branches re-verified live: amma **`40132ec`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#305** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,20 +12,6 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🆕 **Heads-up (no fix needed, your own change): the VBFH "Daily Run" no longer runs itself.** Your reliability-wave
-   merges (#9–#12) renamed the workflow to *"VBFH Daily Report — activation held"* and removed its auto-schedule, so
-   it's now **manual-dispatch only**. **#121 (10-01, green) was the last automatic run; there will be no daily #122+
-   until you activate it.** This matches what the PRs say ("recurring schedules remain disabled by default", next step
-   is "one authorized Gmail real sample" via manual dispatch). **Nothing is broken** — the build + CI are green. **Your
-   call:** (a) leave it manual and fire it yourself from the Actions tab (`Run workflow`) when you want content, or
-   (b) tell me to re-enable a daily auto-schedule (I can prepare the workflow change as a PR; note the PRs flag that a
-   persistent runner + independent QA watch are the proper home for auto-activation). No action if you're happy running
-   it on demand.
-
-✅ **VBFH build + last run are healthy — nothing broke.** Build `CI #35` green on the new tip; the last daily run
-   **#121 (10-01)** finished green in ~24 min (18:26→18:50 UTC), following #119/#120. The 09-26→09-28 outage stays
-   behind us. No caretaker code change needed or pushed.
-
 🟡 **The one real to-do: run the pending Supabase migrations — `0015` through `0023` (unchanged; nothing new this run).**
    Set is `0015`–`0023` under `APP/web/supabase/migrations/` (rewards `0015`–`0018` from #260–#264; Bodega launch +
    Square `0019`–`0022` from #266; Bodega Basic billing `0023` from #270), plus `0009` Marbel admin grant. The site
@@ -33,16 +19,24 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
    read-model + Bodega Basic billing features **error at runtime until these are applied.** **What to do:** Supabase
    SQL editor → run `0015`…`0023` in order (or `supabase db push` from `APP/web/`, which also folds in the `0009`
    Marbel admin grant). **Skip any you've already run.** _(I never run SQL against Supabase — the migrations are
-   prepared code; you run them.)_ _(Note: the Neon "traffic database" from #293 is a separate internal analytics store,
-   not Supabase — it has no pending SQL on your plate.)_
+   prepared code; you run them.)_ _(The 10-02 Bodega menu merge #295 added menu items to the internal **demo** only —
+   no new migration; the pending set is still exactly `0015`–`0023`.)_
+
+🆕 **Heads-up (no fix needed, your own change): the VBFH "Daily Run" no longer runs itself.** Your reliability-wave
+   merges (#9–#12) renamed the workflow to *"VBFH Daily Report — activation held"* and removed its auto-schedule, so
+   it's now **manual-dispatch only**. **#121 (10-01, green) was the last automatic run; there will be no daily #122+
+   until you activate it.** **Your call:** (a) leave it manual and fire it yourself from the Actions tab
+   (`Run workflow`) when you want content, or (b) tell me to re-enable a daily auto-schedule (I can prepare the
+   workflow change as a PR; the PRs flag that a persistent runner + independent QA watch are the proper home for
+   auto-activation). No action if you're happy running it on demand.
 
 _The items below are unchanged standing gates — no new action this run; listed so nothing falls through._
 
-🆕 **Fina Calle voice + SMS line — live Twilio activation is yours (phone-line territory).** Prior merge **#272**
-   landed the code half (voice-gateway SMS handling, `configure-twilio-number.mjs`, `render.yaml`, `tenants.json`,
-   `OPERATIONS/FINA_CALLE_PHONE_20260928.md`; `CI — voice-gateway` #19 ✅). **Live routing, Twilio number
-   registration, and A2P/10DLC brand approval for +1 757 300 1118 remain your manual steps.** Nothing dials or texts
-   automatically.
+🆕 **Fina Calle voice + SMS line — live Twilio activation is yours (phone-line territory).** The voice-gateway code
+   keeps advancing via your own merges (#272 landed the base; **#294** added voice-only second-number routing +
+   refreshed VBFH knowledge; **#297** corrected call-outcome + staff-notification reporting; all `CI — voice-gateway`
+   green). **This is all code + docs + `tenants.json` — live routing, Twilio number registration, and A2P/10DLC brand
+   approval for +1 757 300 1118 remain your manual steps.** Nothing dials or texts automatically.
 
 🆕 **Bodega Basic billing (Stripe) is wired — activation is yours (payments territory).** Prior merge **#270** added
    the private monthly enrollment (`/owner/bodega/billing`, `api/stripe/webhook`, `lib/billing/*`,
@@ -63,7 +57,7 @@ _The items below are unchanged standing gates — no new action this run; listed
      the owner portal writes to **Supabase**; the two have **drifted** ("Fall Drinks"/51 vs "Seasonal Drinks"/~54).
    - **A confirmed live bug on the guest menu.** A price of `0` should read "Ask staff," but the guest screen renders
      `$0.00`. `House Brew` is seeded at `0` and is first on the menu. Queued for Codex (item 49); touching `/m/[id]`
-     is outside what I'm allowed to do. _(Note: your own merge #276 "Fix stable client menu destinations" touched
+     is outside what I'm allowed to do. _(Your own merge #276 "Fix stable client menu destinations" touched
      `/m/[id]/page.tsx` + `lib/guest-menu.ts` — if that already fixed the `$0.00` display, let me know and I'll close
      the item.)_
 
@@ -82,7 +76,7 @@ _The items below are unchanged standing gates — no new action this run; listed
    Settings → Secrets and variables → Actions: `EMAIL_TO`/`EMAIL_FROM`/`SMTP_USER` = `anthonycolmenaresanandres@gmail.com`,
    `SMTP_HOST` = `smtp.gmail.com`, `SMTP_PASS` = a Gmail **App Password** (myaccount.google.com/apppasswords; needs
    2-Step Verification). Port 587 default is correct. The Daily Run is green, so the send step is now reachable
-   once these exist.
+   once these exist (fire it via manual `workflow_dispatch`).
 2. **Confirm the "Claude QA's the images before emailing" routine (PR #4's open question).** Code half landed
    (#5+#7); #4 closed as superseded. Say yes + timing and I'll build it.
 3. **Runway credits — still blocked (#197 draft logs Day 06 blocked).** Top up, or schedule client art after the daily shot.
@@ -92,30 +86,31 @@ _The items below are unchanged standing gates — no new action this run; listed
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the eight open draft heads.
 
-_Resolved / no action needed from you:_ **amma #293 "Use Neon-injected Production traffic database URL" — your own merge**
-(10-01 14:03 UTC; `CI — web` #301 green; reads the Neon integration traffic DB URL + records the activation handoff;
-`.env.example` var names only, traffic selftests/libs + `MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs; **no Supabase
-migration, no customer data, no Stripe/Square/POS, no secrets, no protected route touched**; recorded). **amma site-scoped
-traffic / morning-report wave (#290/#291/#292) — your own merges** (10-01; `CI — web` green, no migration). **amma "Project
-Seed" concept waves (#278/#280/#282/#283 + October #287/#288/#289) — your own merges** (09-29→09-30; `CI — web` green, no
-migration; additive `/play/project-seed` + internal demo + non-human aswang mascot concept; no protected route / Supabase /
-Stripe / Square touched; recorded). **VBFH Daily Run outage (09-26→09-28) — SELF-RESOLVED** (#119/#120/#121 green;
-fix request withdrawn). **amma #276 "Fix stable client menu destinations" — your own merge** (09-29; `CI — web` #274 green;
-touches `/m/[id]` + owner QR routes + new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded).
-**amma owner-portal wave (#273/#270/#272) + Bodega waves (#260–#272) — your own merges** (migrations `0015`–`0023`).
-**GitHub API access** healthy. **amma #29 ("AI Request Desk — Phase 0")** — closed since 07-18.
+_Resolved / no action needed from you:_ **amma #294/#295/#296/#297/#298 — your own merges** (10-02→10-03; all CI green;
+voice-gateway code + docs + `tenants.json`, internal Bodega demo menu + docs, Maracaibo table-OS demo + public-domain
+flag concept + docs; **no migration, no Supabase/Stripe/Square/POS, no secrets, no protected route**; recorded).
+**amma #293 "Use Neon-injected Production traffic database URL" — your own merge** (10-01; `CI — web` #301 green; reads
+the Neon integration traffic DB URL; `.env.example` var names only; no Supabase migration). **amma site-scoped traffic /
+morning-report wave (#290/#291/#292) — your own merges** (10-01; `CI — web` green, no migration). **amma "Project Seed"
+waves (#278/#280/#282/#283 + October #287/#288/#289) — your own merges** (09-29→09-30; `CI — web` green, no migration;
+additive `/play/project-seed` + internal demo + non-human aswang mascot; no protected route / Supabase / Stripe / Square).
+**VBFH Daily Run outage (09-26→09-28) — SELF-RESOLVED** (#119/#120/#121 green; fix request withdrawn). **amma #276 "Fix
+stable client menu destinations" — your own merge** (09-29; `CI — web` #274 green; touches `/m/[id]` + owner QR routes +
+new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded). **amma owner-portal wave
+(#273/#270/#272) + Bodega waves (#260–#272) — your own merges** (migrations `0015`–`0023`). **GitHub API access** healthy.
+**amma #29 ("AI Request Desk — Phase 0")** — closed since 07-18.
 
 ---
 
-## Build health (as of 2026-10-02, midday)
+## Build health (as of 2026-10-03, morning)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`8eb6239`** ("Use Neon-injected Production traffic database URL (#293)," 10-01 14:03 UTC; **Anthony's own merge**). **Advanced since last run** `0149b74`→`8eb6239` via **#293** (`CI — web` **#301 ✅**): reads the Neon-integration traffic DB URL + records the activation handoff. Touches `APP/web/.env.example` (var names only), traffic selftests, `src/lib/traffic/{site-traffic,store}.ts`, `OPERATIONS/{CODEX_QUEUE,HANDOFF_LOG}.md`, `TECH_ARCHITECTURE/{MULTI_SITE_TRAFFIC,TRAFFIC_COUNTER}.md` (+78/−33). **The Neon DB is the internal traffic-analytics store, not Supabase; no customer data. No Supabase migration; no Stripe/Square/POS; no secrets (var names only); no `/m/[id]` or `/owner/[id]` touched** — migration set stays **`0015`–`0023`**. **Anthony's own → no caretaker action; recorded.** **Eight** open drafts held (see Open PRs). |
-| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (**advanced** `bef1a8f`→`75f9668` via Anthony's own **#12**, latest run **#35 ✅**): "Reduce daily email to results and standings per league" — compacts the daily email to two images per eligible league (results + standings tables), replacing the 34-image layout; keeps league/sport/participant verification. 12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only; **production SMTP + recurring schedules stay disabled by default** per the PR body. **⚠️ "VBFH Daily Run" is now `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`b7af2c9` had `cron "17 8 * * *"`; `75f9668` has `on: workflow_dispatch` only, schedule commented out). **Last automatic run was #121 (10-01, green ~24 min); no #122 will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`40132ec`** ("Refresh Maracaibo table demo with approved flag artwork (#298)," 10-03 12:26 UTC; **Anthony's own merge**). **Advanced since last run** `8eb6239`→`40132ec` via **FIVE of Anthony's own merges**: **#294** voice-only second-number routing + VBFH-knowledge refresh (`services/voice-gateway/*` + `tenants.json` + docs, `CI — voice-gateway` **#21 ✅**); **#295** Bodega signature/matcha menu from photographed boards (`(internal)/demo/bodega/*` + OPERATIONS docs, `CI — web` **#303 ✅**, **no migration**); **#296** record verified Bodega menu release + close queue (docs); **#297** correct voice call outcomes + staff-notification reporting (`services/voice-gateway/src/*` orchestrator/notify/store/report/types + docs, `CI — voice-gateway` **#23 ✅**); **#298** Maracaibo table-OS demo refresh (`APP/web/src/table-os/maracaibo/*` + 2 Venezuelan-flag **concept** webp assets + docs, `CI — web` **#305 ✅**). **All guardrail-clean (caretaker view): no Supabase migration; no Stripe/Square/POS; no secrets; no `/m/[id]` or `/owner/[id]` touched; voice go-live + any flag/logo publish stay your gates; game art national-flag concept only (no club/league/event mark, no face, no client logo).** **Anthony's own → no caretaker action; recorded.** Migration set stays **`0015`–`0023`** (+`0009`). **Eight** open drafts held (see Open PRs). |
+| vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
@@ -123,9 +118,9 @@ touches `/m/[id]` + owner QR routes + new `lib/guest-menu.ts`, no migration, pri
 
 - **amma #277 (draft, docs-only) — "preserve and queue seasonal restaurant skins work orders."** Head
   `codex/seasonal-skins-queue-20260929`, base `main`. Adds a 25-theme seasonal-skins spec + 13-row work-order CSV
-  under `OPERATIONS/WORK_ORDERS/SEASONAL_SKINS/`, queue item 75 (QUEUED — NOT STARTED), and a handoff-log entry. 4
-  files, +1415, `mergeable_state: clean`, Vercel ✅. Body: *"Commercial proposals still require review before
-  release."* **Held; his draft; no caretaker merge (unchanged since 09-29).**
+  under `OPERATIONS/WORK_ORDERS/SEASONAL_SKINS/`, queue item 75 (QUEUED — NOT STARTED), and a handoff-log entry.
+  `mergeable_state: clean`, Vercel ✅. Body: *"Commercial proposals still require review before release."* **Held;
+  his draft; no caretaker merge (unchanged since 09-29).**
 - **amma #259 (draft) — "Grúa: cable-crane R&D game on Stringman CDPR physics…"** Internal noindex `/grua-lab`
   Phaser 4 game + opt-in on-device training recorder + docs. Guardrail-clean. Vercel ✅ (head `52b6eac`). PR body:
   *"Do not merge without Anthony's approval."* Only the Vercel bot has commented. **Held.**
@@ -146,76 +141,63 @@ touches `/m/[id]` + owner QR routes + new `lib/guest-menu.ts`, no migration, pri
 
 ## Merged / closed since last run
 
-**Since the midday run, vbfh `master` advanced `bef1a8f`→`75f9668` via one more of Anthony's own merges** (#12,
-closing out the VBFH reliability-engineering wave, `CI #34/#35 ✅`); **amma `main` unchanged at `8eb6239`**; nothing
+**Since the 10-02 evening run, amma `main` advanced `8eb6239`→`40132ec` via FIVE of Anthony's own merges** (#294→#298,
+all CI green). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37` unchanged. Nothing
 closed unmerged; **no new human review comments** anywhere (the only PR comments remain Vercel deploy bots on #259/#277).
-shadow and EscapeTheBomb tips unchanged (`5113ce5` / `eee6a37`). **VBFH Daily Run #121 (10-01) remains latest and
-green — and is now the *last* automatic run (workflow moved to `activation held`/manual-dispatch; see headline).**
 
-- **vbfh #12 — "Reduce daily email to results and standings per league."** Merged 10-02 14:03 UTC (`cc24f9a` →
-  merge `75f9668`), runs **CI #34 (PR) / #35 (master) ✅**. Compacts the daily email to exactly two images per eligible
-  league (all verified results in one table, then the full standings table), replacing the prior 34-image cover/slides
-  layout; preserves league/sport/participant verification and all source rows; standalone Instagram carousel unchanged.
-  12 files, +294/−45. Validation per PR: scoped 34 tests, full 50 files / 311 tests, lint/TypeScript/build/actionlint
-  green; six validated JPEGs + combined PDF from a real Sep-30 comparison sample. **Media-engine code +
-  `docs/COMPACT_DAILY_MAIL.md` only; `EMAIL_ENABLED=false`, no publishing/schedule activation; no Supabase/Stripe/
-  Square/POS, no secrets, no protected routes.** PR body: next step is "one authorized Gmail real sample" via manual
-  dispatch; ongoing sends/schedules/secrets/paid services still require separate owner approval. **Anthony's own merge
-  → no caretaker action; recorded.** _(This merge, with #9–#11, also moved the Daily Run workflow to `activation held`
-  — auto-schedule removed; see headline + Build-health vbfh row.)_
-
-- **vbfh #9/#10/#11 — VBFH pilot reliability-engineering wave.** Merged 10-01 22:48 → 10-02 00:23 UTC
-  (`b7af2c9` → … → `3bb0b28` → `bef1a8f`), runs **CI #28 / #31 / #33 ✅**. #9 repairs daily-mail content readiness +
-  bounded collection + retryable durable delivery; #10 verifies soccer/volleyball league/team source identity and
-  rejects cross-sport/stale-date sources; #11 fixes a live Dash loading race that produced false zero-game reports
-  (waits for pagination loaders, rejects no-game inference contradicted by captured schedule). **Media-engine code +
-  docs only; production SMTP send and recurring schedules remain disabled by default per the PR bodies; no
-  Supabase/Stripe/Square/POS, no secrets, no protected routes.** **Anthony's own merges → no caretaker action; recorded.**
-
-- **amma #293 — "Use Neon-injected Production traffic database URL."** Merged 10-01 14:03 UTC (`8eb6239`), `CI — web`
-  **#301 ✅**. Reads the Neon-integration traffic database URL and records the activation handoff. Touches
-  `APP/web/.env.example` (var names only), `scripts/traffic-selftest.ts` + `scripts/bodega-traffic-dashboard-selftest.ts`,
-  `src/lib/traffic/{site-traffic,store}.ts`, `OPERATIONS/{CODEX_QUEUE,HANDOFF_LOG}.md`, and
-  `TECH_ARCHITECTURE/{MULTI_SITE_TRAFFIC,TRAFFIC_COUNTER}.md` docs (+78/−33). **The Neon DB is the internal
-  traffic-analytics store, not Supabase; no customer data. No migration; no Supabase/Stripe/Square/POS; no secrets
-  (var names only); no `/m/[id]` or `/owner/[id]` touched.** **Anthony's own merge → no caretaker action; recorded.**
-- **amma #290/#291/#292 — site-scoped traffic / morning-report wave.** Merged 10-01 (`e794733` → `d6ea14e` →
-  `0149b74`), `CI — web` **#294 / #296 / #298 ✅**. Rework the internal traffic-analytics + morning-report surface
-  (`src/lib/traffic/*` incl. new `site-traffic.ts`/`sites.ts`, reworked `store.ts`/`parse-drain.ts`, dropped
-  `vercel-web-analytics.ts`; `api/(internal/)traffic/*` routes; internal `/customers/traffic` + `/customers/bodega-traffic`
-  dashboards; selftests; `.env.example`/`vercel.json`) + `MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs. **No
-  migration; no Supabase/Stripe/Square/POS; no secrets; no `/m/[id]` or `/owner/[id]` touched.** **Anthony's own
-  merges → no caretaker action; recorded.**
-- **amma #287/#288/#289 — Project Seed October wave.** Merged 09-30 (`597bef0` → `c3299eb` → `43ebcaf`), `CI — web`
-  **#286 / #288 / #290 ✅**. October concept menu + cafe-themed game, original product-art cutouts, a public-domain
-  Philippine flag SVG + boundary map + red-roof/map backdrop, and a Halloween landing skin. All within
-  `/play/project-seed`, `(internal)/demo/project-seed`, `/project-seed/menu` + `ASSET_REGISTRY/PROJECT_SEED/` docs.
-  **No migration; no protected route / Supabase / Stripe / Square / POS touched; non-human aswang mascot only.**
-  **Anthony's own merges → no caretaker action; recorded.**
-- **amma #278/#280/#282/#283 — "Project Seed" menu-game concept wave.** Merged 09-29→09-30 (`2b55aa6` → `d3413e1`
-  → `56ea72d` → `e814611`), `CI — web` **#280 ✅**. Additive internal routes + non-human aswang mascot concept asset +
-  `ASSET_REGISTRY/PROJECT_SEED/` docs. **No migration; no protected route / Supabase / Stripe / Square / POS touched.**
-  **Anthony's own merges → no caretaker action; recorded.**
-- **amma #276 — "Fix stable client menu destinations."** Merged `45560104` 09-29 15:05 UTC, `CI — web` **#274 ✅**.
-  Guest `/m/[id]/page.tsx`, owner QR routes, new `lib/guest-menu.ts`, selftests. **No migration.** Printed Café Rush
-  QR URL unchanged (stable-QR guardrail intact). **Anthony's own merge → no caretaker action; recorded.**
+- **amma #298 — "Refresh Maracaibo table demo with approved flag artwork."** Merged 10-03 12:26 UTC (`40132ec`),
+  `CI — web` **#305 ✅**. New `APP/web/src/table-os/maracaibo/*` experience/match views + CSS, `TableExperience`/
+  `TableMatchClient`/`venue-config` wiring, two `venezuelan-flag-concept-*.webp` assets, and
+  `MARACAIBO_VISUAL_REVIEW_20261003.md`. +586/−16. **Game/table-OS visuals; the flag is a public-domain national-flag
+  concept (not a club/league/event mark, no real face, no client logo); no `/m/[id]` or `/owner/[id]`, no Supabase/
+  Stripe/Square, no migration, no secrets.** **Anthony's own merge → no caretaker action; recorded.**
+- **amma #297 — "Correct voice call outcomes and staff notification reporting."** Merged 10-03 00:44 UTC (`2fb2da8`),
+  `CI — voice-gateway` **#23 ✅**. `services/voice-gateway/src/*` (orchestrator, notify, store, report, types, new
+  `callActivity.ts`, new `simulateReliability.ts`) + README + `VOICE_RELIABILITY_REVIEW_2026-10-03.md`. +712/−103.
+  **Voice-gateway code + docs only; live Twilio routing/registration/A2P remains your manual gate; no Supabase/Stripe/
+  Square, no secrets, no protected route.** **Anthony's own merge → no caretaker action; recorded.**
+- **amma #296 — "Record verified Bodega menu release and close queue."** Merged 10-02 22:51 UTC (`8415eea`).
+  Docs/queue bookkeeping closing out the #295 menu work. **Anthony's own merge → recorded.**
+- **amma #295 — "Complete Bodega signature and matcha menu from photographed boards."** Merged 10-02 22:47 UTC
+  (`1ff51bc`), `CI — web` **#303 ✅**. `(internal)/demo/bodega/{bodega-menu-nav.tsx,menu-draft.ts,page.tsx}` +
+  `OPERATIONS/BODEGA_BOARD_MENU_20261002.md` + CODEX_QUEUE/HANDOFF_LOG. +64/−6. **Internal demo menu data + docs only;
+  NO migration (pending set stays `0015`–`0023`); no `/m/[id]`, no Supabase/Stripe/Square, no secrets.** **Anthony's
+  own merge → no caretaker action; recorded.**
+- **amma #294 — "Refresh VBFH knowledge and add voice-only second-number routing."** Merged 10-02 22:03 UTC
+  (`bd72101`), `CI — voice-gateway` **#21 ✅**. `services/voice-gateway/*` (PERSONALITIES, VBFH_KNOWLEDGE_SOURCES,
+  new VBFH_KNOWLEDGE_AUDIT, server/tenant, new `simulateVbfh.ts`, `tenants.json`) + CODEX_QUEUE/HANDOFF_LOG + CI
+  workflow. +443/−81. **Voice-gateway code + docs + `tenants.json` (adds a voice-only second number route); live Twilio
+  activation remains your manual gate; no Supabase/Stripe/Square, no secrets, no protected route.** **Anthony's own
+  merge → no caretaker action; recorded.**
 
 Prior merges retained below for the audit trail.
 
-- **amma #273 — "Simplify owner portals."** Merged `fd1f324` 09-29, `CI — web` **#268 ✅**. Refactors guarded
-  `/owner/[id]` login/dashboard/AskBar + `/owner/bodega` pages/CSS + owner selftests/docs. **No migration.**
-- **amma "Make owner plans and payments easy to find."** Merged `749355f` 09-29, `CI — web` **#270 ✅**. Adds
-  `/owner/PlanContents`, `/owner/colattao/plan` + `/owner/colattao/qr`, `lib/billing/colattao-terms.ts`. **No migration.**
-- **amma "Set update batches by Basic plan."** Merged `b7317440` 09-29, `CI — web` **#272 ✅**. 1-line change.
-- **amma #272 — "Prepare Fina Calle voice and SMS line."** Merged `8e8576b` 09-28, `CI — voice-gateway` **#19 ✅**.
-  Voice-gateway SMS handling + `configure-twilio-number.mjs` + `render.yaml`/`tenants.json` +
-  `OPERATIONS/FINA_CALLE_PHONE_20260928.md`. **No migration.** Twilio go-live is a separate manual gate.
-- **amma #271 — "web: add Bodega to homepage client work."** Merged `62a0aabe` 09-28, `CI — web` **#266 ✅**. No migration.
-- **amma #270 — "Bodega Basic: private monthly billing enrollment."** Merged `02af585` 09-27, `CI — web` **#263 ✅**.
-  Stripe billing wiring + migration `0023`. Stripe go-live stays Anthony's gate.
+- **amma #293 — "Use Neon-injected Production traffic database URL."** Merged 10-01 14:03 UTC (`8eb6239`), `CI — web`
+  **#301 ✅**. Reads the Neon-integration traffic DB URL + records the activation handoff. `.env.example` var names
+  only, traffic selftests/libs + `MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs. **The Neon DB is the internal
+  traffic-analytics store, not Supabase; no customer data; no migration; no Stripe/Square/POS; no secrets; no protected
+  route.** **Anthony's own merge → recorded.**
+- **amma #290/#291/#292 — site-scoped traffic / morning-report wave.** Merged 10-01, `CI — web` **#294/#296/#298 ✅**.
+  Rework the internal traffic-analytics + morning-report surface (`src/lib/traffic/*`, internal dashboards, selftests).
+  **No migration; no Supabase/Stripe/Square/POS; no secrets; no protected route.** **Anthony's own merges → recorded.**
+- **amma #287/#288/#289 + #278/#280/#282/#283 — "Project Seed" concept waves.** Merged 09-29→09-30, `CI — web` green.
+  Additive `/play/project-seed`, `(internal)/demo/project-seed`, `/project-seed/menu`, original product art, a
+  public-domain Philippine flag/boundary SVG, Halloween landing skin + `ASSET_REGISTRY/PROJECT_SEED/` docs. **No
+  migration; non-human aswang mascot only; no protected route / Supabase / Stripe / Square.** **Anthony's own merges → recorded.**
+- **vbfh #9/#10/#11/#12 — VBFH pilot reliability-engineering wave + compact daily email.** Merged 10-01→10-02,
+  `CI` **#28/#31/#33/#35 ✅**. Repairs daily-mail content readiness + bounded/durable delivery; verifies soccer/
+  volleyball source identity; fixes a live Dash pagination race; compacts the daily email to two images per league.
+  Media-engine code + docs only; production SMTP + recurring schedules remain disabled by default; **also moved the
+  Daily Run workflow to `activation held` (auto-schedule removed).** **Anthony's own merges → recorded.**
+- **amma #276 — "Fix stable client menu destinations."** Merged `45560104` 09-29, `CI — web` **#274 ✅**.
+  Guest `/m/[id]/page.tsx`, owner QR routes, new `lib/guest-menu.ts`, selftests. **No migration.** Printed Café Rush
+  QR URL unchanged (stable-QR guardrail intact). **Anthony's own merge → recorded.**
+- **amma #273/#270/#272/#271 — owner-portal + Bodega billing/voice wave.** Merged 09-27→09-29, `CI` green. `/owner/[id]`
+  refactor + owner plans/QR + Bodega Basic Stripe billing (migration `0023`, go-live your gate) + Fina Calle voice-
+  gateway base (#272, `CI — voice-gateway` #19 ✅; Twilio go-live your gate). **Anthony's own merges → recorded.**
 - **amma #266–#269 (Bodega launch + Square connector + analytics + onboarding) — Anthony's own merges** (09-26/09-27;
-  `CI — web` green; migrations `0019`–`0022` in #266).
-- **amma #260–#264 (Bodega Fall Rush wave) — Anthony's own merges 09-26** (migrations `0015`–`0018`).
+  `CI — web` green; migrations `0019`–`0022` in #266). **amma #260–#264 (Bodega Fall Rush wave) — Anthony's own merges
+  09-26** (migrations `0015`–`0018`).
 - **vbfh #8 — MERGED 09-21** ("Make VBFH Daily Mail fail closed and verify Dash results," `b7af2c9`, `CI` #26 ✅).
 - **amma #237…#216** — Las Palmas/Cantina/owner/Café-Rush/offer waves (08-17→09-17), all Anthony's own merges;
   full per-run detail in git history.
@@ -231,8 +213,10 @@ caretaker branches, **the eight open-draft heads** `codex/seasonal-skins-queue-2
 `claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218),
 `claude/las-palmas-menu-game-59vtbg` (#197) (deleting any closes its open draft), unmerged `voice/*` (Anthony's
 judgment). **Eligible** (merged since, no longer open-draft-protected): the eight Bodega codex branches from
-#257/#258/#260–#264 plus `codex/bodega-launch-guest-notes-square-20260926` (#266) — add them to your local delete
-run. Still not auto-deleted here (proxy 403 + no branch-delete API).
+#257/#258/#260–#264 plus `codex/bodega-launch-guest-notes-square-20260926` (#266), and now the merged heads for
+#294 (`codex/vbfh-knowledge-20261002`), #297 (`codex/voice-reliability-20261002`),
+#298 (`codex/maracaibo-visual-refresh-20261003`), #295/#296 (Bodega board menu) — add them to your local delete run.
+Still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
 ```
@@ -253,7 +237,9 @@ git -C amma-fina-calle push origin --delete \
   codex/bodega-owner-live-20260925 codex/bodega-five-levels-20260926 \
   codex/bodega-minute-rush-20260926 codex/bodega-bad-vibes-reset-20260926 \
   codex/bodega-muffin-meter-20260926 codex/bodega-no-save-faster-20260926 \
-  codex/bodega-launch-guest-notes-square-20260926
+  codex/bodega-launch-guest-notes-square-20260926 \
+  codex/vbfh-knowledge-20261002 codex/voice-reliability-20261002 \
+  codex/maracaibo-visual-refresh-20261003
 ```
 **vbfh-media-engine** (verified merged or closed-superseded):
 ```
@@ -265,86 +251,50 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-03 (morning check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
+  needed.** Zero failing workflow runs across all four repos. **amma `main` advanced `8eb6239`→`40132ec` via FIVE of
+  Anthony's own merges:** **#294** voice-only second-number routing + VBFH-knowledge refresh (`CI — voice-gateway`
+  #21 ✅), **#295** Bodega signature/matcha demo menu from photographed boards (`CI — web` #303 ✅, **no migration**),
+  **#296** record verified Bodega menu release + close queue (docs), **#297** correct voice call outcomes + staff-
+  notification reporting (`CI — voice-gateway` #23 ✅), **#298** Maracaibo table-OS demo refresh + public-domain
+  Venezuelan-flag concept asset (`CI — web` #305 ✅). **All guardrail-clean (caretaker view): voice-gateway code + docs
+  + `tenants.json`; internal Bodega demo menu + docs; table-OS game visuals with a national-flag concept (no club/
+  league/event mark, no face, no client logo); no Supabase migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or
+  `/owner/[id]` touched; voice/Twilio go-live stays Anthony's gate** → Anthony's own → recorded, no caretaker action.
+  **Migration set unchanged `0015`–`0023`** (+`0009`). vbfh `master` unchanged at `75f9668`; the "VBFH Daily Run" stays
+  `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run — no #122 fired or will
+  auto-fire** by design). Default branches re-verified: amma `40132ec` (advanced), vbfh `75f9668`, shadow `5113ce5`
+  (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #305 ✅ + `CI — voice-gateway` #23 ✅; vbfh build `CI` #35 ✅;
+  shadow & EscapeTheBomb no CI (0 runs). **No new drafts; none of the 8 held drafts changed; no new human review
+  comments (all PR `updated_at` predate last run); nothing closed unmerged; no merge-conflict/base-branch notices;
+  GitHub API healthy.** #218 governance question open; #29 closed. Branch cleanup still 403-blocked. Push notification
+  + email sent (nothing needed from Anthony beyond the standing Supabase-migration to-do + the Daily-Run
+  run-on-demand-vs-reactivate heads-up).
 - **2026-10-02 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
-  needed. One notable (intentional, owner-made) change: the VBFH "Daily Run" moved to `activation held` / manual
-  dispatch.** Zero failing workflow runs across all four repos. **vbfh `master` advanced `bef1a8f`→`75f9668` via one
-  more of Anthony's own merges** — **#12** "Reduce daily email to results and standings per league" (`CI #34/#35 ✅`):
-  compacts the daily email to two images per eligible league (results + standings tables), replacing the 34-image
-  layout; keeps verification; 12 files, +294/−45, media-engine code + `docs/COMPACT_DAILY_MAIL.md` only;
-  `EMAIL_ENABLED=false`, no publishing/schedule activation → guardrail-clean, Anthony's own → recorded, no caretaker
-  action. **⚠️ Daily-Run scheduling change (his own, #9–#12):** the workflow was renamed "VBFH Daily Report —
-  activation held" and its active `schedule:` trigger removed (`b7af2c9` had `cron "17 8 * * *"`; `75f9668` is
-  `on: workflow_dispatch` only). **#121 (10-01, green) was therefore the last automatic run — no #122 auto-fired, and
-  none will until Anthony re-activates.** Build/CI green; documented in the workflow + PR bodies → intentional, not a
-  failure; surfaced to Anthony as a heads-up (his call: run on demand, or ask me to prep a re-enable PR). **amma `main`
-  unchanged at `8eb6239`.** Migration set unchanged **`0015`–`0023`** (+`0009`). Default branches re-verified: amma
-  `8eb6239`, vbfh `75f9668` (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #301 ✅ +
-  `CI — voice-gateway` #19 ✅; vbfh build `CI` #35 ✅; shadow & EscapeTheBomb no CI (0 runs). **No new drafts; none of
-  the 8 held drafts changed; no new human review comments (all PR `updated_at` predate last run); nothing closed
-  unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218 governance question open; #29 closed.
-  Branch cleanup still 403-blocked. Push notification + email sent (nothing needed from Anthony beyond the standing
-  Supabase-migration to-do + the Daily-Run run-on-demand-vs-reactivate heads-up).
-- **2026-10-02 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
-  needed.** Zero failing workflow runs across all four repos. **vbfh `master` advanced `b7af2c9`→`bef1a8f` via three
-  of Anthony's own merges** — the **VBFH reliability-engineering wave** #9 (daily-mail content + bounded/durable
-  delivery, `CI #28 ✅`), #10 (soccer/volleyball source-identity verification, `3bb0b28`, `CI #31 ✅`), #11 (live Dash
-  pagination-race repair rejecting false zero-game reports, `bef1a8f`, `CI #33 ✅`). **Media-engine code + docs only;
-  production SMTP + recurring schedules stay disabled by default per the PR bodies; no Supabase/Stripe/Square/POS, no
-  secrets, no protected routes** → guardrail-clean, Anthony's own → recorded, no caretaker action. **amma `main`
-  unchanged at `8eb6239`.** VBFH "Daily Run" #121 (10-01) remains latest and green; today's 10-02 run fires later
-  (~18:00 UTC) on the new tip `bef1a8f`. Migration set unchanged **`0015`–`0023`** (+`0009`). Default branches
-  re-verified: amma `8eb6239`, vbfh `bef1a8f` (advanced), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma
-  `CI — web` #301 ✅ + `CI — voice-gateway` #19 ✅; vbfh build `CI` #33 ✅; shadow & EscapeTheBomb no CI (0 runs).
-  **No new drafts; none of the 8 held drafts changed; no new human review comments (all PR `updated_at` predate last
-  run); nothing closed unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218 governance question
-  open; #29 closed. Branch cleanup still 403-blocked. Push notification + email sent (nothing needed from Anthony
-  beyond the standing Supabase-migration to-do).
-- **2026-10-01 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no fix needed; VBFH
-  Daily Run #121 fired green.** Zero failing workflow runs across all four repos. **VBFH "Daily Run" #121 (10-01
-  18:26→18:50 UTC) SUCCEEDED** in ~24 min, following #119/#120 green — outage stays fully behind us. amma `main`
-  advanced **`0149b74`→`8eb6239`** via **one of Anthony's own merges** — **#293** "Use Neon-injected Production traffic
-  database URL" (`CI — web` **#301 ✅**): reads the Neon integration traffic DB URL + records the activation handoff;
-  touches `.env.example` (var names only), traffic selftests, `src/lib/traffic/{site-traffic,store}.ts`,
-  `OPERATIONS/{CODEX_QUEUE,HANDOFF_LOG}.md`, `MULTI_SITE_TRAFFIC.md`/`TRAFFIC_COUNTER.md` docs (+78/−33). **The Neon DB
-  is the internal traffic-analytics store, not Supabase; no customer data; no migration; no Stripe/Square/POS; no
-  secrets (var names only); no `/m/[id]` or `/owner/[id]` touched** → **guardrail-clean (caretaker view), Anthony's own
-  → recorded, no caretaker action.** Migration set unchanged **`0015`–`0023`** (+`0009`). Default branches re-verified:
-  amma `8eb6239` (advanced), vbfh `b7af2c9`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web`
-  #301 ✅ + `CI — voice-gateway` #19 ✅; vbfh build `CI` #26 ✅ **and Daily Run #121 ✅**; shadow & EscapeTheBomb no CI
-  (0 runs). **No new drafts; none of the 8 held drafts changed; no new human review comments (all PR `updated_at`
-  predate last run); nothing closed unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218
-  governance question open; #29 closed. Branch cleanup still 403-blocked. Push notification + email sent (nothing
-  needed from Anthony beyond the standing Supabase-migration to-do).
-- **2026-10-01 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no fix needed.**
-  Zero failing workflow runs across all four repos. amma `main` advanced **`43ebcaf`→`0149b74`** via **three of
-  Anthony's own merges** — the **site-scoped traffic / morning-report wave** #290 (`e794733`) / #291 (`d6ea14e`) /
-  #292 (`0149b74`): reworks the internal traffic-analytics + morning-report code. `CI — web` **#294/#296/#298 ✅**;
-  **no migration; no Supabase/Stripe/Square/POS; no secrets (var names only); no `/m/[id]` or `/owner/[id]` touched**
-  → guardrail-clean, Anthony's own → recorded, no caretaker action. VBFH "Daily Run": latest **#120 (09-30) green**;
-  today's (10-01) fires later on schedule (fired green as #121 — see evening entry). Migration set unchanged.
-- **2026-09-30 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run; VBFH Daily Run #120 fired green.**
-  amma `main` advanced **`e814611`→`43ebcaf`** via the **Project Seed October wave** #287/#288/#289 (`CI — web`
-  **#290 ✅**, no migration, guardrail-clean, Anthony's own). VBFH #120 (09-30 18:00→18:25 UTC) green.
-- **2026-09-30 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run.** amma `main` `45560104`→`e814611`
-  via the **"Project Seed" concept wave** #278/#280/#282/#283 (`CI — web` **#280 ✅**, no migration, non-human mascot,
-  Anthony's own). VBFH #119 (09-29) green.
-- **2026-09-29 (evening check-in, `claude-opus-4-8`):** **🟢 VBFH Daily Run RECOVERED — outage over.** #119
-  (18:06→18:33 UTC) SUCCEEDED on unchanged code `b7af2c9`, ending the 09-26→09-28 outage. amma `main`
-  `b7317440`→`45560104` via **#276** (Anthony's own, `CI — web` #274 ✅). Draft #277 opened (held).
-- **2026-09-29 (morning check-in, `claude-opus-4-8`):** No new breakage; three owner-portal merges landed green
-  (#273/#270/#272; Anthony's own). VBFH outage unchanged at check time (later recovered as #119).
-- **2026-09-28 (afternoon/evening, `claude-opus-4-8`):** 🔴 FOURTH STRIKE — #118 CANCELLED at the 45-min cap. All four
-  default branches unchanged. Push + email sent.
-- **2026-09-28 (morning/midday, `claude-opus-4-8`):** No new breakage; VBFH still down (#117). amma `main`
-  `02af585`→`8e8576b` via #271 + #272 (Anthony's own, green, no migration).
-- **2026-09-27 (afternoon/evening, `claude-opus-4-8`):** 🔴 THIRD STRIKE — #117 CANCELLED. amma `main`
-  `8a8b1ad`→`02af585` via #270 (Anthony's own; migration `0023` + Stripe).
-- **2026-09-27 (morning, `claude-opus-4-8`):** VBFH still down (#115/#116). amma `main` `860a5c8`→`8a8b1ad` via
-  #267/#268/#269 (Anthony's own; no new migrations).
-- **2026-09-26 (afternoon/evening, `claude-opus-4-8`):** 🔴 VBFH Daily Run went DOWN — #115 + #116 both CANCELLED at
-  the cap. amma `main` `b1fd1793`→`860a5c8` via #266 (Anthony's own; Square + guest-notes + migrations `0019`–`0022`).
-- **2026-09-26 (morning, `claude-opus-4-8`):** All four green; amma `main` `acb8c72`→`b1fd1793` via #260–#264 (Bodega
-  Fall Rush; migrations `0015`–`0018`). VBFH #114 (09-25) green.
+  needed. VBFH "Daily Run" moved to `activation held` / manual dispatch (intentional, owner-made #9–#12).** Zero
+  failing workflow runs anywhere. vbfh `master` advanced `bef1a8f`→`75f9668` via Anthony's own **#12** "Reduce daily
+  email to results and standings per league" (`CI #34/#35 ✅`). #121 (10-01) was the last automatic Daily Run. amma
+  `main` unchanged at `8eb6239`. Migration set `0015`–`0023`. No new drafts / review comments.
+- **2026-10-02 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run.** vbfh `master` `b7af2c9`→`bef1a8f`
+  via Anthony's own reliability wave #9/#10/#11 (`CI #28/#31/#33 ✅`). amma `main` unchanged `8eb6239`. Migration set
+  unchanged.
+- **2026-10-01 (evening check-in, `claude-opus-4-8`):** **🟢 VBFH Daily Run #121 fired green** (~24 min), outage fully
+  behind us. amma `main` `0149b74`→`8eb6239` via Anthony's own **#293** (`CI — web` #301 ✅, Neon traffic DB URL, no
+  migration). Migration set `0015`–`0023`.
+- **2026-10-01 (midday check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run.** amma `main` `43ebcaf`→`0149b74` via
+  Anthony's own site-scoped traffic / morning-report wave #290/#291/#292 (`CI — web` #294/#296/#298 ✅, no migration).
+- **2026-09-30 (both check-ins, `claude-opus-4-8`):** **🟢 Quiet, healthy; VBFH Daily Run #120 fired green.** amma
+  `main` advanced via the Project Seed October wave #287/#288/#289 and the concept wave #278/#280/#282/#283 (`CI — web`
+  green, no migration, non-human mascot, Anthony's own).
+- **2026-09-29 (both check-ins, `claude-opus-4-8`):** **🟢 VBFH Daily Run RECOVERED — outage over** (#119 green). amma
+  `main` advanced via #276 + owner-portal merges #273/#270/#272 (Anthony's own, `CI — web`/`voice-gateway` green).
+  Draft #277 opened (held).
+- **2026-09-28 (both, `claude-opus-4-8`):** 🔴 VBFH Daily Run #117/#118 CANCELLED at the 45-min cap (outage).
+  amma `main` advanced via #271 + #272 (Anthony's own, green, no migration). Push + email sent.
+- **2026-09-27 (both, `claude-opus-4-8`):** 🔴 VBFH Daily Run #115/#116/#117 CANCELLED (outage). amma `main` advanced
+  via #267/#268/#269 + #270 (Anthony's own; migration `0023` + Stripe in #270).
+- **2026-09-26 (both, `claude-opus-4-8`):** 🔴 VBFH Daily Run went DOWN (#115/#116 cancelled). amma `main` advanced via
+  #260–#264 (Bodega Fall Rush, migrations `0015`–`0018`) + #266 (Square + guest-notes, migrations `0019`–`0022`).
 - **2026-09-25 → 09-22 (both each day, `claude-opus-4-8`):** All four green. vbfh #8 MERGED (`b7af2c9`, `CI` #26 ✅);
   VBFH #111–#114 fired green. amma #257/#258 merged (Anthony's own).
 - **2026-09-21 → 09-14 (both each day, `claude-opus-4-8`):** All four green. Anthony merged #234–#237 + the
