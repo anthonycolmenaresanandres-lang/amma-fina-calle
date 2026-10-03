@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [x] Voice outcome and staff-notification reliability — October 2
+
+**Authority:** Anthony asked to keep improving the prior voice-manager-reporting and call-statistics plan. Parent delegated source edits, synthetic offline tests and a local commit only; fresh approval is required before publication, merge or deployment.
+**Base/worktree:** Latest main 8415eea025debb3122b81481d8aef368970833ae, codex/voice-reliability-20261002, C:/dev/amma/worktrees/voice-reliability-20261002. Preserve merged Bodega PRs #295/#296 and all unrelated local changes.
+**Scope:** Correct information-only call classification and distinct-call/ended-call metric denominators; record actual staff-webhook outcomes, including absent configuration, HTTP failures and timeouts; eliminate unsupported callback promises. Keep message capture, webhook acceptance and human receipt distinct. Per-call conversational reports remain proposed, not implemented.
+**Boundaries:** No new resources, credentials, destinations, live notifications, paid calls/model generation, security/routing changes, push, merge or deployment. Preserve tenant knowledge, number/channel mapping and unsupported-task limits.
+**PASS:** Synthetic cases cover greeting-only, caller/assistant exchange, legacy uncertainty, duplicate outcomes, active calls, tenant isolation, missing/2xx/non-2xx/timeout/network webhook results, capture preservation and truthful tool/session wording. Existing voice suites and typecheck pass; exact future impact and owner acceptance are documented.
+**State:** PREPARED AND LOCALLY VERIFIED — corrected call/notification semantics with 17 synthetic reliability cases; typecheck, gateway 53, SMS 9/9, check-in 17/17 and VBFH 18/18 pass. README/report definitions and operational acceptance are documented in services/voice-gateway/VOICE_RELIABILITY_REVIEW_2026-10-03.md. Local commit only; publication, production release and real-call/manager acceptance remain gated.
+
 ## [x] Bodega October 2 board reconciliation
 
 **Authority:** Anthony supplied the complete Matcha and Signature Drinks boards and asked to ensure the items are in Bodega's menu and add missing items.

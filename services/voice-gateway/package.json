@@ -13,7 +13,8 @@
     "configure:twilio": "node scripts/configure-twilio-number.mjs",
     "simulate:checkin": "tsx src/checkin/simulate.ts",
     "report": "tsx src/report.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "simulate:reliability": "tsx src/simulateReliability.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

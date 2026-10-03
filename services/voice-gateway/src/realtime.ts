@@ -11,10 +11,12 @@ import { tools, systemInstructions } from "./tools";
 import { runTool } from "./orchestrator";
 import { BargeInGate } from "./soundgate";
 import { store } from "./store";
+import { handoffInstructions } from "./notify";
+import { ReplyAudioEvidence } from "./callActivity";
 import type { Tenant } from "./tenant";
 
 export interface RealtimeHooks {
-  onAudio: (base64ulaw: string, itemId?: string) => void; // play to caller (itemId = assistant turn)
+  onAudio: (base64ulaw: string, itemId?: string, replyToCaller?: boolean) => void; // play to caller (itemId = assistant turn)
   onUserSpeechStarted: () => void; // for barge-in (clear queued audio)
   onClosed?: () => void; // OpenAI socket dropped unexpectedly (so the caller isn't left in dead air)
 }
@@ -34,7 +36,7 @@ export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unkno
     type: "session.update",
     session: {
       type: "realtime",
-      instructions,
+      instructions: instructions + "\n\n" + handoffInstructions(Boolean(tenant.notify?.staffWebhookUrl?.trim())),
       output_modalities: ["audio"],
       audio: {
         input: {
@@ -56,7 +58,7 @@ export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unkno
 
 export function buildGreetingResponse(tenant: Tenant): Record<string, unknown> {
   const disclosure = tenant.disclosure.replace("{business}", tenant.business.name);
-  return { type: "response.create", response: { instructions: `Say exactly, warmly: "${disclosure}"` } };
+  return { type: "response.create", response: { metadata: { gatewayPurpose: "greeting" }, instructions: `Say exactly, warmly: "${disclosure}"` } };
 }
 
 export class RealtimeSession {
@@ -71,6 +73,7 @@ export class RealtimeSession {
   private readonly gate: BargeInGate; // SoundGate barge-in referee (transient-noise debounce)
   private bargeInTimer: ReturnType<typeof setTimeout> | null = null; // pending debounce check
   private userTurnEndedAt = 0; // last caller speech_stopped — for time-to-first-audio (TTFA)
+  private readonly replyEvidence = new ReplyAudioEvidence();
   private activeResponse = false; // a model response is generating (for barge-in cancel + true-interruption stats)
 
   constructor(tenant: Tenant, callId: string, hooks: RealtimeHooks) {
@@ -108,7 +111,7 @@ export class RealtimeSession {
    *  so the caller gets a graceful goodbye instead of being cut off mid-sentence. */
   promptWrapUp(): void {
     if (!this.ready) return;
-    this.send({ type: "response.create", response: { instructions:
+    this.send({ type: "response.create", response: { metadata: { gatewayPurpose: "wrap_up" }, instructions:
       "You're almost out of time on this call. Warmly and briefly wrap up in one or two short sentences: " +
       "make sure they got what they needed, thank them sincerely for calling, and warmly invite them to call back " +
       "anytime. Sound genuinely warm, like you enjoyed helping them — do not mention time limits, systems, or that you must go." } });
@@ -149,6 +152,7 @@ export class RealtimeSession {
       store.recordTransientSuppressed(this.callId, this.tenant.id);
     }
     this.gate.onSpeechStopped();
+    this.replyEvidence.callerTurnStopped();
     this.userTurnEndedAt = Date.now(); // start the TTFA clock for the agent's reply
   }
 
@@ -160,6 +164,7 @@ export class RealtimeSession {
   private yieldFloor(): void {
     if (this.bargeInTimer) { clearTimeout(this.bargeInTimer); this.bargeInTimer = null; }
     this.gate.reset();
+    this.replyEvidence.cancel();
     if (this.activeResponse) {
       // Genuine interruption — the caller talked over an in-progress agent turn.
       store.recordBargeIn(this.callId, this.tenant.id);
@@ -170,6 +175,7 @@ export class RealtimeSession {
   }
 
   private async onMessage(data: WebSocket.RawData): Promise<void> {
+    if (this.closedByUs) return;
     let evt: { type?: string; [k: string]: unknown };
     try { evt = JSON.parse(data.toString()); } catch { return; }
     switch (evt.type) {
@@ -184,14 +190,18 @@ export class RealtimeSession {
             this.userTurnEndedAt = 0;
           }
         }
-        if (typeof evt.delta === "string") this.hooks.onAudio(evt.delta, this.lastAssistantItem ?? undefined);
+        if (typeof evt.delta === "string" && evt.delta.length) {
+          this.hooks.onAudio(evt.delta, this.lastAssistantItem ?? undefined, this.replyEvidence.isReply(evt.response_id));
+        }
         break;
       }
       case "response.created":
+        this.replyEvidence.responseCreated((evt.response ?? {}) as { id?: unknown; metadata?: unknown });
         this.activeResponse = true; // a turn is now generating (barge-in may cancel it)
         break;
       case "response.output_audio.done":
       case "response.done":
+        this.replyEvidence.responseDone((evt.response as { id?: unknown } | undefined)?.id ?? evt.response_id);
         this.lastAssistantItem = null; // turn finished normally — nothing to truncate
         this.activeResponse = false;
         break;

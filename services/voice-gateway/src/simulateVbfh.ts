@@ -81,7 +81,8 @@ const session = buildRealtimeSessionUpdate(vbfh).session as {
   instructions: string; tools: { name: string }[]; audio: { output: { voice: string } };
 };
 check("actual Realtime payload contains refreshed knowledge and only message capture", () => {
-  assert.equal(session.instructions, vbfh.instructions + "\n\n" + vbfh.knowledge);
+  assert.ok(session.instructions.startsWith(vbfh.instructions + "\n\n" + vbfh.knowledge + "\n\n"));
+  assert.match(session.instructions, /HANDOFF ACCURACY/);
   assert.deepEqual(session.tools.map(t => t.name), ["take_message"]);
   assert.equal(session.audio.output.voice, "marin");
   assert.match(JSON.stringify(buildGreetingResponse(vbfh)), /automated assistant/);
