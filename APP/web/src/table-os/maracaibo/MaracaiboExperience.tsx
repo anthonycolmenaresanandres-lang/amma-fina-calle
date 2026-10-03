@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
-import { TableMatchClient } from "../TableMatchClient";
+import { MaracaiboFootballClient } from "./MaracaiboFootballClient";
 import type { OrderDestination } from "../toast";
 import { tableLabel, type TableOsVenue } from "../venue-config";
 import { DecorativeArtwork, FlagArtwork, LogoArtwork } from "./MaracaiboMarks";
@@ -82,7 +82,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber} aria-hidden="true">01</span><span><strong>Menu</strong><small>Owner approval pending</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber} aria-hidden="true">02</span><span><strong>Service</strong><small>Preview only</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("ordering")}><span className={styles.actionNumber} aria-hidden="true">03</span><span><strong>Order online</strong><small>Pickup / delivery only</small></span><ArrowRight aria-hidden="true" /></button>
-            <button type="button" onClick={() => navigate("match")}><span className={styles.actionNumber} aria-hidden="true">04</span><span><strong>Play</strong><small>Local game prototype</small></span><ArrowRight aria-hidden="true" /></button>
+            <button type="button" onClick={() => navigate("match")}><span className={styles.actionNumber} aria-hidden="true">04</span><span><strong>Play</strong><small>Table football · 90 seconds</small></span><ArrowRight aria-hidden="true" /></button>
           </div>
         </section>
       ) : (
@@ -123,7 +123,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           ) : null}
 
           {view === "match" ? (
-            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><TableMatchClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} /></section>
+            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><MaracaiboFootballClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} /></section>
           ) : null}
 
           {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}

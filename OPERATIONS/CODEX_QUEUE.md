@@ -874,3 +874,12 @@ PASS: Owner sees clear terms and first-charge date, can accept once and enter St
 **Design:** Near-black #0B0B0C, off-white #F5F5F1, muted #B6B6B0, rules #303032 and amber #E7A551. Existing Geist display/controls, Georgia only for Stay. Asymmetric headline versus quiet action column; no floating stickers, image boxes, rings, neon or motion ornament. Geometry, touch targets, focus and reduced motion take precedence at narrow widths.
 **PASS:** Inspect same-state captures, responsive guest flows, art-failure fallback, scoped lint and production build; save a native Library screenshot and local commit. Preserve source/evidence and canonical dirty work. No push, PR, merge or deploy.
 **State:** DONE locally. Final build/types/lint, 30 responsive views, 88 placement checks, 30 flow checks, 11 targeted checks and touch/artwork fallback passed. Review saved as libfile_57b546a51edc8191a6997803438e4b56. See MARACAIBO_EDITORIAL_REVIEW_20261003.md. Publication remains held.
+
+
+## [x] Maracaibo concurrent football — October 3
+
+Authority: Anthony explicitly requested inspection, comparable-game research, implementation and merge. This supersedes the earlier visual-only scope and publication hold for this task.
+Scope: Maracaibo-only four-phone table match with isolated seating codes, reserved roles, bounded peer-to-peer gameplay, recovery, computer seats and touch controls. Preserve the approved branding, table QR routes and independent menu/service/payment flows. No new paid service, credentials, database migration or payment activation.
+Execution: The Work Mode Linux workspace is the available isolated checkout; the Windows data-center path does not exist here. Feature branch only; PR merge after final verification is explicitly authorized.
+Acceptance: concurrent room/role isolation, malformed/stale input handling, host departure, replay, bounded queues and signaling, mobile/desktop browser play, scoped lint and production build. Record actual-phone/network limitations.
+State: implementation complete on the feature branch. Twelve controller checks, 40 rooms / 160 simulated phones, full browser round/replay and failed-network fallback pass; final readiness/preview verification and exact-head CI precede the explicitly authorized merge. See MARACAIBO_MULTIPLAYER_REVIEW_20261003.md. Live device/network capacity remains uncertified.
