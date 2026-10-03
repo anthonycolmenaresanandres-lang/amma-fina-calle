@@ -71,7 +71,13 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
       {view === "welcome" ? (
         <section className={styles.welcome} aria-labelledby="maracaibo-title">
-          <div className={styles.heroComposition}><h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.heroTitle}>Eat.<br />Play.<br /><em>Stay<span>.</span></em></h1><DecorativeArtwork kind="drink" className={styles.welcomeAccent} /></div>
+          <div className={styles.heroComposition}>
+            <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.heroTitle} aria-label="Eat. Play. Stay.">
+              <span className={styles.heroEat}>Eat.</span>
+              <span className={styles.heroPlay}>Play.</span>
+              <span className={styles.stayLine}><em>Stay<span>.</span></em><DecorativeArtwork kind="drink" className={styles.welcomeAccent} /></span>
+            </h1>
+          </div>
           <div className={styles.actionRail} id="maracaibo-actions" aria-label="Table actions">
             <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber} aria-hidden="true">01</span><span><strong>Menu</strong><small>Owner approval pending</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber} aria-hidden="true">02</span><span><strong>Service</strong><small>Preview only</small></span><ArrowRight aria-hidden="true" /></button>
