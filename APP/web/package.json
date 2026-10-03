@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "maracaibo-football:selftest": "node --import tsx scripts/maracaibo-football-selftest.ts",
     "bodega-rewards:selftest": "tsx scripts/bodega-rewards-selftest.ts && node scripts/bodega-rewards-db-selftest.mjs",
     "bodega-launch:selftest": "tsx scripts/bodega-launch-selftest.ts && tsx scripts/square-connector-selftest.ts",
     "square-connector:selftest": "tsx scripts/square-connector-selftest.ts",
