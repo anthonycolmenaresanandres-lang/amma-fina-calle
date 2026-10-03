@@ -13,6 +13,7 @@ import {
 import { connectTableRoom, type RoomMode, type TableRoomBridge } from "./realtime";
 import type { TableOsVenue } from "./venue-config";
 import styles from "./table-match.module.css";
+import { MaracaiboMatchView } from "./maracaibo/MaracaiboMatchView";
 
 type RoomPayload =
   | Readonly<{ kind: "hello"; clientId: string }>
@@ -24,6 +25,7 @@ type RoomPayload =
 type Props = Readonly<{
   venue: TableOsVenue;
   tableId: string;
+  onNavigate?: (view: "menu" | "service") => void;
 }>;
 
 type RoleChoice = Readonly<{
@@ -42,7 +44,7 @@ const ROLE_CHOICES: readonly RoleChoice[] = [
 
 const INITIAL_SCORE = { home: 0, away: 0, timeRemainingMs: 90_000, phase: "ready" };
 
-export function TableMatchClient({ venue, tableId }: Props): React.JSX.Element {
+export function TableMatchClient({ venue, tableId, onNavigate }: Props): React.JSX.Element {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const bridgeRef = useRef<TableRoomBridge<RoomPayload> | null>(null);
   const gameRef = useRef<TableFootballGameHandle | null>(null);
@@ -188,6 +190,7 @@ export function TableMatchClient({ venue, tableId }: Props): React.JSX.Element {
       match: matchOptions,
       skin: tableFootballSkinFromMatchSkin(venue.skin),
       authority: isHost ? "host" : "replica",
+      disableAudio: venue.id === "maracaibo",
       localPlayerId: selectedRole.playerId,
       initialState: isHost ? undefined : initialState ?? undefined,
       onInput: (message) => {
@@ -243,7 +246,7 @@ export function TableMatchClient({ venue, tableId }: Props): React.JSX.Element {
         mountStartedRef.current = false;
       }
     };
-  }, [initialState, isHost, joined, matchOptions, roomId, selectedRole.playerId, venue.skin]);
+  }, [initialState, isHost, joined, matchOptions, roomId, selectedRole.playerId, venue.id, venue.skin]);
 
   useEffect(
     () => () => {
@@ -252,6 +255,20 @@ export function TableMatchClient({ venue, tableId }: Props): React.JSX.Element {
     },
     [],
   );
+
+  if (venue.id === "maracaibo") {
+    return <MaracaiboMatchView
+      tableId={tableId} home={homeTeam} away={awayTeam} roles={ROLE_CHOICES}
+      selectedRole={selectedRole} joined={joined} mode={mode} participants={participants}
+      isHost={isHost} score={score} gameReady={gameReady} gameError={gameError}
+      mountRef={mountRef} duplicateRole={Object.values(claims).filter((claim) => claim === selectedRole.playerId).length > 1}
+      onRole={setSelectedRole} onJoin={() => setJoined(true)} onNavigate={onNavigate}
+      onReset={() => {
+        if (isHost) gameRef.current?.reset();
+        else void bridgeRef.current?.send({ kind: "reset" });
+      }}
+    />;
+  }
 
   if (!joined) {
     return (

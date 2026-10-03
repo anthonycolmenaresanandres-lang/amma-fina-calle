@@ -17,6 +17,8 @@ export type TableFootballMountOptions = Readonly<{
   authority?: "host" | "replica";
   localPlayerId?: string;
   initialState?: TableFootballState;
+  /** Silent presentations can skip the browser audio context entirely. */
+  disableAudio?: boolean;
   onInput?: (message: TableFootballInputMessage) => void;
   onState?: (message: TableFootballStateMessage) => void;
 }>;
@@ -72,6 +74,7 @@ export async function mountTableFootballGame(options: TableFootballMountOptions)
     height: options.parent.clientHeight || 520,
     backgroundColor: `#${options.skin.table.toString(16).padStart(6, "0")}`,
     scene: [scene],
+    audio: options.disableAudio ? { noAudio: true } : undefined,
     scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
   });
 

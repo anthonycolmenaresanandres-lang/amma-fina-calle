@@ -832,3 +832,12 @@ PASS: Owner sees clear terms and first-charge date, can accept once and enter St
 **STOP:** No merge, deployment, paid calls/probes, installs, credentials/access changes, DASH integration, live schedule claims, reservations, payments, outreach or unrelated notification/outcome fixes. Parent approval is required before production change.
 
 **Result:** October 2 knowledge/source register complete; inactive Larissa removed with history retained; 300 voice-only override prepared. Typecheck, gateway simulator, SMS 9/9, check-in 17/17, VBFH 18/18 and whitespace checks pass. Exact deployment source/SHA and carrier webhooks remain unverified; see services/voice-gateway/VBFH_KNOWLEDGE_AUDIT_2026-10-02.md. No push, merge, deploy, call or email.
+
+## [x] Maracaibo visual refresh — October 3
+
+**Authority:** Anthony requested a whole-experience look update following Astra's Maracaibo specification. Initially local UI implementation, tests and a local commit; Anthony subsequently authorized scoped push/PR/merge/publication after review and required CI pass.
+**Base/worktree:** main 2fb2da8ac947cdca920e275f4a3ac16ccf2fcc8a; codex/maracaibo-visual-refresh-20261003; C:/dev/amma/worktrees/maracaibo-visual-refresh-20261003.
+**Scope:** Preserve EAT. PLAY. Stay. and four-action landing. Maracaibo-only menu, service preview, ordering/payment-unavailable handoff, football lobby, match and results presentation. Approved object-only eight-star Venezuelan flag plus wave/lightning role marks; retain text wordmark; no people or portraits.
+**Boundaries:** Preserve prospect, menu-approval and no-orders/no-staff-request disclosures. No game engine/realtime repair or activation, POS/payment configuration, pricing changes, permissions, customer writes, new services or paid generation. Publication is authorized only for this reviewed Maracaibo visual change. Other venues retain their current experience.
+**PASS:** Scoped lint, TypeScript, production build and applicable deterministic game checks; local UI inspection at available viewports, with any unavailable visual/real-device coverage disclosed. Reviewable local commit.
+**State:** Implementation and local review complete; scoped publication authorized, pending clean remote CI. See OPERATIONS/MARACAIBO_VISUAL_REVIEW_20261003.md for validation and local-build limitations.

@@ -59,21 +59,18 @@ const maracaibo: TableOsVenue = {
   skin: {
     id: "maracaibo-lagoon",
     name: "Maracaibo Lagoon",
-    background: "#07181a",
-    pitch: "#0e5555",
-    pitchLine: "#f4d9a2",
-    accent: "#f3b61f",
-    text: "#fff7df",
-    home: "#ffcc29",
-    away: "#e5484d",
+    background: "#e6ddc4",
+    pitch: "#fff3d4",
+    pitchLine: "#315955",
+    accent: "#315955",
+    text: "#071d20",
+    home: "#f4be32",
+    away: "#762b46",
   },
+  // Proposed table-team identity for the owner-review visual concept only.
   teams: [
-    { id: "venezuela", label: "Venezuela", shortLabel: "VEN", flagEmoji: "🇻🇪", primary: "#f4d03f", secondary: "#8b1e3f" },
-    { id: "dominican-republic", label: "Dominican Republic", shortLabel: "DOM", flagEmoji: "🇩🇴", primary: "#0038a8", secondary: "#ce1126" },
-    { id: "puerto-rico", label: "Puerto Rico", shortLabel: "PUR", flagEmoji: "🇵🇷", primary: "#0050f0", secondary: "#ed0000" },
-    { id: "colombia", label: "Colombia", shortLabel: "COL", flagEmoji: "🇨🇴", primary: "#fcd116", secondary: "#003893" },
-    { id: "usa", label: "United States", shortLabel: "USA", flagEmoji: "🇺🇸", primary: "#3c3b6e", secondary: "#b22234" },
-    { id: "table-gold", label: "Table Gold", shortLabel: "GLD", primary: "#f3b61f", secondary: "#07181a" },
+    { id: "lago", label: "Lago", shortLabel: "LAG", primary: "#f4be32", secondary: "#062b2d" },
+    { id: "rayo", label: "Rayo", shortLabel: "RAY", primary: "#762b46", secondary: "#fff3d4" },
   ],
 };
 
