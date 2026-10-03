@@ -3069,3 +3069,37 @@ Anthony-authorized local presentation work in codex/maracaibo-visual-refresh-202
 ## OUT - 2026-10-03 - Maracaibo visual refresh ready for release checks
 
 Maracaibo-only landing, menu, local service preview, truthful Toast/check handoff and Lago/Rayo football presentation are implemented with the approved object-only eight-star flag. No people assets were used. Thirty responsive screens and thirty functional browser checks passed; the natural match/results/replay and leave cleanup were exercised with zero final runtime exceptions or attempted writes. A Maracaibo-only no-audio option avoids Phaser resuming a closed unused audio context; game rules and transport remain unchanged. Source TypeScript and scoped lint pass; Table Duel tests pass 9/9. Local build limitations are documented in MARACAIBO_VISUAL_REVIEW_20261003.md. Anthony now authorizes scoped publication after exact-commit review, CI and preview verification; no failed gate may be bypassed. Canonical dirty work is preserved; no pricing, POS/payment, credentials or server activation changed.
+
+## IN - 2026-10-03 - Maracaibo reference-based brand correction
+
+New local-only branch from 40132ecf. Downloaded and inspected the three exact supplied Library references. The logo is the original black/white circular monogram with concentric rings, stars and Kitchen & Cocktails legend. Astra's black/white, cork, orange/citrus direction supersedes the earlier teal treatment. The reel is labeled AI content and is atmosphere reference only. No publication authorized for this iteration.
+
+## OUT - 2026-10-03 - Maracaibo actual-brand iteration ready locally
+
+The exact supplied black/white badge now leads the Maracaibo experience. Source logo pixels are unchanged in the exported region; Instagram UI and portraits are excluded. Black/charcoal/off-white, cork circles, orange/citrus controls, orange/leaf game colors and one small flag accent replace the teal/cream treatment. EAT. PLAY. Stay., four actions, menus/prices, preview notices and behavior remain unchanged. Thirty responsive screens, thirty functional checks, touch/fallback, four neighboring routes, scoped lint, TypeScript and a production build passed. The build used the documented local root for existing linked dependencies; next.config.ts was restored exactly. Canonical dirty work and previous source/evidence are preserved. No push, PR, merge or deployment; this new iteration requires separate publication approval. See MARACAIBO_BRAND_REVIEW_20261003.md.
+
+## IN - 2026-10-03 - Maracaibo premium restraint
+
+Starting from local e16d48 in the existing brand worktree. Anthony requested a quieter, more premium layout and substantially fewer words. Current screenshots show repeated preview/status copy, stacked headings, numbered circular ornaments and over-described options. The refinement will give the original logo and typographic hero room, retain four actions, flatten inner-page hierarchy and keep necessary prospect/payment/game limits explicit. Frontend-design is the primary workflow; web-design-guidelines verifies accessibility and spacing. Game presentation rules apply because the lobby/results are touched; no engine or new artwork changes. Python/agent-browser remain unavailable; existing Node/CDP workflow is the fallback. No push, PR, merge or deployment.
+
+
+## OUT - 2026-10-03 - Maracaibo premium refinement ready locally
+
+The original logo and EAT. PLAY. Stay. now lead a quieter layout with plain metadata, four concise action rows, white controls and substantially fewer headings/helper lines. Menu/service content appears sooner; payment unavailable and server fallback remain prominent. The Maracaibo-only presentation option removes duplicate canvas score/instructions; defaults for other venues and all game rules/input/transport remain unchanged. Final production screenshots, 30 responsive screens, 30 flow checks, 11 targeted checks, touch/fallback, scoped lint, types and build passed. The temporary local build root was restored exactly. Review image saved as libfile_34d63d4b01548191853e0e166b059b98. See MARACAIBO_PREMIUM_REVIEW_20261003.md. Existing source, references and canonical dirty work are preserved. No push, PR, merge or deploy; no publication approval for this refinement.
+
+## IN - 2026-10-03 - Maracaibo restrained object accents
+
+Starting from 297f91c in the existing brand worktree. The latest premium screen captures were inspected. Anthony requested three generated transparent product-style objects; assets are being produced separately. Prepare one optional decorative slot each for the welcome drink, service bell and unjoined-lobby football, with no row icons or added marketing copy. Keep menu/payment/active game/results clean. Consumer-local Library inspection, source provenance and alpha preservation precede integration. Existing source and screenshot evidence remain intact; no push, PR, merge or deploy.
+
+
+## OUT - 2026-10-03 - Maracaibo object accents ready locally
+
+The three exact supplied Library images were materialized into the consumer workspace, inspected and preserved with identity/version/hash records. Alpha-preserving 480px WebP derivatives total 112,198 bytes. A small drink sits beside Stay., the bell beside Service, and a football beside Table match; no new artwork appears in menu/payment/active game/results. The latter two remain the existing service/game flows, with no reservations capability. Narrow layouts suppress optional art; a 1024px crowding finding was resolved without changing type or action positions. Final responsive/88 placement/30 flow/11 targeted checks, touch/fallback, scoped lint and production build/types passed, with zero runtime errors or attempted non-read requests. The review is libfile_93165964f8888191a45d137a6b60a366. See MARACAIBO_OBJECT_ART_REVIEW_20261003.md. No push, PR, merge or deploy; existing source and canonical dirty work are preserved.
+
+## IN - 2026-10-03 - Maracaibo editorial refinement
+
+Continue locally from cb258b16. Current screenshot and Astra critique agree: equal-weight hero/actions and small detached objects still feel generic. Apply repository frontend-design and mandatory web-design-guidelines verification; lobby styling follows game presentation safeguards. Baseline-staged cocktail, heavier headline, amber punctuation, quiet actions and purposeful larger service/lobby objects; no new artwork or functionality. Preserve all previous sources and local evidence. No publication authorized.
+
+## OUT - 2026-10-03 - Maracaibo editorial refinement ready locally
+
+The hero now dominates a quieter action column, with heavier offset EAT/PLAY, italic Stay., amber punctuation and a larger baseline-staged cocktail. Strong sans inner headings and larger bell/football compositions carry the same direction through service, menu, check, lobby and results. Phone wrapping and conservative text-range clearance findings were fixed before final review. The exact logo/flag/art assets, guest copy, prices and all functionality are unchanged. Final build/types/lint, 30 responsive screens, 88 placement checks, 30 full flow checks, 11 targeted checks and touch/missing-artwork fallback passed, with zero runtime errors or attempted writes. Screenshot saved to Library libfile_57b546a51edc8191a6997803438e4b56. See MARACAIBO_EDITORIAL_REVIEW_20261003.md. No push, PR, merge or deploy; existing dirty work and all previous evidence were preserved.

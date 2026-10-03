@@ -841,3 +841,36 @@ PASS: Owner sees clear terms and first-charge date, can accept once and enter St
 **Boundaries:** Preserve prospect, menu-approval and no-orders/no-staff-request disclosures. No game engine/realtime repair or activation, POS/payment configuration, pricing changes, permissions, customer writes, new services or paid generation. Publication is authorized only for this reviewed Maracaibo visual change. Other venues retain their current experience.
 **PASS:** Scoped lint, TypeScript, production build and applicable deterministic game checks; local UI inspection at available viewports, with any unavailable visual/real-device coverage disclosed. Reviewable local commit.
 **State:** Implementation and local review complete; scoped publication authorized, pending clean remote CI. See OPERATIONS/MARACAIBO_VISUAL_REVIEW_20261003.md for validation and local-build limitations.
+
+## [x] Maracaibo brand correction - October 3
+
+**Authority:** Anthony requested revised colors, the actual logo and a less generic identity using three supplied Instagram screenshots. Local code, tests, screenshots and commit only; PR298 publication approval does not extend to this iteration.
+**Base/worktree:** main 40132ecf1536b8a4ce4b40301fd989fe5648d267; codex/maracaibo-brand-iteration-20261003; C:/dev/amma/worktrees/maracaibo-brand-iteration-20261003.
+**Scope:** Exact supplied black/white circular badge, flat black/charcoal/off-white surfaces, small cork/orange/citrus details. Preserve EAT. PLAY. Stay. and four actions. Flag is a secondary single pride accent. No portraits, app chrome, generated food photos or unverified award claims.
+**Boundaries:** No backend, game mechanics, POS/payment/staff workflow, pricing, credentials, push, PR, merge or deploy. Preserve neighboring venues and existing dirty work.
+**PASS:** Verified source logo pixels, all relevant responsive views, local game presentation, source/lint/build checks with honest limitations, actual screenshots and reviewable local commit.
+**State:** DONE locally. All 30 responsive and 30 functional checks, touch/fallback, scoped lint, TypeScript and production build passed. See OPERATIONS/MARACAIBO_BRAND_REVIEW_20261003.md. Publication remains unapproved.
+
+## [x] Maracaibo premium restraint - October 3
+
+**Authority:** Anthony requested a more premium layout with substantially less copy after reviewing e16d48. Continue in the existing brand worktree; local implementation, verification, screenshots and commit only. No publication approval.
+**Scope:** Keep the exact supplied badge, black/white with restrained citrus, recognizable EAT. PLAY. Stay. and the four actions. Remove redundant headers, labels, badge decoration and explanatory copy throughout landing, menu, service, ordering, lobby, active play and results. Essential owner-preview, no-send, payment-unavailable and game-verification limits remain visible.
+**Design:** One typographic hero; quiet logo/header; plain table label; four simple numbered action rows. Spacious single-column inner pages with Georgia display headings, Geist controls and thin dividers. Black #101112, off-white #F5F5F1, muted #B6B6B0, citrus #E8D43B; orange/leaf stay within game identifiers. No new assets or mechanics.
+**PASS:** Same-state before/after captures, responsive navigation and all affected flows, scoped lint, types, production build and a Library review artifact. No pricing/backend changes; preserve source artwork, existing evidence and canonical dirty work.
+**State:** DONE locally. Production build, scoped lint/types, 30 responsive screens, 30 flow checks, 11 targeted checks and touch/fallback passed. Screenshot saved to Library libfile_34d63d4b01548191853e0e166b059b98. See OPERATIONS/MARACAIBO_PREMIUM_REVIEW_20261003.md. Publication remains held.
+
+## [x] Maracaibo decorative objects - October 3
+
+**Authority:** Anthony approved the premium direction and requested matching restaurant-related object illustrations, tastefully placed. Continue locally from 297f91c; no publication approval.
+**Scope:** Inspect the supplied generated bell, citrus drink on cork coaster and football after consumer-local Library materialization. Preserve originals/provenance; export optimized alpha-preserving derivatives. Keep the exact logo, quiet flag, typography, action rows, copy and all functionality.
+**Placement:** One optional object in the welcome composition (drink), Service heading (bell), and unjoined Table match heading (ball). None on menu, check/payment, active game or results. Decorative empty alt/aria-hidden semantics; no animation, pointer interception or essential labels. Suppress an object at narrow widths when the existing hierarchy would be crowded. The drink is illustrative atmosphere, never a menu-item photo.
+**PASS:** Actual-pixel and alpha inspection, minimal derivatives, same-state responsive review, relevant navigation/game/fallback checks, lint/types/build, saved Library screenshot and local commit.
+**State:** DONE locally. All supplied sources inspected and preserved; three alpha WebP assets total 112,198 bytes. Responsive/placement/full-flow/touch/fallback checks, lint and production build/types passed. Review saved as libfile_93165964f8888191a45d137a6b60a366. See OPERATIONS/MARACAIBO_OBJECT_ART_REVIEW_20261003.md. Publication remains held.
+
+## [x] Maracaibo editorial refinement - October 3
+
+**Authority:** Anthony requested "Make it look cooler" after cb258b16. Local visual refinement, validation, screenshot and commit only; no publication approval.
+**Scope:** Preserve exact logo, Venezuelan pride, EAT. PLAY. Stay., four actions, existing object assets, functions/pricing and truthful limitations. Create a cohesive kitchen-and-cocktails poster composition with dominant heavy type and baseline-staged drink, quieter actions, strong sans inner headings and purposeful service/lobby objects. No new assets, fonts, dependencies or services.
+**Design:** Near-black #0B0B0C, off-white #F5F5F1, muted #B6B6B0, rules #303032 and amber #E7A551. Existing Geist display/controls, Georgia only for Stay. Asymmetric headline versus quiet action column; no floating stickers, image boxes, rings, neon or motion ornament. Geometry, touch targets, focus and reduced motion take precedence at narrow widths.
+**PASS:** Inspect same-state captures, responsive guest flows, art-failure fallback, scoped lint and production build; save a native Library screenshot and local commit. Preserve source/evidence and canonical dirty work. No push, PR, merge or deploy.
+**State:** DONE locally. Final build/types/lint, 30 responsive views, 88 placement checks, 30 flow checks, 11 targeted checks and touch/artwork fallback passed. Review saved as libfile_57b546a51edc8191a6997803438e4b56. See MARACAIBO_EDITORIAL_REVIEW_20261003.md. Publication remains held.

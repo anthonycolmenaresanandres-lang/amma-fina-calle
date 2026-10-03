@@ -19,6 +19,8 @@ export type TableFootballMountOptions = Readonly<{
   initialState?: TableFootballState;
   /** Silent presentations can skip the browser audio context entirely. */
   disableAudio?: boolean;
+  /** The parent can provide the score, phase and control instructions accessibly. */
+  hideHud?: boolean;
   onInput?: (message: TableFootballInputMessage) => void;
   onState?: (message: TableFootballStateMessage) => void;
 }>;
@@ -66,7 +68,7 @@ export async function mountTableFootballGame(options: TableFootballMountOptions)
     home: options.match.home,
     away: options.match.away,
   };
-  const scene = new TableFootballScene({ skin: options.skin, teams, getState: () => current, onFrame: frame, onInput: receiveInput, localPlayerId: options.localPlayerId });
+  const scene = new TableFootballScene({ skin: options.skin, teams, getState: () => current, onFrame: frame, onInput: receiveInput, localPlayerId: options.localPlayerId, hideHud: options.hideHud });
   game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: options.parent,

@@ -9,6 +9,8 @@ export type TableFootballSceneOptions = Readonly<{
   onFrame: (deltaMs: number) => void;
   onInput: (message: TableFootballInputMessage) => void;
   localPlayerId?: string;
+  /** Leave the scoreboard and instructions to an accessible parent presentation. */
+  hideHud?: boolean;
 }>;
 
 const toHex = (color: number): string => `#${color.toString(16).padStart(6, "0")}`;
@@ -32,6 +34,8 @@ export class TableFootballScene extends Phaser.Scene {
     this.board = this.add.graphics();
     this.hud = this.add.text(0, 0, "", { fontFamily: "system-ui, sans-serif", fontSize: 14, color: toHex(this.options.skin.text), fontStyle: "bold" }).setOrigin(0.5, 0);
     this.status = this.add.text(0, 0, "", { fontFamily: "system-ui, sans-serif", fontSize: 12, color: toHex(this.options.skin.mutedText) }).setOrigin(0.5, 0);
+    this.hud.setVisible(!this.options.hideHud);
+    this.status.setVisible(!this.options.hideHud);
     if (this.options.localPlayerId) {
       this.localInput = new LocalTableFootballInput(this, {
         roomId: this.options.getState().roomId,
@@ -58,8 +62,8 @@ export class TableFootballScene extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
     const inset = Math.max(14, Math.min(width, height) * 0.055);
-    const top = inset + 42;
-    const fieldHeight = Math.max(120, height - top - inset - 24);
+    const top = inset + (this.options.hideHud ? 0 : 42);
+    const fieldHeight = Math.max(120, height - top - inset - (this.options.hideHud ? 0 : 24));
     const fieldWidth = Math.max(160, width - inset * 2);
     const x = (unit: number) => inset + (unit / 100) * fieldWidth;
     const y = (unit: number) => top + (unit / 100) * fieldHeight;
