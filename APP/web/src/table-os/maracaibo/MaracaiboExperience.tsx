@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { TableMatchClient } from "../TableMatchClient";
 import type { OrderDestination } from "../toast";
 import { tableLabel, type TableOsVenue } from "../venue-config";
-import { FlagArtwork, LogoArtwork } from "./MaracaiboMarks";
+import { DecorativeArtwork, FlagArtwork, LogoArtwork } from "./MaracaiboMarks";
 import styles from "./maracaibo.module.css";
 
 type View = "welcome" | "menu" | "service" | "match" | "ordering";
@@ -71,7 +71,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
       {view === "welcome" ? (
         <section className={styles.welcome} aria-labelledby="maracaibo-title">
-          <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.heroTitle}>Eat.<br />Play.<br /><em>Stay<span>.</span></em></h1>
+          <div className={styles.heroComposition}><h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.heroTitle}>Eat.<br />Play.<br /><em>Stay<span>.</span></em></h1><DecorativeArtwork kind="drink" className={styles.welcomeAccent} /></div>
           <div className={styles.actionRail} id="maracaibo-actions" aria-label="Table actions">
             <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber} aria-hidden="true">01</span><span><strong>Menu</strong><small>Owner approval pending</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber} aria-hidden="true">02</span><span><strong>Service</strong><small>Preview only</small></span><ArrowRight aria-hidden="true" /></button>
@@ -101,7 +101,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
           {view === "service" ? (
             <section aria-labelledby="service-title">
-              <div className={styles.sectionHeading}><h1 ref={titleRef} tabIndex={-1} id="service-title">Service</h1><p>Preview only. For help, ask your server.</p></div>
+              <div className={styles.sectionHeading + " " + styles.serviceHeading}><h1 ref={titleRef} tabIndex={-1} id="service-title">Service</h1><p>Preview only. For help, ask your server.</p><DecorativeArtwork kind="bell" className={styles.serviceAccent} /></div>
               <div className={styles.serviceOptions} role="group" aria-label="Choose an example service request">{REQUESTS.map(({ id, label }) => <button key={id} type="button" aria-pressed={request === id} onClick={() => { setRequest(id); setPreview(null); }}><span>{label}</span><span className={styles.selectionMark} aria-hidden="true">{request === id ? <Check size={16} /> : null}</span></button>)}</div>
               <div className={styles.requestAction}><button type="button" className={styles.primaryButton} disabled={!request} onClick={showRequestPreview}>Preview request</button></div>
               <div className={styles.requestStatus} role="status" aria-live="polite">{preview ? <><strong>{preview}</strong><p>Preview only. Nothing sent.</p></> : null}</div>
@@ -117,13 +117,13 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           ) : null}
 
           {view === "match" ? (
-            <section aria-labelledby="match-title"><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><TableMatchClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} /></section>
+            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><TableMatchClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} /></section>
           ) : null}
 
           {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
         </div>
       )}
-      <footer className={styles.footer}><span>FinaCalle</span>{view === "welcome" ? <small>Flag illustration · AI generated</small> : null}</footer>
+      <footer className={styles.footer}><span>FinaCalle</span>{view === "welcome" || view === "service" || view === "match" ? <small className={styles.artworkCredit}>Object illustrations · AI generated</small> : null}</footer>
     </main>
   );
 }
