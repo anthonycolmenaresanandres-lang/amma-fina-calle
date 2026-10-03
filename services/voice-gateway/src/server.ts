@@ -5,7 +5,7 @@
 // Pack + connector. Run on an always-on host (Render/Fly/Railway/VM), NOT serverless.
 
 import http from "node:http";
-import OpenAIWebSocket, { WebSocketServer, type RawData, type WebSocket } from "ws";
+import OpenAIWebSocket, { WebSocketServer, type RawData, WebSocket } from "ws";
 import twilio from "twilio";
 import { config } from "./config";
 import { connectStreamTwiML, mediaFrame, clearFrame, sayHangupTwiML } from "./twilio";
@@ -284,11 +284,12 @@ wss.on("connection", (twilioWs: WebSocket) => {
         }
         try {
           realtime = new RealtimeSession(tenant, call.callId, {
-          onAudio: (b64, itemId) => {
-            if (!streamSid) return;
+          onAudio: (b64, itemId, replyToCaller) => {
+            if (!streamSid || ended || twilioWs.readyState !== WebSocket.OPEN) return;
             // New assistant turn → mark when it began on the caller's media clock.
             if (itemId && itemId !== lastItem) { lastItem = itemId; responseStartTs = latestMediaTs; }
             twilioWs.send(mediaFrame(streamSid, b64));
+            if (replyToCaller && call) store.recordReplyAudioSent(call.callId);
           },
           onUserSpeechStarted: () => {
             // Caller barged in: tell the model how much it actually got to say, then clear Twilio's buffer.
@@ -297,7 +298,7 @@ wss.on("connection", (twilioWs: WebSocket) => {
             responseStartTs = null; lastItem = undefined;
           },
           onClosed: () => {
-            // OpenAI side dropped mid-call: end cleanly (logs a missed call + staff alert) rather
+            // OpenAI side dropped mid-call: end cleanly (classifies observed activity) rather
             // than leaving the caller in dead air.
             if (!ended) { console.warn(`[voice-gateway] realtime closed mid-call ${call?.callId} — ending gracefully.`); endCall(); }
           },

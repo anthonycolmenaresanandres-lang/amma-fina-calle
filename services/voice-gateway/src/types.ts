@@ -50,6 +50,8 @@ export interface PosSyncAttempt {
   at: number;
 }
 
+export type CallOutcome = "booked" | "booking_requested" | "message" | "answered" | "missed" | "unknown";
+
 export interface CallRecord {
   callId: string;
   tenantId: string;
@@ -57,6 +59,10 @@ export interface CallRecord {
   status: "active" | "ended";
   startedAt: number;
   endedAt?: number;
+  // Absent on legacy calls: do not infer missed/answered from missing telemetry.
+  outcomeTrackingVersion?: 1;
+  // Audio sent after a caller turn, excluding greeting/wrap-up; not proof of resolution.
+  replyAudioSentAt?: number;
 }
 
 // A captured message / lead — when the bot can't book (after-hours, no fit, off-menu
@@ -68,6 +74,23 @@ export interface Message {
   customer: Customer;
   reason: string;
   at: number;
+}
+
+export type NotificationResult =
+  | { status: "accepted"; httpStatus: number }
+  | { status: "not_configured" }
+  | { status: "failed"; failure: "http_error" | "timeout" | "network_error"; httpStatus?: number };
+
+export interface StaffNotification {
+  notificationId: string;
+  callId: string;
+  tenantId: string;
+  entityType: "message" | "draft" | "call";
+  entityId: string;
+  purpose: "message" | "booking_request" | "missed_call";
+  createdAt: number;
+  completedAt?: number;
+  result: NotificationResult | { status: "pending" };
 }
 
 export interface AuditLog {

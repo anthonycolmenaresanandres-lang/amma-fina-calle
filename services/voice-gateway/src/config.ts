@@ -75,7 +75,7 @@ export const config = {
   },
 
   // Staff notification — when a booking commits as PENDING (propose-and-confirm, or a
-  // POS that can't auto-write), ping the team to confirm it. Empty = console.log only.
+  // POS that can't auto-write), ping the team to confirm it. Empty = not configured.
   notify: {
     staffWebhookUrl: process.env.STAFF_WEBHOOK_URL ?? "", // Slack/Make/SMS-bridge incoming webhook
   },

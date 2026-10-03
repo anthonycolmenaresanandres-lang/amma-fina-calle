@@ -5,11 +5,35 @@
 
 import { connectorFor } from "./adapter";
 import { store } from "./store";
-import { notifyStaff } from "./notify";
+import { notifyStaff, notificationWording } from "./notify";
 import { getTenantById, getTenantByNumber, type Tenant } from "./tenant";
-import type { Customer, Draft, Slot } from "./types";
+import type { CallOutcome, Customer, Draft, NotificationResult, Slot, StaffNotification } from "./types";
 
 const DRAFT_TTL_MS = 10 * 60_000;
+
+// Persist pending before the one bounded attempt. A process interruption stays
+// unconfirmed; endpoint acceptance is never proof of human receipt.
+async function notifyAndRecord(
+  tenant: Tenant, callId: string, entityType: StaffNotification["entityType"],
+  entityId: string, purpose: StaffNotification["purpose"], text: string,
+): Promise<NotificationResult> {
+  const record: StaffNotification = {
+    notificationId: store.id(), callId, tenantId: tenant.id, entityType, entityId,
+    purpose, createdAt: Date.now(), result: { status: "pending" },
+  };
+  store.putNotification(record);
+  const result = await notifyStaff(text, tenant.notify?.staffWebhookUrl);
+  store.putNotification({ ...record, completedAt: Date.now(), result });
+  store.audit("notification", record.notificationId, "notification.result", undefined, result);
+  return result;
+}
+
+function pendingBookingText(draft: Draft): string {
+  const notice = store.notificationsForCall(draft.callId).find((n) =>
+    n.entityType === "draft" && n.entityId === draft.draftId);
+  return "Your booking request is recorded but is not a confirmed booking (ref " +
+    draft.bookingRef + "). " + notificationWording(notice?.result);
+}
 
 function fmtTime(iso: string): string {
   return new Date(iso).toLocaleString("en-US", { weekday: "short", hour: "numeric", minute: "2-digit" });
@@ -41,14 +65,14 @@ export async function confirmBooking(draftId: string): Promise<{ bookingRef: str
   const draft = store.getDraft(draftId);
   if (!draft) throw new Error("unknown draft");
   if (draft.status === "committed" && draft.bookingRef) {
-    return { bookingRef: draft.bookingRef, text: `Already booked (ref ${draft.bookingRef}).`, idempotent: true };
+    return { bookingRef: draft.bookingRef, text: draft.pendingConfirm ? pendingBookingText(draft) : `Already booked (ref ${draft.bookingRef}).`, idempotent: true };
   }
   const tenant = getTenantById(draft.tenantId) ?? getTenantByNumber(undefined);
 
   const idempotencyKey = draftId;
   const prior = store.getSync(idempotencyKey);
   if (prior?.status === "ok" && prior.responseRef) {
-    return { bookingRef: prior.responseRef, text: `Already booked (ref ${prior.responseRef}).`, idempotent: true };
+    return { bookingRef: prior.responseRef, text: `This request was already recorded (ref ${prior.responseRef}); its confirmation status must be verified.`, idempotent: true };
   }
 
   store.putSync({ syncId: store.id(), draftId, operation: "order.commit", idempotencyKey, status: "pending", retryCount: prior ? prior.retryCount + 1 : 0, at: Date.now() });
@@ -60,64 +84,62 @@ export async function confirmBooking(draftId: string): Promise<{ bookingRef: str
     store.putDraft(draft);
     store.audit("draft", draftId, "order.commit", before, draft);
     if (result.pending) {
-      // Fire-and-forget: a pending booking needs a human to confirm it into their system.
-      void notifyStaff(
+      await notifyAndRecord(tenant, draft.callId, "draft", draftId, "booking_request",
         `New booking request at ${tenant.business.name}: ${draft.service} for ${draft.customer.name ?? "guest"}` +
         `${draft.customer.phone ? ` (${draft.customer.phone})` : ""} at ${fmtTime(result.startIso)} — please confirm (ref ${result.bookingRef}).`,
-        tenant.notify?.staffWebhookUrl,
       );
     }
     const text = result.pending
-      ? `Got it — I've requested ${fmtTime(result.startIso)}; the team will confirm shortly (ref ${result.bookingRef}).`
+      ? pendingBookingText(draft)
       : `Booked! Confirmation ${result.bookingRef} for ${fmtTime(result.startIso)}.`;
     return { bookingRef: result.bookingRef, text, idempotent: false };
   } catch (err) {
     store.putSync({ syncId: store.id(), draftId, operation: "order.commit", idempotencyKey, status: "error", retryCount: prior ? prior.retryCount + 1 : 0, lastError: String(err), at: Date.now() });
     store.audit("draft", draftId, "order.commit.error", undefined, { error: String(err) });
-    return { bookingRef: "", text: "I couldn't complete the booking just now — let me take your details and have the team confirm.", idempotent: false };
+    return { bookingRef: "", text: "I couldn't complete the booking just now. I can record a message instead; no booking is confirmed.", idempotent: false };
   }
 }
 
-/** Capture a message / lead when we can't (or shouldn't) book — never lose the caller. */
+/** Capture first, then report the observed notification result without promising a callback. */
 export async function takeMessage(tenant: Tenant, callId: string, customer: Customer, reason: string): Promise<{ messageId: string; text: string }> {
   const messageId = store.id();
   store.putMessage({ messageId, callId, tenantId: tenant.id, customer, reason, at: Date.now() });
   store.audit("message", messageId, "message.capture", undefined, { customer, reason });
-  void notifyStaff(
-    `New message for ${tenant.business.name}: ${customer.name ?? "a caller"}` +
-    `${customer.phone ? ` (${customer.phone})` : ""} — "${reason}". Please follow up.`,
-    tenant.notify?.staffWebhookUrl,
+  const result = await notifyAndRecord(tenant, callId, "message", messageId, "message",
+    "New message for " + tenant.business.name + ": " + (customer.name ?? "a caller") +
+    (customer.phone ? " (" + customer.phone + ")" : "") + ' - "' + reason + '". Please follow up.',
   );
-  return { messageId, text: `Got it — I've taken a message for the team and someone will follow up${customer.phone ? ` at ${customer.phone}` : ""}. Anything else?` };
+  return { messageId, text: "I've recorded your message. " + notificationWording(result) + " Anything else?" };
 }
 
-/** What did this call achieve? Used for the end-of-call summary + missed-call alerts. */
-export function summarizeCall(callId: string): { outcome: "booked" | "message" | "missed"; text: string } {
-  const booked = store.draftsForCall(callId).filter((d) => d.status === "committed");
-  if (booked.length) {
-    return { outcome: "booked", text: `booked ${booked.map((b) => `${b.service} (${b.bookingRef})`).join(", ")}` };
-  }
-  const msgs = store.messagesForCall(callId);
-  if (msgs.length) {
-    return { outcome: "message", text: `message taken: ${msgs.map((m) => m.reason).join("; ")}` };
-  }
-  return { outcome: "missed", text: "call ended with no booking and no message" };
+/** Deterministic outcome label, not a conversational summary or a delivered per-call report. */
+export function summarizeCall(callId: string): { outcome: CallOutcome; text: string } {
+  const outcome = store.callOutcome(callId);
+  const descriptions: Record<CallOutcome, string> = {
+    booked: "confirmed booking recorded",
+    booking_requested: "booking request recorded; confirmation pending",
+    message: "message captured; see separate notification result",
+    answered: "response audio sent after caller speech; resolution and playback unverified",
+    missed: "call ended without a recorded action or response audio after caller speech",
+    unknown: "legacy call lacks sufficient evidence to classify as answered or missed",
+  };
+  return { outcome, text: descriptions[outcome] };
 }
 
-/** End a call once: record it ended, audit a summary, and alert staff on a missed call. */
+/** End once; only new calls with no recorded response/action generate a missed-call alert. */
 export async function finalizeCall(callId: string): Promise<void> {
   const call = store.getCall(callId);
-  if (!call || call.status === "ended") return; // idempotent — stop + close both fire
-  const tenant = getTenantById(call.tenantId) ?? getTenantByNumber(undefined);
+  if (!call || call.status === "ended") return;
+  const tenant = getTenantById(call.tenantId);
   const summary = summarizeCall(callId);
   store.endCall(callId);
-  store.markHangupIfRecentBargeIn(callId); // flag a likely awkward-interruption hang-up
+  store.markHangupIfRecentBargeIn(callId);
   store.audit("call", callId, "call.summary", undefined, summary);
-  if (summary.outcome === "missed") {
-    void notifyStaff(
-      `Missed call at ${tenant.business.name}: the caller hung up with no booking and no message` +
-      `${call.fromPhone ? ` (from ${call.fromPhone})` : ""} — consider a follow-up.`,
-      tenant.notify?.staffWebhookUrl,
+  // An unavailable historical tenant must not notify another tenant's destination.
+  if (summary.outcome === "missed" && tenant) {
+    await notifyAndRecord(tenant, callId, "call", callId, "missed_call",
+      "Call at " + tenant.business.name + " ended without a recorded booking, message, or response audio after caller speech" +
+      (call.fromPhone ? " (from " + call.fromPhone + ")" : "") + " - review if follow-up is appropriate.",
     );
   }
 }

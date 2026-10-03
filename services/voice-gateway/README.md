@@ -12,7 +12,7 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
 - `src/realtime.ts` — OpenAI Realtime WS client (g711 μ-law in/out, tools, barge-in).
 - `src/orchestrator.ts` — **draft-first** tool handlers; `confirm_booking` is **idempotent**;
   `take_message` captures a lead when we can't book; `finalizeCall` writes an end-of-call
-  summary (booked / message / missed) and **alerts staff on a missed call**.
+  deterministic outcome audit; informational responses and unknown history are separate from calls with no recorded handling.
 - `src/adapter/*` — the unified booking adapter contract + connectors: `mock`, `calcom`,
   `square` (Appointments), and **`proposeConfirm`** (the universal fallback).
 - `src/tenant.ts` — **multi-tenant registry**: routes each call to a business by the
@@ -26,7 +26,7 @@ idempotent** booking core behind a **swappable connector** (mock + Cal.com to st
   up the ROI view per business. `createStore(path)` is a factory (used by tests). For
   multi-instance scale-out, move behind `db/schema.sql` (Postgres — same entities/keys).
 - `src/notify.ts` — pings staff (Slack/Make/SMS bridge via `STAFF_WEBHOOK_URL`) when a
-  booking commits as **PENDING** so a human confirms it; logs only when no URL is set.
+  message is captured, a booking request is pending, or a new call has no recorded handling. Records missing configuration, acceptance, HTTP/network failure and timeout separately; never guarantees a callback.
 - `src/simulate.ts` — verifies the booking loop with **no phone and no keys**.
 - `src/simulateSms.ts` — verifies SMS output clipping, escaping, HELP copy, and TwiML
   with **no phone, API request, or keys**.
@@ -115,11 +115,11 @@ The deployed service already owns `OPENAI_API_KEY`; never copy that value into s
 logs, local documentation, or Twilio.
 
 ## Call analytics / ROI
-- **`GET /stats`** (`?tenant=<id>` to scope to one business) — live JSON rollup:
-  `{ calls, bookings, confirmedBookings, pendingBookings, messages, missedCalls,
-  conversionPct, handledPct, syncErrors, audits }`. The "answered + booked while you were
-  closed" number that justifies the subscription; `handledPct` counts calls that ended in
-  a booking **or** a captured message (not lost).
+- **`GET /stats`** (`?tenant=<id>` for one business) reports record counts separately from distinct completed-call outcomes. `endedCalls` is the denominator for `handledPct` and `conversionPct`; active calls are excluded. Duplicate bookings/messages cannot inflate either percentage above 100%.
+- Each completed call has one outcome, in order: confirmed booking, pending booking request, captured message, response audio sent after caller speech, no recorded handling, or unknown legacy evidence. `answeredCalls` means response-only calls, not confirmed resolution or verified playback. `missedCalls` is retained for compatibility but means **no recorded handling**, not a carrier-reported missed ring. Old calls without instrumentation remain `unknownCalls` unless recorded booking/message evidence proves an outcome.
+- `handledCalls` counts calls with a recorded booking/request, message, or response. `conversionPct` counts distinct calls with a confirmed booking only, not pending requests. Both divide by all completed calls, including unknown history: these are shares with recorded outcomes, not inferred success/failure rates.
+- `notificationRecords`, `notificationsAccepted`, `notificationsFailed`, `notificationsNotConfigured`, and `notificationsPending` track the separate handoff attempt. HTTP 2xx means endpoint acceptance only; no human receipt or response is implied. Missing configuration does not log a message as delivered. No automatic retry or conversational per-call report is implemented.
+- Tenant filtering also applies to audit and notification counts. Unknown legacy audit ownership is excluded from tenant-specific totals.
 - **Turn-quality KPIs** (same `/stats`, SoundGate — see `SOUNDGATE.md`): `{ speechStarts,
   bargeIns, transientsSuppressed, realtimeErrors, hangupsAfterInterruption, ttfaAvgMs,
   ttfaP50Ms }`. These make the turn-taking tunable: `ttfa*` = responsiveness (caller stop →
@@ -222,3 +222,5 @@ caller to check in in person — a message relay, not a verified check-in. See
 - The **mock** connector needs nothing; it's what the simulator and a keyless demo use.
 - Swapping the voice layer later (managed platform) reuses the same `orchestrator` +
   `adapter` — that's the point of the seam.
+
+See [VOICE_RELIABILITY_REVIEW_2026-10-03.md](VOICE_RELIABILITY_REVIEW_2026-10-03.md) for exact definitions, limitations, tests and operational acceptance before release.

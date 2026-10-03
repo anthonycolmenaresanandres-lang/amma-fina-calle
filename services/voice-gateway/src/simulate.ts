@@ -92,6 +92,9 @@ async function main(): Promise<void> {
 
   check("audit trail recorded the decisions", store.auditCount() >= 3);
 
+  check("active calls do not enter the completed-call conversion denominator", store.stats().conversionPct === 0);
+  await finalizeCall(call.callId);
+
   // ---- Analytics rollup (powers /stats and `npm run report`) ----
   const stats = store.stats();
   console.log(`\nStats rollup: ${JSON.stringify(stats)}`);
