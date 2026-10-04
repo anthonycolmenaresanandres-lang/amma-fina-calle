@@ -48,6 +48,8 @@ export type RendererAssets = {
   kickerKey?: string;
   /** In-goal keeper mascot sticker. Undefined = primitive keeper. */
   keeperKey?: string;
+  /** Optional expression texture with identical registration to keeperKey. */
+  keeperSadKey?: string;
   /** Tintable keeper shirt layer (drawn over keeperKey, tinted to the kit color). */
   keeperKitKey?: string;
   /** Campaign behind-goal ad-zone image (Campaign Pack). Undefined = no ad. */
@@ -112,6 +114,8 @@ export class PenaltyRenderer {
   private readonly ballImage: Phaser.GameObjects.Image | null = null;
   private readonly kickerImage: Phaser.GameObjects.Image | null = null;
   private readonly keeperImage: Phaser.GameObjects.Image | null = null;
+  private readonly keeperReadyKey?: string;
+  private readonly keeperSadKey?: string;
   // Tintable keeper shirt layer (drawn over the base keeper, multiply-tinted to
   // the campaign keeper kit color). Null unless the skin supplies a keeperKit.
   private readonly keeperKitImage: Phaser.GameObjects.Image | null = null;
@@ -154,6 +158,8 @@ export class PenaltyRenderer {
     this.chrome = chrome;
     this.campaign = campaign;
     this.titleLabel = skinName.toUpperCase();
+    this.keeperReadyKey = assets.keeperKey;
+    this.keeperSadKey = assets.keeperSadKey;
 
     // Optional photographic backdrop (behind everything).
     if (assets.backgroundKey) {
@@ -636,6 +642,9 @@ export class PenaltyRenderer {
     // documented future (PENALTY_KIT_SPEC.md). Absent image → primitive keeper
     // and its kit recolor, pixel-identical to before.
     if (this.keeperImage) {
+      const conceded = state.match.phase === "result" && state.match.results.at(-1) === "goal";
+      const texture = conceded && this.keeperSadKey ? this.keeperSadKey : this.keeperReadyKey;
+      if (texture && this.keeperImage.texture.key !== texture) this.keeperImage.setTexture(texture);
       const targetH = kh * 1.7 * (this.keeperFit.scale ?? 1);
       const scale = targetH / (this.keeperImage.height || 1);
       const px = x + (this.keeperFit.offsetXPct ?? 0) * layout.w;

@@ -12,7 +12,14 @@ const skin: PenaltySkin = {
   id: "maracaibo", displayName: "Maracaibo", brandName: "Maracaibo Bistro", skinName: "Penalty Rush",
   colors: { ...baseColors, bg: 0x0b0b0c, sky: 0x22121a, keeper: 0x751932, keeperAccent: 0xd8b36d,
     accent: 0xe7a551, text: "#f5f5f1" },
-  assets: { logo: "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png" },
+  assets: {
+    logo: "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
+    kicker: "/assets/maracaibo/penalty/tequeno-player.webp",
+    keeper: "/assets/maracaibo/penalty/keeper-ready.webp",
+    keeperSad: "/assets/maracaibo/penalty/keeper-sad.webp",
+  },
+  kickerFit: { scale: 1.7, offsetXPct: -0.16, offsetYPct: -0.025 },
+  keeperFit: { scale: 1.15 },
   chrome: { externalHud: true },
 };
 export function MaracaiboPenaltyClient({ onActiveChange }: { onActiveChange: (active: boolean) => void }) {

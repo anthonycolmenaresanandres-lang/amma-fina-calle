@@ -967,3 +967,9 @@ State: DONE locally; awaiting review. Existing textured flag now receives smooth
 Authority: Anthony explicitly approved publishing realistic preview and requested top flag plus Fina Calle footer logo. Scope: move flag into header, remove duplicate Play placement, Brought to you by + existing authentic transparent Fina Calle emblem + Website experience copyright. Preserve all operational preview disclosures and unrelated work. Acceptance: targeted lint/types, desktop/mobile/reduced-motion/footer and approved flag check; draft PR, exact-head CI/Vercel, guarded merge, exact-SHA production/live asset verification.
 
 State: implementation verified and publication authorized; draft PR / exact-head CI and Vercel / guarded merge / production receipt remain. Screenshot libfile_f6911bf1007c8191a7ed5725c474da91; scoped lint/types and 320/390/1440 checks pass. Local Webpack build encounters unchanged Bodega route-export issue; standard release checks are mandatory. See MARACAIBO_FLAG_HEADER_FOOTER_RELEASE_20261004.md.
+
+## [ ] Publish approved Maracaibo tequeno and keeper cartoon presentation - October 4
+
+Authority: Anthony requests tequeno vinotinto shooter against satirical Maduro keeper and sad reaction after conceding. Parent supplies approved AI sprites. Scope: genuine assets, smooth existing image movement and goal-only expression; preserve engine, controls, scoring, hits and other venues. Acceptance: scoped lint/types, responsive game/art/goal-save-miss/reset/replay/fallback checks and actual moving Library game preview. Anthony approved placing and merging the reviewed sprites at 22:38 UTC; exact-head CI/Vercel, guarded merge and production verification are required. No multiplayer/reliability work.
+
+State: implementation and scoped lint/types/render/outcome/replay/fallback checks pass. Moving review: libfile_eab3200ea4808191be122e13f1de644a. Release gates and production receipt pending. See MARACAIBO_PENALTY_CHARACTERS_REVIEW_20261004.md.

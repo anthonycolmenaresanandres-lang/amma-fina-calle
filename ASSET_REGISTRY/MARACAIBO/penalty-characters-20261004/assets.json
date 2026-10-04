@@ -1,0 +1,65 @@
+{
+  "provenance": "Parent-generated AI cartoon sprites, explicitly requested by Anthony. Originals preserved; same-canvas downsample only, no independent cropping.",
+  "assets": [
+    {
+      "name": "tequeno-player",
+      "library_file_id": "libfile_682eea595e3481918e8fd14ef8e722e2",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "alpha_bbox": [
+        65,
+        33,
+        1214,
+        1206
+      ],
+      "runtime_size": [
+        768,
+        768
+      ],
+      "source_bytes": 651401,
+      "runtime_bytes": 60546
+    },
+    {
+      "name": "keeper-ready",
+      "library_file_id": "libfile_59d3560bcd048191a1d96f0972a32af7",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "alpha_bbox": [
+        13,
+        14,
+        1240,
+        1241
+      ],
+      "runtime_size": [
+        768,
+        768
+      ],
+      "source_bytes": 1019303,
+      "runtime_bytes": 95084
+    },
+    {
+      "name": "keeper-sad",
+      "library_file_id": "libfile_83e3bedbe1148191a291209b167999b8",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "alpha_bbox": [
+        15,
+        14,
+        1240,
+        1242
+      ],
+      "runtime_size": [
+        768,
+        768
+      ],
+      "source_bytes": 1037373,
+      "runtime_bytes": 95108
+    }
+  ]
+}

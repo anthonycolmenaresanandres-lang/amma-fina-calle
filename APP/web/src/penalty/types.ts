@@ -82,6 +82,8 @@ export type PenaltySkinAssets = {
    *  keeper. Slides + tilts on the dive. Falls back to the primitive keeper
    *  (and its kit recolor) when absent or if the file fails to load. */
   keeper?: string;
+  /** Same-canvas expression shown only during a conceded-goal result hold. */
+  keeperSad?: string;
   /** Optional tintable keeper SHIRT layer (neutral white, shading via luminance),
    *  aligned to the keeper base. When present it's drawn over the keeper and
    *  tinted to the campaign's keeper kit color — so one keeper recolors per brand.

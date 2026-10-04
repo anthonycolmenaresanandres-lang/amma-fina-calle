@@ -3206,3 +3206,11 @@ Replaced the reviewed segmented vector with existing textured Venezuelan artwork
 ## IN - 2026-10-04 - Approved realistic flag header and Fina Calle footer release
 
 Anthony approved publishing the realistic flag and requests it at the top, with Brought to you by / authentic Fina Calle logo / copyright in the footer. Latest remote main remains 176093b and includes PR305 traffic isolation; local branch is 453efd1. Move the existing approved shader flag into the header, remove duplicate Play flags, and use original transparent emblem-colattao.webp already used by FinaCalleFooter. Scope copyright to website experience; retain operational preview disclosures. Combined revision publication is explicitly approved. No other functions, integrations, configuration, dependencies or paused reliability work.
+
+## IN - 2026-10-04 - Local tequeno shooter and keeper expression
+
+Anthony clarifies tequeno vinotinto shooter versus satirical Maduro military keeper, sad only when scored on. Parent-generated three Library PNGs inspected and materialized locally. New isolated branch from current main 767714e; same-canvas runtime derivatives, optional expression texture and skin-only fit. Preserve engine/scoring/zones/input and all multiplayer work. Local review only, no publication. Direct requested caricature authorization supersedes generic older mascot-only defaults for this task.
+
+## IN - 2026-10-04 - Approved character integration publication
+
+Anthony reviewed the three generated sprites and said "Great place them and merge" at 22:38 UTC. This authorizes publishing the scoped character integration after checks. Genuine assets and goal-only sad expression are implemented; 320/390/1440 goal/save/miss/reset/replay/fallback checks, scoped lint/types and actual six-second motion preview (libfile_eab3200ea4808191be122e13f1de644a) pass. Reconcile current main, draft PR, exact-head web CI/Vercel, guarded merge and exact-merge production verification. Preserve other work and all gameplay behavior.
