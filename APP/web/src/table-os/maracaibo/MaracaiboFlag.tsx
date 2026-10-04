@@ -1,13 +1,7 @@
 "use client";
 
-import { useId, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import styles from "./maracaibo.module.css";
-
-const WIDTH = 480;
-const HEIGHT = 320;
-const SECTIONS = 12;
-const FRAMES = 24;
-const SECTION_WIDTH = WIDTH / SECTIONS;
 
 function subscribeMotion(change: () => void): () => void {
   const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -17,80 +11,118 @@ function subscribeMotion(change: () => void): () => void {
 const canMove = () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const staticOnServer = () => false;
 
-function displacement(x: number, progress: number): number {
-  const tension = Math.max(0, (x - .06) / .94);
-  const envelope = Math.sin(Math.PI * progress);
-  return 18 * tension * envelope * Math.sin(4 * Math.PI * progress - 1.7 * Math.PI * x);
+const VERTEX = `
+attribute vec2 position;
+varying vec2 uv;
+void main() { uv = position * .5 + .5; gl_Position = vec4(position, 0., 1.); }
+`;
+const FRAGMENT = `
+precision mediump float;
+varying vec2 uv;
+uniform sampler2D fabric;
+uniform float time;
+float fold(vec2 p, float strength) {
+  float tension = smoothstep(.04, .96, p.x);
+  return strength * tension * (.05 * sin(8.4 * p.x + .8 * p.y - 2.5 * time)
+    + .012 * p.x * sin(15. * p.x - 1.2 * p.y - 4.1 * time));
 }
-
-// Every shared edge has the same displacement. The hoist stays fixed.
-const panels = Array.from({ length: SECTIONS }, (_, index) => {
-  const x = index * SECTION_WIDTH;
-  const style: Record<string, string> = {};
-  for (let frame = 0; frame <= FRAMES; frame++) {
-    const progress = frame / FRAMES;
-    const left = displacement(index / SECTIONS, progress);
-    const right = displacement((index + 1) / SECTIONS, progress);
-    const slope = (right - left) / SECTION_WIDTH;
-    style[`--ripple-${frame}`] = `matrix(1,${slope.toFixed(6)},0,1,0,${(left - slope * x).toFixed(6)})`;
+void main() {
+  float strength = sin(3.14159265 * clamp(time / 4.8, 0., 1.));
+  float tension = smoothstep(.04, .96, uv.x);
+  float primary = sin(8.4 * uv.x + .8 * uv.y - 2.5 * time);
+  float flutter = sin(15. * uv.x - 1.2 * uv.y - 4.1 * time);
+  vec2 sampleUV = uv - strength * tension * vec2(.004 * primary,
+    .022 * primary + .005 * uv.x * uv.x * flutter);
+  if (sampleUV.x < 0. || sampleUV.x > 1. || sampleUV.y < 0. || sampleUV.y > 1.) {
+    gl_FragColor = vec4(0.); return;
   }
-  return { x, style: style as CSSProperties };
-});
+  vec4 color = texture2D(fabric, sampleUV);
+  float dx = (fold(uv + vec2(.003, 0.), strength) - fold(uv - vec2(.003, 0.), strength)) / .006;
+  float dy = (fold(uv + vec2(0., .003), strength) - fold(uv - vec2(0., .003), strength)) / .006;
+  vec3 normal = normalize(vec3(-dx, -dy, 1.));
+  vec3 light = normalize(vec3(-.55, .4, 1.5));
+  float illumination = clamp(1. + .65 * (dot(normal, light) - light.z), .76, 1.13);
+  gl_FragColor = vec4(color.rgb * illumination, color.a);
+}
+`;
 
-const starPoints = Array.from({ length: 10 }, (_, index) => {
-  const angle = (-90 + index * 36) * Math.PI / 180;
-  const radius = index % 2 ? 3.1 : 7.8;
-  return `${(Math.cos(angle) * radius).toFixed(3)},${(Math.sin(angle) * radius).toFixed(3)}`;
-}).join(" ");
-const stars = Array.from({ length: 8 }, (_, index) => {
-  const angle = (160 - index * 20) * Math.PI / 180;
-  return { x: 240 + 75 * Math.cos(angle), y: 190 - 50 * Math.sin(angle) };
-});
-
-/** Code-native Venezuelan flag. Cloth sections bend; the whole flag never rotates. */
+/** Existing textured flag, smoothly deformed in one continuous shader surface. */
 export function MaracaiboFlag({ prominent = false, decorative = false }: {
   prominent?: boolean;
   decorative?: boolean;
 }): React.JSX.Element {
   const moving = useSyncExternalStore(subscribeMotion, canMove, staticOnServer);
-  const prefix = "maracaibo-cloth-" + useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const surface = prefix + "-surface";
-  const sheen = prefix + "-sheen";
-  return (
-    <svg className={styles.flagFabric} data-ripple={moving}
-      width={prominent ? 960 : WIDTH} height={prominent ? 640 : HEIGHT}
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role={decorative ? undefined : "img"}
-      aria-hidden={decorative ? "true" : undefined} focusable="false">
-      {decorative ? null : <title>Venezuelan flag with eight white stars</title>}
-      <defs>
-        <linearGradient id={sheen} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={WIDTH} y2="0">
-          <stop offset="0" stopColor="#000" stopOpacity=".08" />
-          <stop offset=".23" stopColor="#fff" stopOpacity=".14" />
-          <stop offset=".47" stopColor="#000" stopOpacity=".11" />
-          <stop offset=".7" stopColor="#fff" stopOpacity=".1" />
-          <stop offset="1" stopColor="#000" stopOpacity=".06" />
-          {moving ? <animateTransform attributeName="gradientTransform" type="translate"
-            values="0 0;48 0;-32 0;0 0" dur="4.8s" repeatCount="1" /> : null}
-        </linearGradient>
-        <g id={surface}>
-          <rect width={WIDTH} height={HEIGHT / 3} fill="#FCE300" />
-          <rect y={HEIGHT / 3} width={WIDTH} height={HEIGHT / 3} fill="#003DA5" />
-          <rect y={2 * HEIGHT / 3} width={WIDTH} height={HEIGHT / 3} fill="#EF3340" />
-          {stars.map((star, index) => <polygon key={index} data-flag-star points={starPoints}
-            transform={`translate(${star.x} ${star.y})`} fill="#fff" />)}
-          <rect width={WIDTH} height={HEIGHT} fill={`url(#${sheen})`} />
-        </g>
-        {panels.map((panel, index) => <clipPath key={index} id={prefix + "-clip-" + index}>
-          <rect x={panel.x} y="-1" width={SECTION_WIDTH + .3} height={HEIGHT + 2} />
-        </clipPath>)}
-      </defs>
-      <use className={styles.flagStill} href={"#" + surface} />
-      {moving ? <g className={styles.flagMesh}>
-        {panels.map((panel, index) => <g key={index} className={styles.flagPanel}
-          style={panel.style} clipPath={`url(#${prefix}-clip-${index})`}>
-          <use href={"#" + surface} />
-        </g>)}
-      </g> : null}
-    </svg>
-  );
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const source = `/assets/maracaibo/venezuelan-flag-concept-${prominent ? 960 : 480}.webp`;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !moving) return;
+    const gl = canvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false });
+    if (!gl) return;
+    let frame = 0;
+    let disposed = false;
+    const shaders: WebGLShader[] = [];
+    const compile = (type: number, code: string) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      shaders.push(shader);
+      gl.shaderSource(shader, code); gl.compileShader(shader);
+      return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
+    };
+    const program = gl.createProgram();
+    const vertex = compile(gl.VERTEX_SHADER, VERTEX);
+    const fragment = compile(gl.FRAGMENT_SHADER, FRAGMENT);
+    const buffer = gl.createBuffer();
+    const texture = gl.createTexture();
+    const hide = () => { canvas.dataset.ready = "false"; cancelAnimationFrame(frame); };
+    const image = new window.Image();
+    if (program && vertex && fragment && buffer && texture) {
+      gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
+      if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        image.onload = () => {
+          if (disposed) return;
+          gl.useProgram(program); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+          const position = gl.getAttribLocation(program, "position");
+          gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+          gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.uniform1i(gl.getUniformLocation(program, "fabric"), 0);
+          const clock = gl.getUniformLocation(program, "time");
+          const started = performance.now();
+          const draw = (now: number) => {
+            if (disposed) return;
+            const elapsed = Math.min((now - started) / 1000, 4.8);
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.uniform1f(clock, elapsed); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+            canvas.dataset.ready = "true";
+            if (elapsed < 4.8) frame = requestAnimationFrame(draw);
+          };
+          frame = requestAnimationFrame(draw);
+        };
+        image.src = source;
+      }
+    }
+    canvas.addEventListener("webglcontextlost", hide);
+    return () => {
+      disposed = true; hide(); image.onload = null;
+      canvas.removeEventListener("webglcontextlost", hide);
+      gl.deleteTexture(texture); gl.deleteBuffer(buffer); gl.deleteProgram(program);
+      shaders.forEach(shader => gl.deleteShader(shader));
+    };
+  }, [moving, source]);
+  const width = prominent ? 960 : 480;
+  return <span className={styles.flagFabric} data-ripple={moving}
+    role={decorative ? undefined : "img"} aria-label={decorative ? undefined : "Venezuelan flag with eight white stars"}
+    aria-hidden={decorative ? "true" : undefined}>
+    {/* Native image is also the no-WebGL, loading and reduced-motion fallback. */}
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img className={styles.flagStill} src={source} width={width} height={width * 2 / 3} alt="" draggable={false} />
+    <canvas ref={canvasRef} className={styles.flagCanvas} width={width} height={width * 2 / 3} aria-hidden="true" />
+  </span>;
 }

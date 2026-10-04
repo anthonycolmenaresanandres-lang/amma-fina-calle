@@ -45,40 +45,15 @@
 .playLettering { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .playFlag { display: block; width: clamp(76px, 25vw, 112px); flex: 0 0 auto; pointer-events: none; }
 .playFlag img { display: block; width: 100%; height: auto; }
-/* Native vector cloth: neighboring sections share their deformed edges. */
-.flagFabric { display: block; width: 100%; height: auto; overflow: visible; }
-.flagFabric[data-ripple="true"] .flagStill { display: none; }
-.flagPanel { transform-box: view-box; transform-origin: 0 0; animation: maracaiboClothRipple 4.8s linear 1; }
-@keyframes maracaiboClothRipple {
-  0% { transform: var(--ripple-0); }
-  4.1667% { transform: var(--ripple-1); }
-  8.3333% { transform: var(--ripple-2); }
-  12.5% { transform: var(--ripple-3); }
-  16.6667% { transform: var(--ripple-4); }
-  20.8333% { transform: var(--ripple-5); }
-  25% { transform: var(--ripple-6); }
-  29.1667% { transform: var(--ripple-7); }
-  33.3333% { transform: var(--ripple-8); }
-  37.5% { transform: var(--ripple-9); }
-  41.6667% { transform: var(--ripple-10); }
-  45.8333% { transform: var(--ripple-11); }
-  50% { transform: var(--ripple-12); }
-  54.1667% { transform: var(--ripple-13); }
-  58.3333% { transform: var(--ripple-14); }
-  62.5% { transform: var(--ripple-15); }
-  66.6667% { transform: var(--ripple-16); }
-  70.8333% { transform: var(--ripple-17); }
-  75% { transform: var(--ripple-18); }
-  79.1667% { transform: var(--ripple-19); }
-  83.3333% { transform: var(--ripple-20); }
-  87.5% { transform: var(--ripple-21); }
-  91.6667% { transform: var(--ripple-22); }
-  95.8333% { transform: var(--ripple-23); }
-  100% { transform: var(--ripple-24); }
-}
+/* One continuous textured surface; the native image remains a static fallback. */
+.flagFabric { position: relative; display: block; width: 100%; }
+.flagStill { display: block; width: 100%; height: auto; }
+.flagCanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.flagCanvas[data-ready="true"] { opacity: 1; }
+.flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .flagFabric[data-ripple="true"] .flagStill { display: initial; }
-  .flagMesh { display: none; }
+  .flagCanvas { display: none; }
+  .flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 1; }
 }
 
 .lettering { --letter-height: 4.25rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }

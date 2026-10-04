@@ -955,3 +955,9 @@ Authority: Anthony rejected the published rigid sway and requests actual cloth a
 Scope: Clean code-native yellow/blue/red flag with eight white stars in the blue stripe; joined deforming sections, subtle moving light, static reduced-motion mode. Preserve layout, other artwork, traffic and paused reliability. No services, generation, dependencies, gameplay or staff integration.
 Acceptance: Scoped lint/types, mobile/desktop non-rigid deformation and reduced-motion checks; real short moving preview in Library before publication.
 State: DONE locally; awaiting this revision's review. Joined SVG sections deform over 4.8 seconds then rest; new code-native Venezuelan artwork has three stripes and eight stars. Scoped ESLint/types, 390/1440 layout/deformation and static reduced-motion checks pass with no runtime errors or application writes. Actual six-second moving GIF: libfile_1e69a19097d48191a4d0d4cc7f917202. See MARACAIBO_FLAG_RIPPLE_REVIEW_20261004.md. No push, merge or deployment.
+
+## [x] Maracaibo smoother fabric realism - October 4
+
+Authority: Anthony asks for a more realistic flag after reviewing the GIF. Local refinement from 5f57b4b only. Scope: existing textured Venezuelan artwork, continuous deformation, soft fold lighting and subtle free-edge flutter. Preserve colors, eight stars, layout and static reduced motion. Acceptance: targeted lint/types and desktop/mobile render/fallback, actual moving Library preview. No publication, new dependencies or unrelated work.
+
+State: DONE locally; awaiting review. Existing textured flag now receives smooth continuous shader deformation, directional fold lighting and small free-edge flutter. Scoped ESLint/types, 390/1440 render/motion/reduced-motion and context-loss fallback pass. Actual six-second moving GIF: libfile_acd4f8bd40f081918c60cb4096c2080f. See MARACAIBO_FLAG_REALISM_REVIEW_20261004.md. No push, merge or deployment.
