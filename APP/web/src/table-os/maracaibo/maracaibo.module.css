@@ -83,7 +83,11 @@
 .header { width: min(100% - 80px, 1120px); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 28px; }
 .wordmark { min-width: 0; display: flex; align-items: center; gap: 16px; border: 0; padding: 0; background: none; color: var(--paper); text-align: left; }
 .brandLogo { display: block; flex: 0 0 auto; width: 68px; height: 68px; border-radius: 50%; }
-.brandText { font-size: 1rem; font-weight: 500; line-height: 1.3; letter-spacing: -.025em; }
+.brandText { position: relative; display: block; width: 9.75rem; max-width: 100%; min-width: 0; aspect-ratio: 278 / 122; font-size: 1rem; font-weight: 500; line-height: 1.3; letter-spacing: -.025em; }
+.brandNameFallback { position: absolute; inset: 0; display: flex; align-items: center; }
+.brandNameImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
+.brandText[data-loaded="true"] .brandNameFallback { clip-path: inset(50%); }
+.brandText[data-loaded="true"] .brandNameImage { opacity: 1; }
 .tableMeta { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
 .headerFlag { display: block; width: 44px; pointer-events: none; }
 .headerFlag img { display: block; width: 100%; height: auto; }
@@ -271,7 +275,7 @@
   .previewBar { justify-content: flex-start; text-align: left; }
   .wordmark { gap: 12px; }
   .brandLogo { width: 56px; height: 56px; }
-  .brandText { max-width: 11ch; font-size: 1rem; }
+  .brandText { width: 8rem; }
   .tableMeta { flex-direction: column; align-items: flex-end; gap: 3px; font-size: .75rem; }
   .headerFlag { width: 34px; }
   .welcome { gap: 24px; padding: 4px 0 40px; }
@@ -313,11 +317,14 @@
 
 .page[data-view="penalty"] .header { padding-block: 12px; }
 .page[data-view="penalty"] .brandLogo { width: 40px; height: 40px; }
+.page[data-view="penalty"] .brandText { width: 5.75rem; }
 .playInner:has(.penaltyStage) .innerTop { margin-bottom: 0; }
 .playInner:has(.penaltyStage) .lobbyAccent { display: none; }
 .playInner:has(.penaltyStage) .matchHeading { display: block; }
 
 @media (forced-colors: active) {
+  .brandText[data-loaded="true"] .brandNameFallback { clip-path: none; }
+  .brandNameImage { display: none !important; }
   .lettering[data-loaded="true"] .letteringFallback { clip-path: none; }
   .lettering .letteringImage, .lettering .letteringTint, .flagStars { display: none !important; }
 }

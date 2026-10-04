@@ -1,0 +1,14 @@
+{
+  "source_reference": "libfile_a5c130efa7f08191b4c9f99a26977665",
+  "original_badge": "APP/web/public/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
+  "interpretation": "Newly authored geometric SVG paths informed by the angular badge; not an identified original font or replacement logo.",
+  "text": "Maracaibo Bistro",
+  "asset": "APP/web/public/assets/maracaibo/maracaibo-bistro-wordmark.svg",
+  "width": 278,
+  "height": 122,
+  "bytes": 1975,
+  "sha256": "49e1f9cd0780e9e1ce0141c21d800cdc3d5e09e967e3dff0b63184980579e65a",
+  "fill": "#f5f5f1",
+  "generation": "Code-native vector; no generated raster, external font, dependency, service or paid API.",
+  "library_file_id": "libfile_d244b25ac9e081919ba65a74c695e1b7"
+}

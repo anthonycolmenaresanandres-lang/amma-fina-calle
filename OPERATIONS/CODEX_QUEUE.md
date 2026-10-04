@@ -925,3 +925,10 @@ Scope: Maracaibo-only four-phone table match with isolated seating codes, reserv
 Execution: The Work Mode Linux workspace is the available isolated checkout; the Windows data-center path does not exist here. Feature branch only; PR merge after final verification is explicitly authorized.
 Acceptance: concurrent room/role isolation, malformed/stale input handling, host departure, replay, bounded queues and signaling, mobile/desktop browser play, scoped lint and production build. Record actual-phone/network limitations.
 State: implementation complete on the feature branch. Twelve controller checks, 40 rooms / 160 simulated phones, full browser round/replay and failed-network fallback pass; final readiness/preview verification and exact-head CI precede the explicitly authorized merge. See MARACAIBO_MULTIPLAYER_REVIEW_20261003.md. Live device/network capacity remains uncertified.
+
+## [x] Maracaibo geometric header wordmark - October 4
+
+Authority: Anthony requests name lettering to match the supplied logo. Raster attempts failed quality; the delegated follow-up authorizes newly authored code-native geometric SVG typography as an interpretation, not an exact font claim.
+Scope: Only the header name and necessary responsive/fallback rules on current main 340c0ff. Preserve existing real badge, approved display brush lettering, body/utility type, all layout intent and functions. No generation, dependencies, reliability work, publication or deployment.
+Acceptance: Scoped lint/types, matching desktop/mobile before/after captures, 320px fit, retained name text and image-failure/forced-color fallback. Save final screenshot and vector to Library; local commit only.
+State: DONE locally. Scoped lint and TypeScript, stable desktop/mobile comparison, 320px fit, accessible name and image-failure/forced-color fallback pass. Review screenshot libfile_e0986cb21e94819196bca9c321d7e337; SVG libfile_d244b25ac9e081919ba65a74c695e1b7. See MARACAIBO_GEOMETRIC_WORDMARK_REVIEW_20261004.md. No publication.
