@@ -183,8 +183,8 @@ try {
   }
   async function join(item, { waitCanvas = true } = {}) {
     const { page } = item;
-    await page.getByRole("button", { name: "Play Football & penalty shootout" }).click();
-    await page.getByRole("button", { name: /^Table Football/ }).click();
+    await page.getByRole("button", { name: "Play Multiplayer football · Solo penalties" }).click();
+    await page.getByRole("button", { name: "Join table game", exact: true }).click();
     assert.equal(await page.locator('input[name="matchCode"]').count(), 0, "Joining a table must not require a code");
     const joinButton = page.getByRole("button", { name: /^(Join table match|Join match|Play with your table|Join your table|Play at this table)$/ });
     if (await joinButton.isVisible()) await joinButton.click();
@@ -365,7 +365,8 @@ try {
       assert.equal(await pages[index].locator("canvas").count(), 1);
     }
     const desktop = await pageFor(1, false, false);
-    await desktop.page.getByRole("button", { name: "Play Football & penalty shootout" }).click();
+    await desktop.page.getByRole("button", { name: "Play Multiplayer football · Solo penalties" }).click();
+    await desktop.page.getByRole("button", { name: "Join table game", exact: true }).click();
     await desktop.page.getByRole("heading", { name: "Play on your phone", exact: true }).waitFor();
     assert.equal(await desktop.page.getByAltText(/^QR code for/).count(), 0, "Use the printed table QR, never another screen QR");
     assert.equal(await desktop.page.locator("canvas").count(), 0, "Desktop provides a phone handoff instead of an active session");

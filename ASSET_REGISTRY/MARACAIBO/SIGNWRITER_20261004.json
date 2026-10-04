@@ -1,0 +1,468 @@
+{
+  "approved_reference": "/workspace/generated_images/exec-0ec9e711-23b6-457a-bdd5-d2ad7574b177.png",
+  "authority": "Anthony approved the Venezuelan signwriter concept, fainter stars and existing generated fabric flag, and requested push/merge on 2026-10-04.",
+  "generation": "ImageGen; transparent custom brush lettering. No software display font or generated logo.",
+  "original_sheets": [
+    "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+    "/workspace/generated_images/exec-7694cc8b-946a-41a7-9130-1ba0c22742df.png"
+  ],
+  "sources": [
+    {
+      "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+      "reference": "/workspace/generated_images/exec-0ec9e711-23b6-457a-bdd5-d2ad7574b177.png",
+      "generation": "ImageGen transparent lettering sheet",
+      "processing": "Sharp row crop, alpha-aware trim, 4px transparent padding, WebP quality92 alphaQuality100. Originals retained.",
+      "assets": [
+        {
+          "name": "hero",
+          "path": "/workspace/shared/maracaibo-signwriter-assets/home/hero.webp",
+          "width": 1038,
+          "height": 256,
+          "bytes": 79082,
+          "hasAlpha": true,
+          "alpha": {
+            "zero": 109846,
+            "semi": 153754,
+            "solid": 2128
+          },
+          "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+          "crop": {
+            "left": 122,
+            "top": 64,
+            "width": 1030,
+            "height": 248
+          }
+        },
+        {
+          "name": "menu",
+          "path": "/workspace/shared/maracaibo-signwriter-assets/home/menu.webp",
+          "width": 689,
+          "height": 247,
+          "bytes": 56868,
+          "hasAlpha": true,
+          "alpha": {
+            "zero": 82320,
+            "semi": 86389,
+            "solid": 1474
+          },
+          "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+          "crop": {
+            "left": 308,
+            "top": 321,
+            "width": 681,
+            "height": 239
+          }
+        },
+        {
+          "name": "order-online",
+          "path": "/workspace/shared/maracaibo-signwriter-assets/home/order-online.webp",
+          "width": 989,
+          "height": 239,
+          "bytes": 82222,
+          "hasAlpha": true,
+          "alpha": {
+            "zero": 113079,
+            "semi": 121223,
+            "solid": 2069
+          },
+          "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+          "crop": {
+            "left": 155,
+            "top": 585,
+            "width": 981,
+            "height": 231
+          }
+        },
+        {
+          "name": "service",
+          "path": "/workspace/shared/maracaibo-signwriter-assets/home/service.webp",
+          "width": 706,
+          "height": 231,
+          "bytes": 55862,
+          "hasAlpha": true,
+          "alpha": {
+            "zero": 79485,
+            "semi": 82142,
+            "solid": 1459
+          },
+          "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+          "crop": {
+            "left": 298,
+            "top": 827,
+            "width": 698,
+            "height": 223
+          }
+        },
+        {
+          "name": "play",
+          "path": "/workspace/shared/maracaibo-signwriter-assets/home/play.webp",
+          "width": 510,
+          "height": 195,
+          "bytes": 30928,
+          "hasAlpha": true,
+          "alpha": {
+            "zero": 33439,
+            "semi": 65260,
+            "solid": 751
+          },
+          "source": "/workspace/generated_images/exec-1c3e5589-ccf4-4625-8d0d-9b2cb9932875.png",
+          "crop": {
+            "left": 386,
+            "top": 1058,
+            "width": 502,
+            "height": 187
+          }
+        }
+      ]
+    },
+    {
+      "source": "/workspace/generated_images/exec-7694cc8b-946a-41a7-9130-1ba0c22742df.png",
+      "reference": "/workspace/generated_images/exec-0ec9e711-23b6-457a-bdd5-d2ad7574b177.png",
+      "provenance": "OpenAI ImageGen custom brush lettering; transparent alpha source. Individual exports are cropped to alpha > 2 bounds with 10px transparent padding and lossless WebP encoded with Sharp. No software fonts used. The alpha threshold only finds crop bounds; interior pixels are unchanged.",
+      "assets": [
+        {
+          "slug": "appetizers",
+          "label": "Appetizers",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/appetizers.webp",
+          "width": 504,
+          "height": 178,
+          "bytes": 58030,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 33521,
+            "visiblePixels": 56191,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 0,
+            "top": 0,
+            "width": 570,
+            "height": 280
+          }
+        },
+        {
+          "slug": "soups",
+          "label": "Soups",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/soups.webp",
+          "width": 375,
+          "height": 183,
+          "bytes": 45644,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 24216,
+            "visiblePixels": 44409,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 580,
+            "top": 0,
+            "width": 435,
+            "height": 280
+          }
+        },
+        {
+          "slug": "salads",
+          "label": "Salads",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/salads.webp",
+          "width": 413,
+          "height": 192,
+          "bytes": 53112,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 26352,
+            "visiblePixels": 52944,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 1030,
+            "top": 0,
+            "width": 506,
+            "height": 280
+          }
+        },
+        {
+          "slug": "pa-maracaibo",
+          "label": "Pa' Maracaibo",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/pa-maracaibo.webp",
+          "width": 535,
+          "height": 180,
+          "bytes": 67172,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 28984,
+            "visiblePixels": 67316,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 0,
+            "top": 280,
+            "width": 590,
+            "height": 240
+          }
+        },
+        {
+          "slug": "grill",
+          "label": "Grill",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/grill.webp",
+          "width": 326,
+          "height": 188,
+          "bytes": 44742,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 17905,
+            "visiblePixels": 43383,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 600,
+            "top": 280,
+            "width": 400,
+            "height": 240
+          }
+        },
+        {
+          "slug": "seafood",
+          "label": "Seafood",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/seafood.webp",
+          "width": 419,
+          "height": 185,
+          "bytes": 55744,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 22119,
+            "visiblePixels": 55396,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 1030,
+            "top": 280,
+            "width": 506,
+            "height": 240
+          }
+        },
+        {
+          "slug": "chicken",
+          "label": "Chicken",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/chicken.webp",
+          "width": 467,
+          "height": 187,
+          "bytes": 59700,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 28270,
+            "visiblePixels": 59059,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 0,
+            "top": 520,
+            "width": 550,
+            "height": 250
+          }
+        },
+        {
+          "slug": "tacos",
+          "label": "Tacos",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/tacos.webp",
+          "width": 346,
+          "height": 192,
+          "bytes": 45726,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 21179,
+            "visiblePixels": 45253,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 580,
+            "top": 520,
+            "width": 420,
+            "height": 250
+          }
+        },
+        {
+          "slug": "chef-signatures",
+          "label": "Chef Signatures",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/chef-signatures.webp",
+          "width": 491,
+          "height": 163,
+          "bytes": 59154,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 25321,
+            "visiblePixels": 54712,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 1000,
+            "top": 520,
+            "width": 536,
+            "height": 250
+          }
+        },
+        {
+          "slug": "sides",
+          "label": "Sides",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/sides.webp",
+          "width": 361,
+          "height": 201,
+          "bytes": 49528,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 24118,
+            "visiblePixels": 48443,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 0,
+            "top": 770,
+            "width": 530,
+            "height": 254
+          }
+        },
+        {
+          "slug": "desserts",
+          "label": "Desserts",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/desserts.webp",
+          "width": 441,
+          "height": 192,
+          "bytes": 54244,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 33227,
+            "visiblePixels": 51445,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 530,
+            "top": 770,
+            "width": 500,
+            "height": 254
+          }
+        },
+        {
+          "slug": "drinks",
+          "label": "Drinks",
+          "file": "/workspace/shared/maracaibo-signwriter-assets/menu/drinks.webp",
+          "width": 392,
+          "height": 192,
+          "bytes": 50728,
+          "alpha": {
+            "min": 0,
+            "max": 254,
+            "transparentPixels": 25152,
+            "visiblePixels": 50112,
+            "edgeVisiblePixels": 0
+          },
+          "sourceCrop": {
+            "left": 1060,
+            "top": 770,
+            "width": 476,
+            "height": 254
+          }
+        }
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/appetizers.webp",
+      "bytes": 24640,
+      "sha256": "9bff3124514a1ba8182a042d7cf832628f938ddc88ed7502c4ff18e73dddd373"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/chef-signatures.webp",
+      "bytes": 25404,
+      "sha256": "96d47976e160ddc383f6654e5cbe3dce783ffe50443a9c3d1fc44ffb9cf114f9"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/chicken.webp",
+      "bytes": 23704,
+      "sha256": "4637a9a6a80cb18798336bf5073263bcf496754a7af287ebf26a1e703dc9d7aa"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/desserts.webp",
+      "bytes": 23122,
+      "sha256": "651387a51f31fadad25b66e3b89abefd9c987f219b207fd41d6a6463adc2a216"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/drinks.webp",
+      "bytes": 20376,
+      "sha256": "0631ea78eabfca5665800bbc0795a9f0888e0405734ece25576debbb8a7a8b43"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/grill.webp",
+      "bytes": 17708,
+      "sha256": "9500687dcccd441ae7d654b4eae19cd84ce904da43c0c41ee85d55cd8ca44991"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/hero.webp",
+      "bytes": 41488,
+      "sha256": "e128e621d87567ca63e417367f3c6712b500b413c3da669fc4166ab2edab7ca6"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/menu.webp",
+      "bytes": 49780,
+      "sha256": "c92f35704719aca94c1e432041746e899a51771501bd64d74e5327e162976a59"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/order-online.webp",
+      "bytes": 49866,
+      "sha256": "fca5121361ffbd8a17e8b545c04719f5899630788fe3f48a64e92e9bb86b48bc"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/pa-maracaibo.webp",
+      "bytes": 26808,
+      "sha256": "5b7cc0102e0403df615064866ebd8a693be9ae6f8c11a266c7f157312f3f119a"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/play.webp",
+      "bytes": 26676,
+      "sha256": "98dafff0542b35125f802a29753ea0034fdde6af0deabd35ef761596b864042e"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/salads.webp",
+      "bytes": 20582,
+      "sha256": "960a9bb33c4be5793ffb1207b6ed226b49521350a900ceabe4f96585dc60d0f5"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/seafood.webp",
+      "bytes": 20868,
+      "sha256": "7680cba69a5e110ac4f2b45c03f434fa7f4fbe07bc7ba12b457312174bc038f0"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/service.webp",
+      "bytes": 49950,
+      "sha256": "ab9ff1faccf7c15f5207b03bcb35d6a32f34dc631d392d028bd559171d9c4cc7"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/sides.webp",
+      "bytes": 19212,
+      "sha256": "0b50d8591c274c00904c967f8e4d33d2ffe5d27ca5d343add46f8331c27e7755"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/soups.webp",
+      "bytes": 18594,
+      "sha256": "38cb825226860ca0829111a408f692d9f33c67ca10b583aaa1bccf9227e18c05"
+    },
+    {
+      "path": "APP/web/public/assets/maracaibo/lettering/tacos.webp",
+      "bytes": 16998,
+      "sha256": "8c0201ff328daa56e6cf3f800e7046fca73e8371f10806322bc87513a8130705"
+    }
+  ],
+  "flag": "Existing public/assets/maracaibo/venezuelan-flag-concept-480.webp, reused unchanged.",
+  "stars": "Eight existing Lucide Star icons, decorative only, overall opacity 0.025.",
+  "total_runtime_lettering_bytes": 475776
+}
