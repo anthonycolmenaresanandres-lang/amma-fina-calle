@@ -10,6 +10,7 @@ import type { OrderDestination } from "../toast";
 import { tableLabel, type TableOsVenue } from "../venue-config";
 import { DecorativeArtwork, FlagArtwork, LogoArtwork } from "./MaracaiboMarks";
 import { Lettering } from "./MaracaiboLettering";
+import { MaracaiboWordmark } from "./MaracaiboWordmark";
 import styles from "./maracaibo.module.css";
 
 type View = "welcome" | "menu" | "service" | "match" | "games" | "penalty" | "ordering";
@@ -74,7 +75,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
       <header className={styles.header}>
         <button type="button" className={styles.wordmark} onClick={returnHome} aria-label="Maracaibo Bistro table home">
           <LogoArtwork className={styles.brandLogo} priority />
-          <span className={styles.brandText}>Maracaibo Bistro</span>
+          <MaracaiboWordmark />
         </button>
         <div className={styles.tableMeta}>
           <span>{currentTable}</span>

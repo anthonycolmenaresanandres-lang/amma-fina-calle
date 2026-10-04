@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="278" height="122" viewBox="0 0 278 122" role="img" aria-labelledby="name">
+  <title id="name">Maracaibo Bistro</title>
+  <desc>New geometric lettering inspired by the original angular badge. This is an interpretation, not the original logo font.</desc>
+  <g fill="#f5f5f1" fill-rule="evenodd" transform="translate(4 4)">
+    <path transform="translate(0 0)" d="M0 60V0L15 10L30 0V60H22V15L15 20L8 15V60Z"/>
+    <path transform="translate(36 0)" d="M0 60V10L13 0L26 10V60H18V39H8V60ZM8 31H18V14L13 10L8 14Z"/>
+    <path transform="translate(68 0)" d="M0 60V0H18L26 8V29L18 35L28 60H19L9 36H8V60ZM8 8V28H16L18 26V10L16 8Z"/>
+    <path transform="translate(102 0)" d="M0 60V10L13 0L26 10V60H18V39H8V60ZM8 31H18V14L13 10L8 14Z"/>
+    <path transform="translate(134 0)" d="M26 0H8L0 8V52L8 60H26V52H11L8 49V11L11 8H26Z"/>
+    <path transform="translate(166 0)" d="M0 60V10L13 0L26 10V60H18V39H8V60ZM8 31H18V14L13 10L8 14Z"/>
+    <path transform="translate(198 0)" d="M0 0H8V60H0Z"/>
+    <path transform="translate(212 0)" d="M0 0H18L26 8V25L21 30L26 35V52L18 60H0ZM8 8V26H16L18 24V10L16 8ZM8 34V52H16L18 50V36L16 34Z"/>
+    <path transform="translate(244 0)" d="M8 0H18L26 8V52L18 60H8L0 52V8ZM11 8L8 11V49L11 52H15L18 49V11L15 8Z"/>
+  </g>
+  <g fill="#f5f5f1" fill-rule="evenodd" transform="translate(4 78) scale(.65)">
+    <path transform="translate(0 0)" d="M0 0H18L26 8V25L21 30L26 35V52L18 60H0ZM8 8V26H16L18 24V10L16 8ZM8 34V52H16L18 50V36L16 34Z"/>
+    <path transform="translate(32 0)" d="M0 0H8V60H0Z"/>
+    <path transform="translate(46 0)" d="M26 0H8L0 8V28L18 39V49L15 52H0V60H18L26 52V34L8 23V11L11 8H26Z"/>
+    <path transform="translate(78 0)" d="M0 0H28V8H18V60H10V8H0Z"/>
+    <path transform="translate(112 0)" d="M0 60V0H18L26 8V29L18 35L28 60H19L9 36H8V60ZM8 8V28H16L18 26V10L16 8Z"/>
+    <path transform="translate(146 0)" d="M8 0H18L26 8V52L18 60H8L0 52V8ZM11 8L8 11V49L11 52H15L18 49V11L15 8Z"/>
+  </g>
+</svg>
+
