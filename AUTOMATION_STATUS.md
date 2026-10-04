@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-03 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — zero failing workflows anywhere; nothing broke; no caretaker fix needed. The one change since this morning's run is amma `main` advancing `40132ec`→`07874fa6` via Anthony's own merge #299 "Align Maracaibo table demo with its approved kitchen and cocktails identity" (`CI — web` #307 ✅). The morning run's five owner merges (#294–#298, all CI green) are recorded below.** The merges: **#294** "Refresh VBFH knowledge and add voice-only second-number routing" (`CI — voice-gateway` **#21 ✅**); **#295** "Complete Bodega signature and matcha menu from photographed boards" (`CI — web` **#303 ✅**); **#296** "Record verified Bodega menu release and close queue" (docs); **#297** "Correct voice call outcomes and staff notification reporting" (`CI — voice-gateway` **#23 ✅**); **#298** "Refresh Maracaibo table demo with approved flag artwork" (`CI — web` **#305 ✅**). **All guardrail-clean (caretaker view):** voice-gateway work is `services/voice-gateway/*` code + docs + `tenants.json` (no live Twilio activation); Bodega menu is `(internal)/demo/bodega/*` + OPERATIONS docs only; Maracaibo refresh is `APP/web/src/table-os/maracaibo/*` + a public-domain Venezuelan-flag **concept** asset (national flag, not a club/league/event mark, no real face, no client logo) + docs. **No Supabase migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]` touched.** **Anthony's own merges → no caretaker action; recorded.** **Migration set unchanged `0015`–`0023`** (+`0009` Marbel). **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere.** Default branches re-verified live: amma **`07874fa6`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#307** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-04 (morning check-in, `claude-opus-4-8`). **Headline: quiet, healthy build run — zero failing workflows anywhere; no caretaker fix needed. Since last run amma `main` advanced `07874fa6`→`340c0ffb` via FOUR of Anthony's own merges #300/#301/#302/#303 (all `CI — web` green #309/#311/#313/#315).** The merges: **#300** "Maracaibo: stable four-player football with bounded peer gameplay" (`CI — web` **#309 ✅**); **#301** "Make Maracaibo phone matches automatic and add Venezuela stadium skin" (`CI — web` **#311 ✅**); **#302** "Use printed table QR visits for Maracaibo football and penalties" (`CI — web` **#313 ✅**); **#303** "Maracaibo: Venezuelan lettering and instant solo play" (`CI — web` **#315 ✅**). All are Maracaibo table-OS **demo** work (`APP/web/src/table-os/maracaibo/*`, `src/table-os/game/*`, game art webp under `public/assets/maracaibo/*`, ASSET_REGISTRY + OPERATIONS review docs). **🆕 TWO things in #302 change prior verdicts and need Anthony (details in the to-do list):** (1) **a NEW Supabase migration** `20261004094018_maracaibo_table_visits.sql` — the pending set is **no longer just `0015`–`0023`**; the Maracaibo table-visit / multiplayer game feature errors at runtime until it is applied; and (2) **#302 touched the protected `/customers` route** (added `/customers/maracaibo-tables` staff desk + `/api/maracaibo/tables` and `/api/maracaibo/visit/[tableId]` routes). Both arrived via **Anthony's own merge to `main`** → recorded, **no caretaker action** (I never revert the owner's own merges), but flagged. Caretaker read of the migration: RLS-enabled, `service_role`-only game-seat/table-visit tables + a `maracaibo_visit` RPC, headed *"Game membership only. These records never authorize ordering or payment."* — not customer PII/ordering/payment. #301's "Venezuela stadium skin" + kits are national-colors **game** art (no club/league/event mark, no real face, no client logo); #303's "Venezuelan lettering" is custom word-art under `public/assets/maracaibo/lettering/*` with an ASSET_REGISTRY provenance file. **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design; workflow state `active`, `schedule:` trigger removed). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere (#300–#303 carry only Vercel + Codex-review bots, Codex completed with no findings).** Default branches re-verified live: amma **`340c0ffb`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#315** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,15 +12,25 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🟡 **The one real to-do: run the pending Supabase migrations — `0015` through `0023` (unchanged; nothing new this run).**
-   Set is `0015`–`0023` under `APP/web/supabase/migrations/` (rewards `0015`–`0018` from #260–#264; Bodega launch +
-   Square `0019`–`0022` from #266; Bodega Basic billing `0023` from #270), plus `0009` Marbel admin grant. The site
-   **builds and deploys green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square
-   read-model + Bodega Basic billing features **error at runtime until these are applied.** **What to do:** Supabase
-   SQL editor → run `0015`…`0023` in order (or `supabase db push` from `APP/web/`, which also folds in the `0009`
-   Marbel admin grant). **Skip any you've already run.** _(I never run SQL against Supabase — the migrations are
-   prepared code; you run them.)_ _(The 10-02 Bodega menu merge #295 added menu items to the internal **demo** only —
-   no new migration; the pending set is still exactly `0015`–`0023`.)_
+🟡 **The one real to-do (NOW BIGGER): run the pending Supabase migrations — `0015` through `0023` PLUS the new
+   `20261004094018_maracaibo_table_visits.sql`.** All under `APP/web/supabase/migrations/`. The older set: rewards
+   `0015`–`0018` (#260–#264), Bodega launch + Square `0019`–`0022` (#266), Bodega Basic billing `0023` (#270), plus
+   `0009` Marbel admin grant. **🆕 New this run:** Anthony's own merge **#302** added `20261004094018_maracaibo_table_visits.sql`,
+   which creates two RLS-enabled, `service_role`-only tables (`maracaibo_table_visits`, `maracaibo_table_guests`) and a
+   `maracaibo_visit` RPC for the Maracaibo table-QR game-seat feature (it's explicitly *game membership only — never
+   authorizes ordering or payment*). The site **builds and deploys green** (Vercel/CI never touch the DB), but the
+   Bodega rewards + guest-notes + Square read-model + Bodega Basic billing features **and now the Maracaibo
+   table-visit / multiplayer football game error at runtime until the matching migration is applied.** **What to do:**
+   Supabase SQL editor → run the older `0015`…`0023` in order, then the new `20261004094018_...` file (or just
+   `supabase db push` from `APP/web/`, which applies all of them in order and folds in `0009` Marbel). **Skip any
+   you've already run.** _(I never run SQL against Supabase — the migrations are prepared code; you run them.)_
+
+🆕 **Heads-up (no fix needed, your own change): merge #302 added a page/API under the protected `/customers` route.**
+   It added `APP/web/src/app/customers/maracaibo-tables/` (a staff "Table Visits Desk" page) and the `/api/maracaibo/tables`
+   + `/api/maracaibo/visit/[tableId]` routes. `/customers` is a hard-guardrail Client OS route, so I **don't touch it**
+   and **don't revert your own merge** — flagging it so you're aware a game-seat surface now lives under `/customers`.
+   Caretaker read: it's game-membership tracking (no ordering/payment, no customer PII), and CI/Vercel are green. No
+   action needed unless this wasn't the intent.
 
 🆕 **Heads-up (no fix needed, your own change): the VBFH "Daily Run" no longer runs itself.** Your reliability-wave
    merges (#9–#12) renamed the workflow to *"VBFH Daily Report — activation held"* and removed its auto-schedule, so
@@ -86,9 +96,14 @@ _The items below are unchanged standing gates — no new action this run; listed
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the eight open draft heads.
 
-_Resolved / no action needed from you:_ **amma #294/#295/#296/#297/#298 — your own merges** (10-02→10-03; all CI green;
-voice-gateway code + docs + `tenants.json`, internal Bodega demo menu + docs, Maracaibo table-OS demo + public-domain
-flag concept + docs; **no migration, no Supabase/Stripe/Square/POS, no secrets, no protected route**; recorded).
+_Resolved / no action needed from you:_ **amma #300/#301/#303 — your own merges** (10-03→10-04; `CI — web`
+#309/#311/#315 green; Maracaibo table-OS **game** work — four-player football + Venezuela stadium skin/kits + Venezuelan
+lettering word-art; **no migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]`**; national-colors
+game art only; recorded). _(#302 is your own merge too but is listed ABOVE under the to-do list — it carries the new
+Supabase migration + the `/customers` game-seat surface, which need you.)_ **amma #294/#295/#296/#297/#298/#299 — your
+own merges** (10-02→10-03; all CI green; voice-gateway code + docs + `tenants.json`, internal Bodega demo menu + docs,
+Maracaibo table-OS demo + supplied/approved logo + public-domain flag concept + docs; **no migration, no
+Supabase/Stripe/Square/POS, no secrets, no protected route**; recorded).
 **amma #293 "Use Neon-injected Production traffic database URL" — your own merge** (10-01; `CI — web` #301 green; reads
 the Neon integration traffic DB URL; `.env.example` var names only; no Supabase migration). **amma site-scoped traffic /
 morning-report wave (#290/#291/#292) — your own merges** (10-01; `CI — web` green, no migration). **amma "Project Seed"
@@ -102,14 +117,14 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ---
 
-## Build health (as of 2026-10-03, evening)
+## Build health (as of 2026-10-04, morning)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`07874fa6`** ("Align Maracaibo table demo with its approved kitchen and cocktails identity (#299)," 10-03 16:14 UTC; **Anthony's own merge**, `CI — web` **#307 ✅**). **Advanced since last run** `40132ec`→`07874fa6` via Anthony's own **#299** (Maracaibo table-OS demo refresh — `APP/web/src/table-os/maracaibo/*` + game scene/`venue-config` + 4 webp/png art assets incl. a supplied/owner-approved circular Maracaibo logo + 4 OPERATIONS review docs; no migration, no `/m/[id]` or `/owner/[id]`, no Supabase/Stripe/Square, no secrets). The prior-run advance `8eb6239`→`40132ec` was via **FIVE of Anthony's own merges**: **#294** voice-only second-number routing + VBFH-knowledge refresh (`services/voice-gateway/*` + `tenants.json` + docs, `CI — voice-gateway` **#21 ✅**); **#295** Bodega signature/matcha menu from photographed boards (`(internal)/demo/bodega/*` + OPERATIONS docs, `CI — web` **#303 ✅**, **no migration**); **#296** record verified Bodega menu release + close queue (docs); **#297** correct voice call outcomes + staff-notification reporting (`services/voice-gateway/src/*` orchestrator/notify/store/report/types + docs, `CI — voice-gateway` **#23 ✅**); **#298** Maracaibo table-OS demo refresh (`APP/web/src/table-os/maracaibo/*` + 2 Venezuelan-flag **concept** webp assets + docs, `CI — web` **#305 ✅**). **All guardrail-clean (caretaker view): no Supabase migration; no Stripe/Square/POS; no secrets; no `/m/[id]` or `/owner/[id]` touched; voice go-live + any flag/logo publish stay your gates; game art national-flag concept only (no club/league/event mark, no face, no client logo).** **Anthony's own → no caretaker action; recorded.** Migration set stays **`0015`–`0023`** (+`0009`). **Eight** open drafts held (see Open PRs). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`340c0ffb`** ("Maracaibo: Venezuelan lettering and instant solo play (#303)," 10-04 11:25 UTC; **Anthony's own merge**, `CI — web` **#315 ✅**). **Advanced since last run** `07874fa6`→`340c0ffb` via **FOUR of Anthony's own merges** (all Maracaibo table-OS **demo/game** work, all `CI — web` green): **#300** stable four-player football + bounded peer gameplay (`src/table-os/maracaibo/football-*` + `src/table-os/game/*` + selftests, **#309 ✅**); **#301** automatic phone matches + Venezuela stadium skin/kits (`src/table-os/game/StadiumTableFootballRenderer.ts` + football session/view/peers + 3 game-art webp `player-lago`/`player-rayo`/`stadium` + ASSET_REGISTRY kits/skin JSON + review docs, **#311 ✅**); **#302** printed-table-QR visits for football + penalties (**#313 ✅**) — **⚠️ carries a NEW Supabase migration `20261004094018_maracaibo_table_visits.sql` AND adds a `/customers/maracaibo-tables` staff page + `/api/maracaibo/*` routes** (see to-do list — both need Anthony; RLS+`service_role`-only game-seat tables, "never authorize ordering or payment"); **#303** Venezuelan lettering word-art + instant solo play (17 `public/assets/maracaibo/lettering/*.webp` + `MaracaiboLettering.tsx`/`lettering-assets.ts` + `ASSET_REGISTRY/MARACAIBO/SIGNWRITER_*` provenance + review docs, **#315 ✅**). **Caretaker view: game art is national-colors / custom lettering only (no club/league/event mark, no real face, no client logo); #302 is the only guardrail-crossing item — new migration + `/customers` surface, flagged, Anthony's own merge so no revert; no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]`.** **Anthony's own → no caretaker action; recorded.** Migration set is now **`0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`). **Eight** open drafts held (see Open PRs). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
@@ -141,12 +156,40 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ## Merged / closed since last run
 
-**Since this morning's run, amma `main` advanced `40132ec`→`07874fa6` via Anthony's own merge #299** (`CI — web`
-#307 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37` unchanged. Nothing closed
-unmerged; **no new actionable human review comments** anywhere (#299's comments are its Vercel deploy preview + the
-owner's "Merge" note; the only other PR comments remain Vercel deploy bots on #259/#277). The morning run's five
-owner merges (#294→#298, all CI green) are retained below.
+**Since last run, amma `main` advanced `07874fa6`→`340c0ffb` via FOUR of Anthony's own merges #300/#301/#302/#303**
+(`CI — web` #309/#311/#313/#315 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
+unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#300–#303 carry only Vercel
+deploy previews + the Codex-review bot, which completed with no findings; the only other PR comments remain Vercel
+deploy bots on #259/#277). Prior merges #294→#299 retained below.
 
+- **amma #303 — "Maracaibo: Venezuelan lettering and instant solo play."** Merged 10-04 11:25 UTC (`340c0ffb`),
+  `CI — web` **#315 ✅**. 17 `public/assets/maracaibo/lettering/*.webp` word-art tiles + `MaracaiboLettering.tsx` /
+  `lettering-assets.ts`, `MaracaiboExperience`/`MaracaiboPenaltyClient`/CSS tweaks, `ASSET_REGISTRY/MARACAIBO/SIGNWRITER_20261004.json`
+  provenance, `OPERATIONS/MARACAIBO_SIGNWRITER_REVIEW_20261004.md`, `design-qa.md`. +784/−143, 29 files. **Table-OS
+  game word-art (custom Venezuelan hand-lettering, no club/league/event mark, no real face, no client logo); no
+  `/m/[id]` or `/owner/[id]`, no Supabase migration, no Stripe/Square, no secrets.** **Anthony's own merge → recorded.**
+- **amma #302 — "Use printed table QR visits for Maracaibo football and penalties."** Merged 10-04 10:07 UTC
+  (`f3a1dca`), `CI — web` **#313 ✅**. +732/−70, 24 files. `src/table-os/maracaibo/*` (football client + new penalty
+  client, `use-table-visit.ts`/`use-phone.ts`/`visit-contract.ts`), `src/table-os/realtime.ts`. **⚠️ Two
+  guardrail-crossing items (both flagged in the to-do list; Anthony's own merge, so recorded not reverted):** (1) **new
+  Supabase migration** `APP/web/supabase/migrations/20261004094018_maracaibo_table_visits.sql` — RLS-enabled,
+  `service_role`-only `maracaibo_table_visits` + `maracaibo_table_guests` tables + `maracaibo_visit` RPC, headed *"Game
+  membership only. These records never authorize ordering or payment."*; (2) **`/customers` route touched** — added
+  `src/app/customers/maracaibo-tables/{page.tsx,TableVisitsDesk.tsx}` (staff visits desk) + `src/app/api/maracaibo/tables/route.ts`
+  + `src/app/api/maracaibo/visit/[tableId]/route.ts`, and a 1-line edit to `src/app/customers/page.tsx`. **No Stripe/Square/POS,
+  no secrets, no `/m/[id]` or `/owner/[id]`.** **Anthony's own merge → no caretaker action; recorded + flagged.**
+- **amma #301 — "Make Maracaibo phone matches automatic and add Venezuela stadium skin."** Merged 10-04 02:10 UTC
+  (`c172ce1`), `CI — web` **#311 ✅**. +2118/−262, 23 files. New `src/table-os/game/StadiumTableFootballRenderer.ts`,
+  `TableFootballScene`/`input`/`types`, football session/view/peers, 3 game-art webp (`player-lago`, `player-rayo`,
+  `stadium`), `venue-config`, `ASSET_REGISTRY/MARACAIBO/FOOTBALL_{KITS_VENEZUELA,SKIN}_20261004.json`, selftests +
+  review docs. **Table-OS game visuals; Venezuela national-colors kit/stadium (no club/league/event mark, no face, no
+  client logo); no `/m/[id]` or `/owner/[id]`, no Supabase migration, no Stripe/Square, no secrets.** **Anthony's own
+  merge → recorded.**
+- **amma #300 — "Maracaibo: stable four-player football with bounded peer gameplay."** Merged 10-03 21:55 UTC
+  (`fed86c5`), `CI — web` **#309 ✅**. +980/−13, 16 files. New `src/table-os/maracaibo/{MaracaiboFootballClient.tsx,
+  football-peers.ts,football-session.ts,football-view.ts}`, `src/table-os/game/{TableFootballScene,input}`,
+  `src/table-os/realtime.ts`, selftests + review doc. **Table-OS multiplayer game code; no `/m/[id]` or `/owner/[id]`,
+  no Supabase migration, no Stripe/Square, no secrets.** **Anthony's own merge → recorded.**
 - **amma #299 — "Align Maracaibo table demo with its approved kitchen and cocktails identity."** Merged 10-03 16:14
   UTC (`07874fa6`), `CI — web` **#307 ✅**. `APP/web/src/table-os/maracaibo/*` (Experience/Marks/MatchView + CSS),
   `TableMatchClient`/`TableFootballScene`/`client.ts`/`venue-config` wiring, four `public/assets/maracaibo/*` art
@@ -226,7 +269,9 @@ judgment). **Eligible** (merged since, no longer open-draft-protected): the eigh
 #257/#258/#260–#264 plus `codex/bodega-launch-guest-notes-square-20260926` (#266), and now the merged heads for
 #294 (`codex/vbfh-knowledge-20261002`), #297 (`codex/voice-reliability-20261002`),
 #298 (`codex/maracaibo-visual-refresh-20261003`), #299 (`codex/maracaibo-brand-iteration-20261003`),
-#295/#296 (Bodega board menu) — add them to your local delete run.
+#295/#296 (Bodega board menu), and the newest merged heads #300 (`codex/maracaibo-multiplayer-20261003`),
+#301 (`codex/maracaibo-stadium-skin-20261004`), #302 (`codex/maracaibo-table-visits-20261004`),
+#303 (`codex/maracaibo-signwriter-20261004`) — add them to your local delete run.
 Still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
@@ -262,6 +307,23 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-04 (morning check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy build run — zero failing workflow runs
+  across all four repos; no caretaker fix needed. But two items in Anthony's own merge #302 need him** (flagged, not
+  acted on). amma `main` advanced `07874fa6`→`340c0ffb` via **FOUR of Anthony's own merges #300/#301/#302/#303** (all
+  Maracaibo table-OS demo/game work, `CI — web` #309/#311/#313/#315 ✅). **🆕 #302 carries a NEW Supabase migration
+  `20261004094018_maracaibo_table_visits.sql`** (pending set is no longer just `0015`–`0023`; the Maracaibo table-visit
+  / multiplayer game errors at runtime until applied — RLS+`service_role`-only game-seat tables, "never authorize
+  ordering or payment") **and touches the protected `/customers` route** (adds `/customers/maracaibo-tables` staff desk
+  + `/api/maracaibo/*`). Both arrived via the owner's own merge → recorded, no caretaker revert, surfaced to Anthony.
+  #300/#301/#303 are Maracaibo game code + national-colors/lettering game art (no club/league/event mark, no face, no
+  client logo). vbfh `master` unchanged at `75f9668`; VBFH Daily Run latest **#121 (10-01) succeeded** and stays
+  `activation held` (workflow `active`, `schedule:` removed; no #122 auto-fires by design). Default branches
+  re-verified: amma `340c0ffb` (advanced), vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma
+  `CI — web` #315 ✅ + `CI — voice-gateway` #23 ✅; vbfh build `CI` #35 ✅; shadow & EscapeTheBomb no CI (0 runs). **No
+  new drafts; none of the 8 held drafts changed; no new human review comments (#300–#303 carry only Vercel + Codex-review
+  bots); nothing closed unmerged; no merge-conflict/base-branch notices; GitHub API healthy.** #218 governance question
+  open; #29 closed. Branch cleanup still 403-blocked. Push notification + email sent (needed from Anthony: run the
+  pending migrations incl. the new Maracaibo one, and note the `/customers` game-seat surface).
 - **2026-10-03 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
   needed.** Zero failing workflow runs across all four repos. **The one change since this morning: amma `main`
   advanced `40132ec`→`07874fa6` via Anthony's own merge #299** "Align Maracaibo table demo with its approved kitchen
