@@ -45,14 +45,42 @@
 .playLettering { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .playFlag { display: block; width: clamp(76px, 25vw, 112px); flex: 0 0 auto; pointer-events: none; }
 .playFlag img { display: block; width: 100%; height: auto; }
-/* Brief cloth sway from the hoist; settles within five seconds without a new control. */
-.flagCloth { transform-origin: 12% 50%; animation: maracaiboFlagWave 4.8s ease-in-out 1; }
-@keyframes maracaiboFlagWave {
-  0%, 100% { transform: perspective(360px) rotateY(0deg) skewY(0deg) scaleY(1); }
-  25% { transform: perspective(360px) rotateY(-9deg) skewY(1.3deg) scaleY(.985); }
-  50% { transform: perspective(360px) rotateY(5deg) skewY(-1.2deg) scaleY(1.01); }
-  75% { transform: perspective(360px) rotateY(-5deg) skewY(.8deg) scaleY(.995); }
+/* Native vector cloth: neighboring sections share their deformed edges. */
+.flagFabric { display: block; width: 100%; height: auto; overflow: visible; }
+.flagFabric[data-ripple="true"] .flagStill { display: none; }
+.flagPanel { transform-box: view-box; transform-origin: 0 0; animation: maracaiboClothRipple 4.8s linear 1; }
+@keyframes maracaiboClothRipple {
+  0% { transform: var(--ripple-0); }
+  4.1667% { transform: var(--ripple-1); }
+  8.3333% { transform: var(--ripple-2); }
+  12.5% { transform: var(--ripple-3); }
+  16.6667% { transform: var(--ripple-4); }
+  20.8333% { transform: var(--ripple-5); }
+  25% { transform: var(--ripple-6); }
+  29.1667% { transform: var(--ripple-7); }
+  33.3333% { transform: var(--ripple-8); }
+  37.5% { transform: var(--ripple-9); }
+  41.6667% { transform: var(--ripple-10); }
+  45.8333% { transform: var(--ripple-11); }
+  50% { transform: var(--ripple-12); }
+  54.1667% { transform: var(--ripple-13); }
+  58.3333% { transform: var(--ripple-14); }
+  62.5% { transform: var(--ripple-15); }
+  66.6667% { transform: var(--ripple-16); }
+  70.8333% { transform: var(--ripple-17); }
+  75% { transform: var(--ripple-18); }
+  79.1667% { transform: var(--ripple-19); }
+  83.3333% { transform: var(--ripple-20); }
+  87.5% { transform: var(--ripple-21); }
+  91.6667% { transform: var(--ripple-22); }
+  95.8333% { transform: var(--ripple-23); }
+  100% { transform: var(--ripple-24); }
 }
+@media (prefers-reduced-motion: reduce) {
+  .flagFabric[data-ripple="true"] .flagStill { display: initial; }
+  .flagMesh { display: none; }
+}
+
 .lettering { --letter-height: 4.25rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }
 .letteringFallback { position: absolute; inset: 0; display: flex; align-items: center; font-size: clamp(1.6rem, 7vw, 3rem); font-weight: 750; line-height: 1.1; letter-spacing: -.04em; }
 .letteringImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }

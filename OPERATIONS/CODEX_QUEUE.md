@@ -948,3 +948,10 @@ Authority: Anthony asks for the existing Venezuela flag to wave. Local implement
 Scope: Transform-only cloth-like wave on existing flag pixels; reduced-motion static; preserve colors, eight stars, layout and touch targets. No new assets, dependencies, broad tests, traffic/reliability or staff integration.
 Acceptance: Scoped lint/types, mobile/desktop render, transform motion with stable layout, reduced-motion static, original flag unchanged. Confirm water preview behavior read-only.
 State: DONE locally. Scoped lint/types, mobile/desktop motion and layout, reduced-motion static and read-only Water preview checks pass. Review libfile_81d14fcef2e08191a8b7890d5e3304f7; see MARACAIBO_FLAG_WAVE_REVIEW_20261004.md. No publication.
+
+## [x] Maracaibo actual cloth ripple revision - October 4
+
+Authority: Anthony rejected the published rigid sway and requests actual cloth animation. He permits changing the image provided it remains Venezuelan. Local revision and moving Library preview only; no publication until review.
+Scope: Clean code-native yellow/blue/red flag with eight white stars in the blue stripe; joined deforming sections, subtle moving light, static reduced-motion mode. Preserve layout, other artwork, traffic and paused reliability. No services, generation, dependencies, gameplay or staff integration.
+Acceptance: Scoped lint/types, mobile/desktop non-rigid deformation and reduced-motion checks; real short moving preview in Library before publication.
+State: DONE locally; awaiting this revision's review. Joined SVG sections deform over 4.8 seconds then rest; new code-native Venezuelan artwork has three stripes and eight stars. Scoped ESLint/types, 390/1440 layout/deformation and static reduced-motion checks pass with no runtime errors or application writes. Actual six-second moving GIF: libfile_1e69a19097d48191a4d0d4cc7f917202. See MARACAIBO_FLAG_RIPPLE_REVIEW_20261004.md. No push, merge or deployment.

@@ -3185,3 +3185,12 @@ Isolated from current main de44790. Add a short transform-only wave to the exist
 ## OUT - 2026-10-04 - Maracaibo subtle flag wave ready locally
 
 Existing flag gains a 4.8-second hoist-anchored transform-only sway, then rests. Original pixels/colors/eight stars and geometry preserved; reduced-motion static. Scoped ESLint/types and mobile/desktop phase/layout/chooser checks pass, zero runtime errors/application writes. Water remains local preview only with Nothing sent; no staff integration. Review libfile_81d14fcef2e08191a8b7890d5e3304f7. No push/deploy; concurrent traffic, dirty canonical work and paused reliability branches untouched. See MARACAIBO_FLAG_WAVE_REVIEW_20261004.md.
+
+
+## IN - 2026-10-04 - Maracaibo actual cloth ripple revision
+
+Prior sway already merged as 176093b / PR306 and verified live. Anthony rejects that movement and allows replacing flag artwork. New isolated branch from exact current main 176093b; code-native flag and non-rigid cloth mesh, static reduced motion, real moving preview required. Local only until this revision is reviewed. Preserve traffic, other artwork and paused reliability; no generators, services, new dependencies or staff/game changes.
+
+## OUT - 2026-10-04 - Maracaibo actual cloth ripple ready for review
+
+New code-native Venezuelan flag uses twelve joined independently deforming sections, a fixed hoist, eight white stars and three horizontal stripes. Motion plays 4.8 seconds then rests; reduced motion renders no animated sections or SMIL. Scoped ESLint/types and 390/1440 native-browser geometry, seam, layout and reduced-motion checks pass; no runtime exceptions or application writes. Actual browser frames encoded into a six-second moving GIF, saved in Library as libfile_1e69a19097d48191a4d0d4cc7f917202. Previous sway release remains live as 176093b / PR306. This revision is local only awaiting review; traffic, dirty canonical work and paused reliability untouched. See MARACAIBO_FLAG_RIPPLE_REVIEW_20261004.md.
