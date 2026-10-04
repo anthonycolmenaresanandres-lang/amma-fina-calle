@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-04 (morning check-in, `claude-opus-4-8`). **Headline: quiet, healthy build run — zero failing workflows anywhere; no caretaker fix needed. Since last run amma `main` advanced `07874fa6`→`340c0ffb` via FOUR of Anthony's own merges #300/#301/#302/#303 (all `CI — web` green #309/#311/#313/#315).** The merges: **#300** "Maracaibo: stable four-player football with bounded peer gameplay" (`CI — web` **#309 ✅**); **#301** "Make Maracaibo phone matches automatic and add Venezuela stadium skin" (`CI — web` **#311 ✅**); **#302** "Use printed table QR visits for Maracaibo football and penalties" (`CI — web` **#313 ✅**); **#303** "Maracaibo: Venezuelan lettering and instant solo play" (`CI — web` **#315 ✅**). All are Maracaibo table-OS **demo** work (`APP/web/src/table-os/maracaibo/*`, `src/table-os/game/*`, game art webp under `public/assets/maracaibo/*`, ASSET_REGISTRY + OPERATIONS review docs). **🆕 TWO things in #302 change prior verdicts and need Anthony (details in the to-do list):** (1) **a NEW Supabase migration** `20261004094018_maracaibo_table_visits.sql` — the pending set is **no longer just `0015`–`0023`**; the Maracaibo table-visit / multiplayer game feature errors at runtime until it is applied; and (2) **#302 touched the protected `/customers` route** (added `/customers/maracaibo-tables` staff desk + `/api/maracaibo/tables` and `/api/maracaibo/visit/[tableId]` routes). Both arrived via **Anthony's own merge to `main`** → recorded, **no caretaker action** (I never revert the owner's own merges), but flagged. Caretaker read of the migration: RLS-enabled, `service_role`-only game-seat/table-visit tables + a `maracaibo_visit` RPC, headed *"Game membership only. These records never authorize ordering or payment."* — not customer PII/ordering/payment. #301's "Venezuela stadium skin" + kits are national-colors **game** art (no club/league/event mark, no real face, no client logo); #303's "Venezuelan lettering" is custom word-art under `public/assets/maracaibo/lettering/*` with an ASSET_REGISTRY provenance file. **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design; workflow state `active`, `schedule:` trigger removed). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere (#300–#303 carry only Vercel + Codex-review bots, Codex completed with no findings).** Default branches re-verified live: amma **`340c0ffb`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#315** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-04 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy build run — zero failing workflows anywhere; no caretaker fix needed. Since this morning amma `main` advanced `340c0ffb`→`176093b` via THREE of Anthony's own merges #304/#305/#306 (all `CI — web` green #317/#319/#321).** The merges: **#304** "style(maracaibo): add geometric header wordmark" (`CI — web` **#317 ✅**) — a newly authored **code-native** SVG wordmark for the Maracaibo demo header (interpretation, not an original font; accessible real-text fallback); **#305** "Isolate daily traffic reports from Square refresh and shared email" (`CI — web` **#319 ✅**); **#306** "style(maracaibo): add subtle flag wave" (`CI — web` **#321 ✅**) — a transform-only CSS sway on the existing flag image, reduced-motion static. **No new Supabase migration this run** — the pending set is **unchanged** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`). **🆕 One new (optional, owner-gated) item from #305 (details in the to-do list):** the daily **traffic morning-report email** is now code-ready and isolated onto **dedicated `TRAFFIC_*` credentials** (no fallback to the shared request/pitch mail), and the native-cron Square token refresh now **fails closed** behind `SQUARE_REFRESH_CRON_ENABLED=true`. To turn the traffic email on, Anthony sets 4 Production env vars + runs **one** verification per the new runbook `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md`. **Caretaker view of #305: guardrail-clean — env-var NAMES only (no values), NO Supabase migration (the traffic DB is Neon, not Supabase), and it TIGHTENS the Square gate rather than activating anything; `/customers` not newly touched.** #304/#306 are pure Maracaibo demo visuals (no migration, no protected route, no secrets). **#302's standing items are UNCHANGED and still need Anthony:** (1) the pending Supabase migrations incl. `20261004094018_maracaibo_table_visits.sql`, and (2) the `/customers/maracaibo-tables` game-seat surface it added (owner's own merge → flagged, never reverted). **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design; workflow state `active`, `schedule:` trigger removed). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere (#304–#306 carry only Vercel + Codex-review bots, Codex completed with no findings).** Default branches re-verified live: amma **`176093b`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#321** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -12,18 +12,28 @@ PRs, and cleanup across all four repos. Updated on each scheduled run._
 
 ## 👉 What Anthony needs to do right now
 
-🟡 **The one real to-do (NOW BIGGER): run the pending Supabase migrations — `0015` through `0023` PLUS the new
-   `20261004094018_maracaibo_table_visits.sql`.** All under `APP/web/supabase/migrations/`. The older set: rewards
-   `0015`–`0018` (#260–#264), Bodega launch + Square `0019`–`0022` (#266), Bodega Basic billing `0023` (#270), plus
-   `0009` Marbel admin grant. **🆕 New this run:** Anthony's own merge **#302** added `20261004094018_maracaibo_table_visits.sql`,
-   which creates two RLS-enabled, `service_role`-only tables (`maracaibo_table_visits`, `maracaibo_table_guests`) and a
-   `maracaibo_visit` RPC for the Maracaibo table-QR game-seat feature (it's explicitly *game membership only — never
-   authorizes ordering or payment*). The site **builds and deploys green** (Vercel/CI never touch the DB), but the
-   Bodega rewards + guest-notes + Square read-model + Bodega Basic billing features **and now the Maracaibo
-   table-visit / multiplayer football game error at runtime until the matching migration is applied.** **What to do:**
-   Supabase SQL editor → run the older `0015`…`0023` in order, then the new `20261004094018_...` file (or just
-   `supabase db push` from `APP/web/`, which applies all of them in order and folds in `0009` Marbel). **Skip any
-   you've already run.** _(I never run SQL against Supabase — the migrations are prepared code; you run them.)_
+🟡 **The one real standing to-do: run the pending Supabase migrations — `0015` through `0023` PLUS
+   `20261004094018_maracaibo_table_visits.sql`.** All under `APP/web/supabase/migrations/`. The set: rewards
+   `0015`–`0018` (#260–#264), Bodega launch + Square `0019`–`0022` (#266), Bodega Basic billing `0023` (#270),
+   `20261004094018_maracaibo_table_visits.sql` (#302 — two RLS-enabled, `service_role`-only tables + a `maracaibo_visit`
+   RPC for the table-QR game-seat feature, explicitly *game membership only — never authorizes ordering or payment*),
+   plus `0009` Marbel admin grant. **Unchanged this run — no new migration landed.** The site **builds and deploys
+   green** (Vercel/CI never touch the DB), but the Bodega rewards + guest-notes + Square read-model + Bodega Basic
+   billing features **and the Maracaibo table-visit / multiplayer football game error at runtime until the matching
+   migration is applied.** **What to do:** Supabase SQL editor → run `0015`…`0023` in order, then the
+   `20261004094018_...` file (or just `supabase db push` from `APP/web/`, which applies all of them in order and folds
+   in `0009` Marbel). **Skip any you've already run.** _(I never run SQL against Supabase — the migrations are prepared
+   code; you run them.)_
+
+🆕 **Traffic morning-report email is now code-ready (optional — your own merge #305; only matters if you want it live).**
+   #305 isolated the daily traffic email onto **dedicated credentials** (`TRAFFIC_RESEND_API_KEY`, `TRAFFIC_FROM_EMAIL`,
+   `TRAFFIC_MORNING_REPORT_EMAIL`) with **no fallback** to the shared request/pitch mail, and made the native-cron Square
+   token refresh **fail closed** unless `SQUARE_REFRESH_CRON_ENABLED=true` (so adding report credentials can never
+   accidentally start refreshing Square). **To turn the traffic email on:** follow the runbook
+   `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` — set those 4 Production-only env vars yourself (plus `CRON_SECRET`),
+   redeploy, confirm readiness at the private `/api/internal/traffic/morning?dryRun=1` (no-send), then run **one**
+   verification send. **This is secrets/activation territory, so it's yours — I never handle secret values.** No action
+   if you don't want the email yet; nothing sends on its own (cron fails closed until configured).
 
 🆕 **Heads-up (no fix needed, your own change): merge #302 added a page/API under the protected `/customers` route.**
    It added `APP/web/src/app/customers/maracaibo-tables/` (a staff "Table Visits Desk" page) and the `/api/maracaibo/tables`
@@ -96,10 +106,15 @@ _The items below are unchanged standing gates — no new action this run; listed
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the eight open draft heads.
 
-_Resolved / no action needed from you:_ **amma #300/#301/#303 — your own merges** (10-03→10-04; `CI — web`
+_Resolved / no action needed from you:_ **amma #304/#306 — your own merges** (10-04 evening; `CI — web` #317/#321
+green; Maracaibo demo visuals only — a code-native SVG header wordmark (#304) + a transform-only CSS flag sway (#306);
+**no migration, no Stripe/Square/POS, no secrets, no protected route, no `/m/[id]` or `/owner/[id]`**; recorded).
+_(#305 is your own merge too but is listed ABOVE under the to-do list — it makes the traffic email code-ready and needs
+your 4 Production env vars + one verification if you want it live; guardrail-clean, no migration, tightens the Square
+gate.)_ **amma #300/#301/#303 — your own merges** (10-03→10-04; `CI — web`
 #309/#311/#315 green; Maracaibo table-OS **game** work — four-player football + Venezuela stadium skin/kits + Venezuelan
 lettering word-art; **no migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]`**; national-colors
-game art only; recorded). _(#302 is your own merge too but is listed ABOVE under the to-do list — it carries the new
+game art only; recorded). _(#302 is your own merge too but is listed ABOVE under the to-do list — it carries the
 Supabase migration + the `/customers` game-seat surface, which need you.)_ **amma #294/#295/#296/#297/#298/#299 — your
 own merges** (10-02→10-03; all CI green; voice-gateway code + docs + `tenants.json`, internal Bodega demo menu + docs,
 Maracaibo table-OS demo + supplied/approved logo + public-domain flag concept + docs; **no migration, no
@@ -117,14 +132,14 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ---
 
-## Build health (as of 2026-10-04, morning)
+## Build health (as of 2026-10-04, evening)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`340c0ffb`** ("Maracaibo: Venezuelan lettering and instant solo play (#303)," 10-04 11:25 UTC; **Anthony's own merge**, `CI — web` **#315 ✅**). **Advanced since last run** `07874fa6`→`340c0ffb` via **FOUR of Anthony's own merges** (all Maracaibo table-OS **demo/game** work, all `CI — web` green): **#300** stable four-player football + bounded peer gameplay (`src/table-os/maracaibo/football-*` + `src/table-os/game/*` + selftests, **#309 ✅**); **#301** automatic phone matches + Venezuela stadium skin/kits (`src/table-os/game/StadiumTableFootballRenderer.ts` + football session/view/peers + 3 game-art webp `player-lago`/`player-rayo`/`stadium` + ASSET_REGISTRY kits/skin JSON + review docs, **#311 ✅**); **#302** printed-table-QR visits for football + penalties (**#313 ✅**) — **⚠️ carries a NEW Supabase migration `20261004094018_maracaibo_table_visits.sql` AND adds a `/customers/maracaibo-tables` staff page + `/api/maracaibo/*` routes** (see to-do list — both need Anthony; RLS+`service_role`-only game-seat tables, "never authorize ordering or payment"); **#303** Venezuelan lettering word-art + instant solo play (17 `public/assets/maracaibo/lettering/*.webp` + `MaracaiboLettering.tsx`/`lettering-assets.ts` + `ASSET_REGISTRY/MARACAIBO/SIGNWRITER_*` provenance + review docs, **#315 ✅**). **Caretaker view: game art is national-colors / custom lettering only (no club/league/event mark, no real face, no client logo); #302 is the only guardrail-crossing item — new migration + `/customers` surface, flagged, Anthony's own merge so no revert; no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]`.** **Anthony's own → no caretaker action; recorded.** Migration set is now **`0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`). **Eight** open drafts held (see Open PRs). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`176093b`** ("style(maracaibo): add subtle flag wave (#306)," 10-04 20:53 UTC; **Anthony's own merge**, `CI — web` **#321 ✅**). **Advanced since the morning run** `340c0ffb`→`176093b` via **THREE of Anthony's own merges** (all `CI — web` green): **#304** geometric header wordmark (`#317 ✅`) — a newly authored **code-native** SVG wordmark + fallback for the Maracaibo demo header (`src/table-os/maracaibo/MaracaiboWordmark.tsx` + `public/assets/maracaibo/maracaibo-bistro-wordmark.svg` + ASSET_REGISTRY provenance + review doc; "interpretation, not an original font"); **#305** "Isolate daily traffic reports from Square refresh and shared email" (`#319 ✅`) — dedicated `TRAFFIC_*` mail credentials with no shared fallback, native-cron Square refresh now **fails closed** behind `SQUARE_REFRESH_CRON_ENABLED=true`, an admin-only no-send `?dryRun=1` readiness path, an offline isolation selftest in CI, and the owner runbook `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` (**env-var NAMES only in `.env.example`, no values; NO Supabase migration — traffic DB is Neon; `/customers` not newly touched**); **#306** subtle flag wave (`#321 ✅`) — transform-only CSS sway on the existing flag, reduced-motion static. **Caretaker view: #304/#306 are pure Maracaibo demo visuals; #305 is guardrail-clean and actually TIGHTENS the Square gate — the only thing it needs is Anthony's optional secret setup if he wants the traffic email live (see to-do list). No Stripe/Square/POS activation, no secrets handled, no `/m/[id]` or `/owner/[id]`.** **Anthony's own → no caretaker action; recorded.** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
@@ -156,12 +171,32 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ## Merged / closed since last run
 
-**Since last run, amma `main` advanced `07874fa6`→`340c0ffb` via FOUR of Anthony's own merges #300/#301/#302/#303**
-(`CI — web` #309/#311/#313/#315 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
-unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#300–#303 carry only Vercel
+**Since the morning run, amma `main` advanced `340c0ffb`→`176093b` via THREE of Anthony's own merges #304/#305/#306**
+(`CI — web` #317/#319/#321 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
+unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#304–#306 carry only Vercel
 deploy previews + the Codex-review bot, which completed with no findings; the only other PR comments remain Vercel
-deploy bots on #259/#277). Prior merges #294→#299 retained below.
+deploy bots on #259/#277). Prior merges #294→#303 retained below.
 
+- **amma #306 — "style(maracaibo): add subtle flag wave."** Merged 10-04 20:53 UTC (`176093b`), `CI — web` **#321 ✅**.
+  `MaracaiboMarks.tsx` (+flag class) + `maracaibo.module.css` (4.8s transform-only keyframes, reduced-motion static) +
+  `MARACAIBO_FLAG_WAVE_REVIEW_20261004.md` + CODEX_QUEUE/HANDOFF_LOG. **Demo visual only — transform on the existing
+  flag image; no new assets, no migration, no route, no secrets.** **Anthony's own merge → recorded.**
+- **amma #305 — "Isolate daily traffic reports from Square refresh and shared email."** Merged 10-04 20:47 UTC
+  (`50c070d`), `CI — web` **#319 ✅**. `morning-email.ts` → dedicated `TRAFFIC_RESEND_API_KEY`/`TRAFFIC_FROM_EMAIL`
+  (no shared fallback); `api/integrations/square/refresh/route.ts` now returns 503 `square_refresh_disabled` unless
+  `SQUARE_REFRESH_CRON_ENABLED=true` (**fails closed**); `api/internal/traffic/morning/route.ts` gains an
+  admin-authenticated `?dryRun=1` no-send readiness path; new `scripts/traffic-morning-selftest.mjs` (offline VM
+  fixtures) wired into `ci-web.yml`; `.env.example` adds var **names only**; new runbook
+  `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` + `MULTI_SITE_TRAFFIC.md` update. **Guardrail-clean: NO Supabase
+  migration (traffic DB is Neon), NO secret values, tightens (not loosens) the Square gate, `/customers` not newly
+  touched. The only open piece is Anthony's optional Production env-var setup + one verification if he wants the email
+  live (see to-do list).** **Anthony's own merge → no caretaker action; recorded.**
+- **amma #304 — "style(maracaibo): add geometric header wordmark."** Merged 10-04 20:06 UTC (`de44790`), `CI — web`
+  **#317 ✅**. New `src/table-os/maracaibo/MaracaiboWordmark.tsx` + `public/assets/maracaibo/maracaibo-bistro-wordmark.svg`
+  (code-native vector, 1,975 bytes), `MaracaiboExperience.tsx`/CSS wiring, `ASSET_REGISTRY/MARACAIBO/GEOMETRIC_WORDMARK_20261004.json`
+  provenance, `MARACAIBO_GEOMETRIC_WORDMARK_REVIEW_20261004.md` + CODEX_QUEUE/HANDOFF_LOG. **Demo header lettering —
+  newly authored geometric SVG "interpretation, not an original font," accessible real-text fallback; no generated
+  raster, no external font, no migration, no route, no secrets.** **Anthony's own merge → recorded.**
 - **amma #303 — "Maracaibo: Venezuelan lettering and instant solo play."** Merged 10-04 11:25 UTC (`340c0ffb`),
   `CI — web` **#315 ✅**. 17 `public/assets/maracaibo/lettering/*.webp` word-art tiles + `MaracaiboLettering.tsx` /
   `lettering-assets.ts`, `MaracaiboExperience`/`MaracaiboPenaltyClient`/CSS tweaks, `ASSET_REGISTRY/MARACAIBO/SIGNWRITER_20261004.json`
@@ -271,7 +306,8 @@ judgment). **Eligible** (merged since, no longer open-draft-protected): the eigh
 #298 (`codex/maracaibo-visual-refresh-20261003`), #299 (`codex/maracaibo-brand-iteration-20261003`),
 #295/#296 (Bodega board menu), and the newest merged heads #300 (`codex/maracaibo-multiplayer-20261003`),
 #301 (`codex/maracaibo-stadium-skin-20261004`), #302 (`codex/maracaibo-table-visits-20261004`),
-#303 (`codex/maracaibo-signwriter-20261004`) — add them to your local delete run.
+#303 (`codex/maracaibo-signwriter-20261004`), and the newest merged heads #304 (`codex/maracaibo-geometric-wordmark-20261004`),
+#305 (`codex/traffic-only-report-20261004`), #306 (`codex/maracaibo-flag-wave-20261004`) — add them to your local delete run.
 Still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
@@ -307,6 +343,26 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-04 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
+  needed.** Zero failing workflow runs across all four repos. **amma `main` advanced `340c0ffb`→`176093b` via THREE of
+  Anthony's own merges #304/#305/#306** (`CI — web` #317/#319/#321 ✅): **#304** code-native geometric SVG header
+  wordmark for the Maracaibo demo (interpretation + accessible fallback; no migration/route/secret); **#305** isolate
+  the daily traffic-report email onto dedicated `TRAFFIC_*` credentials + make the native-cron Square refresh fail
+  closed behind `SQUARE_REFRESH_CRON_ENABLED=true` + admin-only `?dryRun=1` readiness + offline CI selftest + owner
+  runbook (**guardrail-clean: env-var names only, NO Supabase migration — traffic DB is Neon, tightens the Square
+  gate; `/customers` not newly touched**); **#306** transform-only CSS flag sway, reduced-motion static. **Migration
+  set UNCHANGED `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`). **🆕 One new optional owner item:
+  #305 makes the traffic email code-ready — to turn it on Anthony sets 4 Production env vars + runs one verification
+  per the runbook; secrets/activation territory, his gate, nothing sends on its own.** #302's standing items
+  (pending migration + `/customers` game-seat surface) are unchanged and still need Anthony. vbfh `master` unchanged at
+  `75f9668`; VBFH Daily Run latest **#121 (10-01) succeeded** and stays `activation held` (no #122 auto-fires by
+  design). Default branches re-verified: amma `176093b` (advanced), vbfh `75f9668`, shadow `5113ce5` (dormant),
+  EscapeTheBomb `eee6a37`. amma `CI — web` #321 ✅ + `CI — voice-gateway` #23 ✅; vbfh build `CI` #35 ✅; shadow &
+  EscapeTheBomb no CI (0 runs). **No new drafts; none of the 8 held drafts changed; no new human review comments
+  (#304–#306 carry only Vercel + Codex-review bots); nothing closed unmerged; no merge-conflict/base-branch notices;
+  GitHub API healthy.** #218 governance question open; #29 closed. Branch cleanup still 403-blocked. Push notification
+  + email sent (optional for Anthony: activate the traffic email via the #305 runbook; standing: run the pending
+  Supabase migrations incl. the Maracaibo one).
 - **2026-10-04 (morning check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy build run — zero failing workflow runs
   across all four repos; no caretaker fix needed. But two items in Anthony's own merge #302 need him** (flagged, not
   acted on). amma `main` advanced `07874fa6`→`340c0ffb` via **FOUR of Anthony's own merges #300/#301/#302/#303** (all
