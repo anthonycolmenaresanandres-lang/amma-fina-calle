@@ -45,6 +45,14 @@
 .playLettering { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .playFlag { display: block; width: clamp(76px, 25vw, 112px); flex: 0 0 auto; pointer-events: none; }
 .playFlag img { display: block; width: 100%; height: auto; }
+/* Brief cloth sway from the hoist; settles within five seconds without a new control. */
+.flagCloth { transform-origin: 12% 50%; animation: maracaiboFlagWave 4.8s ease-in-out 1; }
+@keyframes maracaiboFlagWave {
+  0%, 100% { transform: perspective(360px) rotateY(0deg) skewY(0deg) scaleY(1); }
+  25% { transform: perspective(360px) rotateY(-9deg) skewY(1.3deg) scaleY(.985); }
+  50% { transform: perspective(360px) rotateY(5deg) skewY(-1.2deg) scaleY(1.01); }
+  75% { transform: perspective(360px) rotateY(-5deg) skewY(.8deg) scaleY(.995); }
+}
 .lettering { --letter-height: 4.25rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }
 .letteringFallback { position: absolute; inset: 0; display: flex; align-items: center; font-size: clamp(1.6rem, 7vw, 3rem); font-weight: 750; line-height: 1.1; letter-spacing: -.04em; }
 .letteringImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }

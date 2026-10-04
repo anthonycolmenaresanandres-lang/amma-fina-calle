@@ -16,6 +16,7 @@ export function TeamMark({ team, ...props }: SVGProps<SVGSVGElement> & { team: "
 
 export function FlagArtwork({ className, prominent = false, decorative = false }: { className?: string; prominent?: boolean; decorative?: boolean }): React.JSX.Element {
   return <span className={className}><Image
+    className={styles.flagCloth}
     src={prominent ? "/assets/maracaibo/venezuelan-flag-concept-960.webp" : "/assets/maracaibo/venezuelan-flag-concept-480.webp"}
     width={prominent ? 960 : 480} height={prominent ? 640 : 320}
     alt={decorative ? "" : "Original concept artwork of a satin Venezuelan flag with eight white stars"}
