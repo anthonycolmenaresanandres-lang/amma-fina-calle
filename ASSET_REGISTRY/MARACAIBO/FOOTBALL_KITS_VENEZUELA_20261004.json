@@ -1,0 +1,69 @@
+{
+  "created": "2026-10-04",
+  "baseRevision": "88fbc2679078cf5e79bd08b18e7ecd6145640404",
+  "direction": "Venezuela-inspired original sculpted overhead players. Lago vinotinto with gold trim and tricolor shoulders; Rayo ivory with vinotinto trim/shorts and tricolor shoulders. Approved stadium unchanged.",
+  "generation": "Built-in ImageGen edits requested by user; preserve source pose, camera and transparency. No client logo, real person or federation/club mark generated.",
+  "logo": {
+    "path": "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
+    "treatment": "Existing supplied original used as a separate runtime overlay; pixels unchanged.",
+    "sha256": "213148e712faeac2328e4944fbba4cec5292b7a68ff49aa37fd103c61cad7188"
+  },
+  "stadium": {
+    "asset": "stadium.webp",
+    "bytes": 248858,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaRange": null,
+    "sha256": "3dca2125bba5e065cc6ea0522cdb9722ec4bcf2a79d1d52ed9233ae933b958c1",
+    "original": "stadium-ai-original.png",
+    "originalSha256": "4cff9b244308a784f62ab32bf50be3ec687a1067b3219cec21f327126af01bd0",
+    "treatment": "Byte-identical approved stadium; rendering geometry unchanged."
+  },
+  "playerAssets": [
+    {
+      "asset": "player-lago.webp",
+      "bytes": 18748,
+      "dimensions": [
+        384,
+        384
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "635d0be8a3df33fdd7954dfe7cb7eb1371befb736514cb05cdfd7464ba7fc014",
+      "original": "player-lago-vinotinto.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "originalSha256": "c3426f00c8c09d4af006b6b1f12b6ae9546e549f5fafcf9b046561e7803e4087"
+    },
+    {
+      "asset": "player-rayo.webp",
+      "bytes": 19588,
+      "dimensions": [
+        384,
+        384
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "01f684cd6a3efa424f4adbca3f5a31af0fda39d970224cd6b83c32d922ccb80a",
+      "original": "player-rayo-alternate.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "originalSha256": "66a29f4eb4884818815a2f49963748a679e844ee6742097d986c2fe1e6f4abb7"
+    }
+  ],
+  "derivatives": "FFmpeg libwebp 384x384 quality90 compression6; source originals preserved.",
+  "totalRuntimeArtBytes": 287194,
+  "originalLocation": "/workspace/shared/maracaibo-generated/venezuela",
+  "supersedes": "Player records in FOOTBALL_SKIN_20261004.json at base revision 88fbc26; original orange/green artwork and review remain preserved.",
+  "publicationStatus": "Local review candidate; production release not performed."
+}

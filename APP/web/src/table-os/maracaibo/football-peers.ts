@@ -1,13 +1,14 @@
 "use client";
 
 import { connectTableRoom, type RoomMode } from "../realtime";
-import { FOOTBALL_SEATS, type FootballMember, type FootballPacket, type FootballSeat } from "./football-session";
+import { FOOTBALL_SEATS, validFootballAuthority, type FootballAuthority, type FootballMember, type FootballPacket, type FootballSeatPreference } from "./football-session";
 
-type Signal = { kind: "hello"; joinedAt: number; seat: FootballSeat } | { kind: "leave" } | { kind: "full"; to: string } |
+type Signal = { kind: "hello"; joinedAt: number; seat: FootballSeatPreference } | { kind: "leave" } | { kind: "full"; to: string; generation?: string } |
+  { kind: "discover" } | { kind: "authority"; authority: FootballAuthority } |
   { kind: "rtc"; to: string; generation: string; description: RTCSessionDescriptionInit };
 export type FootballPeerStatus = "connecting" | "table" | "browser" | "unavailable" | "full";
-type Callbacks = { onRoster: (members: readonly FootballMember[]) => void; onPacket: (sender: string, value: unknown) => boolean; onStatus: (status: FootballPeerStatus) => void; isHost: () => boolean };
-type Peer = { pc: RTCPeerConnection; channel?: RTCDataChannel; generation: string; signalCount: number; chain: Promise<void>; createdAt: number };
+type Callbacks = { onRoster: (members: readonly FootballMember[]) => void; onPacket: (sender: string, value: unknown) => boolean; onStatus: (status: FootballPeerStatus) => void; isHost: () => boolean; getAuthority?: () => FootballAuthority | undefined; onAuthority?: (sender: string, authority: FootballAuthority) => boolean; onDiscoveryReady?: () => void };
+type Peer = { pc: RTCPeerConnection; channel?: RTCDataChannel; generation: string; signalCount: number; chain: Promise<void>; createdAt: number; unhealthyAt?: number };
 export type FootballPeerHandle = { id: string; send: (packet: FootballPacket, to?: string) => void; destroy: () => void };
 
 const isObject = (value: unknown): value is Record<string, unknown> => !!value && typeof value === "object" && !Array.isArray(value);
@@ -15,7 +16,8 @@ const MAX_PACKET_BYTES = 8192;
 const MAX_BUFFER_BYTES = 32_768;
 
 /** Signaling is the only Supabase traffic. Physics, inputs and recovery use bounded DTLS data channels. */
-export function connectFootballPeers(venueId: string, tableId: string, code: string, seat: FootballSeat, callbacks: Callbacks): FootballPeerHandle {
+export function connectFootballPeers(venueId: string, tableId: string, code: string, seat: FootballSeatPreference, callbacks: Callbacks): FootballPeerHandle {
+  const automatic = !!callbacks.getAuthority;
   const joinedAt = Date.now();
   const members = new Map<string, FootballMember>();
   const seenAt = new Map<string, number>();
@@ -32,6 +34,36 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
   let admissionOrder: string[] = [];
   let authorityOrder = false;
   const rejected = new Map<string, { at: number; count: number }>();
+  let discoveryReady = false;
+  let manifestFingerprint = "";
+  let publishing = false;
+  let republish = false;
+  let discoveryAttempts = 0;
+  let discoveryTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const validSeat = (value: unknown): value is FootballSeatPreference => value === "auto" || FOOTBALL_SEATS.includes(value as typeof FOOTBALL_SEATS[number]);
+  const announceAuthority = (force = false) => {
+    if (destroyed || !automatic || !bridge) return;
+    const authority = callbacks.getAuthority?.();
+    if (!authority) return;
+    const fingerprint = JSON.stringify(authority);
+    if (!force && fingerprint === manifestFingerprint) return;
+    manifestFingerprint = fingerprint;
+    void bridge.send({ kind: "authority", authority });
+  };
+  const finishDiscovery = () => {
+    if (destroyed || discoveryReady) return;
+    discoveryReady = true;
+    callbacks.onDiscoveryReady?.();
+    announceAuthority();
+    publishRoster();
+  };
+  const startLocalDiscovery = () => {
+    if (!automatic || discoveryReady || discoveryTimer || !browserLocal()) return;
+    // A network timeout may enter local mode long after the initial mount.
+    // Start the hello round on that transition rather than losing it at 200ms.
+    discoveryTimer = setTimeout(() => { discoveryTimer = undefined; if (browserLocal()) finishDiscovery(); }, 200);
+  };
 
   const ordered = () => [...members.values()].sort((a, b) => a.joinedAt - b.joinedAt || a.id.localeCompare(b.id));
   const closePeer = (id: string) => {
@@ -41,30 +73,43 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
   };
   const publishRoster = () => {
     if (destroyed || !bridge) return;
+    if (publishing) { republish = true; return; }
+    publishing = true;
+    try {
     if (typeof RTCPeerConnection === "undefined" && everShared) { callbacks.onStatus("unavailable"); return; }
+    const authority = callbacks.getAuthority?.();
+    if (automatic) admissionOrder = authority?.established ? [...authority.joinOrder.filter((id) => members.has(id))] : [];
     admissionOrder = admissionOrder.filter((id) => members.has(id));
-    for (const member of ordered()) if (!admissionOrder.includes(member.id)) admissionOrder.push(member.id);
+    for (const member of automatic ? [...members.values()].sort((a, b) => a.id.localeCompare(b.id)) : ordered()) if (!admissionOrder.includes(member.id)) admissionOrder.push(member.id);
     const seated = admissionOrder.slice(0, 4).flatMap((id) => members.get(id) ?? []);
-    if (callbacks.isHost()) for (const id of admissionOrder.slice(4)) {
+    if (callbacks.isHost() && (!automatic || discoveryReady && authority?.established && authority.hostId === bridge.clientId)) for (const id of admissionOrder.slice(4)) {
       const last = rejected.get(id);
       if ((!last || Date.now() - last.at >= 2000) && (last?.count ?? 0) < 3) {
         rejected.set(id, { at: Date.now(), count: (last?.count ?? 0) + 1 });
-        void bridge.send({ kind: "full", to: id });
+        void bridge.send({ kind: "full", to: id, ...(automatic ? { generation: authority?.generation } : {}) });
       }
     }
     for (const id of rejected.keys()) if (!members.has(id)) rejected.delete(id);
-    if (!seated.some((member) => member.id === bridge.clientId)) {
+    if (!seated.some((member) => member.id === bridge.clientId) && (!automatic || discoveryReady && authority?.established)) {
       callbacks.onStatus("full");
       destroy();
       return;
     }
     const ids = new Set(seated.map((member) => member.id));
     for (const id of peers.keys()) if (!ids.has(id)) closePeer(id);
-    const roster = seated.map((member) => ({ ...member, connected: member.id === bridge.clientId || browserLocal() && localMembers.has(member.id) || peers.get(member.id)?.channel?.readyState === "open" }));
+    const roster = (automatic ? [...members.values()].slice(0, 8) : seated).map((member) => {
+      const peer = peers.get(member.id);
+      return { ...member, connected: member.id === bridge.clientId || browserLocal() && localMembers.has(member.id) || peer?.channel?.readyState === "open" && peer.pc.connectionState === "connected" };
+    });
     const fingerprint = JSON.stringify(roster);
     if (fingerprint !== rosterFingerprint) { rosterFingerprint = fingerprint; callbacks.onRoster(roster); }
+    announceAuthority();
     callbacks.onStatus(everShared ? "table" : browserLocal() ? "browser" : "connecting");
     if (mode === "shared") for (const member of seated) if (member.id !== bridge.clientId && !peers.has(member.id) && bridge.clientId < member.id) void offer(member.id);
+    } finally {
+      publishing = false;
+      if (republish) { republish = false; queueMicrotask(publishRoster); }
+    }
   };
   const packet = (id: string, value: unknown) => {
     if (callbacks.onPacket(id, value) && isObject(value) && value.kind === "state" && Array.isArray(value.joinOrder)) {
@@ -81,7 +126,7 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
   const attach = (id: string, peer: Peer, channel: RTCDataChannel) => {
     if (channel.label !== "maracaibo-football" || peer.channel) { channel.close(); return; }
     peer.channel = channel;
-    channel.onopen = () => { safeSend(channel, { kind: "active", active: !document.hidden }); publishRoster(); };
+    channel.onopen = () => { retries.delete(id); safeSend(channel, { kind: "active", active: !document.hidden }); publishRoster(); announceAuthority(true); };
     channel.onclose = () => publishRoster();
     channel.onerror = () => publishRoster();
     let windowAt = performance.now();
@@ -107,7 +152,11 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
     const peer: Peer = { pc, generation, signalCount: 0, chain: Promise.resolve(), createdAt: Date.now() };
     peers.set(id, peer);
     pc.ondatachannel = ({ channel }) => attach(id, peer, channel);
-    pc.onconnectionstatechange = () => publishRoster();
+    pc.onconnectionstatechange = () => {
+      if (pc.connectionState === "disconnected" || pc.connectionState === "failed") peer.unhealthyAt ??= Date.now();
+      else if (pc.connectionState === "connected") peer.unhealthyAt = undefined;
+      publishRoster();
+    };
     return peer;
   };
   // Bundle ICE candidates into one SDP. Each peer link needs two signaling messages,
@@ -133,17 +182,27 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
   const receiveSignal = (id: string, value: unknown) => {
     if (destroyed || !isObject(value) || !bridge || id.length > 80) return;
     if (value.kind === "hello" && browserLocal()) {
-      if (typeof value.joinedAt !== "number" || !Number.isFinite(value.joinedAt) || !FOOTBALL_SEATS.includes(value.seat as FootballSeat) || members.size >= 8 && !members.has(id)) return;
+      if (typeof value.joinedAt !== "number" || !Number.isFinite(value.joinedAt) || !validSeat(value.seat) || members.size >= 8 && !members.has(id)) return;
       const fresh = !members.has(id);
-      members.set(id, members.get(id) ?? { id, joinedAt: value.joinedAt, preferredSeat: value.seat as FootballSeat, connected: false, active: true });
+      members.set(id, members.get(id) ?? { id, joinedAt: value.joinedAt, preferredSeat: value.seat, connected: false, active: true });
       seenAt.set(id, Date.now());
       localMembers.add(id);
       if (fresh) void bridge.send({ kind: "hello", joinedAt, seat });
       publishRoster();
+      if (automatic) { announceAuthority(true); void bridge.send({ kind: "discover" }); }
       return;
     }
     if (!members.has(id)) return;
-    if (value.kind === "full" && value.to === bridge.clientId) { callbacks.onStatus("full"); destroy(); return; }
+    if (automatic && value.kind === "discover") { announceAuthority(true); return; }
+    if (automatic && value.kind === "authority" && validFootballAuthority(value.authority)) {
+      if (callbacks.onAuthority?.(id, value.authority)) { publishRoster(); announceAuthority(); }
+      return;
+    }
+    if (value.kind === "full" && value.to === bridge.clientId) {
+      const authority = callbacks.getAuthority?.();
+      if (automatic && (!authority?.established || authority.hostId !== id || authority.generation !== value.generation || authority.joinOrder.includes(bridge.clientId))) return;
+      callbacks.onStatus("full"); destroy(); return;
+    }
     if (value.kind === "leave") { members.delete(id); seenAt.delete(id); localMembers.delete(id); closePeer(id); publishRoster(); return; }
     if (value.kind !== "rtc" || value.to !== bridge.clientId || typeof value.generation !== "string" || value.generation.length > 80) return;
     const description = value.description;
@@ -171,22 +230,34 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
 
   const bridge = connectTableRoom<Signal>(`${venueId}-football-v2`, `${tableId}-${code}`, {
     onMessage: ({ senderId, payload }) => receiveSignal(senderId, payload),
-    onMode: (next) => { mode = next; if (next === "shared") everShared = true; queueMicrotask(() => { if (!destroyed) publishRoster(); }); },
+    onMode: (next) => {
+      mode = next;
+      if (next === "shared") everShared = true;
+      queueMicrotask(() => {
+        if (destroyed) return;
+        if (browserLocal()) { void bridge.send({ kind: "hello", joinedAt, seat }); startLocalDiscovery(); }
+        publishRoster();
+      });
+    },
     onParticipants: () => {},
     onMembers: (roster) => {
       if (destroyed || mode !== "shared") return;
       const previous = new Map(members);
       members.clear();
-      for (const member of roster) if (FOOTBALL_SEATS.includes(member.seat as FootballSeat)) members.set(member.id, previous.get(member.id) ?? { id: member.id, joinedAt: member.joinedAt, preferredSeat: member.seat as FootballSeat, connected: false, active: true });
+      for (const member of roster) if (validSeat(member.seat)) members.set(member.id, previous.get(member.id) ?? { id: member.id, joinedAt: member.joinedAt, preferredSeat: member.seat, connected: false, active: true });
       // A Presence sync can arrive before our track acknowledgment.
       if (!members.has(bridge.clientId)) members.set(bridge.clientId, { id: bridge.clientId, joinedAt, preferredSeat: seat, connected: true, active: !document.hidden });
       if (!authorityOrder && !callbacks.isHost()) admissionOrder = [];
       publishRoster();
+      if (automatic) { finishDiscovery(); announceAuthority(true); void bridge.send({ kind: "discover" }); }
     },
   }, { joinedAt, seat });
   members.set(bridge.clientId, { id: bridge.clientId, joinedAt, preferredSeat: seat, connected: true, active: !document.hidden });
   void bridge.send({ kind: "hello", joinedAt, seat });
   queueMicrotask(publishRoster);
+  // Browser-local discovery has no server Presence snapshot. One bounded hello
+  // round exposes neighboring tabs; proposal agreement, not the delay, elects.
+  startLocalDiscovery();
 
   // Browser-local play has no server and needs no ICE/network access. This channel
   // is never forwarded into Supabase and is never labeled cross-phone play.
@@ -215,25 +286,32 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
   const timer = setInterval(() => {
     if (destroyed) return;
     const now = Date.now();
+    if (automatic && discoveryReady && discoveryAttempts < 3 && !callbacks.getAuthority?.()?.established) { discoveryAttempts++; void bridge.send({ kind: "discover" }); announceAuthority(true); }
     if (browserLocal() && now - lastHelloAt > 4000) { lastHelloAt = now; void bridge.send({ kind: "hello", joinedAt, seat }); }
     if (browserLocal()) for (const [id, seen] of seenAt) if (now - seen > 10_000) { members.delete(id); seenAt.delete(id); localMembers.delete(id); closePeer(id); }
-    for (const [id, peer] of peers) if (peer.channel?.readyState !== "open" && now - peer.createdAt > 12_000) closePeer(id);
+    for (const [id, peer] of peers) if (peer.pc.connectionState === "failed" || peer.pc.connectionState === "closed" || peer.unhealthyAt !== undefined && now - peer.unhealthyAt >= 3000 || peer.channel?.readyState !== "open" && now - peer.createdAt > 12_000) closePeer(id);
     publishRoster();
-    if (ordered().slice(0, 4).some((member) => member.id !== bridge.clientId && peers.get(member.id)?.channel?.readyState !== "open") && [...retries.values()].some((count) => count >= 3)) callbacks.onStatus("unavailable");
+    if (admissionOrder.slice(0, 4).some((id) => id !== bridge.clientId && (peers.get(id)?.channel?.readyState !== "open" || peers.get(id)?.pc.connectionState !== "connected")) && [...retries.values()].some((count) => count >= 3)) callbacks.onStatus("unavailable");
   }, 1000);
+  window.addEventListener("pagehide", destroy);
+  window.addEventListener("beforeunload", destroy);
 
   function destroy(): void {
     if (destroyed) return;
     void bridge.send({ kind: "leave" });
     destroyed = true;
     clearInterval(timer);
+    if (discoveryTimer) clearTimeout(discoveryTimer);
     document.removeEventListener("visibilitychange", visible);
+    window.removeEventListener("pagehide", destroy);
+    window.removeEventListener("beforeunload", destroy);
     localGame?.close();
     for (const id of peers.keys()) closePeer(id);
     void bridge.destroy();
   }
   return { id: bridge.clientId, send: (packet, to) => {
     if (destroyed) return;
+    if (packet.kind === "state") { authorityOrder = true; admissionOrder = [...packet.joinOrder, ...admissionOrder.filter((id) => !packet.joinOrder.includes(id))]; announceAuthority(); }
     if (browserLocal()) { localGame?.postMessage({ sender: bridge.clientId, to, packet }); return; }
     for (const [id, peer] of peers) if (!to || id === to) safeSend(peer.channel, packet);
   }, destroy };
