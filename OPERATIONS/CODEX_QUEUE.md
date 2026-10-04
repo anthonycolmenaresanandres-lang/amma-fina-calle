@@ -948,3 +948,22 @@ Authority: Anthony asks for the existing Venezuela flag to wave. Local implement
 Scope: Transform-only cloth-like wave on existing flag pixels; reduced-motion static; preserve colors, eight stars, layout and touch targets. No new assets, dependencies, broad tests, traffic/reliability or staff integration.
 Acceptance: Scoped lint/types, mobile/desktop render, transform motion with stable layout, reduced-motion static, original flag unchanged. Confirm water preview behavior read-only.
 State: DONE locally. Scoped lint/types, mobile/desktop motion and layout, reduced-motion static and read-only Water preview checks pass. Review libfile_81d14fcef2e08191a8b7890d5e3304f7; see MARACAIBO_FLAG_WAVE_REVIEW_20261004.md. No publication.
+
+## [x] Maracaibo actual cloth ripple revision - October 4
+
+Authority: Anthony rejected the published rigid sway and requests actual cloth animation. He permits changing the image provided it remains Venezuelan. Local revision and moving Library preview only; no publication until review.
+Scope: Clean code-native yellow/blue/red flag with eight white stars in the blue stripe; joined deforming sections, subtle moving light, static reduced-motion mode. Preserve layout, other artwork, traffic and paused reliability. No services, generation, dependencies, gameplay or staff integration.
+Acceptance: Scoped lint/types, mobile/desktop non-rigid deformation and reduced-motion checks; real short moving preview in Library before publication.
+State: DONE locally; awaiting this revision's review. Joined SVG sections deform over 4.8 seconds then rest; new code-native Venezuelan artwork has three stripes and eight stars. Scoped ESLint/types, 390/1440 layout/deformation and static reduced-motion checks pass with no runtime errors or application writes. Actual six-second moving GIF: libfile_1e69a19097d48191a4d0d4cc7f917202. See MARACAIBO_FLAG_RIPPLE_REVIEW_20261004.md. No push, merge or deployment.
+
+## [x] Maracaibo smoother fabric realism - October 4
+
+Authority: Anthony asks for a more realistic flag after reviewing the GIF. Local refinement from 5f57b4b only. Scope: existing textured Venezuelan artwork, continuous deformation, soft fold lighting and subtle free-edge flutter. Preserve colors, eight stars, layout and static reduced motion. Acceptance: targeted lint/types and desktop/mobile render/fallback, actual moving Library preview. No publication, new dependencies or unrelated work.
+
+State: DONE locally; awaiting review. Existing textured flag now receives smooth continuous shader deformation, directional fold lighting and small free-edge flutter. Scoped ESLint/types, 390/1440 render/motion/reduced-motion and context-loss fallback pass. Actual six-second moving GIF: libfile_acd4f8bd40f081918c60cb4096c2080f. See MARACAIBO_FLAG_REALISM_REVIEW_20261004.md. No push, merge or deployment.
+
+## [ ] Publish approved realistic Maracaibo flag with header/footer placement - October 4
+
+Authority: Anthony explicitly approved publishing realistic preview and requested top flag plus Fina Calle footer logo. Scope: move flag into header, remove duplicate Play placement, Brought to you by + existing authentic transparent Fina Calle emblem + Website experience copyright. Preserve all operational preview disclosures and unrelated work. Acceptance: targeted lint/types, desktop/mobile/reduced-motion/footer and approved flag check; draft PR, exact-head CI/Vercel, guarded merge, exact-SHA production/live asset verification.
+
+State: implementation verified and publication authorized; draft PR / exact-head CI and Vercel / guarded merge / production receipt remain. Screenshot libfile_f6911bf1007c8191a7ed5725c474da91; scoped lint/types and 320/390/1440 checks pass. Local Webpack build encounters unchanged Bodega route-export issue; standard release checks are mandatory. See MARACAIBO_FLAG_HEADER_FOOTER_RELEASE_20261004.md.

@@ -3185,3 +3185,24 @@ Isolated from current main de44790. Add a short transform-only wave to the exist
 ## OUT - 2026-10-04 - Maracaibo subtle flag wave ready locally
 
 Existing flag gains a 4.8-second hoist-anchored transform-only sway, then rests. Original pixels/colors/eight stars and geometry preserved; reduced-motion static. Scoped ESLint/types and mobile/desktop phase/layout/chooser checks pass, zero runtime errors/application writes. Water remains local preview only with Nothing sent; no staff integration. Review libfile_81d14fcef2e08191a8b7890d5e3304f7. No push/deploy; concurrent traffic, dirty canonical work and paused reliability branches untouched. See MARACAIBO_FLAG_WAVE_REVIEW_20261004.md.
+
+
+## IN - 2026-10-04 - Maracaibo actual cloth ripple revision
+
+Prior sway already merged as 176093b / PR306 and verified live. Anthony rejects that movement and allows replacing flag artwork. New isolated branch from exact current main 176093b; code-native flag and non-rigid cloth mesh, static reduced motion, real moving preview required. Local only until this revision is reviewed. Preserve traffic, other artwork and paused reliability; no generators, services, new dependencies or staff/game changes.
+
+## OUT - 2026-10-04 - Maracaibo actual cloth ripple ready for review
+
+New code-native Venezuelan flag uses twelve joined independently deforming sections, a fixed hoist, eight white stars and three horizontal stripes. Motion plays 4.8 seconds then rests; reduced motion renders no animated sections or SMIL. Scoped ESLint/types and 390/1440 native-browser geometry, seam, layout and reduced-motion checks pass; no runtime exceptions or application writes. Actual browser frames encoded into a six-second moving GIF, saved in Library as libfile_1e69a19097d48191a4d0d4cc7f917202. Previous sway release remains live as 176093b / PR306. This revision is local only awaiting review; traffic, dirty canonical work and paused reliability untouched. See MARACAIBO_FLAG_RIPPLE_REVIEW_20261004.md.
+
+## IN - 2026-10-04 - Maracaibo smoother fabric realism
+
+Anthony reviewed the moving vector preview and requests more realism. Refine local branch from 5f57b4b with existing textured flag artwork and one continuous deformation shader. Preserve layout and reduced-motion fallback; local moving Library preview only, no publishing, new dependencies, generators or unrelated work.
+
+## OUT - 2026-10-04 - Maracaibo textured cloth animation ready locally
+
+Replaced the reviewed segmented vector with existing textured Venezuelan artwork on a single native WebGL shader surface. Smooth UV deformation, soft directional lighting and small free-edge flutter preserve the eight stars without panel seams or whole-image sway. Four-point-eight-second finite motion; reduced motion, loading and unavailable/lost WebGL retain the native static image. Scoped ESLint/types, 390/1440 motion/layout/reduced-motion and context-loss fallback pass; no runtime exceptions/application writes. Actual browser-rendered six-second GIF saved to Library as libfile_acd4f8bd40f081918c60cb4096c2080f. Local refinement from 5f57b4b only; no new assets/dependencies/services/generators, push or publication. Canonical/traffic/paused reliability remain untouched. See MARACAIBO_FLAG_REALISM_REVIEW_20261004.md.
+
+## IN - 2026-10-04 - Approved realistic flag header and Fina Calle footer release
+
+Anthony approved publishing the realistic flag and requests it at the top, with Brought to you by / authentic Fina Calle logo / copyright in the footer. Latest remote main remains 176093b and includes PR305 traffic isolation; local branch is 453efd1. Move the existing approved shader flag into the header, remove duplicate Play flags, and use original transparent emblem-colattao.webp already used by FinaCalleFooter. Scope copyright to website experience; retain operational preview disclosures. Combined revision publication is explicitly approved. No other functions, integrations, configuration, dependencies or paused reliability work.

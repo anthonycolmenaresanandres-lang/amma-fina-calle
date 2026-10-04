@@ -45,14 +45,17 @@
 .playLettering { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .playFlag { display: block; width: clamp(76px, 25vw, 112px); flex: 0 0 auto; pointer-events: none; }
 .playFlag img { display: block; width: 100%; height: auto; }
-/* Brief cloth sway from the hoist; settles within five seconds without a new control. */
-.flagCloth { transform-origin: 12% 50%; animation: maracaiboFlagWave 4.8s ease-in-out 1; }
-@keyframes maracaiboFlagWave {
-  0%, 100% { transform: perspective(360px) rotateY(0deg) skewY(0deg) scaleY(1); }
-  25% { transform: perspective(360px) rotateY(-9deg) skewY(1.3deg) scaleY(.985); }
-  50% { transform: perspective(360px) rotateY(5deg) skewY(-1.2deg) scaleY(1.01); }
-  75% { transform: perspective(360px) rotateY(-5deg) skewY(.8deg) scaleY(.995); }
+/* One continuous textured surface; the native image remains a static fallback. */
+.flagFabric { position: relative; display: block; width: 100%; }
+.flagStill { display: block; width: 100%; height: auto; }
+.flagCanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.flagCanvas[data-ready="true"] { opacity: 1; }
+.flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .flagCanvas { display: none; }
+  .flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 1; }
 }
+
 .lettering { --letter-height: 4.25rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }
 .letteringFallback { position: absolute; inset: 0; display: flex; align-items: center; font-size: clamp(1.6rem, 7vw, 3rem); font-weight: 750; line-height: 1.1; letter-spacing: -.04em; }
 .letteringImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
@@ -97,7 +100,7 @@
 .brandText[data-loaded="true"] .brandNameFallback { clip-path: inset(50%); }
 .brandText[data-loaded="true"] .brandNameImage { opacity: 1; }
 .tableMeta { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
-.headerFlag { display: block; width: 44px; pointer-events: none; }
+.headerFlag { display: block; width: 88px; pointer-events: none; }
 .headerFlag img { display: block; width: 100%; height: auto; }
 .welcome { width: min(100% - 80px, 1120px); margin: 0 auto; padding: 28px 0 64px; display: grid; align-items: center; gap: 44px; flex: 1; }
 .heroTitle { margin: 0; }
@@ -166,8 +169,10 @@
 .utilityBar { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); }
 .utilityBar button { min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--muted); font-size: .875rem; }
 .utilityBar button:hover, .utilityBar button[aria-current="page"] { color: var(--paper); text-decoration: underline; text-underline-offset: 6px; }
-.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; width: min(100% - 80px, 1120px); margin: auto auto 0; padding: 20px 0 max(24px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; line-height: 1.5; }
-.footer small { font-size: inherit; }
+.footer { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(100% - 80px, 1120px); margin: auto auto 0; padding: 24px 0 max(24px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: .6875rem; line-height: 1.6; text-align: center; }
+.footer small { font-size: inherit; max-width: 38ch; }
+.footerCredit { font-size: .6875rem; letter-spacing: .08em; }
+.footerLogo { display: block; width: 76px; height: auto; }
 
 /* Presentation only; the same simulation, input and transport serve every venue. */
 .matchTitle { min-width: 0; max-width: 6ch; }
@@ -285,7 +290,7 @@
   .brandLogo { width: 56px; height: 56px; }
   .brandText { width: 8rem; }
   .tableMeta { flex-direction: column; align-items: flex-end; gap: 3px; font-size: .75rem; }
-  .headerFlag { width: 34px; }
+  .headerFlag { width: 56px; }
   .welcome { gap: 24px; padding: 4px 0 40px; }
   .welcomeAccent { width: clamp(100px, 32cqw, 128px); }
   .actionRail button { min-height: 104px; padding-block: 10px; }
