@@ -941,3 +941,10 @@ Authority: Anthony requests name lettering to match the supplied logo. Raster at
 Scope: Only the header name and necessary responsive/fallback rules on current main 340c0ff. Preserve existing real badge, approved display brush lettering, body/utility type, all layout intent and functions. No generation, dependencies, reliability work, publication or deployment.
 Acceptance: Scoped lint/types, matching desktop/mobile before/after captures, 320px fit, retained name text and image-failure/forced-color fallback. Save final screenshot and vector to Library; local commit only.
 State: DONE locally. Scoped lint and TypeScript, stable desktop/mobile comparison, 320px fit, accessible name and image-failure/forced-color fallback pass. Review screenshot libfile_e0986cb21e94819196bca9c321d7e337; SVG libfile_d244b25ac9e081919ba65a74c695e1b7. See MARACAIBO_GEOMETRIC_WORDMARK_REVIEW_20261004.md. No publication.
+
+## [x] Maracaibo subtle flag wave - October 4
+
+Authority: Anthony asks for the existing Venezuela flag to wave. Local implementation/review only.
+Scope: Transform-only cloth-like wave on existing flag pixels; reduced-motion static; preserve colors, eight stars, layout and touch targets. No new assets, dependencies, broad tests, traffic/reliability or staff integration.
+Acceptance: Scoped lint/types, mobile/desktop render, transform motion with stable layout, reduced-motion static, original flag unchanged. Confirm water preview behavior read-only.
+State: DONE locally. Scoped lint/types, mobile/desktop motion and layout, reduced-motion static and read-only Water preview checks pass. Review libfile_81d14fcef2e08191a8b7890d5e3304f7; see MARACAIBO_FLAG_WAVE_REVIEW_20261004.md. No publication.

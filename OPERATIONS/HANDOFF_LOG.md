@@ -3176,3 +3176,12 @@ Isolated branch codex/maracaibo-geometric-wordmark-20261004 from current remote 
 ## OUT - 2026-10-04 - Maracaibo geometric header name ready locally
 
 New crisp SVG name interpretation, accessible fallback and compact header sizing implemented from main 340c0ff. Original badge, display headings and all functions preserved. Scoped ESLint and TypeScript pass; stable 390/1440 screenshots, 320 fit, failed-art and forced-colors checks pass with zero runtime exceptions/application writes. Review screenshot and SVG saved to Library (libfile_e0986cb21e94819196bca9c321d7e337; libfile_d244b25ac9e081919ba65a74c695e1b7). Existing Google font preview timeout recorded; vector needs no font. Shared dirty checkout/paused branches untouched. Local commit only; no push/deploy. See MARACAIBO_GEOMETRIC_WORDMARK_REVIEW_20261004.md.
+
+
+## IN - 2026-10-04 - Maracaibo subtle flag wave
+
+Isolated from current main de44790. Add a short transform-only wave to the existing flag and settle to static, respecting reduced motion. Preserve eight stars, colors and layout. Water request handler inspected read-only: local React preview state with Preview only / Nothing sent, no staff notification. No new assets, integrations, dependencies, traffic/reliability or publishing.
+
+## OUT - 2026-10-04 - Maracaibo subtle flag wave ready locally
+
+Existing flag gains a 4.8-second hoist-anchored transform-only sway, then rests. Original pixels/colors/eight stars and geometry preserved; reduced-motion static. Scoped ESLint/types and mobile/desktop phase/layout/chooser checks pass, zero runtime errors/application writes. Water remains local preview only with Nothing sent; no staff integration. Review libfile_81d14fcef2e08191a8b7890d5e3304f7. No push/deploy; concurrent traffic, dirty canonical work and paused reliability branches untouched. See MARACAIBO_FLAG_WAVE_REVIEW_20261004.md.
