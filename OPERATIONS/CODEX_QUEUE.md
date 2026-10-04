@@ -1,5 +1,14 @@
 # Codex Queue — canonical live queue
 
+## [ ] Traffic-only morning report - October 4
+
+**Authority:** Anthony approved publishing the traffic-only isolation fix, daily reports to anthonycolmenaresanandres@gmail.com and one controlled verification email. Scoped branch/PR/CI/merge/existing deployment are authorized. Secret creation/configuration remains an action-time owner handoff; no agent may handle credential values.
+**Base/worktree:** main de44790b96d40e5ecd2c81ef47161e3657831e8a; codex/traffic-only-report-20261004; C:/dev/amma/worktrees/traffic-only-report-20261004. Preserve canonical dirty docs and paused/parallel Maracaibo work.
+**Scope:** Report-specific Resend key/sender, explicit Square scheduled-refresh opt-in, private no-send readiness metadata, offline isolation tests and secure owner runbook. Preserve traffic collection, per-site attribution, previous Eastern day, daily 12:12 UTC schedule, prices and other workflows.
+**PASS:** No report key fallback to shared mail credentials; CRON_SECRET alone cannot refresh Square; private readiness never sends; authentication, partial figures, missing configuration, provider errors and idempotency tested; lint/build and exact-head CI/preview/authorized production receipt recorded.
+**STOP:** No secret generation/retrieval/display/copy/entry, access grant, spending or new services. No activation or live send until owner confirms secure production configuration, verified sender domain/key permissions and previous-day readiness. At most one verification email; do not enable Square or customer-request emails.
+**State:** CODE PREPARED AND LOCALLY VERIFIED - new offline mail/cron/readiness/Square behavior suite, 42 traffic attribution/store/DST checks and dashboard/format checks pass; scoped lint passes. Webpack production app compiles, then the unchanged BodegaBillingContent named page export blocks its local generated-route type gate. Exact-head clean CI/Vercel builds remain required before authorized merge. Live activation and the sole verification email remain blocked by owner-only secure setup and safe sender/key/previous-day metadata confirmation.
+
 ## [x] Maracaibo Venezuelan signwriter design — October 4
 
 **Authority:** Anthony approved the yellow/blue/red generated concept and explicitly requested fainter stars, the existing generated Venezuelan flag beside Play, implementation, push and merge. This supersedes the preceding sample-only boundary for this scoped change.

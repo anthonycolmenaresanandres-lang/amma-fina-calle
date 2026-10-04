@@ -49,4 +49,5 @@ jobs:
           node scripts/square-cleanup-db-selftest.mjs
           npm run bodega-traffic:selftest
           npm run traffic:selftest
+          npm run traffic-morning:selftest
       - run: npm run build
