@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, Star } from "lucide-react";
+import Image from "next/image";
 import { usePhone } from "./use-phone";
 import { useTableVisit } from "./use-table-visit";
 import { MaracaiboPenaltyClient } from "./MaracaiboPenaltyClient";
@@ -78,6 +79,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           <MaracaiboWordmark />
         </button>
         <div className={styles.tableMeta}>
+          <FlagArtwork className={styles.headerFlag} decorative />
           <span>{currentTable}</span>
         </div>
       </header>
@@ -93,7 +95,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             <button type="button" onClick={() => navigate("menu")}><strong><Lettering name="menu" label="Menu" priority /></strong><small>Explore the menu</small></button>
             <button type="button" onClick={() => navigate("ordering")}><strong><Lettering name="order-online" label="Order online" priority /></strong><small>Pickup &amp; delivery only</small></button>
             <button type="button" onClick={() => navigate("service")}><strong><Lettering name="service" label="Service" priority /></strong><small>Ask your server · Preview</small></button>
-            <button type="button" onClick={() => navigate("games")}><strong className={styles.playLettering}><Lettering name="play" label="Play" priority /><FlagArtwork className={styles.playFlag} decorative /></strong><small>Multiplayer football · Solo penalties</small></button>
+            <button type="button" onClick={() => navigate("games")}><strong className={styles.playLettering}><Lettering name="play" label="Play" priority /></strong><small>Multiplayer football · Solo penalties</small></button>
           </div>
         </section>
       ) : (
@@ -135,7 +137,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
           {["games", "match", "penalty"].includes(view) ? (
             <section aria-labelledby="match-title">
-              <div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={view === "games" ? styles.playHeading : styles.matchTitle}>{view === "games" ? <span className={styles.playLettering}><Lettering name="play" label="Play" /><FlagArtwork className={styles.playFlag} decorative /></span> : view === "penalty" ? "Penalty Rush" : "Table match"}</h1>{view === "match" ? <DecorativeArtwork kind="football" className={styles.lobbyAccent} /> : null}</div>
+              <div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={view === "games" ? styles.playHeading : styles.matchTitle}>{view === "games" ? <span className={styles.playLettering}><Lettering name="play" label="Play" /></span> : view === "penalty" ? "Penalty Rush" : "Table match"}</h1>{view === "match" ? <DecorativeArtwork kind="football" className={styles.lobbyAccent} /> : null}</div>
               {view === "games" ? <><p className={styles.lobbyIntro}>Choose your game</p><div className={styles.gameChoices}>
                   <article className={styles.gameChoice} data-mode="multiplayer"><span className={styles.gameMode}>Multiplayer</span><h2>Table Football</h2><p>Play with friends at your table</p><small>{currentTable} · Up to 4 players</small><button type="button" className={styles.gameButton} onClick={() => navigate("match")}>Join table game</button></article>
                   <article className={styles.gameChoice} data-mode="solo"><span className={styles.gameMode}>Solo</span><h2>Penalty Rush</h2><p>Just you and the keeper</p><small>Start instantly · No scan needed</small><button type="button" className={styles.gameButton} onClick={() => navigate("penalty")}>Play solo</button></article>
@@ -156,7 +158,11 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
         <span role="status">{membership.status === "active" ? `${currentTable} · Your visit` : membership.status === "ended" ? "You’ve left this table." : membership.status === "connecting" ? "Connecting your table…" : "Table connection unavailable"}</span>
         {membership.status === "active" ? <button type="button" className={styles.quietButton} onClick={() => { if (window.confirm("Leave this table on your phone? Other guests can keep playing.")) { activeMatch.current = false; setView("welcome"); void membership.leave(); } }}>Leave table</button> : null}
       </div> : null}
-      <footer className={styles.footer}><span>FinaCalle</span><small className={styles.artworkCredit}>Lettering &amp; illustrations · AI generated</small></footer>
+      <footer className={styles.footer} aria-label="Brought to you by Fina Calle">
+        <span className={styles.footerCredit}>Brought to you by</span>
+        <Image className={styles.footerLogo} src="/assets/fina-calle/emblem-colattao.webp" alt="Fina Calle" width={460} height={488} unoptimized />
+        <small>Website experience &copy; 2026 Fina Calle. All rights reserved.</small>
+      </footer>
     </main>
   );
 }

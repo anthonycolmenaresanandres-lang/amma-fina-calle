@@ -961,3 +961,9 @@ State: DONE locally; awaiting this revision's review. Joined SVG sections deform
 Authority: Anthony asks for a more realistic flag after reviewing the GIF. Local refinement from 5f57b4b only. Scope: existing textured Venezuelan artwork, continuous deformation, soft fold lighting and subtle free-edge flutter. Preserve colors, eight stars, layout and static reduced motion. Acceptance: targeted lint/types and desktop/mobile render/fallback, actual moving Library preview. No publication, new dependencies or unrelated work.
 
 State: DONE locally; awaiting review. Existing textured flag now receives smooth continuous shader deformation, directional fold lighting and small free-edge flutter. Scoped ESLint/types, 390/1440 render/motion/reduced-motion and context-loss fallback pass. Actual six-second moving GIF: libfile_acd4f8bd40f081918c60cb4096c2080f. See MARACAIBO_FLAG_REALISM_REVIEW_20261004.md. No push, merge or deployment.
+
+## [ ] Publish approved realistic Maracaibo flag with header/footer placement - October 4
+
+Authority: Anthony explicitly approved publishing realistic preview and requested top flag plus Fina Calle footer logo. Scope: move flag into header, remove duplicate Play placement, Brought to you by + existing authentic transparent Fina Calle emblem + Website experience copyright. Preserve all operational preview disclosures and unrelated work. Acceptance: targeted lint/types, desktop/mobile/reduced-motion/footer and approved flag check; draft PR, exact-head CI/Vercel, guarded merge, exact-SHA production/live asset verification.
+
+State: implementation verified and publication authorized; draft PR / exact-head CI and Vercel / guarded merge / production receipt remain. Screenshot libfile_f6911bf1007c8191a7ed5725c474da91; scoped lint/types and 320/390/1440 checks pass. Local Webpack build encounters unchanged Bodega route-export issue; standard release checks are mandatory. See MARACAIBO_FLAG_HEADER_FOOTER_RELEASE_20261004.md.

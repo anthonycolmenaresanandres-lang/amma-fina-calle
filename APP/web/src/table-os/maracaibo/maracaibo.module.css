@@ -100,7 +100,7 @@
 .brandText[data-loaded="true"] .brandNameFallback { clip-path: inset(50%); }
 .brandText[data-loaded="true"] .brandNameImage { opacity: 1; }
 .tableMeta { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
-.headerFlag { display: block; width: 44px; pointer-events: none; }
+.headerFlag { display: block; width: 88px; pointer-events: none; }
 .headerFlag img { display: block; width: 100%; height: auto; }
 .welcome { width: min(100% - 80px, 1120px); margin: 0 auto; padding: 28px 0 64px; display: grid; align-items: center; gap: 44px; flex: 1; }
 .heroTitle { margin: 0; }
@@ -169,8 +169,10 @@
 .utilityBar { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); }
 .utilityBar button { min-height: 44px; padding: 10px 0; border: 0; background: none; color: var(--muted); font-size: .875rem; }
 .utilityBar button:hover, .utilityBar button[aria-current="page"] { color: var(--paper); text-decoration: underline; text-underline-offset: 6px; }
-.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; width: min(100% - 80px, 1120px); margin: auto auto 0; padding: 20px 0 max(24px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: .75rem; line-height: 1.5; }
-.footer small { font-size: inherit; }
+.footer { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(100% - 80px, 1120px); margin: auto auto 0; padding: 24px 0 max(24px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: .6875rem; line-height: 1.6; text-align: center; }
+.footer small { font-size: inherit; max-width: 38ch; }
+.footerCredit { font-size: .6875rem; letter-spacing: .08em; }
+.footerLogo { display: block; width: 76px; height: auto; }
 
 /* Presentation only; the same simulation, input and transport serve every venue. */
 .matchTitle { min-width: 0; max-width: 6ch; }
@@ -288,7 +290,7 @@
   .brandLogo { width: 56px; height: 56px; }
   .brandText { width: 8rem; }
   .tableMeta { flex-direction: column; align-items: flex-end; gap: 3px; font-size: .75rem; }
-  .headerFlag { width: 34px; }
+  .headerFlag { width: 56px; }
   .welcome { gap: 24px; padding: 4px 0 40px; }
   .welcomeAccent { width: clamp(100px, 32cqw, 128px); }
   .actionRail button { min-height: 104px; padding-block: 10px; }
