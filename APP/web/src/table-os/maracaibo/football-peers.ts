@@ -228,7 +228,7 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
     }).catch(() => { if (!destroyed && peers.get(id) === current) closePeer(id); });
   };
 
-  const bridge = connectTableRoom<Signal>(`${venueId}-football-v2`, `${tableId}-${code}`, {
+  const bridge = connectTableRoom<Signal>(`${venueId}-football-v3`, tableId, {
     onMessage: ({ senderId, payload }) => receiveSignal(senderId, payload),
     onMode: (next) => {
       mode = next;
@@ -251,7 +251,7 @@ export function connectFootballPeers(venueId: string, tableId: string, code: str
       publishRoster();
       if (automatic) { finishDiscovery(); announceAuthority(true); void bridge.send({ kind: "discover" }); }
     },
-  }, { joinedAt, seat });
+  }, { joinedAt, seat, scope: code });
   members.set(bridge.clientId, { id: bridge.clientId, joinedAt, preferredSeat: seat, connected: true, active: !document.hidden });
   void bridge.send({ kind: "hello", joinedAt, seat });
   queueMicrotask(publishRoster);

@@ -34,6 +34,8 @@ jobs:
       - run: npm run lint
       - name: Maracaibo concurrent football and recovery
         run: npm run maracaibo-football:selftest
+      - name: Maracaibo table visit lifecycle and access boundaries
+        run: npm run maracaibo-visits:selftest
       - name: Owner portal and billing safeguards
         run: |
           npx --no-install tsx scripts/owner-billing-selftest.ts

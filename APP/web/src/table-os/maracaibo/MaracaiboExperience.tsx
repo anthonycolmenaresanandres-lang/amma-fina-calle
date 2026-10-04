@@ -2,13 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { usePhone } from "./use-phone";
+import { useTableVisit } from "./use-table-visit";
+import { MaracaiboPenaltyClient } from "./MaracaiboPenaltyClient";
 import { MaracaiboFootballClient } from "./MaracaiboFootballClient";
 import type { OrderDestination } from "../toast";
 import { tableLabel, type TableOsVenue } from "../venue-config";
 import { DecorativeArtwork, FlagArtwork, LogoArtwork } from "./MaracaiboMarks";
 import styles from "./maracaibo.module.css";
 
-type View = "welcome" | "menu" | "service" | "match" | "ordering";
+type View = "welcome" | "menu" | "service" | "match" | "games" | "penalty" | "ordering";
 type Props = { venue: TableOsVenue; tableId: string; orderDestination: OrderDestination };
 const REQUESTS = [
   { id: "server", label: "Server" },
@@ -20,6 +23,8 @@ type RequestId = typeof REQUESTS[number]["id"];
 const categoryId = (name: string) => "maracaibo-menu-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
 export function MaracaiboExperience({ venue, tableId, orderDestination }: Props): React.JSX.Element {
+  const device = usePhone();
+  const membership = useTableVisit(tableId, device === "phone");
   const [view, setView] = useState<View>("welcome");
   const [request, setRequest] = useState<RequestId | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -33,7 +38,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
   function navigate(next: View): void {
     if (view === next) return;
-    if (view === "match" && activeMatch.current && !window.confirm("Leave this match? Your place will be available to someone else.")) return;
+    if ((view === "match" || view === "penalty") && activeMatch.current && !window.confirm(view === "penalty" ? "Leave this shootout? Your five-shot round will end." : "Leave this match? Your place will be available to someone else.")) return;
     activeMatch.current = false;
     focusAfterNavigation.current = true;
     setView(next);
@@ -86,12 +91,12 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             <button type="button" onClick={() => navigate("menu")}><span className={styles.actionNumber} aria-hidden="true">01</span><span><strong>Menu</strong><small>Owner approval pending</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("service")}><span className={styles.actionNumber} aria-hidden="true">02</span><span><strong>Service</strong><small>Preview only</small></span><ArrowRight aria-hidden="true" /></button>
             <button type="button" onClick={() => navigate("ordering")}><span className={styles.actionNumber} aria-hidden="true">03</span><span><strong>Order online</strong><small>Pickup / delivery only</small></span><ArrowRight aria-hidden="true" /></button>
-            <button type="button" onClick={() => navigate("match")}><span className={styles.actionNumber} aria-hidden="true">04</span><span><strong>Play</strong><small>Table football · 90 seconds</small></span><ArrowRight aria-hidden="true" /></button>
+            <button type="button" onClick={() => navigate("games")}><span className={styles.actionNumber} aria-hidden="true">04</span><span><strong>Play</strong><small>Football & penalty shootout</small></span><ArrowRight aria-hidden="true" /></button>
           </div>
         </section>
       ) : (
-        <div className={styles.inner + " " + (view === "match" ? styles.playInner : "")} id="maracaibo-content">
-          <div className={styles.innerTop}><button type="button" onClick={returnHome}><ArrowLeft size={16} aria-hidden="true" /> Table home</button></div>
+        <div className={styles.inner + " " + (["match", "penalty", "games"].includes(view) ? styles.playInner : "")} id="maracaibo-content">
+          <div className={styles.innerTop}><button type="button" onClick={() => navigate(view === "match" || view === "penalty" ? "games" : "welcome")}><ArrowLeft size={16} aria-hidden="true" />{view === "match" || view === "penalty" ? "Games" : "Table home"}</button></div>
 
           {view === "menu" ? (
             <section aria-labelledby="menu-title">
@@ -126,13 +131,28 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             </section>
           ) : null}
 
-          {view === "match" ? (
-            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><MaracaiboFootballClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} onActiveChange={reportMatchActive} /></section>
+          {["games", "match", "penalty"].includes(view) ? (
+            <section aria-labelledby="match-title">
+              <div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>{view === "games" ? "Pick your game." : view === "penalty" ? "Penalty Shootout" : "Table match"}</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div>
+              {device === "desktop" ? <div className={styles.phoneHandoff}><h2>Play on your phone</h2><p>Scan the printed QR at your table, then tap Play.</p></div>
+                : device === "checking" || membership.status === "connecting" ? <p className={styles.lobbyIntro} role="status">Connecting to {currentTable}…</p>
+                : membership.status !== "active" || !membership.visit ? <div className={styles.visitNotice}><p>{membership.status === "ended" ? "Your table visit has ended. Still at the table? Join again to play." : "Your table couldn’t connect. Your menu is still available."}</p><button type="button" className={styles.primaryButton} onClick={() => { activeMatch.current = false; setView("games"); void (membership.status === "ended" ? membership.rejoin() : membership.retry()); }}>{membership.status === "ended" ? "Join this table" : "Retry connection"}</button></div>
+                : view === "games" ? <><p className={styles.lobbyIntro}>You’re at {currentTable}. Everyone who scans this table’s printed QR can play here.</p><div className={styles.gameChoices}>
+                  <button type="button" onClick={() => navigate("match")}><span><strong>Table Football</strong><small>Up to 4 players · 90 seconds<br />Drag to move. Automatic shooting.</small></span><ArrowRight aria-hidden="true" /></button>
+                  <button type="button" onClick={() => navigate("penalty")}><span><strong>Penalty Shootout</strong><small>Solo · 5 shots<br />Tap a target. Beat the keeper.</small></span><ArrowRight aria-hidden="true" /></button>
+                </div></>
+                : view === "penalty" ? <MaracaiboPenaltyClient key={membership.visit.visitId} onActiveChange={reportMatchActive} />
+                : <MaracaiboFootballClient key={membership.visit.visitId} venue={venue} tableId={tableId} visitId={membership.visit.visitId} onNavigate={(next) => navigate(next)} onActiveChange={reportMatchActive} />}
+            </section>
           ) : null}
 
-          {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
+          {view !== "match" && view !== "penalty" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
         </div>
       )}
+      {device === "phone" ? <div className={styles.visitFooter}>
+        <span role="status">{membership.status === "active" ? `${currentTable} · Your visit` : membership.status === "ended" ? "You’ve left this table." : membership.status === "connecting" ? "Connecting your table…" : "Table connection unavailable"}</span>
+        {membership.status === "active" ? <button type="button" className={styles.quietButton} onClick={() => { if (window.confirm("Leave this table on your phone? Other guests can keep playing.")) { activeMatch.current = false; setView("welcome"); void membership.leave(); } }}>Leave table</button> : null}
+      </div> : null}
       <footer className={styles.footer}><span>FinaCalle</span>{view === "welcome" || view === "service" || view === "match" ? <small className={styles.artworkCredit}>Object illustrations · AI generated</small> : null}</footer>
     </main>
   );

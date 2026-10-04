@@ -1,64 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import { countryColorTeamFromOption, tableFootballSkinFromMatchSkin } from "../game/types";
 import { tableLabel, type TableOsVenue } from "../venue-config";
 import { FootballSession, type FootballSeat, type FootballMember } from "./football-session";
 import { connectFootballPeers, type FootballPeerHandle, type FootballPeerStatus } from "./football-peers";
 import { mountFootballView } from "./football-view";
 import { TeamMark } from "./MaracaiboMarks";
+import { usePhone } from "./use-phone";
 import styles from "./maracaibo.module.css";
 
-type Props = { venue: TableOsVenue; tableId: string; onNavigate?: (view: "menu" | "service") => void; onActiveChange?: (active: boolean) => void };
+type Props = { venue: TableOsVenue; tableId: string; visitId: string; onNavigate?: (view: "menu" | "service") => void; onActiveChange?: (active: boolean) => void };
 type ViewHandle = Awaited<ReturnType<typeof mountFootballView>>;
-type Device = "checking" | "phone" | "desktop";
 const INITIAL = { home: 0, away: 0, timeRemainingMs: 90_000, phase: "ready" };
 const WAIT_LIMIT_MS = 15_000;
-const getServerDevice = (): Device => "checking";
-const getDevice = (): Device => typeof window === "undefined" ? "checking" : window.matchMedia("(pointer: coarse)").matches && navigator.maxTouchPoints > 0 ? "phone" : "desktop";
-function subscribeToDevice(change: () => void): () => void {
-  const query = window.matchMedia("(pointer: coarse)");
-  query.addEventListener("change", change);
-  return () => query.removeEventListener("change", change);
-}
 
-function TableInvitation({ url, title, desktop = false }: { url: string; title: string; desktop?: boolean }): React.JSX.Element {
-  const [open, setOpen] = useState(false);
-  const [qr, setQr] = useState("");
-  const [message, setMessage] = useState("");
-  const showQR = desktop || open;
-  useEffect(() => {
-    if (!showQR || !url) return;
-    let cancelled = false;
-    void import("qrcode").then((module) => module.default.toDataURL(url, { width: 256, margin: 2, errorCorrectionLevel: "M", color: { dark: "#101112", light: "#ffffff" } })).then((data) => { if (!cancelled) setQr(data); }).catch(() => { if (!cancelled) setMessage("Use the table link below."); });
-    return () => { cancelled = true; };
-  }, [showQR, url]);
-  async function copy(): Promise<void> {
-    try { await navigator.clipboard.writeText(url); setMessage("Table link copied."); }
-    catch { setOpen(true); setMessage("Select the table link below to copy it."); }
-  }
-  async function invite(): Promise<void> {
-    if (navigator.share) {
-      try { await navigator.share({ title, text: "Join our table match.", url }); return; }
-      catch (error) { if (error instanceof DOMException && error.name === "AbortError") return; }
-    }
-    setOpen(true);
-  }
-  return (
-    <div className={desktop ? styles.phoneHandoff : styles.tableInvite}>
-      {desktop ? <><h2>Play on your phone</h2><p>Scan this table’s QR, then tap Play. Your friends join the same match.</p></> : <div className={styles.inviteActions}><button type="button" className={styles.quietButton} onClick={() => void invite()}>Invite friends</button><button type="button" className={styles.quietButton} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Hide table QR" : "Show table QR"}</button></div>}
-      {showQR ? <div className={styles.tableLinkPanel}>{qr ? <figure className={styles.tableQr}>
-        {/* Generated locally from the permanent table route. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={qr} width={256} height={256} alt={`QR code for ${title}`} />
-      </figure> : <p role="status">Preparing the table QR…</p>}<a className={styles.tableUrl} href={url} target="_blank" rel="noopener noreferrer">{url}</a><button type="button" className={styles.quietButton} onClick={() => void copy()}>Copy table link</button></div> : null}
-      <p className={styles.inviteStatus} role="status" aria-live="polite">{message}</p>
-    </div>
-  );
-}
-
-export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveChange }: Props): React.JSX.Element {
-  const device = useSyncExternalStore(subscribeToDevice, getDevice, getServerDevice);
+export function MaracaiboFootballClient({ venue, tableId, visitId, onNavigate, onActiveChange }: Props): React.JSX.Element {
+  const device = usePhone();
   const mount = useRef<HTMLDivElement>(null);
   const view = useRef<ViewHandle | null>(null);
   const sessionRef = useRef<FootballSession | null>(null);
@@ -78,7 +36,6 @@ export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveCh
   const home = venue.teams[0];
   const away = venue.teams[1] ?? home;
   const currentTable = tableLabel(tableId);
-  const tableUrl = device === "checking" ? "" : `${window.location.origin}/table/${encodeURIComponent(venue.id)}/${encodeURIComponent(tableId)}`;
   const seatName = (value: FootballSeat) => `${value.startsWith("home") ? home.label : away.label} ${value.endsWith("goalkeeper") ? "keeper" : "forward"}`;
   const active = device === "phone" && !!joined && (score.phase === "playing" || score.phase === "goal");
 
@@ -97,9 +54,9 @@ export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveCh
     let pendingRoster: readonly FootballMember[] = [];
     let discoveryReady = false;
     let waitingSince = performance.now();
-    const options = { roomId: `${venue.id}:${tableId}:${joined.practice ? "practice" : "table"}`, mode: "2v2" as const, home: countryColorTeamFromOption(home), away: countryColorTeamFromOption(away), durationSeconds: 90 };
+    const options = { roomId: `${venue.id}:${tableId}:${visitId}:${joined.practice ? "practice" : "table"}`, mode: "2v2" as const, home: countryColorTeamFromOption(home), away: countryColorTeamFromOption(away), durationSeconds: 90 };
     if (!joined.practice) {
-      peers = connectFootballPeers(venue.id, tableId, "table", "auto", {
+      peers = connectFootballPeers(venue.id, tableId, visitId, "auto", {
         onRoster: (roster) => { pendingRoster = roster; session?.roster(roster); },
         onPacket: (sender, value) => session?.receive(sender, value) ?? false,
         isHost: () => session?.isHost ?? false,
@@ -141,7 +98,7 @@ export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveCh
       if (sessionRef.current === session) sessionRef.current = null;
       pointerOwner.current = keyboardOwner.current = null;
     };
-  }, [device, joined, venue.id, venue.skin, tableId, home, away]);
+  }, [device, joined, venue.id, venue.skin, tableId, visitId, home, away]);
 
   function start(practice: boolean): void {
     setError(null); setLoaded(false); setReady(false); setHasConnected(false); setTimedOut(false); setRecovered(false); setSeat(null); setCount(0); setScore(INITIAL); setStatus("connecting");
@@ -159,7 +116,7 @@ export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveCh
   const navigation = onNavigate ? <div className={styles.matchLinks}><button type="button" className={styles.quietButton} onClick={() => onNavigate("menu")}>Menu</button><button type="button" className={styles.quietButton} onClick={() => onNavigate("service")}>Service</button></div> : null;
 
   if (device === "checking") return <p className={styles.lobbyIntro} role="status">Opening table match…</p>;
-  if (device === "desktop") return <><TableInvitation url={tableUrl} title={`${venue.name} ${currentTable}`} desktop />{navigation}</>;
+  if (device === "desktop") return <p className={styles.lobbyIntro}>Scan the printed QR at your table with your phone to play.</p>;
   if (!joined) return <div><p className={styles.lobbyIntro}>90 seconds. {home.label} vs {away.label}. Join the people at {currentTable}.</p><div className={styles.joinAction}><button type="button" className={styles.primaryButton} onClick={() => start(false)}>Join table match</button></div><button type="button" className={styles.quietButton} onClick={() => start(true)}>Play with computers</button>{navigation}</div>;
 
   return (
@@ -186,7 +143,6 @@ export function MaracaiboFootballClient({ venue, tableId, onNavigate, onActiveCh
             onBlur={() => { if (keyboardOwner.current === direction) { keyboardOwner.current = null; view.current?.move(0, "keyboard"); } }}>{direction === -1 ? "↑" : "↓"}</button>)}
         </div><p className={styles.prototypeNote}>Drag to move. Your player shoots automatically.<br />Empty places play for the computer.</p>
       </>}
-      {ready && !blocked && !joined.practice ? <TableInvitation url={tableUrl} title={`${venue.name} ${currentTable}`} /> : null}
       {navigation}
     </div>
   );

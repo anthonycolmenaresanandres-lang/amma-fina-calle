@@ -4,6 +4,7 @@
 // production build must embed the fixture URL/key. This never certifies real phones.
 // --expect-network-unavailable explicitly checks recovery when this runtime has no ICE.
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
 import { createRequire } from "node:module";
 import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
@@ -23,6 +24,8 @@ assert.ok(["127.0.0.1", "localhost"].includes(new URL(origin).hostname), "QA onl
 assert.ok(!expectNetworkUnavailable || remote, "Unavailable mode requires the isolated-context remote fixture");
 const output = process.env.MARACAIBO_QA_OUTPUT ?? await mkdtemp(path.join(tmpdir(), "maracaibo-qa-"));
 await mkdir(output, { recursive: true });
+const visitIds = new Map();
+const guestIds = new WeakMap();
 const errors = [];
 const writes = [];
 const signals = [];
@@ -109,6 +112,16 @@ try {
       const request = route.request();
       const url = new URL(request.url());
       if (!["127.0.0.1", "localhost"].includes(url.hostname)) return route.abort();
+      if (request.method() === "POST" && url.pathname.startsWith("/api/maracaibo/visit/")) {
+        // Gameplay fixture only. Real cookie/SQL lifecycle is exercised separately
+        // by maracaibo-visits-browser-selftest.mjs against the actual Next API.
+        const tableId = decodeURIComponent(url.pathname.split("/").at(-1));
+        if (!visitIds.has(tableId)) visitIds.set(tableId, randomUUID());
+        const page = request.frame().page();
+        if (!guestIds.has(page)) guestIds.set(page, randomUUID());
+        return route.fulfill({ contentType: "application/json", body: JSON.stringify({ status: "active", tableId,
+          visitId: visitIds.get(tableId), guestId: guestIds.get(page), expiresAt: new Date(Date.now() + 30 * 60_000).toISOString() }) });
+      }
       if (!["GET", "HEAD"].includes(request.method())) { writes.push(`${request.method()} ${url.pathname}`); return route.abort(); }
       return route.continue();
     });
@@ -142,7 +155,7 @@ try {
             record(event.data?.packet, "receive", event.data?.sender);
           });
           this.qaGame = name.startsWith("maracaibo-local-game:");
-          this.qaBridge = name.startsWith("table-os:") && name.includes("-football-v2:");
+          this.qaBridge = name.startsWith("table-os:") && name.includes("-football-v3:");
         }
         postMessage(value) {
           if (this.qaGame) record(value?.packet, "send", value?.sender);
@@ -170,13 +183,16 @@ try {
   }
   async function join(item, { waitCanvas = true } = {}) {
     const { page } = item;
-    await page.getByRole("button", { name: "Play Table football · 90 seconds" }).click();
+    await page.getByRole("button", { name: "Play Football & penalty shootout" }).click();
+    await page.getByRole("button", { name: /^Table Football/ }).click();
     assert.equal(await page.locator('input[name="matchCode"]').count(), 0, "Joining a table must not require a code");
     const joinButton = page.getByRole("button", { name: /^(Join table match|Join match|Play with your table|Join your table|Play at this table)$/ });
     if (await joinButton.isVisible()) await joinButton.click();
     if (waitCanvas) await page.waitForSelector("canvas");
   }
   async function steer(page, fraction = 0.65) {
+    await until(() => page.getByRole("button", { name: "Move up", exact: true }).isEnabled(), "The current pitch must be ready before steering");
+    await page.locator("canvas").scrollIntoViewIfNeeded();
     const box = await page.locator("canvas").boundingBox();
     assert.ok(box, "Phone pitch is mounted");
     await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height * fraction);
@@ -349,9 +365,9 @@ try {
       assert.equal(await pages[index].locator("canvas").count(), 1);
     }
     const desktop = await pageFor(1, false, false);
-    await desktop.page.getByRole("button", { name: "Play Table football · 90 seconds" }).click();
+    await desktop.page.getByRole("button", { name: "Play Football & penalty shootout" }).click();
     await desktop.page.getByRole("heading", { name: "Play on your phone", exact: true }).waitFor();
-    await desktop.page.getByAltText(/^QR code for/).waitFor();
+    assert.equal(await desktop.page.getByAltText(/^QR code for/).count(), 0, "Use the printed table QR, never another screen QR");
     assert.equal(await desktop.page.locator("canvas").count(), 0, "Desktop provides a phone handoff instead of an active session");
     assert.equal(await desktop.page.getByRole("button", { name: "Shoot", exact: true }).count(), 0);
     await desktop.page.screenshot({ path: path.join(output, "desktop-phone-handoff.png"), fullPage: false });
