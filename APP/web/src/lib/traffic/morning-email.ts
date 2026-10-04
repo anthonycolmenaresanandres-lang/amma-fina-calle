@@ -5,9 +5,17 @@ import { renderMorningReport } from "./morning-format";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
+/** Readiness metadata only: never return a credential or email address. */
+export function morningEmailStatus() {
+  const missing = ["TRAFFIC_RESEND_API_KEY", "TRAFFIC_FROM_EMAIL", "TRAFFIC_MORNING_REPORT_EMAIL"]
+    .filter((key) => !process.env[key]?.trim());
+  const recipientValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(process.env.TRAFFIC_MORNING_REPORT_EMAIL?.trim() ?? "");
+  return { configured: missing.length === 0 && recipientValid, missing, recipientValid };
+}
+
 export async function sendMorningReport(date: string, reports: TrafficReport[]): Promise<{ sent: boolean; reason?: string }> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const from = process.env.REQUESTS_FROM_EMAIL?.trim();
+  const apiKey = process.env.TRAFFIC_RESEND_API_KEY?.trim();
+  const from = process.env.TRAFFIC_FROM_EMAIL?.trim();
   const to = process.env.TRAFFIC_MORNING_REPORT_EMAIL?.trim();
   if (!apiKey || !from || !to) return { sent: false, reason: "email_not_configured" };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) return { sent: false, reason: "invalid_report_recipient" };

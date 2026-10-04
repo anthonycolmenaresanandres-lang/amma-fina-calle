@@ -103,11 +103,14 @@ production account changes. The code merge alone cannot produce live numbers.
    receives only its own pageviews and its first/latest observation timestamps.
    Check the receiver's `received` and `sites` response or runtime log. A missing site remains waiting; do not
    replace it with the unfiltered Vercel project count.
-5. Only after all sites are verified, configure `CRON_SECRET`, `RESEND_API_KEY`,
-   `REQUESTS_FROM_EMAIL`, and `TRAFFIC_MORNING_REPORT_EMAIL` for the private
-   morning report. The cron route uses a previous complete Eastern day and
-   sends one email with separate labeled sections and explicit missing-coverage
-   status. Confirm the recipient and one report before relying on the automation.
+5. For the traffic-only morning report, follow [the secure activation runbook](../OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md).
+   Use Production-only `CRON_SECRET`, `TRAFFIC_RESEND_API_KEY`, `TRAFFIC_FROM_EMAIL`
+   and `TRAFFIC_MORNING_REPORT_EMAIL`. Keep `SQUARE_REFRESH_CRON_ENABLED` false
+   and leave shared `RESEND_API_KEY` / request mail settings unchanged.
+   The signed-in admin can inspect `/api/internal/traffic/morning?dryRun=1`
+   without sending or exposing secrets. At least one verified previous-day site
+   is required; missing sites remain explicit. Confirm secure setup, sender/key
+   metadata and date/coverage before the single approved verification run.
 
 The database and drain have no safe historical backfill from the Web Analytics
 API because that API cannot filter by hostname for the shared project. Do not
