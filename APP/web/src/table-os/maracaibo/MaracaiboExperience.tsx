@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { MaracaiboFootballClient } from "./MaracaiboFootballClient";
 import type { OrderDestination } from "../toast";
@@ -25,12 +25,16 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
   const [preview, setPreview] = useState<string | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const focusAfterNavigation = useRef(false);
+  const activeMatch = useRef(false);
+  const reportMatchActive = useCallback((active: boolean) => { activeMatch.current = active; }, []);
   const currentTable = tableLabel(tableId);
   const sourceDate = venue.menuEvidence.sources[0]?.retrievedDate;
   const sourceLabel = sourceDate ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(sourceDate + "T12:00:00Z")) : "Date recorded with source";
 
   function navigate(next: View): void {
     if (view === next) return;
+    if (view === "match" && activeMatch.current && !window.confirm("Leave this match? Your place will be available to someone else.")) return;
+    activeMatch.current = false;
     focusAfterNavigation.current = true;
     setView(next);
   }
@@ -44,7 +48,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
   }, [view]);
 
   function returnHome(): void {
-    if (view !== "match" || window.confirm("Leave this match view? Your place and score may not be restored when you return.")) navigate("welcome");
+    navigate("welcome");
   }
 
   function showRequestPreview(): void {
@@ -123,7 +127,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           ) : null}
 
           {view === "match" ? (
-            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><MaracaiboFootballClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} /></section>
+            <section aria-labelledby="match-title"><div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={styles.matchTitle}>Table match</h1><DecorativeArtwork kind="football" className={styles.lobbyAccent} /></div><MaracaiboFootballClient venue={venue} tableId={tableId} onNavigate={(next) => navigate(next)} onActiveChange={reportMatchActive} /></section>
           ) : null}
 
           {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}

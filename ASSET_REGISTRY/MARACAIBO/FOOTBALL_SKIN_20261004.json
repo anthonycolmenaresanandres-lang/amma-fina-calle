@@ -1,0 +1,58 @@
+{
+  "created": "2026-10-04",
+  "direction": "Original overhead football stadium inspired by contemporary silver stadium architecture, with original sculpted sports-game mascots. Lago orange/charcoal; Rayo green/off-white.",
+  "generation": "Built-in ImageGen, requested by Anthony. No client logo, real athlete, club, league or competition mark generated.",
+  "logo": {
+    "path": "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
+    "treatment": "Existing supplied original used as a separate runtime overlay; pixels unchanged.",
+    "sha256": "213148e712faeac2328e4944fbba4cec5292b7a68ff49aa37fd103c61cad7188"
+  },
+  "derivatives": "FFmpeg libwebp: stadium1024 quality86; alpha players384 quality90. No creative edits outside ImageGen.",
+  "assets": [
+    {
+      "asset": "stadium.webp",
+      "bytes": 248858,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alphaRange": null,
+      "sha256": "3dca2125bba5e065cc6ea0522cdb9722ec4bcf2a79d1d52ed9233ae933b958c1",
+      "original": "stadium-ai-original.png",
+      "originalSha256": "4cff9b244308a784f62ab32bf50be3ec687a1067b3219cec21f327126af01bd0"
+    },
+    {
+      "asset": "player-lago.webp",
+      "bytes": 18212,
+      "dimensions": [
+        384,
+        384
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "86e83d1ad53b7ea37d6df8e225ec42139ebe5a5be39c87cba68e9857a90e6b8f",
+      "original": "player-orange-final.png",
+      "originalSha256": "7e65970c604fda46a06caa562f8a89c5d4151ef9b6f3d53e514f0f819a4161a8"
+    },
+    {
+      "asset": "player-rayo.webp",
+      "bytes": 17360,
+      "dimensions": [
+        384,
+        384
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "b88ccac3c3f392196e2fef0966396f4c05ff0ad1eb231c16a0a69e90c172a80d",
+      "original": "player-green-final.png",
+      "originalSha256": "b4fe7cbdba1ee7218792429bc8f613f9d0506dd79d2bdd71a02b098818082c5a"
+    }
+  ],
+  "totalNewAssetBytes": 284430,
+  "originalLocation": "/workspace/shared/maracaibo-generated",
+  "publicationStatus": "Local review candidate; production release not performed."
+}

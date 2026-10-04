@@ -27,6 +27,14 @@ export const COUNTRY_COLOR_TEAMS: readonly CountryColorTeam[] = [
   { id: "orange-navy", countryCode: "NL", label: "Orange & Navy", primary: 0xe87622, secondary: 0x162c4d },
 ] as const;
 
+/** Optional presentation art. The scene starts playing before any image loads. */
+export type TableFootballAssets = Readonly<{
+  stadium: string;
+  players: Readonly<Record<TeamId, string>>;
+  /** The original approved client logo, composited separately from generated art. */
+  shirtLogo: string;
+}>;
+
 export type TableFootballVenueSkin = Readonly<{
   id: string;
   venueName: string;
@@ -38,6 +46,7 @@ export type TableFootballVenueSkin = Readonly<{
   mutedText: number;
   ball: number;
   goal: number;
+  assets?: TableFootballAssets;
 }>;
 
 export const DEFAULT_TABLE_FOOTBALL_SKIN: TableFootballVenueSkin = {
@@ -64,6 +73,7 @@ export type TableMatchSkin = Readonly<{
   text: string;
   home: string;
   away: string;
+  assets?: TableFootballAssets;
 }>;
 
 export type TeamOption = Readonly<{
@@ -93,6 +103,7 @@ export function tableFootballSkinFromMatchSkin(skin: TableMatchSkin): TableFootb
     mutedText: hexColor(skin.pitchLine),
     ball: hexColor(skin.text),
     goal: hexColor(skin.background),
+    ...(skin.assets ? { assets: skin.assets } : {}),
   };
 }
 
@@ -140,6 +151,8 @@ export type TableFootballInputMessage = Readonly<{
   clientTick: number;
   move: -1 | 0 | 1;
   kick: boolean;
+  /** Optional mobile steering target. Only the Maracaibo session interprets this value. */
+  targetY?: number;
 }>;
 
 export type TableFootballStateMessage = Readonly<{

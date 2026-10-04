@@ -64,13 +64,21 @@ const maracaibo: TableOsVenue = {
     pitchLine: "#b6b6b0",
     accent: "#62645f",
     text: "#f5f5f1",
-    home: "#f59b20",
-    away: "#6dab36",
+    home: "#7c1d32",
+    away: "#f5f1e8",
+    assets: {
+      stadium: "/assets/maracaibo/football/stadium.webp",
+      players: {
+        home: "/assets/maracaibo/football/player-lago.webp",
+        away: "/assets/maracaibo/football/player-rayo.webp",
+      },
+      shirtLogo: "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
+    },
   },
   // Proposed table-team identity for the owner-review visual concept only.
   teams: [
-    { id: "lago", label: "Lago", shortLabel: "LAG", primary: "#f59b20", secondary: "#101112" },
-    { id: "rayo", label: "Rayo", shortLabel: "RAY", primary: "#6dab36", secondary: "#f5f5f1" },
+    { id: "lago", label: "Lago", shortLabel: "LAG", primary: "#7c1d32", secondary: "#d5af73" },
+    { id: "rayo", label: "Rayo", shortLabel: "RAY", primary: "#f5f1e8", secondary: "#7c1d32" },
   ],
 };
 
