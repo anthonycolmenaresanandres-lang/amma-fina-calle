@@ -1,5 +1,13 @@
 # Codex Queue — canonical live queue
 
+## [x] Maracaibo Venezuelan signwriter design — October 4
+
+**Authority:** Anthony approved the yellow/blue/red generated concept and explicitly requested fainter stars, the existing generated Venezuelan flag beside Play, implementation, push and merge. This supersedes the preceding sample-only boundary for this scoped change.
+**Scope:** Custom accessible image lettering, flag-order accents, faint eight-star backdrop, unnumbered arrow-free home actions and distinct Solo Penalty Rush / Multiplayer Table Football choices. Create table membership only after selecting multiplayer; reuse the route's printed-QR table identity. Solo is independent of visit availability. Preserve mobile-only games, visit expiry/leave/reset, existing stadium/kits, real logo, routes, menu prices and preview/payment boundaries.
+**Execution:** Isolated Linux data-center worktree codex/maracaibo-signwriter-20261004 from f3a1dca. Product Design asset-only delegation supports generated lettering; no dependencies, schema, credentials, access, billing or unrelated venue changes.
+**Acceptance:** Asset fidelity/fallback, same-state mobile screenshots, both game flows including solo without visit API, multiplayer lifecycle, targeted lint, production build, exact-head CI/preview and authorized merge/live receipt.
+**State:** Implemented and locally verified. Seventeen transparent lettering assets, faint stars and original flag match the approved direction. Solo has no membership dependency; multiplayer retains protected lifecycle. Production build, lint, rendered 320/390/768/1440 inspection, 55 visit + 47 controls checks and four-player natural-round browser regression pass. Final browser fixture and exact-head release receipts are recorded in the review/PR.
+
 ## [x] Maracaibo table visits and two games — October 4
 
 **Authority:** Anthony approved the printed-table-QR visit plan and explicitly requested execution and merge. This authorizes scoped schema/application changes, publication, PR merge and existing deployment; no new credentials, access grants, payments or external messages.

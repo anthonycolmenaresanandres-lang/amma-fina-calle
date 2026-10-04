@@ -9,7 +9,7 @@ import type { PenaltySkin } from "@/penalty/types";
 import styles from "./maracaibo.module.css";
 
 const skin: PenaltySkin = {
-  id: "maracaibo", displayName: "Maracaibo", brandName: "Maracaibo Bistro", skinName: "Penalty Shootout",
+  id: "maracaibo", displayName: "Maracaibo", brandName: "Maracaibo Bistro", skinName: "Penalty Rush",
   colors: { ...baseColors, bg: 0x0b0b0c, sky: 0x22121a, keeper: 0x751932, keeperAccent: 0xd8b36d,
     accent: 0xe7a551, text: "#f5f5f1" },
   assets: { logo: "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png" },
@@ -48,7 +48,7 @@ export function MaracaiboPenaltyClient({ onActiveChange }: { onActiveChange: (ac
   function replay() { setMatch(createMatch()); setLoaded(false); setError(false); setAttempt((v) => v + 1); }
   const instruction = finished ? `${match.goals} of 5 goals` : match.phase === "aim" ? "Tap a target in the goal" : match.phase === "shooting" ? "Shot on its way…" : match.results.at(-1) === "goal" ? "Goal!" : match.results.at(-1) === "save" ? "Saved" : "Wide";
   return <div>
-    <div className={styles.penaltyScore}><strong>Penalty Shootout</strong><span>Solo · {match.goals} goals · {Math.min(match.shotsTaken + 1, 5)}/5</span></div>
+    <div className={styles.penaltyScore}><strong>Penalty Rush</strong><span>Solo · {match.goals} goals · {Math.min(match.shotsTaken + 1, 5)}/5</span></div>
     <p className={styles.penaltyHint} role="status" aria-live="polite">{instruction}</p>
     <div className={styles.penaltyStage} hidden={finished || error} aria-label="Penalty goal. Tap a target to shoot.">
       <div ref={mount} className={styles.penaltyCanvas} />

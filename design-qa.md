@@ -1,79 +1,39 @@
-# Las Palmas Western landing - design QA
-
-## 2026-09-13 follow-up: game hub (published and verified)
-
-Production closeout: PR231 /48f86486474384873f752df69d09f0bf6c725cc9 is READY at finacalleos.com. Live390px scrolled menu, footer, lobby and both real character-shot screenshots inspected;320px menu also inspected. Permanent QR unchanged,39 dishes retained. Full deployment evidence is in OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md. The following local QA notes preserve the pre-release evidence and limitations; the former separate release gate was subsequently satisfied under queue31.
-
-Anthony requested a persistent top game invitation, Colattao-style company footer and separate character lobby. Applied the existing Western identity: pine #102d21, cream #f6e9cd, rust #a63f19, ticket gold #edbf75; Alfa Slab One display, Geist utility and Georgia player labels. The signature is an always-present Western game ticket; the standalone lobby centers the two real food mascots. No generated branding, flattened mockup or menu-data rewrite.
-
-Current local game/menu links and full evidence are in `OPERATIONS/LAS_PALMAS_GAME_HUB_20260913.md`. New menu game links use `/play/las-palmas`; the historical verification below refers to the previous live release's generic game link.
-
-Compared390x844 before/after lobby, menu hero/scrolled state and footer in `C:/Dev/amma/evidence/las-palmas-game-hub-20260913`;320x740 and1440x1000 variants also inspected. Menu/category anchors and keyboard focus clear the two sticky bars. Original Fina Calle emblem and direct domain are legible at the footer. Both current mascots work at each difficulty; no multi-brand selector on the new lobby. Original39 dishes, native accordions, warnings, feedback and exact QR contract remain intact. Current web-interface guidelines reviewed; radio labels, keyboard selection/focus,44px actions, explicit select colors/16px text, motion preference, async retry and dimensions verified. No new autoplay or game dependencies.
-
-Limits: local desktop-browser viewport tests, not a physical phone or full canvas accessibility audit. Legacy consolidated smoke harness has connection timeouts; the new36-case browser assertion suite passes, with compatibility results recorded separately. This section does not supersede the release authority boundary or claim a new deployment.
-
-Status: passed. Final production-mode render and normalized comparison inspected September13,2026.
-
-## Target and evidence
-
-Anthony chose Sunset Ranch Cantina, palms instead of horns, and option 2's simple parchment dropdown rows. Implementation is the existing Next.js route, not a flattened mockup or new prototype. Original logo, food assets, all 39 dishes and the exact printed QR URL are preserved.
-
-This supersedes the July26 menu-dock design report previously at this path, retained in Git history at production base220d5fe. Its particle animation is intentionally no longer rendered by this route; original assets and component files remain available.
-
-Evidence directory: `C:/Dev/amma/evidence/las-palmas-western-20260913`.
-
-- Selected combined reference is archived as `selected-reference.json` and normalized to `reference-390.png`.
-- First comparison: `comparison-390.png`, reference left / implementation right, both390x844 at1x. Main agent inspected together. In-app screenshots also inspected, but inconsistent320px override captures were excluded as evidence.
-- Independent Chromium captures: `verified-320.png`, `verified-390.png`, `verified-1440.png` (1440x1000). Actual DOM width and scrollWidth match320/390/1440 respectively. `menu-320.png` and `form-320.png` inspected for long-name wrapping, right prices and visible keyboard focus.
-- Final captures after the typography correction: `final-320.png`, `final-390.png`, `final-1440.png`, `final-menu-320.png`, `final-menu-390.png`. `comparison-final-390.png` inspected with the normalized source and implementation in the same input; width390, height844,1x density for both. Original image pixels remain unchanged. The final slab font resolves to Alfa Slab One; no clipping or overflow at320/390/1440. Native menu details remain39.
-
-## Comparison and corrections
-
-- P2 corrected before first screenshot: decorative palms were being cropped by sizing the background against the whole hero. Restricted background to brand/headline; kept original food as a separate image. Removed an extra generic menu heading.
-- P2 corrected after normalized comparison: Rye was too ornamental/light versus the selected bold slab headline; hero spacing was too tall. Replaced with Alfa Slab One, tightened mobile brand/headline spacing, and moved the original photo crop down to show more of the dish. Fresh production build and final screenshots pass. The corrected display weight, palm framing, green/rust/cream hierarchy and parchment row structure follow the selected direction. No remaining actionable P0/P1/P2 mismatch within the original-asset and truthful-content constraints.
-- Intentional source-preserving differences: real original logo/photo are not replaced by generated artwork; no fake food enhancement or lettering baked into images. All39 real names, explicit public-price qualifiers, visible approval/source warnings and actual feedback recipient take precedence over the mockup's two illustrative rows. Native controls, editable text and responsive layout are retained.
-
-## Verified interactions
-
-- In-app browser: all39 native dropdowns clicked open and closed; each revealed text. Arroz con Pollo opened through Enter, with lunch/dinner distinctions. Lunch category anchor and taco per-piece/three-piece options verified.
-- Menu CTA stays on page; canonical is exactly `https://finacalleos.com/demo/las-palmas`. Game link retains `skin=laspalmas`; full official PDF remains separate.
-- Narrow phone form: empty/incomplete submission disabled; message + explicit No consent enabled it. Aborted local request produced accessible failure and retained message. Stubbed200 replaced the form with the correct Fina Calle success message.
-- Independently paused local POST showed aria-busy=true, disabled submit and Sending...; fulfilled locally, never forwarded. Interception removed afterward. These are UI tests, not end-to-end delivery claims.
-- Reduced-motion emulation produced0s chevron transition; restored afterward. In-app error/warning log returned none before mocks. Original photo paths and owner-value preservation are covered by95 targeted checks.
-
-## Scope and remaining gate
-
-Final local production build/TypeScript, targeted ESLint and95 landing checks pass after refinement;41 owner-menu and13 owner-account checks also pass. Final browser errors command returned none. Exact-head cloud checks and public production verification remain release gates, not design-QA findings. No restaurant menu certification, live customer request, owner/database/billing change or physical QR scan is claimed.
-
-## Live confirmation
-
-PR #230 application revisiond381e0912038145cc91aa2ceeb31e305cdaf4ba9 reached Ready production withfinacalleos.com. Exact permanent QR returns200 without redirect. Inspected `live-iab.png` and `live-390.png`, matching the final layout;39 items, native keyboard expansion, correct canonical and loaded original dropdown image confirmed. Production browser error logs returned none. Public-source/approval warnings remain. Design QA and live presentation verification: passed.
-# Owner portals design QA — 2026-09-29
-
-## Scope
-
-- Bodega public owner desk at `/owner/bodega`
-- Colattao owner sign-in and authenticated dashboard at `/owner/colattao`
-- Desktop comparison plus 390 × 844 responsive review
-- Keyboard focus, overflow, request review, guest-menu access, and browser console checks
-
-## Reference comparison
-
-| Portal | Approved source | Implementation capture | Combined comparison |
-| --- | --- | --- | --- |
-| Bodega | `C:\dev\amma\evidence\owner-portals-open-20260929\source-bodega.png` · 1487 × 1058 | `C:\dev\amma\evidence\owner-portals-open-20260929\implementation-bodega-desktop-1440.jpg` · 1425 × 928 | `C:\dev\amma\evidence\owner-portals-open-20260929\comparison-bodega.jpg` |
-| Colattao | `C:\dev\amma\evidence\owner-portals-open-20260929\source-colattao.png` · 1487 × 1058 | `C:\dev\amma\evidence\owner-portals-open-20260929\implementation-colattao-dashboard-1440.jpg` · 1425 × 928 | `C:\dev\amma\evidence\owner-portals-open-20260929\comparison-colattao.jpg` |
-
-The source and implementation were inspected together in the combined comparison images at the same displayed width. Full-view comparison was sufficient because the main type, artwork, navigation, and request controls remained readable without cropping.
-
-## Results
-
-- Bodega preserves the approved editorial hierarchy, open layout, ivory field, dark-green primary action, large display type, and coffee/vinyl artwork. Production content adds two owner-tool rows while retaining the source rhythm.
-- Colattao uses the approved warm espresso-brown field, cream type, champagne accents, restrained imagery, and request-first hierarchy. Green is limited to semantic input surfaces and is no longer the dominant page color.
-- The 390 × 844 captures show no horizontal overflow. Colattao artwork collapses cleanly on mobile; Bodega keeps the menu action and owner tools prominent.
-- The live-menu action is available before authentication for both restaurants. Bodega opens `/demo/bodega`; Colattao opens its public café menu.
-- The request preview produced the expected review state and was cancelled without persistence. Browser console checks returned no errors.
-- Keyboard checks produced visible focus rings on the first actionable links. Reduced-motion rules, image dimensions, labels, autocomplete values, inline status announcements, and 44 px touch targets are present.
-- Web Interface Guidelines audit: no unresolved findings in the touched owner-portal files.
+# Maracaibo signwriter design QA
 
 final result: passed
+
+## Visual truth and comparison setup
+
+Source: `/workspace/generated_images/exec-0ec9e711-23b6-457a-bdd5-d2ad7574b177.png` (1536 × 1024). Anthony's final amendments: fainter stars and reuse the generated fabric Venezuelan flag for Play.
+
+Rendered implementation: production Next server at `http://127.0.0.1:3032/table/maracaibo/1`, Chromium via the installed Playwright runtime. The agent-browser CLI is absent in this executor; the existing repository browser harness supplies equivalent actual Chromium captures and interactions. No screenshot mock is substituted for browser output.
+
+CSS viewport: 390 × 844, deviceScaleFactor 1, touch/mobile. Source board columns cropped below their board captions (home x64/w435, menu x547/w442, play x1038/w436; y86/h938), aspect-preserved and contained within 390 × 844 for comparison. Each artifact puts normalized source LEFT and actual render RIGHT:
+
+- `/workspace/shared/maracaibo-signwriter-review/compare-home-final.png`
+- `/workspace/shared/maracaibo-signwriter-review/compare-menu-final.png`
+- `/workspace/shared/maracaibo-signwriter-review/compare-games-final.png`
+
+States: home actions, menu top, game chooser. Original same-state application before captures: `home-before.png`, `menu-before.png`, `games-before.png`. Current individual browser captures: `home-390.png`, `menu-390.png`, `games-390.png`. Additional actual captures at 320/768/1440 and the Drinks anchor are in the same directory. The full paired captures keep lettering, labels and foreground details legible; individual source/export image inspection provides the focused asset check.
+
+## Comparison history
+
+Initial comparison found a P2: home action lettering was smaller than the approved sample, and the preview/header/navigation spacing pushed the game choices down. Increased mobile lettering from 62 to 76px nominal height, tightened row padding and the header, and compacted preview wording while retaining all inactive-menu/order/service/payment facts. Preloaded the category masks' visual layer before reveal. Fresh production build and final screenshots above confirm the fix. The preliminary menu capture preceded image paint; final captures explicitly wait for the heading asset to load.
+
+No actionable P0/P1/P2 findings remain.
+
+## Required fidelity surfaces
+
+- Typography: custom ImageGen brush lettering supplies hero, four actions and all twelve category headings; exact spelling checked. Existing Geist supplies dish names, body, controls and game labels. Image-sized containers reserve space; real text remains available to assistive technology, blocked-image fallback and forced-colors mode.
+- Layout rhythm: open black surface, generous rows, fine dividers, no numbered rows/arrows or nested cards. Both game choices and their distinct actions fit the 390px reference viewport; 320px uses normal vertical scrolling without horizontal overflow. Desktop retains an intentional hero/action split.
+- Colors: home yellow → blue → red; categories repeat the same sequence in actual menu order. Blue/red action buttons are deepened for white-text contrast. Eight background stars at 0.025 opacity are deliberately fainter than the mock. Warm white remains readable.
+- Images: transparent generated lettering has no clipped strokes or visible matte; 17 optimized WebPs total 475,776 bytes. The actual logo and fabric flag are unchanged. The user-requested flag replaces the mock's brush stripes. Standard Lucide stars supply the requested subtle background motif; no generated logo.
+- Copy/content: the real menu retains all dishes/prices and category navigation, unlike the mock's illustrative three-category excerpt. Consequently the top menu capture shows the Appetizers group rather than three abbreviated groups. Inactive-service/payment notice stays truthful. Play has exactly Multiplayer / Table Football and Solo / Penalty Rush, with clear separate buttons and no invented QR gate for solo.
+
+## Interaction and accessibility verification
+
+Browser-tested home/menu/service preview/order handoff navigation, semantic button/heading names, blocked lettering fallback, no horizontal overflow at 320/390/768/1440, eight decorative stars, zero visit requests before multiplayer. Production browser fixtures exercise both games, solo without visit cookie/API, football visit acquisition/rejoin/expiry/reset, game cleanup, desktop phone guidance, outage and replay. The four-player browser suite verifies touch input and natural match finish/replay. No JavaScript runtime errors in final visual captures or football suite.
+
+## Follow-up polish / limits
+
+Physical-phone WebRTC across real networks remains unverified from the prior release. This change does not alter the transport or certify it. No further design changes are required for this approved scope.
