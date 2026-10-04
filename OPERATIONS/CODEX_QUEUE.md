@@ -1,5 +1,13 @@
 # Codex Queue — canonical live queue
 
+## [x] Maracaibo table visits and two games — October 4
+
+**Authority:** Anthony approved the printed-table-QR visit plan and explicitly requested execution and merge. This authorizes scoped schema/application changes, publication, PR merge and existing deployment; no new credentials, access grants, payments or external messages.
+**Scope:** Anonymous per-browser guests associated with the current table visit; refresh/resume, inactivity expiry, leave and authenticated staff reset. Exactly Football and Penalty Shootout under Play, mobile only, no screen QR. Football rooms scoped to visit, positions occupied only during football; existing solo five-shot penalty with approved Maracaibo brand colors/logo and menu return. Bill-close integration remains future because no live check is connected.
+**Verification:** Local SQL/RLS/authorization/concurrent join/reset tests, session lifecycle and controls regressions, mobile browser screenshots/game switching/reconnect/isolation/full/expiry; production build and CI; exact-head preview and production receipt.
+**State:** Implemented and verified on codex/maracaibo-table-visits-20261004 from c172ce1. 55 visit/boundary checks, 47 football/control checks, 13 penalty checks, production build and full lint pass (six unchanged warnings). The production-server browser suite passes 12 visit/game flows; final four-player football regression and natural round/rematch pass. Additive server-only Supabase migration applied and live catalog/rollback checks pass. See MARACAIBO_TABLE_VISITS_REVIEW_20261004.md. Authorized exact-head publication, CI, merge and deployment receipt tracked in the release PR.
+
+
 ## [x] Maracaibo automatic phone join and gameplay refinement — October 4
 
 **Authority:** Anthony asks to improve gameplay, remove phone connection codes/friction, and merge all current Maracaibo changes. This supersedes the prior local-only release limit for the stadium, Venezuela kits and this scoped game improvement. Publishing the feature branch, opening a PR, merging the verified exact head and observing its existing automatic production release are authorized.

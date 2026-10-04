@@ -81,6 +81,7 @@ export default async function CustomersPage() {
   return (
     <PageShell>
       <TopBar backHref="/" backLabel="Fina Calle OS">
+        <Link href="/customers/maracaibo-tables" className="inline-flex min-h-11 items-center text-sm transition hover:text-white">Maracaibo tables</Link>
         <Link
           href="/customers/traffic"
           className="inline-flex items-center gap-1.5 transition hover:text-white"

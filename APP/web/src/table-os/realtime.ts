@@ -55,9 +55,10 @@ export function connectTableRoom<T>(
   venueId: string,
   tableId: string,
   callbacks: BridgeCallbacks<T>,
-  presence: Readonly<{ joinedAt?: number; seat?: string }> = {},
+  presence: Readonly<{ joinedAt?: number; seat?: string; scope?: string }> = {},
 ): TableRoomBridge<T> {
-  const roomName = `table-os:${safeRoomPart(venueId)}:${safeRoomPart(tableId)}`;
+  const scope = presence.scope?.replace(/[^a-zA-Z0-9-]/g, "").slice(0, 64);
+  const roomName = `table-os:${safeRoomPart(venueId)}:${safeRoomPart(tableId)}${scope ? `:${scope}` : ""}`;
   const clientId = createClientId();
   const seen = new Set<string>();
   const localChannel = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel(roomName) : null;

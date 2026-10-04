@@ -13,6 +13,25 @@
   color-scheme: dark;
   font-family: var(--font-geist-sans), sans-serif;
 }
+.gameChoices { margin-block: 24px 40px; border-top: 1px solid var(--line); }
+.gameChoices button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--paper); text-align: left; }
+.gameChoices strong { display: block; font-size: clamp(1.5rem, 6vw, 2.2rem); font-weight: 650; letter-spacing: -.04em; }
+.gameChoices small { display: block; color: var(--muted); font-size: .875rem; line-height: 1.7; margin-top: 10px; }
+.gameChoices button:hover strong { color: var(--citrus); }
+.gameChoices svg { flex-shrink: 0; color: var(--citrus); }
+.visitFooter { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; width: min(100% - 40px, 1120px); margin: auto auto 12px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8125rem; }
+.visitNotice { margin-block: 24px; line-height: 1.7; }
+.visitNotice button { margin-top: 16px; }
+.penaltyScore { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.penaltyScore span { color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.penaltyHint { min-height: 44px; padding-block: 12px; color: var(--citrus); font-size: .9375rem; }
+.penaltyStage { position: relative; width: 100%; height: clamp(380px, 65dvh, 700px); overflow: hidden; touch-action: none; }
+.penaltyStage canvas { display: block; }
+.penaltyCanvas { width: 100%; height: 100%; }
+.penaltyTarget { position: absolute; width: 44px; height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 50%; background: transparent; }
+.penaltyTarget:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; background: #e7a55140; }
+.penaltyStage[hidden] { display: none; }
+.playInner:has(.penaltyStage) .matchTitle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .page *, .page *::before, .page *::after { box-sizing: border-box; }
 .page button, .page a, .page summary { touch-action: manipulation; -webkit-tap-highlight-color: #f5f5f120; }
 .page button { font: inherit; cursor: pointer; }
@@ -254,3 +273,9 @@
   .page *, .page *::before, .page *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .actionRail button:hover svg { transform: none; }
 }
+
+.page[data-view="penalty"] .header { padding-block: 12px; }
+.page[data-view="penalty"] .brandLogo { width: 40px; height: 40px; }
+.playInner:has(.penaltyStage) .innerTop { margin-bottom: 0; }
+.playInner:has(.penaltyStage) .lobbyAccent { display: none; }
+.playInner:has(.penaltyStage) .matchHeading { display: block; }
