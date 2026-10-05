@@ -101,7 +101,7 @@ export class PenaltyScene extends Phaser.Scene {
   }
 
   // Per-skin texture key (skin id keeps keys unique across skins).
-  private assetKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper" | "keeperSad" | "keeperKit"): string {
+  private assetKey(kind: "background" | "pitch" | "logo" | "ball" | "kicker" | "keeper" | "keeperSad" | "keeperKit"): string {
     return `penalty-${kind}-${this.skin.id}`;
   }
 
@@ -113,6 +113,7 @@ export class PenaltyScene extends Phaser.Scene {
     // uses a level-scoped key and falls back to the skin's default background.
     const background = this.backgroundPath();
     if (background) this.load.image(this.backgroundKey(), background);
+    if (assets?.pitch) this.load.image(this.assetKey("pitch"), assets.pitch);
     if (assets?.logo) this.load.image(this.assetKey("logo"), assets.logo);
     if (assets?.ball) this.load.image(this.assetKey("ball"), assets.ball);
     // Kicker can vary per level (skin.levelKickers), so it uses a level-scoped key
@@ -130,7 +131,7 @@ export class PenaltyScene extends Phaser.Scene {
     this.load.on("loaderror", () => {});
   }
 
-  private loadedKey(kind: "background" | "logo" | "ball" | "kicker" | "keeper" | "keeperSad" | "keeperKit"): string | undefined {
+  private loadedKey(kind: "background" | "pitch" | "logo" | "ball" | "kicker" | "keeper" | "keeperSad" | "keeperKit"): string | undefined {
     const key = this.assetKey(kind);
     return this.textures.exists(key) ? key : undefined;
   }
@@ -178,6 +179,7 @@ export class PenaltyScene extends Phaser.Scene {
       this.skin.skinName,
       {
         backgroundKey: this.loadedBackgroundKey(),
+        pitchKey: this.loadedKey("pitch"),
         logoKey: this.loadedKey("logo"),
         ballKey: this.loadedKey("ball"),
         kickerKey: this.loadedKickerKey(),

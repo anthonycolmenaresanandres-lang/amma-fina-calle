@@ -13,15 +13,16 @@ const skin: PenaltySkin = {
   colors: { ...baseColors, bg: 0x0b0b0c, sky: 0x22121a, keeper: 0x751932, keeperAccent: 0xd8b36d,
     accent: 0xe7a551, text: "#f5f5f1" },
   assets: {
-    background: "/assets/maracaibo/penalty/stadium-lakefront.svg",
+    background: "/assets/maracaibo/penalty/maracaibo-stadium-preview.png",
+    pitch: "/assets/maracaibo/penalty/hyperrealistic-pitch-preview.png",
     logo: "/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png",
     kicker: "/assets/maracaibo/penalty/tequeno-player.webp",
     keeper: "/assets/maracaibo/penalty/keeper-ready.webp",
     keeperSad: "/assets/maracaibo/penalty/keeper-sad.webp",
   },
-  // The 1000x1600 cel backdrop keeps its main turf band at 46% on resize.
+  // Both portrait layers align their turf horizon at the goal ground on resize.
   // The existing loader retains the primitive field if this optional art fails.
-  backgroundFit: { scrim: 0.12, pitchLinePct: 0.46 },
+  backgroundFit: { scrim: 0.12, pitchLinePct: 0.38 },
   kickerFit: { scale: 1.7, offsetXPct: -0.16, offsetYPct: -0.025 },
   keeperFit: { scale: 1.15 },
   chrome: { externalHud: true },

@@ -1,4 +1,12 @@
-# Handoff Log — canonical cross-agent check-in / check-out
+# Handoff Log - canonical cross-agent check-in / check-out
+
+## 2026-10-05 OUT - Maracaibo image integration ready for protected release
+
+Added the exact 994x1582 stadium and 993x1584 transparent pitch images behind existing markings, goal and cartoon actors in the saved full-screen Penalty Rush. Optional loading retains primitive fallback; Back to menu, match rules and multiplayer are unchanged. Isolated branch source/diff review and Git whitespace check complete. No extra local tests, lint/build or browser QA per Anthony. Automatic CI, protected PR merge and deployment metadata are the remaining release gates.
+
+## 2026-10-05 IN - approved Maracaibo full-screen image release
+
+Anthony approved the two generated images and merge. Isolated worktree codex/maracaibo-penalty-images-sol-20261005 starts at saved full-screen f815418, based on main 178bd13. Exact Library stadium/pitch bytes were materialized with metadata and inspected. Scope is raster layering below existing goal/markings/cartoon actors, preserving the small Back to menu control and gameplay. No extra local lint/build, tests, or browser QA. Automatic CI and protected PR remain required.
 
 ## 2026-10-05 OUT - Maracaibo viewport-filling Penalty Rush ready locally
 

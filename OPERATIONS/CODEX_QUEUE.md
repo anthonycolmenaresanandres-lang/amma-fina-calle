@@ -1,4 +1,11 @@
-# Codex Queue — canonical live queue
+# Codex Queue - canonical live queue
+
+## [x] Maracaibo full-screen Penalty Rush image release - October 5
+
+**Authority/scope:** Anthony approved fitting the two generated raster images into the saved full-screen Penalty Rush change and merging. Reuse f815418; preserve goal markings, cartoon player/keeper, gameplay, Back to menu, and unrelated work. Isolated sibling worktree. No extra local lint/build, browser QA, tests, new generation, services or secrets.
+**Execution:** codex/maracaibo-penalty-images-sol-20261005 from f815418, based on main 178bd13. Exact Library stadium and transparent pitch assets materialized with metadata and visually inspected.
+**Acceptance:** Both layers appear behind goal and actors with the primitive fallback intact; no competing Maracaibo PR; automatic CI and deployment metadata observed; merge only through protected PR; exact release receipt recorded.
+**State:** Image integration complete in the isolated branch. Stadium and transparent pitch render below markings, goal and characters through optional asset loading; source review and diff check complete. Automatic CI, protected PR merge, and deployment receipt are release gates tracked in the PR.
 
 ## [x] Maracaibo viewport-filling Penalty Rush - October 5
 

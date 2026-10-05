@@ -72,6 +72,8 @@ export type PenaltyLevel = {
 export type PenaltySkinAssets = {
   /** Image drawn behind the goal (cover-fit, with a contrast scrim). */
   background?: string;
+  /** Transparent turf overlay above the stadium, below field markings and actors. */
+  pitch?: string;
   /** Brand logo drawn as a small corner watermark. */
   logo?: string;
   /** Product-themed ball image, replacing the primitive ball. */
