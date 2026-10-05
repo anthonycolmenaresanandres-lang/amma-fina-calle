@@ -3214,3 +3214,17 @@ Anthony clarifies tequeno vinotinto shooter versus satirical Maduro military kee
 ## IN - 2026-10-04 - Approved character integration publication
 
 Anthony reviewed the three generated sprites and said "Great place them and merge" at 22:38 UTC. This authorizes publishing the scoped character integration after checks. Genuine assets and goal-only sad expression are implemented; 320/390/1440 goal/save/miss/reset/replay/fallback checks, scoped lint/types and actual six-second motion preview (libfile_eab3200ea4808191be122e13f1de644a) pass. Reconcile current main, draft PR, exact-head web CI/Vercel, guarded merge and exact-merge production verification. Preserve other work and all gameplay behavior.
+
+## IN - 2026-10-04 - Local quieter Maracaibo branding
+
+New isolated branch from latest main b4e4712, preserving PR308. Supplied JPEG reference and authentic badge inspected: MBVF angular monogram and Kitchen & Cocktails, with Maracaibo Bistro name in reference; Venezuelan Food is not written out. Add the expressly requested wording as an accessible companion caption, without inventing an exact font claim or editing the badge. Remove large slogan, slightly reduce display words and enlarge stronger continuous cloth ripple with safe margins. No publishing, new art, dependencies, services or gameplay changes.
+
+## OUT - 2026-10-05 - Maracaibo visual refinement ready locally
+
+Removed slogan; slightly smaller existing display words/name; live Venezuelan Food caption beside intact badge/name; larger textured flag with stronger continuous folds and safe margins. Only three Maracaibo visual files changed from b4e4712. Scoped lint/types, responsive comparisons/navigation/reduced-motion, stationary-canvas deformation, 120-frame alpha margins and context-loss fallback pass; no runtime errors or application writes. Actual six-second moving Library preview libfile_3daec1c4aa58819196d0657763df31f7. Production compilation passes, but unchanged BodegaBillingContent route export blocks full build; no unrelated fixes. PR308 characters/game code, canonical dirty work and paused reliability preserved. Local commit/review only; no push, merge or deployment. See MARACAIBO_BRAND_REFINEMENT_REVIEW_20261005.md.
+
+## IN - 2026-10-05 - Approved Bodega export fix and Maracaibo release
+
+Anthony explicitly said Fix bodega's. And merge Maracaibo (Sentinel_66ea2bff78548191853e7902d140caf1). Main reconciled and remains b4e4712; branch already includes refinement 68d9e28. Fix only invalid BodegaBillingContent named export, keeping the function local because no external callers exist. Preserve all billing behavior/terms/configuration and Maracaibo assets/gameplay. Full local build and affected billing checks precede draft PR, exact-head CI/Vercel, guarded merge and exact-merge production/live verification. No databases, secrets, paid usage or paused reliability work.
+
+Full-build validation after fixing Bodega exposes the identical invalid ColattaoPayments export in owner/colattao/plan/page.tsx. It also has only an internal caller. Apply the same one-keyword local-helper correction, necessary for the explicitly approved successful build and merge; preserve all Colattao rendering, billing terms and payment behavior. Bounded route helper export scan found no other invalid named function exports. Existing billing suite already covers both Bodega and Colattao terms/policies with synthetic fixtures.

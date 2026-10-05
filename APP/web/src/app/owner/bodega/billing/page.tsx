@@ -78,7 +78,7 @@ async function AuthorizedBilling({ notice }: { notice: string | null }) {
   return <BodegaBillingContent billing={billing} notice={notice} />;
 }
 
-export function BodegaBillingContent({ billing, notice }: { billing: BillingSummary; notice: string | null }) {
+function BodegaBillingContent({ billing, notice }: { billing: BillingSummary; notice: string | null }) {
   const needsEnrollment = ["not_started", "canceled", "incomplete_expired"].includes(billing.status);
   const canEnroll = billing.enrollmentEnabled === true;
   const canManage = billing.managementEnabled === true;

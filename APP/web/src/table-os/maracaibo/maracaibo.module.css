@@ -41,13 +41,13 @@
 .gameChoice .gameButton:hover { filter: brightness(1.12); }
 .gameChoice .gameButton:active { filter: brightness(.9); }
 .playHeading { min-width: 0; margin: 0; }
-.playHeading .lettering { --letter-height: 5rem; }
+.playHeading .lettering { --letter-height: 4.25rem; }
 .playLettering { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; }
 .playFlag { display: block; width: clamp(76px, 25vw, 112px); flex: 0 0 auto; pointer-events: none; }
 .playFlag img { display: block; width: 100%; height: auto; }
 /* One continuous textured surface; the native image remains a static fallback. */
 .flagFabric { position: relative; display: block; width: 100%; }
-.flagStill { display: block; width: 100%; height: auto; }
+.flagStill { display: block; width: 100%; height: auto; padding: 3.6666667% 5.5%; }
 .flagCanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
 .flagCanvas[data-ready="true"] { opacity: 1; }
 .flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 0; }
@@ -56,7 +56,7 @@
   .flagFabric:has(.flagCanvas[data-ready="true"]) .flagStill { opacity: 1; }
 }
 
-.lettering { --letter-height: 4.25rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }
+.lettering { --letter-height: 3.75rem; position: relative; display: block; width: min(100%, calc(var(--letter-height) * var(--letter-ratio))); aspect-ratio: var(--letter-ratio); max-width: 100%; }
 .letteringFallback { position: absolute; inset: 0; display: flex; align-items: center; font-size: clamp(1.6rem, 7vw, 3rem); font-weight: 750; line-height: 1.1; letter-spacing: -.04em; }
 .letteringImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
 .lettering[data-loaded="true"] .letteringFallback { clip-path: inset(50%); }
@@ -94,15 +94,17 @@
 .header { width: min(100% - 80px, 1120px); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 28px; }
 .wordmark { min-width: 0; display: flex; align-items: center; gap: 16px; border: 0; padding: 0; background: none; color: var(--paper); text-align: left; }
 .brandLogo { display: block; flex: 0 0 auto; width: 68px; height: 68px; border-radius: 50%; }
-.brandText { position: relative; display: block; width: 9.75rem; max-width: 100%; min-width: 0; aspect-ratio: 278 / 122; font-size: 1rem; font-weight: 500; line-height: 1.3; letter-spacing: -.025em; }
+.brandCopy { display: grid; justify-items: start; gap: 5px; min-width: 0; }
+.brandCuisine { color: var(--muted); font-size: .6875rem; letter-spacing: .12em; line-height: 1.4; text-transform: uppercase; white-space: nowrap; }
+.brandText { position: relative; display: block; width: 8.75rem; max-width: 100%; min-width: 0; aspect-ratio: 278 / 122; font-size: 1rem; font-weight: 500; line-height: 1.3; letter-spacing: -.025em; }
 .brandNameFallback { position: absolute; inset: 0; display: flex; align-items: center; }
 .brandNameImage { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
 .brandText[data-loaded="true"] .brandNameFallback { clip-path: inset(50%); }
 .brandText[data-loaded="true"] .brandNameImage { opacity: 1; }
 .tableMeta { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
-.headerFlag { display: block; width: 88px; pointer-events: none; }
+.headerFlag { display: block; width: 144px; pointer-events: none; }
 .headerFlag img { display: block; width: 100%; height: auto; }
-.welcome { width: min(100% - 80px, 1120px); margin: 0 auto; padding: 28px 0 64px; display: grid; align-items: center; gap: 44px; flex: 1; }
+.welcome { width: min(100% - 80px, 720px); margin: 0 auto; padding: 28px 0 64px; flex: 1; }
 .heroTitle { margin: 0; }
 .heroTitle .lettering { --letter-height: 8rem; width: 100%; }
 .actionRail { min-width: 0; scroll-margin-top: 24px; align-self: center; }
@@ -124,7 +126,7 @@
 .innerTop button { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 8px 0 0; border: 0; background: none; color: var(--muted); font-size: .8125rem; }
 .innerTop button:hover { color: var(--paper); }
 .sectionHeading { margin-bottom: 32px; }
-.sectionHeading .lettering { --letter-height: 5rem; }
+.sectionHeading .lettering { --letter-height: 4.25rem; }
 .sectionHeading h1, .matchTitle { margin: 0; font-family: var(--font-geist-sans), sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 750; letter-spacing: -.07em; line-height: .98; }
 .sectionHeading p { max-width: 34rem; margin-top: 20px; color: var(--muted); font-size: .9375rem; line-height: 1.6; }
 .categoryBar { position: sticky; top: 0; z-index: 5; background: var(--ink); border-bottom: 1px solid var(--line); }
@@ -136,7 +138,7 @@
 .menuSection h2 { margin: 0 0 14px; color: var(--flag-yellow); }
 .menuSection[data-flag-color="1"] h2 { color: var(--flag-blue); }
 .menuSection[data-flag-color="2"] h2 { color: var(--flag-red); }
-.menuSection .lettering { --letter-height: 4.25rem; }
+.menuSection .lettering { --letter-height: 3.75rem; }
 .menuSection ul { list-style: none; padding: 0; margin: 0; }
 .menuSection li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 10px 20px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 1rem; line-height: 1.5; }
 .menuSection li > div { min-width: 0; }
@@ -272,29 +274,28 @@
 .playInner:has(.gameStage) .matchHeading { display: block; }
 
 @media (min-width: 64rem) {
-  .welcome { grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 64px; }
-  .actionRail { padding-top: 20px; }
   .menuSections { grid-template-columns: 1fr 1fr; }
   .page[data-view="menu"] .sectionHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
   .page[data-view="menu"] .sectionHeading p { max-width: 30rem; margin: 0 0 5px; }
 }
 @media (min-width: 38.01rem) and (max-width: 63.99rem) {
   .welcome { max-width: 700px; }
-  .actionRail { max-width: 440px; width: 100%; }
+  .actionRail { width: 100%; }
 }
 @media (max-width: 38rem) {
   .header, .welcome, .inner, .footer { width: calc(100% - 48px); }
-  .header { padding-block: 16px; gap: 16px; }
+  .header { padding-block: 16px; gap: 10px; }
   .previewBar { justify-content: flex-start; text-align: left; }
-  .wordmark { gap: 12px; }
+  .wordmark { gap: 10px; }
   .brandLogo { width: 56px; height: 56px; }
-  .brandText { width: 8rem; }
+  .brandText { width: 6.75rem; }
+  .brandCuisine { letter-spacing: .08em; }
   .tableMeta { flex-direction: column; align-items: flex-end; gap: 3px; font-size: .75rem; }
-  .headerFlag { width: 56px; }
+  .headerFlag { width: 88px; }
   .welcome { gap: 24px; padding: 4px 0 40px; }
   .welcomeAccent { width: clamp(100px, 32cqw, 128px); }
   .actionRail button { min-height: 104px; padding-block: 10px; }
-  .actionRail .lettering { --letter-height: 4.75rem; }
+  .actionRail .lettering { --letter-height: 4rem; }
   .inner { margin-top: 0; margin-bottom: 40px; }
   .innerTop { margin-bottom: 8px; }
   .sectionHeading { margin-bottom: 26px; }

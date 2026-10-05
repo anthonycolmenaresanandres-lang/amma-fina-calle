@@ -23,22 +23,24 @@ uniform sampler2D fabric;
 uniform float time;
 float fold(vec2 p, float strength) {
   float tension = smoothstep(.04, .96, p.x);
-  return strength * tension * (.05 * sin(8.4 * p.x + .8 * p.y - 2.5 * time)
-    + .012 * p.x * sin(15. * p.x - 1.2 * p.y - 4.1 * time));
+  return strength * tension * (.085 * sin(8.4 * p.x + .8 * p.y - 3.1 * time)
+    + .021 * p.x * sin(15. * p.x - 1.2 * p.y - 4.8 * time));
 }
 void main() {
   float strength = sin(3.14159265 * clamp(time / 4.8, 0., 1.));
-  float tension = smoothstep(.04, .96, uv.x);
-  float primary = sin(8.4 * uv.x + .8 * uv.y - 2.5 * time);
-  float flutter = sin(15. * uv.x - 1.2 * uv.y - 4.1 * time);
-  vec2 sampleUV = uv - strength * tension * vec2(.004 * primary,
-    .022 * primary + .005 * uv.x * uv.x * flutter);
+  // Reserve matching still-image margins for the stronger free-edge folds.
+  vec2 clothUV = (uv - vec2(.055)) / .89;
+  float tension = smoothstep(.04, .96, clothUV.x);
+  float primary = sin(8.4 * clothUV.x + .8 * clothUV.y - 3.1 * time);
+  float flutter = sin(15. * clothUV.x - 1.2 * clothUV.y - 4.8 * time);
+  vec2 sampleUV = clothUV - strength * tension * vec2(.007 * primary,
+    .04 * primary + .009 * clothUV.x * clothUV.x * flutter);
   if (sampleUV.x < 0. || sampleUV.x > 1. || sampleUV.y < 0. || sampleUV.y > 1.) {
     gl_FragColor = vec4(0.); return;
   }
   vec4 color = texture2D(fabric, sampleUV);
-  float dx = (fold(uv + vec2(.003, 0.), strength) - fold(uv - vec2(.003, 0.), strength)) / .006;
-  float dy = (fold(uv + vec2(0., .003), strength) - fold(uv - vec2(0., .003), strength)) / .006;
+  float dx = (fold(clothUV + vec2(.003, 0.), strength) - fold(clothUV - vec2(.003, 0.), strength)) / .006;
+  float dy = (fold(clothUV + vec2(0., .003), strength) - fold(clothUV - vec2(0., .003), strength)) / .006;
   vec3 normal = normalize(vec3(-dx, -dy, 1.));
   vec3 light = normalize(vec3(-.55, .4, 1.5));
   float illumination = clamp(1. + .65 * (dot(normal, light) - light.z), .76, 1.13);

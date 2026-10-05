@@ -76,7 +76,10 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
       <header className={styles.header}>
         <button type="button" className={styles.wordmark} onClick={returnHome} aria-label="Maracaibo Bistro table home">
           <LogoArtwork className={styles.brandLogo} priority />
-          <MaracaiboWordmark />
+          <span className={styles.brandCopy}>
+            <MaracaiboWordmark />
+            <span className={styles.brandCuisine}>Venezuelan Food</span>
+          </span>
         </button>
         <div className={styles.tableMeta}>
           <FlagArtwork className={styles.headerFlag} decorative />
@@ -86,11 +89,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
       {view === "welcome" ? (
         <section className={styles.welcome} aria-labelledby="maracaibo-title">
-          <div className={styles.heroComposition}>
-            <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.heroTitle} aria-label="Eat. Play. Stay.">
-              <Lettering name="hero" label="Eat. Play. Stay." priority />
-            </h1>
-          </div>
+          <h1 ref={titleRef} tabIndex={-1} id="maracaibo-title" className={styles.srOnly}>Maracaibo Bistro — Venezuelan Food</h1>
           <div className={styles.actionRail} id="maracaibo-actions" aria-label="Table actions">
             <button type="button" onClick={() => navigate("menu")}><strong><Lettering name="menu" label="Menu" priority /></strong><small>Explore the menu</small></button>
             <button type="button" onClick={() => navigate("ordering")}><strong><Lettering name="order-online" label="Order online" priority /></strong><small>Pickup &amp; delivery only</small></button>
