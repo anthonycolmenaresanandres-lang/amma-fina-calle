@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-04 (evening check-in, `claude-opus-4-8`). **Headline: quiet, healthy build run — zero failing workflows anywhere; no caretaker fix needed. Since this morning amma `main` advanced `340c0ffb`→`176093b` via THREE of Anthony's own merges #304/#305/#306 (all `CI — web` green #317/#319/#321).** The merges: **#304** "style(maracaibo): add geometric header wordmark" (`CI — web` **#317 ✅**) — a newly authored **code-native** SVG wordmark for the Maracaibo demo header (interpretation, not an original font; accessible real-text fallback); **#305** "Isolate daily traffic reports from Square refresh and shared email" (`CI — web` **#319 ✅**); **#306** "style(maracaibo): add subtle flag wave" (`CI — web` **#321 ✅**) — a transform-only CSS sway on the existing flag image, reduced-motion static. **No new Supabase migration this run** — the pending set is **unchanged** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`). **🆕 One new (optional, owner-gated) item from #305 (details in the to-do list):** the daily **traffic morning-report email** is now code-ready and isolated onto **dedicated `TRAFFIC_*` credentials** (no fallback to the shared request/pitch mail), and the native-cron Square token refresh now **fails closed** behind `SQUARE_REFRESH_CRON_ENABLED=true`. To turn the traffic email on, Anthony sets 4 Production env vars + runs **one** verification per the new runbook `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md`. **Caretaker view of #305: guardrail-clean — env-var NAMES only (no values), NO Supabase migration (the traffic DB is Neon, not Supabase), and it TIGHTENS the Square gate rather than activating anything; `/customers` not newly touched.** #304/#306 are pure Maracaibo demo visuals (no migration, no protected route, no secrets). **#302's standing items are UNCHANGED and still need Anthony:** (1) the pending Supabase migrations incl. `20261004094018_maracaibo_table_visits.sql`, and (2) the `/customers/maracaibo-tables` game-seat surface it added (owner's own merge → flagged, never reverted). **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design; workflow state `active`, `schedule:` trigger removed). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere (#304–#306 carry only Vercel + Codex-review bots, Codex completed with no findings).** Default branches re-verified live: amma **`176093b`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#321** on main) + `CI — voice-gateway` ✅ (**#23**); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
+**Last updated:** 2026-10-05 (morning check-in, `claude-opus-4-8`). **Headline: quiet, healthy build run — zero failing workflows anywhere; no caretaker fix needed. Since the last run amma `main` advanced `176093b`→`e3bf7b5` via THREE of Anthony's own merges #307/#308/#309 (all `CI — web` green #323/#325/#327).** The merges: **#307** "Show realistic Venezuelan flag in Maracaibo header and credit Fina Calle" (`CI — web` **#323 ✅**) — Maracaibo demo header visuals (textured flag + Fina Calle credit); **#308** "feat(maracaibo): add tequeno shooter and keeper goal reaction" (`CI — web` **#325 ✅**) — Maracaibo penalty game sprites (tequeño vinotinto shooter + a satirical keeper + goal-conceded reaction; **Anthony-supplied, reviewed and explicitly approved sprites** — "Great place them and merge," 22:38 UTC; game art, not client-logo/league-mark); **#309** "Fix billing route exports and refine Maracaibo branding" (`CI — web` **#327 ✅**) — a **route-export build fix** (removes the invalid `export` keyword from the `BodegaBillingContent` + `ColattaoPayments` page helpers so the Next.js production build passes) plus Maracaibo branding refinement (quieter wordmark, larger flag, "Venezuelan Food" caption). **No new Supabase migration this run** — the pending set is **unchanged** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`). **Caretaker view of #309: guardrail-clean despite touching two `/owner` billing pages — the change is export VISIBILITY only (`export function`→`function`), the PR confirms ZERO diff in billing terms/policies/actions/provider configuration or database files; CI `#327` green.** #307 is pure Maracaibo demo visuals; #308 is Anthony's own approved game sprites (non-human/caricature game art, primitive fallback preserved) — no migration, no secrets, no `/m/[id]` touched. **#302's standing items are UNCHANGED and still need Anthony:** (1) the pending Supabase migrations incl. `20261004094018_maracaibo_table_visits.sql`, and (2) the `/customers/maracaibo-tables` game-seat surface it added (owner's own merge → flagged, never reverted). **vbfh `master` unchanged at `75f9668`** — the "VBFH Daily Run" stays `activation held` (manual-dispatch only; **#121 (10-01) remains the last automatic run; no #122 fired or will auto-fire** by design; workflow state `active`, `schedule:` trigger removed). **No new drafts; none of the 8 held drafts changed; no new human review comments anywhere (#307–#309 carry only Vercel + Codex-review bots, Codex completed with no findings).** Default branches re-verified live: amma **`e3bf7b5`** (advanced), vbfh `75f9668` (unchanged), shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). amma `CI — web` ✅ (**#327** on main) + `CI — voice-gateway` ✅ (**#23**, unchanged — no voice-gateway code this run); vbfh build `CI` ✅ (**#35** on master). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all held, all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still 403-blocked (open draft heads excluded).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -106,12 +106,17 @@ _The items below are unchanged standing gates — no new action this run; listed
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
    Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the eight open draft heads.
 
-_Resolved / no action needed from you:_ **amma #304/#306 — your own merges** (10-04 evening; `CI — web` #317/#321
-green; Maracaibo demo visuals only — a code-native SVG header wordmark (#304) + a transform-only CSS flag sway (#306);
-**no migration, no Stripe/Square/POS, no secrets, no protected route, no `/m/[id]` or `/owner/[id]`**; recorded).
-_(#305 is your own merge too but is listed ABOVE under the to-do list — it makes the traffic email code-ready and needs
-your 4 Production env vars + one verification if you want it live; guardrail-clean, no migration, tightens the Square
-gate.)_ **amma #300/#301/#303 — your own merges** (10-03→10-04; `CI — web`
+_Resolved / no action needed from you:_ **amma #307/#308/#309 — your own merges** (10-04→10-05; `CI — web`
+#323/#325/#327 green). **#307** realistic Venezuelan flag + Fina Calle credit in the Maracaibo header (demo visuals;
+public-domain flag concept); **#308** tequeño shooter + satirical keeper goal-reaction sprites (your own supplied,
+reviewed, explicitly approved game art — "Great place them and merge," 22:38 UTC; non-human/caricature, primitive
+fallback kept); **#309** a route-export build fix (removes the invalid `export` from the Bodega + Colattao billing
+page helpers so the Next.js build passes) + three Maracaibo visual files. **Guardrail read: #309 touches two `/owner`
+billing pages but as export VISIBILITY only — ZERO diff in billing terms/actions/provider config or database; no
+migration, no Stripe/Square/POS, no secrets, no `/m/[id]`; flagged for your awareness, not reverted.** **amma #304/#305/#306
+— your own merges** (10-04; `CI — web` #317/#319/#321 green; #304 code-native SVG header wordmark, #305 traffic-email
+isolation onto dedicated `TRAFFIC_*` credentials [optional activation above], #306 transform-only flag sway; recorded).
+**amma #300/#301/#303 — your own merges** (10-03→10-04; `CI — web`
 #309/#311/#315 green; Maracaibo table-OS **game** work — four-player football + Venezuela stadium skin/kits + Venezuelan
 lettering word-art; **no migration, no Stripe/Square/POS, no secrets, no `/m/[id]` or `/owner/[id]`**; national-colors
 game art only; recorded). _(#302 is your own merge too but is listed ABOVE under the to-do list — it carries the
@@ -132,14 +137,14 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ---
 
-## Build health (as of 2026-10-04, evening)
+## Build health (as of 2026-10-05, morning)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`176093b`** ("style(maracaibo): add subtle flag wave (#306)," 10-04 20:53 UTC; **Anthony's own merge**, `CI — web` **#321 ✅**). **Advanced since the morning run** `340c0ffb`→`176093b` via **THREE of Anthony's own merges** (all `CI — web` green): **#304** geometric header wordmark (`#317 ✅`) — a newly authored **code-native** SVG wordmark + fallback for the Maracaibo demo header (`src/table-os/maracaibo/MaracaiboWordmark.tsx` + `public/assets/maracaibo/maracaibo-bistro-wordmark.svg` + ASSET_REGISTRY provenance + review doc; "interpretation, not an original font"); **#305** "Isolate daily traffic reports from Square refresh and shared email" (`#319 ✅`) — dedicated `TRAFFIC_*` mail credentials with no shared fallback, native-cron Square refresh now **fails closed** behind `SQUARE_REFRESH_CRON_ENABLED=true`, an admin-only no-send `?dryRun=1` readiness path, an offline isolation selftest in CI, and the owner runbook `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` (**env-var NAMES only in `.env.example`, no values; NO Supabase migration — traffic DB is Neon; `/customers` not newly touched**); **#306** subtle flag wave (`#321 ✅`) — transform-only CSS sway on the existing flag, reduced-motion static. **Caretaker view: #304/#306 are pure Maracaibo demo visuals; #305 is guardrail-clean and actually TIGHTENS the Square gate — the only thing it needs is Anthony's optional secret setup if he wants the traffic email live (see to-do list). No Stripe/Square/POS activation, no secrets handled, no `/m/[id]` or `/owner/[id]`.** **Anthony's own → no caretaker action; recorded.** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`e3bf7b5`** ("Fix billing route exports and refine Maracaibo branding (#309)," 10-05 00:29 UTC; **Anthony's own merge**, `CI — web` **#327 ✅**). **Advanced since the last run** `176093b`→`e3bf7b5` via **THREE of Anthony's own merges** (all `CI — web` green): **#307** "Show realistic Venezuelan flag in Maracaibo header and credit Fina Calle" (`#323 ✅`) — Maracaibo demo header visuals (textured/deformed flag SVG + Fina Calle credit); **#308** "add tequeno shooter and keeper goal reaction" (`#325 ✅`) — Maracaibo penalty game sprites (tequeño vinotinto shooter + satirical keeper + goal-conceded reaction; **Anthony-supplied, reviewed and explicitly approved sprites** per HANDOFF_LOG 10-04 "Great place them and merge," 22:38 UTC); **#309** "Fix billing route exports and refine Maracaibo branding" (`#327 ✅`) — a **route-export build fix** removing the invalid `export` keyword from `BodegaBillingContent` (`owner/bodega/billing/page.tsx`) + `ColattaoPayments` (`owner/colattao/plan/page.tsx`) so the Next.js production build passes, plus three Maracaibo visual files (quieter wordmark, larger stronger-fold flag, "Venezuelan Food" caption). **Caretaker view: #307 is pure demo visuals; #308 is Anthony's own approved game sprites (game art — non-human/caricature — primitive fallback preserved, no client-logo/league-mark, no `/m/[id]`); #309 touches two `/owner` billing pages but as export VISIBILITY only (`export function`→`function`) — the PR confirms ZERO diff in billing terms/policies/actions/provider configuration or database files. No migration, no Stripe/Square/POS activation, no secrets handled.** **Anthony's own → no caretaker action; recorded (#309 billing-page touch flagged).** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
@@ -171,12 +176,33 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ## Merged / closed since last run
 
-**Since the morning run, amma `main` advanced `340c0ffb`→`176093b` via THREE of Anthony's own merges #304/#305/#306**
-(`CI — web` #317/#319/#321 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
-unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#304–#306 carry only Vercel
+**Since the last run, amma `main` advanced `176093b`→`e3bf7b5` via THREE of Anthony's own merges #307/#308/#309**
+(`CI — web` #323/#325/#327 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
+unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#307–#309 carry only Vercel
 deploy previews + the Codex-review bot, which completed with no findings; the only other PR comments remain Vercel
-deploy bots on #259/#277). Prior merges #294→#303 retained below.
+deploy bots on #259/#277). Prior merges #294→#306 retained below.
 
+- **amma #309 — "Fix billing route exports and refine Maracaibo branding."** Merged 10-05 00:29 UTC (`e3bf7b5`),
+  `CI — web` **#327 ✅**. Two one-keyword route-export fixes — removes the invalid `export` from `BodegaBillingContent`
+  (`APP/web/src/app/owner/bodega/billing/page.tsx`) and `ColattaoPayments` (`APP/web/src/app/owner/colattao/plan/page.tsx`)
+  so Next.js 16 production route validation accepts the page modules (both helpers have only internal callers) — plus
+  three Maracaibo visual files (`MaracaiboExperience.tsx` slogan removal + "Venezuelan Food" caption, `MaracaiboFlag.tsx`
+  stronger cloth-fold shader, `maracaibo.module.css` sizing) and CODEX_QUEUE/HANDOFF_LOG/two review docs. **⚠️ Touches
+  two `/owner` billing pages — but as export VISIBILITY only; PR confirms ZERO diff in billing terms/policies/actions/
+  provider configuration, database files, or Maracaibo game code (21 synthetic billing-selftest checks still pass). No
+  migration, no Stripe/Square/POS, no secrets, no `/m/[id]`.** **Anthony's own merge → no caretaker action; recorded + billing-page touch flagged.**
+- **amma #308 — "feat(maracaibo): add tequeno shooter and keeper goal reaction."** Merged 10-04 22:54 UTC (`b4e4712`),
+  `CI — web` **#325 ✅**. Maracaibo penalty-game sprites: a tequeño vinotinto shooter, a satirical keeper, and a
+  goal-conceded sad reaction, with scoped lint/types + responsive/goal/save/miss/reset/replay/fallback checks. **Game
+  art only — Anthony-supplied, reviewed, and explicitly approved for placement + merge ("Great place them and merge,"
+  22:38 UTC per HANDOFF_LOG); non-human/caricature sprites with the primitive fallback preserved; no client logo, no
+  league/event/club mark, no real-face branding generated here; no `/m/[id]` or `/owner/[id]`, no migration, no
+  secrets.** **Anthony's own merge → no caretaker action; recorded.**
+- **amma #307 — "Show realistic Venezuelan flag in Maracaibo header and credit Fina Calle."** Merged 10-04 21:58 UTC
+  (`767714e`), `CI — web` **#323 ✅**. Deforms the flag fabric with joined SVG sections + smooth textured deformation,
+  places the flag in the Maracaibo demo header, and credits Fina Calle. **Demo header visuals only — public-domain
+  national-flag concept (no club/league/event mark, no real face, no client logo); no migration, no route, no secrets.**
+  **Anthony's own merge → recorded.**
 - **amma #306 — "style(maracaibo): add subtle flag wave."** Merged 10-04 20:53 UTC (`176093b`), `CI — web` **#321 ✅**.
   `MaracaiboMarks.tsx` (+flag class) + `maracaibo.module.css` (4.8s transform-only keyframes, reduced-motion static) +
   `MARACAIBO_FLAG_WAVE_REVIEW_20261004.md` + CODEX_QUEUE/HANDOFF_LOG. **Demo visual only — transform on the existing
@@ -306,8 +332,10 @@ judgment). **Eligible** (merged since, no longer open-draft-protected): the eigh
 #298 (`codex/maracaibo-visual-refresh-20261003`), #299 (`codex/maracaibo-brand-iteration-20261003`),
 #295/#296 (Bodega board menu), and the newest merged heads #300 (`codex/maracaibo-multiplayer-20261003`),
 #301 (`codex/maracaibo-stadium-skin-20261004`), #302 (`codex/maracaibo-table-visits-20261004`),
-#303 (`codex/maracaibo-signwriter-20261004`), and the newest merged heads #304 (`codex/maracaibo-geometric-wordmark-20261004`),
-#305 (`codex/traffic-only-report-20261004`), #306 (`codex/maracaibo-flag-wave-20261004`) — add them to your local delete run.
+#303 (`codex/maracaibo-signwriter-20261004`), #304 (`codex/maracaibo-geometric-wordmark-20261004`),
+#305 (`codex/traffic-only-report-20261004`), #306 (`codex/maracaibo-flag-wave-20261004`), and the newest merged heads
+#307 (`codex/maracaibo-flag-ripple-20261004`), #308 (`codex/maracaibo-tequeno-keeper-20261004`),
+#309 (`codex/maracaibo-brand-refinement-20261004`) — add them to your local delete run.
 Still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
@@ -343,6 +371,26 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-05 (morning check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
+  needed.** Zero failing workflow runs across all four repos. **amma `main` advanced `176093b`→`e3bf7b5` via THREE of
+  Anthony's own merges #307/#308/#309** (`CI — web` #323/#325/#327 ✅): **#307** realistic Venezuelan flag + Fina Calle
+  credit in the Maracaibo demo header (public-domain flag concept, demo visuals); **#308** tequeño vinotinto shooter +
+  satirical keeper goal-conceded reaction sprites (Anthony's own supplied/reviewed/explicitly-approved game art — "Great
+  place them and merge," 22:38 UTC; non-human/caricature, primitive fallback preserved, no client logo/league mark);
+  **#309** a route-export build fix (removes the invalid `export` keyword from the `BodegaBillingContent` +
+  `ColattaoPayments` page helpers so the Next.js production build passes) + three Maracaibo visual files. **Caretaker
+  guardrail read: #309 touches two `/owner` billing pages but as export VISIBILITY only (`export function`→`function`) —
+  the PR confirms ZERO diff in billing terms/actions/provider config or database files (21 synthetic billing checks
+  still pass); flagged, not reverted (Anthony's own merge).** **Migration set UNCHANGED `0015`–`0023` +
+  `20261004094018_maracaibo_table_visits`** (+`0009`); #302's standing items (pending migration + `/customers`
+  game-seat surface) unchanged, still need Anthony. vbfh `master` unchanged at `75f9668`; VBFH Daily Run latest **#121
+  (10-01) succeeded** and stays `activation held` (no #122 auto-fires by design). Default branches re-verified: amma
+  `e3bf7b5` (advanced), vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. amma `CI — web` #327 ✅ +
+  `CI — voice-gateway` #23 ✅ (unchanged, no voice-gateway code this run); vbfh build `CI` #35 ✅; shadow & EscapeTheBomb
+  no CI (0 runs). **No new drafts; none of the 8 held drafts changed; no new human review comments (#307–#309 carry only
+  Vercel + Codex-review bots); nothing closed unmerged; no merge-conflict/base-branch notices; GitHub API healthy.**
+  #218 governance question open; #29 closed. Branch cleanup still 403-blocked. Push notification + email sent (standing:
+  run the pending Supabase migrations incl. the Maracaibo one; optional: activate the traffic email via the #305 runbook).
 - **2026-10-04 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing broke, no caretaker fix
   needed.** Zero failing workflow runs across all four repos. **amma `main` advanced `340c0ffb`→`176093b` via THREE of
   Anthony's own merges #304/#305/#306** (`CI — web` #317/#319/#321 ✅): **#304** code-native geometric SVG header
