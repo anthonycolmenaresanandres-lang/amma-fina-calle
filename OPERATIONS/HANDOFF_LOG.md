@@ -3214,3 +3214,11 @@ Anthony clarifies tequeno vinotinto shooter versus satirical Maduro military kee
 ## IN - 2026-10-04 - Approved character integration publication
 
 Anthony reviewed the three generated sprites and said "Great place them and merge" at 22:38 UTC. This authorizes publishing the scoped character integration after checks. Genuine assets and goal-only sad expression are implemented; 320/390/1440 goal/save/miss/reset/replay/fallback checks, scoped lint/types and actual six-second motion preview (libfile_eab3200ea4808191be122e13f1de644a) pass. Reconcile current main, draft PR, exact-head web CI/Vercel, guarded merge and exact-merge production verification. Preserve other work and all gameplay behavior.
+
+## IN - 2026-10-04 - Local quieter Maracaibo branding
+
+New isolated branch from latest main b4e4712, preserving PR308. Supplied JPEG reference and authentic badge inspected: MBVF angular monogram and Kitchen & Cocktails, with Maracaibo Bistro name in reference; Venezuelan Food is not written out. Add the expressly requested wording as an accessible companion caption, without inventing an exact font claim or editing the badge. Remove large slogan, slightly reduce display words and enlarge stronger continuous cloth ripple with safe margins. No publishing, new art, dependencies, services or gameplay changes.
+
+## OUT - 2026-10-05 - Maracaibo visual refinement ready locally
+
+Removed slogan; slightly smaller existing display words/name; live Venezuelan Food caption beside intact badge/name; larger textured flag with stronger continuous folds and safe margins. Only three Maracaibo visual files changed from b4e4712. Scoped lint/types, responsive comparisons/navigation/reduced-motion, stationary-canvas deformation, 120-frame alpha margins and context-loss fallback pass; no runtime errors or application writes. Actual six-second moving Library preview libfile_3daec1c4aa58819196d0657763df31f7. Production compilation passes, but unchanged BodegaBillingContent route export blocks full build; no unrelated fixes. PR308 characters/game code, canonical dirty work and paused reliability preserved. Local commit/review only; no push, merge or deployment. See MARACAIBO_BRAND_REFINEMENT_REVIEW_20261005.md.
