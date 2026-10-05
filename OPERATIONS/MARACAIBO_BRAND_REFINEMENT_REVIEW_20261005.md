@@ -24,3 +24,5 @@ Checks completed:
 Preview setup used existing dependencies through a junction. Turbopack cannot use that external junction, so local verification used Webpack. The server's advertised localhost URL allowed its client resources to hydrate; no application configuration was changed. Task-specific preview processes were closed after captures.
 
 Ready for Anthony's visual review. Any later publication needs explicit approval and normal exact-head release gates.
+
+October 5 update: Anthony explicitly approved fixing the build blocker and merging. BodegaBillingContent and the subsequently exposed identical ColattaoPayments invalid exports are now local helpers; full production build, scoped lint and 21 synthetic billing checks pass. Publication gates and receipt are tracked in MARACAIBO_BRAND_BILLING_RELEASE_20261005.md. This supersedes the earlier publication hold/build limitation.

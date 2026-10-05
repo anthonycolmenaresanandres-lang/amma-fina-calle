@@ -48,7 +48,7 @@ export default async function ColattaoPlanPage({ searchParams }: PageProps) {
   </div></main>;
 }
 
-export function ColattaoPayments({ billing }: { billing: BillingSummary }) {
+function ColattaoPayments({ billing }: { billing: BillingSummary }) {
   const needsEnrollment = ["not_started", "canceled", "incomplete_expired"].includes(billing.status);
   const canEnroll = billing.enrollmentEnabled === true;
   const canManage = billing.managementEnabled === true;

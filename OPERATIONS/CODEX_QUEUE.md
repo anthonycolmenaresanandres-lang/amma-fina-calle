@@ -979,3 +979,9 @@ State: implementation and scoped lint/types/render/outcome/replay/fallback check
 Authority: Anthony requests removal of Eat. Play. Stay., slightly smaller prominent wording, larger flag with stronger realistic fabric motion, and Venezuelan Food beside the restaurant branding. Local implementation and review only; prior PR308 publication authority does not apply. Scope: welcome/header/display scale and existing flag shader; preserve authentic badge, characters, controls, operational disclosures and unrelated work. Acceptance: matching desktop/mobile before/after views, reduced-motion/fallback, uncropped fabric/stars, scoped lint/types and local review artifact.
 
 State: DONE locally, ready for review. Three visual files only; scoped lint/types, 320/390/1440 comparison/navigation/reduced-motion and 120-frame unclipped shader/context-loss checks pass. Moving preview libfile_3daec1c4aa58819196d0657763df31f7. Production compilation passed; full build blocked by unchanged BodegaBillingContent route export. No publication. See MARACAIBO_BRAND_REFINEMENT_REVIEW_20261005.md.
+
+## [ ] Fix Bodega route export and publish approved Maracaibo refinement - October 5
+
+Authority: Anthony expressly approves Bodega build fix and Maracaibo merge. Scope: one invalid route export and already reviewed 68d9e28 visuals; retain billing terms/payment behavior and other work. Acceptance: affected billing checks, lint/types/full build, draft PR/exact-head gates, guarded merge and production/live proof. No credentials/configuration/database/reliability changes.
+
+State: both invalid page helper exports corrected by removing only export; full production build, scoped lint and 21 synthetic billing checks pass. Reviewed 68d9e28 visuals remain. Draft PR/exact-head release gates and production proof pending. See MARACAIBO_BRAND_BILLING_RELEASE_20261005.md.
