@@ -3252,3 +3252,19 @@ Removed slogan; slightly smaller existing display words/name; live Venezuelan Fo
 Anthony explicitly said Fix bodega's. And merge Maracaibo (Sentinel_66ea2bff78548191853e7902d140caf1). Main reconciled and remains b4e4712; branch already includes refinement 68d9e28. Fix only invalid BodegaBillingContent named export, keeping the function local because no external callers exist. Preserve all billing behavior/terms/configuration and Maracaibo assets/gameplay. Full local build and affected billing checks precede draft PR, exact-head CI/Vercel, guarded merge and exact-merge production/live verification. No databases, secrets, paid usage or paused reliability work.
 
 Full-build validation after fixing Bodega exposes the identical invalid ColattaoPayments export in owner/colattao/plan/page.tsx. It also has only an internal caller. Apply the same one-keyword local-helper correction, necessary for the explicitly approved successful build and merge; preserve all Colattao rendering, billing terms and payment behavior. Bounded route helper export scan found no other invalid named function exports. Existing billing suite already covers both Bodega and Colattao terms/policies with synthetic fixtures.
+
+## 2026-10-05 IN - Command Center campus
+
+Authority: Anthony confirmed /command-center; delegated local reviewable implementation. Branch codex/command-center-campus-20261005 from main b731744. Scope: Command Center UI and directory metadata only. Inspected Library reference libfile_674895bdfb608191a2a621706e31c9d0. Five selectable isometric places with existing destinations, search, keyboard/list alternative, mobile and reduced motion. No backends, secrets, access, send, push, merge, deploy, Maracaibo or EscapeTheBomb changes.
+
+## 2026-10-05 OUT - Command Center campus
+
+Local first version complete on codex/command-center-campus-20261005: five reference-informed isometric departments, all 54 original links plus existing client ledger, search/list/keyboard/camera/mobile controls and honest manual/unavailable data labels. Scoped TypeScript/ESLint, registry self-test and 18 browser assertions pass; before/after and 320/390 px captures saved. Initial build on stale local main b731744 compiles but BodegaBillingContent page export fails Next route validation; left outside scope. Preview saved to Library libfile_efd432b6e96881919430c11fbe8ff6d5. Details: OPERATIONS/COMMAND_CENTER_CAMPUS_20261005.md. No push, merge, deploy, secrets, access or active-game changes.
+
+## 2026-10-05 OUT - Command Center current-main reconciliation
+
+Fresh origin/main is 144aa513633227b153432eb2687e21647ba96554 (PR #311); PR #309 billing export fixes are included and unchanged. Rebased the campus branch from its stale b731744 base, resolving documentation-only append conflicts while preserving every newer upstream record. Command Center source is identical to the previously reviewed version. Repeated the affected full production build with webpack: PASS, exit 0, including full TypeScript and 45/45 static pages. Remote main rechecked with ls-remote and still matches the base. Previous stale-base billing failure is superseded; no current full-build blocker remains. No push, merge, deploy, billing or Maracaibo edits.
+
+## 2026-10-05 IN - Command Center authorized merge
+
+Anthony explicitly said “merge the command center” (Sentinel_943aefb8b00881919ca9c97f9e689ef7). Fresh base and current production: 144aa513633227b153432eb2687e21647ba96554. Publish the reviewed scoped feature PR, require all exact-head checks, merge without bypass, and verify Git-integrated production and Command Center behavior. Preserve PR #309 billing helpers and PR #311 Maracaibo. No secrets, access changes, migrations or unrelated edits.
