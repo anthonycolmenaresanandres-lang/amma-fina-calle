@@ -24,10 +24,10 @@ const tree = (p: string): string => `${REPO}/tree/main/${p}`;
 
 export const sections: HubSection[] = [
   {
-    title: "Live tools",
-    blurb: "Things you can open and use right now.",
+    title: "App destinations",
+    blurb: "Existing app routes. Availability and access are checked at each destination.",
     links: [
-      { label: "Lead Arcade (Conquest)", href: "/lead-arcade", kind: "tool", note: "your live pipeline as a game" },
+      { label: "Lead Arcade (Conquest)", href: "/lead-arcade", kind: "tool", note: "Fictional starter pack and manually recorded lead events" },
       { label: "Conquest demo", href: "/conquest", kind: "tool", note: "public-facing demo" },
       { label: "Penalty Shootout", href: "/penalty-shootout", kind: "tool", note: "branded mini-game" },
       { label: "Content Engine", href: "/content-engine", kind: "tool", note: "prompt systems, copy-to-clipboard" },

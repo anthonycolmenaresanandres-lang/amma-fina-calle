@@ -1005,3 +1005,13 @@ State: DONE locally, ready for review. Three visual files only; scoped lint/type
 Authority: Anthony expressly approves Bodega build fix and Maracaibo merge. Scope: one invalid route export and already reviewed 68d9e28 visuals; retain billing terms/payment behavior and other work. Acceptance: affected billing checks, lint/types/full build, draft PR/exact-head gates, guarded merge and production/live proof. No credentials/configuration/database/reliability changes.
 
 State: both invalid page helper exports corrected by removing only export; full production build, scoped lint and 21 synthetic billing checks pass. Reviewed 68d9e28 visuals remain. Draft PR/exact-head release gates and production proof pending. See MARACAIBO_BRAND_BILLING_RELEASE_20261005.md.
+
+## [x] Command Center campus - 2026-10-05
+
+**State:** LOCAL DONE - full build PASS; scoped release authorized and in progress
+**Authority:** Anthony confirmed target; delegated local implementation overrides stale queue gate for this task.
+**Branch base:** origin/main 144aa513633227b153432eb2687e21647ba96554; codex/command-center-campus-20261005. Original stale local base: b731744.
+**Scope:** /command-center only; retain routes and authorization.
+**PASS:** Reference-informed isometric campus, five selectable departments, existing links, honest data labels, search, keyboard/list/mobile/reduced motion, scoped lint/build and before/after browser evidence.
+**RELEASE AUTHORITY:** Anthony explicitly said “merge the command center”; publish this scoped PR, require successful exact-head checks, merge without bypass, then verify production.
+**STOP:** No secrets, access changes, migrations, new services, unrelated updates or check/protection bypass.
