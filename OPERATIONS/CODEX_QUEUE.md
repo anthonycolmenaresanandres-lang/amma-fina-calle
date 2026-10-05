@@ -1,5 +1,11 @@
 # Codex Queue — canonical live queue
 
+## [x] Maracaibo viewport-filling Penalty Rush - October 5
+
+**Authority/scope:** Anthony requests Penalty Rush filling the screen with Back to menu. Local layout only, mobile and desktop, preserving score/replay, controls, artwork and actual menu return. Keep table URL/query/hash and native Back/Forward; multiplayer stays unchanged. No browser fullscreen permission, generated-art integration, tests/lint/build/browser captures or publication.
+**Execution:** codex/maracaibo-penalty-fullscreen-20261005 from main 178bd13 in C:/dev/amma/worktrees/maracaibo-penalty-fullscreen-20261005. Primary frontend-design; existing AMMA game-visual guardrails and narrow source guideline review. Canonical and generated-art worktrees untouched.
+**State:** IMPLEMENTED LOCALLY - viewport-filling solo branch for phones and desktop, compact safe-area Back to menu/score bar, remaining-space canvas, instruction overlay and replay/error state. One same-URL history entry restores menu/solo via Back/Forward while retaining router state; the menu button keeps the existing active-round confirmation. Source/diff and required design-guideline review only; no tests/lint/build/browser QA, so rendered behavior remains unverified. No publication.
+
 ## [x] Maracaibo lakefront penalty stadium - October 5
 
 **Authority:** Anthony requests a Maracaibo/Venezuela stadium in the existing cartoon style, implementation with Astra ultra and merge. Explicitly skip tests to save tokens; no local lint/build/browser captures or gameplay checks.

@@ -1,5 +1,13 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-05 OUT - Maracaibo viewport-filling Penalty Rush ready locally
+
+Solo now occupies the available mobile/desktop viewport with a compact safe-area Back to menu/score bar, full remaining-height canvas, instruction overlay and existing replay/error controls. Menu/header/footer/visit clutter is absent during solo; multiplayer retains its phone gate. A same-URL history entry preserves router keys and table/query/hash context, restores menu/solo on Back/Forward, and removes its listener on unmount. The menu button retains active-round confirmation. Artwork, renderer, mechanics and input stay untouched. Source/diff and design-guideline inspection only; no tests, lint/build, browser or screenshot QA per Anthony. Rendered/resize/navigation behavior remains unverified. Local-only change; no push, PR, merge or deployment.
+
+## 2026-10-05 IN - Maracaibo viewport-filling Penalty Rush
+
+Anthony requests full-screen Penalty Rush with Back to menu. Local-only branch from 178bd13; dedicated viewport layout with compact safe-area controls and desktop solo access. Preserve scoring, controls, replay, existing artwork, table context, browser history and multiplayer gate. No tests/lint/build/browser QA or publication; source/diff review only.
+
 ## 2026-10-05 OUT - Maracaibo lakefront penalty stadium prepared
 
 Original 5.8 KB self-contained SVG adds a warm cel-style lakefront stadium, Rafael Urdaneta-inspired bridge, palms, yellow/blue/red terraces and eight stars. Only Maracaibo's optional background path/fit changes; player, keeper/sad expression, logo, renderer, input, geometry, scoring and menu remain untouched. Source/diff and required design-guideline inspection only; no tests, lint, build, browser captures or runtime checks per Anthony. Appearance, resize and fallback are unverified. Parent handles authorized PR/merge; no publication performed by implementation agent. Provenance: ASSET_REGISTRY/MARACAIBO/PENALTY_STADIUM_20261005.md.

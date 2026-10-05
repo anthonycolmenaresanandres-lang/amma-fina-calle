@@ -67,19 +67,27 @@
 .visitFooter { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; width: min(100% - 40px, 1120px); margin: auto auto 12px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: .8125rem; }
 .visitNotice { margin-block: 24px; line-height: 1.7; }
 .visitNotice button { margin-top: 16px; }
-.penaltyScore { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.penaltyFullscreen { position: fixed; inset: 0; z-index: 20; width: 100%; height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+.penaltyGame { display: flex; flex: 1; flex-direction: column; min-height: 0; width: 100%; }
+.penaltyHud { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 8px; padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); }
+.penaltyBack { min-width: 44px; min-height: 44px; padding: 8px 4px; border: 0; background: none; color: var(--paper); text-decoration: underline; text-underline-offset: 4px; }
+.penaltyBack:hover { color: var(--citrus); }
+.penaltyScore { min-width: 0; text-align: right; }
+.penaltyPlayfield { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.penaltyPlayfield .results { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; justify-content: safe center; overflow-y: auto; padding: 24px max(24px, env(safe-area-inset-right)) max(64px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); }
+.penaltyPlayfield .results h2 { margin: 0; }
 .penaltyScore span { color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
-.penaltyHint { min-height: 44px; padding-block: 12px; color: var(--citrus); font-size: .9375rem; }
-.penaltyStage { position: relative; width: 100%; height: clamp(380px, 65dvh, 700px); overflow: hidden; touch-action: none; }
+.penaltyHint { position: absolute; z-index: 2; inset: auto 0 0; margin: 0; padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); background: #0b0b0cc2; color: var(--citrus); font-size: .875rem; line-height: 1.4; text-align: center; pointer-events: none; }
+.penaltyStage { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; touch-action: none; }
 .penaltyStage canvas { display: block; }
 .penaltyCanvas { width: 100%; height: 100%; }
 .penaltyTarget { position: absolute; width: 44px; height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 50%; background: transparent; }
 .penaltyTarget:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; background: #e7a55140; }
 .penaltyStage[hidden] { display: none; }
-.playInner:has(.penaltyStage) .matchTitle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .page *, .page *::before, .page *::after { box-sizing: border-box; }
 .page button, .page a, .page summary { touch-action: manipulation; -webkit-tap-highlight-color: #f5f5f120; }
 .page button { font: inherit; cursor: pointer; }
+.page .penaltyBack { font-size: .8125rem; }
 .page a { text-decoration: none; }
 .page button:focus-visible, .page a:focus-visible, .page summary:focus-visible { outline: 2px solid var(--citrus); outline-offset: 5px; }
 .page h1:focus { outline: none; }
@@ -328,13 +336,6 @@
   .page *, .page *::before, .page *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .actionRail button:hover svg { transform: none; }
 }
-
-.page[data-view="penalty"] .header { padding-block: 12px; }
-.page[data-view="penalty"] .brandLogo { width: 40px; height: 40px; }
-.page[data-view="penalty"] .brandText { width: 5.75rem; }
-.playInner:has(.penaltyStage) .innerTop { margin-bottom: 0; }
-.playInner:has(.penaltyStage) .lobbyAccent { display: none; }
-.playInner:has(.penaltyStage) .matchHeading { display: block; }
 
 @media (forced-colors: active) {
   .brandText[data-loaded="true"] .brandNameFallback { clip-path: none; }

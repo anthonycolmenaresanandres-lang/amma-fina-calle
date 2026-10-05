@@ -40,11 +40,32 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
   const sourceDate = venue.menuEvidence.sources[0]?.retrievedDate;
   const sourceLabel = sourceDate ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(sourceDate + "T12:00:00Z")) : "Date recorded with source";
 
+  // Solo adds one same-URL history entry, retaining the router's own state.
+  useEffect(() => {
+    const restorePenaltyView = () => {
+      const entry = window.history.state?.maracaiboPenalty;
+      if (entry?.tableId !== tableId || (entry.view !== "penalty" && entry.view !== "menu")) return;
+      activeMatch.current = false;
+      focusAfterNavigation.current = true;
+      setView(entry.view);
+    };
+    restorePenaltyView();
+    window.addEventListener("popstate", restorePenaltyView);
+    return () => window.removeEventListener("popstate", restorePenaltyView);
+  }, [tableId]);
+
   function navigate(next: View): void {
     if (view === next) return;
     if ((view === "match" || view === "penalty") && activeMatch.current && !window.confirm(view === "penalty" ? "Leave this shootout? Your five-shot round will end." : "Leave this match? Your place will be available to someone else.")) return;
     activeMatch.current = false;
     focusAfterNavigation.current = true;
+    if (next === "penalty") {
+      window.history.replaceState({ ...window.history.state, maracaiboPenalty: { tableId, view: "menu" } }, "");
+      window.history.pushState({ ...window.history.state, maracaiboPenalty: { tableId, view: "penalty" } }, "");
+    } else if (view === "penalty" && next === "menu" && window.history.state?.maracaiboPenalty?.view === "penalty") {
+      window.history.back();
+      return;
+    }
     if (next === "match") setMultiplayerRequested(true);
     setView(next);
   }
@@ -64,6 +85,15 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
   function showRequestPreview(): void {
     const selected = REQUESTS.find((item) => item.id === request);
     if (selected) setPreview(selected.label);
+  }
+
+  if (view === "penalty") {
+    return (
+      <main className={styles.page + " " + styles.penaltyFullscreen} data-venue={venue.id} data-view="penalty">
+        <h1 ref={titleRef} tabIndex={-1} className={styles.srOnly}>Penalty Rush</h1>
+        <MaracaiboPenaltyClient onActiveChange={reportMatchActive} onBack={() => navigate("menu")} />
+      </main>
+    );
   }
 
   return (
@@ -98,8 +128,8 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           </div>
         </section>
       ) : (
-        <div className={styles.inner + " " + (["match", "penalty", "games"].includes(view) ? styles.playInner : "")} id="maracaibo-content">
-          <div className={styles.innerTop}><button type="button" onClick={() => navigate(view === "match" || view === "penalty" ? "games" : "welcome")}>{view === "match" || view === "penalty" ? "Games" : "Home"}</button></div>
+        <div className={styles.inner + " " + (["match", "games"].includes(view) ? styles.playInner : "")} id="maracaibo-content">
+          <div className={styles.innerTop}><button type="button" onClick={() => navigate(view === "match" ? "games" : "welcome")}>{view === "match" ? "Games" : "Home"}</button></div>
 
           {view === "menu" ? (
             <section aria-labelledby="menu-title">
@@ -134,23 +164,22 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             </section>
           ) : null}
 
-          {["games", "match", "penalty"].includes(view) ? (
+          {["games", "match"].includes(view) ? (
             <section aria-labelledby="match-title">
-              <div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={view === "games" ? styles.playHeading : styles.matchTitle}>{view === "games" ? <span className={styles.playLettering}><Lettering name="play" label="Play" /></span> : view === "penalty" ? "Penalty Rush" : "Table match"}</h1>{view === "match" ? <DecorativeArtwork kind="football" className={styles.lobbyAccent} /> : null}</div>
+              <div className={styles.matchHeading}><h1 ref={titleRef} tabIndex={-1} id="match-title" className={view === "games" ? styles.playHeading : styles.matchTitle}>{view === "games" ? <span className={styles.playLettering}><Lettering name="play" label="Play" /></span> : "Table match"}</h1>{view === "match" ? <DecorativeArtwork kind="football" className={styles.lobbyAccent} /> : null}</div>
               {view === "games" ? <><p className={styles.lobbyIntro}>Choose your game</p><div className={styles.gameChoices}>
                   <article className={styles.gameChoice} data-mode="multiplayer"><span className={styles.gameMode}>Multiplayer</span><h2>Table Football</h2><p>Play with friends at your table</p><small>{currentTable} · Up to 4 players</small><button type="button" className={styles.gameButton} onClick={() => navigate("match")}>Join table game</button></article>
                   <article className={styles.gameChoice} data-mode="solo"><span className={styles.gameMode}>Solo</span><h2>Penalty Rush</h2><p>Just you and the keeper</p><small>Start instantly · No scan needed</small><button type="button" className={styles.gameButton} onClick={() => navigate("penalty")}>Play solo</button></article>
                 </div></>
-                : device === "desktop" ? <div className={styles.phoneHandoff}><h2>Play on your phone</h2><p>{view === "match" ? "Scan the printed QR at your table, then choose Play and Table Football." : "Open this page on your phone, then choose Play and Penalty Rush. No table scan needed."}</p></div>
+                : device === "desktop" ? <div className={styles.phoneHandoff}><h2>Play on your phone</h2><p>Scan the printed QR at your table, then choose Play and Table Football.</p></div>
                 : device === "checking" ? <p className={styles.lobbyIntro} role="status">Getting your game ready…</p>
-                : view === "penalty" ? <MaracaiboPenaltyClient onActiveChange={reportMatchActive} />
                 : membership.status === "connecting" ? <p className={styles.lobbyIntro} role="status">Connecting to {currentTable}…</p>
                 : membership.status !== "active" || !membership.visit ? <div className={styles.visitNotice}><p>{membership.status === "ended" ? "Your table visit has ended. Still at the table? Join again to play." : "Your table couldn’t connect. You can still play Penalty Rush."}</p><button type="button" className={styles.primaryButton} onClick={() => { activeMatch.current = false; void (membership.status === "ended" ? membership.rejoin() : membership.retry()); }}>{membership.status === "ended" ? "Join this table" : "Retry connection"}</button></div>
                 : <MaracaiboFootballClient key={membership.visit.visitId} venue={venue} tableId={tableId} visitId={membership.visit.visitId} onNavigate={(next) => navigate(next)} onActiveChange={reportMatchActive} />}
             </section>
           ) : null}
 
-          {view !== "match" && view !== "penalty" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
+          {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
         </div>
       )}
       {device === "phone" && multiplayerRequested ? <div className={styles.visitFooter}>
