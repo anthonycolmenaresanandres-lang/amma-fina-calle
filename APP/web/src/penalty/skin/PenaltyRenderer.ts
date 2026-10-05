@@ -43,6 +43,7 @@ export type RenderState = {
 // Texture keys for any skin assets that actually loaded (undefined = fall back).
 export type RendererAssets = {
   backgroundKey?: string;
+  pitchKey?: string;
   logoKey?: string;
   ballKey?: string;
   kickerKey?: string;
@@ -66,6 +67,7 @@ const TEXT_FONT = "Georgia, serif";
 // the in-between layers are empty, so output is unchanged.
 const DEPTH = {
   background: -10,
+  pitch: -9,
   backdrop: -6,
   // Stadium-native signage board (posts + panel + trim) the client creative
   // insets into; below the inset image, which is below its legibility overlay.
@@ -120,6 +122,7 @@ export class PenaltyRenderer {
   // the campaign keeper kit color). Null unless the skin supplies a keeperKit.
   private readonly keeperKitImage: Phaser.GameObjects.Image | null = null;
   private readonly bgFit: BackgroundFit;
+  private readonly pitchImage: Phaser.GameObjects.Image | null = null;
   private readonly kickerFit: SpriteFit;
   private readonly keeperFit: SpriteFit;
   private readonly ballFit: SpriteFit;
@@ -167,6 +170,10 @@ export class PenaltyRenderer {
         .image(0, 0, assets.backgroundKey)
         .setOrigin(0.5, 0.5)
         .setDepth(DEPTH.background);
+    }
+    if (assets.pitchKey) {
+      this.pitchImage = scene.add.image(0, 0, assets.pitchKey)
+        .setOrigin(0.5, 0.5).setDepth(DEPTH.pitch);
     }
 
     this.backdropGraphics = scene.add.graphics().setDepth(DEPTH.backdrop);
@@ -410,6 +417,17 @@ export class PenaltyRenderer {
         ? layout.h / 2 + oy
         : layout.goalGroundY - layout.h * 0.02 - (this.bgFit.pitchLinePct - 0.5) * ih * scale;
       this.bgImage.setPosition(layout.w / 2 + ox, cy).setScale(scale);
+    }
+    if (this.pitchImage) {
+      const iw = this.pitchImage.width || 1;
+      const ih = this.pitchImage.height || 1;
+      const scale = Math.max(layout.w / iw, layout.h / ih) * (this.bgFit.scale ?? 1);
+      const ox = (this.bgFit.offsetXPct ?? 0) * layout.w;
+      const oy = (this.bgFit.offsetYPct ?? 0) * layout.h;
+      const cy = this.bgFit.pitchLinePct === undefined
+        ? layout.h / 2 + oy
+        : layout.goalGroundY - layout.h * 0.02 - (this.bgFit.pitchLinePct - 0.5) * ih * scale;
+      this.pitchImage.setPosition(layout.w / 2 + ox, cy).setScale(scale);
     }
 
     if (this.logoImage) {

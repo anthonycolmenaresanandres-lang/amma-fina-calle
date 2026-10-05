@@ -1,4 +1,17 @@
-# Codex Queue — canonical live queue
+# Codex Queue - canonical live queue
+
+## [x] Maracaibo full-screen Penalty Rush image release - October 5
+
+**Authority/scope:** Anthony approved fitting the two generated raster images into the saved full-screen Penalty Rush change and merging. Reuse f815418; preserve goal markings, cartoon player/keeper, gameplay, Back to menu, and unrelated work. Isolated sibling worktree. No extra local lint/build, browser QA, tests, new generation, services or secrets.
+**Execution:** codex/maracaibo-penalty-images-sol-20261005 from f815418, based on main 178bd13. Exact Library stadium and transparent pitch assets materialized with metadata and visually inspected.
+**Acceptance:** Both layers appear behind goal and actors with the primitive fallback intact; no competing Maracaibo PR; automatic CI and deployment metadata observed; merge only through protected PR; exact release receipt recorded.
+**State:** Image integration complete in the isolated branch. Stadium and transparent pitch render below markings, goal and characters through optional asset loading; source review and diff check complete. Automatic CI, protected PR merge, and deployment receipt are release gates tracked in the PR.
+
+## [x] Maracaibo viewport-filling Penalty Rush - October 5
+
+**Authority/scope:** Anthony requests Penalty Rush filling the screen with Back to menu. Local layout only, mobile and desktop, preserving score/replay, controls, artwork and actual menu return. Keep table URL/query/hash and native Back/Forward; multiplayer stays unchanged. No browser fullscreen permission, generated-art integration, tests/lint/build/browser captures or publication.
+**Execution:** codex/maracaibo-penalty-fullscreen-20261005 from main 178bd13 in C:/dev/amma/worktrees/maracaibo-penalty-fullscreen-20261005. Primary frontend-design; existing AMMA game-visual guardrails and narrow source guideline review. Canonical and generated-art worktrees untouched.
+**State:** IMPLEMENTED LOCALLY - viewport-filling solo branch for phones and desktop, compact safe-area Back to menu/score bar, remaining-space canvas, instruction overlay and replay/error state. One same-URL history entry restores menu/solo via Back/Forward while retaining router state; the menu button keeps the existing active-round confirmation. Source/diff and required design-guideline review only; no tests/lint/build/browser QA, so rendered behavior remains unverified. No publication.
 
 ## [x] Maracaibo lakefront penalty stadium - October 5
 
