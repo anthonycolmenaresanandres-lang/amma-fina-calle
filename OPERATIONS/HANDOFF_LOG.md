@@ -1,5 +1,13 @@
 # Handoff Log — canonical cross-agent check-in / check-out
 
+## 2026-10-05 OUT - Maracaibo lakefront penalty stadium prepared
+
+Original 5.8 KB self-contained SVG adds a warm cel-style lakefront stadium, Rafael Urdaneta-inspired bridge, palms, yellow/blue/red terraces and eight stars. Only Maracaibo's optional background path/fit changes; player, keeper/sad expression, logo, renderer, input, geometry, scoring and menu remain untouched. Source/diff and required design-guideline inspection only; no tests, lint, build, browser captures or runtime checks per Anthony. Appearance, resize and fallback are unverified. Parent handles authorized PR/merge; no publication performed by implementation agent. Provenance: ASSET_REGISTRY/MARACAIBO/PENALTY_STADIUM_20261005.md.
+
+## 2026-10-05 IN - Maracaibo lakefront penalty stadium
+
+Anthony requests the same cartoon style with stronger Maracaibo/Venezuela identity and authorizes merge; explicitly skips tests. Worktree codex/maracaibo-stadium-20261005 starts at e3bf7b5. Use the existing optional background seam for original lake/bridge/palm/tricolor stadium artwork, preserving both characters, sad-on-goal expression, gameplay, menu and primitive fallback. No canonical edits, dependencies, services or new likenesses; source/diff review only.
+
 ## 2026-10-04 OUT - traffic-only code ready for authorized release
 
 Report mail now uses dedicated TRAFFIC_RESEND_API_KEY / TRAFFIC_FROM_EMAIL with no shared fallback. Native CRON_SECRET cannot refresh Square unless SQUARE_REFRESH_CRON_ENABLED is exactly true; OAuth/manual sync/webhook stay unchanged. A signed-in global operations admin can inspect previous-Eastern-day site/readiness metadata through /api/internal/traffic/morning?dryRun=1; that branch never sends or returns credentials/addresses/counts. Schedule, ingestion, site registry, truthful partial reporting and per-date Resend idempotency remain unchanged. New VM behavioral tests isolate every network/database/auth/env boundary and run in existing web CI. New mail/cron/readiness/Square suite, existing 42 traffic checks, dashboard/format self-test and scoped ESLint pass. Local Webpack app compilation succeeds, then the known unchanged BodegaBillingContent export fails Next's generated-route type check. Require exact-head clean CI/Vercel before authorized merge. No installs, credentials, production configuration or emails performed. See OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md for exact official-dashboard owner steps and the single-send limit. Actual verified sender domain/key permissions and previous-day production readiness remain unknown; secure setup and metadata confirmation are required before activation/one verification. Canonical dirty checkout preserved.
