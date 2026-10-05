@@ -1,5 +1,12 @@
 # Codex Queue — canonical live queue
 
+## [x] Maracaibo lakefront penalty stadium - October 5
+
+**Authority:** Anthony requests a Maracaibo/Venezuela stadium in the existing cartoon style, implementation with Astra ultra and merge. Explicitly skip tests to save tokens; no local lint/build/browser captures or gameplay checks.
+**Scope:** Original lightweight stadium background and Maracaibo-only asset/fit configuration. Preserve tequeno player, keeper/sad expression, goal geometry, scoring, controls, menu, other skins and primitive fallback. No dependencies, services, credentials or generated likenesses.
+**Execution:** codex/maracaibo-stadium-20261005 from origin/main e3bf7b5 in C:/dev/amma/worktrees/maracaibo-stadium-20261005. Primary skill: amma-video-game-visuals; required frontend-design and web-design-guidelines source guidance. Canonical dirty checkout untouched.
+**State:** IMPLEMENTED - original 5.8 KB SVG with lake, bridge, palms, tricolor terraces and eight stars; existing optional asset loader and 46% turf anchor. Source/diff inspection only; runtime appearance and resizing remain unverified at Anthony's request. Publication/merge handled by parent under explicit authorization. See ASSET_REGISTRY/MARACAIBO/PENALTY_STADIUM_20261005.md.
+
 ## [ ] Traffic-only morning report - October 4
 
 **Authority:** Anthony approved publishing the traffic-only isolation fix, daily reports to anthonycolmenaresanandres@gmail.com and one controlled verification email. Scoped branch/PR/CI/merge/existing deployment are authorized. Secret creation/configuration remains an action-time owner handoff; no agent may handle credential values.

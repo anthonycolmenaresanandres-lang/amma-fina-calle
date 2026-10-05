@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1600" viewBox="0 0 1000 1600">
+  <title>Maracaibo lakefront cartoon stadium</title>
+  <desc>Original cel-style lake and cable-stayed bridge skyline, palms, Venezuelan tricolor terraces and eight stars. Goal, players, ball and targets are drawn by the game.</desc>
+  <defs>
+    <pattern id="supporters" width="112" height="68" patternUnits="userSpaceOnUse">
+      <g stroke="#24323a" stroke-width="3" stroke-linejoin="round">
+        <path d="M4 65V48Q4 36 18 36T32 48V65" fill="#d6b554"/>
+        <circle cx="18" cy="29" r="10" fill="#b97b53"/>
+        <path d="M42 65V44Q42 31 56 31T70 44V65" fill="#6f3047"/>
+        <circle cx="56" cy="23" r="10" fill="#e7b88b"/>
+        <path d="M80 65V49Q80 37 94 37T108 49V65" fill="#528c9c"/>
+        <circle cx="94" cy="30" r="10" fill="#875d48"/>
+      </g>
+    </pattern>
+    <clipPath id="terraces">
+      <path d="M-30 348Q500 514 1030 348V499Q500 668-30 499Z"/>
+    </clipPath>
+    <g id="bridge-tower" stroke="#395563" stroke-linejoin="round">
+      <path d="M-84 282-10 137M-58 282-10 137M-32 282-10 137M84 282 10 137M58 282 10 137M32 282 10 137" fill="none" stroke-width="3"/>
+      <path d="M-24 332-15 137H-6L-8 254H8L6 137H15L24 332H11L5 275H-5L-11 332Z" fill="#d9d0ac" stroke-width="5"/>
+      <path d="M-10 152H10M-11 182H11" fill="none" stroke-width="5"/>
+    </g>
+    <g id="palm" stroke="#243d3d" stroke-width="5" stroke-linejoin="round">
+      <path d="M-7 158Q15 66 0 0L12-2Q35 77 10 158Z" fill="#a98050"/>
+      <path d="M0 2Q-42-47-92-5Q-43-21-9 13Q-71-2-91 55Q-43 18-7 20Q-38 42-34 86Q-7 40 8 16Q43 43 70 81Q63 31 24 14Q66 12 101 36Q76-9 24 0Q52-19 82-17Q43-44 10-8Q-11-48-40-48Q-18-24 0 2Z" fill="#417454"/>
+      <path d="M-1 10-60-3M9 8 59 16M9 15-16 54M1 60H20M-2 90H18M-6 123H12" fill="none" stroke-width="3"/>
+    </g>
+    <path id="star" d="M0-10 2.9-3.2 10-3.1 4.7 1.5 6.2 8.1 0 4.4-6.2 8.1-4.7 1.5-10-3.1-2.9-3.2Z" fill="#fff0d0"/>
+  </defs>
+
+  <!-- Warm, flat animation-cel sky; all scenery is original vector art. -->
+  <path fill="#f4d59a" d="M0 0H1000V480H0Z"/>
+  <path fill="#edbd79" d="M0 238Q255 214 500 243T1000 236V480H0Z"/>
+  <circle cx="207" cy="116" r="59" fill="#f7c94b" stroke="#d5a756" stroke-width="4"/>
+  <g fill="#fff0cd" stroke="#d9b889" stroke-width="4" stroke-linejoin="round">
+    <path d="M-24 87Q0 66 29 79Q38 48 72 50Q106 48 120 79Q147 73 168 96H-24Z"/>
+    <path d="M576 71Q596 42 626 52Q636 22 670 28Q697 29 707 57Q738 49 758 75H576Z"/>
+    <path d="M783 179Q800 156 827 162Q839 134 867 141Q891 144 901 166Q929 159 948 183H783Z"/>
+  </g>
+  <path d="M0 286Q240 274 496 288T1000 280V486H0Z" fill="#417f99" stroke="#375f73" stroke-width="5"/>
+  <path d="M0 346Q237 326 473 348T1000 344V478H0Z" fill="#518d9f"/>
+  <g fill="none" stroke="#8bb5b7" stroke-width="5" stroke-linecap="round">
+    <path d="M159 357H230M333 323H405M575 351H666M766 326H824M432 387H514M78 396H147M843 391H921"/>
+  </g>
+
+  <!-- The repeated concrete pylons and fan stays evoke the Urdaneta bridge. -->
+  <g>
+    <use xlink:href="#bridge-tower" x="245"/>
+    <use xlink:href="#bridge-tower" x="415"/>
+    <use xlink:href="#bridge-tower" x="585"/>
+    <use xlink:href="#bridge-tower" x="755"/>
+    <path d="M-20 278H1020V291H-20Z" fill="#d9d0ac" stroke="#395563" stroke-width="5"/>
+    <path d="M0 276H1000" fill="none" stroke="#f4e5c2" stroke-width="4"/>
+    <path d="M69 293V334M931 293V334" fill="none" stroke="#395563" stroke-width="11"/>
+  </g>
+  <use xlink:href="#palm" transform="translate(57 253) rotate(-9) scale(1.2)"/>
+  <use xlink:href="#palm" transform="translate(944 262) rotate(10) scale(-1.12 1.12)"/>
+
+  <!-- Open bowl, small faceless supporters and flag-order terrace fascia. -->
+  <path d="M-30 332Q500 498 1030 332V518Q500 688-30 518Z" fill="#283f4c" stroke="#22323b" stroke-width="7"/>
+  <g clip-path="url(#terraces)">
+    <path d="M-30 348H1030V635H-30Z" fill="url(#supporters)"/>
+    <path d="M-30 407Q500 574 1030 407M-30 476Q500 643 1030 476" fill="none" stroke="#273b46" stroke-width="9"/>
+    <path d="M146 365 97 540M854 365 903 540" fill="none" stroke="#bca77d" stroke-width="17"/>
+  </g>
+  <path d="M-30 332Q500 498 1030 332" fill="none" stroke="#e9cc8d" stroke-width="13"/>
+  <path d="M-30 485Q500 651 1030 485V511Q500 677-30 511Z" fill="#f2c546" stroke="#293942" stroke-width="4"/>
+  <path d="M-30 512Q500 678 1030 512V551Q500 717-30 551Z" fill="#315987" stroke="#293942" stroke-width="4"/>
+  <path d="M-30 551Q500 717 1030 551V577Q500 743-30 577Z" fill="#b94743" stroke="#293942" stroke-width="4"/>
+  <g>
+    <use xlink:href="#star" x="360" y="617" transform="rotate(-28 360 617)"/>
+    <use xlink:href="#star" x="400" y="613" transform="rotate(-20 400 613)"/>
+    <use xlink:href="#star" x="440" y="609" transform="rotate(-12 440 609)"/>
+    <use xlink:href="#star" x="480" y="607" transform="rotate(-4 480 607)"/>
+    <use xlink:href="#star" x="520" y="607" transform="rotate(4 520 607)"/>
+    <use xlink:href="#star" x="560" y="609" transform="rotate(12 560 609)"/>
+    <use xlink:href="#star" x="600" y="613" transform="rotate(20 600 613)"/>
+    <use xlink:href="#star" x="640" y="617" transform="rotate(28 640 617)"/>
+  </g>
+
+  <!-- Quiet turf apron and perspective mowing: no baked-in goal or markings. -->
+  <path d="M-30 579Q500 745 1030 579V1600H-30Z" fill="#347e57"/>
+  <path d="M-30 579Q500 745 1030 579" fill="none" stroke="#203e35" stroke-width="8"/>
+  <path d="M0 736H1000V827H0Z" fill="#387f59"/>
+  <path d="M0 929H1000V1062H0Z" fill="#307653"/>
+  <path d="M0 1203H1000V1370H0Z" fill="#307653"/>
+  <path d="M0 1519H1000V1600H0Z" fill="#307653"/>
+  <path d="M0 668 123 682 0 1600Z" fill="#275e48" opacity=".28"/>
+  <path d="M1000 668 877 682 1000 1600Z" fill="#275e48" opacity=".28"/>
+</svg>
