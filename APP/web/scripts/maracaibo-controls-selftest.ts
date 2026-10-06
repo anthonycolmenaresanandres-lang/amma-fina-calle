@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
 import Module, { createRequire } from "node:module";
 import { FootballControls } from "../src/table-os/maracaibo/football-view";
+import { pitchToScreen, sidelineProjection } from "../src/table-os/game/sideline-projection";
 import type { LocalTableFootballInput as InputAdapter } from "../src/table-os/game/input";
 
 // Exercise the real input adapter with only Phaser's browser dependency mocked.
@@ -215,6 +216,34 @@ try {
     const a = adapter(false); a.events.emit("pointerdown", a.pointer()); a.input.poll();
     assert.equal(a.packets[0].move, -1); assert.equal(a.packets[0].kick, true);
     assert.equal(blur.size, 0); a.input.destroy();
+  });
+  check("sideline tap and drag use the same projected floor at mobile and landscape sizes", () => {
+    for (const [width, height] of [[272, 240], [342, 354], [700, 260]]) {
+      const p = sidelineProjection(width, height);
+      const a = adapter(); a.geometry(30, p.pitchTop, p.pitchHeight);
+      const point = pitchToScreen(p, 30, 70);
+      a.events.emit("pointerdown", a.pointer(1, point.x, point.y)); a.input.poll();
+      now += 80; a.events.emit("pointerup", a.pointer(1, point.x, point.y)); a.input.poll();
+      assert.equal(a.packets.at(-1)!.targetY, 70, "Tap inverse matches the displayed floor");
+      now += 100; a.events.emit("pointerdown", a.pointer(2, point.x, point.y)); a.input.poll();
+      now += 40; a.events.emit("pointermove", a.pointer(2, point.x, point.y - p.pitchHeight * 0.2)); a.input.poll();
+      assert.equal(a.packets.at(-1)!.targetY, 10, "Up remains up, with projected depth scaling");
+      assert.ok(a.packets.every(packet => !packet.kick)); a.input.destroy();
+    }
+  });
+  check("resize cancels retained sideline geometry and accepts a fresh gesture", () => {
+    const f = mixer(); const a = adapter(true, (packet, gesture) => f.controls.fieldInput(packet, gesture));
+    a.events.emit("pointerdown", a.pointer()); a.input.poll();
+    now += 40; a.events.emit("pointermove", a.pointer(1, 120, 100)); a.input.poll();
+    assert.equal(f.last().targetY, 70);
+    a.input.cancelGesture(); now += 40; a.input.poll();
+    assert.equal(f.last().targetY, undefined);
+    a.geometry(70, 50, 100);
+    a.events.emit("pointermove", a.pointer(1, 120, 300)); now += 250; a.input.poll();
+    assert.equal(f.last().targetY, undefined, "Old held pointer cannot revive the old anchor");
+    a.events.emit("pointerdown", a.pointer(2, 120, 120)); a.input.poll();
+    now += 40; a.events.emit("pointermove", a.pointer(2, 120, 100)); a.input.poll();
+    assert.equal(f.last().targetY, 50, "Fresh gesture uses resized depth"); a.input.destroy();
   });
   console.log(`MARACAIBO_CONTROLS_RESULT ${JSON.stringify({ ok: true, checks })}`);
 } finally {

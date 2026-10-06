@@ -1015,3 +1015,12 @@ State: both invalid page helper exports corrected by removing only export; full 
 **PASS:** Reference-informed isometric campus, five selectable departments, existing links, honest data labels, search, keyboard/list/mobile/reduced motion, scoped lint/build and before/after browser evidence.
 **RELEASE AUTHORITY:** Anthony explicitly said “merge the command center”; publish this scoped PR, require successful exact-head checks, merge without bypass, then verify production.
 **STOP:** No secrets, access changes, migrations, new services, unrelated updates or check/protection bypass.
+
+## [x] Local Maracaibo multiplayer sideline redesign - October 5
+
+**State:** LOCAL IMPLEMENTED AND FOCUSED VERIFICATION COMPLETE - final-source build, matching views, forced fallback and resize pass. Integrated table navigation timed out at 15 seconds; physical multiplayer remains unverified. Local review commit only; no release authority.
+**Authority:** Anthony requests side-view bigger players and approves the low-angle direction. Delegated scoped implementation overrides stale queue gate.
+**Base:** origin/main 6f7c66b (PR312); codex/maracaibo-multiplayer-sideline-20261005.
+**Scope:** Multiplayer-only low sideline view, upright larger characters, shared projection and touch mapping; compatible researched presentation/control best practices. Preserve four roles, depth axis, auto shooting, simulation/network contracts, QR routes and solo PR311. Exclude paused reliability abb2667, DB migrations and new services.
+**PASS:** Both goals visible; coherent feet/ball/goals/shadows/lanes and inverse pointer geometry; enhanced and primitive paths; same-state mobile before/after captures; focused geometry/control checks, scoped ESLint and production build; native Library preview and honest real-device limitations.
+**STOP:** No push, merge, deploy, paid generation, secrets, access or external sends. No material gameplay change without concise plan/approval.
