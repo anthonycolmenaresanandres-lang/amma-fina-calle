@@ -16,7 +16,7 @@ export function Lettering({ name, label, category = false, priority = false }: {
   const asset = letteringAssets[name as keyof typeof letteringAssets];
   if (!asset) return <span>{label}</span>;
   const src = `/assets/maracaibo/lettering/${name}.webp`;
-  return <span className={styles.lettering} data-loaded={loaded} data-category={category} style={{
+  return <span className={styles.lettering} data-loaded={loaded} data-category={category} data-lettering={name} style={{
     "--letter-ratio": asset.width / asset.height,
     "--letter-image": `url("${src}")`,
   } as CSSProperties}>

@@ -87,6 +87,26 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
     if (selected) setPreview(selected.label);
   }
 
+  if (view === "match" && device === "phone") {
+    return (
+      <main className={styles.page + " " + styles.footballFullscreen} data-venue={venue.id} data-view="match">
+        <h1 ref={titleRef} tabIndex={-1} className={styles.srOnly}>Table Football</h1>
+        {membership.status === "active" && membership.visit ? (
+          <MaracaiboFootballClient key={membership.visit.visitId} venue={venue} tableId={tableId} visitId={membership.visit.visitId}
+            onNavigate={(next) => navigate(next)} onBack={() => navigate("menu")} onActiveChange={reportMatchActive} />
+        ) : (
+          <div className={styles.footballGame}>
+            <div className={styles.footballHud}><button type="button" className={styles.footballBack} onClick={() => navigate("menu")}>Back to menu</button></div>
+            <div className={styles.footballSetup}>
+              <p role="status">{membership.status === "connecting" ? ("Connecting to " + currentTable + ".") : membership.status === "ended" ? "Your table visit has ended. Still at the table? Join again to play." : "Your table couldn't connect. You can still play Penalty Rush."}</p>
+              {membership.status !== "connecting" ? <button type="button" className={styles.primaryButton} onClick={() => { activeMatch.current = false; void (membership.status === "ended" ? membership.rejoin() : membership.retry()); }}>{membership.status === "ended" ? "Join this table" : "Retry connection"}</button> : null}
+            </div>
+          </div>
+        )}
+      </main>
+    );
+  }
+
   if (view === "penalty") {
     return (
       <main className={styles.page + " " + styles.penaltyFullscreen} data-venue={venue.id} data-view="penalty">

@@ -1024,3 +1024,10 @@ State: both invalid page helper exports corrected by removing only export; full 
 **Scope:** Multiplayer-only low sideline view, upright larger characters, shared projection and touch mapping; compatible researched presentation/control best practices. Preserve four roles, depth axis, auto shooting, simulation/network contracts, QR routes and solo PR311. Exclude paused reliability abb2667, DB migrations and new services.
 **PASS:** Both goals visible; coherent feet/ball/goals/shadows/lanes and inverse pointer geometry; enhanced and primitive paths; same-state mobile before/after captures; focused geometry/control checks, scoped ESLint and production build; native Library preview and honest real-device limitations.
 **STOP:** No push, merge, deploy, paid generation, secrets, access or external sends. No material gameplay change without concise plan/approval.
+
+## [ ] Local multiplayer viewport and home underline refinement - October 6
+
+**Authority:** Anthony requests fullscreen multiplayer like solo, small Back to menu, and removal of home wording underlines. Extend 278321e locally.
+**Scope:** Phone viewport/safe-area multiplayer layout and home-only decorative lines; preserve side-view projection, controls, roles, simulation, session reliability findings and solo. No publication.
+**Acceptance:** Readable home glyphs without decorative strokes, viewport fit with controls outside the pitch, Back to actual menu and focused source/lint/build/browser evidence. Record integrated navigation/device limitations.
+**State:** LOCAL IMPLEMENTED; component UI and scoped ESLint pass. Bounded return requested; latest production build/types and integrated Next-route gate remain. Local review commit only; heavy slot released.
