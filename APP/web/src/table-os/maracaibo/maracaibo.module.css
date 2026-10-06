@@ -116,16 +116,14 @@
 .heroTitle { margin: 0; }
 .heroTitle .lettering { --letter-height: 8rem; width: 100%; }
 .actionRail { min-width: 0; scroll-margin-top: 24px; align-self: center; }
-.actionRail button { position: relative; display: block; width: 100%; min-height: 110px; padding: 16px 0; border: 0; border-top: 1px solid var(--line); background: none; color: var(--paper); text-align: left; }
-.actionRail button:last-child { border-bottom: 1px solid var(--line); }
+.actionRail button { position: relative; display: block; width: 100%; min-height: 110px; padding: 16px 0; border: 0; background: none; color: var(--paper); text-align: left; }
 .actionRail strong { display: block; font-weight: 500; }
 .actionRail strong.playLettering { display: flex; }
 .actionRail button:nth-child(1) { color: var(--flag-yellow); }
 .actionRail button:nth-child(2) { color: var(--flag-blue); }
 .actionRail button:nth-child(3) { color: var(--flag-red); }
 .actionRail small { display: block; margin-top: 5px; color: var(--muted); font-size: .875rem; line-height: 1.5; }
-.actionRail button::before { position: absolute; content: ""; inset: -1px 0 auto; height: 1px; background: currentColor; opacity: 0; transition: opacity 150ms ease; }
-.actionRail button:hover::before { opacity: .7; }
+.actionRail button:hover .lettering { filter: brightness(1.15); }
 .actionRail button:active .lettering { opacity: .8; }
 
 .inner { width: min(100% - 80px, 1120px); margin: 4px auto 56px; min-width: 0; }
@@ -343,3 +341,43 @@
   .lettering[data-loaded="true"] .letteringFallback { clip-path: none; }
   .lettering .letteringImage, .lettering .letteringTint, .flagStars { display: none !important; }
 }
+
+/* Home lettering keeps its original glyphs; trim only the decorative brush tails. */
+.actionRail [data-lettering="menu"] .letteringImage { clip-path: polygon(0 0, 100% 0, 100% 100%, 92% 100%, 92% 70%, 82% 69%, 67% 71%, 54% 77%, 40% 88%, 40% 100%, 0 100%); }
+.actionRail [data-lettering="order-online"] .letteringImage { clip-path: polygon(0 0, 100% 0, 100% 100%, 87% 100%, 87% 75%, 78% 73%, 66% 72%, 54% 76%, 44% 81%, 35% 86%, 35% 100%, 0 100%); }
+.actionRail [data-lettering="service"] .letteringImage { clip-path: polygon(0 0, 100% 0, 100% 100%, 93% 100%, 93% 73%, 83% 72%, 70% 74%, 57% 78%, 46% 84%, 37% 89%, 37% 100%, 0 100%); }
+
+.footballFullscreen { position: fixed; inset: 0; z-index: 20; width: 100%; height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+.footballGame { display: flex; flex: 1; flex-direction: column; min-height: 0; width: 100%; overflow: hidden; }
+.footballHud { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 12px; padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); }
+.page .footballBack { flex: 0 0 auto; min-height: 44px; padding: 8px 4px; border: 0; background: none; color: var(--paper); font-size: .8125rem; }
+.footballBack:hover { color: var(--citrus); }
+.footballHud .footballScoreboard { flex: 1; min-width: 0; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 6px; padding: 6px 8px; border: 0; border-top: 1px solid #d5af7380; background: linear-gradient(110deg, #243842, #14252d 58%, #1d3036); box-shadow: 0 3px 12px #0003; }
+.footballScoreboard .scoreTeam { display: block; padding-left: 7px; border-left: 3px solid #862940; }
+.footballScoreboard .scoreTeam:last-child { padding-left: 0; padding-right: 7px; border-left: 0; border-right: 3px solid #ede5cf; }
+.footballScoreboard .scoreTeam svg { display: none; }
+.footballScoreboard .clock { gap: 2px; }
+.footballScoreboard .clock span { font-size: .625rem; color: #e0d5be; }
+.footballConnection[hidden] { display: none; }
+.footballScoreboard .scoreTeam span { font-size: .625rem; color: #e9dfc9; text-transform: uppercase; letter-spacing: .025em; overflow-wrap: anywhere; }
+.footballScoreboard .scoreTeam strong, .footballScoreboard .clock strong { font-size: 1.0625rem; line-height: 1.25; color: #fff6df; font-variant-numeric: tabular-nums; }
+.footballConnection { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 8px; padding: 0 max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left)); color: var(--muted); font-size: .6875rem; line-height: 1.4; }
+.footballConnection > div { min-width: 0; }
+.footballConnection span { display: block; }
+.footballConnection .quietButton { flex: 0 0 auto; min-height: 44px; padding: 8px 4px; font-size: .75rem; }
+.footballGame .footballStage { flex: 1; height: auto; min-height: 0; }
+.footballGame .roleWarning { flex: 0 0 auto; margin: 0 12px 8px; padding: 8px 12px; font-size: .8125rem; max-height: 35dvh; overflow-y: auto; }
+.footballGame .recoveryNote { flex: 0 0 auto; padding-inline: 12px; margin: 0; font-size: .6875rem; }
+.footballGame .footballControls { flex: 0 0 auto; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 8px; padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.footballControls button { min-height: 44px; font-size: 1.125rem; }
+.footballControls button:first-child { grid-column: 1; grid-row: 1; }
+.footballControls button:nth-child(2) { grid-column: 3; grid-row: 1; }
+.footballHint { grid-column: 2; grid-row: 1; align-self: center; margin: 0; text-align: center; font-size: .6875rem; line-height: 1.4; color: var(--muted); }
+.footballHint span { display: block; font-size: .625rem; }
+.footballSetup { flex: 1; min-height: 0; overflow-y: auto; padding: 24px max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); line-height: 1.6; }
+.footballSetup .primaryButton { margin-block: 16px; }
+.footballGame .results { flex: 1; min-height: 0; overflow-y: auto; padding: 16px max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+.footballGame .results h2 { font-size: clamp(1.75rem, 6vw, 3rem); }
+.footballGame .resultScore { margin: 16px 0; }
+.footballGame .resultScore strong { font-size: clamp(2rem, 10vw, 4rem); }
+.footballGame .results .primaryButton { margin-top: 12px; }

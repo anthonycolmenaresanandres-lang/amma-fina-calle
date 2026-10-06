@@ -124,6 +124,9 @@ export class LocalTableFootballInput {
     }
   }
 
+  /** Presentation resize invalidates a retained mobile target and held anchor. */
+  cancelGesture(): void { if (this.options.pointerTarget) this.release(); }
+
   private release(): void {
     this.pointerActive = false;
     this.pointerId = undefined;

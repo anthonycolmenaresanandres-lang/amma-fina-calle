@@ -10,12 +10,12 @@ import { TeamMark } from "./MaracaiboMarks";
 import { usePhone } from "./use-phone";
 import styles from "./maracaibo.module.css";
 
-type Props = { venue: TableOsVenue; tableId: string; visitId: string; onNavigate?: (view: "menu" | "service") => void; onActiveChange?: (active: boolean) => void };
+type Props = { venue: TableOsVenue; tableId: string; visitId: string; onNavigate?: (view: "menu" | "service") => void; onActiveChange?: (active: boolean) => void; onBack?: () => void };
 type ViewHandle = Awaited<ReturnType<typeof mountFootballView>>;
 const INITIAL = { home: 0, away: 0, timeRemainingMs: 90_000, phase: "ready" };
 const WAIT_LIMIT_MS = 15_000;
 
-export function MaracaiboFootballClient({ venue, tableId, visitId, onNavigate, onActiveChange }: Props): React.JSX.Element {
+export function MaracaiboFootballClient({ venue, tableId, visitId, onNavigate, onActiveChange, onBack }: Props): React.JSX.Element {
   const device = usePhone();
   const mount = useRef<HTMLDivElement>(null);
   const view = useRef<ViewHandle | null>(null);
@@ -113,26 +113,32 @@ export function MaracaiboFootballClient({ venue, tableId, visitId, onNavigate, o
   const blocked = status === "full" || status === "unavailable" || timedOut || !!error;
   const waiting = hasConnected ? `Reconnecting to ${currentTable}…` : `Joining ${currentTable}…`;
   const connection = joined?.practice ? "Practice · computer players" : !ready ? waiting : status === "table" ? `${count}/4 players · connected` : `${count}/4 players · this device only`;
+  const backControl = onBack ? <button type="button" className={styles.footballBack} onClick={onBack}>Back to menu</button> : null;
   const navigation = onNavigate ? <div className={styles.matchLinks}><button type="button" className={styles.quietButton} onClick={() => onNavigate("menu")}>Menu</button><button type="button" className={styles.quietButton} onClick={() => onNavigate("service")}>Service</button></div> : null;
 
   if (device === "checking") return <p className={styles.lobbyIntro} role="status">Opening table match…</p>;
   if (device === "desktop") return <p className={styles.lobbyIntro}>Scan the printed QR at your table with your phone to play.</p>;
-  if (!joined) return <div><p className={styles.lobbyIntro}>90 seconds. {home.label} vs {away.label}. Join the people at {currentTable}.</p><div className={styles.joinAction}><button type="button" className={styles.primaryButton} onClick={() => start(false)}>Join table match</button></div><button type="button" className={styles.quietButton} onClick={() => start(true)}>Play with computers</button>{navigation}</div>;
+  if (!joined) return <div className={styles.footballGame}><div className={styles.footballHud}>{backControl}</div><div className={styles.footballSetup}><p className={styles.lobbyIntro}>90 seconds. {home.label} vs {away.label}. Join the people at {currentTable}.</p><div className={styles.joinAction}><button type="button" className={styles.primaryButton} onClick={() => start(false)}>Join table match</button></div><button type="button" className={styles.quietButton} onClick={() => start(true)}>Play with computers</button>{navigation}</div></div>;
 
   return (
-    <div>
-      <div className={styles.matchRoom}><span>{joined.practice ? "Practice" : `${currentTable} match`}</span><button type="button" className={styles.quietButton} onClick={leave}>Leave</button></div>
-      {blocked ? <div role="alert" className={styles.roleWarning}><p>{error ?? (status === "full" ? "This table’s four places are taken. Try again when someone leaves, or play with computers." : "The table match couldn’t connect. Try again or play with computers.")}</p><div className={styles.recoveryActions}><button type="button" className={styles.quietButton} onClick={() => start(false)}>Retry connection</button><button type="button" className={styles.quietButton} onClick={() => start(true)}>Play with computers</button></div></div> : null}
-      <div className={styles.scoreboard} hidden={finished} aria-label="Match score">
+    <div className={styles.footballGame}>
+      <div className={styles.footballHud}>
+        {backControl}
+      <div className={styles.scoreboard + " " + styles.footballScoreboard} aria-label="Match score">
         <div className={styles.scoreTeam}><TeamMark team="home" /><div><span>{home.label}</span><strong>{score.home}</strong></div></div>
         <div className={styles.clock}><span>{!ready ? "Connecting…" : score.phase === "ready" ? "Drag to start" : score.phase === "goal" ? "Goal!" : "Playing"}</span><strong>{Math.ceil(score.timeRemainingMs / 1000)}s</strong></div>
         <div className={styles.scoreTeam}><TeamMark team="away" /><div><span>{away.label}</span><strong>{score.away}</strong></div></div>
       </div>
-      <div className={styles.connection} hidden={finished}><span>{ready && seat ? `You’re ${seatName(seat)}` : "Finding your place…"}</span><span role="status" aria-live="polite">{connection}</span></div>
+      </div>
+      <div className={styles.footballConnection} hidden={finished}>
+        <div><span>{ready && seat ? ("You're " + seatName(seat)) : "Finding your place."}</span><span role="status" aria-live="polite">{connection}</span></div>
+        <button type="button" className={styles.quietButton} onClick={leave}>Leave</button>
+      </div>
+      {blocked ? <div role="alert" className={styles.roleWarning}><p>{error ?? (status === "full" ? "This table’s four places are taken. Try again when someone leaves, or play with computers." : "The table match couldn’t connect. Try again or play with computers.")}</p><div className={styles.recoveryActions}><button type="button" className={styles.quietButton} onClick={() => start(false)}>Retry connection</button><button type="button" className={styles.quietButton} onClick={() => start(true)}>Play with computers</button></div></div> : null}
       {recovered ? <p className={styles.recoveryNote} role="status">Reconnected to this table’s match.</p> : null}
-      <div className={styles.gameStage} ref={mount} hidden={finished} aria-label={seat ? `Football field. You control ${seatName(seat)}. Drag to move; shooting is automatic.` : "Football field. Joining your table match."}>{!loaded || !ready || blocked ? <span className={styles.loading} role="status">{blocked ? "The match is unavailable." : !loaded ? "Preparing the pitch…" : waiting}</span> : null}</div>
+      <div className={styles.gameStage + " " + styles.footballStage} ref={mount} hidden={finished} aria-label={seat ? `Football field. You control ${seatName(seat)}. Drag to move; shooting is automatic.` : "Football field. Joining your table match."}>{!loaded || !ready || blocked ? <span className={styles.loading} role="status">{blocked ? "The match is unavailable." : !loaded ? "Preparing the pitch…" : waiting}</span> : null}</div>
       {finished ? <section className={styles.results} aria-live="polite"><h2>{score.home === score.away ? "Even match." : `${score.home > score.away ? home.label : away.label} wins.`}</h2><div className={styles.resultScore}><div><strong>{score.home}</strong><span>{home.label}</span></div><span aria-hidden="true">–</span><div><strong>{score.away}</strong><span>{away.label}</span></div></div><button type="button" className={styles.primaryButton} disabled={!ready || blocked} onClick={() => sessionRef.current?.again()}>Play again</button></section> : <>
-        <div className={styles.touchControls} aria-label="Alternative movement controls">
+        <div className={styles.touchControls + " " + styles.footballControls} aria-label="Alternative movement controls">
           {([-1, 1] as const).map((direction) => <button type="button" key={direction} className={styles.moveButton} disabled={!ready || blocked} aria-label={direction === -1 ? "Move up" : "Move down"}
             onPointerDown={(event) => { if (pointerOwner.current !== null) return; pointerOwner.current = event.pointerId; event.currentTarget.setPointerCapture(event.pointerId); view.current?.move(direction, "pointer"); }}
             onPointerUp={(event) => { if (pointerOwner.current === event.pointerId) { pointerOwner.current = null; view.current?.move(0, "pointer"); } }}
@@ -141,9 +147,10 @@ export function MaracaiboFootballClient({ venue, tableId, visitId, onNavigate, o
             onKeyDown={(event) => { if ((event.key === " " || event.key === "Enter") && !event.repeat && keyboardOwner.current === null) { event.preventDefault(); keyboardOwner.current = direction; view.current?.move(direction, "keyboard"); } }}
             onKeyUp={(event) => { if ((event.key === " " || event.key === "Enter") && keyboardOwner.current === direction) { event.preventDefault(); keyboardOwner.current = null; view.current?.move(0, "keyboard"); } }}
             onBlur={() => { if (keyboardOwner.current === direction) { keyboardOwner.current = null; view.current?.move(0, "keyboard"); } }}>{direction === -1 ? "↑" : "↓"}</button>)}
-        </div><p className={styles.prototypeNote}>Drag to move. Your player shoots automatically.<br />Empty places play for the computer.</p>
+          <p className={styles.footballHint}>Drag to move. Auto shooting.<span>Empty places play for the computer.</span></p>
+        </div>
       </>}
-      {navigation}
+      {!onBack ? navigation : null}
     </div>
   );
 }

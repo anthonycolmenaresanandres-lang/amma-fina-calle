@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { LocalTableFootballInput } from "./input";
-import { MARACAIBO_FOOTBALL_TEXTURES, StadiumTableFootballRenderer } from "./StadiumTableFootballRenderer";
+import { SIDELINE_LOGO_TEXTURE, SIDELINE_TURF_TEXTURE, SidelineTableFootballRenderer } from "./SidelineTableFootballRenderer";
+import { sidelineProjection } from "./sideline-projection";
 import type { TableFootballInputMessage, TableFootballState, TableFootballVenueSkin, TeamId } from "./types";
 
 export type TableFootballSceneOptions = Readonly<{
@@ -28,8 +29,9 @@ export class TableFootballScene extends Phaser.Scene {
   private status?: Phaser.GameObjects.Text;
   private localInput?: LocalTableFootballInput;
   private lastGoalTick = -1;
-  private enhanced?: StadiumTableFootballRenderer;
+  private sideline?: SidelineTableFootballRenderer;
   private cancelAssetLoad?: () => void;
+  private resizeObserver?: ResizeObserver;
 
   constructor(options: TableFootballSceneOptions) {
     super("TableFootballScene");
@@ -44,6 +46,7 @@ export class TableFootballScene extends Phaser.Scene {
     this.status = this.add.text(0, 0, "", { fontFamily: "system-ui, sans-serif", fontSize: 12, color: toHex(this.options.skin.mutedText) }).setOrigin(0.5, 0).setDepth(40);
     this.hud.setVisible(!this.options.hideHud);
     this.status.setVisible(!this.options.hideHud);
+    if (this.options.skin.id === "maracaibo-kitchen-cocktails") this.sideline = new SidelineTableFootballRenderer(this, this.options.teams, !!this.options.hideHud);
     if (this.options.localPlayerId) {
       this.localInput = new LocalTableFootballInput(this, {
         roomId: this.options.getState().roomId,
@@ -57,12 +60,14 @@ export class TableFootballScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.localInput?.destroy();
       this.cancelAssetLoad?.();
-      this.enhanced?.destroy();
-      this.scale.off("resize", this.draw, this);
+      this.resizeObserver?.disconnect();
+      this.sideline?.destroy();
+      this.scale.off("resize", this.handleResize, this);
     });
-    this.scale.on("resize", this.draw, this);
+    this.scale.on("resize", this.handleResize, this);
+    this.observeSidelineSize();
     this.draw();
-    this.loadEnhancedSkin();
+    this.loadSidelineAssets();
   }
 
   private pointerTarget(): Readonly<{ playerY: number; pitchTop: number; pitchHeight: number }> {
@@ -71,13 +76,9 @@ export class TableFootballScene extends Phaser.Scene {
     const inset = Math.max(14, Math.min(width, height) * 0.055);
     const localId = typeof this.options.localPlayerId === "function" ? this.options.localPlayerId() : this.options.localPlayerId;
     const playerY = this.options.getState().players.find((player) => player.id === localId)?.y ?? 50;
-    if (this.enhanced) {
-      const contentTop = this.options.hideHud ? 0 : inset + 42;
-      const contentBottom = this.options.hideHud ? height : height - inset - 24;
-      const contentHeight = Math.max(1, contentBottom - contentTop);
-      const fieldWidth = Math.min(width * 0.70, contentHeight * 0.70 * (105 / 68));
-      const pitchHeight = fieldWidth * (68 / 105);
-      return { playerY, pitchTop: contentTop + (contentHeight - pitchHeight) / 2, pitchHeight };
+    if (this.sideline) {
+      const projection = sidelineProjection(width, height, !!this.options.hideHud);
+      return { playerY, pitchTop: projection.pitchTop, pitchHeight: projection.pitchHeight };
     }
     const pitchTop = inset + (this.options.hideHud ? 0 : 42);
     return { playerY, pitchTop, pitchHeight: Math.max(120, height - pitchTop - inset - (this.options.hideHud ? 0 : 24)) };
@@ -98,9 +99,9 @@ export class TableFootballScene extends Phaser.Scene {
     const inset = Math.max(14, Math.min(width, height) * 0.055);
     const localId = typeof this.options.localPlayerId === "function" ? this.options.localPlayerId() : this.options.localPlayerId;
     const goalFlash = state.phase === "goal" && this.lastGoalTick !== state.tick && !reducedMotion();
-    if (this.enhanced) {
+    if (this.sideline) {
       this.board.clear();
-      this.enhanced.draw(state, localId, goalFlash);
+      this.sideline.draw(state, localId, goalFlash);
       this.drawHud(state, width, height, inset);
       if (goalFlash) this.lastGoalTick = state.tick;
       return;
@@ -150,50 +151,45 @@ export class TableFootballScene extends Phaser.Scene {
     this.status.setText(phaseLabel).setPosition(width / 2, height - inset - 12);
   }
 
-  private loadEnhancedSkin(): void {
-    const { skin } = this.options;
-    // Optional assets cannot opt other venues or the default skin into this art.
-    if (skin.id !== "maracaibo-kitchen-cocktails" || !skin.assets) return;
-    const textures = MARACAIBO_FOOTBALL_TEXTURES;
-    const files = [
-      [textures.stadium, skin.assets.stadium],
-      [textures.home, skin.assets.players?.home],
-      [textures.away, skin.assets.players?.away],
-      [textures.logo, skin.assets.shirtLogo],
-    ] as const;
-    if (files.some(([, url]) => typeof url !== "string" || !url.startsWith("/"))) return;
-    let failed = false;
-    let expired = false;
-    const usable = (): boolean => files.every(([key]) => {
-      if (!this.textures.exists(key)) return false;
-      const source = this.textures.get(key).getSourceImage();
-      return source.width > 0 && source.height > 0;
+  private observeSidelineSize(): void {
+    const parent = this.game.canvas.parentElement;
+    if (!this.sideline || !parent || typeof ResizeObserver === "undefined") return;
+    // Orientation events can refresh Phaser before its parent bounds are updated.
+    // Observe the actual container so floor drawing and steering share its new size.
+    this.resizeObserver = new ResizeObserver(([entry]) => {
+      if (!entry || entry.contentRect.width <= 0 || entry.contentRect.height <= 0) return;
+      if (Math.abs(this.scale.width - entry.contentRect.width) < 1 && Math.abs(this.scale.height - entry.contentRect.height) < 1) return;
+      this.scale.getParentBounds();
+      this.scale.refresh();
     });
-    const activate = (): void => {
-      if (failed || expired || !usable()) return;
-      this.enhanced = new StadiumTableFootballRenderer(this, this.options.teams, !!this.options.hideHud);
-      this.draw();
-    };
-    if (usable()) {
-      activate();
-      return;
-    }
-    // Load after create: slow/missing/decode-failed art never blocks input or frames.
-    const onError = (): void => { failed = true; };
+    this.resizeObserver.observe(parent);
+  }
+
+  private handleResize(): void {
+    // A held gesture must not keep the previous projection after a rotation/resize.
+    if (this.sideline) this.localInput?.cancelGesture();
+    this.draw();
+  }
+
+  private loadSidelineAssets(): void {
+    if (!this.sideline) return;
+    const assets = [
+      { key: SIDELINE_LOGO_TEXTURE, url: this.options.skin.assets?.shirtLogo },
+      { key: SIDELINE_TURF_TEXTURE, url: "/assets/maracaibo/penalty/hyperrealistic-pitch-preview.png" },
+    ].filter((asset) => asset.url?.startsWith("/") && !this.textures.exists(asset.key));
+    if (!assets.length) return;
+    // Optional existing local art never blocks the primitive pitch or controls.
     const cleanup = (): void => {
       clearTimeout(deadline);
-      this.load.off(Phaser.Loader.Events.COMPLETE, complete);
-      this.load.off(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+      this.load.off(Phaser.Loader.Events.COMPLETE, cleanup);
+      this.load.off(Phaser.Loader.Events.FILE_LOAD_ERROR, cleanup);
     };
-    const complete = (): void => { cleanup(); activate(); };
-    const deadline = setTimeout(() => { expired = true; cleanup(); }, 3500);
-    this.cancelAssetLoad = () => { expired = true; cleanup(); };
-    this.load.once(Phaser.Loader.Events.COMPLETE, complete);
-    this.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+    const deadline = setTimeout(cleanup, 3500);
+    this.cancelAssetLoad = cleanup;
+    this.load.once(Phaser.Loader.Events.COMPLETE, cleanup);
+    this.load.once(Phaser.Loader.Events.FILE_LOAD_ERROR, cleanup);
     this.load.maxRetries = 0;
-    for (const [key, url] of files) {
-      if (!this.textures.exists(key)) this.load.image(key, url, { responseType: "blob", timeout: 3000 });
-    }
+    for (const asset of assets) this.load.image(asset.key, asset.url!, { responseType: "blob", timeout: 3000 });
     this.load.start();
   }
 }
