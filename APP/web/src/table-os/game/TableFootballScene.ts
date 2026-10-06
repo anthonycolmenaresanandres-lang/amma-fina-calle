@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { LocalTableFootballInput } from "./input";
-import { SIDELINE_LOGO_TEXTURE, SidelineTableFootballRenderer } from "./SidelineTableFootballRenderer";
+import { SIDELINE_LOGO_TEXTURE, SIDELINE_TURF_TEXTURE, SidelineTableFootballRenderer } from "./SidelineTableFootballRenderer";
 import { sidelineProjection } from "./sideline-projection";
 import type { TableFootballInputMessage, TableFootballState, TableFootballVenueSkin, TeamId } from "./types";
 
@@ -67,7 +67,7 @@ export class TableFootballScene extends Phaser.Scene {
     this.scale.on("resize", this.handleResize, this);
     this.observeSidelineSize();
     this.draw();
-    this.loadSidelineLogo();
+    this.loadSidelineAssets();
   }
 
   private pointerTarget(): Readonly<{ playerY: number; pitchTop: number; pitchHeight: number }> {
@@ -171,11 +171,14 @@ export class TableFootballScene extends Phaser.Scene {
     this.draw();
   }
 
-  private loadSidelineLogo(): void {
+  private loadSidelineAssets(): void {
     if (!this.sideline) return;
-    const url = this.options.skin.assets?.shirtLogo;
-    if (!url?.startsWith("/") || this.textures.exists(SIDELINE_LOGO_TEXTURE)) return;
-    // Only the authentic optional badge is fetched. All field/character art is local.
+    const assets = [
+      { key: SIDELINE_LOGO_TEXTURE, url: this.options.skin.assets?.shirtLogo },
+      { key: SIDELINE_TURF_TEXTURE, url: "/assets/maracaibo/penalty/hyperrealistic-pitch-preview.png" },
+    ].filter((asset) => asset.url?.startsWith("/") && !this.textures.exists(asset.key));
+    if (!assets.length) return;
+    // Optional existing local art never blocks the primitive pitch or controls.
     const cleanup = (): void => {
       clearTimeout(deadline);
       this.load.off(Phaser.Loader.Events.COMPLETE, cleanup);
@@ -186,7 +189,7 @@ export class TableFootballScene extends Phaser.Scene {
     this.load.once(Phaser.Loader.Events.COMPLETE, cleanup);
     this.load.once(Phaser.Loader.Events.FILE_LOAD_ERROR, cleanup);
     this.load.maxRetries = 0;
-    this.load.image(SIDELINE_LOGO_TEXTURE, url, { responseType: "blob", timeout: 3000 });
+    for (const asset of assets) this.load.image(asset.key, asset.url!, { responseType: "blob", timeout: 3000 });
     this.load.start();
   }
 }

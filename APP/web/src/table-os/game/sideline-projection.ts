@@ -11,10 +11,11 @@ export function sidelineProjection(width: number, height: number, hideHud = true
   const contentTop = hideHud ? 0 : inset + 42;
   const contentHeight = Math.max(1, (hideHud ? height : height - inset - 24) - contentTop);
   // Fit the whole scene (both nets, character headroom and near touchline) as one unit.
-  const nearWidth = Math.max(1, Math.min(width * 0.82, contentHeight * 1.20));
-  const pitchHeight = nearWidth * 0.43;
-  const playerHeight = nearWidth * 0.235;
-  const sceneHeight = pitchHeight + playerHeight * 1.12 + nearWidth * 0.09;
+  const nearWidth = Math.max(1, Math.min(width * 0.90, contentHeight * 1.14));
+  // Portrait deepens the floor; shallow screens still fit both nets and full figures.
+  const pitchHeight = Math.max(nearWidth * 0.46, Math.min(contentHeight * 0.50, nearWidth * 0.87));
+  const playerHeight = nearWidth * 0.275;
+  const sceneHeight = pitchHeight + playerHeight * 1.12 + nearWidth * 0.105;
   const sceneTop = contentTop + (contentHeight - sceneHeight) / 2;
   return { width, height, centerX: width / 2, pitchTop: sceneTop + playerHeight * 1.12, pitchHeight, nearWidth, farRatio: 0.78, playerHeight };
 }

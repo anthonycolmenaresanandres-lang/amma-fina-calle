@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { characterHeight, pitchToScreen, screenToPitch, sidelineProjection } from "../src/table-os/game/sideline-projection";
 const close = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-8, `${a} != ${b}`);
 let checks = 0;
-for (const [width, height] of [[272, 240], [342, 354], [390, 420], [700, 260], [1440, 540]]) {
+for (const [width, height] of [[272, 240], [342, 354], [390, 420], [700, 260], [1440, 540], [390, 684], [320, 580], [740, 230]]) {
   for (const hideHud of [true, false]) {
     const p = sidelineProjection(width, height, hideHud);
     assert.ok(p.pitchHeight > 0 && p.nearWidth > 0);
@@ -25,6 +25,9 @@ for (const [width, height] of [[272, 240], [342, 354], [390, 420], [700, 260], [
         assert.ok(point.x - h * 0.4 >= 0 && point.x + h * 0.4 <= width, "Players stay inside view");
       }
     }
+    if (hideHud && height / width > 1.6) {
+      assert.ok(p.pitchHeight / height >= 0.40 && p.pitchHeight / height <= 0.55, "Portrait pitch fills more, with scene margins retained");
+    }
     const center = pitchToScreen(p, 30, 50);
     assert.ok(pitchToScreen(p, 30, 49).y < center.y && pitchToScreen(p, 30, 51).y > center.y, "Up/down retain movement direction");
     close(pitchToScreen(p, 50, 50).x, width / 2);
@@ -32,4 +35,4 @@ for (const [width, height] of [[272, 240], [342, 354], [390, 420], [700, 260], [
     checks++;
   }
 }
-console.log(`SIDELINE_GEOMETRY_RESULT ${JSON.stringify({ok:true,viewportVariants:checks,roundTrips:630})}`);
+console.log(`SIDELINE_GEOMETRY_RESULT ${JSON.stringify({ok:true,viewportVariants:checks,roundTrips:checks * 63})}`);

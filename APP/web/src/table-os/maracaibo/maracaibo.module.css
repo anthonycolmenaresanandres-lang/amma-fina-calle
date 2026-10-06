@@ -352,13 +352,15 @@
 .footballHud { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 12px; padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); }
 .page .footballBack { flex: 0 0 auto; min-height: 44px; padding: 8px 4px; border: 0; background: none; color: var(--paper); font-size: .8125rem; }
 .footballBack:hover { color: var(--citrus); }
-.footballHud .footballScoreboard { flex: 1; min-width: 0; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; padding: 0; border: 0; }
-.footballScoreboard .scoreTeam { display: block; }
+.footballHud .footballScoreboard { flex: 1; min-width: 0; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 6px; padding: 6px 8px; border: 0; border-top: 1px solid #d5af7380; background: linear-gradient(110deg, #243842, #14252d 58%, #1d3036); box-shadow: 0 3px 12px #0003; }
+.footballScoreboard .scoreTeam { display: block; padding-left: 7px; border-left: 3px solid #862940; }
+.footballScoreboard .scoreTeam:last-child { padding-left: 0; padding-right: 7px; border-left: 0; border-right: 3px solid #ede5cf; }
 .footballScoreboard .scoreTeam svg { display: none; }
-.footballScoreboard .clock span { font-size: .625rem; }
+.footballScoreboard .clock { gap: 2px; }
+.footballScoreboard .clock span { font-size: .625rem; color: #e0d5be; }
 .footballConnection[hidden] { display: none; }
-.footballScoreboard .scoreTeam span { font-size: .6875rem; }
-.footballScoreboard .scoreTeam strong, .footballScoreboard .clock strong { font-size: 1rem; line-height: 1.25; }
+.footballScoreboard .scoreTeam span { font-size: .625rem; color: #e9dfc9; text-transform: uppercase; letter-spacing: .025em; overflow-wrap: anywhere; }
+.footballScoreboard .scoreTeam strong, .footballScoreboard .clock strong { font-size: 1.0625rem; line-height: 1.25; color: #fff6df; font-variant-numeric: tabular-nums; }
 .footballConnection { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 8px; padding: 0 max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left)); color: var(--muted); font-size: .6875rem; line-height: 1.4; }
 .footballConnection > div { min-width: 0; }
 .footballConnection span { display: block; }

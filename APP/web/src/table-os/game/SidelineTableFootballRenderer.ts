@@ -9,6 +9,8 @@ const POSES: readonly Pose[] = ["idle", "stride-a", "stride-b", "kick"];
 const FOOT = 140;
 const TEXTURE_HEIGHT = 144;
 export const SIDELINE_LOGO_TEXTURE = "maracaibo-sideline-approved-logo";
+export const SIDELINE_TURF_TEXTURE = "maracaibo-sideline-approved-turf";
+const TURF_SURFACE = "maracaibo-sideline-turf-surface";
 const motionReduced = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
 
 /** Original code-native toy football figure. No bitmap, likeness or licensed kit. */
@@ -52,6 +54,10 @@ function drawCharacter(g: Phaser.GameObjects.Graphics, primary: number, secondar
 /** Presentation only. All floor objects share one projection; engine hitboxes stay frozen. */
 export class SidelineTableFootballRenderer {
   private readonly pitch: Phaser.GameObjects.Graphics;
+  private readonly surface: Phaser.GameObjects.Graphics;
+  private turfSurface?: Phaser.Textures.CanvasTexture;
+  private turf?: Phaser.GameObjects.Image;
+  private hadTurf = false;
   private readonly shadows: Phaser.GameObjects.Graphics;
   private readonly ball: Phaser.GameObjects.Graphics;
   private readonly stadiumTitle: Phaser.GameObjects.Text;
@@ -64,6 +70,7 @@ export class SidelineTableFootballRenderer {
 
   constructor(private readonly scene: Phaser.Scene, private readonly teams: Teams, private readonly hideHud: boolean, texturedPlayers = true) {
     this.pitch = scene.add.graphics().setDepth(0);
+    this.surface = scene.add.graphics().setDepth(2);
     this.shadows = scene.add.graphics().setDepth(20);
     this.ball = scene.add.graphics();
     this.stadiumTitle = scene.add.text(0, 0, "MARACAIBO", { fontFamily: "Arial, sans-serif", fontStyle: "bold", color: "#efe2bb", letterSpacing: 4 }).setOrigin(0.5, 1).setDepth(5);
@@ -95,7 +102,9 @@ export class SidelineTableFootballRenderer {
 
   draw(state: TableFootballState, localPlayerId: string | undefined, goalFlash: boolean): void {
     const p = sidelineProjection(this.scene.scale.width, this.scene.scale.height, this.hideHud);
-    if (p.width !== this.previousWidth || p.height !== this.previousHeight) {
+    const hasTurf = this.scene.textures.exists(SIDELINE_TURF_TEXTURE);
+    if (p.width !== this.previousWidth || p.height !== this.previousHeight || hasTurf !== this.hadTurf) {
+      this.hadTurf = hasTurf;
       this.previousWidth = p.width; this.previousHeight = p.height;
       this.drawPitch(p);
     }
@@ -115,7 +124,9 @@ export class SidelineTableFootballRenderer {
       const point = pitchToScreen(p, player.x, player.y);
       const h = characterHeight(p, player.y);
       const isLocal = player.id === localPlayerId;
-      shadow.fillStyle(0x0d2423, 0.35).fillEllipse(point.x + h * 0.06, point.y + 2, h * 0.48, h * 0.12);
+      shadow.fillStyle(0x071b18, 0.12).fillEllipse(point.x + h * 0.08, point.y + h * 0.045, h * 0.68, h * 0.18);
+      shadow.fillStyle(0x071b18, 0.27).fillEllipse(point.x + h * 0.04, point.y + 2, h * 0.48, h * 0.10);
+      shadow.fillStyle(0x071b18, 0.38).fillEllipse(point.x, point.y + 1, h * 0.29, h * 0.045);
       if (isLocal) {
         shadow.fillStyle(0xf7df9a, 0.15).fillEllipse(point.x, point.y, h * 0.57, h * 0.20);
         shadow.lineStyle(Math.max(1.2, p.nearWidth / 210), 0xffe4a6, 1).strokeEllipse(point.x, point.y, h * 0.57, h * 0.20);
@@ -131,7 +142,7 @@ export class SidelineTableFootballRenderer {
       if (view.label.style.fontSize !== `${labelSize}px`) view.label.setFontSize(labelSize);
       const labelColor = isLocal ? "#ffe4a6" : "#fff7e6";
       if (view.label.style.color !== labelColor) view.label.setColor(labelColor);
-      view.label.setPosition(point.x, point.y + h * 0.14);
+      view.label.setPosition(point.x, point.y + h * 0.14).setDepth(200 + p.height * 2);
       if (this.scene.textures.exists(SIDELINE_LOGO_TEXTURE)) {
         if (!view.logo) view.logo = this.scene.add.image(0, 0, SIDELINE_LOGO_TEXTURE);
         const direction = player.team === "away" ? -1 : 1;
@@ -143,7 +154,8 @@ export class SidelineTableFootballRenderer {
     }
     const point = pitchToScreen(p, state.ball.x, state.ball.y);
     const r = characterHeight(p, state.ball.y) * 0.077;
-    shadow.fillStyle(0x0b2422, 0.5).fillEllipse(point.x + r * 0.3, point.y + 2, r * 2.6, r * 0.9);
+    shadow.fillStyle(0x071b18, 0.18).fillEllipse(point.x + r * 0.4, point.y + 2, r * 3.5, r * 1.1);
+    shadow.fillStyle(0x071b18, 0.55).fillEllipse(point.x, point.y + 1, r * 1.7, r * 0.48);
     this.drawBall(point.x, point.y, r);
     // Foot-depth order also applies to the ball; it never floats over every character.
     this.ball.setDepth(100 + point.y * 2 + 0.5);
@@ -179,16 +191,47 @@ export class SidelineTableFootballRenderer {
     if (close) g.closePath(); g.strokePath();
   }
 
+  /** Bake a clipped distant-grass crop once per resize; works in Canvas and WebGL. */
+  private drawTurf(p: SidelineProjection, corners: readonly PitchPoint[]): boolean {
+    if (!this.scene.textures.exists(SIDELINE_TURF_TEXTURE)) return false;
+    const source = this.scene.textures.get(SIDELINE_TURF_TEXTURE).getSourceImage() as HTMLImageElement;
+    const width = Math.max(1, Math.ceil(p.nearWidth));
+    const height = Math.max(1, Math.ceil(p.pitchHeight));
+    if (!this.turfSurface) {
+      this.turfSurface = this.scene.textures.createCanvas(TURF_SURFACE, width, height) ?? undefined;
+      if (!this.turfSurface) return false;
+      this.ownedTextures.push(TURF_SURFACE);
+    } else if (this.turfSurface.width !== width || this.turfSurface.height !== height) {
+      this.turfSurface.setSize(width, height);
+    }
+    const context = this.turfSurface.context;
+    context.clearRect(0, 0, width, height);
+    context.save(); context.beginPath();
+    corners.forEach((point, index) => {
+      const x = (point.x - p.centerX + p.nearWidth / 2) * width / p.nearWidth;
+      const y = (point.y - p.pitchTop) * height / p.pitchHeight;
+      if (index) context.lineTo(x, y); else context.moveTo(x, y);
+    });
+    context.closePath(); context.clip();
+    context.drawImage(source, 0, Math.floor(source.height * 0.40), source.width, Math.floor(source.height * 0.16), 0, 0, width, height);
+    context.restore(); this.turfSurface.refresh();
+    if (!this.turf) this.turf = this.scene.add.image(0, 0, TURF_SURFACE).setDepth(1);
+    this.turf.setTexture(TURF_SURFACE).setPosition(p.centerX, p.pitchTop + p.pitchHeight / 2).setDisplaySize(p.nearWidth, p.pitchHeight).setAlpha(0.56);
+    return true;
+  }
+
   private drawPitch(p: SidelineProjection): void {
-    const g = this.pitch.clear();
+    const backdrop = this.pitch.clear();
+    let g = backdrop;
     const floor = (x: number, y: number) => pitchToScreen(p, x, y);
     const farLeft = floor(0, 0); const farRight = floor(100, 0);
     const nearLeft = floor(0, 100); const nearRight = floor(100, 100);
     const lake = p.pitchTop - p.playerHeight * 0.23;
     // Quiet dusk lake and an original bridge silhouette, grounded in Maracaibo.
     g.fillStyle(0x162b37).fillRect(0, 0, p.width, p.height);
-    for (let band = 0; band < 12; band++) {
-      g.fillStyle(((24 + band * 4) << 16) | ((43 + band * 5) << 8) | (56 + band * 4)).fillRect(0, band * lake / 12, p.width, lake / 12 + 1);
+    for (let band = 0; band < 40; band++) {
+      const t = band / 40;
+      g.fillStyle((Math.round(20 + t * 27) << 16) | (Math.round(36 + t * 39) << 8) | Math.round(48 + t * 40)).fillRect(0, t * lake, p.width, lake / 40 + 1);
     }
     g.fillStyle(0x305f6b).fillRect(0, lake - p.playerHeight * 0.34, p.width, p.playerHeight * 0.34);
     g.lineStyle(1, 0x8cabac, 0.17);
@@ -200,6 +243,19 @@ export class SidelineTableFootballRenderer {
       g.lineStyle(2, 0x24424e, 0.85).lineBetween(tx, peak, tx, lake - 2);
       g.lineStyle(0.8, 0x526f74, 0.65).lineBetween(tx, peak, tx - p.width * 0.06, deck).lineBetween(tx, peak, tx + p.width * 0.06, deck);
     }
+    // Static floodlights sit behind the touchline, with no particles or fullscreen filters.
+    for (const side of [-1, 1]) {
+      const lampX = p.centerX + side * p.nearWidth * 0.44;
+      const lampY = Math.max(10, lake - p.playerHeight * 0.62);
+      for (let cone = 0; cone < 4; cone++) this.polygon(g, [
+        { x: lampX - 3, y: lampY }, { x: lampX + 3, y: lampY },
+        floor(50 + side * (22 + cone * 5), 100), floor(50 - side * (24 - cone * 5), 100),
+      ], 0xfff0c9, 0.012);
+      g.lineStyle(2, 0x233b43, 0.8).lineBetween(lampX, lampY, lampX, lake);
+      g.fillStyle(0xffeec7, 0.06).fillEllipse(lampX, lampY, 30, 13);
+      g.fillStyle(0xffeec7, 0.14).fillEllipse(lampX, lampY, 20, 8);
+      for (let bulb = -2; bulb <= 2; bulb++) g.fillStyle(0xfff4d9, 0.92).fillRect(lampX + bulb * 4 - 1, lampY - 1, 2, 2);
+    }
     // Far boards carry restrained tricolor detailing, with no event or club marks.
     g.fillStyle(0x182b30).fillRect(farLeft.x - 15, lake, farRight.x - farLeft.x + 30, p.pitchTop - lake);
     const ribbonY = lake + 2;
@@ -208,8 +264,19 @@ export class SidelineTableFootballRenderer {
     this.stadiumTitle.setFontSize(Math.max(10, p.nearWidth * 0.038)).setPosition(p.centerX, p.pitchTop - 4);
     this.sideLabels.home.setFontSize(Math.max(9, p.nearWidth * 0.03)).setPosition(nearLeft.x, nearLeft.y + p.nearWidth * 0.052);
     this.sideLabels.away.setFontSize(Math.max(9, p.nearWidth * 0.03)).setPosition(nearRight.x, nearRight.y + p.nearWidth * 0.052);
-    this.polygon(g, [farLeft, farRight, nearRight, nearLeft], 0x2b6250);
-    for (let stripe = 0; stripe < 10; stripe++) this.polygon(g, [floor(stripe * 10, 0), floor((stripe + 1) * 10, 0), floor((stripe + 1) * 10, 100), floor(stripe * 10, 100)], stripe % 2 ? 0x225745 : 0x397560, 0.40);
+    const corners = [farLeft, farRight, nearRight, nearLeft];
+    this.polygon(g, corners, 0x2b6250);
+    const texturedTurf = this.drawTurf(p, corners);
+    g = this.surface.clear();
+    for (let stripe = 0; stripe < 10; stripe++) this.polygon(g, [floor(stripe * 10, 0), floor((stripe + 1) * 10, 0), floor((stripe + 1) * 10, 100), floor(stripe * 10, 100)], stripe % 2 ? 0x153d2c : 0x75a36a, texturedTurf ? 0.12 : 0.28);
+    for (let band = 0; band < 12; band++) this.polygon(g, [floor(0, band * 100 / 12), floor(100, band * 100 / 12), floor(100, (band + 1) * 100 / 12), floor(0, (band + 1) * 100 / 12)], band < 6 ? 0xf8efcf : 0x061f1d, Math.abs(band - 5.5) * 0.009);
+    // Deterministic fine grain is rebuilt on resize/asset arrival, never per frame.
+    for (let blade = 0; blade < 520; blade++) {
+      const depth = ((blade * 43) % 997) / 997 * 100;
+      const point = floor(((blade * 71) % 991) / 991 * 100, depth);
+      const length = (0.6 + depth / 100) * Math.max(0.8, p.nearWidth / 450);
+      g.lineStyle(0.55, blade % 2 ? 0xdae9a7 : 0x163524, texturedTurf ? 0.10 : 0.19).lineBetween(point.x, point.y, point.x + length * 0.35, point.y - length);
+    }
     g.lineStyle(Math.max(1.2, p.nearWidth / 260), 0xf4efd9, 0.86);
     this.outline(g, [farLeft, farRight, nearRight, nearLeft]);
     this.outline(g, [floor(50, 0), floor(50, 100)], false);
@@ -233,21 +300,24 @@ export class SidelineTableFootballRenderer {
   }
 
   private drawGoal(p: SidelineProjection, end: number): void {
-    const g = this.pitch;
+    const g = this.surface;
     const floor = (x: number, y: number) => pitchToScreen(p, x, y);
     const a = floor(end, 39); const b = floor(end, 61);
     const backA = floor(end + (end ? 5 : -5), 39); const backB = floor(end + (end ? 5 : -5), 61);
     const h = p.playerHeight * 0.57;
     const lift = (point: PitchPoint) => ({ x: point.x, y: point.y - h });
+    this.polygon(g, [a, b, { x: backB.x + 3, y: backB.y + 3 }, { x: backA.x + 3, y: backA.y + 3 }], 0x061f1d, 0.21);
     this.polygon(g, [backA, backB, lift(backB), lift(backA)], 0xe9ece0, 0.10);
     this.polygon(g, [a, backA, lift(backA), lift(a)], 0xe9ece0, 0.09);
     g.lineStyle(0.6, 0xe9ece0, 0.45);
-    for (let row = 1; row < 5; row++) g.lineBetween(backA.x, backA.y - h * row / 5, backB.x, backB.y - h * row / 5);
-    for (let column = 0; column <= 4; column++) {
-      const point = floor(end + (end ? 5 : -5), 39 + column * 22 / 4);
+    for (let row = 1; row < 7; row++) g.lineBetween(backA.x, backA.y - h * row / 7, backB.x, backB.y - h * row / 7);
+    for (let column = 0; column <= 6; column++) {
+      const point = floor(end + (end ? 5 : -5), 39 + column * 22 / 6);
       g.lineBetween(point.x, point.y, point.x, point.y - h);
     }
     this.outline(g, [backA, lift(backA), lift(backB), backB], false);
+    g.lineStyle(4, 0x132c2e, 0.55);
+    this.outline(g, [a, lift(a), lift(b), b], false);
     g.lineStyle(2, 0xfff8df, 0.95);
     this.outline(g, [a, lift(a), lift(b), b], false);
     this.outline(g, [lift(a), lift(backA), lift(backB), lift(b)], false);
@@ -257,6 +327,7 @@ export class SidelineTableFootballRenderer {
   private drawBall(x: number, floorY: number, radius: number): void {
     const g = this.ball.clear(); const y = floorY - radius * 0.75;
     g.fillStyle(0xfffbee, 1).fillCircle(x, y, radius);
+    g.fillStyle(0x637668, 0.20).fillEllipse(x + radius * 0.10, y + radius * 0.44, radius * 1.55, radius * 0.65);
     g.lineStyle(0.8, 0x192a34, 1).strokeCircle(x, y, radius);
     g.fillStyle(0x263840).fillCircle(x + radius * 0.12, y, radius * 0.36);
     g.lineStyle(0.7, 0x263840, 1);
@@ -268,6 +339,7 @@ export class SidelineTableFootballRenderer {
   }
 
   destroy(): void {
+    this.turf?.destroy(); this.surface.destroy();
     this.pitch.destroy(); this.shadows.destroy(); this.ball.destroy(); this.stadiumTitle.destroy();
     for (const label of Object.values(this.sideLabels)) label.destroy();
     for (const view of this.players.values()) { view.body.destroy(); view.label.destroy(); view.logo?.destroy(); }

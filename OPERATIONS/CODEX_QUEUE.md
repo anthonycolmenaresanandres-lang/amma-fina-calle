@@ -1025,9 +1025,15 @@ State: both invalid page helper exports corrected by removing only export; full 
 **PASS:** Both goals visible; coherent feet/ball/goals/shadows/lanes and inverse pointer geometry; enhanced and primitive paths; same-state mobile before/after captures; focused geometry/control checks, scoped ESLint and production build; native Library preview and honest real-device limitations.
 **STOP:** No push, merge, deploy, paid generation, secrets, access or external sends. No material gameplay change without concise plan/approval.
 
-## [ ] Local multiplayer viewport and home underline refinement - October 6
+## [x] Local multiplayer viewport and home underline refinement - October 6
 
 **Authority:** Anthony requests fullscreen multiplayer like solo, small Back to menu, and removal of home wording underlines. Extend 278321e locally.
 **Scope:** Phone viewport/safe-area multiplayer layout and home-only decorative lines; preserve side-view projection, controls, roles, simulation, session reliability findings and solo. No publication.
 **Acceptance:** Readable home glyphs without decorative strokes, viewport fit with controls outside the pitch, Back to actual menu and focused source/lint/build/browser evidence. Record integrated navigation/device limitations.
-**State:** LOCAL IMPLEMENTED; component UI and scoped ESLint pass. Bounded return requested; latest production build/types and integrated Next-route gate remain. Local review commit only; heavy slot released.
+**State:** LOCAL DONE; original component UI and scoped ESLint pass; final-source production build/types and integrated Next practice/menu gate completed in the subsequent broadcast refinement. No publication. See MARACAIBO_MULTIPLAYER_BROADCAST_REVIEW_20261006.md.
+
+## [x] Local Maracaibo larger pitch and original broadcast finish - October 6
+
+**Authority:** Anthony requests more fullscreen pitch coverage and polished original soccer broadcast presentation. Extend local c32a29e; no release authority.
+**Scope:** Multiplayer projection/materials/stadium/shadows/net finish/compact score strip. Preserve existing character identities, four roles, canonical movement and auto shooting. Optional approved existing grass raster; primitive fallback. No solo, reliability, DB or generated art/service change.
+**State:** LOCAL DONE, VERIFIED. 1,008 geometry/19 controls, scoped lint/final-source types/build, portrait/landscape/clip/fallback/touch/menu checks and integrated built Next practice/menu pass. Native built-route screenshot libfile_597cb82ea2508191ac823735caf4db06; landscape libfile_e87b482dc4388191b2b4e70136e10667. All owned processes closed. Local review commit only; physical multiplayer/real-device performance remain unverified. Details: MARACAIBO_MULTIPLAYER_BROADCAST_REVIEW_20261006.md.
