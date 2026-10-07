@@ -14,3 +14,7 @@ Source inspection and WCAG sRGB contrast arithmetic passed. Original skip white/
 ## Pending slot-dependent verification
 
 The previous production build and screenshots apply to 1fa0f046. They do not verify the new skip-link declaration. Once parent grants the slot: run one final-source production build, Tab to the skip link on desktop/phone, inspect computed foreground/background and visible focus, activate the link and verify the October heading is clear of sticky navigation, save new focus evidence to Library. Verify footer fallback/reduced-motion and animated appearance if the browser exposes the required control. No heavy process or browser is currently owned or running. No push, merge or deployment.
+
+## Final status — verification completed
+
+Parent granted the slot. Final-source build/types and bounded desktop/phone keyboard Tab, Enter destination clearance and footer contrast checks pass. Four new screenshots confirmed in Library. No owned processes or browser tab remain; no publication. See CONTRAST_VERIFICATION_20261007.md for exact evidence, IDs and unrun checks. The pending section above records the pre-slot checkpoint and is now superseded.
