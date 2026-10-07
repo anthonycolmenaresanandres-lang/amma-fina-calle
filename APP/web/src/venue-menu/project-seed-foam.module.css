@@ -1,0 +1,25 @@
+/* Original CSS foam finish. Real text remains selectable and accessible.
+   The repeated local title class outranks the existing game intro background. */
+.foamTitles h2, .foamTitle.foamTitle.foamTitle {
+  color: #f8f2e8;
+  -webkit-text-stroke: .65px #faf4ea;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 1px .35px #d7cbbb) drop-shadow(0 2px 2px #130b1d66);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .foamTitles h2, .foamTitle.foamTitle.foamTitle {
+    background-color: #f8f2e8;
+    background-image: url('/assets/project-seed/brand/cold-foam-bubbles.svg'), linear-gradient(180deg, #fffaf2 0%, #f8f2e8 45%, #e7dccc 100%);
+    background-size: 96px 72px, 100% 100%;
+    background-repeat: repeat, no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+@media (max-width: 699px) {
+  .foamTitles h2, .foamTitle.foamTitle.foamTitle { -webkit-text-stroke-width: .35px; filter: drop-shadow(0 .75px .25px #d7cbbb) drop-shadow(0 1.5px 1px #130b1d55); }
+}
+@media (forced-colors: active) {
+  .foamTitles h2, .foamTitle.foamTitle.foamTitle { background: none; -webkit-text-fill-color: CanvasText; -webkit-text-stroke: 0; filter: none; }
+}

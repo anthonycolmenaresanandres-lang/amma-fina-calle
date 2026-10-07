@@ -1,19 +1,39 @@
+/* Seed-only revision: approved ube/cream palette, open layout, Fraunces display. */
+.seedPage { background: #24172f; color-scheme: dark; }
+.seedPage > main { --seed-display: var(--font-seed-display), Georgia, serif; }
+.seedPage > main > div { max-width: 1080px; padding-bottom: max(48px, env(safe-area-inset-bottom)); }
+.seedPage > main > div > header { padding-top: 30px; padding-bottom: 28px; }
+.brandStage { padding-top: 12px; }
 .brandLogo { display: block; width: 138px; height: auto; margin: auto; border-radius: 50%; }
-.heritage { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 8px; color: #675852; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.heritage { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 18px 0 0; color: #c9bfd2; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .heritage img { display: block; width: 36px; height: 18px; }
-.octoberSleeve { overflow: hidden; border-top: 6px solid #731926; background: #9f1c2b; }
-.octoberSleeve > img { object-position: 91% center; padding: 22px 0; }
-.octoberSleeve > div { max-width: 53%; left: 24px; }
-.octoberSleeve h2 { color: #fff; font-weight: 650; font-size: clamp(29px, 4.8vw, 52px); letter-spacing: -.045em; }
-.seasonalNote { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px; margin-top: 28px; padding: 20px 0; border-top: 1px solid #dfc9b8; border-bottom: 1px solid #dfc9b8; }
-.seasonalNote > span { color: #9f1c2b; font-size: 11px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
-.seasonalNote p { flex: 1 1 280px; color: #675852; font-size: 14px; line-height: 1.5; }
-.seasonalNote a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #9f1c2b; font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
-.seasonalNote a:hover { color: #741421; }
+.seedPage nav { border-bottom-color: #54405f; }
+.featured { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; gap: 32px 40px; padding-block: 54px 24px; scroll-margin-top: 80px; }
+.featured h2 { max-width: 12ch; font-family: var(--seed-display); font-size: clamp(44px, 6vw, 76px); font-weight: 500; font-optical-sizing: auto; line-height: 1.04; letter-spacing: -.045em; text-wrap: balance; }
+.heroProduct { display: grid; justify-items: center; gap: 16px; margin: 0; }
+.heroProduct img { display: block; width: min(100%, 260px); height: auto; }
+.heroProduct figcaption { color: #c9bfd2; font-size: 12px; line-height: 1.5; text-align: center; }
+.seasonalNote { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; padding-top: 22px; }
+.seasonalNote > span { color: #c9bfd2; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.seasonalNote a, .playLink { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; color: #f8f2e8; font-size: 13px; font-weight: 600; text-underline-offset: 6px; }
+.seasonalNote a:hover, .playLink:hover { color: #ffffff; }
+.menuSections { display: contents; }
+.menuSections > section { border-top-color: #54405f; }
+.menuSections > section > header { min-height: 0; padding-block: 28px 10px; }
+.menuSections h2, .gameTeaser h2, .seedPage section[id="hours"] h2 { font-family: var(--seed-display); font-weight: 500; font-size: clamp(32px, 4vw, 44px); letter-spacing: -.035em; line-height: 1.1; }
+.menuSections li { padding-block: 21px; }
+.menuSections h3 { font-weight: 500; letter-spacing: -.01em; }
+.gameTeaser { grid-template-columns: minmax(0, 1fr) auto; padding-block: 32px; border-color: #54405f; }
+.seedPage main > div > section[aria-labelledby="seed-review-title"] { border-top: 1px solid #54405f; padding-top: 38px; }
+.seedPage h2[id="seed-review-title"] { max-width: 12ch; font-family: var(--seed-display); font-weight: 500; font-size: clamp(38px, 5vw, 60px); letter-spacing: -.035em; line-height: 1.08; }
 @media (max-width: 699px) {
-  .brandLogo { margin-top: 24px; }
-  .octoberSleeve > div { left: 18px; }
-  .octoberSleeve > img { object-position: right center; padding-block: 35px; }
-  .seasonalNote { gap: 4px; }
-  .seasonalNote > span, .seasonalNote p { flex-basis: 100%; }
+  .seedPage > main > div > header { padding-top: 36px; padding-bottom: 28px; }
+  .brandStage { padding-top: 14px; }
+  .brandLogo { width: 124px; }
+  .featured { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 28px 16px; padding-top: 44px; }
+  .featured h2 { font-size: clamp(35px, 9.5vw, 52px); line-height: 1.08; }
+  .heroProduct { gap: 12px; }
+  .heroProduct figcaption { max-width: 12ch; font-size: 11px; }
+  .seasonalNote { display: grid; gap: 4px; padding-top: 4px; }
+  .gameTeaser { grid-template-columns: minmax(0, 1fr); gap: 12px; }
 }

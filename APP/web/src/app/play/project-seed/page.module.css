@@ -31,26 +31,34 @@
 @media(max-width:600px){.brandLogo{width:42px;height:42px}.brand{gap:8px;font-size:14px}.intro h1{font-size:clamp(68px,19vw,100px);padding:15px 18px 20px}.result h1{font-size:clamp(48px,13vw,80px)}}
 @media(max-width:380px){.headerLinks{gap:10px}.headerLinks img{width:32px;height:16px}.headerLinks a{font-size:11px}}
 
-/* Halloween is confined to the landing; starting a round restores the café skin. */
-.halloween{--cream:#18141b;--ink:#f4ece2;--red:#e8a365;--line:#443741;position:relative;isolation:isolate;overflow-x:clip;color-scheme:dark;background:radial-gradient(ellipse at 85% 20%,#302031 0,transparent 48%),#18141b}
-.halloween .header,.halloween .shell{position:relative;z-index:1}
-.halloween .header{border-top-color:#9f1c2b;background:rgb(24 20 27 / 80%)}
-.halloween .intro{padding-top:70px;padding-bottom:64px}
-.halloween .intro h1{padding:0;background:none;color:#f4ece2;font-size:clamp(96px,15vw,154px);line-height:.83;letter-spacing:-.055em}
-.halloween .intro h1 span{color:#e8a365}
-.halloween .eyebrow{font-size:10px;letter-spacing:.2em}
-.halloween .introLead{max-width:36ch;color:#cfbcc7}
-.halloween .roundCard{border-top:1px solid #8e604a;border-bottom-color:#443741}
-.halloween .roundCard strong{color:#f4ece2}
-.halloween .instructions{color:#dccbd2}
-.halloween .fine,.halloween .footer{color:#b9a5b2}
-.halloween .primary{min-width:220px;background:#e8a365;color:#20141b;box-shadow:0 3px 0 #9b6240;transition:background 150ms ease,transform 150ms ease}
-.halloween .primary:hover{background:#f4bd8b;transform:translateY(-1px)}
-.halloween .primary:active{transform:translateY(1px)}
-.halloween .skip{background:#f4ece2;color:#18141b!important}
-.webLayer{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.webLeft,.webRight{position:absolute;top:90px;width:clamp(150px,24vw,340px);height:auto;color:#d9c9d7;opacity:.24}
-.webLeft{left:0}
-.webRight{right:0;transform:scaleX(-1);opacity:.38}
-@media(max-width:600px){.halloween .intro{padding-top:60px}.halloween .intro h1{font-size:clamp(94px,24vw,136px)}.halloween .eyebrow{max-width:25ch;line-height:1.6}.webLeft,.webRight{top:87px;width:160px}.webLeft{opacity:.13}.webRight{opacity:.34}.halloween .introLead{font-size:18px;line-height:1.5}}
-@media(prefers-reduced-motion:reduce){.halloween .primary{transition:none;transform:none}}
+/* The approved ube/cream landing stays isolated from the existing cafe rounds. */
+.brand { font-family: var(--font-geist-sans), sans-serif; }
+.halloween { --cream: #24172f; --ink: #f8f2e8; --red: #e4c6ef; --line: #54405f; background: var(--cream); color-scheme: dark; }
+.halloween .header { border-top: 0; border-bottom-color: var(--line); background: var(--cream); }
+.halloween .intro { padding-top: 64px; padding-bottom: 64px; }
+.halloween .intro h1 { padding: 0; background: none; color: var(--ink); font-family: var(--font-seed-display), Georgia, serif; font-size: clamp(80px, 10vw, 128px); font-weight: 500; font-optical-sizing: auto; line-height: 1.03; letter-spacing: -.055em; }
+.halloween .intro h1 span { color: inherit; }
+.halloween .eyebrow { color: #c9bfd2; font-size: 10px; font-weight: 500; letter-spacing: .12em; }
+.halloween .introLead { max-width: 42ch; margin-top: 24px!important; color: #c9bfd2; font-size: 20px; line-height: 1.55; }
+.halloween .roundLineup { gap: 26px; margin-top: 38px; }
+.halloween .roundCard { border: 0; padding: 0; min-height: 145px; }
+.halloween .roundCard strong { color: var(--ink); font-weight: 500; }
+.halloween .featureNumber { color: #c9bfd2; font-weight: 500; }
+.halloween .roundArt { min-height: 94px; }
+.halloween .instructions { margin-top: 18px; color: #c9bfd2; font-weight: 500; }
+.halloween .fine, .halloween .footer { color: #c9bfd2; }
+.halloween .primary { min-width: 205px; min-height: 52px; background: #f8f2e8; color: #24172f; font-weight: 600!important; transition: background 150ms ease; }
+.halloween .primary:hover { background: #ffffff; }
+.halloween .skip { background: #f8f2e8; color: #24172f!important; }
+@media (max-width: 600px) {
+  .halloween .intro { padding-top: 46px; padding-bottom: 46px; }
+  .halloween .intro h1 { font-size: clamp(76px, 23vw, 100px); }
+  .halloween .intro h1 span { display: block; }
+  .halloween .introLead { font-size: 17px; }
+  .halloween .eyebrow { max-width: 30ch; line-height: 1.6; }
+  .halloween .roundLineup { gap: 16px; margin-top: 32px; }
+  .halloween .roundCard { min-height: 125px; }
+  .halloween .roundArt { min-height: 80px; }
+  .halloween .roundCard strong { line-height: 1.4; }
+}
+@media (prefers-reduced-motion: reduce) { .halloween .primary { transition: none; } }
