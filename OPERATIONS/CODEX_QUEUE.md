@@ -1047,9 +1047,21 @@ PASS: responsive usable demo, conspicuous sample terms and simulated state, no r
 STOP: do not launch builds, browser, server or tests before parent grants heavy-process slot. Current source preparation is not verification.
 
 ## [ ] 2026-10-07 - Publish Fina Calle Discover
-State: SOURCE READY; HEAVY VERIFICATION SLOT PENDING
+State: VERIFYING; PARENT HEAVY SLOT GRANTED
 Authority: Anthony explicitly requested publication under Fina Calle at 16:07 UTC: Set a / under fina calle and publish it please make sure all of the code works and we will give it the image direction latter.
 Scope: canonical /discover, /demo/discover permanent redirect, no visual redesign, existing fictional/noindex/browser-only demo boundaries. Test state/navigation/filter/map/city/offer/passport/persistence/reset/mobile behavior, push feature branch, open PR, exact-head CI, merge and verify canonical production route.
 Base reconciliation: current origin/main 055bce6 is already an ancestor of prototype commit f5a2f3a. Recheck main before merge.
 PASS: local targeted tests/lint/type/build and mobile/desktop flows pass; exact PR head CI passes; merge and production deployment map to verified commit; canonical /discover and old-route redirect work with demo/noindex metadata.
 STOP: no builds or browser before parent grants heavy slot. No spending, credentials, new services/accounts or security changes; do not bypass approval rejection.
+
+## [x] Project Seed layout aligned to Bodega - October 7
+
+Anthony requests Project Seed's layout match current Bodega. Local revision only from main 055bce6 in codex/project-seed-bodega-layout-20261007. Inspect real Bodega/Seed screens and shared structure. Match featured product/navigation/menu/spacing/sticky game layout while retaining approved Seed ube/cream/cold-foam typography, supplied logo, authentic product photos/labels/menu/prices and demo/noindex. Do not copy Bodega content or change Bodega/game mechanics. Previous publication approval does not apply to this revision. Relevant lint, Seed checks, production build and desktop/mobile comparison with Library screenshots. One heavy process at a time; no installations/spend/security changes; preserve unrelated work.
+
+**State:** LOCAL DONE. Seed-only Bodega layout structure with approved Seed identity/content preserved. Targeted lint, Seed checks, final-source build/types, diff and desktop/phone production review pass. Screenshots confirmed in Library; IDs/unrun checks in ASSET_REGISTRY/PROJECT_SEED/BODEGA_LAYOUT_REVIEW_20261007.md. Owned processes stopped. No publication.
+
+**Contrast follow-up:** Seed skip-link white/cream finding confirmed and corrected in scoped CSS. Footer finding already fixed by signature backing in 1fa0f046. Source/diff and contrast arithmetic pass; final-source build and focused-link/browser evidence PENDING parent process-slot grant. No owned processes, publication or Bodega changes. See CONTRAST_FOLLOWUP_20261007.md.
+
+**Final contrast verification:** COMPLETE on runtime e27b92c5. Final build/types and desktop/phone keyboard skip-link focus, Enter clearance, footer backing/fallback/rig source checks pass; four verified Library evidence IDs in CONTRAST_VERIFICATION_20261007.md. Slot released, owned processes stopped, tab closed/viewport reset. Local only; no publication.
+
+**Publication authority — 2026-10-07 16:09 UTC:** Anthony explicitly requested “And publish project seed as well please” after reviewing the Bodega-style layout. Publish this scoped branch including 1fa0f046 and e27b92c5 through a PR, successful exact-head CI, merge without bypass, then verify production. Final local source/build/desktop/phone checks complete; all owned processes stopped and heavy slot free for Discovery. Preserve demo/noindex, authentic Seed content, unrelated clients and existing main work. No credentials, spending, new services or protection changes.
