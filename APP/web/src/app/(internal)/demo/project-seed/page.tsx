@@ -9,6 +9,7 @@ import { MENU_CHECKED, OCTOBER_MENU_DATE, OFFICIAL_MENU_URL, OFFICIAL_ORDER_URL,
 import styles from "@/venue-menu/venue-menu.module.css";
 import seedStyles from "./october.module.css";
 import { seedDisplay } from "@/venue-menu/project-seed-type";
+import foamStyles from "@/venue-menu/project-seed-foam.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +55,7 @@ function SeedFeatured({ launched }: { launched: boolean }) {
 
 export default function ProjectSeedMenuPage() {
   const octoberLive = octoberMenuIsLive();
-  return <div className={`${seedStyles.seedPage} ${seedDisplay.variable}`}><VenueMenuLayout
+  return <div className={`${seedStyles.seedPage} ${seedDisplay.variable} ${foamStyles.foamTitles}`}><VenueMenuLayout
     brandName="Project Seed Coffee"
     brand={<SeedBrand />}
     nav={<VenueMenuNav sections={seedSections} floatingAction={null} />}
