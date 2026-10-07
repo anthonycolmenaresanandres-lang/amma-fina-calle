@@ -31,37 +31,34 @@
 @media(max-width:600px){.brandLogo{width:42px;height:42px}.brand{gap:8px;font-size:14px}.intro h1{font-size:clamp(68px,19vw,100px);padding:15px 18px 20px}.result h1{font-size:clamp(48px,13vw,80px)}}
 @media(max-width:380px){.headerLinks{gap:10px}.headerLinks img{width:32px;height:16px}.headerLinks a{font-size:11px}}
 
-/* Permanent Seed identity stays visible beneath the existing Halloween layer.
-   Activation, game states and the cafe playfield are unchanged. */
-.page { --seed-weave: url('/assets/project-seed/brand/woven-trim.svg'); }
-.header { border-top-width: 5px; background: #fffaf2; }
-.halloween { --cream: #fffaf2; --ink: #302426; --red: #9f1c2b; --line: #dfc9b8; position: relative; isolation: isolate; overflow-x: clip; color-scheme: light; background: var(--cream); }
-.halloween .header, .halloween .shell { position: relative; z-index: 1; }
-.halloween .header { border-top-color: var(--red); background: var(--cream); }
-.halloween .intro { position: relative; padding-top: 64px; padding-bottom: 64px; }
-.halloween .intro::before { content: ''; display: block; width: 34px; height: 34px; margin-bottom: 20px; background: url('/assets/project-seed/brand/philippine-sun-detail.svg') center / contain no-repeat; }
-.halloween .intro h1 { padding: 0; background: none; color: var(--red); font-size: clamp(96px,15vw,154px); line-height: .83; letter-spacing: -.055em; }
-.halloween .intro h1 span { color: var(--ink); }
-.halloween .eyebrow { color: #675852; font-size: 10px; letter-spacing: .16em; }
-.halloween .introLead { max-width: 36ch; color: #675852; }
-.halloween .roundLineup { position: relative; padding-top: 24px; }
-.halloween .roundLineup::before { content: ''; position: absolute; inset: 0 0 auto; height: 9px; background: var(--seed-weave) center / 24px; }
-.halloween .roundCard { border-top: 0; border-bottom-color: var(--line); }
-.halloween .roundCard strong { color: var(--ink); }
-.halloween .instructions, .halloween .fine, .halloween .footer { color: #675852; }
-.halloween .primary { min-width: 220px; background: var(--red); color: #fffaf2; transition: background 150ms ease; }
-.halloween .primary:hover { background: #741421; }
-.halloween .skip { background: var(--ink); color: #fffaf2!important; }
-.webLayer { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.webLeft, .webRight { position: absolute; top: 88px; width: clamp(100px,16vw,220px); height: auto; color: #675852; opacity: .12; }
-.webLeft { left: 0; }
-.webRight { right: 0; transform: scaleX(-1); }
-@media (max-width:600px) {
-  .halloween .intro { padding-top: 38px; }
-  .halloween .intro::before { width: 28px; height: 28px; margin-bottom: 16px; }
-  .halloween .intro h1 { font-size: clamp(94px,24vw,136px); }
+/* The approved ube/cream landing stays isolated from the existing cafe rounds. */
+.brand { font-family: var(--font-geist-sans), sans-serif; }
+.halloween { --cream: #24172f; --ink: #f8f2e8; --red: #e4c6ef; --line: #54405f; background: var(--cream); color-scheme: dark; }
+.halloween .header { border-top: 0; border-bottom-color: var(--line); background: var(--cream); }
+.halloween .intro { padding-top: 64px; padding-bottom: 64px; }
+.halloween .intro h1 { padding: 0; background: none; color: var(--ink); font-family: var(--font-seed-display), Georgia, serif; font-size: clamp(80px, 10vw, 128px); font-weight: 500; font-optical-sizing: auto; line-height: 1.03; letter-spacing: -.055em; }
+.halloween .intro h1 span { color: inherit; }
+.halloween .eyebrow { color: #c9bfd2; font-size: 10px; font-weight: 500; letter-spacing: .12em; }
+.halloween .introLead { max-width: 42ch; margin-top: 24px!important; color: #c9bfd2; font-size: 20px; line-height: 1.55; }
+.halloween .roundLineup { gap: 26px; margin-top: 38px; }
+.halloween .roundCard { border: 0; padding: 0; min-height: 145px; }
+.halloween .roundCard strong { color: var(--ink); font-weight: 500; }
+.halloween .featureNumber { color: #c9bfd2; font-weight: 500; }
+.halloween .roundArt { min-height: 94px; }
+.halloween .instructions { margin-top: 18px; color: #c9bfd2; font-weight: 500; }
+.halloween .fine, .halloween .footer { color: #c9bfd2; }
+.halloween .primary { min-width: 205px; min-height: 52px; background: #f8f2e8; color: #24172f; font-weight: 600!important; transition: background 150ms ease; }
+.halloween .primary:hover { background: #ffffff; }
+.halloween .skip { background: #f8f2e8; color: #24172f!important; }
+@media (max-width: 600px) {
+  .halloween .intro { padding-top: 46px; padding-bottom: 46px; }
+  .halloween .intro h1 { font-size: clamp(76px, 23vw, 100px); }
+  .halloween .intro h1 span { display: block; }
+  .halloween .introLead { font-size: 17px; }
   .halloween .eyebrow { max-width: 30ch; line-height: 1.6; }
-  .webLeft, .webRight { top: 87px; width: 108px; opacity: .08; }
-  .halloween .introLead { font-size: 18px; line-height: 1.5; }
+  .halloween .roundLineup { gap: 16px; margin-top: 32px; }
+  .halloween .roundCard { min-height: 125px; }
+  .halloween .roundArt { min-height: 80px; }
+  .halloween .roundCard strong { line-height: 1.4; }
 }
-@media (prefers-reduced-motion:reduce) { .halloween .primary { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .halloween .primary { transition: none; } }

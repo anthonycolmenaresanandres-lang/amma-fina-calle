@@ -3317,3 +3317,9 @@ Anthony authorized local visual refinement. Isolated from verified main b8ab491;
 ## 2026-10-07 OUT - Project Seed Filipino visual refinement verified locally
 
 Seed-only warm woven/sun detail, red/ivory identity and restrained Halloween landing complete on codex/project-seed-filipino-refinement-20261007 from main b8ab491. Targeted lint, existing Seed source selftest, production build/types/45 pages, diff check, desktop/phone/narrow-phone visual inspection, anchors/noindex/focus and start/pause/resume/exit pass. Original logo/photo cutouts/labels, menu/prices, shared Bodega CSS, game rules/playfield and seasonal activation preserved. Five Library screenshots confirmed; IDs and unrun full-game/fallback/Lighthouse/physical-device checks recorded in ASSET_REGISTRY/PROJECT_SEED/FILIPINO_VISUAL_REFINEMENT_20261007.md. Owned servers/tabs stopped; no push/merge/deploy/credentials/install. Ready for local review.
+
+## 2026-10-07 IN - Simplify Project Seed with approved ube palette
+
+Anthony approved deep ube purple with cream lettering after correcting the white-background request. Local revision over d0854e3: remove repeated ornaments/panels/oversized fixed action, add distinct licensed Fraunces display typography (different from Maracaibo Decoy), keep logo, original product labels/photos, menu/prices, gameplay, noindex/demo notices and seasonal behavior. No publish approval; no push/merge/deploy/install.
+
+[2026-10-07] OUT Project Seed ube/cream refinement: Fraunces locally hosted and licensed; quieter menu and game entry; original photos/labels, menu data, demo/noindex and game behavior preserved. ESLint, existing Seed selftest, production build, diff check, desktop/mobile and game control smoke review passed. Five revised screenshots confirmed in Library; IDs in ASSET_REGISTRY/PROJECT_SEED/UBE_TYPOGRAPHY_REVIEW_20261007.md. Full three-round run/fallback/Lighthouse/physical device unrun. Local only; server stopped and tab/viewport cleaned.
