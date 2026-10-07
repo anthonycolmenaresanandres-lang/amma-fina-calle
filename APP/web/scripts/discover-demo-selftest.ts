@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { advanceClaim, INITIAL_STATE, normalizeCity, parseState, places, stages } from "../src/app/demo/discover/data";
+import { advanceClaim, INITIAL_STATE, normalizeCity, parseState, placeIdFromHash, places, stages } from "../src/app/discover/data";
 
 let state = INITIAL_STATE;
 for (const stage of stages) {
@@ -18,4 +18,9 @@ assert.equal(normalizeCity(" Richmond,   VA "), "Richmond, VA", "unsupported cit
 assert.equal(normalizeCity(" "), "");
 assert.equal(places.filter(p => p.trail).length, 3);
 assert.equal(new Set(places.map(p => p.category)).size, 5);
+assert.equal(placeIdFromHash("#offer-tideline"), "tideline");
+assert.equal(placeIdFromHash("#offer-thread"), "thread");
+assert.equal(placeIdFromHash("#offer-unknown"), null);
+assert.equal(placeIdFromHash("#other"), null);
+assert.equal(placeIdFromHash(""), null);
 console.log("Discover demo: claim sequence, idempotent stamps, safe storage and city normalization passed.");

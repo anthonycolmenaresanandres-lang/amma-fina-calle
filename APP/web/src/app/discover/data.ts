@@ -50,3 +50,9 @@ export function normalizeCity(input: string): string {
   if (/^(virginia beach|virginia beach,? (va|virginia)|vb)$/i.test(city)) return "Virginia Beach, VA";
   return city;
 }
+
+export function placeIdFromHash(hash: string): string | null {
+  if (!hash.startsWith("#offer-")) return null;
+  const id = hash.slice("#offer-".length);
+  return places.some(place => place.id === id) ? id : null;
+}

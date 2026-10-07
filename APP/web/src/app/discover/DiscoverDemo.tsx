@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, ArrowRight, Bookmark, Check, Compass, Coffee, Flower2, Footprints, Heart, List, Map, MapPin, RotateCcw, Search, ShoppingBag, Sparkles, Ticket, Waves } from "lucide-react";
-import { advanceClaim, categories, DEMO_EXPIRY, INITIAL_STATE, normalizeCity, parseState, places, stages, STORAGE_KEY, type DemoState, type Place } from "./data";
+import { advanceClaim, categories, DEMO_EXPIRY, INITIAL_STATE, normalizeCity, parseState, placeIdFromHash, places, stages, STORAGE_KEY, type DemoState, type Place } from "./data";
 import s from "./discover.module.css";
 
 let snapshot = INITIAL_STATE;
@@ -29,6 +29,20 @@ function update(next: DemoState) {
 }
 const getSnapshot = () => snapshot;
 const getServerSnapshot = () => INITIAL_STATE;
+const offerLocationEvent = "fina-discover-offer-location";
+function subscribeOfferLocation(listener: () => void) {
+  window.addEventListener("popstate", listener);
+  window.addEventListener("hashchange", listener);
+  window.addEventListener(offerLocationEvent, listener);
+  return () => {
+    window.removeEventListener("popstate", listener);
+    window.removeEventListener("hashchange", listener);
+    window.removeEventListener(offerLocationEvent, listener);
+  };
+}
+const getOfferId = () => placeIdFromHash(window.location.hash);
+const getServerOfferId = () => null;
+const notifyOfferLocation = () => window.dispatchEvent(new Event(offerLocationEvent));
 const iconFor = { coffee: Coffee, bag: ShoppingBag, kite: Heart, wave: Waves, flower: Flower2 };
 const tabNames = ["Discover", "Saved places", "Passport"] as const;
 type Tab = (typeof tabNames)[number];
@@ -51,7 +65,8 @@ export default function DiscoverDemo() {
   const [neighborhood, setNeighborhood] = useState("All neighborhoods");
   const [view, setView] = useState<"list" | "map">("list");
   const [mapId, setMapId] = useState(places[0].id);
-  const [selected, setSelected] = useState<Place | null>(null);
+  const offerId = useSyncExternalStore(subscribeOfferLocation, getOfferId, getServerOfferId);
+  const selected = places.find(place => place.id === offerId) ?? null;
   const [notice, setNotice] = useState("");
   const [proofChecked, setProofChecked] = useState(false);
   const [resetConfirm, setResetConfirm] = useState(false);
@@ -65,7 +80,7 @@ export default function DiscoverDemo() {
   const mapPlace = filtered.find(p => p.id === mapId) ?? filtered[0];
 
   useEffect(() => {
-    const onBack = () => { setSelected(null); setProofChecked(false); lastOfferButton.current?.focus(); };
+    const onBack = () => { setProofChecked(false); };
     window.addEventListener("popstate", onBack);
     return () => window.removeEventListener("popstate", onBack);
   }, []);
@@ -85,12 +100,12 @@ export default function DiscoverDemo() {
   function openOffer(place: Place, button: HTMLButtonElement) {
     lastOfferButton.current = button;
     window.history.pushState({ discoverDemo: true }, "", `#offer-${place.id}`);
-    setSelected(place); setProofChecked(false); setNotice(""); window.scrollTo({ top: 0, behavior: "instant" });
+    notifyOfferLocation(); setProofChecked(false); setNotice(""); window.scrollTo({ top: 0, behavior: "instant" });
   }
   function closeOffer() {
-    setSelected(null); setProofChecked(false);
+    setProofChecked(false);
     if (window.history.state?.discoverDemo) window.history.back();
-    else window.history.replaceState(null, "", window.location.pathname);
+    else { window.history.replaceState(null, "", window.location.pathname); notifyOfferLocation(); }
   }
   function chooseCity(value: string) {
     const next = normalizeCity(value);
@@ -105,8 +120,8 @@ export default function DiscoverDemo() {
   }
   function clearFilters() { setCategory("All places"); setQuery(""); setNeighborhood("All neighborhoods"); }
   function reset() {
-    update(INITIAL_STATE); setResetConfirm(false); setSelected(null); setCity("Virginia Beach, VA"); setCityInput("Virginia Beach, VA"); setTab("Discover"); clearFilters(); setView("list");
-    window.history.replaceState(null, "", window.location.pathname); setNotice("Demo reset. Saved places, destinations, claims and stamps cleared.");
+    update(INITIAL_STATE); setResetConfirm(false); setCity("Virginia Beach, VA"); setCityInput("Virginia Beach, VA"); setTab("Discover"); clearFilters(); setView("list");
+    window.history.replaceState(null, "", window.location.pathname); notifyOfferLocation(); setNotice("Demo reset. Saved places, destinations, claims and stamps cleared.");
   }
 
   const offerCard = (place: Place) => <article className={s.place} key={place.id}>
