@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import { permanentRedirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+  alternates: { canonical: "/discover" },
+};
+
+export default function DiscoverDemoRedirect() {
+  permanentRedirect("/discover");
+}
