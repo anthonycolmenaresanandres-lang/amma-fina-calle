@@ -1037,3 +1037,11 @@ State: both invalid page helper exports corrected by removing only export; full 
 **Authority:** Anthony requests more fullscreen pitch coverage and polished original soccer broadcast presentation. Extend local c32a29e; no release authority.
 **Scope:** Multiplayer projection/materials/stadium/shadows/net finish/compact score strip. Preserve existing character identities, four roles, canonical movement and auto shooting. Optional approved existing grass raster; primitive fallback. No solo, reliability, DB or generated art/service change.
 **State:** LOCAL DONE, VERIFIED. 1,008 geometry/19 controls, scoped lint/final-source types/build, portrait/landscape/clip/fallback/touch/menu checks and integrated built Next practice/menu pass. Native built-route screenshot libfile_597cb82ea2508191ac823735caf4db06; landscape libfile_e87b482dc4388191b2b4e70136e10667. All owned processes closed. Local review commit only; physical multiplayer/real-device performance remain unverified. Details: MARACAIBO_MULTIPLAYER_BROADCAST_REVIEW_20261006.md.
+
+## [x] 2026-10-07 — Fina Calle Discover local prototype
+State: DONE — VERIFIED LOCAL ONLY
+Authority: Anthony requested building the local-discovery site after approving categories, map, national travel structure and gamification; parent delegated local-only work.
+Base: origin/main 055bce6; codex/fina-calle-discover-prototype-20261007.
+Scope: isolated noindex /demo/discover, fictional Virginia Beach merchants/offers, geographic map/list, city and destination saving, offer simulation, passport/trail/badge and browser-only Reset Demo. No real signup, client offers, backend, installations, push, merge or deployment.
+PASS: responsive usable demo, conspicuous sample terms and simulated state, no real verification or rewards; targeted state tests/lint/type/build and phone/desktop interactions/screenshots pass after the heavy-process slot is granted.
+STOP: do not launch builds, browser, server or tests before parent grants heavy-process slot. Current source preparation is not verification.
