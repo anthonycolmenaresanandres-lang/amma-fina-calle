@@ -37,3 +37,7 @@ All owned dev/production processes stopped after review; active review tab close
 | bodega-layout-reference-mobile.jpg | libfile_7b5b9c263fd88191b22e3c790f077b19 | file_00000000cdd881f58bfd61be210e5260 |
 
 Local images: C:/Users/bellmark/Documents/Codex/2026-10-07/task/screenshots/. Exact successful receipts and versions: screenshots/library-bodega-layout-manifest.json in the workspace. Windows Library xattrs are recorded in the receipts; no xattr helper was installed.
+
+## Post-review contrast follow-up
+
+The above build/screenshots cover layout snapshot 1fa0f046. A subsequent Seed-only skip-link foreground correction is source-checked but awaits the parent-granted build/browser slot. Footer backing already covers both signature layers. See CONTRAST_FOLLOWUP_20261007.md for source evidence and pending checks; latest source is not yet fully build/browser-verified.

@@ -23,3 +23,6 @@
 
 /* Keep the supplied black signature/QR readable without altering its pixels. */
 .seedPage a[aria-label^="Powered by Fina Calle"] > span:last-child { background: #f8f2e8; border: 12px solid #f8f2e8; border-radius: 3px; box-sizing: content-box; }
+
+/* The shared skip link uses light ink as its background on Seed. */
+.seedPage > main > div > a[href="#october-lattes"] { background: #f8f2e8; color: #24172f; }
