@@ -1047,10 +1047,10 @@ PASS: responsive usable demo, conspicuous sample terms and simulated state, no r
 STOP: do not launch builds, browser, server or tests before parent grants heavy-process slot. Current source preparation is not verification.
 
 ## [ ] 2026-10-07 - Publish Fina Calle Discover
-State: VERIFYING; PARENT HEAVY SLOT GRANTED
+State: LOCAL CHECKS PASS; RELEASE PENDING
 Authority: Anthony explicitly requested publication under Fina Calle at 16:07 UTC: Set a / under fina calle and publish it please make sure all of the code works and we will give it the image direction latter.
 Scope: canonical /discover, /demo/discover permanent redirect, no visual redesign, existing fictional/noindex/browser-only demo boundaries. Test state/navigation/filter/map/city/offer/passport/persistence/reset/mobile behavior, push feature branch, open PR, exact-head CI, merge and verify canonical production route.
-Base reconciliation: current origin/main 055bce6 is already an ancestor of prototype commit f5a2f3a. Recheck main before merge.
+Base reconciliation: merged origin/main aee13503 (published Project Seed PR315); preserved both append-only records. Seed runtime matches main. Recheck main before merge.
 PASS: local targeted tests/lint/type/build and mobile/desktop flows pass; exact PR head CI passes; merge and production deployment map to verified commit; canonical /discover and old-route redirect work with demo/noindex metadata.
 STOP: no builds or browser before parent grants heavy slot. No spending, credentials, new services/accounts or security changes; do not bypass approval rejection.
 
