@@ -23,7 +23,7 @@ const artBase = "/assets/project-seed/seed-rush";
 const seedTheme = {
   "--venue-ink": "#f8f2e8", "--venue-muted": "#c9bfd2", "--venue-line": "#54405f",
   "--venue-surface": "#24172f", "--venue-accent": "#e4c6ef", "--venue-heading": "#f8f2e8", "--venue-hover": "#ffffff",
-  "--venue-shadow": "transparent", "--venue-soft": "#382543",
+  "--venue-shadow": "#54405f", "--venue-soft": "#382543",
 } as CSSProperties;
 const seedSections: VenueMenuNavSection[] = [
   { id: "october-lattes", label: "October" },
@@ -38,17 +38,35 @@ function SeedBrand() {
   </div>;
 }
 
-function SeedRushLink() {
-  return <a className={seedStyles.playLink} href="/play/project-seed" aria-label="Play Seed Rush, three rounds">Play Seed Rush <span aria-hidden="true">→</span></a>;
+function SeedRushLink({ floating = false }: { floating?: boolean }) {
+  return <a className={`${floating ? styles.floatingPlay : styles.teaserPlay} ${seedStyles.seedPlay}`} href="/play/project-seed" aria-label="Play Seed Rush, three rounds" id={floating ? "seed-floating-play" : undefined}>
+    <span className={seedStyles.playMark} aria-hidden="true"><Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="" width={36} height={36} sizes="36px" /></span>
+    <span className={styles.vibraCopy}><strong>PLAY SEED RUSH</strong><small>THREE FAST ROUNDS</small></span>
+    <span className={styles.vibraArrow} aria-hidden="true">→</span>
+  </a>;
 }
 
 function SeedFeatured({ launched }: { launched: boolean }) {
-  return <section id="seed-picks" className={seedStyles.featured} aria-labelledby="seed-picks-title">
-    <h2 id="seed-picks-title">Coffee.<br />The Seed way.</h2>
-    <figure className={seedStyles.heroProduct}>
-      <Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 150px, 260px" priority />
-      <figcaption>Buko Pandan Latte</figcaption>
-    </figure>
+  const products = [
+    { image: "buko-pandan-latte-v1.webp", label: "Buko Pandan Latte" },
+    { image: "dark-iced-coffee-v1.webp", label: "Iced coffee" },
+    { image: "sugar-custard-swirl-pastry-v1.webp", label: "Custard pastry" },
+  ];
+  return <section id="seed-picks" className={`${styles.fallSessions} ${seedStyles.featured}`} aria-labelledby="seed-picks-title">
+    <div className={styles.fallSleeve}>
+      <Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 190px, 300px" priority />
+      <div className={styles.fallTitle}><h2 id="seed-picks-title">Coffee.<br />The Seed way.</h2></div>
+    </div>
+    <div className={styles.fallLineup}>
+      <ul className={styles.fallTracks}>{products.map((product) => <li key={product.image}>
+        <Image src={`${artBase}/${product.image}`} alt="" width={112} height={112} sizes="(max-width: 700px) 68px, 80px" />
+        <h3>{product.label}</h3>
+      </li>)}</ul>
+      <figure className={styles.greenFeature}>
+        <Image src={`${artBase}/borahae-latte-v1.webp`} alt="Borahae Latte" width={256} height={256} sizes="(max-width: 700px) 160px, 240px" />
+        <figcaption className={seedStyles.productCaption}>Borahae Latte</figcaption>
+      </figure>
+    </div>
     <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Explore the seasonal menu <span aria-hidden="true">↘</span></a></div>
   </section>;
 }
@@ -58,14 +76,15 @@ export default function ProjectSeedMenuPage() {
   return <div className={`${seedStyles.seedPage} ${seedDisplay.variable} ${foamStyles.foamTitles}`}><VenueMenuLayout
     brandName="Project Seed Coffee"
     brand={<SeedBrand />}
-    nav={<VenueMenuNav sections={seedSections} floatingAction={null} />}
+    nav={<VenueMenuNav sections={seedSections} floatingAction={<SeedRushLink floating />} />}
     featured={<SeedFeatured launched={octoberLive} />}
     skipHref="#october-lattes" skipLabel="Skip to October menu" previewLabel="Concept preview · Pending approval" theme={seedTheme}
     menu={<div className={seedStyles.menuSections}>
       {octoberMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
-      {seedMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
+      {seedMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} art={group.id === "signature" ? `${artBase}/buko-pandan-latte-v1.webp` : group.id === "coffee" ? `${artBase}/dark-iced-coffee-v1.webp` : undefined} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
     </div>}
     game={<section className={`${styles.sessionsTeaser} ${seedStyles.gameTeaser}`} aria-labelledby="seed-rush-title">
+      <Image src={`${artBase}/sugar-custard-swirl-pastry-v1.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
       <div><h2 id="seed-rush-title">Seed Rush</h2><p>Coffee, pastries, and three fast rounds. Catch your favorites. Avoid the Aswang.</p></div>
       <SeedRushLink />
     </section>}
