@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-21 -21 42 42" fill="#ad803a">
+  <!-- Decorative sun detail adapted from the existing public-domain Philippine flag. -->
+  <circle r="9"/>
+  <defs><path id="ray" d="m0 0-3.164-15.909.945-.946zl-1.169-17.831L0-19l1.169 1.169zl2.219-16.855.945.946z"/></defs>
+  <use href="#ray"/><use href="#ray" transform="rotate(45)"/><use href="#ray" transform="rotate(90)"/><use href="#ray" transform="rotate(135)"/><use href="#ray" transform="rotate(180)"/><use href="#ray" transform="rotate(225)"/><use href="#ray" transform="rotate(270)"/><use href="#ray" transform="rotate(315)"/>
+</svg>

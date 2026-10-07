@@ -1,19 +1,28 @@
-.brandLogo { display: block; width: 138px; height: auto; margin: auto; border-radius: 50%; }
+/* Seed-only identity: natural woven material and the supplied flag's sun. */
+.seedPage { --seed-weave: url('/assets/project-seed/brand/woven-trim.svg'); }
+.seedPage > main { border-top: 5px solid #9f1c2b; }
+.brandStage { padding-block: 12px 2px; }
+.brandLogo { display: block; width: 150px; height: auto; margin: auto; border-radius: 50%; }
 .heritage { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 8px; color: #675852; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .heritage img { display: block; width: 36px; height: 18px; }
-.octoberSleeve { overflow: hidden; border-top: 6px solid #731926; background: #9f1c2b; }
-.octoberSleeve > img { object-position: 91% center; padding: 22px 0; }
-.octoberSleeve > div { max-width: 53%; left: 24px; }
-.octoberSleeve h2 { color: #fff; font-weight: 650; font-size: clamp(29px, 4.8vw, 52px); letter-spacing: -.045em; }
+.octoberSleeve { overflow: hidden; background: #f4e8d5; border-block: 1px solid #dfc9b8; }
+.octoberSleeve::before { content: ''; position: absolute; z-index: -1; inset: 0 0 0 57%; background: var(--seed-weave); background-size: 32px; opacity: .45; mask-image: linear-gradient(90deg, transparent, #000 30%); }
+.octoberSleeve::after { content: ''; position: absolute; top: 26px; left: 30px; width: 32px; height: 32px; background: url('/assets/project-seed/brand/philippine-sun-detail.svg') center / contain no-repeat; pointer-events: none; }
+.octoberSleeve > img { object-position: 94% center; padding: 24px 0; }
+.octoberSleeve > div { max-width: 54%; left: 30px; }
+.octoberSleeve h2 { color: #9f1c2b; font-weight: 650; font-size: clamp(29px, 4.8vw, 52px); letter-spacing: -.045em; }
+.seedMark { background: url('/assets/project-seed/brand/philippine-sun-detail.svg') left center / 29px no-repeat; }
+.seedMark > span { display: none; }
 .seasonalNote { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px; margin-top: 28px; padding: 20px 0; border-top: 1px solid #dfc9b8; border-bottom: 1px solid #dfc9b8; }
 .seasonalNote > span { color: #9f1c2b; font-size: 11px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 .seasonalNote p { flex: 1 1 280px; color: #675852; font-size: 14px; line-height: 1.5; }
 .seasonalNote a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #9f1c2b; font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
 .seasonalNote a:hover { color: #741421; }
 @media (max-width: 699px) {
-  .brandLogo { margin-top: 24px; }
+  .brandLogo { width: 138px; margin-top: 24px; }
   .octoberSleeve > div { left: 18px; }
   .octoberSleeve > img { object-position: right center; padding-block: 35px; }
+  .octoberSleeve::after { top: 14px; left: 18px; width: 24px; height: 24px; }
   .seasonalNote { gap: 4px; }
   .seasonalNote > span, .seasonalNote p { flex-basis: 100%; }
 }

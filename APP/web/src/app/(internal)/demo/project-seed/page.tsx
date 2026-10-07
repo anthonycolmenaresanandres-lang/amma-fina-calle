@@ -30,7 +30,7 @@ const seedSections: VenueMenuNavSection[] = [
 ];
 
 function SeedBrand() {
-  return <div className={styles.sealStage}>
+  return <div className={`${styles.sealStage} ${seedStyles.brandStage}`}>
     <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee circular logo" width={132} height={124} priority />
     <div className={seedStyles.heritage}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={36} height={18} /><span>Virginia Beach</span></div>
   </div>;
@@ -38,7 +38,7 @@ function SeedBrand() {
 
 function SeedRushLink({ floating = false }: { floating?: boolean }) {
   return <a className={floating ? styles.floatingPlay : styles.teaserPlay} href="/play/project-seed" aria-label="Play Seed Rush, three rounds">
-    <span className={styles.vibraMark} aria-hidden="true"><span /><span /><span /><span /><span /></span>
+    <span className={`${styles.vibraMark} ${seedStyles.seedMark}`} aria-hidden="true"><span /><span /><span /><span /><span /></span>
     <span className={styles.vibraCopy}><strong>PLAY SEED RUSH</strong><small>THREE FAST ROUNDS</small></span>
     <span className={styles.vibraArrow} aria-hidden="true">→</span>
   </a>;
@@ -66,7 +66,7 @@ function SeedFeatured({ launched }: { launched: boolean }) {
 
 export default function ProjectSeedMenuPage() {
   const octoberLive = octoberMenuIsLive();
-  return <VenueMenuLayout
+  return <div className={seedStyles.seedPage}><VenueMenuLayout
     brandName="Project Seed Coffee"
     brand={<SeedBrand />}
     nav={<VenueMenuNav sections={seedSections} floatingAction={<SeedRushLink floating />} />}
@@ -99,5 +99,5 @@ export default function ProjectSeedMenuPage() {
       <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com"><span>Powered by</span><FinaCalleSignature /></a>
       <details id="review-notes"><summary>Menu details</summary><p>Concept preview, pending Project Seed approval. Regular menu wording follows the <a href={OFFICIAL_MENU_URL} target="_blank" rel="noreferrer">official menu</a>, checked {MENU_CHECKED}; October wording follows the supplied flyer. Ask staff about prices, availability, preparations, and allergies. Artwork is illustrative.</p></details>
     </>}
-  />;
+  /></div>;
 }
