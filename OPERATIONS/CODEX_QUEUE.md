@@ -1074,3 +1074,8 @@ State: VERIFIED LOCAL, UPDATED PUBLICATION PREVIEW. Anthony requested less wordi
 
 ## [ ] 2026-10-08 - Discover visual publication
 Anthony explicitly approved publishing the reviewed visual revision 454629d4dd897d52f4f131fe136ede0f361702e4 ("Yes please"). Publish only codex/discover-reciprocal-messaging-20261008 through normal PR, successful exact-head checks and existing Vercel Git deployment. Current main remains 8027217; no reconciliation conflicts and no pending Project Seed correction included. Final local checks and production browser verification required. No new services, spending, credentials or real offers.
+
+## [x] 2026-10-08 - Discover legacy terms migration
+Anthony explicitly approved fixing and publishing the diagnosed PR317 legacy-terms gap ("Yes fix all please"). Base main 03461c9; isolated codex/discover-terms-migration-20261008. Add persisted current terms version under the existing browser key; restart only outdated unfinished claims, preserve saved places/destinations and historical stamps. Cover each legacy stage, current reload, prerequisites and duplicate redemption. Retain visual design/demo boundaries and other clients; no Seed/Colattao changes. Normal exact-head PR CI/merge/existing Git deployment, then isolated synthetic Chrome desktop/mobile verification. No personal browser data, new services, accounts, credentials, installations or spending.
+
+State: LOCAL VERIFIED; PUBLICATION AUTHORIZED. Final state/lint/build/types and isolated Chrome desktop/390/320 legacy/current flows pass. Only Discover state/test and coordination records changed. Exact-head CI/merge/live verification pending. Review: DISCOVER_TERMS_MIGRATION_REVIEW_20261008.md.

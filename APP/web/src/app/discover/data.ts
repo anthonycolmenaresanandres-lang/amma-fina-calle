@@ -20,9 +20,11 @@ export const places: Place[] = [
 
 export const DEMO_EXPIRY = "December 31, 2026, 11:59 pm ET";
 export const STORAGE_KEY = "fina-calle-discover-demo-v1";
+// Increment when unfinished claims must acknowledge changed sample terms.
+export const CURRENT_TERMS_VERSION = 1;
 export type ClaimStage = "claimed" | "visited" | "proof" | "redeemed";
-export type DemoState = { saved: string[]; destinations: string[]; claims: Partial<Record<string, ClaimStage>> };
-export const INITIAL_STATE: DemoState = { saved: [], destinations: [], claims: {} };
+export type DemoState = { termsVersion: number; saved: string[]; destinations: string[]; claims: Partial<Record<string, ClaimStage>> };
+export const INITIAL_STATE: DemoState = { termsVersion: CURRENT_TERMS_VERSION, saved: [], destinations: [], claims: {} };
 export const stages: ClaimStage[] = ["claimed", "visited", "proof", "redeemed"];
 
 export function parseState(raw: string | null): DemoState {
@@ -31,9 +33,10 @@ export function parseState(raw: string | null): DemoState {
     const value = JSON.parse(raw);
     const validIds = new Set(places.map(p => p.id));
     return {
+      termsVersion: CURRENT_TERMS_VERSION,
       saved: Array.isArray(value?.saved) ? [...new Set<string>(value.saved.filter((id: unknown) => typeof id === "string" && validIds.has(id)))] : [],
       destinations: Array.isArray(value?.destinations) ? [...new Set<string>(value.destinations.filter((city: unknown) => typeof city === "string" && city.length <= 80))].slice(0, 20) : [],
-      claims: Object.fromEntries(Object.entries(value?.claims && typeof value.claims === "object" ? value.claims : {}).filter((entry): entry is [string, ClaimStage] => validIds.has(entry[0]) && stages.includes(entry[1] as ClaimStage))),
+      claims: Object.fromEntries(Object.entries(value?.claims && typeof value.claims === "object" ? value.claims : {}).filter((entry): entry is [string, ClaimStage] => validIds.has(entry[0]) && stages.includes(entry[1] as ClaimStage) && (entry[1] === "redeemed" || value?.termsVersion === CURRENT_TERMS_VERSION))),
     };
   } catch { return INITIAL_STATE; }
 }
@@ -43,7 +46,7 @@ export function disclosureFor(place: Pick<Place, "name">): string {
 }
 
 export function advanceClaim(state: DemoState, id: string, expectedStage: ClaimStage | undefined, termsAccepted = false, proofAccepted = false): DemoState {
-  if (!places.some(p => p.id === id)) return state;
+  if (state.termsVersion !== CURRENT_TERMS_VERSION || !places.some(p => p.id === id)) return state;
   const stage = state.claims[id];
   if (stage !== expectedStage || stage === "redeemed" || (!stage && !termsAccepted) || (stage === "visited" && !proofAccepted)) return state;
   const next = stage ? stages[Math.min(stages.indexOf(stage) + 1, stages.length - 1)] : stages[0];
