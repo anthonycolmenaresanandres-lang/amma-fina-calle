@@ -195,6 +195,21 @@
 **STOP:** Stop before push, PR, merge and publication pending current menu details and client asset/brand approval.
 **Result:** Built 25 source-backed drink records, a noindex responsive menu concept, stable local redirect, official pre-order/visit links, and a three-round reward-free Seed Rush on the shared tap engine. No business imagery or logo was copied. Source/route checks, scoped ESLint, TypeScript/production build, and 320/390/768/1440 px browser checks passed. Browser verified menu counts/anchors, no overflow, game boot, keyboard scoring, pause/resume, exit, loss/retry, and zero application errors. Local preview remains unpublished; no live QR exists yet.
 
+## [ ] 75 - Seasonal restaurant skins system
+
+**State:** QUEUED — NOT STARTED
+**Authority:** Anthony requested on 2026-09-29: “save this in the file so is not to be lost but put in the que.”
+**Priority:** Planned backlog. Preserve the work for later; this entry does not start implementation or displace active work.
+**Owner:** System lead role; individual assignment pending.
+**Scope:** Reusable seasonal skins for restaurant menus and compatible existing games, with four included catalog themes proposed for Basic, automatic date scheduling, a permanent branded fallback, and a simple owner experience. The full specification contains 13 work orders, FC-SEAS-00 through FC-SEAS-12, the 25-theme catalog, implementation contracts and acceptance criteria.
+**Saved specification:** [Engineering work orders](WORK_ORDERS/SEASONAL_SKINS/Fina_Calle_Seasonal_Engineering_Work_Orders.md).
+**Importable register:** [All 13 work orders as CSV](WORK_ORDERS/SEASONAL_SKINS/Fina_Calle_Seasonal_Work_Order_Register.csv). Import has not been performed; no tickets or people have been assigned.
+**First step when picked up:** FC-SEAS-00, a read-only integration and approved-baseline audit. Reconcile the current status of owner-portal and self-service work (entries 73–74), the central app and the separate Colattao application before choosing an implementation base. Follow the dependency gates in the specification.
+**User-friendly release gates:** Choose → preview and dates → confirm; at least 4 of 5 representative owners complete setup within 3 minutes without help; pause within 2 interactions; mobile, keyboard, readable contrast and reduced-motion support.
+**Boundaries:** Documentation and queue registration only. No seasonal feature implementation, production change, migration, billing or contract change, access grant, customer communication or release is authorized by this queue entry. Existing commercial terms remain unchanged. Four included themes and allowance rules are proposals requiring product review before release.
+**Completion criteria for the future project:** Deliver the work orders in dependency order and pass the integrated release matrix and explicit release approval gate. Do not mark this project complete merely because these files are saved.
+**Next action:** Assign FC-SEAS-00 when the team chooses to start this backlog item.
+
 ## [x] 74 - Begin Fina Calle self-service foundation
 
 **State:** PHASE 0 COMPLETE LOCALLY — READY FOR REVIEW; PHASE 1 NOT STARTED
