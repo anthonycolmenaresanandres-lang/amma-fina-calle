@@ -2,12 +2,12 @@
 .page button,.page input,.page select { font:inherit; }
 .page button { cursor:pointer; }
 .page button:disabled { cursor:not-allowed; opacity:.55; }
-.page button,.page a,.page input,.page select { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+.page button,.page a,.page input,.page select,.page summary { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
 .page button:hover { filter:brightness(.95); }
 .page a:hover { text-decoration:underline; }
 .page h1,.page h2,.page h3,.destinations li>span { overflow-wrap:anywhere; }
 .cityInput:focus-within,.search:focus-within { outline:2px solid var(--blue); outline-offset:3px; }
-.page :is(button,a,input,select):focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
+.page :is(button,a,input,select,summary):focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
 .page h1,.page h2,.page h3,.page p { margin:0; }
 .page h1 { font-family:Impact,"Arial Narrow",sans-serif; font-size:clamp(58px,7.7vw,108px); font-weight:400; line-height:.98; letter-spacing:-.025em; text-wrap:balance; }
 .page h1 em { color:var(--blue); font-style:normal; }
@@ -44,6 +44,16 @@
 .teaserStamps span { width:66px; height:66px; border:1.5px dashed #7185ba; border-radius:50%; display:grid; place-items:center; color:var(--blue); }
 .teaserStamps span:nth-child(2) { transform:rotate(-12deg); }
 .passportTeaser>small { font-size:11px; color:var(--muted); }
+.exchange { display:grid; grid-template-columns:1fr 1fr; gap:70px; padding:30px 0 35px; border-top:1px solid var(--line); }
+.exchange>div { min-width:0; }
+.exchange .eyebrow { margin-bottom:12px !important; }
+.exchange h2 { font-size:28px; }
+.exchange p:not(.eyebrow) { margin-top:14px; max-width:470px; font-size:13px; color:var(--muted); }
+.pathLink { display:inline-flex; align-items:center; gap:9px; color:var(--blue); font-size:12px !important; font-weight:550; min-height:44px; padding:8px 0; margin-top:8px; border:0; background:none; text-align:left; text-decoration:none; }
+.businessPath summary { color:var(--blue); font-size:12px; font-weight:550; min-height:44px; padding:14px 0 8px; cursor:pointer; }
+.businessPath summary:hover { text-decoration:underline; }
+.exchange p,.terms dd { overflow-wrap:anywhere; }
+.page :is(h1,h2) { scroll-margin-top:24px; }
 .cityBar { display:flex; align-items:end; justify-content:space-between; gap:25px; padding:26px 0; border-block:1px solid var(--line); }
 .cityBar form { width:min(480px,100%); }
 .cityBar label { display:block; margin-bottom:9px; font-size:12px; font-weight:600; }
@@ -201,6 +211,7 @@
  .hero { display:block; padding:30px 0; } .hero h1 { font-size:78px; } .eyebrow { font-size:9px; } .lede { font-size:14px; margin-top:18px !important; }
  .passportTeaser { display:block; transform:none; box-shadow:5px 6px 0 #dce3f1; padding:20px 24px; width:100%; margin-top:28px; }
  .teaserTop { margin-bottom:15px; } .passportTeaser>strong { font-size:24px; } .teaserStamps { position:absolute; right:22px; top:56px; gap:7px; margin:0; } .teaserStamps span { width:37px; height:37px; } .teaserStamps svg { width:20px; } .passportTeaser>small { display:block; margin-top:14px; font-size:10px; }
+ .exchange { grid-template-columns:1fr; gap:27px; padding:25px 0 28px; } .exchange h2 { font-size:25px; }
  .cityBar { display:block; padding:23px 0 17px; } .cityActions { flex-direction:row; justify-content:space-between; align-items:center; margin-top:9px; } .cityActions>span,.cityActions button { font-size:10px; }
  .discovery { padding:30px 0 40px; } .sectionHead { align-items:center; } .sectionHead h2 { font-size:23px; } .sectionHead .eyebrow { font-size:8px; max-width:200px; line-height:1.7; } .viewToggle button { padding:8px 9px; gap:4px; font-size:10px; } .viewToggle svg { width:14px; }
  .categories { flex-wrap:nowrap; overflow:auto; margin-right:-5.6%; padding:2px 5% 8px 2px; margin-top:22px; margin-bottom:15px; gap:7px; } .categories button { font-size:11px; padding:10px 13px; }
