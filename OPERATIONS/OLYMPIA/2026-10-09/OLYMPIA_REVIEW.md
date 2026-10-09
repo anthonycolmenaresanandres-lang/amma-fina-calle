@@ -57,3 +57,6 @@ Confirm exact business identity/address/contact; authorize current logo and bran
 See `OLYMPIA_VERIFICATION.md` for final passed checks, browser evidence and remaining limitations.
 
 **Preview process lifetime:** Delegated command processes may end after a task finishes. If the retained browser tab reports connection refused, restart the local preview using the command above. Retaining a tab does not keep the server alive. See OLYMPIA_TIMER_DIAGNOSIS.md for the timer investigation and remaining short foreground-window test.
+
+## Latest revision: partial campus preparation
+The Chopped / Cheese campus presentation source supersedes the first hero. Exact proposed wording: Proudly serving the CNU community, approved by Anthony as an assumption for private presentation; no independent customer-history claim. Original Olympia-only collegiate treatment, no university logos/mascot/badge. See OLYMPIA_CAMPUS_PREPARATION.md: image downloads all blocked by HTTP 403, and no browser available for current layout/captures. The requested photo-led revision is incomplete. Original Library screenshots remain historical and do not show the current campus source. Standard game and timer evidence remain unchanged.
