@@ -25,8 +25,8 @@ Used the user's installed Chrome through the computer-use browser tools, not a h
 
 ## Remaining / inconclusive checks
 
-- Timed round completion, final win/loss/result focus, Play again and Next round were not conclusively observed. This Chrome automation session throttled progression between tool actions; a bounded result wait did not reach the round-end screen. Manual uninterrupted active-tab gameplay is still required. This is a verification limitation, not a confirmed runtime defect.
-- Pointer/touch catches were inconclusive: attempts against moving items did not establish a successful catch. Keyboard catch is confirmed. Test on a physical phone before publication.
+- Timed round completion, final win/loss/result focus, Play again and Next round were not conclusively observed. This Chrome automation session throttled progression between tool actions; a bounded result wait did not reach the round-end screen. Follow-up measured an untouched 48-second interval (18:25:08-18:25:56 UTC) during which the unchanged 45-second round advanced only 45s -> 44s. No clocks were shortened or manipulated. Available Chrome controls have no foreground-window/visibility control; native app APIs are disabled. Manual uninterrupted active-tab gameplay is still required. This is a verification limitation, not a confirmed runtime defect.
+- Follow-up mouse/pointer catches PASSED at a 390 x 844 viewport: trusted mouse events scored 0 -> 10 -> 25 with observational diagnostics, then 0 -> 15 after restoring/reloading the exact committed source. This is mouse input at phone dimensions, not touch. The exposed browser API has no touch/touch-emulation method and no physical phone is controlled. Touch remains unverified. See OLYMPIA_GAME_QA_FOLLOWUP.md.
 - Physical phone/tablet performance, touch precision, screen-reader usability and forced reduced-motion behavior are unverified. Reduced-motion wiring was inspected, but the preference was not changed in the user's browser.
 - Asset-enhanced game fallback is not applicable: this skin deliberately has no enhanced asset path.
 - Full repository lint and unrelated client end-to-end flows were not rerun. Targeted lint, whole-app type/build checks and preservation/source review were used for this additive scope.
@@ -40,6 +40,7 @@ Screenshots are browser captures of the local review route. The sandwich/juice a
 | Desktop menu | `evidence/olympia-desktop.jpg` | `libfile_2c57afef65b48191b46d13eff0a5587a` | 0 |
 | Phone menu | `evidence/olympia-mobile.jpg` | `libfile_81a04afd01608191a5f728c8a02fed03` | 0 |
 | Phone game paused, round 3 | `evidence/olympia-game-mobile.jpg` | `libfile_1c1e955e8e54819190005002de290104` | 0 |
+| Mouse catch at phone dimensions, score 10 | `evidence/olympia-mouse-catch.jpg` | `libfile_b021bd5e4fac81919db1d9f5e61b2266` | 0 |
 
 Exact successful create receipts are retained in `evidence/library-receipts.json`. The prepared batch helper failed before any upload with `hosted apps tools/list request failed: network`; direct single-file host uploads then succeeded for all three images. The returned Windows extended attributes could not be applied: the current helper uses `os.setxattr`, unavailable on Windows. Receipt identity is preserved in JSON; image persistence is confirmed by successful Library results. No attachment IDs were invented.
 
@@ -48,3 +49,5 @@ Exact successful create receipts are retained in `evidence/library-receipts.json
 Only new Olympia runtime/assets/tests, these review/evidence documents and isolated branch coordination records changed. The canonical checkout's unrelated modified queue/log and untracked Bodega folder remain untouched. Worktree registration in the app is unsupported for this delegated task, but the standard Git worktree and branch are usable.
 
 Local preview: `http://127.0.0.1:3119/olympia`; game: `http://127.0.0.1:3119/olympia/play`. Restart instructions and owner-content requirements are in `OLYMPIA_REVIEW.md`. No push, PR, merge, deployment, live-data write, commercial change, spending or business contact occurred.
+
+Follow-up: three restarts and three round-specific menu/game navigation cycles passed on the restored source; scoped lint/self-test rerun passed and APP/web diff is empty. Details, coordinate/event proof, exact timer/touch limits and new receipt are in OLYMPIA_GAME_QA_FOLLOWUP.md.
