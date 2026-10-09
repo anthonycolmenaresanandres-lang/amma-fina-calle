@@ -50,9 +50,12 @@ Transient development check: initial page request returned500 with Tailwind/CSS-
 
 Source accessibility review against fresh Web Interface Guidelines:
 
-`APP/web/src/app/olympia/page.tsx:1` - pass: semantic links/headings, skip target, explicit images/caption/dimensions, decorative art/initial hidden, contact semantics, native disclosure.  
-`APP/web/src/app/olympia/olympia.module.css:1` - pass source: min-width/grid controls, >=44px controls, anchor margins, visible focus, no new animation/transitions; responsive media rules. Rendered overflow/focus contrast pending browser.  
-`APP/web/src/app/olympia/play/OlympiaGame.tsx:104` - chooser-only presentation change; existing keyboard catch/pause/resume/exit, status announcements and reduced-motion input preserved.  
+`APP/web/src/app/olympia/page.tsx:1` - pass: semantic links/headings, skip target, explicit images/caption/dimensions, decorative art/initial hidden, contact semantics, native disclosure.
+
+`APP/web/src/app/olympia/olympia.module.css:1` - pass source: min-width/grid controls, >=44px controls, anchor margins, visible focus, no new animation/transitions; responsive media rules. Rendered overflow/focus contrast pending browser.
+
+`APP/web/src/app/olympia/play/OlympiaGame.tsx:104` - chooser-only presentation change; existing keyboard catch/pause/resume/exit, status announcements and reduced-motion input preserved.
+
 `APP/web/src/app/olympia/play/play.module.css:20` - open chooser controls, hover/focus, existing active arena/HUD unchanged.
 
 ## Blocked acceptance and delivery
