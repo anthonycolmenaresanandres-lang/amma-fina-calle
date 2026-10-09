@@ -102,8 +102,7 @@ export default function OlympiaGame() {
           </div>
           <p className={styles.announcement} aria-live="polite">{error ? "Game loading failed. Try again." : status.over ? `Round complete. ${status.score} points.` : paused ? "Game paused." : loading ? "Loading game." : `Playing round ${activeRound.levelNumber}.`}</p>
         </> : <>
-          <p className={styles.lead}>Catch the fresh stuff.<br />Let the spills pass.</p>
-          <div className={styles.lineup} aria-hidden="true"><Image src="/assets/olympia/deli-juice-concept.svg" alt="" width={680} height={620} unoptimized /></div>
+          <p className={styles.lead}>Catch juice. Skip spills.</p>
           <p className={styles.instructions}>Tap to catch. Arrow keys to choose, Space or Enter to catch. Three rounds, each a little faster.</p>
           <div className={styles.rounds}>{olympiaRounds.map((round, index) => <button type="button" key={round.id} onClick={() => begin(index)}><span className={styles.eyebrow}>Round {round.levelNumber} · {round.rules.durationSec}s</span><strong>{round.levelName}</strong><span>Target {round.rules.targetScore} points <span aria-hidden="true">↗</span></span></button>)}</div>
         </>}
