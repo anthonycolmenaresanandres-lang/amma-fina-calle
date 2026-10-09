@@ -55,3 +55,5 @@ Confirm exact business identity/address/contact; authorize current logo and bran
 ## Verification
 
 See `OLYMPIA_VERIFICATION.md` for final passed checks, browser evidence and remaining limitations.
+
+**Preview process lifetime:** Delegated command processes may end after a task finishes. If the retained browser tab reports connection refused, restart the local preview using the command above. Retaining a tab does not keep the server alive. See OLYMPIA_TIMER_DIAGNOSIS.md for the timer investigation and remaining short foreground-window test.

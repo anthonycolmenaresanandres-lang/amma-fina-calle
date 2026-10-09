@@ -1086,3 +1086,5 @@ State: LOCAL IMPLEMENTED, REVIEWABLE. Additive localhost-only /olympia menu and 
 STOP: no push, PR, merge, deploy, live-data changes, integrations, spending, commercial changes or business contact. Prospect only; publication requires separate approval.
 
 **Olympia game QA follow-up:** Mouse catches now confirmed on exact committed runtime at phone dimensions; three restarts/three round navigation cycles and rerun lint/self-test pass. No runtime change. Normal-clock result remains blocked by measured controlled-Chrome throttling (48s real -> 1s game); touch APIs/physical phone unavailable. OLYMPIA_GAME_QA_FOLLOWUP.md documents exact limits and verified Library pointer screenshot. Local only.
+
+**Olympia timer diagnosis:** Independent native RAF and Phaser trace quantitatively establish ~1Hz browser callbacks plus standard delta smoothing, with scene active/unpaused/timeScale1 and no test-clock override. Runtime unchanged after temporary passive observation. Normal foreground-window 45s result/replay path remains the minimal manual check. See OLYMPIA_TIMER_DIAGNOSIS.md and its raw evidence; preview restart instructions clarified. Local only.
