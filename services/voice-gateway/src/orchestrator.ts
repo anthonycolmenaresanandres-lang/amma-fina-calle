@@ -136,7 +136,7 @@ export async function finalizeCall(callId: string): Promise<void> {
   store.markHangupIfRecentBargeIn(callId);
   store.audit("call", callId, "call.summary", undefined, summary);
   // An unavailable historical tenant must not notify another tenant's destination.
-  if (summary.outcome === "missed" && tenant) {
+  if (summary.outcome === "missed" && tenant && tenant.privacy?.missedCallFollowup !== false) {
     await notifyAndRecord(tenant, callId, "call", callId, "missed_call",
       "Call at " + tenant.business.name + " ended without a recorded booking, message, or response audio after caller speech" +
       (call.fromPhone ? " (from " + call.fromPhone + ")" : "") + " - review if follow-up is appropriate.",

@@ -2,6 +2,7 @@
 // and the JSON frames we send back to play audio / clear the buffer (barge-in).
 
 import { config } from "./config";
+import { retainedCallerId, type VoicePrivacy } from "./voicePrivacy";
 
 // The tenant is resolved from the dialled number at /twiml and carried into the Media
 // Stream as <Parameter>s, which surface in the stream's `start` event as
@@ -11,7 +12,8 @@ function xmlEscape(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-export function connectStreamTwiML(tenantId: string, fromNumber = ""): string {
+export function connectStreamTwiML(tenantId: string, fromNumber = "", privacy?: VoicePrivacy): string {
+  fromNumber = retainedCallerId(fromNumber, privacy) ?? "";
   const wss = `wss://${config.publicHost}/media`;
   const fromParam = fromNumber ? `\n      <Parameter name="from" value="${xmlEscape(fromNumber)}" />` : "";
   return `<?xml version="1.0" encoding="UTF-8"?>
