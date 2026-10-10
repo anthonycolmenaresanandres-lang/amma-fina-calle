@@ -3,7 +3,7 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-10 (morning check-in, `claude-opus-4-8`). **Headline: quiet, healthy run — nothing changed since the 2026-10-09 evening check-in; zero failing workflows across all four repos; no caretaker fix needed and nothing newly needs Anthony.** Re-verified live this run: **amma `main` unchanged at `4b9aba7`** (#318, Anthony's own; latest `CI — web` **#345 ✅**) — no new commits since 10-08 12:24 UTC; **nothing merged, closed, or opened since the last run** (most recent closed PR is still #318). `CI — voice-gateway` **#23 ✅** (unchanged — no voice-gateway code). **vbfh `master` unchanged at `75f9668`** (build `CI` **#35 ✅**); the "VBFH Daily Run" stays `activation held` — workflow state `active` but **manual `workflow_dispatch` only** (`schedule:` trigger commented out), so **#121 (10-01, green) remains the last automatic run and no #122 auto-fires by design** (latest Daily-Run result = success). **Supabase migration set UNCHANGED** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302’s `/customers/maracaibo-tables` game-seat surface unchanged, still flagged (owner merge → never reverted). Default branches re-verified live: amma **`4b9aba7`**, vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all author-held, none changed since last run; all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony’s approval (open draft heads excluded; never deleted unprompted).
+**Last updated:** 2026-10-10 (evening check-in, `claude-opus-4-8`). **Headline: healthy run — one of Anthony's own guardrail-clean merges (#319) landed since the morning check-in; zero failing workflows across all four repos; no caretaker fix needed and nothing newly needs Anthony.** Re-verified live this run: **amma `main` advanced `4b9aba7`→`55e3fc7`** via Anthony's own **#319** "Publish isolated Pocket Café demo with corrected Colattao models" (latest `CI — web` **#348 ✅**, merged 10-10 18:52 UTC). **Caretaker guardrail read:** #319 publishes the owner-approved **standalone `/demo/pocket-cafe`** demo — diff touches only `APP/web/public/*` (the generated demo bundle), `APP/web/docs/*`, and `eslint.config.mjs` (excludes the generated bundle from source lint); **no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets** → **Anthony's own, recorded, no caretaker action.** _(Its pre-merge PR run #346 failed on a lint error over the generated bundle; #319 fixed it via the eslint exclusion and merged green at #347→#348.)_ `CI — voice-gateway` **#23 ✅** (unchanged — no voice-gateway code). **vbfh `master` unchanged at `75f9668`** (build `CI` **#35 ✅**); the "VBFH Daily Run" stays `activation held` — workflow state `active` but **manual `workflow_dispatch` only** (`schedule:` trigger commented out), so **#121 (10-01, green) remains the last automatic run and no #122 auto-fires by design** (latest Daily-Run result = success). **Supabase migration set UNCHANGED** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302’s `/customers/maracaibo-tables` game-seat surface unchanged, still flagged (owner merge → never reverted). Default branches re-verified live: amma **`55e3fc7`** (#319), vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37` (unchanged). **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all author-held, none changed since last run; all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony’s approval (open draft heads excluded; never deleted unprompted).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -140,14 +140,14 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ---
 
-## Build health (as of 2026-10-10, morning)
+## Build health (as of 2026-10-10, evening)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run jobs/steps, commit file-lists, and
 > default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`4b9aba7`** ("Re-gate unfinished Discover claims when sample terms change (#318)," 10-08 12:24 UTC; **Anthony's own merge**, `CI — web` **#345 ✅**). **This cycle** `8027217e`→`4b9aba7` via **TWO of Anthony's own merges** (both `CI — web` green): **#317** "Make Discover's perk, post and passport exchange visual" (`#343 ✅`) + **#318** (`#345 ✅`). **Caretaker view: both are Anthony's own merges and guardrail-clean — they touch only the additive public `/discover` route (`APP/web/src/app/discover/*`), its `discover-demo-selftest.ts`, and `OPERATIONS/*.md` docs; no `/m/[id]`, no `/owner/[id]`, no `/customers`, no Supabase, no Stripe/Square/POS, no secrets.** **Anthony's own → no caretaker action; recorded.** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`55e3fc7`** ("Publish isolated Pocket Cafe demo with corrected Colattao models (#319)," 10-10 18:52 UTC; **Anthony's own merge**, `CI — web` **#348 ✅**). **This cycle** `4b9aba7`→`55e3fc7` via Anthony's own **#319**. **Caretaker guardrail read: guardrail-clean — the diff touches only `APP/web/public/*` (the generated standalone `/demo/pocket-cafe` bundle), `APP/web/docs/*`, and `eslint.config.mjs` (excludes the generated bundle from source lint); no `/m/[id]`, no `/owner/[id]`, no `/customers`, no Supabase, no Stripe/Square/POS, no secrets.** Owner-approved demo visuals (Colattao café/product models — non-human product art, primitive fallback unaffected). **Anthony's own → no caretaker action; recorded.** _(Pre-merge PR run #346 failed on a lint error over the generated bundle; #319 resolved it via the eslint exclusion and merged green at #347→#348.)_ **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30); zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
@@ -179,11 +179,16 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ## Merged / closed since last run
 
-**Nothing merged, closed, or opened since the 2026-10-09 evening check-in — amma `main` unchanged at `4b9aba7` (#318); vbfh `75f9668`, shadow `5113ce5`, EscapeTheBomb `eee6a37` all unchanged; no new review comments; the eight open amma drafts are unchanged.** Most recent closed PR remains #318 (10-08). **Earlier, since the 10-07 evening run, amma `main` advanced `8027217e`→`4b9aba7` via TWO of Anthony's own merges #317/#318**
-(`CI — web` #343/#345 ✅). vbfh `master` unchanged at `75f9668`; shadow `5113ce5` / EscapeTheBomb `eee6a37`
-unchanged. Nothing closed unmerged; **no new actionable human review comments** anywhere (#317/#318 carry only Vercel
-deploy previews + the Codex-review bot; all author-approved and merged). Prior merges #294→#316 retained below.
+**Since the 2026-10-10 morning check-in, one PR merged — Anthony's own #319 — advancing amma `main` `4b9aba7`→`55e3fc7`.** vbfh `75f9668`, shadow `5113ce5`, EscapeTheBomb `eee6a37` all unchanged; no new review comments; the eight open amma drafts are unchanged. Nothing closed unmerged. Prior merges #294→#318 retained below.
 
+- **amma #319 — "Publish isolated Pocket Café demo with corrected Colattao models."** Merged 10-10 18:52 UTC (`55e3fc7`),
+  `CI — web` **#348 ✅**. Publishes the owner-approved **standalone `/demo/pocket-cafe`** demo with corrected volumetric
+  Colattao assets, standalone demo labels + attribution, and a broader-reuse caveat; existing live Fall Colattao and the
+  private original archives untouched. Diff touches only `APP/web/public/*` (generated demo bundle), `APP/web/docs/*`, and
+  `eslint.config.mjs` (excludes the generated bundle from source lint — the fix for the pre-merge lint failure #346).
+  **Additive standalone demo — no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets; game
+  art is non-human Colattao café/product models, primitive fallback unaffected.** **Anthony's own merge → no caretaker
+  action; recorded.**
 - **amma #318 — "Re-gate unfinished Discover claims when sample terms change."** Merged 10-08 12:24 UTC (`4b9aba7`),
   `CI — web` **#345 ✅**. Re-gates unfinished Discover claims in the demo self-test + `/discover/data.ts` when the
   sample terms change, plus queue/handoff docs and a migration-review note (82 lines: `discover/data.ts`,
@@ -417,6 +422,26 @@ git -C vbfh-media-engine push origin --delete \
 ```
 
 ## Run log
+
+- **2026-10-10 (evening check-in, `claude-opus-4-8`):** **🟢 Healthy run — one of Anthony's own guardrail-clean
+  merges (#319) landed since the morning check-in; zero failing workflow runs across all four repos; no caretaker fix
+  needed and nothing newly needs Anthony.** **amma `main` advanced `4b9aba7`→`55e3fc7`** via Anthony's own **#319**
+  "Publish isolated Pocket Café demo with corrected Colattao models" (`CI — web` **#348 ✅**, merged 10-10 18:52 UTC).
+  **Caretaker guardrail read:** #319 publishes the owner-approved **standalone `/demo/pocket-cafe`** demo — diff touches
+  only `APP/web/public/*` (generated demo bundle), `APP/web/docs/*`, and `eslint.config.mjs` (excludes the generated
+  bundle from source lint); none touch `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets;
+  game art is non-human Colattao café/product models → **Anthony's own, recorded, no caretaker action.** _(Its pre-merge
+  PR run #346 failed on a lint error over the generated bundle; #319 fixed it via the eslint exclusion and merged green
+  at #347→#348 — no live failure outstanding.)_ `CI — voice-gateway` **#23 ✅** unchanged (no voice-gateway code).
+  **vbfh** `master` `75f9668` unchanged, build `CI` **#35 ✅**; **VBFH Daily Run #121 (10-01) remains the last run —
+  `activation held`, `workflow_dispatch`-only, no auto #122 by design** (latest Daily-Run result = success). shadow
+  `5113ce5` / EscapeTheBomb `eee6a37` unchanged (no CI workflows, 0 runs). Eight open drafts
+  (#277/#259/#238/#225/#221/#219/#218/#197) all author-held, unchanged, all Vercel ✅; **no new human review comments**;
+  nothing closed unmerged; no merge-conflict/base-branch notices; GitHub API healthy all run. **Migration set
+  UNCHANGED** `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for
+  Anthony; #302's `/customers/maracaibo-tables` game-seat surface unchanged, still flagged. #218 governance question
+  open; #29 closed (07-18). Branch cleanup still awaiting Anthony's approval (never deleted unprompted). Push
+  notification + email sent.
 
 - **2026-10-10 (morning check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing changed since the
   2026-10-09 evening check-in; zero failing workflow runs across all four repos; no caretaker fix needed and nothing
