@@ -29,14 +29,16 @@ export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unkno
   const instructions = tenant.instructions
     ? [tenant.instructions, tenant.knowledge].filter(Boolean).join("\n\n")
     : systemInstructions(b.name, b.kind, b.hours, tenant.language);
-  const advertisedTools = tenant.tools?.length
+  const advertisedTools = tenant.tools !== undefined
     ? tools.filter((t) => tenant.tools!.includes(t.name))
     : tools;
   return {
     type: "session.update",
     session: {
       type: "realtime",
-      instructions: instructions + "\n\n" + handoffInstructions(Boolean(tenant.notify?.staffWebhookUrl?.trim())),
+      instructions: instructions + "\n\n" + (tenant.tools?.length === 0
+        ? "Esta demostración es solo informativa: no registra mensajes, no notifica al restaurante y no promete seguimiento."
+        : handoffInstructions(Boolean(tenant.notify?.staffWebhookUrl?.trim()))),
       output_modalities: ["audio"],
       audio: {
         input: {

@@ -146,6 +146,12 @@ export async function finalizeCall(callId: string): Promise<void> {
 
 /** Single dispatch used by the realtime engine + the simulator. Returns a string for the model. */
 export async function runTool(tenant: Tenant, callId: string, name: string, args: Record<string, unknown>): Promise<string> {
+  // Enforce tenant capability limits even if the model emits an unadvertised function call.
+  if (tenant.tools !== undefined && !tenant.tools.includes(name)) {
+    return tenant.language === "Spanish"
+      ? "Esta demostración es solo informativa; no puede gestionar esa solicitud. Consulta el sitio o teléfono oficial del restaurante."
+      : "That tool is not available for this tenant.";
+  }
   try {
     if (name === "list_services") {
       const s = await connectorFor(tenant).listServices();
