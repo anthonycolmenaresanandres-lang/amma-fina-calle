@@ -3368,3 +3368,9 @@ Supersedes 574eafe preview with a CSS/lucide perk-post-demo-stamp visual route, 
 2026-10-08 IN Discover legacy terms migration: explicit fix/publication approval. Restart outdated unfinished browser claims while retaining saves/destinations/earned demo stamps; version new progress, add focused regressions, normal release gates and isolated Chrome verification. Main 03461c9; other client runtime unchanged.
 
 2026-10-08 OUT Discover migration local verification: missing/outdated unfinished claims restart under persisted terms version; bookmarks/destinations/historical stamps retained, current reload/gates/duplicate redemption covered. Final state/lint/Webpack build/types and isolated Chrome 1440/390/320 flows PASS; owned browser/preview stopped. No visual/client changes. Explicit publication authorized; exact-head PR CI and production evidence follow.
+
+## 2026-10-10 IN — Pocket Café isolated Fina Calle demo
+Anthony directly authorized local demo integration. Isolated branch from cached origin/main 4b9aba7; original archives and all live client gameplay left intact. Route /demo/pocket-cafe; no database, rewards, credentials, production changes or publication. Required repo visual/game guidance read; existing Colattao skin reused without Phaser migration.
+
+
+2026-10-10 OUT local Pocket Cafe preparation: isolated route, local assets/notices/provenance and QA limits documented. Self-test/lint/types/dev HTTP passed; browser steering/growth/320px unverified. Anthony explicitly waived further tests and authorized protected branch preview publication/retry. Commit and branch push now scoped to this demo; existing Vercel remote build and deployment receipt pending. Production/live Colattao unchanged.

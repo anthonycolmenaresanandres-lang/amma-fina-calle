@@ -1079,3 +1079,11 @@ Anthony explicitly approved publishing the reviewed visual revision 454629d4dd89
 Anthony explicitly approved fixing and publishing the diagnosed PR317 legacy-terms gap ("Yes fix all please"). Base main 03461c9; isolated codex/discover-terms-migration-20261008. Add persisted current terms version under the existing browser key; restart only outdated unfinished claims, preserve saved places/destinations and historical stamps. Cover each legacy stage, current reload, prerequisites and duplicate redemption. Retain visual design/demo boundaries and other clients; no Seed/Colattao changes. Normal exact-head PR CI/merge/existing Git deployment, then isolated synthetic Chrome desktop/mobile verification. No personal browser data, new services, accounts, credentials, installations or spending.
 
 State: LOCAL VERIFIED; PUBLICATION AUTHORIZED. Final state/lint/build/types and isolated Chrome desktop/390/320 legacy/current flows pass. Only Discover state/test and coordination records changed. Exact-head CI/merge/live verification pending. Review: DISCOVER_TERMS_MIGRATION_REVIEW_20261008.md.
+
+## [ ] Pocket Cafe isolated Fina Calle demo - 2026-10-10
+State: PREVIEW PUBLICATION AUTHORIZED; remote deployment pending.
+Authority: Anthony explicitly approved a separate protected Fina Calle branch preview, requested publication without further testing and then requested a retry. Optional gameplay/local build checks waived for publication; Anthony will test.
+Base: origin/main 4b9aba7. Branch: codex/fina-calle-pocket-cafe-demo-20261010.
+Scope: isolated /demo/pocket-cafe route, static game/assets/notices, provenance/docs, commit/push of this branch and existing Vercel project's protected remote preview build.
+Completed checks and limits: APP/web/docs/demos/pocket-cafe/QA.md.
+STOP: production merge/promotion, live Colattao or customer/reward changes, new spending/services/access, protection changes or secrets.

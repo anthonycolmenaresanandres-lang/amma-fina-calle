@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {GET} from '../src/app/demo/pocket-cafe/route.ts';
+
+const response=GET();
+assert.equal(response.status,200);
+assert.equal(response.headers.get('content-type'),'text/html; charset=utf-8');
+assert.match(response.headers.get('x-robots-tag'),/noindex/);
+assert.match(response.headers.get('content-security-policy'),/connect-src 'none'/);
+assert.match(response.headers.get('content-security-policy'),/script-src 'none'/);
+const html=await response.text();
+assert.match(html,/No real rewards/);
+assert.match(html,/no customer accounts/);
+assert.match(html,/sandbox="allow-scripts allow-same-origin"/);
+assert.match(html,/title="Pocket Café/);
+assert.doesNotMatch(html,/<script\b|supabase|stripe|vercel\/analytics|<form\b/i);
+const root=path.resolve('public/demo/pocket-cafe');
+for(const asset of ['demo.css','game/index.html','game/demo-marker.css','game/THIRD_PARTY_NOTICES.md','game/DEPENDENCY-LICENSES.json'])assert.ok(fs.existsSync(path.join(root,asset)),asset);
+const gameHtml=fs.readFileSync(path.join(root,'game/index.html'),'utf8');
+assert.match(gameHtml,/Fina Calle demo/);
+assert.match(gameHtml,/noindex/);
+assert.match(gameHtml,/connect-src 'none'/);
+for(const match of gameHtml.matchAll(/(?:src|href)="\.\/([^"]+)"/g))assert.ok(fs.existsSync(path.join(root,'game',match[1])),match[1]);
+const js=fs.readdirSync(path.join(root,'game/assets')).filter(name=>name.endsWith('.js')).map(name=>fs.readFileSync(path.join(root,'game/assets',name),'utf8')).join('\n');
+for(const forbidden of ['www.gstatic.com/play/games/playground','assets-gen-playground','storage.googleapis.com','scoreUpdated'])assert.ok(!js.includes(forbidden),forbidden);
+assert.equal(fs.readdirSync(path.join(root,'game/assets/colattao')).length,7);
+console.log('PASS: standalone GET, noindex, CSP, demo labels, local resources, seven assets and excluded Google runtime. No browser/gameplay claim.');
