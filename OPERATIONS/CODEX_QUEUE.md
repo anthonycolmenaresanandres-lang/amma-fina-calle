@@ -1079,3 +1079,27 @@ Anthony explicitly approved publishing the reviewed visual revision 454629d4dd89
 Anthony explicitly approved fixing and publishing the diagnosed PR317 legacy-terms gap ("Yes fix all please"). Base main 03461c9; isolated codex/discover-terms-migration-20261008. Add persisted current terms version under the existing browser key; restart only outdated unfinished claims, preserve saved places/destinations and historical stamps. Cover each legacy stage, current reload, prerequisites and duplicate redemption. Retain visual design/demo boundaries and other clients; no Seed/Colattao changes. Normal exact-head PR CI/merge/existing Git deployment, then isolated synthetic Chrome desktop/mobile verification. No personal browser data, new services, accounts, credentials, installations or spending.
 
 State: LOCAL VERIFIED; PUBLICATION AUTHORIZED. Final state/lint/build/types and isolated Chrome desktop/390/320 legacy/current flows pass. Only Discover state/test and coordination records changed. Exact-head CI/merge/live verification pending. Review: DISCOVER_TERMS_MIGRATION_REVIEW_20261008.md.
+
+## [ ] Pocket Cafe isolated Fina Calle demo - 2026-10-10
+State: PREVIEW PUBLICATION AUTHORIZED; remote deployment pending.
+Authority: Anthony explicitly approved a separate protected Fina Calle branch preview, requested publication without further testing and then requested a retry. Optional gameplay/local build checks waived for publication; Anthony will test.
+Base: origin/main 4b9aba7. Branch: codex/fina-calle-pocket-cafe-demo-20261010.
+Scope: isolated /demo/pocket-cafe route, static game/assets/notices, provenance/docs, commit/push of this branch and existing Vercel project's protected remote preview build.
+Completed checks and limits: APP/web/docs/demos/pocket-cafe/QA.md.
+STOP: production merge/promotion, live Colattao or customer/reward changes, new spending/services/access, protection changes or secrets.
+
+## [x] Pocket Cafe actual 3D models - 2026-10-10
+State: LOCAL COMPLETE; checks passed; protected branch preview push authorized and next. Remote READY/commit receipt will be recorded in the task handoff.
+Scope: DEMOS/pocket-cafe editable game; APP/web/public/demo/pocket-cafe/game runtime/models; isolated wrapper/checks/docs; existing demo branch commit/push and Vercel preview only.
+Preserve: rules, points, growth, levels, sinking, reward isolation, original source/model pack. Owner tests gameplay; no exhaustive QA or local full Next build.
+STOP: current live Fall Colattao, other client routes, main/production, rivals/difficulty changes, spending, installs or access/protection changes.
+
+## [x] Pocket Cafe source-faithful 3D correction preview - 2026-10-10
+State: INTEGRATION VERIFIED; protected branch push authorized, READY receipt follows in task handoff.
+Authority: Anthony's authenticated user message at 16:25 UTC, "publish it please", following the Astra-led corrected model review. Existing demo branch only; owner likeness acceptance is not claimed.
+Scope: replace the three demo GLBs with corrected source-derived models, update measured visual bounds, remove duplicate single-cup tray, fit sharing trays; rebuild only the small game and publish existing protected Vercel preview. Preserve all core/rules/input/collision/growth source and original/corrected asset packs. No installs, access changes, production or live Fall Colattao changes. Exhaustive gameplay/local full Next build waiver remains; necessary asset/visual checks and remote deployment build only.
+
+## [ ] Pocket Cafe owner-approved public release - 2026-10-10
+State: RELEASE AUTHORIZED; exact-head PR CI and public deployment verification pending.
+Authority: authenticated owner approval at 18:38 UTC, "Yes merge", explicitly answering permission to merge this demo into Fina Calle main and publish on the live Fina Calle website; public access without Vercel sign-in was disclosed. This supersedes earlier preview-only scope for this demo alone.
+Scope: stale demo-footer publication wording, this branch PR, exact-head CI/build, merge to main and verify production READY/public /demo/pocket-cafe. Keep live Fall Colattao, unrelated application files/settings and private original archives untouched. Preserve attribution, genuine license caveats and demo/no-real-reward labels. No new services, spending or access changes. Optional exhaustive gameplay QA waiver retained.

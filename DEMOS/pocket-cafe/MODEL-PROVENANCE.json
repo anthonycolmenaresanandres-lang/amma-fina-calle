@@ -1,0 +1,402 @@
+{
+  "version": 2,
+  "created": "2026-10-10T16:19:16.465Z",
+  "visualLead": "Astra",
+  "units": "metres",
+  "upAxis": "Y",
+  "authoring": "Source-guided volumetric geometry; editable src/models.mjs",
+  "status": "Local review candidate; owner likeness approval pending",
+  "variants": {
+    "colattao-cup-saucer": {
+      "file": "runtime/colattao-cup-saucer.glb",
+      "triangles": 11628,
+      "vertices": 7590,
+      "meshes": 8,
+      "bounds": {
+        "min": [
+          -0.0753825306892395,
+          0,
+          -0.0753825306892395
+        ],
+        "max": [
+          0.0753825306892395,
+          0.13487054445028304,
+          0.07537957280874252
+        ],
+        "size": [
+          0.150765061378479,
+          0.13487054445028304,
+          0.15076210349798203
+        ]
+      },
+      "footprintRadius": 0.0753825311500986,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 731556,
+      "materials": 8,
+      "embeddedImages": 3,
+      "sha256": "35e5f464c333417e0e0ad34ca66b3a79828d0aa3a1d3f0bb37c948b96adc4131",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    },
+    "neutral-cup-saucer": {
+      "file": "runtime/neutral-cup-saucer.glb",
+      "triangles": 10860,
+      "vertices": 7149,
+      "meshes": 5,
+      "bounds": {
+        "min": [
+          -0.0753825306892395,
+          0,
+          -0.0753825306892395
+        ],
+        "max": [
+          0.0753825306892395,
+          0.13487054445028304,
+          0.07537957280874252
+        ],
+        "size": [
+          0.150765061378479,
+          0.13487054445028304,
+          0.15076210349798203
+        ]
+      },
+      "footprintRadius": 0.0753825311500986,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 435072,
+      "materials": 5,
+      "embeddedImages": 1,
+      "sha256": "f428fca46ca3f2b3f1f1c2670828a430347b41e9624de573fc88f9df2654e61b",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    },
+    "colattao-croissant": {
+      "file": "runtime/colattao-croissant.glb",
+      "triangles": 7072,
+      "vertices": 3905,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.06457921117544174,
+          0,
+          -0.043671999126672745
+        ],
+        "max": [
+          0.06775310617962331,
+          0.08551284472923726,
+          0.05348990485072136
+        ],
+        "size": [
+          0.13233231735506507,
+          0.08551284472923726,
+          0.0971619039773941
+        ]
+      },
+      "footprintRadius": 0.07076722681611439,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 336748,
+      "materials": 2,
+      "embeddedImages": 2,
+      "sha256": "b9793a353f3eba319c15dd561572787d6b6123011aa61d21b036fee6239f7599",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    },
+    "neutral-croissant": {
+      "file": "runtime/neutral-croissant.glb",
+      "triangles": 7072,
+      "vertices": 3905,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.06457921117544174,
+          0,
+          -0.043671999126672745
+        ],
+        "max": [
+          0.06775310617962331,
+          0.08551284472923726,
+          0.05348990485072136
+        ],
+        "size": [
+          0.13233231735506507,
+          0.08551284472923726,
+          0.0971619039773941
+        ]
+      },
+      "footprintRadius": 0.07076722681611439,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 336748,
+      "materials": 2,
+      "embeddedImages": 2,
+      "sha256": "b9793a353f3eba319c15dd561572787d6b6123011aa61d21b036fee6239f7599",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    },
+    "colattao-iced-matcha": {
+      "file": "runtime/colattao-iced-matcha.glb",
+      "triangles": 10580,
+      "vertices": 7608,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.03714999929070473,
+          0,
+          -0.03714999929070473
+        ],
+        "max": [
+          0.03714999929070473,
+          0.15512643952388316,
+          0.03714999929070473
+        ],
+        "size": [
+          0.07429999858140945,
+          0.15512643952388316,
+          0.07429999858140945
+        ]
+      },
+      "footprintRadius": 0.0371500015719568,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 570860,
+      "materials": 7,
+      "embeddedImages": 2,
+      "sha256": "e51d4e623c990c0f848307ebd557fa92966d48e0468324c8ebf5d002f8cd094e",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    },
+    "neutral-iced-matcha": {
+      "file": "runtime/neutral-iced-matcha.glb",
+      "triangles": 10580,
+      "vertices": 7608,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.03714999929070473,
+          0,
+          -0.03714999929070473
+        ],
+        "max": [
+          0.03714999929070473,
+          0.15512643952388316,
+          0.03714999929070473
+        ],
+        "size": [
+          0.07429999858140945,
+          0.15512643952388316,
+          0.07429999858140945
+        ]
+      },
+      "footprintRadius": 0.0371500015719568,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 570860,
+      "materials": 7,
+      "embeddedImages": 2,
+      "sha256": "e51d4e623c990c0f848307ebd557fa92966d48e0468324c8ebf5d002f8cd094e",
+      "integration": "Update presentation bounds from these measured values; retain logical game colliders and rules."
+    }
+  },
+  "provenance": [
+    {
+      "file": "references/coffee.png",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\coffee-cup.png",
+      "sha256": "39c07484d588e87c46e54e01273760213e6610c6a2bb6311cf0025f0d29bb377",
+      "role": "Existing gameplay item artwork; primary target",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/croissant.png",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\croissant.png",
+      "sha256": "296f5faf81b21b865d9985f53f8562645c6c9651008ce1d27e88b67abaed8419",
+      "role": "Existing gameplay item artwork; primary target",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/matcha.png",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\matcha-iced.png",
+      "sha256": "14f533206aa725139fb5946139e37185140e33a954794de489f1afb82565f25a",
+      "role": "Existing gameplay item artwork; primary target",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/logo.png",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\logo\\colattao-logo.png",
+      "sha256": "5e1565a78b743eccc1f5285f1ba2bdf1778be05450cc620182a981b4f31b1bb2",
+      "role": "Authentic logo retained for provenance; NOT added to products which do not show a logo",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/photographic-latte-context.webp",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\real-go\\coffee-pairing.webp",
+      "sha256": "b2154766d7588955ced705545fee5423b7237a11f2d6a540719d146f947a37f2",
+      "role": "Photographic context of a distinct product; not substituted for the gameplay item",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/photographic-almond-context.jpg",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\menu-items\\almond-croissant-photo.jpg",
+      "sha256": "a92f0b2ad71a6a7bfa96993f0563803ed7c3225ff31ff8eb362418c189155c8a",
+      "role": "Photographic context of a distinct product; not substituted for the gameplay item",
+      "rights": "Existing user local assets; independent license not supplied"
+    },
+    {
+      "file": "references/photographic-chocolate-context.jpg",
+      "source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\menu-items\\chocolate-croissant-photo.jpg",
+      "sha256": "5a8585e5580644ea55b202842a30160822e2ba01bac28621dab8f6f2cb5d01c8",
+      "role": "Photographic context of a distinct product; not substituted for the gameplay item",
+      "rights": "Existing user local assets; independent license not supplied"
+    }
+  ],
+  "surfaceProvenance": {
+    "method": "Visible material surfaces rectified onto true volumetric meshes; no whole-object planes.",
+    "pattern": "items/coffee-cup.png front mug surface. Rear repeats/mirrors visible motif.",
+    "saucer": "items/coffee-cup.png visible front saucer annulus. Rear inferred by reflection.",
+    "matcha": "items/matcha-iced.png liquid front. Rear repeats visible marbling.",
+    "filling": "items/croissant.png exposed yellow filling material patch, mapped over rounded filling volume.",
+    "cream": "items/coffee-cup.png cream material patch; repeated over piped cream geometry.",
+    "pastry": "items/croissant.png crown material patch. Repeated over sculpted lamination; rear inferred.",
+    "resolution": {
+      "pattern": [
+        512,
+        512
+      ],
+      "saucer": [
+        512,
+        512
+      ],
+      "matcha": [
+        512,
+        512
+      ],
+      "pastry": [
+        512,
+        512
+      ],
+      "cream": [
+        256,
+        256
+      ],
+      "filling": [
+        256,
+        256
+      ]
+    }
+  },
+  "limitations": [
+    "Rear and unseen surfaces inferred from the visible source. Physical dimensions estimated.",
+    "Gameplay targets are supplied item artworks, not claimed to be photogrammetric scans.",
+    "Owner Library screenshot resolved but readable pixels were unavailable through supported local flow.",
+    "CPU rendering only; live game/GPU/physical mobile verification not performed."
+  ],
+  "textureBudget": {
+    "images": [
+      {
+        "name": "source-derived-pattern",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "name": "source-derived-saucer",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "name": "source-derived-matcha",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "name": "source-derived-pastry",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "name": "source-derived-cream",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "name": "source-derived-filling",
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "uncompressedRGBABytes": 4718592
+  },
+  "render": {
+    "width": 1440,
+    "height": 1370,
+    "supersampling": 2,
+    "renderer": "offline indexed-mesh z-buffer with bilinear texture samples and roughness highlights; not a GPU screenshot",
+    "gameCameraDirection": [
+      0,
+      12,
+      11
+    ],
+    "projection": "orthographic detail; original game-camera direction"
+  },
+  "gameFit": {
+    "camera": {
+      "position": [
+        0,
+        12,
+        11
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov": 50,
+      "viewport": [
+        1280,
+        720
+      ],
+      "source": "gameplay.ts tier 1; Game.tsx CameraSetup"
+    },
+    "scaleSource": "CafeModels.tsx: min(availableHeight/modelHeight, radius*recipeFootprint/modelRadius)",
+    "notes": "Art-only offline comparison. Existing serving tray reproduced; full game, bloom and GPU lighting not run. Matcha is displayed alone using the existing pair recipe footprint; final pair requires common scale across both updated assets.",
+    "models": {
+      "cup-saucer": {
+        "id": "item_small_1",
+        "radius": 0.65,
+        "height": 0.7,
+        "footprint": 0.83,
+        "uniformScale": 4.463539481164574,
+        "visualHeight": 0.602,
+        "visualRadius": 0.3364729039785834,
+        "extraServingTray": "Existing demo behavior retained in comparison; cup already contains its own saucer."
+      },
+      "croissant": {
+        "id": "item_med_1",
+        "radius": 1.15,
+        "height": 1.2,
+        "footprint": 0.88,
+        "uniformScale": 12.477657635861428,
+        "visualHeight": 1.067,
+        "visualRadius": 0.8830092280508273,
+        "extraServingTray": "Existing demo behavior retained in comparison; cup already contains its own saucer."
+      },
+      "iced-matcha": {
+        "id": "item_small_2",
+        "radius": 0.75,
+        "height": 0.8,
+        "footprint": 0.38,
+        "uniformScale": 4.435091800673192,
+        "visualHeight": 0.688,
+        "visualRadius": 0.1647636673667818,
+        "extraServingTray": "Existing demo behavior retained in comparison; cup already contains its own saucer."
+      }
+    }
+  },
+  "gameSceneRender": {
+    "width": 1280,
+    "height": 840,
+    "supersampling": 2,
+    "renderer": "offline indexed-mesh z-buffer with bilinear texture samples and roughness highlights; not a GPU screenshot",
+    "gameCameraDirection": [
+      0,
+      12,
+      11
+    ],
+    "projection": "perspective FOV 50; actual original camera"
+  }
+}

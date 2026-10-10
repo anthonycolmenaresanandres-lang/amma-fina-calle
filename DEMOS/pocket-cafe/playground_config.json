@@ -1,0 +1,86 @@
+{
+  "schema": [
+    {
+      "name": "roundDuration",
+      "type": "number",
+      "label": "Round Time Limit (s)",
+      "default": 60,
+      "min": 30,
+      "max": 120,
+      "step": 5
+    },
+    {
+      "name": "collectorBaseSpeed",
+      "type": "number",
+      "label": "Collector Speed",
+      "default": 9.0,
+      "min": 4,
+      "max": 16,
+      "step": 0.5
+    },
+    {
+      "name": "growthMultiplier",
+      "type": "number",
+      "label": "Growth Rate Multiplier",
+      "default": 1.0,
+      "min": 0.5,
+      "max": 2.0,
+      "step": 0.1
+    },
+    {
+      "name": "sinkSpeed",
+      "type": "number",
+      "label": "Sink Suction Speed",
+      "default": 4.5,
+      "min": 2,
+      "max": 8,
+      "step": 0.5
+    },
+    {
+      "name": "cameraY",
+      "type": "number",
+      "label": "Camera Height",
+      "default": 14,
+      "min": 8,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "name": "cameraZ",
+      "type": "number",
+      "label": "Camera Distance",
+      "default": 12,
+      "min": 6,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "name": "defaultMusicVolume",
+      "type": "number",
+      "label": "Default Music Volume",
+      "default": 0.2,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "name": "defaultSfxVolume",
+      "type": "number",
+      "label": "Default SFX Volume",
+      "default": 0.6,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    }
+  ],
+  "values": {
+    "roundDuration": 60,
+    "collectorBaseSpeed": 9.0,
+    "growthMultiplier": 1.0,
+    "sinkSpeed": 4.5,
+    "cameraY": 14,
+    "cameraZ": 12,
+    "defaultMusicVolume": 0.2,
+    "defaultSfxVolume": 0.6
+  }
+}

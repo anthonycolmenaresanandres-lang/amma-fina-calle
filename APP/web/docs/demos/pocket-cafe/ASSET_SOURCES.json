@@ -1,0 +1,44 @@
+[
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\croissant.png",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\croissant.png",
+    "SHA256": "296F5FAF81B21B865D9985F53F8562645C6C9651008CE1D27E88B67ABAED8419",
+    "Rights": "Existing local Colattao project art; independent license/approval not included in export. Requires owner verification before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\matcha-iced.png",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\matcha.png",
+    "SHA256": "14F533206AA725139FB5946139E37185140E33A954794DE489F1AFB82565F25A",
+    "Rights": "Existing local Colattao project art; independent license/approval not included in export. Requires owner verification before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\backgrounds\\colattao-bg-fall.webp",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\cafe-background.webp",
+    "SHA256": "2E002866C852E57B316B0F7FBEA4F649FD476D732FBCBDD850A8DFDE5C443310",
+    "Rights": "Existing local Colattao project art; independent license/approval not included in export. Requires owner verification before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\logo\\colattao-logo.png",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\logo.png",
+    "SHA256": "5E1565A78B743ECCC1F5285F1BA2BDF1778BE05450CC620182A981B4F31B1BB2",
+    "Rights": "Existing local Colattao project art; independent license/approval not included in export. Requires owner verification before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\items\\coffee-cup.png",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\coffee.png",
+    "SHA256": "39C07484D588E87C46E54E01273760213E6610C6A2BB6311CF0025F0D29BB377",
+    "Rights": "Existing local Colattao project art; independent license/approval not included in export. Requires owner verification before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\game\\fall\\pumpkin-pie.webp",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\pumpkin-pie.webp",
+    "SHA256": "D1FC84C53515B409C9CC525682BA96A916E95AD9B28757399FA2B80CA5B19844",
+    "Rights": "Existing local Colattao game artwork; no independent license evidence supplied. Verify owner rights before publication."
+  },
+  {
+    "Source": "C:\\dev\\amma\\worktrees\\colattao-flow-audit-20261005\\public\\assets\\colattao\\game\\fall\\campfire.webp",
+    "Copy": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-10\\task\\colattao-collector\\public\\assets\\colattao\\campfire.webp",
+    "SHA256": "7D9C828C834CE1545AF8495A3794443FB54019069EB9A43D791962D6C6287973",
+    "Rights": "Existing local Colattao game artwork; no independent license evidence supplied. Verify owner rights before publication."
+  }
+]

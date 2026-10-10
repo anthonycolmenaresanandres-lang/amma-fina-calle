@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-10T16:33:49.461Z",
+  "pass": true,
+  "scope": "Corrected GLB hashes, measured presentation dimensions and actual posed vertices fit unchanged logical radii/heights; game/core sources byte-identical to prior demo commit. Not exhaustive gameplay or mobile performance QA.",
+  "base": "7959ff050126ed881cedfbd2e188736d06b5171e",
+  "records": [
+    {
+      "id": "item_small_1",
+      "pass": true,
+      "logicalRadius": 0.65,
+      "logicalHeight": 0.7,
+      "modelMaxRadius": 0.3834226115104788,
+      "modelMaxHeight": 0.6859999980960885,
+      "trayRadius": 0,
+      "trayHeight": 0,
+      "uniformModelScale": 5.0863589436526535,
+      "instances": 1,
+      "verticesChecked": 7590
+    },
+    {
+      "id": "item_small_2",
+      "pass": true,
+      "logicalRadius": 0.75,
+      "logicalHeight": 0.8,
+      "modelMaxRadius": 0.5547161388984302,
+      "modelMaxHeight": 0.7047388330639965,
+      "trayRadius": 0.5945216446627535,
+      "trayHeight": 0.08000000000000002,
+      "uniformModelScale": 4.027287952664308,
+      "instances": 2,
+      "verticesChecked": 11513
+    },
+    {
+      "id": "item_med_1",
+      "pass": true,
+      "logicalRadius": 1.15,
+      "logicalHeight": 1.2,
+      "modelMaxRadius": 0.8830092286905916,
+      "modelMaxHeight": 1.152000024694039,
+      "trayRadius": 0.9347592280508272,
+      "trayHeight": 0.085,
+      "uniformModelScale": 12.477657635861428,
+      "instances": 1,
+      "verticesChecked": 3905
+    },
+    {
+      "id": "item_med_2",
+      "pass": true,
+      "logicalRadius": 1.35,
+      "logicalHeight": 1.4,
+      "modelMaxRadius": 1.0394999971789038,
+      "modelMaxHeight": 0.9303726759188361,
+      "trayRadius": 1.1002500000000002,
+      "trayHeight": 0.085,
+      "uniformModelScale": 6.2680304414185475,
+      "instances": 2,
+      "verticesChecked": 15180
+    },
+    {
+      "id": "item_large_1",
+      "pass": true,
+      "logicalRadius": 1.85,
+      "logicalHeight": 1.9,
+      "modelMaxRadius": 1.3013079364646927,
+      "modelMaxHeight": 0.7332893893555108,
+      "trayRadius": 1.4827308804371047,
+      "trayHeight": 0.085,
+      "uniformModelScale": 7.581192935454038,
+      "instances": 3,
+      "verticesChecked": 11715
+    },
+    {
+      "id": "item_large_2",
+      "pass": true,
+      "logicalRadius": 2.1,
+      "logicalHeight": 2.3,
+      "modelMaxRadius": 1.2167634297831846,
+      "modelMaxHeight": 1.419968243284119,
+      "trayRadius": 1.5435,
+      "trayHeight": 0.085,
+      "uniformModelScale": 8.605678467272153,
+      "instances": 3,
+      "verticesChecked": 19121
+    }
+  ],
+  "preserved": [
+    {
+      "name": "Game.tsx",
+      "sha256": "0af7dde9cf222f32a3702005f32f5f3c497a16e36ddea2ac3f1b23b521cf91a7"
+    },
+    {
+      "name": "gameplay.ts",
+      "sha256": "e9b864093fa45df41d5cf9c7f30ee90b1ddc0b5d01625aaaab9a6761a9f688e6"
+    },
+    {
+      "name": "levels.ts",
+      "sha256": "410288749a2e711c93abf5db8cc2815ad3aa9fa0b7dcd25fe25e0c6561010fe6"
+    },
+    {
+      "name": "constants.ts",
+      "sha256": "2212686bd700540d4988739ec0dface152ed2488c04dc6fa1583af3d4944be73"
+    },
+    {
+      "name": "input.ts",
+      "sha256": "0b3a7749fa2a6343844aa672c42e583a64cd554c9547b9916d615764dc0257e4"
+    },
+    {
+      "name": "utils.ts",
+      "sha256": "845cac1928330a64be713bb6a2b248a508d0a38f6abc90abe8777d2e7ce05e34"
+    },
+    {
+      "name": "CafeApp.tsx",
+      "sha256": "f6ed627a0efa0a0ebce1cd054bb582c49aac33526229c684e5a7d2282d1e173b"
+    },
+    {
+      "name": "brand/colattao.ts",
+      "sha256": "a55ba45440d4985908e85387ecda19ded7fc2c0e26ad481b6e78dfde15423e54"
+    }
+  ],
+  "modelHashes": [
+    {
+      "name": "colattao-cup-saucer",
+      "bytes": 731556,
+      "triangles": 11628,
+      "sha256": "35e5f464c333417e0e0ad34ca66b3a79828d0aa3a1d3f0bb37c948b96adc4131"
+    },
+    {
+      "name": "colattao-croissant",
+      "bytes": 336748,
+      "triangles": 7072,
+      "sha256": "b9793a353f3eba319c15dd561572787d6b6123011aa61d21b036fee6239f7599"
+    },
+    {
+      "name": "colattao-iced-matcha",
+      "bytes": 570860,
+      "triangles": 10580,
+      "sha256": "e51d4e623c990c0f848307ebd557fa92966d48e0468324c8ebf5d002f8cd094e"
+    }
+  ]
+}

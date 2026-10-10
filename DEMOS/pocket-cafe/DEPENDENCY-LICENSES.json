@@ -1,0 +1,352 @@
+[
+  {
+    "package": "@babel/runtime",
+    "version": "7.29.10",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@dimforge/rapier3d-compat",
+    "version": "0.12.0",
+    "declaredLicense": "Apache-2.0",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@esbuild/win32-x64",
+    "version": "0.28.2",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": []
+  },
+  {
+    "package": "@react-three/fiber",
+    "version": "9.8.1",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": []
+  },
+  {
+    "package": "@react-three/postprocessing",
+    "version": "3.2.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@rollup/rollup-win32-x64-gnu",
+    "version": "4.64.4",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": []
+  },
+  {
+    "package": "@rollup/rollup-win32-x64-msvc",
+    "version": "4.64.4",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": []
+  },
+  {
+    "package": "@tweenjs/tween.js",
+    "version": "23.1.3",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/estree",
+    "version": "1.0.9",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/react",
+    "version": "19.3.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/react-dom",
+    "version": "19.3.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/react-reconciler",
+    "version": "0.28.9",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/stats.js",
+    "version": "0.17.4",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/three",
+    "version": "0.185.4",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "@types/webxr",
+    "version": "0.5.24",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "base64-js",
+    "version": "1.5.1",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "buffer",
+    "version": "6.0.3",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "csstype",
+    "version": "3.2.3",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "esbuild",
+    "version": "0.28.2",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE.md"
+    ]
+  },
+  {
+    "package": "fdir",
+    "version": "6.5.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "fflate",
+    "version": "0.8.3",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "ieee754",
+    "version": "1.2.1",
+    "declaredLicense": "BSD-3-Clause",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "its-fine",
+    "version": "2.1.1",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "lucide-react",
+    "version": "0.544.0",
+    "declaredLicense": "ISC",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "maath",
+    "version": "0.10.8",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": []
+  },
+  {
+    "package": "meshoptimizer",
+    "version": "1.1.1",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE.md"
+    ]
+  },
+  {
+    "package": "n8ao",
+    "version": "2.0.1",
+    "declaredLicense": "ISC",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "nanoid",
+    "version": "3.3.20",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "picocolors",
+    "version": "1.1.1",
+    "declaredLicense": "ISC",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "picomatch",
+    "version": "4.0.7",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "postcss",
+    "version": "8.5.29",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "postprocessing",
+    "version": "6.39.5",
+    "declaredLicense": "Zlib",
+    "copiedNoticeFiles": [
+      "LICENSE.md"
+    ]
+  },
+  {
+    "package": "react",
+    "version": "19.3.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "react-dom",
+    "version": "19.3.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "react-use-measure",
+    "version": "2.1.7",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "rollup",
+    "version": "4.64.4",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE.md"
+    ]
+  },
+  {
+    "package": "scheduler",
+    "version": "0.28.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "source-map-js",
+    "version": "1.2.2",
+    "declaredLicense": "BSD-3-Clause",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "suspend-react",
+    "version": "0.1.3",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "three",
+    "version": "0.185.1",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "tinyglobby",
+    "version": "0.2.17",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "typescript",
+    "version": "5.9.3",
+    "declaredLicense": "Apache-2.0",
+    "copiedNoticeFiles": [
+      "LICENSE.txt"
+    ]
+  },
+  {
+    "package": "use-sync-external-store",
+    "version": "1.7.0",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  },
+  {
+    "package": "vite",
+    "version": "7.3.7",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE.md"
+    ]
+  },
+  {
+    "package": "zustand",
+    "version": "5.0.15",
+    "declaredLicense": "MIT",
+    "copiedNoticeFiles": [
+      "LICENSE"
+    ]
+  }
+]
