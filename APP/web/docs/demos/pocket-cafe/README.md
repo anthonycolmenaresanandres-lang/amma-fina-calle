@@ -13,3 +13,5 @@ Application and Colattao asset licenses are not independently documented for bro
 ## Public release authorization - 2026-10-10 18:38 UTC
 
 Anthony explicitly approved merging this demo branch into main and publishing /demo/pocket-cafe on the live Fina Calle site, with public access without Vercel sign-in disclosed. This supersedes the earlier protected-preview-only publication scope for this demo. Required exact-head PR CI and production READY/public-route verification remain release gates. Owner approval does not establish third-party ownership or broader commercial reuse rights. Live Fall Colattao, unrelated files/settings and private original archives remain excluded. Exact PR/head/merge/deployment verification is recorded in the release task receipt.
+
+The web ESLint configuration excludes only generated Pocket Cafe JavaScript bundles under public/demo/pocket-cafe/game/assets/*.js. These compiled vendor/application bundles are produced from DEMOS/pocket-cafe; the isolated Next.js wrapper remains linted. This prevents linting minified generated output from exhausting ESLint's report formatter.
