@@ -10,6 +10,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { config } from "./config";
 import type { BusinessPack } from "./types";
+import type { VoicePrivacy } from "./voicePrivacy";
 
 export type ConnectorKind = "mock" | "calcom" | "square" | "webhook" | "proposeconfirm";
 
@@ -24,6 +25,7 @@ export interface Tenant {
   square?: typeof config.square;
   webhook?: typeof config.webhook;
   notify?: typeof config.notify;
+  privacy?: VoicePrivacy; // voice caller-ID retention and missed-call follow-up; opt-out per tenant
   disclosure: string;
   voice: string;
   language: string; // spoken language the agent answers in (e.g. "English", "Mandarin Chinese")
@@ -48,6 +50,7 @@ function defaultTenant(): Tenant {
     square: config.square,
     webhook: config.webhook,
     notify: config.notify,
+    privacy: { retainCallerId: true, missedCallFollowup: true },
     disclosure: config.disclosure,
     voice: config.voice,
     language: config.language,
@@ -66,6 +69,7 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
     square: t.square ?? def.square,
     webhook: t.webhook ?? def.webhook,
     notify: t.notify ?? def.notify,
+    privacy: { ...def.privacy, ...t.privacy },
     disclosure: t.disclosure ?? def.disclosure,
     voice: t.voice ?? def.voice,
     language: t.language ?? def.language,

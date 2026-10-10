@@ -3392,3 +3392,9 @@ Anthony authorized implementing and publishing the Spanish Maracaibo personality
 
 ## 2026-10-10 OUT — Maracaibo voice demonstration prepared
 Local typecheck and all offline suites passed: Maracaibo 10, VBFH 17, SMS 9, reliability 17, check-in 17; booking/storage/SoundGate simulator all passed. No publication or carrier change. Awaiting Anthony confirmation of Render My Workspace tea-d8qpu99194ac7397rem0. Actual phone audio unverified. Source task checkpoint messaging was rejected for missing trusted authorization; report via final response. Isolated branch preserved; canonical dirty work untouched.
+
+## 2026-10-10 IN — Maracaibo demo caller privacy fix
+Anthony approved publishing demo-only caller-ID suppression and removal of missed-call follow-up records. Branch codex/maracaibo-demo-privacy-20261010 from live main. Scope: new demo calls only, pseudonymous bounded rate counters, synthetic tests; preserve other tenants, SMS, 666 and anonymous outcomes. No historical caller-record inspection or deletion, provider log guarantees, Toast integration, new spending or outbound calls.
+
+## 2026-10-10 OUT — Maracaibo demo privacy local verification
+Typecheck and all offline suites passed. Privacy 11, Maracaibo 10, VBFH 17, SMS 9, reliability 17, check-in 17; booking/storage/SoundGate simulator passed. Synthetic snapshots and configured loopback notification trap verify anonymous answered/early-hangup records without follow-up metadata/delivery. Real local HTTP/WebSocket tests verify no demo From echo or persistence and preserved rate controls, 300 SMS and 666 VBFH. Awaiting PR/CI and authorized publication. No historical production caller records read or deleted; canonical dirty work preserved.

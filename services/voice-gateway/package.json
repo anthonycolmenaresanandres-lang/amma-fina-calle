@@ -15,7 +15,8 @@
     "report": "tsx src/report.ts",
     "typecheck": "tsc --noEmit",
     "simulate:reliability": "tsx src/simulateReliability.ts",
-    "simulate:maracaibo": "tsx src/simulateMaracaibo.ts"
+    "simulate:maracaibo": "tsx src/simulateMaracaibo.ts",
+    "simulate:privacy": "tsx src/simulateDemoPrivacy.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

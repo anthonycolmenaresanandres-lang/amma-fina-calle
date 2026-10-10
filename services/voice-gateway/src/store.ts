@@ -5,6 +5,7 @@
 // relational schema in `db/schema.sql` (same entities, same keys).
 
 import { randomUUID } from "node:crypto";
+import { retainedCallerId, type VoicePrivacy } from "./voicePrivacy";
 import { writeFileSync, readFileSync, existsSync, renameSync } from "node:fs";
 import type { AuditLog, CallOutcome, CallRecord, Draft, Message, PosSyncAttempt, StaffNotification } from "./types";
 
@@ -96,8 +97,9 @@ export function createStore(snapshotPath = "") {
     id: () => randomUUID(),
     callOutcome,
 
-    createCall(fromPhone?: string, tenantId = "default"): CallRecord {
-      const c: CallRecord = { callId: randomUUID(), tenantId, fromPhone, status: "active", startedAt: Date.now(), outcomeTrackingVersion: 1 };
+    createCall(fromPhone?: string, tenantId = "default", privacy?: VoicePrivacy): CallRecord {
+      // Apply new-call policy before assigning or persisting; never rewrite loaded history.
+      const c: CallRecord = { callId: randomUUID(), tenantId, fromPhone: retainedCallerId(fromPhone, privacy), status: "active", startedAt: Date.now(), outcomeTrackingVersion: 1 };
       db.calls[c.callId] = c; persist(); return c;
     },
     getCall(callId: string): CallRecord | undefined { return db.calls[callId]; },
