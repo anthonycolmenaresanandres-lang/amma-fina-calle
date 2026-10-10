@@ -129,6 +129,7 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname === "/runtime") {
     res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({
       publicHost: config.publicHost,
+      deployedCommit: process.env.RENDER_GIT_COMMIT ?? null,
       openaiApiKeyConfigured: Boolean(config.openaiApiKey),
       realtimeModel: config.realtimeModel,
       smsModel: config.smsModel,
@@ -155,6 +156,7 @@ const server = http.createServer(async (req, res) => {
     // Ops view — who's wired up, on which numbers, with which connector. No secrets.
     const list = allTenants().map((t) => ({
       id: t.id, business: t.business.name, kind: t.business.kind,
+      language: t.language, voice: t.voice, toolNames: t.tools ?? null,
       phoneNumbers: t.phoneNumbers, voicePhoneNumbers: t.voicePhoneNumbers ?? [],
       connector: t.connector, hours: t.business.hours,
       services: t.business.services.map((s) => s.name),

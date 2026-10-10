@@ -29,7 +29,7 @@ export interface Tenant {
   language: string; // spoken language the agent answers in (e.g. "English", "Mandarin Chinese")
   instructions?: string; // full system-instruction override (e.g. an info/Q&A line instead of the booking flow)
   knowledge?: string; // knowledge pack appended to the override instructions (the facts the bot may use)
-  tools?: string[]; // allow-list of tool names to advertise (default: all tools)
+  tools?: string[]; // undefined = all tools; [] = no tools; otherwise an enforced allow-list
   soundGate: typeof config.soundGate; // barge-in debounce referee (whole-object override)
 }
 
