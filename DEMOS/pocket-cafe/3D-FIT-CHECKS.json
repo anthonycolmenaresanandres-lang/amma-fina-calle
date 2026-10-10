@@ -1,82 +1,93 @@
 {
-  "date": "2026-10-10T15:15:44.853Z",
+  "date": "2026-10-10T16:33:49.461Z",
   "pass": true,
-  "scope": "Actual exported vertices fit unchanged logical radii/heights; original core modules and GLBs byte-identical. Not exhaustive gameplay QA.",
+  "scope": "Corrected GLB hashes, measured presentation dimensions and actual posed vertices fit unchanged logical radii/heights; game/core sources byte-identical to prior demo commit. Not exhaustive gameplay or mobile performance QA.",
+  "base": "7959ff050126ed881cedfbd2e188736d06b5171e",
   "records": [
     {
       "id": "item_small_1",
       "pass": true,
       "logicalRadius": 0.65,
       "logicalHeight": 0.7,
-      "modelMaxRadius": 0.3502096175952144,
-      "modelMaxHeight": 0.6719999909784667,
-      "trayRadius": 0.624,
-      "uniformModelScale": 5.150141155337201,
+      "modelMaxRadius": 0.3834226115104788,
+      "modelMaxHeight": 0.6859999980960885,
+      "trayRadius": 0,
+      "trayHeight": 0,
+      "uniformModelScale": 5.0863589436526535,
       "instances": 1,
-      "verticesChecked": 3704
+      "verticesChecked": 7590
     },
     {
       "id": "item_small_2",
       "pass": true,
       "logicalRadius": 0.75,
       "logicalHeight": 0.8,
-      "modelMaxRadius": 0.5553345157190841,
-      "modelMaxHeight": 0.6811924670303788,
-      "trayRadius": 0.72,
-      "uniformModelScale": 4.14587344036705,
+      "modelMaxRadius": 0.5547161388984302,
+      "modelMaxHeight": 0.7047388330639965,
+      "trayRadius": 0.5945216446627535,
+      "trayHeight": 0.08000000000000002,
+      "uniformModelScale": 4.027287952664308,
       "instances": 2,
-      "verticesChecked": 4976
+      "verticesChecked": 11513
     },
     {
       "id": "item_med_1",
       "pass": true,
       "logicalRadius": 1.15,
       "logicalHeight": 1.2,
-      "modelMaxRadius": 1.012,
-      "modelMaxHeight": 0.6275527018262378,
-      "trayRadius": 1.1039999999999999,
-      "uniformModelScale": 14.72148744439107,
+      "modelMaxRadius": 0.8830092286905916,
+      "modelMaxHeight": 1.152000024694039,
+      "trayRadius": 0.9347592280508272,
+      "trayHeight": 0.085,
+      "uniformModelScale": 12.477657635861428,
       "instances": 1,
-      "verticesChecked": 1426
+      "verticesChecked": 3905
     },
     {
       "id": "item_med_2",
       "pass": true,
       "logicalRadius": 1.35,
       "logicalHeight": 1.4,
-      "modelMaxRadius": 1.0395,
-      "modelMaxHeight": 0.8972135471050879,
-      "trayRadius": 1.296,
-      "uniformModelScale": 6.948529034144037,
+      "modelMaxRadius": 1.0394999971789038,
+      "modelMaxHeight": 0.9303726759188361,
+      "trayRadius": 1.1002500000000002,
+      "trayHeight": 0.085,
+      "uniformModelScale": 6.2680304414185475,
       "instances": 2,
-      "verticesChecked": 7408
+      "verticesChecked": 15180
     },
     {
       "id": "item_large_1",
       "pass": true,
       "logicalRadius": 1.85,
       "logicalHeight": 1.9,
-      "modelMaxRadius": 1.3072818554604237,
-      "modelMaxHeight": 0.3726279886657871,
-      "trayRadius": 1.776,
-      "uniformModelScale": 7.804424914936569,
+      "modelMaxRadius": 1.3013079364646927,
+      "modelMaxHeight": 0.7332893893555108,
+      "trayRadius": 1.4827308804371047,
+      "trayHeight": 0.085,
+      "uniformModelScale": 7.581192935454038,
       "instances": 3,
-      "verticesChecked": 4278
+      "verticesChecked": 11715
     },
     {
       "id": "item_large_2",
       "pass": true,
       "logicalRadius": 2.1,
       "logicalHeight": 2.3,
-      "modelMaxRadius": 1.163574079641783,
-      "modelMaxHeight": 1.3696533769175459,
-      "trayRadius": 2.016,
-      "uniformModelScale": 8.859076930468538,
+      "modelMaxRadius": 1.2167634297831846,
+      "modelMaxHeight": 1.419968243284119,
+      "trayRadius": 1.5435,
+      "trayHeight": 0.085,
+      "uniformModelScale": 8.605678467272153,
       "instances": 3,
-      "verticesChecked": 8526
+      "verticesChecked": 19121
     }
   ],
   "preserved": [
+    {
+      "name": "Game.tsx",
+      "sha256": "0af7dde9cf222f32a3702005f32f5f3c497a16e36ddea2ac3f1b23b521cf91a7"
+    },
     {
       "name": "gameplay.ts",
       "sha256": "e9b864093fa45df41d5cf9c7f30ee90b1ddc0b5d01625aaaab9a6761a9f688e6"
@@ -96,23 +107,34 @@
     {
       "name": "utils.ts",
       "sha256": "845cac1928330a64be713bb6a2b248a508d0a38f6abc90abe8777d2e7ce05e34"
+    },
+    {
+      "name": "CafeApp.tsx",
+      "sha256": "f6ed627a0efa0a0ebce1cd054bb582c49aac33526229c684e5a7d2282d1e173b"
+    },
+    {
+      "name": "brand/colattao.ts",
+      "sha256": "a55ba45440d4985908e85387ecda19ded7fc2c0e26ad481b6e78dfde15423e54"
     }
   ],
   "modelHashes": [
     {
-      "name": "colattao-cup-saucer.glb",
-      "bytes": 208712,
-      "sha256": "eddbb2175e7ba0413358fe023de2eae62158159131448562d6d3fffcee9a455f"
+      "name": "colattao-cup-saucer",
+      "bytes": 731556,
+      "triangles": 11628,
+      "sha256": "35e5f464c333417e0e0ad34ca66b3a79828d0aa3a1d3f0bb37c948b96adc4131"
     },
     {
-      "name": "colattao-croissant.glb",
-      "bytes": 62216,
-      "sha256": "3012c883b9f29017e9dcc0e2686b8320060e98e5634f1cd4fce91879839965c6"
+      "name": "colattao-croissant",
+      "bytes": 336748,
+      "triangles": 7072,
+      "sha256": "b9793a353f3eba319c15dd561572787d6b6123011aa61d21b036fee6239f7599"
     },
     {
-      "name": "colattao-iced-matcha.glb",
-      "bytes": 185492,
-      "sha256": "6f34a12da35061e17238dc0b7664a8547ade555a4da2e43ac538030ff2900226"
+      "name": "colattao-iced-matcha",
+      "bytes": 570860,
+      "triangles": 10580,
+      "sha256": "e51d4e623c990c0f848307ebd557fa92966d48e0468324c8ebf5d002f8cd094e"
     }
   ]
 }

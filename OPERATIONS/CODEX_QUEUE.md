@@ -1093,3 +1093,8 @@ State: LOCAL COMPLETE; checks passed; protected branch preview push authorized a
 Scope: DEMOS/pocket-cafe editable game; APP/web/public/demo/pocket-cafe/game runtime/models; isolated wrapper/checks/docs; existing demo branch commit/push and Vercel preview only.
 Preserve: rules, points, growth, levels, sinking, reward isolation, original source/model pack. Owner tests gameplay; no exhaustive QA or local full Next build.
 STOP: current live Fall Colattao, other client routes, main/production, rivals/difficulty changes, spending, installs or access/protection changes.
+
+## [x] Pocket Cafe source-faithful 3D correction preview - 2026-10-10
+State: INTEGRATION VERIFIED; protected branch push authorized, READY receipt follows in task handoff.
+Authority: Anthony's authenticated user message at 16:25 UTC, "publish it please", following the Astra-led corrected model review. Existing demo branch only; owner likeness acceptance is not claimed.
+Scope: replace the three demo GLBs with corrected source-derived models, update measured visual bounds, remove duplicate single-cup tray, fit sharing trays; rebuild only the small game and publish existing protected Vercel preview. Preserve all core/rules/input/collision/growth source and original/corrected asset packs. No installs, access changes, production or live Fall Colattao changes. Exhaustive gameplay/local full Next build waiver remains; necessary asset/visual checks and remote deployment build only.

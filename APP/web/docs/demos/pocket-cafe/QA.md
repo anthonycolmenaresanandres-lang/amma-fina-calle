@@ -9,3 +9,5 @@ The first production build compiled but failed writing generated metadata (ENOSP
 Evidence retained in the task workspace: fina-calle-demo-http-results.json, fina-calle-demo-gameplay.jpg, fina-calle-demo-round-complete.jpg, fina-calle-demo-mobile-390.jpg. The canvas fallback text appears in the accessibility tree even when WebGL renders, so it was not treated as evidence of a rendering failure.
 
 2026-10-10 3D update: see 3D-INTEGRATION.md and 3D-FIT-CHECKS.json. Necessary small game build, actual model bounds/core preservation, scoped isolation/ESLint and enhanced/fallback visual smoke completed. Gameplay QA remains Anthony's task.
+
+2026-10-10 Astra-led source correction: corrected model hashes and every posed vertex pass within unchanged game bounds; small game TypeScript/Vite build, route isolation and scoped ESLint pass. Astra accepted offline camera before/after tray fitting. Fresh browser automation timed out twice; GPU/mobile visual validation remains unverified. No local full Next build or repeated gameplay suite. See updated 3D-INTEGRATION.md and presentation comparison PNGs.
