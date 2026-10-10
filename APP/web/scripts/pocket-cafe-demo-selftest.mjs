@@ -20,7 +20,8 @@ for(const asset of ['demo.css','game/index.html','game/demo-marker.css','game/TH
 const gameHtml=fs.readFileSync(path.join(root,'game/index.html'),'utf8');
 assert.match(gameHtml,/Fina Calle demo/);
 assert.match(gameHtml,/noindex/);
-assert.match(gameHtml,/connect-src 'none'/);
+assert.match(gameHtml,/connect-src 'self' blob:/);
+for(const name of ['colattao-cup-saucer.glb','colattao-croissant.glb','colattao-iced-matcha.glb']) assert.equal(fs.readFileSync(path.join(root,'game/assets/models',name)).readUInt32LE(0),0x46546c67);
 for(const match of gameHtml.matchAll(/(?:src|href)="\.\/([^"]+)"/g))assert.ok(fs.existsSync(path.join(root,'game',match[1])),match[1]);
 const js=fs.readdirSync(path.join(root,'game/assets')).filter(name=>name.endsWith('.js')).map(name=>fs.readFileSync(path.join(root,'game/assets',name),'utf8')).join('\n');
 for(const forbidden of ['www.gstatic.com/play/games/playground','assets-gen-playground','storage.googleapis.com','scoreUpdated'])assert.ok(!js.includes(forbidden),forbidden);

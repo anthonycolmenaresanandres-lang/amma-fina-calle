@@ -1,0 +1,13 @@
+# Real 3D demo integration - 2026-10-10
+
+Anthony explicitly approved replacing our isolated Pocket Cafe demo and publishing its protected branch preview; the current live Fall Colattao game is excluded. No production merge/promotion or gameplay redesign.
+
+DEMOS/pocket-cafe holds editable React/Three/Vite source, outside the Next app compilation tree. CafeModels.tsx loads the three original GLBs from the preserved Colattao model pack (456420 bytes total), clones/tints materials per instance and uses real cylinder/torus serving trays. Six food/drink recipes uniformly scale the assets within the existing item radii/heights; no flattened food-image props are used for these six classes. Existing tiny/huge primitive meshes and UI/logo art remain. Serving trays show 96% of the existing logical radius; no collider/eligibility change. Labels reflect cup/croissant/matcha sharing trays.
+
+gameplay.ts, levels.ts, constants.ts, input.ts and utils.ts are byte-identical to the preserved skin source. Points, spawning, growth, movement, sinking and outer transforms remain unchanged. 3D-FIT-CHECKS.json verifies actual GLB vertices inside every recipe's unchanged radius/height and verifies original GLB hashes. MODEL-PROVENANCE.json preserves asset provenance. Original Playground ZIP, editable skin delivery and model-pack ZIP remain unchanged in the task workspace.
+
+Necessary checks passed: TypeScript + small Vite static game build; actual vertex/core/asset preservation check; route/assets/isolation self-test; scoped ESLint. Browser smoke at 1280x720 shows the genuine cup, croissant and matcha geometry in the running scene; all three same-origin model requests returned 200. The browser start action reported an intermittent input timeout but the subsequent screenshot verified the running round. Solid fallback checked separately at the same viewport with ?primitive=1. Existing no-WebGL message remains. No exhaustive gameplay/mobile/performance QA; Anthony will test. No local full Next build; the Vercel Git preview build is authoritative.
+
+Game CSP permits connect-src 'self' blob: solely to load local GLBs/embedded PNGs. Outer wrapper keeps script-src/connect-src 'none'. No Google runtime, accounts, reward redemption, persistence, analytics or remote service integration. Seven original Colattao artwork assets and notices are retained. Broad commercial application/brand rights remain undocumented; this owner-approved protected demo does not establish a public commercial license.
+
+Publish only the existing codex/fina-calle-pocket-cafe-demo-20261010 branch, retain Vercel SSO protection, and verify deployment matches the pushed commit. No main push, production alias or promotion.

@@ -3374,3 +3374,7 @@ Anthony directly authorized local demo integration. Isolated branch from cached 
 
 
 2026-10-10 OUT local Pocket Cafe preparation: isolated route, local assets/notices/provenance and QA limits documented. Self-test/lint/types/dev HTTP passed; browser steering/growth/320px unverified. Anthony explicitly waived further tests and authorized protected branch preview publication/retry. Commit and branch push now scoped to this demo; existing Vercel remote build and deployment receipt pending. Production/live Colattao unchanged.
+
+2026-10-10 IN Pocket Cafe 3D demo update: Anthony explicitly authorized integration and protected preview publication at 14:39 UTC; current Fall Colattao expressly excluded. Existing demo branch only. Preserve gameplay/rules/rewards isolation, original model pack and source. Reuse installed dependencies; build only the small static game bundle and use Vercel for the Next preview build. Necessary model/visual smoke only; Anthony will test gameplay.
+
+2026-10-10 OUT Pocket Cafe 3D update: editable isolated source and three genuine GLBs integrated; bounded uniform recipes/trays and solid fallback. Rules/core byte-identical. Small game build, vertex/hash verification, isolation selftest, ESLint and visual smoke passed. Scope only own demo. Owner-authorized existing branch preview push next; live Fall Colattao/main/protection unchanged. Remote READY result recorded separately by exact SHA.

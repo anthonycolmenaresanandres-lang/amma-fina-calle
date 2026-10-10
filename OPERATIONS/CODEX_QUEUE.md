@@ -1087,3 +1087,9 @@ Base: origin/main 4b9aba7. Branch: codex/fina-calle-pocket-cafe-demo-20261010.
 Scope: isolated /demo/pocket-cafe route, static game/assets/notices, provenance/docs, commit/push of this branch and existing Vercel project's protected remote preview build.
 Completed checks and limits: APP/web/docs/demos/pocket-cafe/QA.md.
 STOP: production merge/promotion, live Colattao or customer/reward changes, new spending/services/access, protection changes or secrets.
+
+## [x] Pocket Cafe actual 3D models - 2026-10-10
+State: LOCAL COMPLETE; checks passed; protected branch preview push authorized and next. Remote READY/commit receipt will be recorded in the task handoff.
+Scope: DEMOS/pocket-cafe editable game; APP/web/public/demo/pocket-cafe/game runtime/models; isolated wrapper/checks/docs; existing demo branch commit/push and Vercel preview only.
+Preserve: rules, points, growth, levels, sinking, reward isolation, original source/model pack. Owner tests gameplay; no exhaustive QA or local full Next build.
+STOP: current live Fall Colattao, other client routes, main/production, rivals/difficulty changes, spending, installs or access/protection changes.

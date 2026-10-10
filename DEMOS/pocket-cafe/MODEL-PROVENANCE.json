@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "created": "2026-10-10",
+  "units": "metres",
+  "upAxis": "Y",
+  "authoring": "Parametric indexed geometry in src/models.mjs; no third-party models",
+  "variants": {
+    "colattao-cup-saucer": {
+      "file": "runtime/colattao-cup-saucer.glb",
+      "triangles": 5864,
+      "vertices": 3704,
+      "meshes": 7,
+      "bounds": {
+        "min": [
+          -0.06800000369548798,
+          0,
+          -0.06800000369548798
+        ],
+        "max": [
+          0.06800000369548798,
+          0.11689000006847083,
+          0.06800000369548798
+        ],
+        "size": [
+          0.13600000739097595,
+          0.11689000006847083,
+          0.13600000739097595
+        ]
+      },
+      "footprintRadius": 0.06800000369548798,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 208712,
+      "materials": 7,
+      "embeddedImages": 2,
+      "sha256": "eddbb2175e7ba0413358fe023de2eae62158159131448562d6d3fffcee9a455f",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    },
+    "neutral-cup-saucer": {
+      "file": "runtime/neutral-cup-saucer.glb",
+      "triangles": 2824,
+      "vertices": 1936,
+      "meshes": 4,
+      "bounds": {
+        "min": [
+          -0.06800000369548798,
+          0,
+          -0.06800000369548798
+        ],
+        "max": [
+          0.06800000369548798,
+          0.11689000006847083,
+          0.06800000369548798
+        ],
+        "size": [
+          0.13600000739097595,
+          0.11689000006847083,
+          0.13600000739097595
+        ]
+      },
+      "footprintRadius": 0.06800000369548798,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 83952,
+      "materials": 4,
+      "embeddedImages": 0,
+      "sha256": "8307f822d95bfc6c48ab353933d994c88f20387ced509cff0b51b90a963c0978",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    },
+    "colattao-croissant": {
+      "file": "runtime/colattao-croissant.glb",
+      "triangles": 2256,
+      "vertices": 1426,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.06713112443685532,
+          0,
+          -0.008887005396640241
+        ],
+        "max": [
+          0.06713112443685532,
+          0.03685447759926319,
+          0.05675234645605087
+        ],
+        "size": [
+          0.13426224887371063,
+          0.03685447759926319,
+          0.06563935185269111
+        ]
+      },
+      "footprintRadius": 0.06874305356865111,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 62216,
+      "materials": 2,
+      "embeddedImages": 0,
+      "sha256": "3012c883b9f29017e9dcc0e2686b8320060e98e5634f1cd4fce91879839965c6",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    },
+    "neutral-croissant": {
+      "file": "runtime/neutral-croissant.glb",
+      "triangles": 2256,
+      "vertices": 1426,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.06713112443685532,
+          0,
+          -0.008887005396640241
+        ],
+        "max": [
+          0.06713112443685532,
+          0.03685447759926319,
+          0.05675234645605087
+        ],
+        "size": [
+          0.13426224887371063,
+          0.03685447759926319,
+          0.06563935185269111
+        ]
+      },
+      "footprintRadius": 0.06874305356865111,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 62216,
+      "materials": 2,
+      "embeddedImages": 0,
+      "sha256": "3012c883b9f29017e9dcc0e2686b8320060e98e5634f1cd4fce91879839965c6",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    },
+    "colattao-iced-matcha": {
+      "file": "runtime/colattao-iced-matcha.glb",
+      "triangles": 4356,
+      "vertices": 3550,
+      "meshes": 11,
+      "bounds": {
+        "min": [
+          -0.03012867644429207,
+          0,
+          -0.03012867644429207
+        ],
+        "max": [
+          0.03012867644429207,
+          0.1450098515642742,
+          0.03012867644429207
+        ],
+        "size": [
+          0.06025735288858414,
+          0.1450098515642742,
+          0.06025735288858414
+        ]
+      },
+      "footprintRadius": 0.03012867644429207,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 185492,
+      "materials": 11,
+      "embeddedImages": 1,
+      "sha256": "6f34a12da35061e17238dc0b7664a8547ade555a4da2e43ac538030ff2900226",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    },
+    "neutral-iced-matcha": {
+      "file": "runtime/neutral-iced-matcha.glb",
+      "triangles": 4036,
+      "vertices": 3340,
+      "meshes": 9,
+      "bounds": {
+        "min": [
+          -0.03012867644429207,
+          0,
+          -0.03012867644429207
+        ],
+        "max": [
+          0.03012867644429207,
+          0.1450098515642742,
+          0.03012867644429207
+        ],
+        "size": [
+          0.06025735288858414,
+          0.1450098515642742,
+          0.06025735288858414
+        ]
+      },
+      "footprintRadius": 0.03012867644429207,
+      "origin": "support plane, X/Z authored pivot",
+      "units": "metres",
+      "bytes": 141892,
+      "materials": 9,
+      "embeddedImages": 0,
+      "sha256": "451d3c90ffc70df0e748170056d9dc323ca1eb80736c1eb0b2efe19eae2ce0af",
+      "recommendedCollision": "cylinder/footprint at measured radius; base at Y=0; scale by target radius / footprintRadius"
+    }
+  },
+  "textureBudget": {
+    "logo": [
+      512,
+      171
+    ],
+    "botanical": [
+      512,
+      256
+    ],
+    "uncompressedRGBABytes": 874496
+  },
+  "provenance": [
+    {
+      "file": "references/logo.png",
+      "source": "../colattao-collector/public/assets/colattao/logo.png",
+      "sha256": "5e1565a78b743eccc1f5285f1ba2bdf1778be05450cc620182a981b4f31b1bb2",
+      "role": "authentic logo; used only as surface branding",
+      "rights": "Existing Colattao local art; independent license not supplied"
+    },
+    {
+      "file": "references/coffee.png",
+      "source": "../colattao-collector/public/assets/colattao/coffee.png",
+      "sha256": "39c07484d588e87c46e54e01273760213e6610c6a2bb6311cf0025f0d29bb377",
+      "role": "visual modelling reference; not used as object billboard",
+      "rights": "Existing Colattao local art; independent license not supplied"
+    },
+    {
+      "file": "references/croissant.png",
+      "source": "../colattao-collector/public/assets/colattao/croissant.png",
+      "sha256": "296f5faf81b21b865d9985f53f8562645c6c9651008ce1d27e88b67abaed8419",
+      "role": "visual modelling reference; not used as object billboard",
+      "rights": "Existing Colattao local art; independent license not supplied"
+    },
+    {
+      "file": "references/matcha.png",
+      "source": "../colattao-collector/public/assets/colattao/matcha.png",
+      "sha256": "14f533206aa725139fb5946139e37185140e33a954794de489f1afb82565f25a",
+      "role": "visual modelling reference; not used as object billboard",
+      "rights": "Existing Colattao local art; independent license not supplied"
+    }
+  ],
+  "render": {
+    "width": 1440,
+    "height": 1370,
+    "supersampling": 2,
+    "renderer": "offline indexed-mesh z-buffer with normal/UV interpolation",
+    "gameCameraDirection": [
+      0,
+      12,
+      11
+    ],
+    "projection": "orthographic detail; original game-camera direction"
+  },
+  "gameFit": {
+    "camera": {
+      "position": [
+        0,
+        12,
+        11
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov": 50,
+      "source": "Original gameplay.ts tier 1 and constants.ts"
+    },
+    "unitsPerMetre": 10,
+    "originalColattaoMapping": {
+      "cup-saucer": {
+        "id": "item_small_1",
+        "radius": 0.65,
+        "height": 0.7
+      },
+      "croissant": {
+        "id": "item_med_1",
+        "radius": 1.15,
+        "height": 1.2
+      },
+      "iced-matcha": {
+        "id": "item_small_2",
+        "radius": 0.75,
+        "height": 0.8
+      }
+    },
+    "notes": "Art-only isolated sizing scene; common physical scale preserves proportions. Blue rings are tight measured mesh footprints. Original logical radii are recorded, not changed; integrating new colliders into gameplay requires a separate task.",
+    "models": {
+      "cup-saucer": {
+        "uniformScale": 10,
+        "measuredRadius": 0.6800000369548798,
+        "visualHeight": 1.1689000006847083
+      },
+      "croissant": {
+        "uniformScale": 10,
+        "measuredRadius": 0.6874305356865111,
+        "visualHeight": 0.3685447759926319
+      },
+      "iced-matcha": {
+        "uniformScale": 10,
+        "measuredRadius": 0.3012867644429207,
+        "visualHeight": 1.450098515642742
+      }
+    }
+  },
+  "gameSceneRender": {
+    "width": 1280,
+    "height": 840,
+    "supersampling": 2,
+    "renderer": "offline indexed-mesh z-buffer with normal/UV interpolation",
+    "gameCameraDirection": [
+      0,
+      12,
+      11
+    ],
+    "projection": "perspective FOV 50; actual original camera"
+  }
+}

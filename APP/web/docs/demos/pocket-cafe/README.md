@@ -1,6 +1,6 @@
 # Pocket Cafe - isolated Fina Calle preview
 
-Route: `/demo/pocket-cafe`. A standalone GET document embeds the existing compiled React/Three.js Colattao skin. It bypasses the customer/root layout and includes no accounts, real rewards, saved scores, database or analytics integration. CSP blocks runtime connections. The iframe permits scripts and same-origin local assets; it is not a separate security origin.
+Route: `/demo/pocket-cafe`. A standalone GET document embeds the compiled React/Three.js Colattao demo with real GLB cup, croissant and iced-matcha props. It bypasses the customer/root layout and includes no accounts, real rewards, saved scores, database or analytics integration. The wrapper blocks connections; the inner game allows only same-origin static assets and embedded model image blobs. The iframe permits scripts and same-origin local assets; it is not a separate security origin.
 
 Only this demo route, its static assets/notices, provenance, scoped verification script and coordination documents are added. Packages, root layout, configuration and live Colattao/customer routes remain unchanged. Seven existing Colattao assets and dependency license notices are preserved. ASSET_SOURCES.json remains outside public content.
 

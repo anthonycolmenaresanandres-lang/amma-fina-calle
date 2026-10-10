@@ -1,0 +1,15 @@
+import fs from 'node:fs/promises';import crypto from 'node:crypto';import path from 'node:path';import {fileURLToPath} from 'node:url';
+import {modelFitSummary} from './CafeModels.tsx';import {LOGICAL_ITEMS} from './gameplay.ts';
+const root=path.dirname(fileURLToPath(import.meta.url)),records=[];
+for(const [id,recipe] of Object.entries(modelFitSummary())){
+  const def=LOGICAL_ITEMS[id],trayHeight=Math.min(.085,def.height*.10),availableHeight=def.height*.96-trayHeight,scale=Math.min(...recipe.poses.map(p=>Math.min(availableHeight/recipe.models[p.kind].height,def.radius*recipe.footprint/recipe.models[p.kind].radius)));
+  let maxRadius=0,maxHeight=0,vertices=0;
+  for(const pose of recipe.poses){const filename=path.resolve(root,'public',recipe.models[pose.kind].path),b=await fs.readFile(filename),jl=b.readUInt32LE(12),j=JSON.parse(b.subarray(20,20+jl).toString()),bin=b.subarray(28+jl),angle=pose.turn||0,c=Math.cos(angle),s=Math.sin(angle);
+    for(const mesh of j.meshes)for(const primitive of mesh.primitives){const a=j.accessors[primitive.attributes.POSITION],v=j.bufferViews[a.bufferView],offset=v.byteOffset+(a.byteOffset||0);for(let i=0;i<a.count;i++){const x=bin.readFloatLE(offset+i*12)*scale,y=bin.readFloatLE(offset+i*12+4)*scale+trayHeight,z=bin.readFloatLE(offset+i*12+8)*scale,xx=x*c+z*s+pose.x*def.radius,zz=-x*s+z*c+pose.z*def.radius,r=Math.hypot(xx,zz);if(r>def.radius+1e-5||y>def.height+1e-5||y<0)throw Error(`Model leaves existing bounds: ${id}`);maxRadius=Math.max(maxRadius,r);maxHeight=Math.max(maxHeight,y);vertices++;}}
+  }
+  records.push({id,pass:true,logicalRadius:def.radius,logicalHeight:def.height,modelMaxRadius:maxRadius,modelMaxHeight:maxHeight,trayRadius:def.radius*.96,uniformModelScale:scale,instances:recipe.poses.length,verticesChecked:vertices});
+}
+const original='C:/Users/bellmark/Documents/Codex/2026-10-10/task/colattao-collector',preserved=[];
+for(const name of ['gameplay.ts','levels.ts','constants.ts','input.ts','utils.ts']){const a=await fs.readFile(path.join(original,name)),b=await fs.readFile(path.join(root,name));if(!a.equals(b))throw Error(`Core source changed: ${name}`);preserved.push({name,sha256:crypto.createHash('sha256').update(b).digest('hex')});}
+const modelHashes=[];for(const name of ['colattao-cup-saucer.glb','colattao-croissant.glb','colattao-iced-matcha.glb']){const bytes=await fs.readFile(path.join(root,'public/assets/models',name)),originalBytes=await fs.readFile(path.join(original,'../colattao-3d-pack/runtime',name));if(!bytes.equals(originalBytes))throw Error(`Original GLB changed: ${name}`);modelHashes.push({name,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});}
+const report={date:new Date().toISOString(),pass:true,scope:'Actual exported vertices fit unchanged logical radii/heights; original core modules and GLBs byte-identical. Not exhaustive gameplay QA.',records,preserved,modelHashes};await fs.writeFile(path.join(root,'3D-FIT-CHECKS.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

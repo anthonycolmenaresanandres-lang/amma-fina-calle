@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-10T15:15:44.853Z",
+  "pass": true,
+  "scope": "Actual exported vertices fit unchanged logical radii/heights; original core modules and GLBs byte-identical. Not exhaustive gameplay QA.",
+  "records": [
+    {
+      "id": "item_small_1",
+      "pass": true,
+      "logicalRadius": 0.65,
+      "logicalHeight": 0.7,
+      "modelMaxRadius": 0.3502096175952144,
+      "modelMaxHeight": 0.6719999909784667,
+      "trayRadius": 0.624,
+      "uniformModelScale": 5.150141155337201,
+      "instances": 1,
+      "verticesChecked": 3704
+    },
+    {
+      "id": "item_small_2",
+      "pass": true,
+      "logicalRadius": 0.75,
+      "logicalHeight": 0.8,
+      "modelMaxRadius": 0.5553345157190841,
+      "modelMaxHeight": 0.6811924670303788,
+      "trayRadius": 0.72,
+      "uniformModelScale": 4.14587344036705,
+      "instances": 2,
+      "verticesChecked": 4976
+    },
+    {
+      "id": "item_med_1",
+      "pass": true,
+      "logicalRadius": 1.15,
+      "logicalHeight": 1.2,
+      "modelMaxRadius": 1.012,
+      "modelMaxHeight": 0.6275527018262378,
+      "trayRadius": 1.1039999999999999,
+      "uniformModelScale": 14.72148744439107,
+      "instances": 1,
+      "verticesChecked": 1426
+    },
+    {
+      "id": "item_med_2",
+      "pass": true,
+      "logicalRadius": 1.35,
+      "logicalHeight": 1.4,
+      "modelMaxRadius": 1.0395,
+      "modelMaxHeight": 0.8972135471050879,
+      "trayRadius": 1.296,
+      "uniformModelScale": 6.948529034144037,
+      "instances": 2,
+      "verticesChecked": 7408
+    },
+    {
+      "id": "item_large_1",
+      "pass": true,
+      "logicalRadius": 1.85,
+      "logicalHeight": 1.9,
+      "modelMaxRadius": 1.3072818554604237,
+      "modelMaxHeight": 0.3726279886657871,
+      "trayRadius": 1.776,
+      "uniformModelScale": 7.804424914936569,
+      "instances": 3,
+      "verticesChecked": 4278
+    },
+    {
+      "id": "item_large_2",
+      "pass": true,
+      "logicalRadius": 2.1,
+      "logicalHeight": 2.3,
+      "modelMaxRadius": 1.163574079641783,
+      "modelMaxHeight": 1.3696533769175459,
+      "trayRadius": 2.016,
+      "uniformModelScale": 8.859076930468538,
+      "instances": 3,
+      "verticesChecked": 8526
+    }
+  ],
+  "preserved": [
+    {
+      "name": "gameplay.ts",
+      "sha256": "e9b864093fa45df41d5cf9c7f30ee90b1ddc0b5d01625aaaab9a6761a9f688e6"
+    },
+    {
+      "name": "levels.ts",
+      "sha256": "410288749a2e711c93abf5db8cc2815ad3aa9fa0b7dcd25fe25e0c6561010fe6"
+    },
+    {
+      "name": "constants.ts",
+      "sha256": "2212686bd700540d4988739ec0dface152ed2488c04dc6fa1583af3d4944be73"
+    },
+    {
+      "name": "input.ts",
+      "sha256": "0b3a7749fa2a6343844aa672c42e583a64cd554c9547b9916d615764dc0257e4"
+    },
+    {
+      "name": "utils.ts",
+      "sha256": "845cac1928330a64be713bb6a2b248a508d0a38f6abc90abe8777d2e7ce05e34"
+    }
+  ],
+  "modelHashes": [
+    {
+      "name": "colattao-cup-saucer.glb",
+      "bytes": 208712,
+      "sha256": "eddbb2175e7ba0413358fe023de2eae62158159131448562d6d3fffcee9a455f"
+    },
+    {
+      "name": "colattao-croissant.glb",
+      "bytes": 62216,
+      "sha256": "3012c883b9f29017e9dcc0e2686b8320060e98e5634f1cd4fce91879839965c6"
+    },
+    {
+      "name": "colattao-iced-matcha.glb",
+      "bytes": 185492,
+      "sha256": "6f34a12da35061e17238dc0b7664a8547ade555a4da2e43ac538030ff2900226"
+    }
+  ]
+}
