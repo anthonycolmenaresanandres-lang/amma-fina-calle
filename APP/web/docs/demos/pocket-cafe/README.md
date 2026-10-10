@@ -9,3 +9,7 @@ Original Playground editor: https://playground.google/create/6581734140600644177
 Anthony explicitly authorized this separate branch preview and asked to publish without further testing on 2026-10-10. Existing Vercel sign-in protection must remain enabled. No production merge or promotion is authorized. Remote deployment completion/URL is recorded in the task handoff rather than claimed here before deployment.
 
 Application and Colattao asset licenses are not independently documented for broader commercial distribution; dependency notices are included. See QA.md for completed checks and their limits.
+
+## Public release authorization - 2026-10-10 18:38 UTC
+
+Anthony explicitly approved merging this demo branch into main and publishing /demo/pocket-cafe on the live Fina Calle site, with public access without Vercel sign-in disclosed. This supersedes the earlier protected-preview-only publication scope for this demo. Required exact-head PR CI and production READY/public-route verification remain release gates. Owner approval does not establish third-party ownership or broader commercial reuse rights. Live Fall Colattao, unrelated files/settings and private original archives remain excluded. Exact PR/head/merge/deployment verification is recorded in the release task receipt.
