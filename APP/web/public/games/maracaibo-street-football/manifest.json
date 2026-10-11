@@ -1,0 +1,26 @@
+{
+  "archiveCommit": "566c4f06cc85bd2fa5e351df7146782fad124573",
+  "sourceBranch": "adapt/maracaibo-20261011",
+  "files": [
+    {
+      "file": "index.html",
+      "bytes": 2362,
+      "sha256": "04ec5b0517fe25903adc879ab6d28c640155d7ec63ed34c8d8807cf731910794"
+    },
+    {
+      "file": "match.js",
+      "bytes": 20255,
+      "sha256": "0a3131f110481c9657102fae80060615b0c589ed30fc28ab2e8aa1e2410b00f2"
+    },
+    {
+      "file": "style.css",
+      "bytes": 4420,
+      "sha256": "ce75509f0c835384edb8e7165ebf0f72dd7a96439f98e98136000dad1ad0bebe"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.md",
+      "bytes": 6151,
+      "sha256": "d6a6ba6a98f65daeed853743d57af6e3a5a3190256d85f0e51b6bc4cc093e56c"
+    }
+  ]
+}
