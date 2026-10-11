@@ -1,21 +1,21 @@
 {
   "archiveCommit": "566c4f06cc85bd2fa5e351df7146782fad124573",
-  "sourceBranch": "adapt/maracaibo-20261011",
+  "sourceBranch": "adapt/maracaibo-penalty-look-20261011",
   "files": [
     {
       "file": "index.html",
       "bytes": 2360,
-      "sha256": "f2b990b02e769e47e83d1a17b77795e012bfedd5e873dcb6daa5b6c813dda2b8"
+      "sha256": "d447e331ad5980e104112bd8d10b8587d96db2c2700bff75e605b0675342baf1"
     },
     {
       "file": "match.js",
-      "bytes": 20253,
-      "sha256": "d8539ba99ba8c17462fcac62bf087a6566a9d76d6bc054f11646016a8d167ff1"
+      "bytes": 24227,
+      "sha256": "2669e6a080be782b9b3282eb136a915a2d40423a367a72114db6d085ac4b65c2"
     },
     {
       "file": "style.css",
-      "bytes": 4420,
-      "sha256": "ce75509f0c835384edb8e7165ebf0f72dd7a96439f98e98136000dad1ad0bebe"
+      "bytes": 5096,
+      "sha256": "614e93a03b119b00f841945e70d6898665275f1aac2a5ece7fd3bdc8a75a5adb"
     },
     {
       "file": "THIRD_PARTY_NOTICES.md",
