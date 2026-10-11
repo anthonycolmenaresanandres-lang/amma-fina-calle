@@ -1,6 +1,6 @@
 # Maracaibo Street Football — local penalty-style revision
 
-Status: REVIEW READY, LOCAL ONLY. Anthony requested the penalty game's graphics; this turn authorizes editing and focused review only. No push, PR, merge, deployment, permissions or spending. Current production remains unchanged.
+Status: OWNER-APPROVED RELEASE PENDING. Anthony explicitly said "Publish it" after reviewing the penalty-style revision. Scope: this prepared visual revision, PR, successful final checks, merge and existing production route. No new spending, services, credentials or access changes.
 
 ## Presentation
 The actual Maracaibo penalty source (`MaracaiboPenaltyClient.tsx`) specifies its sunset lake/bridge stadium, foreground turf, tequeño kicker, illustrated keeper, low scrim and burgundy/gold palette. Those existing files were visually inspected and reused by URL, without modifying their Git blobs. Street Football now has an angled full pitch, perspective-sized upright tequeño outfield players, existing keeper art, foot shadows, depth order, white goal frames/nets and the penalty-style palette/HUD. The away team gets a runtime cream tint of the source burgundy fabric; folds, gold pastry pixels and transparency are retained, and no asset file is changed. Home/away badges remain distinct. A missing image falls back to an upright kit-colored primitive. The ball stays above character artwork, as in the penalty renderer, to retain play readability.
@@ -19,3 +19,6 @@ Local review: `http://127.0.0.1:4184/games/maracaibo-street-football/` (loopback
 Reproduce: from the new private `adapted/`, reuse the ignored junction to the existing company toolchain; run `node build.cjs <app-public-game-output>`, the strict TypeScript command for `main.ts selftest.ts presentation.ts kit.ts`, `node node_modules/tsx/dist/cli.mjs selftest.ts`, `node controls-selftest.cjs <built-match.js>`, and `node visual-selftest.cjs`. `MARACAIBO_PUBLIC` can point the offline proof recorder at another existing app public folder. No install is required on this machine.
 
 Review the private `visual-evidence/browser-390x844.png` for the actual phone view and `visual-evidence/offline-before-after-390x550.png` for the same-arena before/after. The offline proofs are labeled and are not browser screenshots.
+
+## Approved release verification
+Anthony approved publication after review. Rebased onto current main 7d363f6; runtime and existing assets unchanged by reconciliation. Final strict source types, 11 engine cases/20 seeded matches, four simulated DOM variants and offline renderer proofs passed; route lint and diff check passed. Local full Next build was attempted but blocked by missing already-declared qrcode in the shared installed toolchain (three unrelated QR modules). No dependency/toolchain mutation. Clean-install exact-head CI and full production build are mandatory before merge; exact production revision and public bytes will be verified afterward.
