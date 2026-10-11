@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101112">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Maracaibo Street Football</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./match.js" defer></script>
+</head>
+<body>
+<main class="game" aria-label="Maracaibo Street Football">
+  <header><a id="menu" href="/table/maracaibo/1" target="_top" aria-label="Back to Maracaibo menu">← Menu</a><span id="brand">Maracaibo Street Football</span><button id="pause" hidden aria-label="Pause match">Ⅱ</button></header>
+  <div class="scorebar"><strong id="score">Lago 0 : 0 Rayo</strong><time id="clock" aria-label="Match time remaining">2:00</time></div>
+  <div class="arena"><canvas id="pitch" tabindex="0" aria-label="Football pitch. Arrow keys or WASD to move, J to pass or switch, K or Space to shoot or tackle, Escape to pause.">Your browser needs canvas support to play.</canvas>
+    <section id="overlay" class="overlay" aria-labelledby="overlay-title">
+      <img src="/assets/maracaibo/maracaibo-kitchen-cocktails-logo.png" alt="Maracaibo Kitchen and Cocktails" width="150" height="76">
+      <p class="eyebrow">LAGO × RAYO</p><h1 id="overlay-title">Street Football</h1>
+      <p id="description">Five a side. Two minutes. All to play for.</p>
+      <p class="instructions">Move with the stick. Pass to a teammate.<br>Hold Shoot for power, then release.<br>Without the ball, Switch and Tackle.</p>
+      <button id="start" class="start">Start match</button><p id="stats" aria-live="polite"></p>
+      <button id="restart" class="text-button">New match</button>
+    </section>
+  </div>
+  <p id="notice" class="notice" aria-live="polite">Your team is Lago. Attack the far goal.</p>
+  <footer><div id="stick" role="group" aria-label="Movement joystick; keyboard arrows also move"><span id="knob"></span><span class="stick-label">MOVE</span></div><div class="actions"><button id="pass" aria-label="Pass with the ball or switch player">Pass</button><button id="shoot" aria-label="Hold and release to shoot; tackle without the ball">Shoot</button></div></footer>
+  <small class="credits">Maracaibo demo · <a href="./THIRD_PARTY_NOTICES.md">Notices</a></small>
+</main>
+</body></html>
