@@ -24,6 +24,7 @@ function Scene({gameState,setGameState,joystickVector,onProgress,onTierChange,on
  const cancelRef=useRef(false),progressRef=useRef('');
  useEffect(()=>{if(!canvasRef.current)return;const painter=new CounterPainter(canvasRef.current);painterRef.current=painter;return()=>{painter.dispose();painterRef.current=null;};},[]);
  useFrame((_,delta)=>{
+  if(race.done)return;
   const input=inputRef.current,cancel=!!input?.actions.cancel;
   if(cancel&&!cancelRef.current)setGameState(s=>({...s,status:s.status==='PAUSED'?'PLAYING':'PAUSED'}));
   cancelRef.current=cancel;
@@ -40,6 +41,7 @@ function Scene({gameState,setGameState,joystickVector,onProgress,onTierChange,on
   }
   const snapshot={score:race.player.score,rivalScore:race.leaderScore,timer:Math.ceil(race.remaining),tier:race.player.tier,done:race.done,won:race.outcome==='won',endReason:race.result?.reason||null,rivalsAlive:race.rivals.filter(a=>a.alive).length,rivalCount:race.rivals.length,pointsBeforeCapture:race.result?.pointsBeforeCapture||0};
   const key=JSON.stringify(snapshot);if(key!==progressRef.current){progressRef.current=key;onProgress(snapshot);}
+  if(race.done)return;
   painterRef.current?.paint({collector:race.player,rivals:race.rivals,obstacles:race.obstacles,captureRatio:race.rules.captureRatio,items:race.items,width:level.arenaWidth,depth:level.arenaDepth,active:gameState.status==='PLAYING'},delta);
  });
  return <canvas ref={canvasRef} className="counter-canvas" role="img" aria-label="Deli countertop. Your green sandwich competes with numbered rivals. Larger sandwiches can eat smaller ones."/>;

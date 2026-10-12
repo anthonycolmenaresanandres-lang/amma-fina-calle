@@ -1,6 +1,6 @@
 import {ART,ART_SLOTS,inspectedPath,type ArtSlot} from './assets';
 import {RECIPE,type PickupId} from './recipe';
-import {roomLayout,projectToCounter,type RoomLayout} from './CounterProjection';
+import {CounterCamera} from './CounterCamera';
 import {collectorGeometry} from './CollectorGeometry';
 import type {Actor,RaceItem,Obstacle} from '../collector-standard/engine';
 
@@ -10,9 +10,9 @@ type Crumb={x:number;z:number;vx:number;vz:number;life:number};
 export class CounterPainter{
  private ctx:CanvasRenderingContext2D;
  private images=new Map<string,Loaded>();private observer:ResizeObserver;
- private background=document.createElement('canvas');private layout:RoomLayout=roomLayout(1,1);
+ private background=document.createElement('canvas');
  private rearEdge=120;private width=1;private height=1;private dpr=1;private dirty=true;
- private camera={x:0,z:0,zoom:0};
+ private camera=new CounterCamera();
  private reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
  private seen=new Set<string>();private crumbs:Crumb[]=Array.from({length:24},()=>({x:0,z:0,vx:0,vz:0,life:0}));
  private cursor=0;private elapsed=0;private paintTotal=0;private frameTotal=0;private metricAt=0;
@@ -27,7 +27,7 @@ export class CounterPainter{
  dispose(){this.observer.disconnect();for(const entry of this.images.values()){entry.image.onload=null;entry.image.onerror=null;}this.images.clear();}
  private resize(){const box=this.canvas.getBoundingClientRect();this.width=Math.max(1,Math.round(box.width));this.height=Math.max(1,Math.round(box.height));
   this.dpr=Math.min(window.devicePixelRatio||1,1.5);this.canvas.width=Math.round(this.width*this.dpr);this.canvas.height=Math.round(this.height*this.dpr);
-  this.layout=roomLayout(this.width,this.height);this.rearEdge=Math.min(this.height*.26,Math.max(105,this.width*.39));this.camera.zoom=0;this.dirty=true;}
+  this.rearEdge=Math.min(this.height*.26,Math.max(105,this.width*.39));this.camera.reset();this.dirty=true;}
  private image(slot:ArtSlot){const path=inspectedPath(slot);return path&&this.images.get(path)?.ready?this.images.get(path)!.image:null;}
  private backdrop(){
   const{width,height,dpr,rearEdge}=this;
@@ -51,22 +51,10 @@ export class CounterPainter{
  paint(state:PaintState,delta:number){
   const started=performance.now();if(this.dirty)this.backdrop();
   const c=this.ctx;c.setTransform(this.dpr,0,0,this.dpr,0,0);
-  if(!this.camera.zoom){this.camera.x=state.collector.x;this.camera.z=state.collector.z;}
-  const lerp=this.reduced.matches?1:1-Math.exp(-14*Math.min(delta,.1));
-  this.camera.x+=(state.collector.x-this.camera.x)*lerp;this.camera.z+=(state.collector.z-this.camera.z)*lerp;
-  const base=(x:number,z:number)=>projectToCounter(x,z,state.width,state.depth,this.layout);
-  const focus=base(this.camera.x,this.camera.z),radius=state.collector.radius;
-  const wanted=Math.min(this.width*.14,this.height*.18)*Math.sqrt(.95/radius);
-  const maxPPU=Math.min(this.width*.36,this.height*.45)/(radius*1.8);
-  const desired=Math.max(1,Math.min(wanted,maxPPU)/focus.scale);
-  this.camera.zoom=this.camera.zoom?this.camera.zoom+(desired-this.camera.zoom)*lerp:desired;
-  const zoom=this.camera.zoom,anchorX=this.width*.5,anchorY=this.height*.53;
-  // One camera transforms room, counter, rim and food together; no independent scenery drift.
-  const cx=Math.max(anchorX/zoom,Math.min(this.width-(this.width-anchorX)/zoom,focus.x));
-  const cy=Math.max(anchorY/zoom,Math.min(this.height-(this.height-anchorY)/zoom,focus.y));
-  const ox=anchorX-cx*zoom,oy=anchorY-cy*zoom;
+  const radius=state.collector.radius;
+  const view=this.camera.update({width:this.width,height:this.height,rearEdge:this.rearEdge,arenaWidth:state.width,arenaDepth:state.depth,x:state.collector.x,z:state.collector.z,radius,active:state.active,reducedMotion:this.reduced.matches},delta);
+  const project=view.project;
   c.drawImage(this.background,0,0,this.width,this.height);
-  const project=(x:number,z:number)=>{const p=base(x,z);return{x:p.x*zoom+ox,y:p.y*zoom+oy,scale:p.scale*zoom,depthScale:p.depthScale*zoom};};
   c.save();c.beginPath();c.rect(0,this.rearEdge,this.width,this.height-this.rearEdge);c.clip();
   for(const tray of state.obstacles){
    const corners=[[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,z])=>project(tray.x+x*tray.halfWidth,tray.z+z*tray.halfDepth));
@@ -123,7 +111,7 @@ export class CounterPainter{
    data.loaded=String([...this.images.values()].filter(v=>v.ready).length);data.failed=String([...this.images.values()].filter(v=>v.failed).length);
    data.nearest=nearest?JSON.stringify({worldX:nearest.x,worldZ:nearest.z,tier:nearest.tier,...project(nearest.x,nearest.z)}):'null';
    data.paintMs=(this.paintTotal/this.frameTotal).toFixed(2);data.fps=(this.frameTotal/Math.max(.001,this.elapsed)).toFixed(1);
-   data.rim=JSON.stringify(playerGeometry);data.cameraZoom=zoom.toFixed(2);data.counterQuad=JSON.stringify(this.layout.quad.map(p=>({x:p.x*zoom+ox,y:p.y*zoom+oy})));this.metricAt=this.elapsed;
+   data.rim=JSON.stringify(playerGeometry);data.cameraScale=view.scale.toFixed(2);data.cameraCenter=JSON.stringify({x:view.x,z:view.z});data.counterQuad=JSON.stringify([[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,z])=>project(x*state.width/2,z*state.depth/2)));this.metricAt=this.elapsed;
   }
  }
 }

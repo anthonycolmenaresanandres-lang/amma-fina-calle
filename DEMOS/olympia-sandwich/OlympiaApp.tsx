@@ -4,6 +4,7 @@ import {COLLECTOR_RACE_V2} from '../collector-standard/rules';
 import {RACE_LEVELS} from './raceLevels';
 import {gameAudio,type GameState} from './utils';
 import Hero from './Hero';
+import {resultSummary} from './ResultSummary';
 import './styles.css';
 type Vector={x:number;y:number};
 const ZERO:Vector={x:0,y:0};
@@ -32,15 +33,18 @@ export default function OlympiaApp(){
  const[state,setState]=useState<GameState>({status:'START',score:0,level:1,timer:45});
  const [rivalScore,setRivalScore]=useState(0),[rivalsAlive,setRivalsAlive]=useState(1),[endReason,setEndReason]=useState<RaceSnapshot['endReason']>(null),[lostPoints,setLostPoints]=useState(0);
  const[round,setRound]=useState(0),[tier,setTier]=useState(1),[sound,setSound]=useState(false),[vector,setVector]=useState(ZERO),[help,setHelp]=useState(false),[toast,setToast]=useState('');
+ const ended=useRef(false),resultRef=useRef<HTMLElement>(null);
  const timer=useRef<ReturnType<typeof setTimeout>|null>(null),level=COLLECTOR_RACE_V2[(state.level-1)%COLLECTOR_RACE_V2.length];
  const inRound=state.status==='PLAYING'||state.status==='PAUSED',finished=['VICTORY','GAME_OVER','LEVEL_COMPLETE'].includes(state.status);
  useEffect(()=>{gameAudio.setMuted(!sound);},[sound]);
+ useEffect(()=>{if(finished)resultRef.current?.focus();},[finished]);
  useEffect(()=>{const stop=()=>{setState(s=>s.status==='PLAYING'?{...s,status:'PAUSED'}:s);setVector(ZERO);};const hidden=()=>{if(document.hidden)stop();};document.addEventListener('visibilitychange',hidden);window.addEventListener('blur',stop);return()=>{document.removeEventListener('visibilitychange',hidden);window.removeEventListener('blur',stop);};},[]);
  useEffect(()=>()=>{if(timer.current)clearTimeout(timer.current);},[]);
- const start=useCallback((number=1)=>{if(timer.current)clearTimeout(timer.current);setState({status:'PLAYING',score:0,level:number,timer:COLLECTOR_RACE_V2[number-1].seconds});setRivalScore(0);setRivalsAlive(COLLECTOR_RACE_V2[number-1].rivalCount);setEndReason(null);setLostPoints(0);setTier(1);setVector(ZERO);setToast('');setRound(r=>r+1);setHelp(false);gameAudio.playConfirmSelect();},[]);
- const progress=useCallback((next:RaceSnapshot)=>{setRivalScore(next.rivalScore);setRivalsAlive(next.rivalsAlive);setEndReason(next.endReason);setLostPoints(next.pointsBeforeCapture);setState(s=>({...s,score:next.score,timer:next.timer,status:next.done?(next.won?'VICTORY':'GAME_OVER'):s.status}));if(next.done)setVector(ZERO);},[]);
+ const start=useCallback((number=1)=>{ended.current=false;if(timer.current)clearTimeout(timer.current);setState({status:'PLAYING',score:0,level:number,timer:COLLECTOR_RACE_V2[number-1].seconds});setRivalScore(0);setRivalsAlive(COLLECTOR_RACE_V2[number-1].rivalCount);setEndReason(null);setLostPoints(0);setTier(1);setVector(ZERO);setToast('');setRound(r=>r+1);setHelp(false);gameAudio.playConfirmSelect();},[]);
+ const progress=useCallback((next:RaceSnapshot)=>{if(ended.current)return;if(next.done){ended.current=true;if(timer.current)clearTimeout(timer.current);setToast('');}setRivalScore(next.rivalScore);setRivalsAlive(next.rivalsAlive);setEndReason(next.endReason);setLostPoints(next.pointsBeforeCapture);setState(s=>({...s,score:next.score,timer:next.timer,status:next.done?(next.won?'VICTORY':'GAME_OVER'):s.status}));if(next.done)setVector(ZERO);},[]);
  const tierChanged=useCallback((next:number)=>{setTier(next);setToast('Sandwich grew. Larger ingredients are ready.');if(timer.current)clearTimeout(timer.current);timer.current=setTimeout(()=>setToast(''),1600);},[]);
  const rivalConsumed=useCallback((points:number)=>{setToast(points?`Rival eaten. +${points.toLocaleString()} earned points.`:'Rival eaten. Keep collecting.');if(timer.current)clearTimeout(timer.current);timer.current=setTimeout(()=>setToast(''),1800);},[]);
+ const result=resultSummary({won:state.status==='VICTORY',reason:endReason,score:state.score,target:level.target,rivalScore,pointsBeforeCapture:lostPoints});
  const back=()=>{setVector(ZERO);setState(s=>({...s,status:'START'}));};
  return <div className="olympia-app" data-phase={state.status}>
  <a className="skip-link" href="#main">Skip to game</a>
@@ -56,7 +60,12 @@ export default function OlympiaApp(){
  <button className="primary" data-testid="start-button" onClick={()=>start(state.level)}>Start collecting <span aria-hidden="true">↗</span></button><button className="text-button" onClick={()=>setHelp(true)}>How to play</button>
  <details className="study-note"><summary>About this sandwich study</summary><p>Illustrated bread, cooked filling and pale cheese are based on the supplied sandwich photo. The exact menu item, meat and cheese varieties still await confirmation.</p></details></div></section>}
  {state.status==='PAUSED'&&<Dialog title="Take a break." onClose={()=>setState(s=>({...s,status:'PLAYING'}))}><p>Both sandwiches and the clock are paused.</p><button className="primary" onClick={()=>setState(s=>({...s,status:'PLAYING'}))}>Keep collecting</button><button onClick={()=>start(state.level)}>Restart counter</button><button className="text-button" onClick={back}>Back to start</button></Dialog>}
- {finished&&<section className="results"><p className="eyebrow">{endReason==='counter-cleared'?'COUNTER CLEARED':endReason==='player-consumed'?'SANDWICH EATEN':'TIME UP'}</p><h1>{endReason==='player-consumed'?'The rival ate you.':state.status==='VICTORY'?'Nicely gathered.':'Another helping?'}</h1><Hero/><strong className="result-score">{(endReason==='player-consumed'?lostPoints:state.score).toLocaleString()} <small>{endReason==='player-consumed'?'points before capture':'your points'}</small></strong><p className="result-comparison">Rival leader {rivalScore.toLocaleString()} · Target {level.target.toLocaleString()}</p><p>{endReason==='player-consumed'?'A larger sandwich covered your rim. Restart and grow before getting close.':state.status==='VICTORY'?'Target reached. You beat the rivals.':state.score<level.target?'Target missed. Start small and grow quickly.':state.score===rivalScore?'A tie! Finish ahead of the rival to win.':'The rival finished ahead. Try a faster route.'}</p><button className="primary" onClick={()=>start(state.level)}>Play again</button>{state.status==='VICTORY'&&state.level<3&&<button onClick={()=>start(state.level+1)}>Next counter</button>}<button className="text-button" onClick={back}>Back to start</button></section>}
+ {finished&&<section ref={resultRef} tabIndex={-1} className="results" data-outcome={state.status==='VICTORY'?'win':'loss'} aria-labelledby="result-title" aria-describedby="result-reason">
+ <p className="eyebrow">{result.ending} · Round over</p><h1 id="result-title">{result.title}</h1><p id="result-reason" className="result-reason">{result.reason}</p>
+ <dl className="result-totals"><div><dt>{result.scoreLabel}</dt><dd data-testid="final-score">{result.score.toLocaleString()}</dd></div><div><dt>Target</dt><dd>{level.target.toLocaleString()}</dd></div><div><dt>Rival leader</dt><dd>{rivalScore.toLocaleString()}</dd></div></dl>
+ {result.captureNote&&<p className="capture-note">{result.captureNote}</p>}
+ <div className="result-actions"><button className="primary" onClick={()=>start(state.level)}>Play again</button><a className="menu-return" href="/olympia">Back to Olympia menu</a>{state.status==='VICTORY'&&state.level<3&&<button onClick={()=>start(state.level+1)}>Next counter</button>}<button className="text-button" onClick={back}>Choose a counter</button></div><Hero/>
+ </section>}
  {help&&<Dialog title="Small ingredients first." onClose={()=>setHelp(false)}><p>Drag anywhere on the counter, or use WASD / arrow keys. Smaller ingredients make your sandwich grow. Larger ingredients stay blocked until you reach their size.</p><p>Reach the target and finish ahead of the leading rival. The round ends when every ingredient finishes dropping, or at 45 seconds. A sandwich at least 30% larger can eat another by fully covering its rim for 0.2 seconds. Equal sizes are safe. You get a 2.5-second movement head start, and nobody can eat another sandwich during the first 4 seconds. Eating a rival transfers only its earned points and growth. Rivals can eat each other too. Pause whenever you like.</p><button className="primary" onClick={()=>setHelp(false)}>Got it</button></Dialog>}
  </main><footer className="draft-footer">Sandwich study · Recipe awaiting confirmation</footer></div>;
 }

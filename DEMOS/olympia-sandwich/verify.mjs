@@ -40,5 +40,5 @@ for(const asset of art.assets){
  assert.equal(fs.statSync(file).size,asset.bytes);assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),asset.sha256);
 }
 assert.equal(art.assets.filter(a=>a.alpha).length,5,'food transparency missing');
-await import('../collector-standard/verify-race.cjs');
+await import('./verify-camera.cjs');
 console.log('PASS: 6 frozen catalog/input files, archived baseline simulation, opt-in race checks, 3 projection bounds, 7 unchanged hashed art assets, isolated cache/output and noindex.');
