@@ -1137,3 +1137,10 @@ Anthony approved compressing the same artwork, visual parity checks and publicat
 
 ## 2026-10-12 Olympia authorized public prospect release IN
 Anthony authorizes publication through the existing company destination once mapping is verified. Authenticated Vercel project prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4 / team_MwMFazBLYzRGQnqRAJOPDPH3 owns verified finacalleos.com; its READY production deployment dpl_8k7YU2EtYV7KuHuxb6zmhzMCPWBz maps to exact repository main15ec17b. Publish only /olympia and /olympia/play as noindex prospect concepts with provisional content and original labeled illustrations. Remove obsolete local-only gate/copy; preserve all other clients, game rules, commercial terms, live data, services and access. Reconciliation retains both complete append-only histories. In-app browser recovered after Chrome focus-emulation timeout; rendered Astra review has no blocking composition finding, footer finish and responsive/game checks in progress. Require final local checks, exact-head CI, guarded PR merge and public deployment proof. No reviewer photos integrated, no photo permission inferred.
+
+### 2026-10-12 Olympia actual DoorDash menu — BLOCKED extraction checkpoint
+- Scope: Anthony supplied https://www.doordash.com/store/34805753 and requested actual menu incorporation plus existing authorized publication. Preserve other clients and accurate delivery-price labeling; no orders/accounts/spend/Google-gate bypass.
+- Branch: codex/olympia-doordash-menu-20261012 in existing isolated worktree.
+- Evidence: verified exact address/phone; 21 category names and 39 unique directly rendered menu entries in DOORDASH_MENU_PARTIAL.json. 31 canonical category entries plus 8 featured/most-ordered items; not full coverage, variants unknown. Source date 2026-10-12.
+- Blocker: browser reconnect and fresh-tab timeouts after partial extraction; web reader inaccessible. No application files changed or menu revision published.
+- Next: finish ordinary public menu capture, compare complete data, implement with DoorDash source/date pricing notice, required lint/build/browser review/exact-head CI/public proof. Existing production remains b852d109.
