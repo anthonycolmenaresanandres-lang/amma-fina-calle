@@ -1,0 +1,65 @@
+[
+  {
+    "operation": "create_library_file",
+    "status": "succeeded",
+    "path": "/olympia-desktop.jpg",
+    "file_id": "file_00000000e56c81f5b5948a213173cae8",
+    "library_file_id": "libfile_2c57afef65b48191b46d13eff0a5587a",
+    "file_name": "olympia-desktop.jpg",
+    "current_version_number": 0,
+    "restored_from_version_number": null,
+    "xattrs": [
+      {
+        "name": "user.library-file-version",
+        "value": "0"
+      }
+    ],
+    "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+    "mime_type": "image/jpeg",
+    "library_artifact_type": "image",
+    "file_size_bytes": 85701,
+    "external_connectors_accessed": false
+  },
+  {
+    "operation": "create_library_file",
+    "status": "succeeded",
+    "path": "/olympia-mobile.jpg",
+    "file_id": "file_00000000c33881f5aff08ccb52c585a9",
+    "library_file_id": "libfile_81a04afd01608191a5f728c8a02fed03",
+    "file_name": "olympia-mobile.jpg",
+    "current_version_number": 0,
+    "restored_from_version_number": null,
+    "xattrs": [
+      {
+        "name": "user.library-file-version",
+        "value": "0"
+      }
+    ],
+    "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+    "mime_type": "image/jpeg",
+    "library_artifact_type": "image",
+    "file_size_bytes": 36772,
+    "external_connectors_accessed": false
+  },
+  {
+    "operation": "create_library_file",
+    "status": "succeeded",
+    "path": "/olympia-game-mobile.jpg",
+    "file_id": "file_00000000247081f5ba11ef97164e1217",
+    "library_file_id": "libfile_1c1e955e8e54819190005002de290104",
+    "file_name": "olympia-game-mobile.jpg",
+    "current_version_number": 0,
+    "restored_from_version_number": null,
+    "xattrs": [
+      {
+        "name": "user.library-file-version",
+        "value": "0"
+      }
+    ],
+    "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+    "mime_type": "image/jpeg",
+    "library_artifact_type": "image",
+    "file_size_bytes": 25902,
+    "external_connectors_accessed": false
+  }
+]

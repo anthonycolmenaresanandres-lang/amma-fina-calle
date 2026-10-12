@@ -1,0 +1,164 @@
+{
+  "01": {
+    "src": "/assets/olympia/photos/photo-01-503.webp",
+    "width": 503,
+    "height": 455,
+    "srcSet": "/assets/olympia/photos/photo-01-320.webp 320w, /assets/olympia/photos/photo-01-503.webp 503w",
+    "originalSha256": "7828400ce16f2355706f2504f671f842d7266da2a723b3c157c5df56811839ad",
+    "crop": {
+      "left": 55,
+      "top": 0,
+      "width": 503,
+      "height": 455
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-01-320.webp",
+        "width": 320,
+        "height": 289,
+        "bytes": 29044
+      },
+      {
+        "src": "/assets/olympia/photos/photo-01-503.webp",
+        "width": 503,
+        "height": 455,
+        "bytes": 71812
+      }
+    ]
+  },
+  "02": {
+    "src": "/assets/olympia/photos/photo-02-558.webp",
+    "width": 558,
+    "height": 412,
+    "srcSet": "/assets/olympia/photos/photo-02-320.webp 320w, /assets/olympia/photos/photo-02-558.webp 558w",
+    "originalSha256": "edfd071cac337203373cf00f6739e389e85a557ec0eaabcfe6d14d260a4db8fe",
+    "crop": {
+      "left": 53,
+      "top": 0,
+      "width": 558,
+      "height": 412
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-02-320.webp",
+        "width": 320,
+        "height": 236,
+        "bytes": 19242
+      },
+      {
+        "src": "/assets/olympia/photos/photo-02-558.webp",
+        "width": 558,
+        "height": 412,
+        "bytes": 52546
+      }
+    ]
+  },
+  "03": {
+    "src": "/assets/olympia/photos/photo-03-339.webp",
+    "width": 339,
+    "height": 446,
+    "srcSet": "/assets/olympia/photos/photo-03-320.webp 320w, /assets/olympia/photos/photo-03-339.webp 339w",
+    "originalSha256": "b6f561c82a4853afd4681b85323aadb52e9fbdfa138fec05b866ee02b538a975",
+    "crop": {
+      "left": 6,
+      "top": 32,
+      "width": 339,
+      "height": 446
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-03-320.webp",
+        "width": 320,
+        "height": 421,
+        "bytes": 14682
+      },
+      {
+        "src": "/assets/olympia/photos/photo-03-339.webp",
+        "width": 339,
+        "height": 446,
+        "bytes": 16106
+      }
+    ]
+  },
+  "04": {
+    "src": "/assets/olympia/photos/photo-04-586.webp",
+    "width": 586,
+    "height": 306,
+    "srcSet": "/assets/olympia/photos/photo-04-320.webp 320w, /assets/olympia/photos/photo-04-586.webp 586w",
+    "originalSha256": "3095e7385a103a02046ec10d3f01fcc7cadee5f5ec367f5b12cede7f2f6e8383",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 586,
+      "height": 306
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-04-320.webp",
+        "width": 320,
+        "height": 167,
+        "bytes": 14706
+      },
+      {
+        "src": "/assets/olympia/photos/photo-04-586.webp",
+        "width": 586,
+        "height": 306,
+        "bytes": 36108
+      }
+    ]
+  },
+  "05": {
+    "src": "/assets/olympia/photos/photo-05-341.webp",
+    "width": 341,
+    "height": 459,
+    "srcSet": "/assets/olympia/photos/photo-05-320.webp 320w, /assets/olympia/photos/photo-05-341.webp 341w",
+    "originalSha256": "1a09539525e51e58f0d3115dc3de1dccd655ff3442108def7c064dcb0bea6a4a",
+    "crop": {
+      "left": 2,
+      "top": 34,
+      "width": 341,
+      "height": 459
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-05-320.webp",
+        "width": 320,
+        "height": 431,
+        "bytes": 14024
+      },
+      {
+        "src": "/assets/olympia/photos/photo-05-341.webp",
+        "width": 341,
+        "height": 459,
+        "bytes": 15752
+      }
+    ]
+  },
+  "06": {
+    "src": "/assets/olympia/photos/photo-06-565.webp",
+    "width": 565,
+    "height": 372,
+    "srcSet": "/assets/olympia/photos/photo-06-320.webp 320w, /assets/olympia/photos/photo-06-565.webp 565w",
+    "originalSha256": "7044c369e8bab308a89b370cf65f2d7df60346b4f8123e62d7ce273fe45095d4",
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 565,
+      "height": 372
+    },
+    "variants": [
+      {
+        "src": "/assets/olympia/photos/photo-06-320.webp",
+        "width": 320,
+        "height": 211,
+        "bytes": 10218
+      },
+      {
+        "src": "/assets/olympia/photos/photo-06-565.webp",
+        "width": 565,
+        "height": 372,
+        "bytes": 25346
+      }
+    ]
+  }
+}

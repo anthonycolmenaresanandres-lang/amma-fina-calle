@@ -1,0 +1,362 @@
+{
+  "status": "PARTIAL_CAPTURE_NOT_FOR_FULL_MENU_PUBLICATION",
+  "sourceUrl": "https://www.doordash.com/store/olympiadeli-&-juicebr-newport-news-34805753/72690346/",
+  "userSuppliedStoreUrl": "https://www.doordash.com/store/34805753",
+  "observedDate": "2026-10-12",
+  "orderMethod": "Delivery",
+  "currency": "USD",
+  "identity": {
+    "displayName": "olympiadeli & juicebr",
+    "street": "23 Hidenwood Shopping Ctr",
+    "cityState": "Newport News, VA",
+    "phone": "+1 (757) 782-5523",
+    "verification": "Public DoorDash Store Info dialog; exact match to Olympia reference address/phone."
+  },
+  "pricingNotice": "DoorDash-listed delivery prices observed 2026-10-12. Not verified in-store prices. No cart, ordering, account sign-in, commercial-term change or Google asset download.",
+  "categories": [
+    "Drinks And Buverges",
+    "SIGNATURE ON THE GIRL SANDWICHES",
+    "Special Sandwiches",
+    "Sandwiches - Cold Cut",
+    "Fresh Squeezed Juice & Smoothies - Juice",
+    "Fresh Squeezed Juice & Smoothies - Smoothies",
+    "Breakfast",
+    "Breakfast Wrap",
+    "Breakfast Omelet",
+    "Breakfast-Croissant",
+    "Brunch Classics",
+    "Brunch Griddle Originals",
+    "Burgers",
+    "Quesadillas",
+    "Veggie Wraps",
+    "Wraps",
+    "Paninis",
+    "Halal",
+    "Appetizers",
+    "Salads",
+    "Salad Bar"
+  ],
+  "items": [
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Diet coke",
+      "description": "20oz",
+      "price": "$3.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Fanta orage",
+      "description": "20oz",
+      "price": "$3.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Joes pineapple lemonade20 fl oz",
+      "description": "A refreshing blend of tangy lemonade and sweet pineapple juice.",
+      "price": "$3.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Joe tea HALF HALF 20 fl oz",
+      "description": "A refreshing blend of iced tea and lemonade in a 20 fl oz bottle.",
+      "price": "$3.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Joes kiwi Strawberry20 fl oz",
+      "description": "A refreshing blend of kiwi and strawberry juice.",
+      "price": "$3.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Sweet Joe tea 20 fl oz",
+      "description": "Sweet Joe Tea: A 20 fl oz bottle of sweetened iced tea.",
+      "price": "$3.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Cherry coke",
+      "description": "20oz",
+      "price": "$3.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Martinells Apple juice 10 fl oz",
+      "description": "Effervescent apple juice with a crisp, refreshing taste.",
+      "price": "$3.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Pepsi",
+      "description": "20oz",
+      "price": "$3.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Drinks And Buverges",
+      "name": "Peach Joe tea 20 fl oz",
+      "description": "Peach-flavored iced tea offering a refreshing blend of sweet peach essence and brewed tea in a 20 fl oz bottle.",
+      "price": "$3.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "NEW YORK  CHOPPED CHEESE",
+      "description": "CHOPPED BEEF, AMERICAN CHEESE,\nGRUELED ONION AND PEPPERS, MAYO AND KETCHUP.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "OLYMPIA CHOPPED CHEESE",
+      "description": "Chopped beef ,american cheese, papers &onion,Lettuce, Chipotle mayo, ketchup and hash brown",
+      "price": "$14.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "CHICKEN PHILLI",
+      "description": "Grilled Chicken  peppers, onions, American cheese, lettuce, Chipotle, Mayonnaise.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "CLASSIC PHILLI",
+      "description": "Stake peppers onions mozzarella cheese mayo",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "3. Special",
+      "description": "Grilled chicken, avocado, Pepper Jack cheese, jalapeño, chipotle mayo, served on a hero bread.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "5. Reuben",
+      "description": "Corned beef, Swiss cheese, sauerkraut, Russian dressing, served on grilled rye bread.",
+      "price": "$11.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "JUST simpl STEAK",
+      "description": "Steak cheese Mayo only",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "Texas philly cheesesteak",
+      "description": "Steak Mushroom, onion, Provlon cheese, steak sauce.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "1. Spicy California",
+      "description": "Spicy. Grilled chicken, smoked gouda cheese, grilled onions, spinach, tomatoes, jalapeños, chipotle mayo.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "SIGNATURE ON THE GIRL SANDWICHES",
+      "name": "2. Rocky’s",
+      "description": "Grilled chicken, Pepper Jack cheese, avocado, tomatoes, spinach, Italian dressing, served on a hero bread.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "6. NYC",
+      "description": "Chicken cutlet, bacon, Swiss, lettuce, tomato, avocado, chipotle mayo.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "7. Terminator",
+      "description": "Spicy garlic chicken, colby Jack, avocado, tomato, spinach.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "9. Empire",
+      "description": "Buffalo chicken, turkey bacon, Swiss, romaine lettuce, tomato, ranch dressing.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "8. Broadway Special",
+      "description": "Sesame grilled chicken, smoked gouda, spinach, roasted pepper, balsamic vinaigrette.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "10. Italian Combo",
+      "description": "Ham, salami, provolone, sweet pepper, lettuce, tomato, oil, salt, pepper.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "11. the King",
+      "description": "Turkey, bacon, Swiss, lettuce, tomato, mayo, white toast.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "3. The New Yorker",
+      "description": "Smoke turkey, mozzarella, romaine lettuce, roasted pepper, honey mustard.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "4. Romeo Spatial",
+      "description": "Grilled chicken, melted cheddar, pickle, lettuce, tomato, honey mustard.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "5. The Prince",
+      "description": "Tuna salad, melt cheddar, romaine, plum tomato.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "1. NYPD",
+      "description": "Honey turkey, Swiss, avocado, sweet pepper, lettuce, tomato, honey mustard.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Special Sandwiches",
+      "name": "2. Wall Street",
+      "description": "Chicken cutlet, grilled turkey, lettuce, roasted pepper, honey mustard.",
+      "price": "$13.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Featured Items",
+      "name": "8. Salmon Over Rice",
+      "description": null,
+      "price": "$18.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Featured Items",
+      "name": "1. Halal Campo Over Rice",
+      "description": null,
+      "price": "$16.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Featured Items",
+      "name": "2. Halal Chicken Over Rice",
+      "description": null,
+      "price": "$14.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Most Ordered",
+      "name": "Sweet Potato Fries",
+      "description": "Crispy and flavorful fries made from sweet potatoes, a delightful twist on a classic favorite.",
+      "price": "$6.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Most Ordered",
+      "name": "Onion Rings",
+      "description": "Crispy golden-fried onion rings, perfectly seasoned for a savory crunch.",
+      "price": "$7.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Most Ordered",
+      "name": "8. Honeymoon Wrap",
+      "description": "Sweet chili chicken, smoked Gouda, avocado, lettuce, chipotle mayo, sweet chili sauce.",
+      "price": "$12.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Most Ordered",
+      "name": "French Fries",
+      "description": "Crispy golden strips of deliciousness served hot and seasoned to perfection.",
+      "price": "$6.49",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    },
+    {
+      "observedCategory": "Most Ordered",
+      "name": "Mozzarella Sticks",
+      "description": "Served with marinara sauce.",
+      "price": "$9.99",
+      "confidence": "high: directly read rendered menu card; source spelling retained",
+      "variants": null
+    }
+  ],
+  "coverage": {
+    "uniqueItems": 39,
+    "categorizedItems": 31,
+    "additionalFeaturedOrMostOrderedItems": 8,
+    "allCategoriesComplete": false,
+    "allVariantsCaptured": false,
+    "notes": "Category navigation listed all 21 categories. Captured 10 drinks, 10 signature sandwiches, 11 special sandwiches, plus 8 additional featured/most-ordered entries. Do not assume completeness even for captured categories. No item customization dialogs inspected. Featured rice dishes have no captured descriptions. Source typos retained without inference."
+  },
+  "blocker": "Browser extraction reset during an overlong batch. Subsequent binding of same DoorDash tab twice and one fresh same-browser tab timed out/reset. Web reader reported supplied and canonical DoorDash URLs inaccessible. Browser prior partial reads succeeded; no login/ordering/security bypass attempted."
+}

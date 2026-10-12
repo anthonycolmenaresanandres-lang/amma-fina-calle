@@ -34,4 +34,6 @@ jobs:
       - run: npm run simulate:sms
       - run: npm run simulate:reliability
       - run: npm run simulate:vbfh
+      - run: npm run simulate:maracaibo
+      - run: npm run simulate:privacy
       - run: npm run simulate:checkin
