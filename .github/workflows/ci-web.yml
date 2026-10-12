@@ -3,11 +3,13 @@ on:
   pull_request:
     paths:
       - "APP/web/**"
+      - "DEMOS/olympia-sandwich/**"
       - ".github/workflows/ci-web.yml"
   push:
     branches: [main]
     paths:
       - "APP/web/**"
+      - "DEMOS/olympia-sandwich/**"
       - ".github/workflows/ci-web.yml"
 
 concurrency:
@@ -32,6 +34,8 @@ jobs:
           cache-dependency-path: APP/web/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - name: Olympia collector source and art preservation
+        run: node ../../DEMOS/olympia-sandwich/verify.mjs
       - name: Discover demo state and offer navigation
         run: node --import tsx scripts/discover-demo-selftest.ts
       - name: Olympia prospect menu and standard-game contracts

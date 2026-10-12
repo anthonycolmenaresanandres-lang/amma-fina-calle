@@ -43,7 +43,7 @@ export default function OlympiaApp(){
  const back=()=>{setVector(ZERO);setState(s=>({...s,status:'START'}));};
  return <div className="olympia-app" data-phase={state.status}>
  <a className="skip-link" href="#main">Skip to game</a>
- <header className="brand-bar"><span className="wordmark">OLYMPIA <small>DELI & JUICE BAR</small></span><span className="draft">Game preview</span><button aria-label={sound?'Mute sound':'Enable sound'} onClick={()=>setSound(v=>!v)}>{sound?'Sound on':'Sound off'}</button></header>
+ <header className="brand-bar"><a className="wordmark" href="/olympia" aria-label="Back to Olympia menu">OLYMPIA <small>DELI & JUICE BAR</small></a><span className="draft">Game preview</span><button aria-label={sound?'Mute sound':'Enable sound'} onClick={()=>setSound(v=>!v)}>{sound?'Sound on':'Sound off'}</button></header>
  <main id="main" tabIndex={-1} className="stage">
  {inRound&&<><div className="hud"><div><span>Counter {state.level}</span><strong data-testid="score">{state.score.toLocaleString()} <small>/ {level.targetScore.toLocaleString()}</small></strong></div><strong className="timer" data-testid="timer">{state.timer}s</strong><button onClick={()=>{setVector(ZERO);setState(s=>({...s,status:'PAUSED'}));}}>Pause</button></div>
  <RenderBoundary><Game key={round} gameState={state} setGameState={setState} gameStateRef={stateRef} exitChat={noHostRpc} selectedSkinId="olympia" joystickVector={vector} onTierChange={tierChanged} onRoundTimeEnd={finish}/></RenderBoundary>

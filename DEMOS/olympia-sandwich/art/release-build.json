@@ -1,0 +1,66 @@
+{
+  "entry": "/demo/olympia-sandwich/index.html",
+  "generatedBundles": [
+    "index-CGZd0q1J.css",
+    "index-DF7wO9UH.js"
+  ],
+  "removedObsoleteOwnBundles": [
+    "index-CBqy5d7d.css",
+    "index-D3niMltx.js",
+    "index-DO6SV8Nv.js",
+    "index-zLSs2oME.css"
+  ],
+  "runtimeImageBytes": 250252,
+  "files": [
+    {
+      "path": "index.html",
+      "sha256": "a9560df5527cee932f0c5e7ac511ad52c534e6be27477e742bf9762e186ca557",
+      "bytes": 750
+    },
+    {
+      "path": "assets/index-CGZd0q1J.css",
+      "sha256": "23322659dbfd29c3eb808f5e1a05019efedf9da32b028b1a06f0f31567243579",
+      "bytes": 9669
+    },
+    {
+      "path": "assets/index-DF7wO9UH.js",
+      "sha256": "1c94ddd179b31e3c4a7379f852d9bf140eba2d840493fd2cb1087228e339c43d",
+      "bytes": 321904
+    },
+    {
+      "path": "assets/art/open-sandwich.webp",
+      "sha256": "237a5c3e70608ac8b90367b9d86cd389ac19ecec8e6f1b690fee2ee4576ceb19",
+      "bytes": 46248
+    },
+    {
+      "path": "assets/art/finished-sandwich.webp",
+      "sha256": "8f936e1a18b866c9a7f049c97390d897ef66f8bf5db39c390fb5e126f98eec3b",
+      "bytes": 67470
+    },
+    {
+      "path": "assets/art/cooked-filling.webp",
+      "sha256": "f799b44e5e2404fc8c119526696c399356d786705422691b6b545af54bf4ec79",
+      "bytes": 13428
+    },
+    {
+      "path": "assets/art/cheese.webp",
+      "sha256": "9f9b28efc41cf8c2ee6e4efda4b8798aafb3715d0996b2bee9ec950358791adc",
+      "bytes": 9096
+    },
+    {
+      "path": "assets/art/bread.webp",
+      "sha256": "8f711d17ac98468a6470e2f53d0c00dff48740fa5453d6f7199a77602deec0f8",
+      "bytes": 9880
+    },
+    {
+      "path": "assets/art/restaurant.webp",
+      "sha256": "85e1a3a12f9a824e73c68f8857d2426e41cc649a4f98f5624f4f1bd28de6ee9e",
+      "bytes": 99350
+    },
+    {
+      "path": "assets/art/countertop.webp",
+      "sha256": "06eae073da23f5f4d597addf03818b7d6d758b5ee304553a59ed4afcabdd431a",
+      "bytes": 4780
+    }
+  ]
+}

@@ -23,3 +23,7 @@ Recipe identity/species/varieties await confirmation. Sustained physical-touch s
 The earlier bundled Vite loader touched the shared dependency junction's empty `.vite-temp` directory at 13:26:39 -04:00. Native-loader and worktree-local-cache corrections are now in place. The current integration build left that timestamp unchanged; no shared dependency installations or cache cleanup were performed. Existing active website source/assets/branch/server were not edited by this task.
 
 Review captures are in `art/review/`. The snapshot artwork/layout preceded the final public-preview wording; source and release validation must identify the exact final head.
+
+## Final release build
+
+The final public-preview wording, Olympia return link and website entry are built. Direct Vite native-loader build passed in 31.33 seconds: JS 321,904 bytes / gzip 99.42 kB, CSS 9,669 bytes / gzip 3.06 kB. Source/art/projection verification passed again on the reconciled branch. Four obsolete bundles were removed only from this game output. Exact served-file hashes are in `art/release-build.json`. The later local lint startup stalled without output and was stopped; required repository CI remains the full web lint/types/build gate.

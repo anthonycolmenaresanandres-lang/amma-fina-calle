@@ -3,12 +3,14 @@ import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import ts from 'typescript';
+import {createRequire} from 'node:module';
+const localRequire=createRequire(import.meta.url);
+let ts;try{ts=localRequire('typescript');}catch{ts=createRequire(new URL('../../APP/web/package.json',import.meta.url))('typescript');}
 const dir=path.dirname(fileURLToPath(import.meta.url));
 const read=name=>fs.readFileSync(path.join(dir,name),'utf8');
 const provenance=JSON.parse(read('SOURCE_PROVENANCE.json'));
-for(const[file,hash]of Object.entries(provenance.immutableFiles)){
- assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,file))).digest('hex'),hash,file+' changed');
+for(const[file,hash]of Object.entries(provenance.immutableNormalizedFiles)){
+ assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,file),'utf8').replace(/\r\n/g,'\n')).digest('hex'),hash,file+' changed');
  assert.equal(Buffer.compare(fs.readFileSync(path.join(dir,file)),fs.readFileSync(path.join(dir,'../pocket-cafe',file))),0,file+' differs from source');
 }
 const extract=raw=>{const s=raw.replace(/\r\n/g,'\n'),start=s.indexOf('  useFrame((_, delta) => {');

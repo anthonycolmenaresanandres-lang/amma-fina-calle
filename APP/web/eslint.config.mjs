@@ -21,6 +21,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Vite-generated Pocket Cafe bundle; editable source lives in DEMOS/pocket-cafe.
     "public/demo/pocket-cafe/game/assets/*.js",
+    // Generated collector bundle; editable source lives in DEMOS/olympia-sandwich.
+    "public/demo/olympia-sandwich/assets/*.js",
   ]),
 ]);
 
