@@ -1,0 +1,357 @@
+{
+  "version": 1,
+  "scope": "Original generated asset pack in isolated local game draft only; no company publication",
+  "recipeStatus": "Provisional visible subset: bread, cooked chopped filling, pale melted cheese. Meat species, cheese variety and named restaurant product unconfirmed.",
+  "generation": "Built-in imagegen only. Reference pixels inspected from owner-provided pinned Git photo commit. No third-party photo downloading.",
+  "referenceCommit": "c63151eb5d9ebc8961f9ffef05b16bbdbc2eb6cf",
+  "assets": [
+    {
+      "name": "open-sandwich-v1",
+      "role": "collector",
+      "anchorNormalized": [
+        0.5,
+        0.558
+      ],
+      "transparent": true,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\open-sandwich-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "pngBytes": 1279841,
+      "sha256": "1a60b1fb5246670887a76c48818cab1ea5f10013ddc70792614a05843753097d",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        38,
+        1242,
+        1208
+      ],
+      "alphaBoundsAt16": [
+        31,
+        293,
+        1223,
+        965
+      ],
+      "alphaBoundsAt128": [
+        32,
+        293,
+        1222,
+        965
+      ],
+      "transparentPixelFraction": 0.5432040119146642,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\open-sandwich-v1.webp",
+      "webpBytes": 901870,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "finished-sandwich-v1",
+      "role": "completion hero",
+      "anchorNormalized": [
+        0.5,
+        0.5
+      ],
+      "transparent": true,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\finished-sandwich-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "pngBytes": 968480,
+      "sha256": "e8f0aee4dd3ccd239ccec68e8a414f43a85ddf51343cc987fe152f16b598e2bc",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        5,
+        1228,
+        1230
+      ],
+      "alphaBoundsAt16": [
+        31,
+        394,
+        1224,
+        894
+      ],
+      "alphaBoundsAt128": [
+        32,
+        395,
+        1223,
+        893
+      ],
+      "transparentPixelFraction": 0.6689133846650845,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\finished-sandwich-v1.webp",
+      "webpBytes": 675252,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "cooked-filling-v1",
+      "role": "provisional cooked filling pickup",
+      "anchorNormalized": [
+        0.5,
+        0.54
+      ],
+      "transparent": true,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\cooked-filling-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "pngBytes": 744563,
+      "sha256": "f290d097e72a4f1f68ad33ddb6bc9b1fc0b9297df480e15b10843735597652c6",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        41,
+        41,
+        1205,
+        1198
+      ],
+      "alphaBoundsAt16": [
+        73,
+        306,
+        1202,
+        967
+      ],
+      "alphaBoundsAt128": [
+        74,
+        307,
+        1202,
+        966
+      ],
+      "transparentPixelFraction": 0.6777679845546881,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\cooked-filling-v1.webp",
+      "webpBytes": 461028,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "cheese-v1",
+      "role": "provisional pale cheese pickup",
+      "anchorNormalized": [
+        0.5,
+        0.51
+      ],
+      "transparent": true,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\cheese-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "pngBytes": 648536,
+      "sha256": "f3f8a03189d81bf4f80739d04a08a1020e3873717ebe8328bebb3ae11966d484",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        32,
+        68,
+        1221,
+        1254
+      ],
+      "alphaBoundsAt16": [
+        36,
+        329,
+        1218,
+        1003
+      ],
+      "alphaBoundsAt128": [
+        37,
+        329,
+        1218,
+        1002
+      ],
+      "transparentPixelFraction": 0.7183647098026348,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\cheese-v1.webp",
+      "webpBytes": 377258,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "bread-pickup-v1",
+      "role": "generic bread pickup",
+      "anchorNormalized": [
+        0.5,
+        0.51
+      ],
+      "transparent": true,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\bread-pickup-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "pngBytes": 846039,
+      "sha256": "716521caa6c1b4901abaef4291fe08e8111982f3992dd85a0904a0955b915d61",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        23,
+        1240,
+        1215
+      ],
+      "alphaBoundsAt16": [
+        173,
+        230,
+        1083,
+        1043
+      ],
+      "alphaBoundsAt128": [
+        174,
+        231,
+        1082,
+        1042
+      ],
+      "transparentPixelFraction": 0.6713082728570011,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\bread-pickup-v1.webp",
+      "webpBytes": 551966,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "restaurant-backdrop-v1",
+      "role": "portrait restaurant backdrop",
+      "anchorNormalized": [
+        0.5,
+        0.5
+      ],
+      "transparent": false,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\restaurant-backdrop-v1.png",
+      "size": [
+        941,
+        1672
+      ],
+      "mode": "RGB",
+      "pngBytes": 2000707,
+      "sha256": "1ea4aed8b02698a24157672ac04af6e81aed314841c8e5ebb63ce1b52cda801f",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "alphaBoundsAt16": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "alphaBoundsAt128": [
+        0,
+        0,
+        941,
+        1672
+      ],
+      "transparentPixelFraction": 0.0,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\restaurant-backdrop-v1.webp",
+      "webpBytes": 1398634,
+      "losslessPixelsVerified": true
+    },
+    {
+      "name": "countertop-v1",
+      "role": "square texture to map onto countertop",
+      "anchorNormalized": [
+        0.5,
+        0.5
+      ],
+      "transparent": false,
+      "file": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\generated\\countertop-v1.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "pngBytes": 1835967,
+      "sha256": "b61ffff0ab3f835a579a3a9539c275a7636ae86a309777323963dc6d17c1d224",
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "alphaBoundsAt16": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "alphaBoundsAt128": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "transparentPixelFraction": 0.0,
+      "optimizedFile": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\optimized\\countertop-v1.webp",
+      "webpBytes": 1266454,
+      "losslessPixelsVerified": true
+    }
+  ],
+  "placement": {
+    "coordinateConvention": "Normalized x,y within complete uncropped image. Anchors are visually estimated, not gameplay tested.",
+    "openCollectionSafeEllipse": {
+      "center": [
+        0.5,
+        0.558
+      ],
+      "radius": [
+        0.22,
+        0.049
+      ]
+    },
+    "backgroundCounterQuad": {
+      "cornersClockwise": [
+        [
+          0.114,
+          0.308
+        ],
+        [
+          0.881,
+          0.308
+        ],
+        [
+          0.957,
+          0.713
+        ],
+        [
+          0.042,
+          0.713
+        ]
+      ],
+      "status": "Visual estimate; map square game world onto this quadrilateral for perspective consistency. Countertop is a square world surface, foreshortened in the artwork."
+    },
+    "pickupRecommendedDisplayWidthCssPx": 52,
+    "collectorRecommendedDisplayWidthCssPx": 120,
+    "backgroundFit": "Contain full portrait composition; do not cover-crop away counter or controls."
+  },
+  "qualityNotes": [
+    "Every original was visually inspected. Alpha and saved bytes checked.",
+    "Shared warm upper-left lighting and cream/gold/brown/charcoal palette.",
+    "Sandwiches and room contain more illustrative detail than the flatter meat pickup; remaining style variation documented.",
+    "No characters, UI text, restaurant product names or brand logos baked into these generated images.",
+    "No live game build/browser tests in this asset pass. Game integration remains a draft."
+  ],
+  "library": {
+    "open-sandwich-v1": "libfile_089835a9be2c8191b07d5859f5b275d9"
+  }
+}

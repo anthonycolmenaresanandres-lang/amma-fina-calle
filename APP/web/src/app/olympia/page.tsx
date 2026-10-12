@@ -36,7 +36,7 @@ export default function OlympiaPage() {
         </div>
         <div className={styles.actions}>
           <a className={styles.primary} href="#deli">View menu <span aria-hidden="true">↗</span></a>
-          <Link className={styles.secondary} href="/olympia/play">Play Juice Rush <span aria-hidden="true">→</span></Link>
+          <a className={styles.secondary} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter <span aria-hidden="true">→</span></a>
         </div>
         <figure className={styles.art}>
           <div className={styles.artStage}><Photo id="06" alt="Two paper-wrapped sandwich halves on a plate, showing the filling." sizes="(max-width: 699px) calc(100vw - 40px), (max-width: 1100px) 52vw, 565px" eager /></div>

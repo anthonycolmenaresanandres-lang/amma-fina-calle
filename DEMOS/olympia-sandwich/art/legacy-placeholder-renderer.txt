@@ -1,0 +1,120 @@
+import React,{useEffect,useMemo,useRef,useState,type MutableRefObject} from 'react';
+import {useFrame} from '@react-three/fiber';
+import * as THREE from 'three';
+import {ART,inspectedPath} from './assets';
+import {RECIPE,type IngredientKind,type PickupId} from './recipe';
+import {LOGICAL_ITEMS} from './gameplay';
+import type {PlacedItem,SkinConfig} from './types';
+
+function useReducedMotion(){
+ const[value,setValue]=useState(()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+ useEffect(()=>{const m=window.matchMedia('(prefers-reduced-motion: reduce)');const change=()=>setValue(m.matches);m.addEventListener('change',change);return()=>m.removeEventListener('change',change);},[]);
+ return value;
+}
+// One request per configured path. Geometry remains visible during loading and errors.
+// Reference-counted ownership prevents texture leaks on replay or route exit.
+type TextureEntry={texture:THREE.Texture|null;listeners:Set<()=>void>;users:number;done:boolean};
+const textures=new Map<string,TextureEntry>();
+function useOptionalTexture(path:string|null){
+ const[,redraw]=useState(0);
+ useEffect(()=>{
+  if(!path)return;
+  let entry=textures.get(path);
+  if(!entry){
+   entry={texture:null,listeners:new Set(),users:0,done:false};textures.set(path,entry);
+   const current=entry;
+   new THREE.TextureLoader().load(path,texture=>{
+    texture.colorSpace=THREE.SRGBColorSpace;current.done=true;
+    if(current.users===0){texture.dispose();textures.delete(path);return;}
+    current.texture=texture;current.listeners.forEach(fn=>fn());
+   },undefined,()=>{current.done=true;if(current.users===0)textures.delete(path);current.listeners.forEach(fn=>fn());});
+  }
+  const update=()=>redraw(n=>n+1);entry.users++;entry.listeners.add(update);
+  return()=>{entry!.users--;entry!.listeners.delete(update);if(entry!.users===0&&entry!.done){entry!.texture?.dispose();textures.delete(path);}};
+ },[path]);
+ return path?textures.get(path)?.texture??null:null;
+}
+function Slab({position,size,color,metal=0}:{position:[number,number,number];size:[number,number,number];color:string;metal?:number}){
+ return <mesh position={position} receiveShadow><boxGeometry args={size}/><meshStandardMaterial color={color} roughness={metal?.35:.85} metalness={metal}/></mesh>;
+}
+export function ArenaEnvironment({width,depth,skin}:{width:number;depth:number;skin:SkinConfig}){
+ const counter=useOptionalTexture(inspectedPath(ART.counter)),wall=useOptionalTexture(inspectedPath(ART.interiorWall));
+ const halfW=width/2,halfD=depth/2;
+ return <group>
+  {/* Counter top is precisely the original square play plane. */}
+  <mesh rotation={[-Math.PI/2,0,0]} position={[0,-.015,0]} receiveShadow><planeGeometry args={[width,depth]}/><meshStandardMaterial color={counter?'white':skin.groundColor} map={counter} roughness={.72}/></mesh>
+  <Slab position={[0,-.4,0]} size={[width+.35,.7,depth+.35]} color="#b7b9b1" metal={.3}/>
+  <Slab position={[0,-2.2,0]} size={[width-1,3,depth-1]} color="#243944"/>
+  {[-halfW,halfW].map(x=><Slab key={x} position={[x,.07,0]} size={[.15,.16,depth+.2]} color="#84938f" metal={.6}/>)}
+  {[-halfD,halfD].map(z=><Slab key={z} position={[0,.07,z]} size={[width+.2,.16,.15]} color="#84938f" metal={.6}/>)}
+  {/* Surroundings share world coordinates, perspective and warm key light. */}
+  <Slab position={[0,-4.1,0]} size={[width*4,.2,depth*4]} color="#949d97"/>
+  <mesh position={[0,4,-halfD-10]} receiveShadow><boxGeometry args={[width*3,16,.5]}/><meshStandardMaterial map={wall} color={wall?'white':'#dbdfd8'} roughness={.9}/></mesh>
+  <Slab position={[-halfW-12,3,0]} size={[.5,14,depth*3]} color="#d6dbd3"/>
+  <Slab position={[halfW+12,3,0]} size={[.5,14,depth*3]} color="#d6dbd3"/>
+  {/* Placeholder fridge wall; no invented product labels, logos or photo claims. */}
+  {[-2,-1,0,1,2].map(i=><group key={i} position={[i*6,0,-halfD-8]}>
+   <Slab position={[0,1,0]} size={[5.8,9,1.4]} color="#203846"/>
+   <Slab position={[0,1.3,.76]} size={[5.2,7.3,.1]} color="#536766"/>
+   {[-1.4,.6,2.6].map(y=><Slab key={y} position={[0,y,.9]} size={[5,.1,.4]} color="#acb8b0" metal={.5}/>)}
+   <Slab position={[2.35,1.2,1]} size={[.09,1.7,.12]} color="#d5ddd4" metal={.5}/>
+  </group>)}
+  <Slab position={[-halfW-6,-1,0]} size={[5,5,depth*.7]} color="#314c51"/>
+  <Slab position={[-halfW-6,1.6,0]} size={[5.5,.2,depth*.74]} color="#b9c0b8" metal={.3}/>
+ </group>;
+}
+function IngredientGeometry({kind,color}:{kind:IngredientKind;color:string}){
+ if(kind==='salt'||kind==='pepper')return <group>{[-.36,0,.36].map((x,i)=><mesh key={i} position={[x,.14,Math.sin(i*2)*.3]} rotation={[i,.4,i*.6]}><dodecahedronGeometry args={[.18,0]}/><meshStandardMaterial color={color} roughness={.95}/></mesh>)}</group>;
+ if(kind==='tomato')return <group><mesh position={[0,.12,0]}><cylinderGeometry args={[.92,.92,.23,20]}/><meshStandardMaterial color={color} roughness={.5}/></mesh><mesh position={[0,.245,0]} rotation={[-Math.PI/2,0,0]}><ringGeometry args={[.52,.72,20]}/><meshStandardMaterial color="#dc7650" side={THREE.DoubleSide}/></mesh></group>;
+ if(kind==='lettuce')return <group>{[0,1,2].map(i=><mesh key={i} position={[Math.sin(i*2)*.3,.12+i*.06,0]} rotation={[0,i*1.9,.12*i]} scale={[1,.12,.76]}><sphereGeometry args={[.8,8,5]}/><meshStandardMaterial color={i===1?'#86a851':color} roughness={.92}/></mesh>)}</group>;
+ if(kind==='sweet-pepper')return <mesh position={[0,.14,0]} rotation={[Math.PI/2,0,.25]} scale={[1,.68,1]}><torusGeometry args={[.58,.18,6,14,Math.PI*1.7]}/><meshStandardMaterial color={color} roughness={.5}/></mesh>;
+ if(kind==='provolone')return <mesh position={[0,.08,0]} rotation={[0,.15,0]}><boxGeometry args={[1.4,.12,1.2]}/><meshStandardMaterial color={color} roughness={.68}/></mesh>;
+ if(kind==='ham'||kind==='salami')return <group>{[0,1,2].map(i=><mesh key={i} position={[Math.sin(i*2)*.2,.08+i*.06,Math.cos(i*2)*.15]} rotation={[.08*i,0,.1*i]}><cylinderGeometry args={[.7,.65,.10,14]}/><meshStandardMaterial color={i===1?'#dc9b88':color} roughness={.75}/></mesh>)}</group>;
+ return <mesh position={[0,.1,0]} scale={[.9,.13,.64]}><sphereGeometry args={[.8,16,8]}/><meshStandardMaterial color={color} roughness={.18} metalness={.08}/></mesh>;
+}
+function FoodSurface({path,radius,fallback}:{path:string|null;radius:number;fallback:React.ReactNode}){
+ const texture=useOptionalTexture(path);
+ return texture?<mesh rotation={[-Math.PI/2,0,0]} position={[0,.12,0]}><planeGeometry args={[radius*2,radius*2]}/><meshStandardMaterial map={texture} transparent alphaTest={.08} roughness={.75}/></mesh>:<>{fallback}</>;
+}
+export function PickupVisual({item,isLocked,active}:{item:PlacedItem;isLocked:boolean;active:boolean}){
+ const id=item.defId as PickupId,recipe=RECIPE.pickups[id],r=LOGICAL_ITEMS[id].radius;
+ const group=useRef<THREE.Group>(null),reduce=useReducedMotion();
+ useFrame(()=>{if(group.current&&active){const p=Math.min(1,item.sinkProgress);group.current.position.y=reduce?0:Math.sin(p*Math.PI)*.32;}});
+ return <group ref={group}>
+  <FoodSurface path={inspectedPath(ART.ingredients[recipe.kind])} radius={r} fallback={<group scale={[r,.65*r,r]}><IngredientGeometry kind={recipe.kind} color={recipe.color}/></group>}/>
+  {isLocked&&<mesh rotation={[-Math.PI/2,0,0]} position={[0,.01,0]}><ringGeometry args={[r*.93,r,20]}/><meshBasicMaterial color="#5a615b" transparent opacity={.45}/></mesh>}
+ </group>;
+}
+// Recognizable primitive placeholders; explicitly not finished realistic food models.
+export function SandwichGeometry(){
+ return <group>
+  <mesh position={[0,.18,0]} scale={[.93,.20,.81]}><sphereGeometry args={[1,20,10]}/><meshStandardMaterial color="#b78444" roughness={.9}/></mesh>
+  <mesh position={[0,.29,0]} scale={[.88,.07,.77]}><sphereGeometry args={[1,20,8]}/><meshStandardMaterial color="#edd4a4" roughness={.96}/></mesh>
+  <group position={[0,.34,0]} scale={[.85,.85,.7]}><IngredientGeometry kind="lettuce" color="#628738"/></group>
+  <mesh position={[0,.4,-.55]} rotation={[-.72,0,0]} scale={[.94,.25,.48]}><sphereGeometry args={[1,20,10]}/><meshStandardMaterial color="#c69450" roughness={.85}/></mesh>
+ </group>;
+}
+export function CollectorVisual({radius,isGrowing}:{radius:number;skin:SkinConfig;isGrowing:boolean}){
+ return <group scale={[radius,1,radius]}>
+  <FoodSurface path={inspectedPath(ART.openSandwich)} radius={1} fallback={<SandwichGeometry/>}/>
+  {isGrowing&&<mesh rotation={[-Math.PI/2,0,0]} position={[0,.02,0]}><ringGeometry args={[1.06,1.12,36]}/><meshBasicMaterial color="#fff1c9"/></mesh>}
+ </group>;
+}
+const CRUMB_COUNT=24;
+export function CollectionCrumbs({items,active}:{items:MutableRefObject<PlacedItem[]>;active:boolean}){
+ const reduce=useReducedMotion(),mesh=useRef<THREE.InstancedMesh>(null);
+ const seen=useRef(new Set<string>()),cursor=useRef(0),dummy=useMemo(()=>new THREE.Object3D(),[]);
+ const particles=useMemo(()=>Array.from({length:CRUMB_COUNT},()=>({x:0,z:0,vx:0,vz:0,life:0})),[]);
+ useFrame((_,delta)=>{
+  const dt=active?Math.min(delta,.1):0;
+  for(const item of items.current)if(item.collected&&!seen.current.has(item.uid)){
+   seen.current.add(item.uid);
+   if(!reduce)for(let i=0;i<4;i++){const p=particles[cursor.current++%CRUMB_COUNT],a=i*Math.PI*.5;Object.assign(p,{x:item.sinkTargetX,z:item.sinkTargetZ,vx:Math.cos(a)*1.7,vz:Math.sin(a)*1.7,life:.28});}
+  }
+  if(!mesh.current)return;
+  particles.forEach((p,i)=>{p.life=Math.max(0,p.life-dt);p.x+=p.vx*dt;p.z+=p.vz*dt;
+   const t=1-p.life/.28;dummy.position.set(p.x,.12+Math.sin(t*Math.PI)*.5,p.z);dummy.scale.setScalar(reduce?0:p.life/.28*.065);dummy.updateMatrix();mesh.current!.setMatrixAt(i,dummy.matrix);
+  });mesh.current.instanceMatrix.needsUpdate=true;
+ });
+ return <instancedMesh ref={mesh} args={[undefined,undefined,CRUMB_COUNT]} frustumCulled={false}><boxGeometry args={[1,1,1]}/><meshStandardMaterial color="#c99e63" roughness={.9}/></instancedMesh>;
+}

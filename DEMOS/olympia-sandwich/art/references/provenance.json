@@ -1,0 +1,26 @@
+[
+  {
+    "commit": "c63151eb5d9ebc8961f9ffef05b16bbdbc2eb6cf",
+    "source": "APP/web/public/assets/olympia/photos/photo-01.png",
+    "role": "fridge-wall",
+    "local": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\references\\photo-01.png",
+    "bytes": 623653,
+    "sha256": "7828400ce16f2355706f2504f671f842d7266da2a723b3c157c5df56811839ad"
+  },
+  {
+    "commit": "c63151eb5d9ebc8961f9ffef05b16bbdbc2eb6cf",
+    "source": "APP/web/public/assets/olympia/photos/photo-02.png",
+    "role": "counter-checkout",
+    "local": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\references\\photo-02.png",
+    "bytes": 538432,
+    "sha256": "edfd071cac337203373cf00f6739e389e85a557ec0eaabcfe6d14d260a4db8fe"
+  },
+  {
+    "commit": "c63151eb5d9ebc8961f9ffef05b16bbdbc2eb6cf",
+    "source": "APP/web/public/assets/olympia/photos/photo-06.png",
+    "role": "sandwich",
+    "local": "C:\\dev\\amma\\worktrees\\olympia-sandwich-draft-20261012\\DEMOS\\olympia-sandwich\\art\\references\\photo-06.png",
+    "bytes": 338883,
+    "sha256": "7044c369e8bab308a89b370cf65f2d7df60346b4f8123e62d7ce273fe45095d4"
+  }
+]
