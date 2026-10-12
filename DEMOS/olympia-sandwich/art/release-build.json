@@ -1,29 +1,29 @@
 {
   "entry": "/demo/olympia-sandwich/index.html",
   "generatedBundles": [
-    "index-D4mZc2-Z.js",
-    "index-Dz-TkQ39.css"
+    "index-C_7UeZKy.js",
+    "index-ChACH1Nz.css"
   ],
   "removedObsoleteOwnBundles": [
-    "index-CGZd0q1J.css",
-    "index-DF7wO9UH.js"
+    "index-D4mZc2-Z.js",
+    "index-Dz-TkQ39.css"
   ],
   "runtimeImageBytes": 250252,
   "files": [
     {
       "path": "index.html",
-      "sha256": "7fdc44f44a30e14a4bdf7e8c341cd0aa533d8361a18b32258e159e428ac2e0af",
+      "sha256": "e5f9014059a9516dde5fb58b14dd015fae984eca561704e6608339443b6df3d9",
       "bytes": 750
     },
     {
-      "path": "assets/index-D4mZc2-Z.js",
-      "sha256": "fa827167905ec0b8329829a208cd927b8a4a5e2fa1cdac03ce26b53c2cb4bc4c",
-      "bytes": 293955
+      "path": "assets/index-C_7UeZKy.js",
+      "sha256": "f632dd4c9f9e531e6694a321eaf86707626d13e776545e9968eb98d707fc471b",
+      "bytes": 301626
     },
     {
-      "path": "assets/index-Dz-TkQ39.css",
-      "sha256": "d73c6bb7cfb3345587be3888b6963ebcfb0a0839b21138115e4ef014d6055db3",
-      "bytes": 10491
+      "path": "assets/index-ChACH1Nz.css",
+      "sha256": "9b2222fa48e6058b793ba8dcb7846d1e7deb73058d90cff86b700bf1434038fc",
+      "bytes": 10572
     },
     {
       "path": "assets/art/open-sandwich.webp",

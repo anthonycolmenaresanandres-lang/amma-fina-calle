@@ -1,0 +1,18 @@
+# Olympia expanded collector release review
+
+
+## 2026-10-12 reciprocal capture / expanded levels release
+
+Anthony explicitly resumed execute/publish at22:22UTC after a brief plan-only hold. Later refinements requested1/2/3 independent rivals and immediate publication without waiting for live-play results. No edits/builds/publication happened during the hold; only the already-started fresh branch command completed.
+
+Capture: at least30% larger radius, full containment of the smaller visible collection circle for0.20 continuous seconds,4-second initial combat grace. Same rule for every actor pair. Victim is removed and its earned score/mass transferred once (no bonus points); in-flight food keeps progress and changes owner. Player loss ends promptly with explicit loss/restart and pre-capture points. Round ends once after every food drop resolves and no queued spawns remain, regardless of surviving rivals;45-second active maximum remains, including slow-frame cutoff. Olympia has no scheduled future spawns; reusable-engine queued-spawn behavior is tested.
+
+Levels: open48x48 counter /168 ingredients /1 gatherer /3,000 target /11,670 point budget;60x60 tray crossing /248 ingredients /2 independent contested-food rivals /6,000 target /21,675 budget;72x72 looped islands and valuable pockets /349 ingredients /3 independent pursuit-retreat rivals /10,000 target /32,445 budget. Speeds62%/68%/74% of matching player tier; decisions0.65/0.50/0.40s; movement grace2.5s. Rivals target each other under the same size rules. Minimum initial actor separation>=12 units. All fixed-obstacle regions and food positions are reachable at maximum collector size.
+
+Mean nearest-food spacing2.42/2.39/2.45 units versus1.23/1.19/1.25 previously, while food count rises126->168,188->248,266->349. Close camera scaling remains unchanged and food art scale is1.05. Rear display stays visible above a foreground counter meeting its measured back edge; unnecessary floor is covered. Seven images unchanged; no image generation, photo downloads or dependency installation.
+
+One focused local pass completed: TypeScript0 diagnostics; capture both directions and rival-vs-rival, equal-size/overlap protection, hold reset/grace, earned transfer/pending ownership, empty-board completion, scheduled-spawn and deadline handling, stable single result, pause/reset, maximum-size connectivity/all-food reachability, item counts/spacing,135 art-footprint cases and frozen source/art hashes PASS. Slow-frame maximum regression added for required CI. Representative driver: level1 wins and clears at32.58s; level2 wins at45s with21,665 points; level3 finishes45s with5,545 versus leader11,275 and misses target. This establishes distinct challenge, not a measured human win rate; level3 and multi-rival balance need owner playtest.
+
+No fresh browser/mobile/visual/live-play testing under Anthony's explicit instruction. New background composition, multi-rival cues, capture/result screens, sustained touch and physical-device performance are owner-playtest limits. Preserve PR330 menu/photos/all39 records, other clients and Juice Rush. Required final artifact build and remote CI gate publication; only minimal READY deployment status will be checked afterward. No preview server or browser session started for this follow-up.
+
+Final capture/layout artifact build PASS: Vite native loader48 modules in10.31s; JS301,626 bytes (94.74kB gzip), CSS10,572 bytes (3.26kB gzip). Seven runtime images remain250,252 bytes with unchanged hashes. Only this game's obsolete generated bundles removed. No preview/browser or dependency install; local validation/build processes exited. Required remote CI remains the publication gate; owner requested no wait for live-play verification.
