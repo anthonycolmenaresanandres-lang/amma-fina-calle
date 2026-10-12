@@ -17,7 +17,7 @@ const extract=raw=>{const s=raw.replace(/\r\n/g,'\n'),start=s.indexOf('  useFram
  const marker=s.includes('// Presentation adapter.')?'\n  // Presentation adapter.':'\n  return (\n    <group>';
  return s.slice(start,s.indexOf(marker,start));
 };
-assert.equal(extract(read('Game.tsx')),extract(fs.readFileSync(path.join(dir,'../pocket-cafe/Game.tsx'),'utf8')),'original simulation callback changed');
+assert.equal(extract(read('art/original-Game.tsx.txt')),extract(fs.readFileSync(path.join(dir,'../pocket-cafe/Game.tsx'),'utf8')),'archived original simulation callback changed');
 assert(!/colattao|CafeModels|CafePlate|CafeSign/.test(read('Game.tsx')));
 assert(read('index.html').includes('noindex,nofollow,noarchive'));
 assert(read('vite.config.mjs').includes("outDir:'../../APP/web/public/demo/olympia-sandwich'"));
@@ -40,4 +40,5 @@ for(const asset of art.assets){
  assert.equal(fs.statSync(file).size,asset.bytes);assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),asset.sha256);
 }
 assert.equal(art.assets.filter(a=>a.alpha).length,5,'food transparency missing');
-console.log('PASS: 6 frozen core files, original simulation callback, 3 viewport projection bounds, 7 hashed runtime assets with 5 alpha sprites, isolated cache/output and noindex.');
+await import('../collector-standard/verify-race.cjs');
+console.log('PASS: 6 frozen catalog/input files, archived baseline simulation, opt-in race checks, 3 projection bounds, 7 unchanged hashed art assets, isolated cache/output and noindex.');

@@ -10,7 +10,7 @@
     "utils.ts": "a8b74a9ce562c95bf9d90759a4da6a3827a2273d497a2667a39c23a6f56645d4",
     "utils/helper.tsx": "ec6ef9080b5ba079722629f44bf9bced0a4b411e1d244e6cd05fb6ce533f1677"
   },
-  "notes": "Presentation fork; simulation loop preserved verbatim. No Colattao art copied into new draft.",
+  "notes": "Presentation fork plus explicitly authorized opt-in rival rules revision. Original simulation archived; six catalog/input files and seven art files unchanged. No Colattao art copied.",
   "immutableNormalizedFiles": {
     "gameplay.ts": "e9b864093fa45df41d5cf9c7f30ee90b1ddc0b5d01625aaaab9a6761a9f688e6",
     "levels.ts": "410288749a2e711c93abf5db8cc2815ad3aa9fa0b7dcd25fe25e0c6561010fe6",
@@ -18,5 +18,14 @@
     "input.ts": "0b3a7749fa2a6343844aa672c42e583a64cd554c9547b9916d615764dc0257e4",
     "utils.ts": "845cac1928330a64be713bb6a2b248a508d0a38f6abc90abe8777d2e7ce05e34",
     "utils/helper.tsx": "9e0b08d4d5ce8cf963354fb264218598411d2bb0d1577638c681d1b90667a082"
+  },
+  "authorizedRaceRevision": {
+    "date": "2026-10-12",
+    "authorization": "Anthony explicitly requested closer framing, radius-aligned sandwich, harder rounds and reusable AI rival, with publication.",
+    "baselineSimulation": "art/original-Game.tsx.txt",
+    "rules": "../collector-standard/rules.ts",
+    "engine": "../collector-standard/engine.ts",
+    "unchanged": "Original level layouts, points, size gates, growth, input primitives and all seven illustrated runtime assets.",
+    "changed": "Round duration/targets, shared-pool rival, win condition, exact capture-radius arena margin and fixed simulation substeps."
   }
 }
