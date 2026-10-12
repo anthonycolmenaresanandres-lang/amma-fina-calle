@@ -120,3 +120,8 @@
   .menuIntro > p { margin-top: 12px; text-align: left; }
   .menuSource a { justify-content: flex-start; }
 }
+
+@media (min-width: 700px) {
+  .menuGroup:has(> section[id='drinks']) { grid-column: 1 / -1; }
+  .menuGroup > section[id='drinks'] > ul { columns: 2 !important; column-gap: 64px; column-fill: balance; }
+}

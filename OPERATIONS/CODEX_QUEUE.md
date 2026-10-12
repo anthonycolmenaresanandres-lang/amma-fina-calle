@@ -1149,3 +1149,5 @@ Anthony explicitly authorizes shipping the 39 verified items as a clearly labele
 
 ### 2026-10-12 Olympia selected menu — READY LOCAL / REMOTE APPROVAL BLOCKED
 39-item selected menu implemented, source and local HTTP checks PASS, Astra source review no blocker. Browser and completed lint/type/build results unavailable. Automatic approval review rejected push citing original local-only/no-PR scope; no remote action or workaround. Explicit approval required for pushing codex/olympia-doordash-menu-20261012, opening PR, merging after CI and deploying existing /olympia route. Coverage/remaining categories: OPERATIONS/OLYMPIA/2026-10-12/DOORDASH_SELECTED_MENU.md.
+
+- Olympia 2026-10-12 follow-up complete locally: balanced Drinks layout, Astra rendered review, lint/types/source/HTTP/game checks passed. Full production build incomplete. Push retry denied; DoorDash photo approval states unconfirmed. See OPERATIONS/OLYMPIA/2026-10-12/DOORDASH_SELECTED_MENU.md.
