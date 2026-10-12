@@ -36,9 +36,23 @@ for (const path of ['/olympia', '/olympia/play']) {
       if (source.description) assert(rendered.includes(escapeHtml(source.description.replace(/\s+/g, ' ').trim())), source.name + ' description');
     }
     assert.match(html, /Pending Olympia approval/);
-    assert.match(html, /Original concept illustration/);
+    assert.match(html, /The six photographs were supplied for this concept/);
     assert.match(html, /https:\/\/finacalleos.com\/olympia/);
-    assert.match(html, /Reviewer photos are not integrated/);
+    assert(!html.includes('Reviewer photos are not integrated'));
+    assert(!html.includes('Food photos pending'));
+    assert.equal((html.match(/<picture/g) || []).length, 6, 'Six supplied general-feature photos render');
+    for (const id of ['01','02','03','04','05','06']) {
+      assert.match(html, new RegExp('photo-' + id + '-320\\.webp 320w'), 'Responsive small photo ' + id);
+    }
+  }
+}
+const photos = JSON.parse(await readFile(new URL('../src/app/olympia/photo-data.json', import.meta.url), 'utf8'));
+for (const photo of Object.values(photos)) {
+  for (const variant of photo.variants) {
+    const response = await fetch(new URL(variant.src, base));
+    assert.equal(response.status, 200, variant.src);
+    assert.match(response.headers.get('content-type') || '', /image\/webp/);
+    assert.equal((await response.arrayBuffer()).byteLength, variant.bytes, variant.src + ' byte length');
   }
 }
 for (const asset of ['wordmark.png', 'logo.png', 'deli-wrapper-study.svg', 'juice-study.svg']) {
@@ -46,4 +60,4 @@ for (const asset of ['wordmark.png', 'logo.png', 'deli-wrapper-study.svg', 'juic
   assert.equal(response.status, 200, asset);
   assert((await response.arrayBuffer()).byteLength > 500, asset);
 }
-console.log('PASS Olympia public prospect HTTP: menu/game 200; noindex/nofollow; 39 source-matched items, delivery-price/source/date disclosure, original assets and template exclusions.');
+console.log('PASS Olympia public prospect HTTP: menu/game 200; noindex/nofollow; 39 source-matched items, 39 native disclosures, six supplied responsive photos/all 12 variants, delivery-price/source/date disclosure, preserved original assets and template exclusions.');
