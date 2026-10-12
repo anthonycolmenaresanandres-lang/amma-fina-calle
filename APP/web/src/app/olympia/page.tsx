@@ -25,14 +25,14 @@ export default function OlympiaPage() {
           <p className={styles.eyebrow}>Newport News, Virginia</p>
           <h2 id="fresh-title">Chopped<br /><em>cheese.</em></h2>
         </div>
+        <div className={styles.actions}>
+          <a className={styles.primary} href="#deli">View menu <span aria-hidden="true">↗</span></a>
+          <Link className={styles.secondary} href="/olympia/play">Play Juice Rush <span aria-hidden="true">→</span></Link>
+        </div>
         <figure className={styles.art}>
           <div className={styles.artStage}><Image src="/assets/olympia/deli-wrapper-study.svg" alt="Concept drawing of a deli roll on sandwich paper. Not an actual Olympia food photo or approved ingredients." width={760} height={580} sizes="(max-width: 699px) 100vw, 650px" priority unoptimized /></div>
           <figcaption>Original concept illustration · Food photos pending</figcaption>
         </figure>
-        <div className={styles.actions}>
-          <a className={styles.primary} href="#deli">Explore the menu <span aria-hidden="true">↗</span></a>
-          <Link className={styles.secondary} href="/olympia/play">Play Juice Rush <span aria-hidden="true">→</span></Link>
-        </div>
       </section>
       <div className={styles.community}><p>Proudly serving the CNU community</p></div>
       <div className={styles.menuIntro}>

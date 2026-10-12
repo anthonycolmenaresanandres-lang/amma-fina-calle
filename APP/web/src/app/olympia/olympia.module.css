@@ -143,8 +143,18 @@
 .itemBody a { color: #ffd171; text-underline-offset: 4px; }
 @media (max-width: 359px) {
   .summaryContent { gap: 10px; }
-  .detailsCue > span { display: none; }
+  .detailsCue > span { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   .detailsCue svg { transition: none; }
+}
+
+/* Keep the menu within easy reach before decorative media on phones. */
+@media (max-width: 699px) {
+  .actions { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 12px; align-items: stretch; }
+  .primary, .secondary { min-height: 52px; min-width: 0; padding: 12px; gap: 10px; font-size: 13px; }
+  .secondary { align-self: stretch; border: 1px solid #536d82; }
+  .primary > span, .secondary > span { flex-shrink: 0; }
+  .itemBody { font-size: 16px; line-height: 1.6; }
+  .menuIntro > p { font-size: 13px; }
 }
