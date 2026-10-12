@@ -15,6 +15,7 @@ import { finalizeCall } from "./orchestrator";
 import { getTenantById, getTenantByNumber, getTenantByVoiceNumber, allTenants } from "./tenant";
 import { emptyTwiML, generateSmsReply, messageTwiML, smsFallbackReply } from "./sms";
 import type { CallRecord } from "./types";
+import { PrivateCallerLimiter } from "./voicePrivacy";
 
 function readBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve) => {
@@ -114,6 +115,7 @@ function probeRealtimeSession(tenantId: string): Promise<Record<string, unknown>
 
 // Live-call accounting for the safety gates (denial-of-wallet / abuse on a public line).
 let activeCalls = 0;
+const privateCallerLimiter = new PrivateCallerLimiter();
 const callerHistory = new Map<string, number[]>(); // from-number -> recent call timestamps (ms)
 const smsHistory = new Map<string, number[]>(); // from-number -> recent text timestamps (ms)
 
@@ -129,6 +131,7 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname === "/runtime") {
     res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({
       publicHost: config.publicHost,
+      deployedCommit: process.env.RENDER_GIT_COMMIT ?? null,
       openaiApiKeyConfigured: Boolean(config.openaiApiKey),
       realtimeModel: config.realtimeModel,
       smsModel: config.smsModel,
@@ -155,6 +158,8 @@ const server = http.createServer(async (req, res) => {
     // Ops view — who's wired up, on which numbers, with which connector. No secrets.
     const list = allTenants().map((t) => ({
       id: t.id, business: t.business.name, kind: t.business.kind,
+      language: t.language, voice: t.voice, toolNames: t.tools ?? null,
+      privacy: t.privacy,
       phoneNumbers: t.phoneNumbers, voicePhoneNumbers: t.voicePhoneNumbers ?? [],
       connector: t.connector, hours: t.business.hours,
       services: t.business.services.map((s) => s.name),
@@ -176,6 +181,7 @@ const server = http.createServer(async (req, res) => {
     if (!validTwilioWebhook(req, url, params)) { res.writeHead(403).end("invalid signature"); return; }
     const to = params.get("To") ?? url.searchParams.get("To") ?? undefined;
     const from = params.get("From") ?? url.searchParams.get("From") ?? "";
+    const tenant = getTenantByVoiceNumber(to ?? undefined);
 
     // Safety gates (fail OPEN — a bug here must never block real callers).
     try {
@@ -185,17 +191,23 @@ const server = http.createServer(async (req, res) => {
         xml("We're handling a lot of calls right now. Please call back in a few minutes."); return;
       }
       if (from && config.safety.perCallerMaxPerHour > 0) {
-        const now = Date.now();
-        const recent = (callerHistory.get(from) ?? []).filter((t) => t > now - 3_600_000);
-        if (recent.length >= config.safety.perCallerMaxPerHour) {
-          xml("You've reached the call limit for now. Please try again later."); return;
+        if (tenant.privacy?.retainCallerId === false) {
+          if (!privateCallerLimiter.allow(tenant.id, from, config.safety.perCallerMaxPerHour)) {
+            xml("You've reached the call limit for now. Please try again later."); return;
+          }
+        } else {
+          // Preserve existing tenants' caller counters; private demo never enters this map.
+          const now = Date.now();
+          const recent = (callerHistory.get(from) ?? []).filter((t) => t > now - 3_600_000);
+          if (recent.length >= config.safety.perCallerMaxPerHour) {
+            xml("You've reached the call limit for now. Please try again later."); return;
+          }
+          recent.push(now); callerHistory.set(from, recent);
         }
-        recent.push(now); callerHistory.set(from, recent);
       }
     } catch { /* fail open — let the call through if a gate errors */ }
 
-    const tenant = getTenantByVoiceNumber(to ?? undefined);
-    res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id, from));
+    res.writeHead(200, { "Content-Type": "text/xml" }).end(connectStreamTwiML(tenant.id, from, tenant.privacy));
     return;
   }
   if (url.pathname === "/sms") {
@@ -269,7 +281,7 @@ wss.on("connection", (twilioWs: WebSocket) => {
         streamSid = msg.start?.streamSid ?? "";
         const tenant = getTenantById(msg.start?.customParameters?.tenant) ?? getTenantByNumber(undefined);
         const fromPhone = msg.start?.customParameters?.from || undefined;
-        call = store.createCall(fromPhone, tenant.id);
+        call = store.createCall(fromPhone, tenant.id, tenant.privacy);
         activeCalls++; counted = true;
         // Hard cap on call length: cost guard against runaway/looping calls + curbs voice drift.
         if (config.safety.maxCallSeconds > 0) {

@@ -41,11 +41,11 @@ const { buildRealtimeSessionUpdate, buildGreetingResponse } = await import("./re
 const { connectStreamTwiML } = await import("./twilio");
 
 check("only the requested inactive personality was removed", () => {
-  assert.deepEqual(raw.map(t => t.id), Object.keys(baselineHashes));
+  assert.deepEqual(raw.filter(t => t.id !== "maracaibo-demo").map(t => t.id), Object.keys(baselineHashes));
   assert.equal(getTenantById("larissa-offgrid"), undefined);
 });
 check("other three personalities are identical to reviewed main", () => {
-  for (const t of raw.filter(t => t.id !== "vbfh-info")) assert.equal(fingerprint(t), baselineHashes[t.id]);
+  for (const t of raw.filter(t => t.id !== "vbfh-info" && t.id !== "maracaibo-demo")) assert.equal(fingerprint(t), baselineHashes[t.id]);
 });
 check("VBFH identity, disclosure, shared numbers and capability limits are preserved", () => {
   const omitEdits = ({ knowledge: _k, instructions: _i, voicePhoneNumbers: _v, ...rest }: RawTenant) => rest;
@@ -64,9 +64,9 @@ check("666 voice and SMS still select VBFH across number formatting", () => {
     assert.equal(getTenantByNumber(to).id, "vbfh-info");
   }
 });
-check("300 voice selects VBFH while shared/SMS selects Fina Calle", () => {
+check("300 voice selects Maracaibo demo while shared/SMS selects Fina Calle", () => {
   for (const to of ["+1 (757) 300-1118", "17573001118", "+1 757 300 1118"]) {
-    assert.equal(getTenantByVoiceNumber(to).id, "vbfh-info");
+    assert.equal(getTenantByVoiceNumber(to).id, "maracaibo-demo");
     assert.equal(getTenantByNumber(to).id, "fina-calle");
   }
 });
@@ -97,7 +97,7 @@ check("each remaining personality builds its own isolated session", () => {
   assert.doesNotMatch(session.instructions, /LARISSA OFF-GRID KNOWLEDGE PACK|FINA CALLE KNOWLEDGE PACK|COLATTAO KNOWLEDGE PACK/);
 });
 check("stream selection carries the intended VBFH tenant without opening audio", () => {
-  assert.match(connectStreamTwiML(getTenantByVoiceNumber("+17573001118").id), /name="tenant" value="vbfh-info"/);
+  assert.match(connectStreamTwiML(getTenantByVoiceNumber("+17576660078").id), /name="tenant" value="vbfh-info"/);
 });
 check("all thirty topic records have official source, review date, scope and status", () => {
   const records = vbfh.knowledge!.split("\n\n").filter(s => /^[A-Z_]+ \[/.test(s));
@@ -154,7 +154,7 @@ try {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
   assert.ok(healthy, "Local gateway start timed out: " + logs);
-  for (const number of ["+17576660078", "+17573001118"]) {
+  for (const number of ["+17576660078"]) {
     const response = await fetch(url + "/twiml", { method: "POST", body: new URLSearchParams({ To: number }) });
     const xml = await response.text();
     check("HTTP voice route " + number + " selects VBFH", () => {
@@ -172,8 +172,9 @@ try {
   }
   const exposed = await (await fetch(url + "/tenants")).json() as { count: number; tenants: { id: string; phoneNumbers: string[]; voicePhoneNumbers: string[] }[] };
   check("HTTP registry exposes reviewed voice-only mapping and omits removed persona", () => {
-    assert.equal(exposed.count, 4);
-    assert.deepEqual(exposed.tenants.find(t => t.id === "vbfh-info")?.voicePhoneNumbers, ["17573001118"]);
+    assert.equal(exposed.count, 5);
+    assert.deepEqual(exposed.tenants.find(t => t.id === "vbfh-info")?.voicePhoneNumbers, []);
+    assert.deepEqual(exposed.tenants.find(t => t.id === "maracaibo-demo")?.voicePhoneNumbers, ["17573001118"]);
     assert.deepEqual(exposed.tenants.find(t => t.id === "fina-calle")?.phoneNumbers, ["17573001118"]);
     assert.ok(!exposed.tenants.some(t => t.id === "larissa-offgrid"));
   });
