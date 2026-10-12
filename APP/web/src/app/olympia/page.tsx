@@ -28,28 +28,16 @@ export default function OlympiaPage() {
     skipHref="#deli" skipLabel="Skip to menu"
     brand={<div className={styles.brand} translate="no"><Image src="/assets/olympia/wordmark.png" alt="Olympia Deli & Juice Bar" width={1024} height={384} sizes="(max-width: 699px) 190px, 270px" priority /></div>}
     nav={<VenueMenuNav sections={olympiaSections} floatingAction={null} />}
-    featured={<>
-      <section className={styles.feature} aria-labelledby="fresh-title">
-        <div className={styles.featureCopy}>
-          <p className={styles.eyebrow}>Newport News, Virginia</p>
-          <h2 id="fresh-title">Deli.<br /><em>Juice.</em></h2>
-        </div>
-        <div className={styles.actions}>
-          <a className={styles.primary} href="#deli">View menu <span aria-hidden="true">↗</span></a>
-          <a className={styles.secondary} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter <span aria-hidden="true">→</span></a>
-        </div>
-        <figure className={styles.art}>
-          <div className={styles.artStage}><Photo id="06" alt="Two paper-wrapped sandwich halves on a plate, showing the filling." sizes="(max-width: 699px) calc(100vw - 40px), (max-width: 1100px) 52vw, 565px" eager /></div>
-        </figure>
-      </section>
-      <div className={styles.community}><p>Proudly serving the CNU community</p></div>
-      <div className={styles.menuIntro}>
-        <Photo id="04" className={styles.menuPhoto} alt="A bowl of rice, meat and salad with sauce." sizes="(max-width: 699px) calc(100vw - 40px), 360px" />
-        <div><p className={styles.eyebrow}>Breakfast · Lunch · Smoothies</p><h2>Selected menu.</h2></div>
-        <p className={styles.menuSource}><a href={olympiaMenuSource.sourceUrl} target="_blank" rel="noopener noreferrer">Full menu on DoorDash <span aria-hidden="true">↗</span></a><span>DoorDash delivery prices · <time dateTime={olympiaMenuSource.observedDate}>{olympiaMenuDate}</time></span><span>In-store prices may differ.</span></p>
-      </div>
-      <nav className={styles.menuIndex} aria-label="Selected menu sections">{olympiaMenu.map(group => <a href={"#" + group.id} key={group.id}>{group.name}</a>)}</nav>
-    </>}
+    featured={<section id="menu-index" className={styles.menuIntro} aria-labelledby="menu-title">
+      <div className={styles.menuHeading}><div><p className={styles.eyebrow}>Newport News, Virginia</p><h2 id="menu-title">Selected menu.</h2></div><a className={styles.playLink} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter <span aria-hidden="true">↗</span></a></div>
+      <nav className={styles.visualIndex} aria-label="Explore menu by photo">
+        <a href="#deli"><Photo id="06" alt="" sizes="(max-width: 699px) calc((100vw - 64px) / 3), 370px" eager /><span className={styles.categoryLabel}>Signature{" "}<br />sandwiches <span aria-hidden="true">↘</span></span></a>
+        <a href="#rice"><Photo id="04" alt="" sizes="(max-width: 699px) calc((100vw - 64px) / 3), 370px" eager /><span className={styles.categoryLabel}>Featured{" "}<br />items <span aria-hidden="true">↘</span></span></a>
+        <a href="#drinks"><Photo id="01" alt="" sizes="(max-width: 699px) calc((100vw - 64px) / 3), 370px" eager /><span className={styles.categoryLabel}>Drinks <span aria-hidden="true">↘</span></span></a>
+      </nav>
+      <nav className={styles.menuIndex} aria-label="More menu sections"><a href="#special">Special sandwiches <span aria-hidden="true">↘</span></a><a href="#popular">Most ordered <span aria-hidden="true">↘</span></a></nav>
+      <p className={styles.menuSource}><a href={olympiaMenuSource.sourceUrl} target="_blank" rel="noopener noreferrer">Full menu on DoorDash <span aria-hidden="true">↗</span></a><span>DoorDash delivery prices · <time dateTime={olympiaMenuSource.observedDate}>{olympiaMenuDate}</time><br />In-store prices may differ.</span></p>
+    </section>}
     menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><OlympiaMenuSection id={group.id} title={group.name} note={group.note} items={group.items} /></div>)}
     game={<section id="juice" className={styles.juice} aria-labelledby="juice-title">
       <div className={styles.juicePhotos}>
@@ -59,15 +47,14 @@ export default function OlympiaPage() {
       <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title">Fresh<br /><em>energy.</em></h2><p>Juice &amp; smoothies.</p><small>Full juice &amp; smoothie selection on DoorDash.</small></div>
       <div className={styles.gameEntry}><p className={styles.eyebrow}>A quick break</p><Link href="/olympia/play"><span>Juice Rush</span><span aria-hidden="true">↗</span></Link><p>Catch juice. Skip spills.</p><small>3 rounds · Just for fun · No rewards</small></div>
     </section>}
-    visit={<section id="visit" className={styles.visit} aria-labelledby="visit-title">
+    visit={<><div className={styles.community}><p>Proudly serving the CNU community</p></div><section id="visit" className={styles.visit} aria-labelledby="visit-title">
       <div className={styles.visitPhotos}>
-        <Photo id="02" alt="Olympia's deli counter, fruit display and illuminated Olympia Deli sign." sizes="(max-width: 699px) calc((100vw - 52px) * .62), 380px" />
-        <Photo id="01" alt="A long refrigerated wall stocked with drinks inside the deli." sizes="(max-width: 699px) calc((100vw - 52px) * .38), 230px" />
+        <Photo id="02" alt="Olympia's deli counter, fruit display and illuminated Olympia Deli sign." sizes="(max-width: 699px) calc(100vw - 40px), 558px" />
       </div>
       <div className={styles.visitHeading}><Image src="/assets/olympia/logo.png" alt="" width={84} height={84} /><div><p className={styles.eyebrow}>Hidenwood Shopping Center</p><h2 id="visit-title">Come by.</h2></div></div>
       <div className={styles.visitDetails}><address>23 Hidenwood Shopping Center<br />Newport News, VA 23606</address><div className={styles.visitLinks}><a href="https://www.google.com/maps/search/?api=1&query=Olympia+Deli+%26+Juice+Bar+23+Hidenwood+Shopping+Center+Newport+News+VA+23606" target="_blank" rel="noopener noreferrer">Directions <span aria-hidden="true">↗</span></a><a href="tel:+17577825523">757-782-5523</a><a href="https://www.instagram.com/olympiadeliandjuice/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a></div></div>
-    </section>}
+    </section></>}
     engagement={null}
-    footer={<><span>Concept by Fina Calle · Pending Olympia approval</span><details><summary>Review notes</summary><p>This prospect concept is prepared by Fina Calle and is pending Olympia approval. This selected menu uses DoorDash delivery prices captured October 12, 2026. In-store prices may differ. The full menu, customizations and availability remain on DoorDash; confirm dietary details and hours with Olympia. Source spellings are retained. The six photographs were supplied for this concept. They are general food, drink and interior features; exact dish and flavor pairings are unconfirmed. Originals are preserved; display copies are cropped and compressed. Juice Rush is just for fun and awards no real benefits. The CNU community line is proposed presentation copy; customer history is not independently verified. No university affiliation or sponsorship is claimed.</p></details></>}
+    footer={<><span>Concept by Fina Calle · Pending Olympia approval</span><details><summary>Review notes</summary><p>This prospect concept is prepared by Fina Calle and is pending Olympia approval. This selected menu uses DoorDash delivery prices captured October 12, 2026. In-store prices may differ. The full menu, customizations and availability remain on DoorDash; confirm dietary details and hours with Olympia. Source spellings are retained. The six photographs were supplied for this concept. They are general food, drink and interior features; category photographs are navigation cues, not photos of individual menu items. Exact dish and flavor pairings are unconfirmed. Originals are preserved; display copies are cropped and compressed. Juice Rush and Sandwich Counter are just for fun and award no real benefits. The CNU community line is proposed presentation copy; customer history is not independently verified. No university affiliation or sponsorship is claimed.</p></details></>}
   /></div>;
 }
