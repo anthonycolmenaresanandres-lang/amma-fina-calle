@@ -1,21 +1,11 @@
 # Olympia Sandwich Counter
 
-An isolated Pocket Collector / Pocket Cafe presentation fork at `/demo/olympia-sandwich/index.html`.
-The existing Olympia Juice Rush route remains available at `/olympia/play`.
+Current runtime: opt-in collector race v2. See `../collector-standard/README.md` for exact capture, timing, scoring and rival rules, and `raceLevels.ts` for the three distinct expanded layouts.
 
-Six simulation/input/level files remain byte-identical to the pinned Pocket Cafe source. `Game.tsx` retains the original simulation callback, including movement, collision, collection, scoring, growth and timing. A Canvas2D presentation adapter projects the same world coordinates onto the illustrated countertop. No client game artwork is reused.
+The seven inspected illustrated WebPs remain unchanged. The close follow camera and alpha-hull/rim fit are preserved; the foreground table now meets the rear deli display without an empty-floor gap. Food remains at the prior readable camera scale. The recipe is still an unnamed provisional bread/cooked-filling/pale-cheese study.
 
-Seven inspected, original generated illustrations provide the open sandwich, finished hero, three pickups, countertop and restaurant. The runtime WebP set is 250,252 bytes, including five transparent food sprites. The source PNGs, prompts and provenance are retained under `art/`; only compressed runtime assets are served. Frame rendering caps device pixel ratio at 1.5, caches the room composition and limits crumbs to 24.
+Original `gameplay.ts`, `levels.ts`, `constants.ts`, `input.ts`, `utils.ts` and `utils/helper.tsx` remain frozen references; `art/original-Game.tsx.txt` preserves the original simulation. The authorized race engine and level layouts are explicit new behavior, not a claim that the old simulation is unchanged.
 
-The supplied photo supports a golden roll, brown cooked filling and pale melted cheese. The named sandwich, meat species, cheese variety and bread variety are unconfirmed. `recipe.ts` maps configurable visual slots onto the original gameplay IDs without claiming a restaurant recipe. This is an explicitly labeled sandwich study.
+Validate with `node verify.mjs`. Build using the existing package script with Vite's native config loader. Cache and generated output stay scoped to this worktree and `APP/web/public/demo/olympia-sandwich`. Never install into the shared dependency junction. No other live client imports this skin or new rules.
 
-## Local validation
-
-Use the package's existing dependencies or install this isolated package on another machine. On the shared desktop, never install/write through the existing ignored dependency junction.
-
-- `npm run verify`: frozen-source, original simulation, projection bounds and asset hashes.
-- `npm run build`: TypeScript and standalone Vite with the native configuration loader.
-- `npm run preview`: loopback 4186. Coordinate capacity before browser/build work.
-- Append `?art=fallback` to exercise image-free primitive rendering.
-
-The Vite cache and static output are restricted to this package's `.cache/vite` and `APP/web/public/demo/olympia-sandwich`. No Next application source, live client game, website menu or website photo is replaced. See `QA.md` for observed checks and limitations.
+Anthony requested publication after required CI and minimal deployment status, with owner playtesting instead of further browser/live-play verification. See `QA.md` and `OPERATIONS/OLYMPIA/2026-10-12/SANDWICH_CAPTURE_REVIEW.md` for actual coverage and limits.

@@ -27,5 +27,13 @@
     "engine": "../collector-standard/engine.ts",
     "unchanged": "Original level layouts, points, size gates, growth, input primitives and all seven illustrated runtime assets.",
     "changed": "Round duration/targets, shared-pool rival, win condition, exact capture-radius arena margin and fixed simulation substeps."
+  },
+  "authorizedCaptureRevision": {
+    "date": "2026-10-12",
+    "rules": "../collector-standard/rules.ts",
+    "levels": "raceLevels.ts",
+    "changes": "Reciprocal capture; independent1/2/3 rivals; immediate food-clear/death results; expanded spaced open/tray/loop levels; attached rear deli display.",
+    "preserved": "Six original catalog/input/level-reference files, seven art hashes, close camera sizing and sandwich/rim geometry.",
+    "releaseInstruction": "Execute/publish after required CI; do not wait for owner live-play testing."
   }
 }
