@@ -1,21 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
-import { localReviewAllowed } from "./review-gate";
 
-export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Olympia Deli & Juice Bar | Local concept review",
-  description: "Unpublished Olympia menu and game concept. Pending owner approval.",
+  title: "Olympia Deli & Juice Bar | Prospect concept",
+  description: "A Fina Calle menu and game concept for Olympia. Pending restaurant approval.",
   robots: { index: false, follow: false, nocache: true },
-  alternates: { canonical: null },
-  openGraph: { title: "Olympia | Unpublished concept", description: "Local review only", images: [], url: null },
-  twitter: { title: "Olympia | Unpublished concept", images: [] },
+  alternates: { canonical: "https://finacalleos.com/olympia" },
+  openGraph: { title: "Olympia | Prospect concept", description: "Prepared by Fina Calle for owner review.", images: [], url: "https://finacalleos.com/olympia" },
+  twitter: { title: "Olympia | Prospect concept", images: [] },
 };
 export const viewport: Viewport = { themeColor: "#10283f" };
 
-export default async function OlympiaLayout({ children }: { children: React.ReactNode }) {
-  const requestHeaders = await headers();
-  if (!localReviewAllowed(process.env.OLYMPIA_LOCAL_DEMO, requestHeaders.get("host"), requestHeaders.get("x-forwarded-host"))) notFound();
+export default function OlympiaLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

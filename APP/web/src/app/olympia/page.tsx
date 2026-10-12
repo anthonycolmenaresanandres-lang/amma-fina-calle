@@ -15,7 +15,7 @@ const theme = {
 export default function OlympiaPage() {
   return <div className={styles.olympia}><VenueMenuLayout
     brandName="Olympia Deli & Juice Bar"
-    theme={theme} previewLabel="Unpublished concept · Owner review"
+    theme={theme} previewLabel="Prospect concept · Owner review"
     skipHref="#deli" skipLabel="Skip to menu"
     brand={<div className={styles.brand} translate="no"><Image src="/assets/olympia/wordmark.png" alt="Olympia Deli & Juice Bar" width={1024} height={384} sizes="(max-width: 699px) 190px, 270px" priority /></div>}
     nav={<VenueMenuNav sections={olympiaSections} floatingAction={null} />}
@@ -48,6 +48,6 @@ export default function OlympiaPage() {
       <div className={styles.visitDetails}><address>23 Hidenwood Shopping Center<br />Newport News, VA 23606</address><div className={styles.visitLinks}><a href="https://www.google.com/maps/search/?api=1&query=Olympia+Deli+%26+Juice+Bar+23+Hidenwood+Shopping+Center+Newport+News+VA+23606" target="_blank" rel="noopener noreferrer">Directions <span aria-hidden="true">↗</span></a><a href="tel:+17577825523">757-782-5523</a><a href="https://www.instagram.com/olympiadeliandjuice/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a></div></div>
     </section>}
     engagement={null}
-    footer={<><span>Concept by Fina Calle · Unpublished prospect demo</span><details><summary>Review notes</summary><p>Identity is highly likely; the supplied Google share link has not confirmed it directly. Menu names are provisional third-party content. Prices, hours, ingredients, dietary details and availability require owner approval. Original illustrations are temporary concept artwork, not photos of Olympia food or approved recipes. Supplied photos could not be accessed and are not integrated. The game reuses Café Rush and awards no real benefits. Confirm business identity and logo/photo rights before publication. The CNU community line is proposed presentation copy approved by Anthony; customer history is not independently verified. University name use requires owner and brand/legal review before publication. No affiliation or sponsorship is claimed.</p></details></>}
+    footer={<><span>Concept by Fina Calle · Pending Olympia approval</span><details><summary>Review notes</summary><p>This prospect concept is prepared by Fina Calle and is pending Olympia approval. Menu names are provisional; confirm prices, hours, ingredients, dietary details and availability with the restaurant. The original illustrations are concept artwork, not photos of Olympia food or approved recipes. Reviewer photos are not integrated. Juice Rush is just for fun and awards no real benefits. The CNU community line is proposed presentation copy; customer history is not independently verified. No university affiliation or sponsorship is claimed.</p></details></>}
   /></div>;
 }

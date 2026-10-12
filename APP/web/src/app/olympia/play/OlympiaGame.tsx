@@ -84,7 +84,7 @@ export default function OlympiaGame() {
   return <main className={styles.page}>
     <a className={styles.skip} href="#game-content">Skip to game</a>
     <div className={styles.shell}>
-      <header className={styles.header}><Link href="/olympia" aria-label="Olympia menu"><Image src="/assets/olympia/logo.png" alt="Olympia Deli & Juice Bar" width={62} height={62} priority /></Link><span>Unpublished concept</span><Link href="/olympia#deli">Menu <span aria-hidden="true">↗</span></Link></header>
+      <header className={styles.header}><Link href="/olympia" aria-label="Olympia menu"><Image src="/assets/olympia/logo.png" alt="Olympia Deli & Juice Bar" width={62} height={62} priority /></Link><span>Prospect concept</span><Link href="/olympia#deli">Menu <span aria-hidden="true">↗</span></Link></header>
       <section id="game-content" className={styles.content} aria-labelledby="game-title">
         <p className={styles.eyebrow}>Olympia Deli &amp; Juice Bar</p><h1 id="game-title">Juice <em>Rush.</em></h1>
         {activeRound ? <>

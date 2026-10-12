@@ -1,3 +1,4 @@
+:global(body):has(.olympia) { background: #10283f; }
 .olympia { --orange: #f36c21; --green: #215b38; --ink: #f4f1e8; --gutter: 20px; color-scheme: dark; }
 .olympia > main { background-color: #10283f; background-image: repeating-linear-gradient(0deg, rgb(244 241 232 / 1.6%) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgb(244 241 232 / 1.2%) 0 1px, transparent 1px 4px); }
 .olympia > main > div { width: min(100%, 1280px); padding: 0 var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
