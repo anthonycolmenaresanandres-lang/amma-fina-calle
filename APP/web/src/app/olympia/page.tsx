@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav } from "@/venue-menu/VenueMenuNav";
 import { VenueMenuSection } from "@/venue-menu/VenueMenuSection";
-import { olympiaMenu, olympiaSections } from "./menu-data";
+import { olympiaMenu, olympiaMenuDate, olympiaMenuSource, olympiaSections } from "./menu-data";
 import styles from "./olympia.module.css";
 
 const theme = {
@@ -35,12 +35,16 @@ export default function OlympiaPage() {
         </div>
       </section>
       <div className={styles.community}><p>Proudly serving the CNU community</p></div>
-      <div className={styles.menuIntro}><div><p className={styles.eyebrow}>Breakfast · Lunch · Smoothies</p><h2>The menu.</h2></div><p>Provisional selection<br />Confirm with Olympia</p></div>
+      <div className={styles.menuIntro}>
+        <div><p className={styles.eyebrow}>Breakfast · Lunch · Smoothies</p><h2>Selected menu.</h2></div>
+        <p className={styles.menuSource}><a href={olympiaMenuSource.sourceUrl} target="_blank" rel="noopener noreferrer">Full menu on DoorDash <span aria-hidden="true">↗</span></a><span>DoorDash delivery prices · <time dateTime={olympiaMenuSource.observedDate}>{olympiaMenuDate}</time></span><span>In-store prices may differ.</span></p>
+      </div>
+      <nav className={styles.menuIndex} aria-label="Selected menu sections">{olympiaMenu.map(group => <a href={"#" + group.id} key={group.id}>{group.name}</a>)}</nav>
     </>}
-    menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><VenueMenuSection id={group.id} title={group.name} note="Names pending owner confirmation." items={group.items} /></div>)}
+    menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><VenueMenuSection id={group.id} title={group.name} note={group.note} items={group.items} /></div>)}
     game={<section id="juice" className={styles.juice} aria-labelledby="juice-title">
       <div className={styles.juiceArt} aria-hidden="true"><Image src="/assets/olympia/juice-study.svg" alt="" width={260} height={300} sizes="(max-width: 699px) 130px, 220px" unoptimized /></div>
-      <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title">Fresh<br /><em>energy.</em></h2><p>Juice &amp; smoothies.</p><small>Flavors &amp; sizes pending owner review.</small></div>
+      <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title">Fresh<br /><em>energy.</em></h2><p>Juice &amp; smoothies.</p><small>Full juice &amp; smoothie selection on DoorDash.</small></div>
       <div className={styles.gameEntry}><p className={styles.eyebrow}>A quick break</p><Link href="/olympia/play"><span>Juice Rush</span><span aria-hidden="true">↗</span></Link><p>Catch juice. Skip spills.</p><small>3 rounds · Just for fun · No rewards</small></div>
     </section>}
     visit={<section id="visit" className={styles.visit} aria-labelledby="visit-title">
@@ -48,6 +52,6 @@ export default function OlympiaPage() {
       <div className={styles.visitDetails}><address>23 Hidenwood Shopping Center<br />Newport News, VA 23606</address><div className={styles.visitLinks}><a href="https://www.google.com/maps/search/?api=1&query=Olympia+Deli+%26+Juice+Bar+23+Hidenwood+Shopping+Center+Newport+News+VA+23606" target="_blank" rel="noopener noreferrer">Directions <span aria-hidden="true">↗</span></a><a href="tel:+17577825523">757-782-5523</a><a href="https://www.instagram.com/olympiadeliandjuice/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a></div></div>
     </section>}
     engagement={null}
-    footer={<><span>Concept by Fina Calle · Pending Olympia approval</span><details><summary>Review notes</summary><p>This prospect concept is prepared by Fina Calle and is pending Olympia approval. Menu names are provisional; confirm prices, hours, ingredients, dietary details and availability with the restaurant. The original illustrations are concept artwork, not photos of Olympia food or approved recipes. Reviewer photos are not integrated. Juice Rush is just for fun and awards no real benefits. The CNU community line is proposed presentation copy; customer history is not independently verified. No university affiliation or sponsorship is claimed.</p></details></>}
+    footer={<><span>Concept by Fina Calle · Pending Olympia approval</span><details><summary>Review notes</summary><p>This prospect concept is prepared by Fina Calle and is pending Olympia approval. This selected menu uses DoorDash delivery prices captured October 12, 2026. In-store prices may differ. The full menu, customizations and availability remain on DoorDash; confirm dietary details and hours with Olympia. Source spellings are retained. The original illustrations are concept artwork, not photos of Olympia food or approved recipes. Reviewer photos are not integrated. Juice Rush is just for fun and awards no real benefits. The CNU community line is proposed presentation copy; customer history is not independently verified. No university affiliation or sponsorship is claimed.</p></details></>}
   /></div>;
 }

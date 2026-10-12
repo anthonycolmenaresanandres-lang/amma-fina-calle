@@ -1,17 +1,35 @@
 import type { VenueMenuItem } from "@/venue-menu/VenueMenuSection";
+import source from "./doordash-menu.json";
 
-// Third-party listing names supplied in the prospect brief; provisional, not owner-approved.
-// Deliberately no prices, descriptions, availability, allergen or venue-wide halal claims.
-export const olympiaMenu: { id: string; name: string; items: VenueMenuItem[] }[] = [
-  { id: "deli", name: "Deli classics", items: [
-    { name: "NY Chopped Cheese" }, { name: "Olympia Chopped Cheese" },
-    { name: "Reuben" }, { name: "Caesar Wrap" }, { name: "Russian Panini" },
-  ] },
-  { id: "rice", name: "Rice & gyros", items: [
-    { name: "Lamb Over Rice" }, { name: "Halal Chicken Over Rice" }, { name: "Lamb Gyro" },
-  ] },
+// Directly observed DoorDash groups. Do not infer food categories for featured items.
+// Keep source spellings, descriptions and delivery prices; append verified records to the JSON.
+export const olympiaMenuSource = source;
+export const olympiaMenuDate = new Intl.DateTimeFormat("en-US", {
+  month: "short", day: "numeric", year: "numeric", timeZone: "UTC",
+}).format(new Date(source.observedDate + "T00:00:00Z"));
+
+const groups = [
+  { id: "deli", name: "Signature sandwiches", sourceCategory: "SIGNATURE ON THE GIRL SANDWICHES" },
+  { id: "special", name: "Special sandwiches", sourceCategory: "Special Sandwiches" },
+  { id: "rice", name: "Featured items", sourceCategory: "Featured Items" },
+  { id: "popular", name: "Most ordered", sourceCategory: "Most Ordered" },
+  { id: "drinks", name: "Drinks", sourceCategory: "Drinks And Buverges" },
 ];
+
+export const olympiaMenu: {
+  id: string; name: string; sourceCategory: string; note: string; items: VenueMenuItem[];
+}[] = groups.map(group => ({
+  ...group,
+  note: "Selected items · DoorDash delivery prices",
+  items: source.items.flatMap((item, index) => item.observedCategory === group.sourceCategory ? [{
+    id: "olympia-item-" + (index + 1),
+    name: item.name.replace(/\s+/g, " ").trim(),
+    description: item.description?.replace(/\s+/g, " ").trim(),
+    priceLabel: item.price + " · DoorDash",
+  }] : []),
+})).filter(group => group.items.length > 0);
+
 export const olympiaSections = [
-  { id: "deli", label: "Deli" }, { id: "rice", label: "Rice & gyros" },
-  { id: "juice", label: "Juice" }, { id: "visit", label: "Visit" },
+  { id: "deli", label: "Menu" }, { id: "drinks", label: "Drinks" },
+  { id: "juice", label: "Play" }, { id: "visit", label: "Visit" },
 ];
