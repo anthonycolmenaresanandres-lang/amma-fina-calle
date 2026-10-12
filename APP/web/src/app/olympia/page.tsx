@@ -8,8 +8,8 @@ import { olympiaMenu, olympiaSections } from "./menu-data";
 import styles from "./olympia.module.css";
 
 const theme = {
-  "--venue-ink": "#14241b", "--venue-muted": "#536057", "--venue-line": "#cdd6cf",
-  "--venue-surface": "#f9fbf8", "--venue-accent": "#215b38", "--venue-heading": "#14241b",
+  "--venue-ink": "#f4f1e8", "--venue-muted": "#b9c8d2", "--venue-line": "#536d82",
+  "--venue-surface": "#10283f", "--venue-accent": "#ffd171", "--venue-heading": "#f36c21",
 } as CSSProperties;
 
 export default function OlympiaPage() {
@@ -24,18 +24,17 @@ export default function OlympiaPage() {
         <div className={styles.featureCopy}>
           <p className={styles.eyebrow}>Newport News, Virginia</p>
           <h2 id="fresh-title">Chopped<br /><em>cheese.</em></h2>
-          <p className={styles.counterLine}>Deli classics. Fresh juice.</p>
-          <div className={styles.actions}>
-            <a className={styles.primary} href="#deli">Explore the menu <span aria-hidden="true">↗</span></a>
-            <Link className={styles.secondary} href="/olympia/play">Play Juice Rush <span aria-hidden="true">→</span></Link>
-          </div>
         </div>
         <figure className={styles.art}>
           <div className={styles.artStage}><Image src="/assets/olympia/deli-wrapper-study.svg" alt="Concept drawing of a deli roll on sandwich paper. Not an actual Olympia food photo or approved ingredients." width={760} height={580} sizes="(max-width: 699px) 100vw, 650px" priority unoptimized /></div>
           <figcaption>Original concept illustration · Food photos pending</figcaption>
         </figure>
+        <div className={styles.actions}>
+          <a className={styles.primary} href="#deli">Explore the menu <span aria-hidden="true">↗</span></a>
+          <Link className={styles.secondary} href="/olympia/play">Play Juice Rush <span aria-hidden="true">→</span></Link>
+        </div>
       </section>
-      <div className={styles.community}><span className={styles.communityMark} aria-hidden="true">O</span><p>Proudly serving the CNU community</p><span className={styles.communityEnd} aria-hidden="true">Deli &amp; juice bar</span></div>
+      <div className={styles.community}><p>Proudly serving the CNU community</p></div>
       <div className={styles.menuIntro}><div><p className={styles.eyebrow}>Breakfast · Lunch · Smoothies</p><h2>The menu.</h2></div><p>Provisional selection<br />Confirm with Olympia</p></div>
     </>}
     menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><VenueMenuSection id={group.id} title={group.name} note="Names pending owner confirmation." items={group.items} /></div>)}

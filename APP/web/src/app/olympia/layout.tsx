@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: { title: "Olympia | Unpublished concept", description: "Local review only", images: [], url: null },
   twitter: { title: "Olympia | Unpublished concept", images: [] },
 };
-export const viewport: Viewport = { themeColor: "#f36c21" };
+export const viewport: Viewport = { themeColor: "#10283f" };
 
 export default async function OlympiaLayout({ children }: { children: React.ReactNode }) {
   const requestHeaders = await headers();

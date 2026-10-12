@@ -1,0 +1,50 @@
+# Olympia navy and atmosphere revision - 2026-10-12
+
+Continue clean existing branch codex/olympia-prospect-demo-20261009 from7696498. Anthony requests nonwhite textured contrast and store atmosphere, later explicitly authorizes publication and Astra composition review. Latest photo scope: normally accessible Google reviewer photos may be used in the PRIVATE LOCAL presentation only; no watermarks removed or access controls bypassed. Public release must substitute authorized/permitted alternatives when rights unresolved. No outreach, spending, new permissions or live-customer-system changes.
+
+## Reconciliation, current evidence and direction
+
+Inspected actual page/CSS, game styles, logos and earlier review records. Connected Chrome rendered current desktop1440x1000 and phone390x844; actual before captures saved in task/olympia-oct12-evidence. The white canvas is dominant and the mobile food image starts below substantial copy/actions. Existing logos are orange/green/white/black and remain unedited.
+
+Verified in visible Google Maps listing: Olympia Deli & Juice Bar,23 Hidenwood Shopping Center, Newport News VA23606, telephone757-782-5523; matching websiteLinktree. Direct listing identity0x89b079006d3949c1:0x2751ad062a298ef3, place /g/11xf4w__kd. The earlier user share link is still not the basis for this verification. Prices/hours/reviews remain excluded from draft content.
+
+Before URL observed: https://www.google.com/maps/place/Olympia+Deli+%26+Juice+Bar/@37.0699554,-76.4948684,17z/data=!3m1!4b1!4m6!3m5!1s0x89b079006d3949c1:0x2751ad062a298ef3!8m2!3d37.0699554!4d-76.4948684!16s%2Fg%2F11xf4w__kd
+
+Design: deep navy#10283f, lighter counter navy#173650, cream#f4f1e8, Olympia orange#f36c21, Olympia green#215b38, palegreen#e3efd9. Static quiet woven CSS texture across outer page, header/navigation/menu and game chooser; no moving background or remote texture dependency. Original wordmark remains on a dark surface; headings cream/orange, green reserved for readable filled accents. Existing artwork stays honestly illustrated until accessible permitted images replace it. No CNU marks/sponsorship or historic customer claims.
+
+Astra model reviewer expressly requested by Anthony: collaboration agent astra_visual_review, gpt-6-astra. Read actual before pixels and source; no edits. Recommendations: food higher on mobile, approximately38/62 desktop copy/image split where fitting, full navy canvas, cream/orange headline, quiet CNU strip without decorative O/double rules,11-12px utility captions and~14px controls, one secondary interior image rather than competing tiles. Calculated solid-color cream/navy13.31:1, orange/navy4.99:1, cream/green7.10:1; green/navy1.87:1 unsuitable for text/focus. Final screenshots will be reviewed separately; initial recommendations are not final approval.
+
+## Destination and photo status
+
+Publication is authorized in principle but exact intended destination is unconfirmed. Asked whether Fina Calle /olympia, Olympia's own domain, or hold. No guessed destination, localhost QR or QR pointing at unfinished/template site is encoded. Release and QR remain dependent on the answer and verified access/deployment mapping.
+
+Google listing and storefront visible; gallery investigation continues. No uploader/photo identity is inferred from generic cover art or review text. Review gallery buttons Ambiente/Comida y bebida observed. Browser bindings intermittently detached and photo-gallery action timed out/reset; those failed actions are not photo inspection or incorporation. No photo reuse license has yet been verified.
+
+## Final implementation/checks
+
+Implemented full navy woven canvas, dark masthead/sticky nav, cream/orange type, pale readable utility text, quiet green CNU band, larger captions/actions and food before mobile actions. Desktop uses38.2/61.8 proportions;700-899px uses an adaptive equal split and two-column juice/stacked game entry to avoid forcing narrow copy/game panels. Standard skin, game engine/wrapper lifecycle, rules, menu names, gates, shared components, logos and dependencies unchanged. Game chooser outer background/HUD/tool text follow navy; pale primitive arena retained, overlay foreground and outline repaired. Local menu and game skip-link foregrounds repaired after the theme inversion.
+
+Astra follow-up inspected actual edited source, found recommendations implemented and no clear new contrast failure, but explicitly issued **source review only, not rendered visual approval**. Reviewer correctly flagged missing real photos/atmosphere, smaller notes/controls and tablet/mobilescreen order for final verification. Raised landing notes/game controls and adjusted tablet layout in response. Active implementation turn model was not switched; requested Astra review ran as the separate gpt-6-astra agent and returned concrete reports.
+
+Before Chrome1440/390 views were actually rendered and saved; these show the prior white revision. During Google-photo work, Chrome bindings detached repeatedly, gallery action timed out30s/reset, fresh selection reported Browser is not available:3; refreshed inventory no longer listed Chrome. Tried fresh local task tab in remaining Edge through supported API; it also timed out30s/reset. No source of a desktop control conflict was established; no other-task/user tabs were modified. Final after-captures,320/390/desktop/current keyboard/anchor/navigation/game pointer/emulated touch/physical touch and normal-clock result/replay/next checks are not certified by before views or HTTP/source checks. No invented screenshot IDs.
+
+Google Terms and Maps terms were inspected for rights; no specific reviewer-image license found. See OLYMPIA_PHOTO_REFERENCES.md for exact verified listing, uploader-backed leads, uninspected items and photo-access blocker. No reviewer bytes/private-photo screenshot were committed or served. The public-safe visual alternative remains the existing labeled original SVG concept art; this is not claimed to feel like a verified real interior photo. Original user PNG403 remains a distinct prior issue.
+
+Repository origin/main fetched read-only at15ec17b01562a31e95892669989af2fa248c9ae8. Shared VenueMenu/CafeRush/root layout/package/lock files show no changes from the old baseline to that snapshot; publication still needs final branch reconciliation, CI and deployment verification after target confirmation. Canonical unrelated queue/log/Bodega changes preserved. No push/PR/main merge/deploy, DNS/domain, security/permissions, outreach/spend/live customer changes.
+
+PASS: scoped ESLint, existing Olympia game/menu/loopback contract self-test, standalone TypeScript, final Next16.2.11 full build (compile/types/47 generated pages/finalization; Olympia routes dynamic). Final production HTTP gate and server-content cycles recorded below after run. Source diff/check confirms standard game wrapper/rules/skin/data/gates/shared components and dependency/lock files untouched. Web Interface Guidelines source audit retained semantic navigation/images, visible keyboard focus, no new motion, text/anchor sizing and dark theme-color; repaired local skip/overlay contrast. Actual viewport/state acceptance remains UNRUN after connection loss.
+
+Reviewable runtime files: `APP/web/src/app/olympia/page.tsx`, `olympia.module.css`, `layout.tsx` (themeColor only) and `play/play.module.css`; no new game integration. Actual before captures saved as evidence/before-desktop.jpg and before-mobile.jpg; they are explicitly WHITE BEFORE views, not navy results. ASTRA_VISUAL_REVIEW.md preserves requested-model setup and returned recommendations/limits. OLYMPIA_PHOTO_REFERENCES.md preserves photo investigation/rights/access status without uninspected crops or invented uploaders.
+
+Local review: worktree C:\dev\amma\worktrees\olympia-prospect-demo-20261009, branch codex/olympia-prospect-demo-20261009; http://127.0.0.1:3119/olympia and /olympia/play. Final build exists locally. Owned QA processes are stopped after checks; delegated process/tab lifetime cannot be promised. Restart from APP/web:
+
+```powershell
+$env:OLYMPIA_LOCAL_DEMO='1'
+npm.cmd run start -- --hostname 127.0.0.1 --port 3119
+```
+
+`npm.cmd run dev -- --hostname 127.0.0.1 --port 3119` is available for editing with the same flag. Source is reviewable and builds, but core real-photo immersion, final responsive/action verification and publication are incomplete. Publication was authorized; no additional blanket permission is needed, but the exact public domain/path remains required and unanswered. QR was not encoded. No remote commit/pipeline/deployment/public URL exists for this revision; do not infer live from local build success or origin/main's unrelated15ec17b.
+
+Resume: stable task browser for AFTER1440/390/320 and700-800 views, keyboard skip/anchors, repeated menu/game/exit/restart/pause flows, pointer and separately emulated/physical touch, ordinary foreground-clock result/replay/next; inspect and credit individual Google photos via normal UI/export, retain private pending-rights references and substitute public authorized art; finish Astra rendered review; confirm public destination, reconcile latest main preserving clients, normal exact-head CI/PR/deployment/live verification, then encode/decode QR for the verified intended live URL. Owner approved full menu/prices/hours/availability/details, logo/photo usage rights and any university name/brand review remain content inputs; no signed-client relationship claimed.
+
+Final production checks PASS: menu/play200 with flag; both external/forwarded host404; separate production instance without flag404; noindex/nofollow/template exclusions; three server-rendered menu/game/return-link cycles with all provisional items/standard rounds/assets; served navy theme-color confirmed; repository verify-local self-test14 fail-closed cases. HTTP/source results do not certify viewport/gameplay. Both owned production QA processes stopped after checks. Destination question remains unanswered; no encoded QR, remote revision, public deployment or live URL.
