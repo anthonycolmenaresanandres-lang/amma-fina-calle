@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "status": "first usable artwork checkpoint; incomplete pack",
+  "asset": "open-sandwich-v1.png",
+  "generation": "Built-in imagegen; original illustration based on inspected reference description. Direct Windows reference path was rejected by imagegen.",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "bytes": 1279841,
+  "sha256": "1a60b1fb5246670887a76c48818cab1ea5f10013ddc70792614a05843753097d",
+  "alphaExtrema": [
+    0,
+    255
+  ],
+  "alphaBounds": [
+    0,
+    38,
+    1242,
+    1208
+  ],
+  "anchorNormalized": [
+    0.5,
+    0.56
+  ],
+  "anchorStatus": "Visual estimate of collection center; not integrated or interaction-tested",
+  "collectionSafeEllipseNormalized": {
+    "center": [
+      0.5,
+      0.558
+    ],
+    "radius": [
+      0.22,
+      0.049
+    ]
+  },
+  "recipe": {
+    "status": "provisional visible subset only",
+    "visibleComponents": [
+      "golden deli roll",
+      "brown cooked chopped filling",
+      "pale melted cheese"
+    ],
+    "identification": "Meat species, cheese variety and restaurant menu item are unconfirmed."
+  },
+  "reference": {
+    "commit": "c63151eb5d9ebc8961f9ffef05b16bbdbc2eb6cf",
+    "file": "../references/photo-06.png",
+    "inspection": "Reference pixels inspected locally; no third-party photo download."
+  },
+  "library": {
+    "operation": "create_library_file",
+    "status": "succeeded",
+    "path": "/open-sandwich-v1.png",
+    "file_id": "file_000000008cfc81f59af4753706995a69",
+    "library_file_id": "libfile_089835a9be2c8191b07d5859f5b275d9",
+    "file_name": "open-sandwich-v1.png",
+    "current_version_number": 0,
+    "restored_from_version_number": null,
+    "xattrs": [
+      {
+        "name": "user.library-file-version",
+        "value": "0"
+      }
+    ],
+    "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+    "mime_type": "image/png",
+    "library_artifact_type": "image_gen",
+    "file_size_bytes": 1279841,
+    "external_connectors_accessed": false
+  },
+  "metadataPersistence": "Library upload succeeded. Returned metadata preserved here. Known unsupported Windows xattr helper was not rerun, per user instruction.",
+  "qualityNotes": [
+    "Appetizing outlined food illustration with transparent surround and clear collection center.",
+    "More detailed shading than the requested flat sitcom style; full-pack style harmonization remains.",
+    "Original PNG not yet optimized for delivery or integrated into game."
+  ],
+  "remainingPack": [
+    "restaurant backdrop",
+    "countertop",
+    "bread pickup",
+    "save and verify completed sandwich, meat and cheese outputs",
+    "optional crumbs/shadow",
+    "style harmonization, optimized derivatives and renderer integration"
+  ]
+}

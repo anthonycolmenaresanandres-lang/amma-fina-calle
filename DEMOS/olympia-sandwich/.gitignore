@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+.cache/
+
+# Redundant lossless exports and references are preserved locally/Library and pinned source.
+art/optimized/
+art/references/*.png

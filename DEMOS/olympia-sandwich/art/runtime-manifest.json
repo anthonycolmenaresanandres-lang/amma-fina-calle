@@ -1,0 +1,88 @@
+{
+  "assets": [
+    {
+      "original": "open-sandwich-v1.png",
+      "file": "./assets/art/open-sandwich.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 46248,
+      "sha256": "237a5c3e70608ac8b90367b9d86cd389ac19ecec8e6f1b690fee2ee4576ceb19",
+      "originalSha256": "1a60b1fb5246670887a76c48818cab1ea5f10013ddc70792614a05843753097d",
+      "crop": null
+    },
+    {
+      "original": "finished-sandwich-v1.png",
+      "file": "./assets/art/finished-sandwich.webp",
+      "width": 720,
+      "height": 302,
+      "alpha": true,
+      "bytes": 67470,
+      "sha256": "8f936e1a18b866c9a7f049c97390d897ef66f8bf5db39c390fb5e126f98eec3b",
+      "originalSha256": "e8f0aee4dd3ccd239ccec68e8a414f43a85ddf51343cc987fe152f16b598e2bc",
+      "crop": {
+        "left": 31,
+        "top": 394,
+        "width": 1193,
+        "height": 500
+      }
+    },
+    {
+      "original": "cooked-filling-v2.png",
+      "file": "./assets/art/cooked-filling.webp",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 13428,
+      "sha256": "f799b44e5e2404fc8c119526696c399356d786705422691b6b545af54bf4ec79",
+      "originalSha256": "1e8158591833e8c94d3b0fd62a54acfadcfba5fbbb2cfcaefa9b53b23a434fc1",
+      "crop": null
+    },
+    {
+      "original": "cheese-v1.png",
+      "file": "./assets/art/cheese.webp",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 9096,
+      "sha256": "9f9b28efc41cf8c2ee6e4efda4b8798aafb3715d0996b2bee9ec950358791adc",
+      "originalSha256": "f3f8a03189d81bf4f80739d04a08a1020e3873717ebe8328bebb3ae11966d484",
+      "crop": null
+    },
+    {
+      "original": "bread-pickup-v1.png",
+      "file": "./assets/art/bread.webp",
+      "width": 256,
+      "height": 256,
+      "alpha": true,
+      "bytes": 9880,
+      "sha256": "8f711d17ac98468a6470e2f53d0c00dff48740fa5453d6f7199a77602deec0f8",
+      "originalSha256": "716521caa6c1b4901abaef4291fe08e8111982f3992dd85a0904a0955b915d61",
+      "crop": null
+    },
+    {
+      "original": "restaurant-backdrop-v1.png",
+      "file": "./assets/art/restaurant.webp",
+      "width": 768,
+      "height": 1365,
+      "alpha": false,
+      "bytes": 99350,
+      "sha256": "85e1a3a12f9a824e73c68f8857d2426e41cc649a4f98f5624f4f1bd28de6ee9e",
+      "originalSha256": "1ea4aed8b02698a24157672ac04af6e81aed314841c8e5ebb63ce1b52cda801f",
+      "crop": null
+    },
+    {
+      "original": "countertop-v1.png",
+      "file": "./assets/art/countertop.webp",
+      "width": 512,
+      "height": 512,
+      "alpha": false,
+      "bytes": 4780,
+      "sha256": "06eae073da23f5f4d597addf03818b7d6d758b5ee304553a59ed4afcabdd431a",
+      "originalSha256": "b61ffff0ab3f835a579a3a9539c275a7636ae86a309777323963dc6d17c1d224",
+      "crop": null
+    }
+  ],
+  "totalBytes": 250252,
+  "notes": "Mechanical runtime derivatives only; original imagegen art preserved. Encoded sequentially with one worker, no shared dependency writes."
+}
