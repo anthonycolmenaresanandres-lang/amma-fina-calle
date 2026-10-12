@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-10-12T20:22:01.032Z",
+  "pr": "https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/329",
+  "prHead": "01e6fece7a2ccc05d8aaf4c60f6144bbb715c85f",
+  "mergeCommit": "4c50c5d048b51fea59eeff2d20e009be85dc1aa1",
+  "mergedAt": "2026-10-12T20:09:38Z",
+  "gameUrl": "https://finacalleos.com/demo/olympia-sandwich/index.html",
+  "deployment": {
+    "id": "dpl_BZzNuGpsAL4NJEsAr4xkKYqsU2pv",
+    "url": "amma-fina-calle-a8m0y42bp.vercel.app",
+    "state": "READY",
+    "target": "production",
+    "projectId": "prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4",
+    "sha": "4c50c5d048b51fea59eeff2d20e009be85dc1aa1",
+    "alias": [
+      "finacalleos.com",
+      "bodegacafe757.com",
+      "amma-fina-calle.vercel.app",
+      "www.finacalleos.com",
+      "www.bodegacafe757.com",
+      "amma-fina-calle-anthonycolmenaresanandres-8844s-projects.vercel.app",
+      "amma-fina-c-git-2a6955-anthonycolmenaresanandres-8844s-projects.vercel.app"
+    ]
+  },
+  "ci": {
+    "pullRequest": {
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/actions/runs/38302015783"
+    },
+    "postMerge": {
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/actions/runs/38302390146"
+    }
+  },
+  "browser": {
+    "viewport": "390x844",
+    "loadedImages": 7,
+    "failedImages": 0,
+    "horizontalOverflow": false,
+    "pauseConfirmed": true,
+    "returnToMenuConfirmed": true,
+    "ownedTabClosed": true,
+    "viewportReset": true
+  },
+  "limitations": [
+    "Exact recipe/menu identity/species/varieties unconfirmed; product labeled sandwich study.",
+    "Sustained physical-touch, maximum-tier alignment and physical-device performance unverified."
+  ]
+}
