@@ -158,3 +158,43 @@
   .itemBody { font-size: 16px; line-height: 1.6; }
   .menuIntro > p { font-size: 13px; }
 }
+
+/* Supplied photography: preserve food proportions and keep the sandwich dominant. */
+.art { width: 100%; max-width: 565px; justify-self: end; }
+.artStage { background: #e8d2b4; clip-path: none; }
+.artStage picture, .menuPhoto, .juicePhotos picture, .visitPhotos picture { display: block; min-width: 0; overflow: hidden; }
+.artStage img, .menuPhoto img, .juicePhotos img, .visitPhotos img { display: block; width: 100%; height: auto; }
+.menuIntro { display: grid; grid-template-columns: minmax(0,1fr); gap: 18px; }
+.menuPhoto { margin-bottom: 4px; }
+.menuIntro > p { margin-top: 0; text-align: left; }
+.menuSource a { justify-content: flex-start; }
+.juice { grid-template-columns: minmax(0,1fr); gap: 24px; }
+.juiceCopy { grid-row: 1; }
+.juicePhotos { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; grid-row: 2; }
+.juicePhotos picture { aspect-ratio: 3 / 4; }
+.juicePhotos img { height: 100%; object-fit: cover; }
+.juice h2 { margin-block: 10px 12px; }
+.visitPhotos { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); gap: 12px; align-items: end; }
+.visitPhotos picture:first-child { align-self: stretch; }
+.visitPhotos picture:first-child img { height: 100%; object-fit: cover; }
+.olympia :is(a,summary) { touch-action: manipulation; }
+@media (min-width: 700px) {
+  .menuIntro { grid-template-columns: minmax(0,1fr) minmax(240px,360px); gap: 12px 40px; align-items: start; }
+  .menuIntro > div { grid-column: 1; grid-row: 1; }
+  .menuIntro > p { grid-column: 1; grid-row: 2; }
+  .menuPhoto { grid-column: 2; grid-row: 1 / span 2; margin: 0; align-self: center; }
+  .juice { grid-template-columns: minmax(280px,1.25fr) minmax(0,1fr); gap: 28px 36px; }
+  .juicePhotos { grid-column: 1; grid-row: 1 / span 2; }
+  .juiceCopy { grid-column: 2; grid-row: 1; align-self: end; }
+  .gameEntry { grid-column: 2; grid-row: 2; align-self: start; }
+  .visit { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 20px 40px; }
+  .visitPhotos { grid-column: 1; grid-row: 1 / span 2; }
+  .visitHeading { grid-column: 2; grid-row: 1; align-self: end; }
+  .visitDetails { grid-column: 2; grid-row: 2; align-self: start; }
+}
+@media (min-width: 1100px) {
+  .juice { grid-template-columns: minmax(320px,400px) minmax(0,1fr) minmax(0,1fr); gap: 36px; }
+  .juicePhotos, .juiceCopy, .gameEntry { grid-row: 1; }
+  .juiceCopy, .gameEntry { align-self: center; }
+  .gameEntry { grid-column: 3; }
+}
