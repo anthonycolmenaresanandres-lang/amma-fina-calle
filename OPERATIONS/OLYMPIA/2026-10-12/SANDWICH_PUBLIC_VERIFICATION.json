@@ -1,0 +1,118 @@
+{
+  "revision": "4c50c5d048b51fea59eeff2d20e009be85dc1aa1",
+  "gameUrl": "https://finacalleos.com/demo/olympia-sandwich/index.html",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/index.html?release=4c50c5d048b5",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 744,
+      "sha256": "43428b7deb16d9dff0f5d0deb29e1505dfce827d5808f01df472f34b5ea9f3b4",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": true
+    },
+    {
+      "file": "assets/index-CGZd0q1J.css",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/index-CGZd0q1J.css?release=4c50c5d048b5",
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 9669,
+      "sha256": "23322659dbfd29c3eb808f5e1a05019efedf9da32b028b1a06f0f31567243579",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/index-DF7wO9UH.js",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/index-DF7wO9UH.js?release=4c50c5d048b5",
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 321904,
+      "sha256": "1c94ddd179b31e3c4a7379f852d9bf140eba2d840493fd2cb1087228e339c43d",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/open-sandwich.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/open-sandwich.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 46248,
+      "sha256": "237a5c3e70608ac8b90367b9d86cd389ac19ecec8e6f1b690fee2ee4576ceb19",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/finished-sandwich.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/finished-sandwich.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 67470,
+      "sha256": "8f936e1a18b866c9a7f049c97390d897ef66f8bf5db39c390fb5e126f98eec3b",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/cooked-filling.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/cooked-filling.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 13428,
+      "sha256": "f799b44e5e2404fc8c119526696c399356d786705422691b6b545af54bf4ec79",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/cheese.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/cheese.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 9096,
+      "sha256": "9f9b28efc41cf8c2ee6e4efda4b8798aafb3715d0996b2bee9ec950358791adc",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/bread.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/bread.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 9880,
+      "sha256": "8f711d17ac98468a6470e2f53d0c00dff48740fa5453d6f7199a77602deec0f8",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/restaurant.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/restaurant.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 99350,
+      "sha256": "85e1a3a12f9a824e73c68f8857d2426e41cc649a4f98f5624f4f1bd28de6ee9e",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "file": "assets/art/countertop.webp",
+      "status": 200,
+      "url": "https://finacalleos.com/demo/olympia-sandwich/assets/art/countertop.webp?release=4c50c5d048b5",
+      "contentType": "image/webp",
+      "bytes": 4780,
+      "sha256": "06eae073da23f5f4d597addf03818b7d6d758b5ee304553a59ed4afcabdd431a",
+      "matchesCommit": true,
+      "gitNormalizedLineEndings": false
+    },
+    {
+      "route": "/olympia",
+      "status": 200,
+      "url": "https://finacalleos.com/olympia?release=4c50c5d048b5",
+      "preservedNavigation": true
+    },
+    {
+      "route": "/olympia/play",
+      "status": 200,
+      "url": "https://finacalleos.com/olympia/play?release=4c50c5d048b5",
+      "preservedNavigation": true
+    }
+  ]
+}
