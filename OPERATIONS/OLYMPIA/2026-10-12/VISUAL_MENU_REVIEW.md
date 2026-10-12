@@ -17,7 +17,7 @@ Critique: rejected the oversized editorial hero and five boxed category cards; b
 Pending final checks and rendered review. All39 source records remain immutable. Six original photos and optimized derivatives remain byte-identical.
 
 ## Local review results
-- Initial targeted ESLint and existing Olympia source contract PASS (39 exact source records and standard game). Final scoped lint was attempted after the last CSS-only correction, then canceled during workstation/browser slowdown; full final lint/types/build are delegated to existing PR CI.
+- Initial targeted ESLint and existing Olympia source contract PASS (39 exact source records and standard game). Final scoped ESLint also completed successfully (exit0) after the CSS correction; full lint/types/build remain delegated to existing PR CI.
 - Local HTTP PASS: menu and Juice Rush200, noindex/nofollow, all39 source-matched names/prices/descriptions in native initially-collapsed disclosures, six photos, all12 responsive derivatives and preserved assets.
 - Used the user's Codex in-app browser. Actual screenshots inspected at390x844,320x740 and1440x1000. No horizontal overflow; desktop retains two menu columns and full-width Drinks. The first complete priced item is inside the opening390px view (top661.75,bottom776.14 in844px height).
 - All5 category jumps and return links PASS; target tops67.7-68.4px clear the sticky52px navigation. Native Enter/Space details passed repeated open/close cycles. Missing-description fallback and DoorDash link inspected.
