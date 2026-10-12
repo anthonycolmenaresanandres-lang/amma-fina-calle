@@ -1,0 +1,21 @@
+{
+  "operation": "create_library_file",
+  "status": "succeeded",
+  "path": "/olympia-mouse-catch.jpg",
+  "file_id": "file_0000000057fc81f59278669c6b98a827",
+  "library_file_id": "libfile_b021bd5e4fac81919db1d9f5e61b2266",
+  "file_name": "olympia-mouse-catch.jpg",
+  "current_version_number": 0,
+  "restored_from_version_number": null,
+  "xattrs": [
+    {
+      "name": "user.library-file-version",
+      "value": "0"
+    }
+  ],
+  "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+  "mime_type": "image/jpeg",
+  "library_artifact_type": "image",
+  "file_size_bytes": 24367,
+  "external_connectors_accessed": false
+}
