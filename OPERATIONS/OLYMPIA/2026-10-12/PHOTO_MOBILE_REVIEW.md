@@ -26,6 +26,14 @@ All 39 captured menu names/descriptions/prices, native disclosures, source/date 
 
 The separate sandwich collector task yielded heavy work and stopped its preview. This revision does not touch its worktree, game or assets. Local preview route: `http://127.0.0.1:3119/olympia` when the task-owned server is running. Publication remains subject to the outstanding release checks; existing live revision is unchanged at this checkpoint.
 
+## Saved result and remote blocker
+
+Implementation commit: `809cdefb83b3efaf81d057128b4b2a104a633eff`. Local source, lint, HTTP and staged diff checks pass; whitespace-only trailing blank lines in the operations logs were corrected before commit. The task-owned preview server was stopped after HTTP verification.
+
+Automatic approval review rejected `git push -u origin codex/olympia-mobile-photos-20261012`, stating that the original user instruction forbids pushes/PRs and that later authorization for this code branch was not established. The command did not run. The rejection has not been bypassed or retried through another tool. A read of parent thread `01a118e6-7e07-7102-95a6-fb86286da011` returned no turns, so it supplied no additional authorization evidence. A pre-push GitHub search found no PR for this feature branch.
+
+No feature push, PR, remote CI run, merge or new site deployment is claimed. The originals' already-authorized public asset commit is separate from this blocked site revision. Full build/types remain pending in the existing CI workflow; rendered review remains independently blocked by browser transport. Explicit confirmation of feature push/PR/checked merge/deploy scope is needed to clear the automatic approval blocker. Then complete CI and actual phone/tablet/desktop/disclosure/game-flow review before release.
+
 ## Remaining owner content
 
 Confirm exact dish/flavor pairings before attaching these photos to individual menu entries. Full menu coverage, customizations, in-store prices, hours, dietary availability and Olympia acceptance remain open. No whole-business halal claim, fabricated review, offer or opening hours was added.
