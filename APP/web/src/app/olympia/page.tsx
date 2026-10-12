@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav } from "@/venue-menu/VenueMenuNav";
-import { VenueMenuSection } from "@/venue-menu/VenueMenuSection";
+import { OlympiaMenuSection } from "./OlympiaMenuSection";
 import { olympiaMenu, olympiaMenuDate, olympiaMenuSource, olympiaSections } from "./menu-data";
 import styles from "./olympia.module.css";
 
@@ -41,7 +41,7 @@ export default function OlympiaPage() {
       </div>
       <nav className={styles.menuIndex} aria-label="Selected menu sections">{olympiaMenu.map(group => <a href={"#" + group.id} key={group.id}>{group.name}</a>)}</nav>
     </>}
-    menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><VenueMenuSection id={group.id} title={group.name} note={group.note} items={group.items} /></div>)}
+    menu={olympiaMenu.map(group => <div className={styles.menuGroup} key={group.id}><OlympiaMenuSection id={group.id} title={group.name} note={group.note} items={group.items} /></div>)}
     game={<section id="juice" className={styles.juice} aria-labelledby="juice-title">
       <div className={styles.juiceArt} aria-hidden="true"><Image src="/assets/olympia/juice-study.svg" alt="" width={260} height={300} sizes="(max-width: 699px) 130px, 220px" unoptimized /></div>
       <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title">Fresh<br /><em>energy.</em></h2><p>Juice &amp; smoothies.</p><small>Full juice &amp; smoothie selection on DoorDash.</small></div>

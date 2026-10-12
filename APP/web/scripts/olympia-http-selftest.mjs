@@ -26,6 +26,8 @@ for (const path of ['/olympia', '/olympia/play']) {
     assert(!html.includes('Provisional selection'));
     const rows = [...html.matchAll(/<li[^>]*id="olympia-item-(\d+)"[^>]*>[\s\S]*?<\/li>/g)];
     assert.equal(rows.length, 39, 'Every verified item renders exactly once');
+    assert.equal(rows.filter(row => /<details[^>]*>/.test(row[0]) && /<summary[^>]*>/.test(row[0])).length, 39, 'Every item has a native disclosure');
+    assert(rows.every(row => !/<details[^>]*\sopen(?:[= >])/.test(row[0])), 'Descriptions start collapsed');
     for (const [, number] of rows) {
       const source = menu.items[Number(number) - 1];
       const rendered = rows.find(row => row[1] === number)[0];
