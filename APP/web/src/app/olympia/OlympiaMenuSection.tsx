@@ -7,10 +7,11 @@ export function OlympiaMenuSection({ id, title, note, items }: {
   id: string; title: string; note: string; items: VenueMenuItem[];
 }) {
   return <section className={venueStyles.menuSection} id={id} aria-labelledby={id + "-title"}>
-    <header className={venueStyles.sectionHeader + " " + venueStyles.textHeader}>
+    <header>
       <h2 id={id + "-title"}>{title}</h2>
+      <a className={styles.backToIndex} href="#menu-index" aria-label={"Back to menu categories from " + title}>↑</a>
     </header>
-    <p className={venueStyles.sectionNote}>{note}</p>
+    <p>{note}</p>
     <ul className={venueStyles.itemList}>
       {items.map(item => <li className={styles.menuItem} id={item.id} key={item.id}>
         <details className={styles.itemDetails}>
