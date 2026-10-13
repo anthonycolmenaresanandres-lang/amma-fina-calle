@@ -19,6 +19,14 @@ for (const path of ['/olympia', '/olympia/play']) {
     assert.match(html, /Selected menu\./);
     const markup = html.match(/<main\b[\s\S]*?<\/main>/)?.[0] || '';
     assert(markup, 'The menu has rendered markup');
+    const floatingPlay = [...markup.matchAll(/<a\b[^>]*id="olympia-floating-play"[^>]*>([\s\S]*?)<\/a>/g)];
+    assert.equal(floatingPlay.length, 1, 'One persistent Play entry is rendered');
+    assert.match(floatingPlay[0][0], /href="\/demo\/olympia-sandwich\/index\.html"/);
+    assert.match(floatingPlay[0][0], /aria-label="Play Olympia Sandwich Counter"/);
+    assert.match(floatingPlay[0][1], />Play<\/span>/, 'Play lettering retains readable text');
+    assert.match(floatingPlay[0][1], />Sandwich Counter<\/span>/);
+    assert.equal((markup.match(/href="\/demo\/olympia-sandwich\/index\.html"/g) || []).length, 2, 'Existing inline Sandwich Counter link is retained');
+    assert.match(markup, /href="\/olympia\/play"/, 'Juice Rush entry is retained');
     assert.doesNotMatch(markup, /doordash|In-store prices may differ|Oct 12, 2026/i, 'Source wording is internal, not visible');
     assert.doesNotMatch(markup, /[\u2190-\u21ff\u27f0-\u27ff]/i, 'No decorative arrows or chevrons in the menu');
     assert.equal((markup.match(/>Show menu</g) || []).length, 5, 'Category controls retain a clear text action');

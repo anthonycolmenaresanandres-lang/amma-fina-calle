@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav } from "@/venue-menu/VenueMenuNav";
 import { OlympiaLettering } from "./OlympiaLettering";
+import { OlympiaFloatingPlay } from "./OlympiaFloatingPlay";
 import { OlympiaMenuSection } from "./OlympiaMenuSection";
 import { OlympiaMenuNavigation } from "./OlympiaMenuNavigation";
 import { olympiaMenu, olympiaSections } from "./menu-data";
@@ -29,7 +30,7 @@ export default function OlympiaPage() {
     theme={theme} previewLabel="Prospect concept · Owner review"
     skipHref="#deli" skipLabel="Skip to menu"
     brand={<div className={styles.brand} translate="no"><Image src="/assets/olympia/wordmark.png" alt="Olympia Deli & Juice Bar" width={1024} height={384} sizes="(max-width: 699px) 190px, 270px" priority /></div>}
-    nav={<VenueMenuNav sections={olympiaSections} floatingAction={null} />}
+    nav={<VenueMenuNav sections={olympiaSections} floatingAction={<OlympiaFloatingPlay />} />}
     featured={<section id="menu-index" className={styles.menuIntro} aria-labelledby="menu-title">
       <div className={styles.menuHeading}><div><p className={styles.eyebrow}>Newport News, Virginia</p><h2 id="menu-title"><OlympiaLettering text="Selected menu." /></h2></div><a className={styles.playLink} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter</a></div>
       <nav className={styles.visualIndex} aria-label="Explore menu by photo">
