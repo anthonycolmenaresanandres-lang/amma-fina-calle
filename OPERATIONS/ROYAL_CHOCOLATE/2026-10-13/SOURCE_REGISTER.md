@@ -21,3 +21,5 @@ Rocky Road Apple: https://www.theroyalchocolate.com/cdn/shop/products/RoyalChoc_
 Fondue: https://resizer.otstatic.com/v4/photos/96373097-2?width=1280&height=720&format=avif
 Researcher inspected these as pale-marble/charcoal photo references; reuse rights unestablished. This implementation uses generic product-shaped original illustration and makes no exact visual likeness claim.
 No all-truffles-made-in-house claim: indexed artisan-truffle gift box refers to Birnn Chocolates sourcing. No private personal data, contact outreach, prize/discount/loyalty claims or customer participation.
+
+Release compatibility repair: required PR338 CI38439982286 passed lint/regressions but failed default Turbopack resolution of external DEMOS imports. Runtime now imports an unmodified pinned owned snapshot under APP/web/src/app/royal-chocolate/collector-standard; both snapshot and canonical files are checked against443de7d. No visual/mechanical changes, global config edits or new dependency. Original sources/art/screenshots remain applicable.

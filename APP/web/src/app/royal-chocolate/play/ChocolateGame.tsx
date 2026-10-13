@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useRef,useState,type PointerEvent} from 'react';
 import Image from 'next/image';
-import type {CollectorRace,RaceResult} from '../../../../../../DEMOS/collector-standard/engine';
+import type {CollectorRace,RaceResult} from '../collector-standard/engine';
 import {COUNTERS,GROWTH,createChocolateRace} from '../game-config';
 import {Lettering} from '../Lettering';
 import {drawCounter,loadArt} from './renderer';

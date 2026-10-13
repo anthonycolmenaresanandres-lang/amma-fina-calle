@@ -1,5 +1,5 @@
-import {CollectorRace,overlapsObstacle,type Ingredient,type GrowthStage,type Direction,type Obstacle} from '../../../../../DEMOS/collector-standard/engine';
-import {COLLECTOR_RACE_V2} from '../../../../../DEMOS/collector-standard/rules';
+import {CollectorRace,overlapsObstacle,type Ingredient,type GrowthStage,type Direction,type Obstacle} from './collector-standard/engine';
+import {COLLECTOR_RACE_V2} from './collector-standard/rules';
 export const PICKUPS={
  chocolate:{name:'Chocolate square',tier:1,radius:.44,points:30,growthValue:1},
  wafer:{name:'Vanilla wafer',tier:1,radius:.48,points:40,growthValue:1.2},

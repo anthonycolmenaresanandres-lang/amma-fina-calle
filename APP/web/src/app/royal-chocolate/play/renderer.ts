@@ -1,4 +1,4 @@
-import type {CollectorRace} from '../../../../../../DEMOS/collector-standard/engine';
+import type {CollectorRace} from '../collector-standard/engine';
 import {COUNTERS,PICKUPS,type PickupKind} from '../game-config';
 export function loadArt(){const art={} as Record<PickupKind,HTMLImageElement>;for(const kind of Object.keys(PICKUPS) as PickupKind[]){const image=new Image();image.src=`/assets/royal-chocolate/${kind}.svg`;art[kind]=image;}return art;}
 function product(ctx:CanvasRenderingContext2D,kind:PickupKind,size:number){

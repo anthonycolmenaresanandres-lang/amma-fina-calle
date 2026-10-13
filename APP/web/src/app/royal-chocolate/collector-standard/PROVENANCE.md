@@ -1,0 +1,3 @@
+# Frozen owned collector snapshot
+Source: DEMOS/collector-standard/engine.ts and rules.ts at main443de7dd54303cbc8ea81ee8fcd835ab4566c73f.
+This exact unmodified company-owned snapshot lives inside APP/web solely because default Next16.2.11 Turbopack CI cannot import outside its app root. No gameplay rules changed and no global Next/CI/dependency configuration changed. Royal configuration remains separate. Preserve source text byte-for-byte apart from Git line-ending normalization; DEMOS/royal-chocolate/verify.cjs checks both this runtime snapshot and the canonical files against the pinned commit. Updates must be deliberate versioned snapshots, not customer-specific engine modifications.
