@@ -1,5 +1,6 @@
 import type { VenueMenuItem } from "@/venue-menu/VenueMenuSection";
 import venueStyles from "@/venue-menu/venue-menu.module.css";
+import { OlympiaLettering } from "./OlympiaLettering";
 import styles from "./olympia.module.css";
 
 export function OlympiaMenuSection({ id, title, items }: {
@@ -8,7 +9,7 @@ export function OlympiaMenuSection({ id, title, items }: {
   return <section className={venueStyles.menuSection} id={id} aria-labelledby={id + "-title"} tabIndex={-1}>
     <details className={styles.categoryDetails} data-menu-category={id} open={id === "deli"}>
       <summary className={styles.categorySummary}>
-        <h2 id={id + "-title"}>{title}</h2>
+        <h2 id={id + "-title"}><OlympiaLettering text={title} /></h2>
         <span className={styles.categoryCue}>
           <span>{items.length} items</span>
           <span className={styles.whenClosed}>Show menu</span>

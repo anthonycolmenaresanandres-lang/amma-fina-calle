@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav } from "@/venue-menu/VenueMenuNav";
+import { OlympiaLettering } from "./OlympiaLettering";
 import { OlympiaMenuSection } from "./OlympiaMenuSection";
 import { OlympiaMenuNavigation } from "./OlympiaMenuNavigation";
 import { olympiaMenu, olympiaSections } from "./menu-data";
@@ -30,7 +31,7 @@ export default function OlympiaPage() {
     brand={<div className={styles.brand} translate="no"><Image src="/assets/olympia/wordmark.png" alt="Olympia Deli & Juice Bar" width={1024} height={384} sizes="(max-width: 699px) 190px, 270px" priority /></div>}
     nav={<VenueMenuNav sections={olympiaSections} floatingAction={null} />}
     featured={<section id="menu-index" className={styles.menuIntro} aria-labelledby="menu-title">
-      <div className={styles.menuHeading}><div><p className={styles.eyebrow}>Newport News, Virginia</p><h2 id="menu-title">Selected menu.</h2></div><a className={styles.playLink} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter</a></div>
+      <div className={styles.menuHeading}><div><p className={styles.eyebrow}>Newport News, Virginia</p><h2 id="menu-title"><OlympiaLettering text="Selected menu." /></h2></div><a className={styles.playLink} href="/demo/olympia-sandwich/index.html">Play Sandwich Counter</a></div>
       <nav className={styles.visualIndex} aria-label="Explore menu by photo">
         <a href="#deli"><Photo id="06" alt="" sizes="(max-width: 699px) calc((100vw - 64px) / 3), 370px" eager /><span className={styles.categoryLabel}>Signature{" "}<br />sandwiches</span></a>
         <a href="#rice"><Photo id="04" alt="" sizes="(max-width: 699px) calc((100vw - 64px) / 3), 370px" eager /><span className={styles.categoryLabel}>Featured{" "}<br />items</span></a>
@@ -44,14 +45,14 @@ export default function OlympiaPage() {
         <Photo id="03" alt="An orange-colored drink being poured from a metal pitcher into a cup." sizes="(max-width: 699px) calc((100vw - 52px) / 2), 200px" />
         <Photo id="05" alt="A green drink being poured from a blender pitcher into a cup." sizes="(max-width: 699px) calc((100vw - 52px) / 2), 200px" />
       </div>
-      <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title">Fresh<br /><em>energy.</em></h2><p>Juice &amp; smoothies.</p></div>
-      <div className={styles.gameEntry}><p className={styles.eyebrow}>A quick break</p><Link href="/olympia/play"><span>Juice Rush</span></Link><p>Catch juice. Skip spills.</p><small>3 rounds · Just for fun · No rewards</small></div>
+      <div className={styles.juiceCopy}><p className={styles.eyebrow}>At the juice bar</p><h2 id="juice-title"><OlympiaLettering text="Fresh" /><br /><em><OlympiaLettering text="energy." /></em></h2><p>Juice &amp; smoothies.</p></div>
+      <div className={styles.gameEntry}><p className={styles.eyebrow}>A quick break</p><Link href="/olympia/play"><OlympiaLettering text="Juice Rush" /></Link><p>Catch juice. Skip spills.</p><small>3 rounds · Just for fun · No rewards</small></div>
     </section>}
     visit={<><div className={styles.community}><p>Proudly serving the CNU community</p></div><section id="visit" className={styles.visit} aria-labelledby="visit-title">
       <div className={styles.visitPhotos}>
         <Photo id="02" alt="Olympia's deli counter, fruit display and illuminated Olympia Deli sign." sizes="(max-width: 699px) calc(100vw - 40px), 558px" />
       </div>
-      <div className={styles.visitHeading}><Image src="/assets/olympia/logo.png" alt="" width={84} height={84} /><div><p className={styles.eyebrow}>Hidenwood Shopping Center</p><h2 id="visit-title">Come by.</h2></div></div>
+      <div className={styles.visitHeading}><Image src="/assets/olympia/logo.png" alt="" width={84} height={84} /><div><p className={styles.eyebrow}>Hidenwood Shopping Center</p><h2 id="visit-title"><OlympiaLettering text="Come by." /></h2></div></div>
       <div className={styles.visitDetails}><address>23 Hidenwood Shopping Center<br />Newport News, VA 23606</address><div className={styles.visitLinks}><a href="https://www.google.com/maps/search/?api=1&query=Olympia+Deli+%26+Juice+Bar+23+Hidenwood+Shopping+Center+Newport+News+VA+23606" target="_blank" rel="noopener noreferrer">Directions</a><a href="tel:+17577825523">757-782-5523</a><a href="https://www.instagram.com/olympiadeliandjuice/" target="_blank" rel="noopener noreferrer">Instagram</a></div></div>
     </section></>}
     engagement={null}
