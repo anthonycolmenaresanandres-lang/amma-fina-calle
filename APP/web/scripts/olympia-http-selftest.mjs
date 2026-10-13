@@ -17,13 +17,19 @@ for (const path of ['/olympia', '/olympia/play']) {
   assert(!html.includes('William Housten'));
   if (path === '/olympia') {
     assert.match(html, /Selected menu\./);
-    assert.match(html, /Full menu on DoorDash/);
-    assert.match(html, /DoorDash delivery prices/);
-    assert.match(html, /In-store prices may differ/);
-    assert.match(html, /datetime="2026-10-12"/i);
-    assert.match(html, /href="https:\/\/www.doordash.com\/store\/34805753"/);
+    const markup = html.match(/<main\b[\s\S]*?<\/main>/)?.[0] || '';
+    assert(markup, 'The menu has rendered markup');
+    assert.doesNotMatch(markup, /doordash|In-store prices may differ|Oct 12, 2026/i, 'Source wording is internal, not visible');
+    assert.doesNotMatch(markup, /[\u2190-\u21ff\u27f0-\u27ff]|<svg\b/i, 'No decorative arrows or chevrons in the menu');
+    assert.equal((markup.match(/>Show menu</g) || []).length, 5, 'Category controls retain a clear text action');
+    assert.equal((markup.match(/>Hide menu</g) || []).length, 5);
+    const summaries = [...markup.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/g)];
+    assert(summaries.every(([, content]) => !/<(?:a|button|summary)\b/.test(content)), 'No nested interactive controls inside summaries');
     assert(!html.includes('Names pending owner confirmation'));
     assert(!html.includes('Provisional selection'));
+    const categories = [...html.matchAll(/<details[^>]*data-menu-category="([^"]+)"[^>]*>/g)];
+    assert.deepEqual(categories.map(match => match[1]), ['deli', 'special', 'rice', 'popular', 'drinks'], 'All five categories are native disclosures');
+    assert.deepEqual(categories.filter(match => /\sopen(?:[= >])/.test(match[0])).map(match => match[1]), ['deli'], 'Signature sandwiches starts visible; other categories start collapsed');
     const rows = [...html.matchAll(/<li[^>]*id="olympia-item-(\d+)"[^>]*>[\s\S]*?<\/li>/g)];
     assert.equal(rows.length, 39, 'Every verified item renders exactly once');
     assert.equal(rows.filter(row => /<details[^>]*>/.test(row[0]) && /<summary[^>]*>/.test(row[0])).length, 39, 'Every item has a native disclosure');
@@ -32,7 +38,7 @@ for (const path of ['/olympia', '/olympia/play']) {
       const source = menu.items[Number(number) - 1];
       const rendered = rows.find(row => row[1] === number)[0];
       assert(rendered.includes(escapeHtml(source.name.replace(/\s+/g, ' ').trim())), source.name);
-      assert(rendered.includes(source.price + ' · DoorDash'), source.name + ' delivery price');
+      assert(rendered.includes('>' + source.price + '</span>'), source.name + ' unchanged price');
       if (source.description) assert(rendered.includes(escapeHtml(source.description.replace(/\s+/g, ' ').trim())), source.name + ' description');
     }
     assert.match(html, /Pending Olympia approval/);
@@ -60,4 +66,4 @@ for (const asset of ['wordmark.png', 'logo.png', 'deli-wrapper-study.svg', 'juic
   assert.equal(response.status, 200, asset);
   assert((await response.arrayBuffer()).byteLength > 500, asset);
 }
-console.log('PASS Olympia public prospect HTTP: menu/game 200; noindex/nofollow; 39 source-matched items, 39 native disclosures, six supplied responsive photos/all 12 variants, delivery-price/source/date disclosure, preserved original assets and template exclusions.');
+console.log('PASS Olympia public prospect HTTP: menu/game 200; noindex/nofollow; 39 source-matched items, 39 native disclosures, six supplied responsive photos/all 12 variants, five native category disclosures, source wording/arrows removed, unchanged prices and preserved original assets and template exclusions.');
