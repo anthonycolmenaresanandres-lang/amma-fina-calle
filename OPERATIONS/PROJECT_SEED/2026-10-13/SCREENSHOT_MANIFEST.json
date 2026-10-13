@@ -1,5 +1,20 @@
 [
   {
+    "name": "accordion-flow-1440.png",
+    "bytes": 78641,
+    "sha256": "57c3d09962f61525b9ec3c9d8d256a979d7a69254c7342d7e80613a2933252ef"
+  },
+  {
+    "name": "accordion-flow-390.png",
+    "bytes": 59036,
+    "sha256": "2aa9a197fc8c13c3fe1daa6c1bd5f9a9181fd96b5778dec8b34407a96954510a"
+  },
+  {
+    "name": "accordion-flow-768.png",
+    "bytes": 67782,
+    "sha256": "d307aea0dc1dc7e10a742e3d256cef5adb829c3caa1f3fa58b0326a6d11dbd66"
+  },
+  {
     "name": "dropdown-1440.png",
     "bytes": 76179,
     "sha256": "72085f5e8ed21b4a0514db80591a3f893ed011de0023ffe6805d3eda7a8154c7"

@@ -22,3 +22,7 @@ Branch codex/project-seed-red-signwork-20261013. Base abe55dd3dbc93701bf433b7551
 ## Limits and cleanup
 
 No physical phone, Safari/iOS, complete human three-round win, prolonged FPS/thermal test, formal balance certification, Lighthouse or full screen-reader traversal. Installed Playwright expected an uncached newer browser; used the verified existing cached Chromium1228, no browser installation. CUA controls absent; this is isolated headless QA, not the user's normal Chrome session. All task-owned browsers and3141preview are stopped. No local heavy process remains. Required exact-head remote CI and guarded production release follow under explicit user authorization. No services/access/spending/outreach.
+
+## PR339 accordion-flow correction
+
+Review r4263782619 identified a real desktop/tablet issue: display:contents promoted categories into the shared two-column grid; the existing1440px capture confirmed an open category stretching the neighboring closed category row. Changed only Seed menuSections to display:block;grid-column:1/-1. Source-preview checks at390/768/1440px confirm Cold brew starts below Signature lattes, matching horizontal origin, no overflow,33items and0page errors. Three new captures and metrics retained. Browser/source preview stopped. No repeated gameplay or other client/shared change. The prior production build covers unchanged JS/types; fresh exact-head remote CI includes the final CSS production build before merge.
