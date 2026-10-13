@@ -3550,3 +3550,12 @@ New /royal-chocolate menu and /royal-chocolate/play complete on isolated codex/r
 
 ## 2026-10-13 Royal Chocolate publication IN — AUTHORIZED
 Anthony explicitly answered Yes please to publishing the labeled Fina Calle prospect demo. Authorized feature push/PR338/required CI/merge/exact production verification. Initial5b40085 head pushed; currentmain443de7d has no newer changes. Initial CI38439982286 external-import Turbopack failure requires isolated path-only repair: unchanged owned engine/rules snapshots inside new Royal namespace, both checked against pinned source. No prior client/core/config/dependency/art/visual changes. Private Library save failed because prepare_uploads unavailable; no files/IDs/alternate URLs. No customer outreach, third-party photo reuse, spending, credentials or service changes.
+
+## 2026-10-13 Project Seed red signwork revision IN
+
+User explicitly authorizes scoped design/game-art-scale revision plus PR/merge/publication after checks. Branch starts main abe55dd, retaining Royal PR338/Olympia PR337. Current raster badge inspected. Explicit logo-regeneration request supersedes stale never-regenerate guideline; recognizable identity and pending client approval preserved. Native Olympia-style disclosures, new Seed Latin sign lettering and red/blue/ivory/gold; no unverified featured food claims. Rules/input/capture remain stable. Existing dependency/QA lane only; no installs.
+
+## 2026-10-13 Project Seed red signwork revision OUT — LOCAL VERIFIED, RELEASE AUTHORIZED
+Actual built-in regenerated512px/51,684byte logo integrated; original preserved. Seed-only red palette, native Olympia-pattern disclosures6/33, original tapered-serif Latin vectors,20% smaller render/tap scale preserving shared padding/minimum/rules. Unverified featured food claims removed. Final build/types53pages, scoped lint/Seed/source/contrast and bounded headless menu/game/fallback8cases/0errors pass; limits in REVIEW.md. Initial stale dependency and measured logo specificity findings corrected.3141preview and owned browsers stopped. Proceed exact-head CI/guarded PR merge/production READY under explicit Anthony request, no other client/source/service/access/spend/outreach change.
+
+2026-10-13 Seed PR339 follow-up: reviewer-confirmed desktop accordion grid gap reproduced from the original1440px capture. Two-property Seed-only wrapper fix;390/768/1440source-preview flow passes,33items/0errors. All owned preview/browser processes stopped. Fresh exact-head CI gates merge; no shared/other-client/game change.

@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "width": 346,
+      "signatureTop": 75.6875,
+      "signatureBottom": 674.171875,
+      "coldTop": 674.171875,
+      "signatureX": 22,
+      "coldX": 22,
+      "overflow": false,
+      "passed": true
+    },
+    {
+      "width": 696,
+      "signatureTop": 75.796875,
+      "signatureBottom": 661.390625,
+      "coldTop": 661.390625,
+      "signatureX": 36,
+      "coldX": 36,
+      "overflow": false,
+      "passed": true
+    },
+    {
+      "width": 1048,
+      "signatureTop": 76.390625,
+      "signatureBottom": 662.78125,
+      "coldTop": 662.78125,
+      "signatureX": 196,
+      "coldX": 196,
+      "overflow": false,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "scope": "PR339 reviewer-confirmed category-flow correction only; source preview, final remote CI build gates release."
+}

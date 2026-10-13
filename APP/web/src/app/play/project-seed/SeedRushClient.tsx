@@ -7,8 +7,7 @@ import type { CafeRushStatus } from "@/caferush/types";
 import { seedMenuItemHref } from "../../(internal)/demo/project-seed/menu-data";
 import { octoberDrinkNotes, octoberRounds as seedRounds, octoberRoundShowcase as seedRoundShowcase, octoberSkin as seedSkin, octoberSkinForRound as seedSkinForRound } from "./october-config";
 import styles from "./page.module.css";
-import { seedDisplay } from "@/venue-menu/project-seed-type";
-import foamStyles from "@/venue-menu/project-seed-foam.module.css";
+import { SeedLettering } from "../../(internal)/demo/project-seed/SeedLettering";
 
 type View = "intro" | "playing" | "won" | "lost" | "complete";
 const BEST_KEY = "project-seed-rush-october-best-v1";
@@ -63,7 +62,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
         width: mount.current.clientWidth || 390,
         height: mount.current.clientHeight || 550,
         backgroundColor: "#f4e8d6",
-        scene: [new SeedScene(round, seedSkinForRound(roundIndex, mount.current.clientWidth / mount.current.clientHeight > 0.9), { externalHud: true, catchLight: true, separateSpawns: true, itemScale: 3.75, reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches })],
+        scene: [new SeedScene(round, seedSkinForRound(roundIndex, mount.current.clientWidth / mount.current.clientHeight > 0.9), { externalHud: true, catchLight: true, separateSpawns: true, itemScale: 3.0, reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches })],
         audio: { noAudio: true },
         scale: { mode: Phaser.Scale.RESIZE },
       });
@@ -124,13 +123,13 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
 
   const discovered = lastDrinkCaught.current && seedSkin.items.find((item) => item.id === lastDrinkCaught.current);
 
-  return <main className={`${styles.page} ${seedDisplay.variable} ${view === "intro" ? styles.halloween : ""}`}>
+  return <main className={`${styles.page} ${styles.seedBrand} ${view === "intro" ? styles.halloween : ""}`}>
     <a className={styles.skip} href="#game-content">Skip to game content</a>
-    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee" width={132} height={124} /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><div className={styles.headerLinks}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={40} height={20} /><a href="/project-seed/menu">Menu ↗</a></div></header>
+    <header className={styles.header}><a href="/project-seed/menu" className={styles.brand}><Image className={styles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-clean-v2.webp" alt="Project Seed Coffee" width={512} height={512} sizes="52px" /><span className={styles.brandWords}>PROJECT <span>SEED</span><small>Concept preview</small></span></a><div className={styles.headerLinks}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={40} height={20} /><a href="/project-seed/menu">Menu ↗</a></div></header>
     <div className={styles.shell} id="game-content">
       {view === "intro" ? <section className={styles.intro} aria-labelledby="game-title">
         <p className={styles.eyebrow}>Project Seed Coffee · Halloween edition</p>
-        <h1 id="game-title" className={foamStyles.foamTitle}>Seed <span>Rush</span></h1>
+        <h1 id="game-title"><SeedLettering text="Seed Rush" /></h1>
         <p className={styles.introLead}>Catch the coffee and pastries. Let the aswang pass. Each round moves faster.</p>
         <div className={styles.roundLineup} role="group" aria-label="Three Seed Rush rounds">{seedRoundShowcase.map((entry, index) => <div className={styles.roundCard} key={entry.title}>
           <span className={styles.featureNumber}>ROUND 0{index + 1} · {seedRounds[index].rules.durationSec}s</span>
@@ -143,7 +142,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
       </section> : null}
 
       {view === "playing" ? <section className={styles.playing} aria-labelledby="round-title">
-        <div className={styles.roundHead}><div><p className={styles.eyebrow}>Round {roundIndex + 1} / 3 · {showcase.title}</p><h1 id="round-title">{round.levelName}</h1></div>{progress}</div>
+        <div className={styles.roundHead}><div><p className={styles.eyebrow}>Round {roundIndex + 1} / 3 · {showcase.title}</p><h1 id="round-title"><SeedLettering text={round.levelName} /></h1></div>{progress}</div>
         <p className={styles.roundHelp}>{round.selectText} Reach {round.rules.targetScore} points in {round.rules.durationSec} seconds.</p>
         <div className={styles.hud}><span>Score <strong>{status.score}</strong></span><span>Target <strong>{status.target}</strong></span><span>Time <strong>{status.seconds}s</strong></span></div>
         <div className={styles.playfieldWrap}>
@@ -157,7 +156,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
 
       {view === "won" || view === "lost" || view === "complete" ? <section className={styles.result} aria-live="polite">
         {progress}<p className={styles.eyebrow}>{view === "complete" ? "Collection complete" : `Round ${roundIndex + 1} / 3`}</p>
-        <h1>{view === "complete" ? "GROWN." : view === "won" ? "NICE CATCH." : "TRY AGAIN."}</h1>
+        <h1><SeedLettering text={view === "complete" ? "GROWN." : view === "won" ? "NICE CATCH." : "TRY AGAIN."} /></h1>
         <p>{view === "lost" ? aswangCaught.current ? "An aswang ended this round. Let it pass next time." : `You scored ${status.score} of ${status.target}. Try this round again.` : view === "complete" ? `You finished all three rounds with ${totalScore} points. Personal best: ${best}.` : `You scored ${status.score} points. Next up: ${seedRoundShowcase[roundIndex + 1].title}.`}</p>
         {discovered && view !== "lost" ? <div className={styles.discovery}><strong>{discovered.label}</strong><span>{octoberDrinkNotes[discovered.id]}</span><a href={discovered.id === "buko-pandan" ? seedMenuItemHref(discovered.id) : "/project-seed/menu"}>Explore the menu ↗</a></div> : null}
         <div className={styles.resultActions}>

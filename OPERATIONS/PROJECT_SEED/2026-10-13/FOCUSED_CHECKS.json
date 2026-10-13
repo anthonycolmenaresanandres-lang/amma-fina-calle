@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "base": "abe55dd3dbc93701bf433b75519734f9fec3b9a8",
+  "protectedFiles": "menu data, rules/config, shared scene/types unchanged",
+  "changedTrackedPaths": [
+    "APP/web/scripts/project-seed-selftest.ts",
+    "APP/web/src/app/(internal)/demo/project-seed/october.module.css",
+    "APP/web/src/app/(internal)/demo/project-seed/page.tsx",
+    "APP/web/src/app/play/project-seed/SeedRushClient.tsx",
+    "APP/web/src/app/play/project-seed/october-config.ts",
+    "APP/web/src/app/play/project-seed/page.module.css",
+    "OPERATIONS/CODEX_QUEUE.md",
+    "OPERATIONS/HANDOFF_LOG.md"
+  ],
+  "contrast": {
+    "body": 6.981497147265274,
+    "muted": 5.6833398113266735,
+    "gold": 4.668678984039772,
+    "play": 10.347990820615552,
+    "skip": 10.347990820615552
+  },
+  "pickups": {
+    "previous": 3.75,
+    "current": 3,
+    "reduction": 0.19999999999999996,
+    "paddingRatio": 1.1555555555555557,
+    "minRadius": 28
+  },
+  "geometry": [
+    {
+      "min": 280,
+      "artDiameter": 141.75,
+      "tapDiameter": 163.8
+    },
+    {
+      "min": 350,
+      "artDiameter": 177.1875,
+      "tapDiameter": 204.75
+    },
+    {
+      "min": 500,
+      "artDiameter": 253.125,
+      "tapDiameter": 292.5
+    }
+  ],
+  "limits": "Source/configuration checks; headless rendered interaction verified separately."
+}

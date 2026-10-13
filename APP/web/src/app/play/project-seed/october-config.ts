@@ -17,8 +17,8 @@ export const octoberSkin: CafeRushSkin = {
   ...seedSkin,
   id: "project-seed-october-concept",
   skinName: "Seed Rush",
-  assets: { background: `${artBase}/cafe-roof-map-portrait-v2.webp` },
-  colors: { ...seedSkin.colors, bg: 0xfff5e6, counter: 0xc4926a, counterEdge: 0x8b1d2b, accent: 0x9f1c2b, scoreText: "#2e2225", text: "#2e2225" },
+  assets: { background: `${artBase}/cafe-roof-map-portrait-v3.webp` },
+  colors: { ...seedSkin.colors, bg: 0xffe1d5, counter: 0x073b78, counterEdge: 0xf2c85b, accent: 0xf2c85b, scoreText: "#073b78", text: "#073b78" },
   chrome: { ...seedSkin.chrome, pageBg: "#fffaf2", panelBg: "#f7e6d7", accent: "#9f1c2b", accentDeep: "#741421", border: "#dfc9b8" },
 };
 
@@ -35,5 +35,5 @@ export const octoberDrinkNotes: Record<string, string> = {
 
 export function octoberSkinForRound(index: number, landscape = false): CafeRushSkin {
   const featured = octoberRoundShowcase[index] ?? octoberRoundShowcase[0];
-  return { ...octoberSkin, assets: { background: `${artBase}/cafe-roof-map-${landscape ? "landscape" : "portrait"}-v2.webp` }, items: octoberSkin.items.filter((item) => featured.itemIds.some((id) => id === item.id) || item.kind === "bad") };
+  return { ...octoberSkin, assets: { background: `${artBase}/cafe-roof-map-${landscape ? "landscape" : "portrait"}-v3.webp` }, items: octoberSkin.items.filter((item) => featured.itemIds.some((id) => id === item.id) || item.kind === "bad") };
 }

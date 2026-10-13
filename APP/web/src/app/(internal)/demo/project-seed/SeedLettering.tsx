@@ -1,0 +1,4 @@
+import {seedLetteringWords} from "./seed-lettering";
+import styles from "./SeedLettering.module.css";
+/** Real accessible text plus original Seed Sign Latin vector lettering. */
+export function SeedLettering({text}:{text:string}){return <span className={styles.lettering}><span className={styles.text}>{text}</span>{seedLetteringWords(text).map(({word,width,glyphs},i)=>glyphs?<svg key={i} className={styles.word} data-seed-lettering="sign" aria-hidden="true" focusable="false" viewBox={`0 0 ${width+3} 64`} width={`${(width+3)/64}em`} height="1em"><g fill="#073b78" fillRule="evenodd" transform="translate(1.5 2)">{glyphs.map((g,j)=><path key={j} d={g.path} transform={`translate(${g.x} 0)`}/>)}</g><g fill="currentColor" fillRule="evenodd">{glyphs.map((g,j)=><path key={j} d={g.path} transform={`translate(${g.x} 0)`}/>)}</g></svg>:<span key={i} aria-hidden="true" className={styles.fallback}>{word}</span>)}</span>;}

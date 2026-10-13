@@ -3,13 +3,13 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
 import { VenueMenuNav, type VenueMenuNavSection } from "@/venue-menu/VenueMenuNav";
-import { VenueMenuSection } from "@/venue-menu/VenueMenuSection";
+import { SeedMenuSection } from "./SeedMenuSection";
+import { SeedMenuNavigation } from "./SeedMenuNavigation";
+import { SeedLettering } from "./SeedLettering";
 import { FinaCalleSignature } from "../bodega/fina-calle-signature";
 import { MENU_CHECKED, OCTOBER_MENU_DATE, OFFICIAL_MENU_URL, OFFICIAL_ORDER_URL, octoberMenuGroups, octoberMenuIsLive, seedMenuGroups } from "./menu-data";
 import styles from "@/venue-menu/venue-menu.module.css";
 import seedStyles from "./october.module.css";
-import { seedDisplay } from "@/venue-menu/project-seed-type";
-import foamStyles from "@/venue-menu/project-seed-foam.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 
 const artBase = "/assets/project-seed/seed-rush";
 const seedTheme = {
-  "--venue-ink": "#f8f2e8", "--venue-muted": "#c9bfd2", "--venue-line": "#54405f",
-  "--venue-surface": "#24172f", "--venue-accent": "#e4c6ef", "--venue-heading": "#f8f2e8", "--venue-hover": "#ffffff",
-  "--venue-shadow": "#54405f", "--venue-soft": "#382543",
+  "--venue-ink": "#fff7e8", "--venue-muted": "#f7dccb", "--venue-line": "#c85362",
+  "--venue-surface": "#a71930", "--venue-accent": "#f2c85b", "--venue-heading": "#fff7e8", "--venue-hover": "#ffffff",
+  "--venue-shadow": "#6f1024", "--venue-soft": "#073b78",
 } as CSSProperties;
 const seedSections: VenueMenuNavSection[] = [
   { id: "october-lattes", label: "October" },
@@ -33,7 +33,7 @@ const seedSections: VenueMenuNavSection[] = [
 
 function SeedBrand() {
   return <div className={`${styles.sealStage} ${seedStyles.brandStage}`}>
-    <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-reference.png" alt="Project Seed Coffee circular logo" width={132} height={124} priority />
+    <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-clean-v2.webp" alt="Project Seed Coffee circular logo" width={512} height={512} sizes="(max-width: 700px) 180px, 220px" priority />
     <div className={seedStyles.heritage}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={36} height={18} /><span>Virginia Beach</span></div>
   </div>;
 }
@@ -47,49 +47,32 @@ function SeedRushLink({ floating = false }: { floating?: boolean }) {
 }
 
 function SeedFeatured({ launched }: { launched: boolean }) {
-  const products = [
-    { image: "buko-pandan-latte-v1.webp", label: "Buko Pandan Latte" },
-    { image: "dark-iced-coffee-v1.webp", label: "Iced coffee" },
-    { image: "sugar-custard-swirl-pastry-v1.webp", label: "Custard pastry" },
-  ];
-  return <section id="seed-picks" className={`${styles.fallSessions} ${seedStyles.featured}`} aria-labelledby="seed-picks-title">
-    <div className={styles.fallSleeve}>
-      <Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 190px, 300px" priority />
-      <div className={styles.fallTitle}><h2 id="seed-picks-title">Coffee.<br />The Seed way.</h2></div>
-    </div>
-    <div className={styles.fallLineup}>
-      <ul className={styles.fallTracks}>{products.map((product) => <li key={product.image}>
-        <Image src={`${artBase}/${product.image}`} alt="" width={112} height={112} sizes="(max-width: 700px) 68px, 80px" />
-        <h3>{product.label}</h3>
-      </li>)}</ul>
-      <figure className={styles.greenFeature}>
-        <Image src={`${artBase}/borahae-latte-v1.webp`} alt="Borahae Latte" width={256} height={256} sizes="(max-width: 700px) 160px, 240px" />
-        <figcaption className={seedStyles.productCaption}>Borahae Latte</figcaption>
-      </figure>
-    </div>
-    <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Explore the seasonal menu <span aria-hidden="true">↘</span></a></div>
+  return <section id="seed-picks" className={seedStyles.featured} aria-labelledby="seed-picks-title">
+    <h2 id="seed-picks-title"><SeedLettering text="Coffee. The Seed way." /></h2>
+    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 170px, 270px" priority />
+    <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Seasonal menu</a></div>
   </section>;
 }
 
 export default function ProjectSeedMenuPage() {
   const octoberLive = octoberMenuIsLive();
-  return <div className={`${seedStyles.seedPage} ${seedDisplay.variable} ${foamStyles.foamTitles}`}><VenueMenuLayout
+  return <SeedMenuNavigation><VenueMenuLayout
     brandName="Project Seed Coffee"
     brand={<SeedBrand />}
-    nav={<VenueMenuNav sections={seedSections} floatingAction={<SeedRushLink floating />} />}
+    nav={<div id="seed-menu-index" className={seedStyles.navigation}><VenueMenuNav sections={seedSections} floatingAction={<SeedRushLink floating />} /></div>}
     featured={<SeedFeatured launched={octoberLive} />}
     skipHref="#october-lattes" skipLabel="Skip to October menu" previewLabel="Concept preview · Pending approval" theme={seedTheme}
     menu={<div className={seedStyles.menuSections}>
-      {octoberMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
-      {seedMenuGroups.map((group) => <VenueMenuSection key={group.id} id={group.id} title={group.name} note={group.note} art={group.id === "signature" ? `${artBase}/buko-pandan-latte-v1.webp` : group.id === "coffee" ? `${artBase}/dark-iced-coffee-v1.webp` : undefined} items={group.items.map((item) => ({ ...item, priceLabel: "Ask staff for price" }))} />)}
+      {octoberMenuGroups.map((group) => <SeedMenuSection key={group.id} group={group} />)}
+      {seedMenuGroups.map((group) => <SeedMenuSection key={group.id} group={group} />)}
     </div>}
     game={<section className={`${styles.sessionsTeaser} ${seedStyles.gameTeaser}`} aria-labelledby="seed-rush-title">
       <Image src={`${artBase}/sugar-custard-swirl-pastry-v1.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
-      <div><h2 id="seed-rush-title">Seed Rush</h2><p>Coffee, pastries, and three fast rounds. Catch your favorites. Avoid the Aswang.</p></div>
+      <div><h2 id="seed-rush-title"><SeedLettering text="Seed Rush" /></h2><p>Coffee, pastries, and three fast rounds. Catch your favorites. Avoid the Aswang.</p></div>
       <SeedRushLink />
     </section>}
     visit={<section className={styles.hours} id="hours" aria-labelledby="visit-title">
-      <div><h2 id="visit-title">Visit</h2><p className={styles.address}>4740 Baxter Rd., Suite 110<br />Virginia Beach, VA 23462</p>
+      <div><h2 id="visit-title"><SeedLettering text="Visit" /></h2><p className={styles.address}>4740 Baxter Rd., Suite 110<br />Virginia Beach, VA 23462</p>
         <div className={styles.visitLinks}><a href="https://www.google.com/maps/search/?api=1&query=4740+Baxter+Rd+Suite+110+Virginia+Beach+VA+23462" target="_blank" rel="noreferrer">Directions</a><a href="tel:+17572147781">Call (757) 214-7781</a></div>
       </div>
       <ul className={styles.hoursList}>
@@ -99,12 +82,12 @@ export default function ProjectSeedMenuPage() {
       </ul>
     </section>}
     engagement={<section className={styles.guestNotes} aria-labelledby="seed-review-title">
-      <div className={styles.guestNoteIntro}><p className={styles.noteKicker}>Fina Calle concept preview</p><h2 id="seed-review-title">Made to discover.</h2><p>Project Seed approval is pending. This preview links to the café&apos;s own menu and ordering pages for current details.</p></div>
+      <div className={styles.guestNoteIntro}><p className={styles.noteKicker}>Fina Calle concept preview</p><h2 id="seed-review-title"><SeedLettering text="Concept preview" /></h2><p>Project Seed approval is pending. This preview links to the café&apos;s own menu and ordering pages for current details.</p></div>
       <div className={styles.noteForm}><p>Explore the menu, then check the restaurant&apos;s site for prices, availability, allergies, and pickup options.</p><div className={styles.visitLinks}><a href={OFFICIAL_MENU_URL} target="_blank" rel="noreferrer">Official menu ↗</a><a href={OFFICIAL_ORDER_URL} target="_blank" rel="noreferrer">Official pre-order ↗</a></div></div>
     </section>}
     footer={<>
       <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com"><span>Powered by</span><FinaCalleSignature /></a>
       <details id="review-notes"><summary>Menu details</summary><p>Concept preview, pending Project Seed approval. Regular menu wording follows the <a href={OFFICIAL_MENU_URL} target="_blank" rel="noreferrer">official menu</a>, checked {MENU_CHECKED}; October wording follows the supplied flyer. Ask staff about prices, availability, preparations, and allergies. Artwork is illustrative.</p></details>
     </>}
-  /></div>;
+  /></SeedMenuNavigation>;
 }
