@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "coverage": "3 deterministic layouts, spacing/starter budgets, max-size route/product reachability, pause/clock/end/replay accounting, reciprocal capture/hold/threshold, clear/win/loss, menu price omission, frozen core",
+  "levels": [
+    {
+      "level": 1,
+      "products": 116,
+      "target": 1300,
+      "totalPoints": 8250,
+      "rivals": 1,
+      "connectedCells": 1600
+    },
+    {
+      "level": 2,
+      "products": 170,
+      "target": 2200,
+      "totalPoints": 11870,
+      "rivals": 2,
+      "connectedCells": 2140
+    },
+    {
+      "level": 3,
+      "products": 232,
+      "target": 3200,
+      "totalPoints": 16310,
+      "rivals": 3,
+      "connectedCells": 2830
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "origin": "http://127.0.0.1:3137",
+  "results": [
+    {
+      "case": "menu",
+      "width": 320,
+      "overflow": false,
+      "images": "loaded",
+      "categories": "anchor opens",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear"
+    },
+    {
+      "case": "menu",
+      "width": 390,
+      "overflow": false,
+      "images": "loaded",
+      "categories": "anchor opens",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear"
+    },
+    {
+      "case": "menu",
+      "width": 1440,
+      "overflow": false,
+      "images": "loaded",
+      "categories": "anchor opens",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear"
+    },
+    {
+      "case": "direct category hash",
+      "passed": true
+    },
+    {
+      "case": "direct category hash",
+      "passed": true
+    },
+    {
+      "case": "counter 1",
+      "start": true,
+      "pause": "clock frozen"
+    },
+    {
+      "case": "counter 2",
+      "start": true,
+      "pause": "clock frozen"
+    },
+    {
+      "case": "counter 3",
+      "start": true,
+      "pause": "clock frozen"
+    },
+    {
+      "case": "inputs/result",
+      "touch": "Chromium touch dispatched",
+      "keyboard": "held arrow and Escape",
+      "buttons": "held pointer",
+      "pauseFocus": "trap wraps",
+      "naturalResult": "loss stopped"
+    },
+    {
+      "case": "replay",
+      "passed": true
+    },
+    {
+      "case": "all game SVGs blocked",
+      "primitiveCanvas": "rendered and pause usable"
+    }
+  ],
+  "errors": [],
+  "limits": "Headless Chromium1.61.1; emulated responsive viewports and Chromium touch events. No physical phone, Safari, cross-device performance, complete player-controlled wins, or human balance certification. External requests aborted."
+}

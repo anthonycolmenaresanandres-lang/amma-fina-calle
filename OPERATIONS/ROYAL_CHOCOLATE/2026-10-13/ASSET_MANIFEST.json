@@ -1,0 +1,61 @@
+{
+  "authored": "2026-10-13",
+  "totalBytes": 5094,
+  "approval": "Pending business approval before public use",
+  "assets": [
+    {
+      "file": "APP/web/public/assets/royal-chocolate/apple.svg",
+      "bytes": 548,
+      "sha256": "8f2fbff2f12a3e79ce362fdddaf35a2bd336ee3ffa626cb4305c764e432b7437",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/chocolate.svg",
+      "bytes": 325,
+      "sha256": "8c56688eef9dd2f2955504c28d7c5230c2c5dfa89c93d27add823bf3116cfcb3",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/counter.svg",
+      "bytes": 1908,
+      "sha256": "285bd79f207a270658e80fc1829eb93dfdf1797d1c733609017e92baf545c564",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/drink.svg",
+      "bytes": 415,
+      "sha256": "bdae021bce9cdff845f19022adcc6ed406d855c3daef855e73265140a6aa2cda",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/fondue.svg",
+      "bytes": 539,
+      "sha256": "2d052a8ccb67c64b071caa6203c7709f44a8d18778ac7393ea7ece5b8d74986b",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/marshmallow.svg",
+      "bytes": 277,
+      "sha256": "cf5be5a20a210f9e75a64c3140d4024db4ce103a2716938ebaf804da68fb9aaa",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/pretzel.svg",
+      "bytes": 313,
+      "sha256": "613650115f7d0f63813ac1ed2c7afecc5dd3b1656ef522ab5e90a98f0409fb1b",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/strawberry.svg",
+      "bytes": 436,
+      "sha256": "553b55f593c7fa984c518b463a192bda682a6405b70ae4d05ef0740f4202a089",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    },
+    {
+      "file": "APP/web/public/assets/royal-chocolate/wafer.svg",
+      "bytes": 333,
+      "sha256": "0b03de271051604df6ae4cd3e29c1e3648608696256ace5289f64a65e68421db",
+      "provenance": "Original geometric vector illustration; concept, not actual product photo"
+    }
+  ]
+}
