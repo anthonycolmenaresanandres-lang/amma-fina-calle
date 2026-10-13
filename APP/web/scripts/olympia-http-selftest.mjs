@@ -20,13 +20,19 @@ for (const path of ['/olympia', '/olympia/play']) {
     const markup = html.match(/<main\b[\s\S]*?<\/main>/)?.[0] || '';
     assert(markup, 'The menu has rendered markup');
     assert.doesNotMatch(markup, /doordash|In-store prices may differ|Oct 12, 2026/i, 'Source wording is internal, not visible');
-    assert.doesNotMatch(markup, /[\u2190-\u21ff\u27f0-\u27ff]|<svg\b/i, 'No decorative arrows or chevrons in the menu');
+    assert.doesNotMatch(markup, /[\u2190-\u21ff\u27f0-\u27ff]/i, 'No decorative arrows or chevrons in the menu');
     assert.equal((markup.match(/>Show menu</g) || []).length, 5, 'Category controls retain a clear text action');
     assert.equal((markup.match(/>Hide menu</g) || []).length, 5);
     const summaries = [...markup.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/g)];
     assert(summaries.every(([, content]) => !/<(?:a|button|summary)\b/.test(content)), 'No nested interactive controls inside summaries');
     assert(!html.includes('Names pending owner confirmation'));
     assert(!html.includes('Provisional selection'));
+    const lettering = [...markup.matchAll(/<svg\b[^>]*>/g)];
+    assert(lettering.length > 10 && lettering.every(([tag]) => tag.includes('data-olympia-lettering=') && tag.includes('aria-hidden="true"')), 'Only original decorative title vectors may render; readable title text stays in the DOM');
+    for (const title of ['Selected menu.', 'Signature sandwiches', 'Special sandwiches', 'Featured items', 'Most ordered', 'Drinks', 'Fresh', 'energy.', 'Juice Rush', 'Come by.']) {
+      assert(markup.includes('>' + title + '</span>'), title + ' remains real accessible text');
+    }
+    assert(markup.includes('>Proudly serving the CNU community</p>'), 'CNU wording remains plain text');
     const categories = [...html.matchAll(/<details[^>]*data-menu-category="([^"]+)"[^>]*>/g)];
     assert.deepEqual(categories.map(match => match[1]), ['deli', 'special', 'rice', 'popular', 'drinks'], 'All five categories are native disclosures');
     assert.deepEqual(categories.filter(match => /\sopen(?:[= >])/.test(match[0])).map(match => match[1]), ['deli'], 'Signature sandwiches starts visible; other categories start collapsed');
