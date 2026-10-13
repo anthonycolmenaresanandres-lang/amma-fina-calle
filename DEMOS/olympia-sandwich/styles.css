@@ -38,3 +38,9 @@
 
 /* Results replace the simulation and put the decision before decorative artwork. */
 .results{background:var(--paper);padding:28px 20px;outline:none}.results h1{font-size:clamp(56px,12vw,76px);font-weight:700;letter-spacing:-.04em}.results[data-outcome=win] h1{color:#145846}.results[data-outcome=loss] h1{color:#843c27}.results .eyebrow{margin:0 0 14px}.results .result-reason{font-size:17px;max-width:38ch;margin:16px auto 22px}.result-totals{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:0 0 20px;padding:18px 8px;background:#fffdf6;border:1px solid #c7d0c3;border-radius:8px}.result-totals dt{font-size:12px;color:#4e615e}.result-totals dd{margin:7px 0 0;font-size:clamp(23px,6vw,32px);font-weight:700;font-variant-numeric:tabular-nums}.results .capture-note{font-size:14px;margin:0 0 18px}.result-actions{display:grid;gap:10px}.result-actions .primary{justify-content:center;font-weight:700}.menu-return{display:flex;align-items:center;justify-content:center;min-height:52px;border:1px solid #778a8e;border-radius:6px;color:var(--navy);text-decoration:underline;text-underline-offset:4px}.menu-return:hover{background:#d8e0d5}.results .sandwich-hero{margin:24px auto 8px;max-width:400px}
+
+/* Match Olympia's menu: quiet navy grain, fixed at one scale with no scenery/parallax. */
+.olympia-app .brand-bar,.olympia-app .draft-footer{background:#10283f}
+.olympia-app[data-phase=PLAYING] .stage,.olympia-app[data-phase=PAUSED] .stage{background-color:#10283f;background-image:radial-gradient(rgba(244,241,232,.055) .65px,transparent .85px),radial-gradient(rgba(0,0,0,.1) .6px,transparent 1px);background-size:4px 4px,7px 7px;background-position:0 0,2px 3px}
+.steering:focus-visible{outline-color:#ffd171}.joystick{border-color:#f4f1e880;background:#f4f1e81c}.joystick>span{background:#ffd171}
+.render-error{background:var(--paper);color:var(--navy)}
