@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 150" fill="none" stroke="#f4e6c9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<!-- Original decorative ingredient motifs, not recipe information. -->
+<g transform="translate(28 15) rotate(-12 50 60)"><ellipse cx="52" cy="68" rx="38" ry="39"/><ellipse cx="52" cy="68" rx="30" ry="31"/><path d="M52 37v62M22 68h60M31 46l42 44M73 46 31 90M51 25c-10-17 7-23 23-22-2 17-11 23-23 22Z"/></g>
+<g transform="translate(160 12) rotate(11 40 60)"><path d="M20 55c-18 23-6 46 8 53 16 10 37-1 41-24 4-22-15-40-30-29-7-8-14-6-19 0Z"/><path d="M34 52c-10-17 2-30 16-35-1 13-5 26-16 35ZM36 50c12-15 26-8 30 2-13 4-22 3-30-2Z"/><path d="m25 69 1 2m16-8 1 2m14 10 1 2m-26 9 1 2m17 6 1 2"/></g>
+<g transform="translate(270 20) rotate(-15 50 55)"><path d="M17 25c-7 38 17 73 55 78 13 1 23-1 29-5-26 0-52-30-51-57L39 19Z"/><path d="M26 28c-2 29 18 60 48 67M39 19l-1-11 11-3 2 15M17 25l-5 2"/></g>
+<g transform="translate(400 18)"><path d="M48 107c-26-2-38-19-32-38 4-17 24-35 32-42 9 6 31 22 36 39 6 22-9 39-36 41Z"/><path d="M48 27c-7-15-5-22 0-26 6 9 6 18 0 26ZM45 24C28 18 27 6 28 1c13 4 18 13 17 23ZM52 24C67 6 73 7 78 8c-3 13-14 17-26 16Z"/><path d="m26 55 48 38M21 72l35 29M39 38l40 34M30 99l44-45M20 82l37-41M48 106l34-34"/></g>
+<g transform="translate(535 19) rotate(16 48 50)"><path d="M17 82C9 43 40 19 84 17 83 62 60 89 17 82Z"/><path d="m18 81 54-53M32 68l-3-22m19 6 25 1M46 53l-1-21M60 40l16 1"/></g>
+<g transform="translate(663 22)"><circle cx="23" cy="65" r="19"/><circle cx="60" cy="70" r="21"/><circle cx="42" cy="37" r="19"/><path d="m17 61 6-5 6 5-2 8H19ZM52 65l7-5 7 5-2 7h-9ZM36 33l6-5 6 5-2 7h-8M42 16C42 3 53-3 66 0c-5 13-13 18-24 16Z"/></g>
+<g transform="translate(774 17) rotate(13 45 55)"><path d="M10 73C6 42 28 18 53 21c19 2 32 18 29 42-2 18-13 37-33 42-19 5-36-9-39-32Z"/><path d="M48 21c-4-14 2-19 8-22M55 14C62-1 76 0 84 8c-10 12-19 14-29 6ZM22 72c-4-16 3-32 14-38"/></g>
+</svg>

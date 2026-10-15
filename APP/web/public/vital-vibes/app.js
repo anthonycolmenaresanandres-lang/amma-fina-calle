@@ -48,20 +48,20 @@ categories.forEach((category, index) => {
           if (!detail.open || detail.querySelector('.item-visual')) return;
           const visual = document.createElement('div'); visual.className = 'item-visual';
           const photo = document.createElement('div'); photo.className = 'item-photo';
-          const image = new Image(600, 900); image.className = 'item-product-image'; image.src = artwork.image; image.alt = `Imagen ilustrativa creada con IA de ${item}`; image.decoding = 'async';
+          const image = new Image(600, 900); image.className = 'item-product-image'; image.src = artwork.image; image.alt = `Imagen ilustrativa de ${item}`; image.decoding = 'async';
           photo.append(image);
           if (item !== 'Electrolit' && item !== 'Recarga de proteína' && category.id !== 'hot') {
             const mark = new Image(94,80); mark.className = 'item-cup-mark'; mark.src = '/vital-vibes/assets/vital-vibes-logo.webp'; mark.alt = ''; mark.setAttribute('aria-hidden','true'); photo.append(mark);
           }
-          const note = document.createElement('p'); note.textContent = 'Imagen creada con IA. Apariencia ilustrativa; no es una fotografía del producto real. Ingredientes y alérgenos pendientes de confirmar con el local.';
+          const note = document.createElement('p'); note.textContent = 'Imagen ilustrativa. Ingredientes y alérgenos pendientes de confirmar con el local.';
           visual.append(photo, note); detail.append(visual);
         });
         li.append(detail); list.append(li);
       });
       section.append(list); menu.append(section);
     });
-    document.querySelector('#category-note').textContent = (category.note ? category.note + ' ' : '') + 'Precios y tamaños pendientes de confirmar. Imágenes creadas con IA; representaciones ilustrativas, no recetas exactas.';
-    productDialog.querySelector('details').open = false;
+    document.querySelector('#category-note').textContent = (category.note ? category.note + ' ' : '') + 'Precios y tamaños pendientes de confirmar. Imágenes ilustrativas; recetas por confirmar.';
+    productDialog.querySelector('details.ingredient-block').open = false;
     productDialog.scrollTop = 0;
     openDialog(productDialog, button);
   });
