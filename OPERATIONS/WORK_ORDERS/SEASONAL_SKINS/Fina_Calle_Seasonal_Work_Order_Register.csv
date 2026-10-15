@@ -1,0 +1,550 @@
+﻿ID,Title,Status,Priority,Owner role,Dependencies,Codex effort,Description
+FC-SEAS-00,Confirm the integration map and approved baseline,Ready for planning,P0,System lead,None,HIGH,"### FC-SEAS-00 — Confirm the integration map and approved baseline
+
+**Owner role:** System lead  
+**Priority:** P0  
+**Dependencies:** None  
+**Status:** Ready for planning
+
+**Scope:** Read-only discovery in the two verified repositories and the relevant current operating records.
+
+**Build requirements**
+
+- Reconcile current main, production revision and owner/self-service branches. Record which changes are merged, local, deployed or unknown.
+- Map each tenant's real public menu/game route, stable printed QR destination, adapter host, owner entry, authenticated membership check, request mode and deployment project. Follow redirects to the actual rendering application.
+- Inspect package/lockfile, relevant route/layout/configuration code, existing tenant/request/audit models and newest migration numbering. Confirm the correct database project without exposing credentials or applying changes.
+- Identify existing seasonal CSS/effects, game fallback path, feature flags, cache policy and test harness. Record exact proposed touch points and known collisions.
+- Produce a short architecture decision record: shared contract location, central source of truth, adapter delivery, private preview mechanism, unknown entitlement dates and integration sequence.
+
+**Deliverables:** Architecture/integration map with exact paths and source revisions; scoped backlog dependencies; no application changes.
+
+**Acceptance criteria**
+
+1. Bodega and Colattao each have a verified route-to-renderer mapping or an explicitly recorded blocker.
+2. A redirect in the main app is not mistaken for control over a separately hosted menu.
+3. The lead resolves the Phase 0/owner-portal branch dependency before approving implementation paths.
+4. Unknown database, billing, permission or deployment facts remain unknown; no guessed IDs enter code.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Avoid building a dashboard that cannot control the real guest menus or conflicts with unpublished owner work.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Execute FC-SEAS-00 only. Read the current repository instructions and the smallest relevant source set, verify the two applications and their real guest-menu destinations, and produce the integration ADR with exact file paths, revisions, permissions, cache behavior and unresolved dependencies. Make no application, account or production changes.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-01,Specify and prototype the owner experience,Ready for planning,P1,Product designer + frontend engineer,FC-SEAS-00,HIGH,"### FC-SEAS-01 — Specify and prototype the owner experience
+
+**Owner role:** Product designer + frontend engineer  
+**Priority:** P1  
+**Dependencies:** FC-SEAS-00  
+**Status:** Ready for planning
+
+**Scope:** Seasonal themes owner journey and operator-review states, using the existing portal design language.
+
+**Build requirements**
+
+- Map choose, preview, dates, review/confirm, request-only, pause/resume and cancellation flows. Use current branded Bodega and Colattao screens as references.
+- Produce mobile and desktop prototypes for first setup, a full plan, one intentional override, a same-priority conflict, a failed save and pending review.
+- Add a simple date-list view before considering a calendar grid. A visual calendar is optional; the list must support all actions accessibly.
+- Define the content hierarchy, visible primary actions, focus order, labels, live announcements, loading feedback and error recovery.
+- Prepare localized strings through the existing language mechanism. Keep requests visibly different from approved schedules.
+- Conduct the specified five-person usability check before general release; an engineer walkthrough cannot substitute for owner evidence.
+
+**Deliverables:** Screen/interaction specification, approved copy table, prototype and usability test script/results when participants are available.
+
+**Acceptance criteria**
+
+1. The prototype covers every state in section 3, including unknown-save outcomes.
+2. No owner must see a manifest, CSS value, tenant ID or UTC timestamp.
+3. Default scheduling requires only the three stated steps, with optional fields deferred.
+4. The test script measures independent completion time and recoverability. If participants are unavailable, mark the release usability gate pending.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** The service must work for an owner on a phone without explaining engineering concepts.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Execute FC-SEAS-01 only after WO-00. Use the current owner portals and repository frontend-design instructions to specify the three-step Seasonal themes flow and all failure/request-only states. Produce a mobile-first prototype and objective acceptance script. Do not change authorization, billing or production behavior.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-02,Build the tenant-safe domain and persistence layer,Ready for planning,P0,Backend/database engineer,FC-SEAS-00,HIGHEST,"### FC-SEAS-02 — Build the tenant-safe domain and persistence layer
+
+**Owner role:** Backend/database engineer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-00  
+**Status:** Ready for planning
+
+**Scope:** Versioned catalog/schedules, tenant settings, existing-request integration, audit and authenticated commands.
+
+**Build requirements**
+
+- Map the logical records in section 4 onto existing tenant/customer, request and audit structures. Add only missing tables and indexes.
+- Create migrations through the repository's normal Supabase migration workflow. Test locally/staging as authorized. RLS and grants ship together for exposed tables.
+- Implement server-verified membership and capability checks. Do not authorize from user-editable profile metadata, a client tenant ID or a trusted-looking route alone.
+- Owners read only their tenant's private records. Public users read only released catalog metadata and effective public snapshots. Operator privileges come from existing verified roles.
+- Add optimistic revision checks and durable idempotency operation records. Persist schedules, reservations and audit in one transaction through an existing transaction pattern or tightly scoped database function.
+- Avoid privileged functions unless required. If used, document the reason, tenant checks, constrained search path and explicit execution grants. Never expose server credentials to browsers.
+
+**Deliverables:** Reviewed schema migration, domain types, command/read services, permission tests and migration rollback/forward-fix notes.
+
+**Acceptance criteria**
+
+1. Tenant A cannot read/write Tenant B by direct API, forged path, altered body or database policy path.
+2. Anonymous and request-only users cannot approve/publish or allocate extra allowance.
+3. A failed transaction leaves schedule, allowance and audit consistent.
+4. Repeating the same operation returns the original outcome; a changed payload with the same key fails.
+5. Migration tests pass against the intended engine. Local emulation results are not misrepresented as full hosted RLS verification.
+
+**Codex effort:** HIGHEST  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Owner simplicity depends on reliable isolation, atomic writes and recoverable state.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-02 in an isolated approved branch after WO-00. Reuse actual tenant/request/audit patterns, create the smallest versioned seasonal model and server command layer, and verify tenant isolation, atomicity, idempotency and optimistic concurrency. Prepare migrations and evidence without applying production changes or granting access.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-03,Create the catalog contract and four production-quality theme packs,Ready for planning,P1,Design systems engineer + visual designer,FC-SEAS-00; FC-SEAS-01; FC-SEAS-02 contracts,HIGH,"### FC-SEAS-03 — Create the catalog contract and four production-quality theme packs
+
+**Owner role:** Design systems engineer + visual designer  
+**Priority:** P1  
+**Dependencies:** FC-SEAS-00; FC-SEAS-01; FC-SEAS-02 contracts  
+**Status:** Ready for planning
+
+**Scope:** Manifest v1, validator, asset production specification, 25 catalog records and the four default packs.
+
+**Build requirements**
+
+- Implement the allowlisted manifest contract and version validator from section 4, including compatibility, checksum and reduced-motion/static alternatives.
+- Seed the 25 stable IDs in section 7. Keep unbuilt entries planned and nonselectable. Only release four defaults after all their assets and QA exist.
+- Produce Spring Refresh, Summer Vibes, Autumn Harvest and Winter Glow with each supported tenant's constrained brand adaptation. Winter is not automatically Christmas.
+- Define slots by responsive behavior and aspect ratio, with fallbacks and size limits. Do not require every asset to have an identical pixel dimension if the slot serves different devices.
+- Keep the menu body typeface and official logos. Use approved assets and required repository art workflows; do not regenerate customer logos or licensed sports marks.
+- Keep versions immutable and provide a static preview, release status, supported touchpoints and accessibility result for each pack.
+
+**Deliverables:** Manifest schema and fixtures; catalog seed; four approved versioned packs and previews; repeatable new-pack checklist.
+
+**Acceptance criteria**
+
+1. Invalid tokens, unsafe asset URLs, unsupported schemas, missing required assets and active content fail validation.
+2. All four packs work with both target menu adapters before both are claimed supported.
+3. Planned themes cannot be scheduled or consume allowance.
+4. Each skin has a static reduced-motion presentation and a readable brand-safe palette.
+5. A fifth pack can use the same slots/configuration without duplicating a menu component.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Themes must be reusable across brands without copying or rebuilding menu components.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-03 using the approved theme schema and existing brand assets. Create the 25 catalog records with truthful availability, build the four default versioned packs, and validate assets, contrast, reduced-motion variants and adapter compatibility. Follow the repository visual workflow. Do not create a new game or change menu data.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-04,Implement menu rendering adapters and safe fallback,Ready for planning,P0,Frontend/platform engineer,FC-SEAS-00; FC-SEAS-02; FC-SEAS-03 contracts,HIGH,"### FC-SEAS-04 — Implement menu rendering adapters and safe fallback
+
+**Owner role:** Frontend/platform engineer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-00; FC-SEAS-02; FC-SEAS-03 contracts  
+**Status:** Ready for planning
+
+**Scope:** Theme application in the main guest renderer and the separate Colattao application.
+
+**Build requirements**
+
+- Introduce bounded CSS design tokens and slots at the appropriate tenant menu root. Keep business data, links and category navigation unchanged.
+- Implement adapter capability declarations and a shared-contract compatibility check. A central snapshot unsupported by an adapter falls back safely and reports the issue.
+- Resolve the initial server snapshot before hydration. Keep the menu-data path independent of theme service availability. Apply the same snapshot on the first client render.
+- Apply approved decorations behind content with pointer-events disabled. Prevent stacking-context collisions with sticky categories, modals, play controls and footer branding.
+- Implement immutable asset URLs, loading failure handling and per-tenant base fallback. Colattao reads through its server layer rather than receiving administrative credentials.
+- Preserve exact QR destinations and existing redirects. Theme selection must never rewrite a printed URL or trigger reprinting.
+
+**Deliverables:** Two thin rendering adapters, CSS/token integration, documented fallback and matched before/after screenshots.
+
+**Acceptance criteria**
+
+1. All approved menu items, prices, unknown-price treatment, categories and links match the baseline.
+2. Disable the theme service and block decorative assets: both menus remain readable and navigable.
+3. No flash/hydration mismatch, hidden menu button, tap interception or horizontal overflow at target widths.
+4. Cross-tenant snapshot cache tests pass.
+5. A theme change can appear on both apps without a new code deployment once compatible assets and manifests are released.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** The existing QR menu must stay usable during theme changes, asset failures and cross-app outages.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-04 in the two mapped renderers. Reuse the shared manifest contract and a server-resolved snapshot, apply tokens only to the tenant menu surface, and prove base fallback and unchanged QR/menu behavior. Keep all business data and existing game rules untouched. Return adapter and visual regression evidence.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-05,Enforce the four-theme entitlement lifecycle,Ready for planning,P0,Backend engineer,FC-SEAS-02,HIGHEST,"### FC-SEAS-05 — Enforce the four-theme entitlement lifecycle
+
+**Owner role:** Backend engineer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-02  
+**Status:** Ready for planning
+
+**Scope:** Term verification, selection reservation/usage, substitutions, cancellations and approved extra allowance.
+
+**Build requirements**
+
+- Implement the full lifecycle in section 2 as server/domain rules. Keep catalog identity separate from asset version identity.
+- Lock the tenant/term record during schedule approval and slot changes. Enforce unique tenant/term/theme selection and the current included-plus-approved-extra limit.
+- Reconcile effective starts from durable schedule history before any slot release or mutation. Worker failures, no page views, pauses or later amendments cannot erase use.
+- Make request-only drafts nonreserving. At operator approval, recheck entitlement and conflict state and return a reviewable failure if circumstances changed.
+- Require verified annual entitlement boundaries. Stage next-year defaults as drafts and explicitly handle schedules that cross term boundaries.
+- Add a manual, audited extra-entitlement path restricted to authorized operators. It records an approved commercial source; it does not charge, infer a price or edit the billing platform.
+
+**Deliverables:** Entitlement service, ledger/migration changes as needed, concurrency tests and owner-safe allowance read model.
+
+**Acceptance criteria**
+
+1. Four distinct confirmed themes pass; a fifth fails without an extra approved allowance.
+2. Two concurrent last-slot requests yield exactly one new selection.
+3. Repeated activation or a new version of an existing selected theme uses no extra slot.
+4. Cancelling all never-started occurrences releases one slot; cancelling after a start does not.
+5. No-traffic and missed-worker cases still retain past usage.
+6. Unknown terms and unsupported cross-term coverage cannot silently publish.
+
+**Codex effort:** HIGHEST  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Owners need a clear allowance that cannot overbook or disappear after retries or date edits.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-05 exactly against the documented allowance lifecycle. Focus on transactional reservation, immutable use history, same-theme reuse, cancellation and term-boundary behavior. Add meaningful race/retry tests. Preserve all current billing integrations and prices. Do not invent entitlement dates or automate charges.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-06,"Build deterministic scheduling, timezone handling and freshness",Ready for planning,P0,Platform/backend engineer,FC-SEAS-02; FC-SEAS-05,HIGHEST,"### FC-SEAS-06 — Build deterministic scheduling, timezone handling and freshness
+
+**Owner role:** Platform/backend engineer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-02; FC-SEAS-05  
+**Status:** Ready for planning
+
+**Scope:** Pure resolver, overlap rules, pause/override, temporal boundaries and shared/public cache policy.
+
+**Build requirements**
+
+- Build a pure resolver with injected authoritative time and fixtures for every precedence branch. Public reads perform no entitlement writes.
+- Convert owner date-only values into local start/end-exclusive instants with the verified tenant timezone. Preserve local intent for review.
+- Enforce same-priority nonoverlap in the transaction, with tenant-level locking or equivalent constraints that also handle concurrent edits.
+- Explain cross-priority overrides before approval. Support tenant pause, resume, finite manual override, and asset-version disable with defined fallback.
+- Compute nextTransitionAt and validUntil. Bound every CDN/server/browser cache to those values and 60 seconds, whichever is earlier. Invalidate on changes.
+- Reconcile visible pages at boundaries and on focus/visibility return. Keep promotional expiry strict. A worker may aid reconciliation but cannot determine whether a schedule is valid.
+- Choose Next.js invalidation behavior from installed-version documentation and actual cache mode. Verify production-build behavior rather than relying only on development mode.
+
+**Deliverables:** Resolver, timezone/date service, conflict enforcement, cache integration and a boundary-test matrix.
+
+**Acceptance criteria**
+
+1. Fall appears, Halloween overrides, and Fall returns at the exact local boundaries in the proposal example.
+2. DST spring-forward/fall-back, leap day, year rollover and cross-term limits pass.
+3. Competing event edits cannot both publish; an old revision returns a recoverable conflict.
+4. A midnight worker failure has no impact on the effective public theme.
+5. Expired promotion text never survives a configured freshness boundary.
+6. Pause shows base; resume evaluates the current schedule rather than restoring an expired theme.
+
+**Codex effort:** HIGHEST  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** A scheduled theme must appear and disappear on the promised local dates even without a midnight job.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-06 after the domain and entitlement contracts. Use a pure clock-injected resolver and timezone-aware half-open intervals. Enforce deterministic overlaps, pause/override and cache deadlines with transaction and production-build tests. Do not make correctness depend on cron, browser time or an active_theme flag alone.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-07,"Build the owner catalog, private preview and scheduling workflow",Ready for planning,P1,Frontend engineer,FC-SEAS-01; FC-SEAS-03; FC-SEAS-04; FC-SEAS-05; FC-SEAS-06,HIGH,"### FC-SEAS-07 — Build the owner catalog, private preview and scheduling workflow
+
+**Owner role:** Frontend engineer  
+**Priority:** P1  
+**Dependencies:** FC-SEAS-01; FC-SEAS-03; FC-SEAS-04; FC-SEAS-05; FC-SEAS-06  
+**Status:** Ready for planning
+
+**Scope:** Existing owner tools, three-step selection flow, private preview, plan feedback and request/self-service modes.
+
+**Build requirements**
+
+- Implement the approved screens and copy, keeping the public menu action ahead of sign-in and the current tenant branding.
+- Default to the four-season recommendation; let owners review/change selections, preview their actual approved menu and choose suggested or custom dates.
+- Use an authenticated same-renderer preview, or a short-lived tenant-bound signed preview when crossing application origins. Pin the preview version and configuration hash. Do not expose draft data through a public query flag.
+- Suppress tracking, rewards, submission side effects and live mutations in previews. A demonstration game cannot create redeemable rewards.
+- Implement separate Schedule theme and Send theme request actions based on verified capability. Disable repeated submissions and reconcile unknown outcomes by operation ID.
+- Include a clear date list, usage explanation, cancel upcoming, request extra, pause and resume. Restore draft inputs after validation/network errors.
+- Keep defaults in the main flow and optional promotion/motion settings secondary. Do not add a complex theme editor to Basic.
+
+**Deliverables:** Working responsive owner flow, safe preview integration, localization strings and UX/accessibility evidence.
+
+**Acceptance criteria**
+
+1. The preview matches the proposed published version and never changes another guest session.
+2. The correct primary action appears for each capability; no client-side toggle grants publishing rights.
+3. All required states and exact mutation/confirmation semantics in section 3 work.
+4. The browser back button, dialog focus return, keyboard date selection and unsaved-change warning work.
+5. Repeating a failed-looking save cannot double-book or double-count a selection.
+6. Target owner usability results are documented before general release.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** The main product experience must be fast, understandable and honest about what has actually changed.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-07 from the approved UX specification and stable backend contracts. Build the mobile-first choose/preview/dates/confirm journey inside the existing owner portal. Preserve request-only behavior, make previews nonmutating, and verify all plan/conflict/failure states with keyboard and mobile screenshots.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-08,"Build operator review, catalog release and recovery tools",Ready for planning,P0,Full-stack engineer,FC-SEAS-02; FC-SEAS-03; FC-SEAS-05; FC-SEAS-06,HIGH,"### FC-SEAS-08 — Build operator review, catalog release and recovery tools
+
+**Owner role:** Full-stack engineer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-02; FC-SEAS-03; FC-SEAS-05; FC-SEAS-06  
+**Status:** Ready for planning
+
+**Scope:** Existing internal admin tools for requests, immutable releases, entitlement exceptions and emergency recovery.
+
+**Build requirements**
+
+- Reuse existing operator authentication. Add a tenant selector with unmistakable restaurant identity and the same preview component used by owners.
+- Show pending requests with before/after schedule, plan effect and conflicts. Require a reason for decline or material adjustment. Changed dates/text require the appropriate renewed approval.
+- Release only validated immutable versions. Record author, reviewer, compatibility and QA evidence. A new release cannot change already pinned schedules automatically.
+- Provide per-tenant pause, per-version disable and global seasonal-feature disable. Show a confirmation that identifies affected tenants; record every change.
+- Allow approved allowance corrections/extra entitlements with source and reason. Keep account billing writes outside this screen.
+- Display audit history and effective-state diagnostics in internal tools only. Do not add outbound customer email/SMS by default.
+
+**Deliverables:** Operator screens, release workflow, recovery controls and audit readback.
+
+**Acceptance criteria**
+
+1. A nonoperator cannot access any admin action by direct request.
+2. Request approval revalidates the current plan and schedule atomically.
+3. Disabling a broken version produces a safe fallback and leaves a traceable record.
+4. Publishing a catalog version leaves existing pinned schedules unchanged.
+5. Staff can restore base appearance without deleting data or changing the public QR URL.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Staff must resolve exceptions without editing raw database rows or surprising customers.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-08 in existing operator tools. Add request review, immutable catalog release, tenant/version/global fallback controls and auditable entitlement corrections. Reuse real roles, confirm affected tenants and preserve billing/access boundaries. Produce recovery evidence without sending messages or changing production.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-09,Adapt existing game visuals without changing gameplay,Ready for planning,P1,Game engineer,FC-SEAS-03; FC-SEAS-04; FC-SEAS-06,HIGH,"### FC-SEAS-09 — Adapt existing game visuals without changing gameplay
+
+**Owner role:** Game engineer  
+**Priority:** P1  
+**Dependencies:** FC-SEAS-03; FC-SEAS-04; FC-SEAS-06  
+**Status:** Ready for planning
+
+**Scope:** Optional theme-to-game visual mappings for compatible existing games and their primitive/DOM fallbacks.
+
+**Build requirements**
+
+- Read the current game module and repository game-visual guidance. Confirm the actual Phaser 4 version and fallback architecture per tenant.
+- Add allowed slots for background/decorative effects and existing collectible/scene skins. Retain object types, collision shapes, timing, scoring, speed, reward eligibility and cooldowns.
+- Latch the theme at a round's start. If a calendar boundary occurs during play, apply the new visuals on the next round rather than resetting or replacing gameplay state.
+- Honor motion preferences for decorative effects independently from essential input/game mechanics. Keep fallback controls playable if renderer or sprites fail.
+- Preload only the chosen game's assets when game entry requires them. Do not load Phaser merely to show seasonal menu decoration.
+- Mark unsupported game/theme combinations accurately in preview and owner scope. Do not promise game visuals where only menu theming works.
+
+**Deliverables:** Game visual adapter, compatible theme mappings, static/primitive fallback and gameplay regression evidence.
+
+**Acceptance criteria**
+
+1. Identical input sequences produce the same scores, outcomes and reward behavior before/after the skin adapter.
+2. Active rounds survive a schedule transition without resetting state.
+3. Missing sprites/renderer failures preserve a playable supported fallback.
+4. Menu-only navigation does not load a new game bundle.
+5. Every supported skin is checked on both the enhanced and fallback game path.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Seasonal polish must preserve the game people already know and keep it playable on slower phones.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-09 only for verified compatible existing games. Follow the repository Phaser 4 and visual-asset workflow, add a visual-only theme adapter, latch versions per round, and test enhanced/fallback paths. Do not change scoring, duration, collisions, speed, rewards or cooldowns, and do not build a new game.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-10,Add operational diagnostics and lightweight measurement,Ready for planning,P1,Platform/observability engineer,FC-SEAS-02; FC-SEAS-04; FC-SEAS-06; FC-SEAS-07,MEDIUM,"### FC-SEAS-10 — Add operational diagnostics and lightweight measurement
+
+**Owner role:** Platform/observability engineer  
+**Priority:** P1  
+**Dependencies:** FC-SEAS-02; FC-SEAS-04; FC-SEAS-06; FC-SEAS-07  
+**Status:** Ready for planning
+
+**Scope:** Effective-state diagnostics, structured error events, lightweight usage measures and theme performance budgets.
+
+**Build requirements**
+
+- Record theme resolution failures, fallback reasons, schedule conflicts, approval failures, stale-state breaches and unknown mutation outcomes with tenant/version/revision identifiers.
+- Keep owner identities, private menu drafts, tokens and credentials out of public telemetry. Reuse existing analytics/consent behavior; do not add session replay or fingerprinting.
+- Surface an internal status view: expected theme, observed adapter version, last resolution result, next boundary and fallback state.
+- Measure theme-added bytes and page performance against the same tenant's base theme at the same viewport/network profile.
+- Where already permitted, collect aggregate theme impressions, promotion clicks, game starts and completion rates. Preview sessions are excluded.
+- Keep scheduled transitions separate from observed page impressions. A zero-traffic day is not proof that scheduling failed or that no slot was used.
+
+**Deliverables:** Structured events, internal diagnostics, performance report and metric definitions.
+
+**Acceptance criteria**
+
+1. A forced invalid manifest or unreachable service yields a diagnosable event and a usable menu.
+2. No preview traffic contaminates public engagement metrics.
+3. Proposed incremental budgets: menu theme JavaScript ≤20 KB Brotli, theme CSS ≤10 KB Brotli, initial decorative media ≤150 KB compressed. Any exception needs an explicit measured rationale.
+4. Target LCP ≤2.5 s, INP ≤200 ms and CLS ≤0.1 where reliable field data exist. Use a documented lab baseline during pilot and show regressions honestly.
+5. No dashboard labels clicks or skin activation as proven restaurant revenue.
+
+**Codex effort:** MEDIUM  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** Fina Calle needs to see whether a theme is working without adding latency or overstating sales impact.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Implement FC-SEAS-10 with existing logging and analytics facilities. Add tenant-safe diagnostics, preview exclusion and measured theme byte/performance budgets. Report actual observed metrics and limits. Do not add paid monitoring, outbound alerts, session replay or unsupported revenue attribution.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-11,"Verify behavior, accessibility, isolation and recovery",Ready for planning,P0,QA engineer + technical reviewer,FC-SEAS-02 through FC-SEAS-10 as applicable,HIGHEST,"### FC-SEAS-11 — Verify behavior, accessibility, isolation and recovery
+
+**Owner role:** QA engineer + technical reviewer  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-02 through FC-SEAS-10 as applicable  
+**Status:** Ready for planning
+
+**Scope:** Risk-based automated cases, exact UI journeys, two-renderer integration and release evidence.
+
+**Build requirements**
+
+- Implement the release matrix in section 8 using the existing harness. Use a controllable clock, two test tenants and a verified annual term fixture.
+- Run domain and permission checks early, then focused owner/menu/game integration tests. Test the actual cross-application Colattao path and cache boundaries.
+- Audit touched UI with the required repository web-design guidance and same-viewport before/after captures. Verify keyboard, zoom, screen-reader announcements, reduced motion and focus order.
+- Check real QR payloads/route behavior, approved menu data, images, category anchors and current game/reward invariants against the baseline.
+- Test slow/offline requests, asset failures, old adapter versions, worker outage and a real pause/disable/rollback drill in the approved environment.
+- Run targeted lint/test commands while iterating and one production build per changed app for final verification. Use discovered scripts, not guessed test commands. Re-run only affected checks after small corrections unless a release gate requires broader coverage.
+
+**Deliverables:** Test matrix with pass/fail/evidence, source revision, screenshots, accessibility findings and explicit remaining gaps.
+
+**Acceptance criteria**
+
+1. Every P0 case passes on the exact candidate revision.
+2. Both guest adapters and both owner capability modes have evidence, not only mocks of a single app.
+3. Any failed usability, isolation, expiry or basic-menu recovery case blocks general release.
+4. Build/preview tests are not described as production verification. Record tools and environments honestly.
+5. A reviewer can follow the results to the exact commits and reproducible steps.
+
+**Codex effort:** HIGHEST  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** The release must be verified as a working owner-to-guest experience, not a set of passing component tests.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Execute FC-SEAS-11 against the integrated candidate, following the shared acceptance matrix. Prioritize entitlement races, tenant isolation, temporal/cache boundaries, private previews and end-to-end owner usability. Verify both apps and fallback game paths. Run proportional final builds, record evidence, and stop at unresolved release blockers.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
+FC-SEAS-12,"Prepare the pilot, release package and operating handoff",Ready for planning,P0,Technical lead + client operations,FC-SEAS-11; product review of commercial defaults,HIGH,"### FC-SEAS-12 — Prepare the pilot, release package and operating handoff
+
+**Owner role:** Technical lead + client operations  
+**Priority:** P0  
+**Dependencies:** FC-SEAS-11; product review of commercial defaults  
+**Status:** Ready for planning
+
+**Scope:** Feature-flagged pilot plan, release sequencing, rollback and reusable operator/client instructions.
+
+**Build requirements**
+
+- Package reviewed source changes, migrations, immutable assets, compatibility versions, QA evidence and exact environment mapping. Leave all tenants off by default.
+- Select one authorized pilot restaurant and one compatible released theme. Confirm the owner has reviewed the preview/dates and that the tenant capability matches the agreed mode.
+- Plan backward-compatible deployment: additive schema/contract support and adapters first, validated assets next, central controls last, then tenant enablement. Older adapters continue using the base design.
+- Rehearse a scheduled transition and rollback in staging. Prepare owner instructions in plain language and an operator playbook for request approval, date changes, full allowance, asset failure and pause/resume.
+- Define pilot exit: correct boundaries, reliable base fallback, no menu/QR/game regression, measured performance and completed owner usability gate. Monitor one controlled transition plus the first real campaign window.
+- Update the existing company briefing, queue and handoff through the approved repository process when implementation is assigned. Record exactly what is prepared, merged, deployed or enabled; keep those states distinct.
+- Prepare release authorization with concrete commits, affected tenants, migration steps and rollback. Do not apply production changes, send customer instructions or auto-enable the rest of the catalog under this work order alone.
+
+**Deliverables:** Pilot checklist, release/rollback runbook, owner quick guide, operator SOP and review-ready release package.
+
+**Acceptance criteria**
+
+1. A reviewer can identify the exact source, database and host for each action without guessing.
+2. Rollback restores each tenant's base design and current stable QR route without deleting schedules or commercial records.
+3. The feature stays disabled for nonpilot tenants.
+4. Catalog availability matches actual completed packs; no future theme appears ready prematurely.
+5. The handoff separates prepared work from production execution and identifies the specific remaining approval.
+
+**Codex effort:** HIGH  
+**Scope:** This work order only, after its dependency gates pass.  
+**Token-saving rule:** Read only this order, its shared contracts, dependency handoffs and directly affected files. Use targeted search and the existing test harness. Do not rescan the whole repository or rewrite unchanged files. Run broader verification only for a documented release risk or required gate.  
+**Why:** A controlled rollout proves the system before it affects every restaurant.
+
+**Exact prompt to paste:**
+
+```text
+Use Fina_Calle_Seasonal_Engineering_Work_Orders.md as the shared specification.
+Prepare FC-SEAS-12 after QA passes. Assemble the exact release package, one-tenant pilot, backward-compatible deployment sequence, plain-language owner guide, operator SOP and rollback drill evidence. Keep production flags off and present the concrete release actions for the existing approval gate. Do not send or deploy.
+Follow the work order's build requirements and acceptance criteria. Read current repository instructions, relevant skill guidance and installed-version docs before implementation. Do not infer release authorization from an implementation assignment. Report exact changes, checks, evidence and remaining gaps.
+```
+
+"
