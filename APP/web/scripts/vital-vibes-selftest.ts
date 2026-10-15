@@ -31,13 +31,34 @@ for (const category of menu) {
   assert.ok(fs.existsSync(path.join('public', category.art)), category.art);
 }
 const allFiles = fs.readdirSync('public/vital-vibes', { recursive:true }).map(String);
-assert.ok(allFiles.every(file => !/\.(png|jpe?g|webp|mp4|zip)$/i.test(file)), 'Only original SVG artwork; no raw references');
+assert.ok(allFiles.every(file => !/\.(png|jpe?g|mp4|zip)$/i.test(file)), 'Original SVGs and optimized generated WebPs only; no raw references');
+const artContext = { window: {} as { VITAL_ARTWORK?: Record<string,{ id:string; image:string; thumbnail:string; illustrative:boolean }>; VITAL_CATEGORY_ART?: Record<string,string> } };
+vm.runInNewContext(fs.readFileSync('public/vital-vibes/artwork.js','utf8'), artContext);
+const artwork = artContext.window.VITAL_ARTWORK ?? {};
+assert.equal(Object.keys(artwork).length,51);
+assert.equal(new Set(Object.values(artwork).map(item => item.id)).size,51);
+const imagePaths = new Set<string>();
+for (const item of Object.values(artwork)) {
+  assert.equal(item.illustrative,true);
+  for (const asset of [item.image,item.thumbnail]) {
+    assert.match(asset,/^\/vital-vibes\/assets\/ai\/[a-z0-9-]+\.webp$/);
+    const bytes=fs.readFileSync(path.join('public',asset));
+    assert.equal(bytes.toString('ascii',0,4),'RIFF');
+    assert.equal(bytes.toString('ascii',8,12),'WEBP');
+    imagePaths.add(asset);
+  }
+}
+assert.equal(imagePaths.size,102);
+assert.equal(Object.keys(artContext.window.VITAL_CATEGORY_ART ?? {}).length,7);
+assert.ok(fs.existsSync('public/vital-vibes/assets/vital-vibes-logo.webp'));
+assert.match(html,/Imágenes creadas con IA/);
+assert.match(html,/class="real-logo"/);
 const app = fs.readFileSync('public/vital-vibes/app.js', 'utf8');
 assert.doesNotMatch(app, /\bfetch\(|XMLHttpRequest|WebSocket|localStorage|document\.cookie/);
 assert.match(app, /showModal/);
 assert.match(fs.readFileSync('public/vital-vibes/style.css','utf8'), /prefers-reduced-motion/);
 assert.match(html, /Ingredientes y alérgenos/);
 assert.match(html, /Precios y tamaños pendientes de confirmar/);
-console.log('PASS: isolated GET/noindex/CSP, absolute assets, seven categories/51 reference names, original SVG-only art and no accounts/orders/network integrations.');
+console.log('PASS: isolated GET/noindex/CSP, seven categories/51 unchanged names, 51 distinct AI image/thumbnail pairs, supplied-reference logo, illustrative notices and no accounts/orders/network integrations.');
 }
 void main().catch(error => { console.error(error); process.exitCode = 1; });
