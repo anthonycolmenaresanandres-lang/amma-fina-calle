@@ -48,3 +48,16 @@ Reserve page-bottom space for the control, bottom safe area and focus clearance;
 5. Save the local draft for review. Design approval, business-content approval and publication authorization remain separate decisions.
 
 Reference evidence: `OPERATIONS/OLYMPIA/2026-10-13/ORIGINAL_LETTERING_REVIEW.md`. Its 320/390 px artifacts are lettering specimens, not screenshots of the full menu.
+
+## Forward-looking Fina Calle footer standard — 2026-10-15
+
+Anthony requests this closing signature for future new builds. This is a later extension, separate from the frozen PR336 baseline and not authorization to mass-edit existing customer sites. Existing customers require separately scoped rollout approval.
+
+- Use the authentic company emblem at `APP/web/public/assets/fina-calle/emblem-colattao.webp`, as already used by `FinaCalleFooter.tsx`; do not redraw/generate a substitute or copy a customer logo. The existing shared component remains unchanged in this revision.
+- Link to the verified official `https://finacalleos.com` with an accessible Fina Calle name. Keep meaningful image dimensions, a >=44px link target, visible focus, responsive spacing and safe-area clearance.
+- Scope the copyright to **Diseño y software del sitio**, followed by **© [current year] Fina Calle. Todos los derechos reservados.** Compute the year at rendering/build time. Do not imply Fina Calle owns the customer name, logo, products, menu, photographs or third-party marks.
+- Keep the footer subordinate to the customer experience, with its logo and rights line readable on phones; preserve existing menu/game return/navigation and floating-control clearance.
+- Retain substantive availability, ingredient/allergen and pending-owner-confirmation information. Neutral illustrative-image wording must not falsely claim a generated or conceptual image is a photograph of a real product. Internal provenance records remain intact.
+- Use route-local markup/styles for a bounded update. Reuse this standard on future builds; shared component changes or retroactive customer rollout need their own explicit scope/review.
+
+Local reference implementation: `APP/web/src/app/vital-vibes/document.ts` and `APP/web/public/vital-vibes/footer.css`. Publication of that follow-up is a separate release decision.

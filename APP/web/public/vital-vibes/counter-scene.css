@@ -1,0 +1,6 @@
+/* Decorative counter materials and fruit motifs; no product or recipe claims. */
+.countertop{bottom:0;height:223px;left:-2%;right:-2%;transform:none;background:#294a3b url('/vital-vibes/assets/counter-photographic.webp') center/100% 100% no-repeat;box-shadow:0 -1px 0 #f6eedc80,0 7px 15px #10251c25}
+.countertop::after{display:none}
+.counterfront{height:105px;border:0;background:none;box-shadow:none;pointer-events:none}
+.counterfront>img{display:block;width:min(780px,88%);height:76px;object-fit:contain;opacity:.86}
+@media(max-width:650px){.countertop{height:169px}.counterfront{height:82px}.counterfront>img{width:94%;height:65px;object-fit:cover;object-position:center}}
