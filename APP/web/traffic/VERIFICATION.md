@@ -145,3 +145,31 @@ Command: `node node_modules/next/dist/bin/next build --webpack` (Next.js 16.2.11
 Before publication, the changed payload was checked for private-key blocks, live provider tokens, credential-bearing database URLs, JWTs, non-example env files and raw-data/key-file extensions. No findings were detected. Manual review confirmed synthetic test fixtures and aggregate-only reporting, with no raw customer records or credentials. The intended owner address already exists in the public production baseline.
 
 Preview regressions passed even with email/monitoring opt-in flags set: non-production collection, health recording and email delivery are blocked in code, GETs cannot send, and report reads contain no schema initialization. Targeted lint passed. Publication is authorized for the branch and draft PR only; merge, production deployment, migration, collection activation, real email and access/spending changes remain gated.
+
+## PASS - mail-only daily/weekly continuation
+
+Verified the clean existing worktree at f49064e before editing. Prepared a dedicated
+TRAFFIC_MAIL_TRIGGER_SECRET POST capability, owner recipient and verified sender
+domain pinning, independent whole-period queries, and disabled GitHub scheduler.
+No shared cron/report token fallback, caller-selected recipient/date/SQL, raw event
+export, automatic retry, migration, credentials, live configuration or send.
+
+Final local verification passed:
+- npm run traffic:selftest: existing suite and 19 pipeline groups.
+- npm run traffic-morning:selftest: all offline route/provider/collector boundaries.
+- npm run bodega-traffic:selftest: existing dashboard/format compatibility.
+- Focused ESLint of all changed TS/MJS application and test sources: exit 0.
+- node node_modules/next/dist/bin/next build --webpack: exit 0, compilation 67s,
+  TypeScript 49s, 58 static pages, optimization and traces.
+- git diff --check: no whitespace errors.
+
+Regressions include prior-week independent distinct counts versus daily sum,
+Eastern DST 167/169-hour weeks, daily October18-31 cutoff, Monday weekly-only
+replacement, year boundary, wrong/delayed UTC slot, absent/older health schemas
+with the existing eight-column events table, preview gates, shared-token rejection,
+recipient/sender pinning, bounded body and one-attempt uncertain provider outcomes.
+
+The native workflow stays disabled via false/absent repository variables and
+server flags until an approved test is actually read through connected Gmail.
+GitHub exact-time delivery is not guaranteed. Provider idempotency lasts 24 hours;
+there is no new durable send ledger. See MAIL_DELIVERY.md for exact handoff.

@@ -1276,3 +1276,6 @@ Anthony requested categories by items like Vital Vibes. Inspected actual Vital V
 
 ## [x] Traffic reporting pipeline - 2026-10-17
 State: DONE (local preparation only; production activation blocked). User-authorized local implementation. PASS: per-site mapping, fail-open guest collector, read-only reports, calendar ranges, health diagnostics, inactive delivery, offline tests/build. STOP: no secrets, live mutations, deployment, email, paid features or deletion.
+
+## [x] Mail-only report delivery and disabled scheduler - 2026-10-17
+Scoped continuation on existing reporting branch/PR348. Separate token from shared cron, fixed verified owner recipient, one provider attempt/idempotency, yesterday and previous completed Monday-Sunday independently. Daily8amEastern Oct18-31 excluding Mondays; Monday8am weekly ongoing. Prepare scheduler disabled until approved test is read through cloud Gmail. Existing eight-column events must remain readable without health migration; missing health is unverified. No secrets, migration, deployment or send.

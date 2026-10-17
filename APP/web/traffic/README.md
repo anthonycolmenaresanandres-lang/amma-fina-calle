@@ -1,3 +1,5 @@
+Current mail-only continuation and exact credential/flag/cadence handoff: [MAIL_DELIVERY.md](MAIL_DELIVERY.md). This runbook supersedes the older proposed delivery/auth/scheduler details below. Report reads require no health-table migration. Parent holds scoped deployment/one-test approval; release and live send remain unperformed by this executor.
+
 # Traffic pipeline — prepared, not activated
 
 Production baseline: `576c1ce61fdb26b47cf2ef999be2d00fae501652`, verified against `finacalleos.com` through Vercel on October 17, 2026. Isolated branch: `codex/site-traffic-reporting-20261017`.
@@ -45,11 +47,30 @@ AMMA React routes use the global collector only in explicitly selected Productio
 
 The separate Colattao app is **not modified or deployed** by this branch. `templates/ColattaoTraffic.tsx` plus `public/traffic-collector.js` is the prepared integration for that app's root layout. It sends to AMMA's validated receiver without cookies. Its existing `/menu` route and QR signage remain unchanged. A separate scoped Colattao integration/review/deployment is required; a successful production page probe alone must never be treated as verified ingestion coverage.
 
-## Daily owner delivery
+## Daily and weekly owner delivery
 
-The intended recipient is **anthonycolmenaresanandres@gmail.com**. Delivery is disabled by default and requires `TRAFFIC_EMAIL_ENABLED=true`, the exact approved recipient, the existing report-only email provider settings, and an authenticated **POST**. Every GET of `/api/internal/traffic/morning` inspects only and cannot send an email. Even a fully unhealthy day can produce a diagnostic report after authorized activation; failures never masquerade as zero. A deterministic provider idempotency key prevents duplicate sends for the same date.
+Current implementation and controlled release steps are in [MAIL_DELIVERY.md](MAIL_DELIVERY.md).
+The recipient is pinned to anthonycolmenaresanandres@gmail.com and the sender to
+the verified finacalleos.com domain. POST uses the separate
+TRAFFIC_MAIL_TRIGGER_SECRET; it does not accept the shared cron/report token,
+custom recipients, custom date ranges or SQL. Every GET remains inspection only.
 
-No test email, recurring delivery, or scheduler was installed. Parent/user must confirm destination, frequency/timezone/time, and costs before any send or recurring job. The previous GET-send cron entry is removed from the local deployment template to prevent an accidental send on deployment. It has not been removed from live configuration.
+Delivery, manual-test, readback and schedule gates are false by default.
+The prepared GitHub workflow also skips unless its repository variable is true.
+It selects yesterday daily October 18-31, with Monday replaced by a previous
+completed Monday-Sunday report; weekly Mondays continue afterward. Both UTC
+wake-ups are checked against the Eastern 8 a.m. hour. Weekly distinct counts
+come from an independent whole-week query.
+
+Each trigger makes one provider attempt with a stable period idempotency key
+and no automatic retry. Timeout/409 outcomes require inbox inspection, and
+provider acceptance does not confirm delivery. All-source unavailable reports
+are not emailed. Partial records are labeled unverified; missing health tables
+never require a migration or prove zero traffic.
+
+No schedule is installed on the default branch yet and no live test was sent
+by this executor. Parent coordinates the approved reporting deployment and one
+owner test, then actual connected-Gmail readback before recurring activation.
 
 ## Costs and data bounds
 

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { previousEasternDay, completeDays, validateRange } from "./date";
+import { previousEasternDay, completeDays, validateRange, type TrafficDeliveryPeriod } from "./date";
 import { assessCoverage } from "./coverage";
 import type { RangeReport } from "./types";
 import { getTrafficStore, trafficDatabaseUrl } from "./store";
@@ -71,6 +71,11 @@ export async function getSiteTrafficReport(site: TrafficSite, range: TrafficRang
 export async function getAllSiteTrafficReports(days = 30): Promise<TrafficReport[]> {
   const range = period(days);
   return Promise.all(TRAFFIC_SITES.map((site) => getSiteTrafficReport(site, range)));
+}
+
+/** Query each entire period independently; weekly uniques are never daily sums. */
+export async function getTrafficPeriodReports(period: TrafficDeliveryPeriod): Promise<TrafficReport[]> {
+  return Promise.all(TRAFFIC_SITES.map((site) => getSiteTrafficReport(site, period.range)));
 }
 
 export async function getMorningTrafficReports(now = Date.now()) {

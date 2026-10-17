@@ -237,7 +237,7 @@ class PostgresTrafficStore implements TrafficStore {
         checkedAt: new Date(row.checked_at).toISOString(), healthy: row.healthy === true, probeHealthy: row.probe_ok === true,
         checksInRange: Number(row.check_count) }));
     } catch (error) {
-      if ((error as { code?: string }).code === "42P01") return []; // no coverage evidence, never zero
+      if (["42P01", "42703"].includes((error as { code?: string }).code ?? "")) return []; // optional absent/older health schema: unverified
       throw error;
     }
   }

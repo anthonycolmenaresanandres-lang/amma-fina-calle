@@ -5,10 +5,10 @@ import vm from 'node:vm';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import ts from 'typescript';
-function load(file, imports, env={}, fetch=async()=>{throw Error('Unexpected network');}) {
+function load(file, imports, env={}, fetch=async()=>{throw Error('Unexpected network');}, clock=Date) {
   const exports={};
   const code=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText;
-  vm.runInNewContext(code,{exports,process:{env},Buffer,URL,URLSearchParams,Response,Request,TextDecoder,Uint8Array,AbortSignal,Date,fetch,
+  vm.runInNewContext(code,{exports,process:{env},Buffer,URL,URLSearchParams,Response,Request,TextDecoder,Uint8Array,AbortSignal,Date:clock,fetch,
     console:{error(){},info(){}},require(name){if(!(name in imports))throw Error(`Unmocked ${name}`);return imports[name];}},{filename:file});
   return exports;
 }
@@ -97,28 +97,87 @@ for (const failure of ['collector-404','event-insert-fails']) {
 }
 console.log('PASS healthy pages plus collector 404 or event INSERT failure cannot establish coverage or measured zero');
 
-const formatter=load('src/lib/traffic/morning-format.ts',{'./sites':registry});
+const formatter=load('src/lib/traffic/morning-format.ts',{'./sites':registry,'./date':dates});
 let sent=0;const deliveries=[];
-const mailEnv={VERCEL_ENV:'production',TRAFFIC_RESEND_API_KEY:'fixture',TRAFFIC_FROM_EMAIL:'fixture@example.test',TRAFFIC_MORNING_REPORT_EMAIL:'anthonycolmenaresanandres@gmail.com'};
+const mailEnv={VERCEL_ENV:'production',TRAFFIC_RESEND_API_KEY:'fixture',TRAFFIC_FROM_EMAIL:'Traffic <reports@finacalleos.com>',TRAFFIC_MORNING_REPORT_EMAIL:'anthonycolmenaresanandres@gmail.com',TRAFFIC_EMAIL_TEST_ENABLED:'true'};
 const mail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async(url,options)=>{sent++;deliveries.push({url,options});return new Response(null,{status:200});});
-assert.equal((await mail.sendMorningReport('2026-10-16',result.reports)).reason,'email_delivery_disabled');assert.equal(sent,0);
+const period=dates.dailyTrafficPeriod(Date.parse('2026-10-17T12:00:00Z'));
+assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).reason,'email_delivery_disabled');assert.equal(sent,0);
 mailEnv.TRAFFIC_EMAIL_ENABLED='true';mailEnv.TRAFFIC_MORNING_REPORT_EMAIL='somebody@example.test';
-assert.equal((await mail.sendMorningReport('2026-10-16',result.reports)).reason,'invalid_report_recipient');assert.equal(sent,0);
+assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).reason,'invalid_report_recipient');assert.equal(sent,0);
 mailEnv.TRAFFIC_MORNING_REPORT_EMAIL='anthonycolmenaresanandres@gmail.com';
-assert.equal((await mail.sendMorningReport('2026-10-16',result.reports)).sent,true);assert.equal(sent,1);
+mailEnv.TRAFFIC_FROM_EMAIL='reports@otherdomain.test';
+assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).reason,'invalid_report_sender');assert.equal(sent,0);
+mailEnv.TRAFFIC_FROM_EMAIL='Traffic <reports@finacalleos.com>';
+assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).sent,true);assert.equal(sent,1);
 const delivery=JSON.parse(deliveries[0].options.body);assert.deepEqual(delivery.to,['anthonycolmenaresanandres@gmail.com']);
 assert(delivery.text.includes('unavailable'));assert(!delivery.text.includes('Pageviews: 0'));
-assert.equal(deliveries[0].options.headers['Idempotency-Key'],'fina-calle-traffic-2026-10-16');
-mailEnv.VERCEL_ENV='preview';assert.equal((await mail.sendMorningReport('2026-10-16',result.reports)).reason,'email_delivery_disabled');assert.equal(sent,1);
+assert.equal(deliveries[0].options.headers['Idempotency-Key'],'fina-calle-traffic-daily-2026-10-16-2026-10-16');
+assert.equal(deliveries[0].options.redirect,'error');
+assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'scheduled')).reason,'schedule_disabled_until_test_readback');
+mailEnv.VERCEL_ENV='preview';assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).reason,'email_delivery_disabled');assert.equal(sent,1);
 assert.equal(mail.morningEmailStatus().enabled,false);
+mailEnv.VERCEL_ENV='production';
+for (const outcome of ['timeout',409,429,500]) {
+  let attempts=0;
+  const failureMail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async()=>{
+    attempts++;if(outcome==='timeout')throw Error('unknown delivery outcome');
+    return new Response(null,{status:outcome});
+  });
+  const failure=await failureMail.sendTrafficPeriodReport(period,result.reports,'test');
+  assert.equal(failure.sent,false);assert.equal(attempts,1);
+  if(outcome==='timeout'||outcome===409)assert.equal(failure.reason,'delivery_outcome_unconfirmed');
+}
+console.log('PASS fixed recipient/verified sender, provider idempotency, one attempt and uncertain-outcome retry suppression');
+
 sent=0;
-const morningEnv={VERCEL_ENV:'preview',CRON_SECRET:'fixture-cron',TRAFFIC_EMAIL_ENABLED:'true'};
-const morning=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':next,'@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},'@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendMorningReport:async()=>{sent++;return {sent:true};}},'@/lib/traffic/site-traffic':{getMorningTrafficReports:async()=>({date:'2026-10-16',reports:result.reports})}},morningEnv);
-const morningPreview=await morning.GET(new Request('https://finacalleos.com/api/internal/traffic/morning'));assert.equal(morningPreview.status,200);assert.equal((await morningPreview.json()).readyToSend,false);assert.equal(sent,0);
-assert.equal((await morning.POST(new Request('https://finacalleos.com/api/internal/traffic/morning',{method:'POST',headers:{Authorization:'Bearer fixture-cron'}}))).status,503);assert.equal(sent,0);
-morningEnv.TRAFFIC_EMAIL_ENABLED='false';assert.equal((await morning.POST(new Request('https://finacalleos.com/api/internal/traffic/morning',{method:'POST'}))).status,503);assert.equal(sent,0);
+const morningEnv={VERCEL_ENV:'preview',CRON_SECRET:'global-cron-fixture',TRAFFIC_MAIL_TRIGGER_SECRET:'mail-only-fixture-token-at-least-32-characters',TRAFFIC_EMAIL_ENABLED:'true'};
+let fixtureNow=Date.parse('2026-10-19T12:05:00Z');
+class FixtureDate extends Date { static now(){return fixtureNow;} }
+let queried=0;const queriedPeriods=[];
+const morning=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':next,'@/lib/traffic/date':dates,
+  '@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},
+  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficPeriodReport:async()=>{sent++;return {sent:true};}},
+  '@/lib/traffic/site-traffic':{getMorningTrafficReports:async()=>({date:'2026-10-18',reports:result.reports}),
+    getTrafficPeriodReports:async p=>{queried++;queriedPeriods.push(p);return result.reports.map(r=>({...r,state:'partial',reason:'Unverified coverage'}));}}},
+  morningEnv,undefined,FixtureDate);
+const morningURL='https://finacalleos.com/api/internal/traffic/morning';
+const morningRequest=(body={mode:'test'},token=morningEnv.TRAFFIC_MAIL_TRIGGER_SECRET,url=morningURL)=>new Request(url,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+const preview=await morning.GET();assert.equal(preview.status,200);assert.equal((await preview.json()).readyToSend,false);assert.equal(sent,0);
+assert.equal((await morning.POST(morningRequest())).status,503);assert.equal(sent,0);
+morningEnv.VERCEL_ENV='production';
+assert.equal((await morning.POST(morningRequest({},'global-cron-fixture'))).status,401);
+assert.equal((await morning.POST(morningRequest({},'fixture-report-token'))).status,401);
+assert.equal((await morning.POST(morningRequest({mode:'test',to:'somebody@example.test'}))).status,400);
+assert.equal((await morning.POST(morningRequest({mode:'test',sql:'SELECT *'}))).status,400);
+assert.equal((await morning.POST(morningRequest({mode:'test'},undefined,morningURL+'?to=other'))).status,400);
+assert.equal((await morning.POST(morningRequest({mode:'test',padding:'x'.repeat(300)}))).status,400);
+assert.equal((await morning.POST(morningRequest())).status,503);assert.equal(sent,0);assert.equal(queried,0);
+morningEnv.TRAFFIC_EMAIL_TEST_ENABLED='true';
+assert.equal((await morning.POST(morningRequest())).status,200);assert.equal(sent,1);
+assert.equal(queriedPeriods[0].kind,'daily');assert.equal(queriedPeriods[0].first,'2026-10-18');
+assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}))).status,503);
+morningEnv.TRAFFIC_SCHEDULE_ENABLED='true';
+assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}))).status,503);assert.equal(sent,1);
+morningEnv.TRAFFIC_EMAIL_TEST_READBACK_CONFIRMED='true';
+assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}))).status,200);assert.equal(sent,2);
+assert.equal(queriedPeriods[1].kind,'weekly');assert.equal(queriedPeriods[1].first,'2026-10-12');assert.equal(queriedPeriods[1].last,'2026-10-18');
+const wrongSlot=await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}));
+assert.equal((await wrongSlot.json()).skipped,true);assert.equal(sent,2);assert.equal(queried,2);
+fixtureNow=Date.parse('2026-11-03T13:05:00Z');
+assert.equal((await (await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}))).json()).skipped,true);assert.equal(sent,2);
 assert(!JSON.parse(fs.readFileSync('vercel.json','utf8')).crons.some(cron=>cron.path.includes('/traffic/')));
-console.log('PASS all report GETs cannot send mail, owner restriction, disabled delivery, no traffic schedule');
+const workflow=fs.readFileSync('../../.github/workflows/traffic-report-mail.yml','utf8');
+assert(workflow.includes("vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true'"));assert(workflow.includes("vars.TRAFFIC_REPORT_TEST_ENABLED == 'true'"));
+assert(workflow.includes('cancel-in-progress: false'));assert(!workflow.includes('CRON_SECRET'));assert(!workflow.includes('TRAFFIC_RESEND_API_KEY'));
+const {triggerMail}=await import('./traffic-mail-trigger.mjs');
+let triggerAttempts=0;
+await assert.rejects(()=>triggerMail({TRAFFIC_MAIL_TRIGGER_SECRET:morningEnv.TRAFFIC_MAIL_TRIGGER_SECRET,TRAFFIC_MAIL_MODE:'test'},async(url,options)=>{
+  triggerAttempts++;assert.equal(url,morningURL);assert.equal(JSON.parse(options.body).mode,'test');throw Error('timeout fixture');
+}));
+assert.equal(triggerAttempts,1);
+console.log('PASS GET cannot send; separate mail token, bounded fixed requests, readback gate and disabled scheduler');
+
 const healthPreview=load('src/app/api/internal/traffic/health/route.ts',{'../report/route':reportRoute,'node:crypto':crypto,'@/lib/traffic/sites':registry,'@/lib/traffic/store':store,'@/lib/traffic/first-party':first},{VERCEL_ENV:'preview',TRAFFIC_HEALTH_RECORD_ENABLED:'true',CRON_SECRET:'fixture-cron'});
 const beforeHealth=writes;assert.equal((await healthPreview.POST(new Request('https://preview.example.test/api/internal/traffic/health',{method:'POST',headers:{Authorization:'Bearer fixture-cron'}}))).status,503);assert.equal(writes,beforeHealth);
 console.log('PASS preview cannot collect, record monitoring, initialize schema or send even when opt-in flags are inherited');

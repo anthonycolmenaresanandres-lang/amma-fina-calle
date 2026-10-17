@@ -50,7 +50,8 @@ async function main() {
   assert.match(env, /TRAFFIC_DATABASE_URL=/);
   assert.match(env, /TRAFFIC_MORNING_REPORT_EMAIL=/);
   assert(!cron.includes("/api/internal/traffic/morning"), "Delivery schedule stays inactive");
-  assert.match(morning, /CRON_SECRET/);
+  assert.match(morning, /process\.env\.TRAFFIC_MAIL_TRIGGER_SECRET/);
+  assert(!morning.includes("process.env.CRON_SECRET"), "Mail token cannot authorize the shared cron capability");
   assert.match(morning, /TRAFFIC_EMAIL_ENABLED/);
   assert.match(morning, /export async function POST/);
 

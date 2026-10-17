@@ -9,7 +9,7 @@ import { ALL_TRAFFIC_SITES, siteForPublicVisit } from "../src/lib/traffic/sites"
 import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { parseFirstParty, AdmissionBudget, boundedText } from "../src/lib/traffic/first-party";
 import { parseDrainPayload } from "../src/lib/traffic/parse-drain";
-import { calendarRange, completeDays, previousEasternDay } from "../src/lib/traffic/date";
+import { calendarRange, completeDays, previousEasternDay, previousCompletedWeek, scheduledTrafficPeriod } from "../src/lib/traffic/date";
 import { assessCoverage } from "../src/lib/traffic/coverage";
 import { __test } from "../src/lib/traffic/store";
 import type { CollectionCheck, NormalizedEvent } from "../src/lib/traffic/types";
@@ -168,6 +168,53 @@ check("latest failure does not hide the independent most recent successful probe
   assert.equal(assessment.configurationChecksInRange,25921);
   assert.equal(assessment.state,"stale");assert.equal(assessment.complete,false);
 });
+
+check("daily cutoff, Monday weekly replacement, DST slots and completed weeks",()=>{
+  const plan=(date:string,slot="0 12 * * *")=>scheduledTrafficPeriod(slot,Date.parse(date));
+  assert.equal(plan("2026-10-17T12:00:00Z"),null);
+  for(let day=18;day<=31;day++){
+    const date="2026-10-"+day, instant=date+"T12:05:00Z";
+    const report=plan(instant)!;assert(report);
+    assert.equal(report.kind,[19,26].includes(day)?"weekly":"daily");
+    if(report.kind==="daily")assert.equal(report.last,new Date(Date.parse(date+"T00:00:00Z")-86400000).toISOString().slice(0,10));
+  }
+  assert.equal(plan("2026-10-19T13:00:00Z"),null);
+  assert.equal(plan("2026-10-19T12:05:00Z","0 13 * * *"),null);
+  assert.equal(plan("2026-11-01T13:00:00Z","0 13 * * *"),null);
+  assert.equal(plan("2026-11-02T12:00:00Z"),null);
+  const autumn=plan("2026-11-02T13:00:00Z","0 13 * * *")!;
+  assert.equal(autumn.first,"2026-10-26");assert.equal(autumn.last,"2026-11-01");
+  assert.equal((Date.parse(autumn.range.until)-Date.parse(autumn.range.since))/3600000,169);
+  assert.equal(plan("2026-11-02T13:00:00Z","0 12 * * *"),null);
+  assert.equal(plan("2026-11-03T13:00:00Z","0 13 * * *"),null);
+  const spring=plan("2027-03-15T12:00:00Z")!;assert.equal(spring.kind,"weekly");
+  const transition=previousCompletedWeek(Date.parse("2027-03-15T12:00:00Z"));
+  assert.equal((Date.parse(transition.range.until)-Date.parse(transition.range.since))/3600000,167);
+  const year=previousCompletedWeek(Date.parse("2027-01-04T13:00:00Z"));
+  assert.equal(year.first,"2026-12-28");assert.equal(year.last,"2027-01-03");
+});
+const week=previousCompletedWeek(Date.parse("2026-10-19T12:00:00Z"));
+const weeklyRows=await store.getRangeReport("bodega",Date.parse(week.range.since),Date.parse(week.range.until),"America/New_York");
+check("weekly SQL is independent of daily identifier sums",()=>{
+  assert.equal(weeklyRows.pageviews,3);assert.equal(weeklyRows.uniqueVisitors,1);
+  assert.equal(weeklyRows.daily.reduce((sum,row)=>sum+row.visitors,0),2);
+});
+// Optional health schemas may be absent or older. Neither requires a migration
+// for aggregate reads of the existing eight-column event table.
+await db.exec("ALTER TABLE traffic_collection_checks DROP COLUMN probe_ok");
+assert.deepEqual(await store.getCollectionChecks("bodega",now-1,now+1),[]);
+await db.exec("DROP TABLE traffic_collection_checks");
+const legacyStatementsStart=statements.length;
+assert.deepEqual(await store.getCollectionChecks("bodega",now-1,now+1),[]);
+const legacyReport=await store.getRangeReport("bodega",now,now+2*86400000,"America/New_York");
+const columns=(await db.query<{count:number}>("SELECT count(*)::int AS count FROM information_schema.columns WHERE table_name='traffic_events'")).rows[0].count;
+check("existing eight-column events readable without health schema or migration",()=>{
+  assert.equal(columns,8);assert.equal(legacyReport.pageviews,3);
+  assert(statements.slice(legacyStatementsStart).every(sql=>/^\s*(SELECT|WITH)\b/i.test(sql)));
+  assert.equal(assessCoverage([],week.range.since,week.range.until,3,now).state,"partial");
+  assert.equal(assessCoverage([],week.range.since,week.range.until,0,now).state,"waiting");
+});
+
 await db.close();
 console.log(`PASS ${checks} traffic pipeline behavioral groups; no live services accessed.`);
 }

@@ -1,7 +1,13 @@
 import type { TrafficReport } from "./site-traffic";
+import { calendarRange, type TrafficDeliveryPeriod } from "./date";
 import { ALL_TRAFFIC_SITES as TRAFFIC_SITES } from "./sites";
 
 export function renderMorningReport(date: string, reports: TrafficReport[]) {
+  return renderTrafficPeriodReport({ kind: "daily", first: date, last: date, range: calendarRange(date, date) }, reports);
+}
+
+export function renderTrafficPeriodReport(period: TrafficDeliveryPeriod, reports: TrafficReport[]) {
+  const date = period.kind === "weekly" ? `week ${period.first} through ${period.last}` : period.first;
   if (reports.length !== TRAFFIC_SITES.length ||
       TRAFFIC_SITES.some((site) => reports.filter((report) => report.siteId === site.id).length !== 1)) {
     throw new Error("INCOMPLETE_SITE_REPORTS");
@@ -24,7 +30,10 @@ export function renderMorningReport(date: string, reports: TrafficReport[]) {
       }
     } else {
       lines.push(`Status: ${report.reason}`);
-      if (report.observedPageviews !== undefined) lines.push(`Recorded pageviews (coverage ${report.state}): ${report.observedPageviews}`);
+      if (report.observedPageviews !== undefined) {
+        lines.push(`Recorded pageviews (coverage ${report.state}; zero is not a verified measured zero): ${report.observedPageviews}`);
+        lines.push(`Distinct tracked identifiers within this whole period (not people): ${report.identifiedPageviews ? report.observedIdentifiers ?? "unverified" : "not collected"}`);
+      }
       if (report.state === "empty") lines.push(`Last verified pageview: ${report.lastObservedAt}`);
     }
     lines.push("");

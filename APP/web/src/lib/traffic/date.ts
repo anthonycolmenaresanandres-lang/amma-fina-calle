@@ -97,3 +97,42 @@ export function validateRange(range: { since: string; until: string }, timezone:
   if (!/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.since) || !/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.until) ||
     !Number.isFinite(start) || !Number.isFinite(end) || end <= start || end - start > 91 * 86400000) throw new Error("INVALID_RANGE");
 }
+
+export type TrafficDeliveryPeriod = {
+  kind: "daily" | "weekly";
+  first: string;
+  last: string;
+  range: ReturnType<typeof calendarRange>;
+};
+
+export function dailyTrafficPeriod(now = Date.now()): TrafficDeliveryPeriod {
+  const { date } = previousEasternDay(now);
+  return { kind: "daily", first: date, last: date, range: calendarRange(date, date) };
+}
+
+/** A single whole-period query is required: never sum daily distinct identifiers. */
+export function previousCompletedWeek(now = Date.now()): TrafficDeliveryPeriod {
+  const today = dateStringInTz(TRAFFIC_TIMEZONE, now);
+  const weekday = new Date(`${today}T00:00:00Z`).getUTCDay();
+  const monday = addDays(today, -((weekday + 6) % 7));
+  const first = addDays(monday, -7), last = addDays(monday, -1);
+  return { kind: "weekly", first, last, range: calendarRange(first, last) };
+}
+
+/** Both UTC slots run; only the matching Eastern 08:00 hour may deliver.
+ * Checking the original cron slot also rejects a delayed wrong-DST-slot job.
+ * Mondays select weekly only, including during the temporary daily window.
+ */
+export function scheduledTrafficPeriod(schedule: string, now = Date.now()): TrafficDeliveryPeriod | null {
+  const instant = new Date(now);
+  const hour = Number(new Intl.DateTimeFormat("en-US", {
+    timeZone: TRAFFIC_TIMEZONE, hour: "2-digit", hourCycle: "h23",
+  }).format(instant));
+  if (hour !== 8) return null;
+  const slot = instant.getUTCHours();
+  if ((slot !== 12 && slot !== 13) || schedule !== `0 ${slot} * * *`) return null;
+  const today = dateStringInTz(TRAFFIC_TIMEZONE, now);
+  if (today < "2026-10-18") return null;
+  if (new Date(`${today}T00:00:00Z`).getUTCDay() === 1) return previousCompletedWeek(now);
+  return today <= "2026-10-31" ? dailyTrafficPeriod(now) : null;
+}
