@@ -3,9 +3,9 @@
 _Living status file maintained by the automated caretaker. Latest state of builds,
 PRs, and cleanup across all four repos. Updated on each scheduled run._
 
-**Last updated:** 2026-10-17 (morning check-in, `claude-opus-4-8`). **Headline: healthy run — the only change org-wide since the 2026-10-16 evening check-in is ONE new guardrail-clean amma draft, #343 (Aji Ichiban + Elsa's Place prospect menus/games); no default branch moved, zero failing workflow runs across all four repos, no caretaker fix needed and nothing newly needs Anthony beyond the standing Supabase-migration to-do.** **No change since last run across every default branch:** amma `main` UNCHANGED at `ea2f57e` (HEAD #342 "Refine Vital Vibes counter and scoped Fina Calle footer"; `CI — web` **#394 ✅** latest web run, `CI — voice-gateway` **#27 ✅**); vbfh `master` UNCHANGED at `75f9668` (build `CI` **#35 ✅**); shadow `5113ce5` (dormant); EscapeTheBomb `eee6a37` (dormant). **NEW draft #343** (opened 10-17 12:43, head `codex/jacksonville-prospect-demos-20261017`, base `main` @ `ea2f57e`): isolated additive `/aji-ichiban` + `/elsas-place` noindex prospect menus + an owned-snapshot collector game; 80 files under `APP/web/{src,public}/*`, `DEMOS/jacksonville/*`, `OPERATIONS/JACKSONVILLE/2026-10-17/*` + queue/handoff; **guardrail-clean (0 sensitive paths — no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets); `web` CI ✅ + Vercel ✅; `mergeable_state: clean`.** Body claims owner approval to merge, but it is a **draft** and this is an unattended scheduled run, so per standing policy it is **author-held — not caretaker-merged**; Anthony marks it ready + merges, or tells the caretaker to. **VBFH Daily Report — activation held: latest run still #121 (10-01) succeeded**, manual `workflow_dispatch` only, no #122 auto-fires by design. **Supabase migration set UNCHANGED** `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302's `/customers/maracaibo-tables` game-seat surface unchanged, still flagged. **Nine** open amma drafts (#343/#277/#259/#238/#225/#221/#219/#218/#197) — eight unchanged author-held + the new #343; all Vercel ✅, no new human review comments. No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony's approval (never deleted unprompted).
-<!-- 2026-10-16 evening headline (superseded by the entry above; retained for history): quiet, healthy run — nothing changed anywhere since the 2026-10-16 morning check-in; zero failing workflow runs across all four repos; no caretaker fix needed and nothing newly needs Anthony. -->
-The narrative below (migration to-do, heads-ups, standing gates) is unchanged this run. The only new activity since the last run is draft **#343** above; no default branch advanced (last real change to `main`: the 2026-10-15 Vital Vibes merges #340–#342, `7caa2db`→`ea2f57e`). `CI — voice-gateway` **#27 ✅** unchanged (no voice-gateway code this run). **vbfh `master` UNCHANGED at `75f9668`** (build `CI` **#35 ✅**); the "VBFH Daily Report — activation held" workflow stays manual `workflow_dispatch` only, so **#121 (10-01, green) remains the last run and no #122 auto-fires by design** (latest Daily-Run result = success). **Supabase migration set UNCHANGED** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302's `/customers/maracaibo-tables` game-seat surface unchanged, still flagged (owner merge → never reverted). Default branches re-verified live: amma `ea2f57e`, vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Nine** open amma drafts (#343/#277/#259/#238/#225/#221/#219/#218/#197 — eight unchanged author-held since 09-29, plus the new #343; all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony's approval (open draft heads excluded; never deleted unprompted).
+**Last updated:** 2026-10-17 (evening check-in, `claude-opus-4-8`). **Headline: healthy run — amma `main` advanced today via SEVEN of Anthony's OWN merges (#343–#349: Aji Ichiban/Elsa's Place + Havana 58 prospect menus & games, their QR artwork, Project Seed menu, and the traffic per-site report + mail/diagnostics code), all `CI — web` green and all guardrail-clean; zero failing workflow runs across all four repos, no caretaker fix needed, and nothing newly needs Anthony beyond the standing Supabase-migration to-do + the owner-side traffic-email activation (his test send today hit a Resend 400 — see heads-up).** **Default branches:** amma `main` ADVANCED `ea2f57e` (#342) → **`e0b44dd7`** (#349 "Preserve safe traffic-mail validation diagnostics"); `CI — web` **#414 ✅** (latest web run), `CI — voice-gateway` **#27 ✅** unchanged (no voice-gateway code this run); vbfh `master` UNCHANGED at `75f9668` (build `CI` **#35 ✅**); shadow `5113ce5` (dormant); EscapeTheBomb `eee6a37` (dormant). **Seven merges since the morning check-in — all Anthony's own, all guardrail-clean (file-list scans = 0 sensitive paths; no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets; migrations dir UNCHANGED):** #343 Aji/Elsa concept menus+game, #344 Aji/Elsa QR artwork, #345 Havana 58 Cuban-coffee menu+game, #346 Havana 58 QR artwork, #347 Project Seed illustrated menu, #348 per-site traffic reports + mail delivery, #349 traffic-mail validation diagnostics. (#343 was the morning's held draft — Anthony merged it himself.) **VBFH Daily Report — activation held: latest run still #121 (10-01) succeeded**, manual `workflow_dispatch` only, no #122 auto-fires by design. **Supabase migration set UNCHANGED** `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302's `/customers/maracaibo-tables` game-seat surface unchanged, still flagged. **Eight** open amma drafts now (#277/#259/#238/#225/#221/#219/#218/#197) — all unchanged author-held since ≤09-29; all Vercel ✅, no new human review comments. No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony's approval (never deleted unprompted).
+<!-- 2026-10-17 morning headline (superseded by the entry above; retained for history): healthy run — the only change org-wide since the 2026-10-16 evening check-in was ONE new guardrail-clean amma draft, #343 (Aji Ichiban + Elsa's Place prospect menus/games); no default branch moved, zero failing workflow runs across all four repos. -->
+The narrative below (migration to-do, heads-ups, standing gates) is unchanged this run except as noted. The new activity since the last run is the seven owner merges above (advancing `main` `ea2f57e`→`e0b44dd7`); the **traffic-email code (#348/#349) is now fully landed green** — only owner-side activation remains (see the `TRAFFIC_*` item + the new Resend-400 heads-up). `CI — voice-gateway` **#27 ✅** unchanged. **vbfh `master` UNCHANGED at `75f9668`** (build `CI` **#35 ✅**); the "VBFH Daily Report — activation held" workflow stays manual `workflow_dispatch` only, so **#121 (10-01, green) remains the last run and no #122 auto-fires by design** (latest Daily-Run result = success). **Supabase migration set UNCHANGED** at `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do for Anthony; #302's `/customers/maracaibo-tables` game-seat surface unchanged, still flagged (owner merge → never reverted). Default branches re-verified live: amma `e0b44dd7`, vbfh `75f9668`, shadow `5113ce5` (dormant), EscapeTheBomb `eee6a37`. **Zero failing workflow runs across all four repos this run.** shadow & EscapeTheBomb have no CI workflows (0 runs). **Eight** open amma drafts (#277/#259/#238/#225/#221/#219/#218/#197 — all unchanged author-held; all Vercel ✅; no new human review comments). No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question stays open; #29 stays closed (07-18). Branch cleanup still awaiting Anthony's approval (open draft heads excluded; never deleted unprompted).
 **Autonomy level:** fix + push + PRs + **merge green/safe PRs**; hard-guardrail PRs (Supabase / protected routes / access grants / secrets / Stripe / Square / POS / customer data / Twilio-SMS go-live) still wait for Anthony's explicit go-ahead. Drafts are held by their author and are not caretaker-merged. Supabase migrations are prepared as code only — **Anthony runs the SQL**.
 **Caretaker model:** pinned to **Opus 4.8** (`/model` is a CLI command, not runnable from the shell in this env; ran as configured `claude-opus-4-8`). Every summary leads with **👉 WHAT I NEED FROM YOU** in plain terms.
 **Reporting:** push notification + email summary after each twice-daily run, plus this file.
@@ -27,26 +27,28 @@ The narrative below (migration to-do, heads-ups, standing gates) is unchanged th
    in `0009` Marbel). **Skip any you've already run.** _(I never run SQL against Supabase — the migrations are prepared
    code; you run them.)_
 
-🆕 **New draft #343 "Aji Ichiban and Elsa's Place concept menus and games" is ready for your merge call.** Opened
-   today (10-17) on `codex/jacksonville-prospect-demos-20261017`. Two isolated noindex Fina Calle sales concepts at
-   `/aji-ichiban` and `/elsas-place` (12 verified menu names each, original illustrations, native disclosures,
-   persistent Play + Fina Calle footer) plus a collector game reusing an unchanged owned snapshot. 80 files, all under
-   `APP/web/{src,public}/*`, `DEMOS/jacksonville/*`, and `OPERATIONS/JACKSONVILLE/2026-10-17/*` evidence + queue/handoff.
-   **Caretaker guardrail read: guardrail-clean — 0 sensitive paths; no `/m/[id]`, `/owner/[id]`, `/customers`, no
-   Supabase/Stripe/Square/POS, no secrets; non-human food/illustration art with primitive fallback; `web` CI ✅ +
-   Vercel ✅; `mergeable_state: clean`.** The PR body says you approved the merge/deploy, **but it's a draft and I run
-   unattended on a schedule, so I don't auto-merge your drafts.** **Your call:** open the Vercel preview, then mark it
-   ready + merge yourself, or tell me "merge #343" and I will. No action needed if you want it held.
+🆕 **Heads-up — your traffic-email test send today got a provider (Resend) 400; no email was delivered.** The
+   diagnosis doc your #349 merge added (`APP/web/traffic/FAILED_TEST_DIAGNOSIS_20261017.md`) records that on 10-17 a
+   single authorized dispatch sent `POST /api/internal/traffic/morning` and the app's outbound call to Resend returned
+   **HTTP 400 in ~28ms** — app trigger auth and data/format were fine (so it is **not** a trigger-secret or DB problem),
+   but the email was rejected and nothing landed in the inbox. The exact cause is **unproven** (the old code discarded
+   the provider body); a 400 from Resend is most often an **invalid/malformed API key** or a payload validation error.
+   **#348/#349 are the fix-forward** — they add bounded, non-secret diagnostics so the next attempt reports a safe
+   category (`invalid_api_key` / `validation_error` / `invalid_idempotency_key`) instead of swallowing it. **What to do
+   if you want the traffic email live:** re-check that **`TRAFFIC_RESEND_API_KEY`** is a valid, active Resend key (and
+   `TRAFFIC_FROM_EMAIL` is on a Resend-verified sender domain), then run **one** more verification send and read the
+   returned category. **This is secrets/activation territory — I never handle the key values; this is yours.** Nothing
+   sends on its own.
 
-🆕 **Traffic morning-report email is now code-ready (optional — your own merge #305; only matters if you want it live).**
-   #305 isolated the daily traffic email onto **dedicated credentials** (`TRAFFIC_RESEND_API_KEY`, `TRAFFIC_FROM_EMAIL`,
-   `TRAFFIC_MORNING_REPORT_EMAIL`) with **no fallback** to the shared request/pitch mail, and made the native-cron Square
-   token refresh **fail closed** unless `SQUARE_REFRESH_CRON_ENABLED=true` (so adding report credentials can never
-   accidentally start refreshing Square). **To turn the traffic email on:** follow the runbook
-   `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` — set those 4 Production-only env vars yourself (plus `CRON_SECRET`),
-   redeploy, confirm readiness at the private `/api/internal/traffic/morning?dryRun=1` (no-send), then run **one**
-   verification send. **This is secrets/activation territory, so it's yours — I never handle secret values.** No action
-   if you don't want the email yet; nothing sends on its own (cron fails closed until configured).
+🆕 **Traffic morning-report email is code-complete (optional — only matters if you want it live).** Dedicated
+   credentials (`TRAFFIC_RESEND_API_KEY`, `TRAFFIC_FROM_EMAIL`, `TRAFFIC_MORNING_REPORT_EMAIL`), **no fallback** to the
+   shared request/pitch mail; native-cron Square token refresh **fails closed** unless `SQUARE_REFRESH_CRON_ENABLED=true`.
+   Today's #348 added per-site pageview reports + daily/weekly mail delivery; #349 added the safe failure diagnostics
+   above — all `CI — web` green and guardrail-clean (no Supabase/Stripe/Square schema change, no secrets in code).
+   **To turn it on:** follow `OPERATIONS/TRAFFIC_ONLY_ACTIVATION_20261004.md` — set those Production-only env vars
+   yourself (plus `CRON_SECRET`), redeploy, confirm readiness at the private `/api/internal/traffic/morning?dryRun=1`
+   (no-send), then run **one** verification send (see the Resend-400 heads-up above). **Secrets/activation territory —
+   yours; I never handle secret values.** Nothing sends on its own (cron fails closed until configured).
 
 🆕 **Heads-up (no fix needed, your own change): merge #302 added a page/API under the protected `/customers` route.**
    It added `APP/web/src/app/customers/maracaibo-tables/` (a staff "Table Visits Desk" page) and the `/api/maracaibo/tables`
@@ -94,10 +96,9 @@ _The items below are unchanged standing gates — no new action this run; listed
      `/m/[id]/page.tsx` + `lib/guest-menu.ts` — if that already fixed the `$0.00` display, let me know and I'll close
      the item.)_
 
-🆕 **Five demos/add-ons still open for your review & merge call (held drafts, guardrail-clean):**
-   - **#343 Aji Ichiban + Elsa's Place concept menus and games** — isolated `/aji-ichiban` + `/elsas-place` noindex
-     prospect menus + owned-snapshot collector game. `web` CI ✅, Vercel ✅, `mergeable_state: clean`. **New 10-17 — held;
-     see the dedicated item above.**
+🆕 **Four demos/add-ons still open for your review & merge call (held drafts, guardrail-clean):**
+   _(#343 Aji Ichiban + Elsa's Place was the only "new demo" item here last run; you merged it yourself today along with
+   the Havana 58 menu — both recorded under Merged/closed below. The remaining held drafts are unchanged:)_
    - **#277 Seasonal restaurant skins work orders** — docs-only (spec + 13-row CSV under
      `OPERATIONS/WORK_ORDERS/SEASONAL_SKINS/` + queue item 75, QUEUED/NOT STARTED). `mergeable_state: clean`, Vercel ✅.
      Body notes *"Commercial proposals still require review before release."* **Held.**
@@ -120,9 +121,17 @@ _The items below are unchanged standing gates — no new action this run; listed
 5. **(If not already done) Run the Marbel admin SQL** — folds into the `supabase db push` above (`0009`).
 6. **⛔ Branch cleanup — you approved it, the environment still physically blocks it.** `git push --delete` returns
    **HTTP 403 from the session's git proxy** (server-side) and the GitHub tooling here has no branch-delete API.
-   Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the nine open draft heads.
+   Paste-ready safe-to-delete commands are below; they run fine from your local clone. Excludes the eight open draft heads.
 
-_Resolved / no action needed from you:_ **amma #310/#311/#312 — your own merges** (10-05; `CI — web`
+_Resolved / no action needed from you:_ **amma #343/#344/#345/#346/#347/#348/#349 — your own merges** (10-17;
+`CI — web` green through #414; all guardrail-clean, file-list scans = 0 sensitive paths, migrations dir unchanged):
+#343 Aji Ichiban + Elsa's Place `/aji-ichiban` + `/elsas-place` concept menus & collector game, #344 their QR artwork
+downloads, #345 Havana 58 Cuban-coffee `/havana-58` menu & game concept, #346 Havana 58 QR artwork, #347 Project Seed
+illustrated menu + product navigation, #348 per-site traffic pageview reports + daily/weekly mail delivery, #349 bounded
+traffic-mail validation diagnostics. **No migration, no `/m/[id]`/`/owner/[id]`/`/customers`, no Stripe/Square/POS, no
+secrets in code; isolated prospect-menu/game + traffic-reporting code only.** (The traffic-email still needs owner-side
+activation + a valid Resend key — see the Resend-400 heads-up above; nothing sends on its own.) **recorded.**
+**amma #310/#311/#312 — your own merges** (10-05; `CI — web`
 #329/#331/#333 green; #310 Maracaibo lakefront-stadium SVG scenery, #311 full-screen Penalty Rush artwork, #312 internal
 isometric Command Center campus — game art + internal ops-directory UI; no migration, no `/m`/`/owner`/`/customers`, no
 Stripe/Square/POS, no secrets; recorded). **amma #307/#308/#309 — your own merges** (10-04→10-05; `CI — web`
@@ -156,30 +165,24 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ---
 
-## Build health (as of 2026-10-17, morning)
+## Build health (as of 2026-10-17, evening)
 
 > **✅ All columns re-verified live this run** — check-runs, Daily-Run workflow state, PR file-lists, and
-> default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.** **Morning run:
-> the only change since the 2026-10-16 evening check-in is new amma draft #343 (no default branch moved) —
-> amma `main` still `ea2f57e` (#342), vbfh `master` still `75f9668`, shadow `5113ce5`, EscapeTheBomb `eee6a37`;
-> the narrative below remains the latest state.**
+> default-branch tips read directly via API. **Zero failing workflow runs anywhere this run.** **Evening run:
+> amma `main` ADVANCED `ea2f57e` (#342) → `e0b44dd7` (#349) via SEVEN of Anthony's own merges (#343–#349), all
+> `CI — web` green and all guardrail-clean; vbfh `master` still `75f9668`, shadow `5113ce5`, EscapeTheBomb `eee6a37`.**
 
 | Repo | Build/CI | State |
 |---|---|---|
-| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`ea2f57e`** ("Refine Vital Vibes counter and scoped Fina Calle footer," #342, 10-15 12:26 UTC; **Anthony's own merge**, `CI — web` **#394 ✅**, the latest web run). **No main movement this run.** `CI — voice-gateway` **#27 ✅** unchanged. **NEW draft #343** (`codex/jacksonville-prospect-demos-20261017`, base `main` @ `ea2f57e`): `/aji-ichiban` + `/elsas-place` prospect menus + owned-snapshot collector game; 80 files under `APP/web/{src,public}/*`, `DEMOS/jacksonville/*`, `OPERATIONS/JACKSONVILLE/2026-10-17/*`; `web` CI ✅ + Vercel ✅, `mergeable_state: clean`. **Guardrail-clean (0 sensitive paths — no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets); author-held draft, not caretaker-merged.** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Nine** open drafts held (see Open PRs). |
+| amma-fina-calle | CI on main: web (lint + build), voice-gateway (typecheck) | main **green** — tip **`e0b44dd7`** ("Preserve safe traffic-mail validation diagnostics," #349, 10-17 21:29 UTC; **Anthony's own merge**, `CI — web` **#414 ✅**, the latest web run). **Main ADVANCED this run from `ea2f57e` (#342) via SEVEN owner merges #343–#349** (Aji/Elsa + Havana 58 prospect menus & games, their QR artwork, Project Seed menu, per-site traffic reports + mail delivery + diagnostics). `CI — voice-gateway` **#27 ✅** unchanged (no voice-gateway code this run). **All seven guardrail-clean (file-list scans = 0 sensitive paths — no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets); Anthony's own merges, recorded, not caretaker actions.** **Migration set UNCHANGED this run: `0015`–`0023` + `20261004094018_maracaibo_table_visits`** (+`0009`); #302's migration + its `/customers/maracaibo-tables` game-seat surface remain the standing items that need Anthony. **Eight** open drafts held (see Open PRs). |
 | vbfh-media-engine | CI on master (lint + tests); "VBFH Daily Run" **now manual-dispatch (activation held)** | Build **CI ✅** — master tip **`75f9668`** (unchanged; Anthony's own **#12** "Reduce daily email to results and standings per league," latest run **#35 ✅**). **⚠️ "VBFH Daily Run" is `activation held`:** the reliability wave (#9–#12) renamed the workflow and **removed its active `schedule:` trigger** (`75f9668` has `on: workflow_dispatch` only; workflow object state = `active`, but no cron). **Last automatic run was #121 (10-01, green ~24 min); no #122 fired or will auto-fire** — content now generates only on manual dispatch / owner-approved persistent-runner activation. Build is green; this is an intentional owner change, not a failure. **No caretaker code change needed or pushed.** Scheduled/dispatch mode stays zero-spend (AI/email off by default). **Zero open PRs.** |
 | shadow-engineer-rpa | No CI (local-only CLI by design) | Dormant, clean · no open PRs · no workflows (0 runs) · master tip `5113ce5`, last commit 2026-07-09 (re-verified) |
 | EscapeTheBomb-DC | No CI (Unreal project, cannot build in cloud) | **#1 merged** (M1 scaffolds, squash `eee6a37`, 2026-07-30; re-verified). zero open PRs · no workflows (0 runs). First Windows compile after pull is the real verify (M2 gate). |
 
 ## Open PRs
 
-- **amma #343 (draft) — "Add Aji Ichiban and Elsa's Place concept menus and games."** NEW 10-17. Head
-  `codex/jacksonville-prospect-demos-20261017`, base `main` @ `ea2f57e`. Two isolated noindex prospect menus at
-  `/aji-ichiban` + `/elsas-place` (12 verified names each, original illustrations, native disclosures, persistent Play +
-  Fina Calle footer) + a collector game reusing an unchanged owned snapshot. 80 files under `APP/web/{src,public}/*`,
-  `DEMOS/jacksonville/*`, `OPERATIONS/JACKSONVILLE/2026-10-17/*` + queue/handoff. `web` CI ✅, Vercel ✅,
-  `mergeable_state: clean`. **Guardrail-clean (0 sensitive paths).** Body claims owner approval to merge; it's a draft
-  on an unattended run, so **held — not caretaker-merged.** Only the Vercel bot has commented; no human review.
+_(#343 "Aji Ichiban and Elsa's Place concept menus and games" is no longer open — Anthony merged it himself today;
+see Merged/closed below. The eight drafts below are unchanged, author-held.)_
 - **amma #277 (draft, docs-only) — "preserve and queue seasonal restaurant skins work orders."** Head
   `codex/seasonal-skins-queue-20260929`, base `main`. Adds a 25-theme seasonal-skins spec + 13-row work-order CSV
   under `OPERATIONS/WORK_ORDERS/SEASONAL_SKINS/`, queue item 75 (QUEUED — NOT STARTED), and a handoff-log entry.
@@ -205,11 +208,18 @@ new `lib/guest-menu.ts`, no migration, printed Café Rush QR untouched; recorded
 
 ## Merged / closed since last run
 
-**Since the 2026-10-16 evening check-in, nothing merged or closed across all four repos.** The only org-wide PR
-activity was the opening of new amma draft **#343** (10-17, held — see Open PRs). amma `main` `ea2f57e` (#342), vbfh
-`75f9668`, shadow `5113ce5`, EscapeTheBomb `eee6a37` all unchanged; no new review comments on the other eight drafts;
-nothing closed unmerged. The Vital Vibes merges #340–#342 (10-15, advancing `7caa2db`→`ea2f57e`) remain the last real
-`main` change and are retained below for history.
+**Since the 2026-10-17 morning check-in, SEVEN amma PRs merged to `main` — all Anthony's own, all `CI — web` green,
+all guardrail-clean (file-list scans = 0 sensitive paths; migrations dir unchanged); nothing in vbfh/shadow/EscapeTheBomb
+moved; nothing closed unmerged.** `main` advanced `ea2f57e` (#342) → `e0b44dd7` (#349).
+
+- **amma #349 — "Preserve safe traffic-mail validation diagnostics."** Merged 10-17 21:29 UTC (`e0b44dd7`, current main tip), `CI — web` **#414 ✅**. Adds bounded, non-secret diagnostics so a failed traffic-mail send reports a safe category (`invalid_api_key` / `validation_error` / `invalid_idempotency_key`) instead of swallowing the provider error; adds `APP/web/traffic/FAILED_TEST_DIAGNOSIS_20261017.md` documenting today's Resend-400 test send. Touches `APP/web/scripts/traffic-*.mjs`, `APP/web/src/{app/api/internal/traffic/morning/route.ts,lib/traffic/morning-email.ts}` + OPERATIONS docs. **Traffic-email code only; env-var NAMES not values; no migration, no `/m`/`/owner`/`/customers`, no Stripe/Square/POS, no secrets.** **Anthony's own merge → recorded.**
+- **amma #348 — "Preserve live drain while adding per-site reports and mail delivery."** Merged 10-17 20:49 UTC (`629c4e7e`), `CI — web` **#412 ✅**. Adds per-site pageview collection + read-only daily/weekly traffic reports + mail delivery (combined Monday email), preserving the existing Neon traffic drain. 15 `APP/web` files + OPERATIONS/PROJECT_SEED docs. **0 sensitive paths; no Supabase migration, no protected routes, no Stripe/Square/secrets.** **Anthony's own merge → recorded.**
+- **amma #347 — "Give Project Seed an illustrated menu and clear product navigation."** Merged 10-17 15:52 UTC (`576c1ce6`), `CI — web` **#405 ✅**. Illustrated Project Seed menu + Seed Rush product art + category navigation + release-hold notes. `APP/web/{public,src,scripts}` + OPERATIONS/PROJECT_SEED docs. **0 sensitive paths; isolated prospect-menu/game art.** **Anthony's own merge → recorded.**
+- **amma #346 / #344 — "Publish verified Havana 58 / Aji & Elsa QR artwork downloads."** Merged 10-17 (`d4225ab0` / `da655550`). Public QR artwork + mobile previews for the new prospect menus; artwork/download files only. **Guardrail-clean.** **Anthony's own merges → recorded.**
+- **amma #345 — "Add Havana 58 Cuban coffee menu and game concept."** Merged 10-17 13:00 UTC (`b8d3bd83`). Isolated noindex `/havana-58` prospect menu + collector game concept; 52 files under `APP/web/{public,src}`, `DEMOS/havana58/*`, `OPERATIONS/HAVANA58/2026-10-17/*`. **0 sensitive paths; non-human food/illustration art; no migration/protected route/Stripe/Square/secrets.** **Anthony's own merge → recorded.**
+- **amma #343 — "Add Aji Ichiban and Elsa's Place concept menus and games."** Merged 10-17 12:48 UTC. The morning's held draft — Anthony merged it himself. Isolated noindex `/aji-ichiban` + `/elsas-place` prospect menus + owned-snapshot collector game; 80 files under `APP/web/{src,public}`, `DEMOS/jacksonville/*`, `OPERATIONS/JACKSONVILLE/2026-10-17/*`. **Guardrail-clean (0 sensitive paths).** **Anthony's own merge → recorded.**
+
+_Earlier history (the Vital Vibes merges #340–#342, 10-15, advancing `7caa2db`→`ea2f57e`) retained below._
 
 - **amma #342 — "Refine Vital Vibes counter and scoped Fina Calle footer."** Merged 10-15 12:26 UTC (`ea2f57e`, current main tip), `CI — web` **#394 ✅** (latest web run). Refines the Vital Vibes counter scene + adds a scoped Fina Calle footer; adds a photographic counter image + ingredient-doodle SVG. Touches `APP/web/{src/app,public,scripts}/vital-vibes/*` + `OPERATIONS/*` docs/evidence. **Isolated additive `/vital-vibes` prospect menu — no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS or secrets.** **Anthony's own merge → recorded.**
 - **amma #341 — "Add photoreal Vital Vibes item images and supplied logo."** Merged 10-15 11:04 UTC (`77815b0`), `CI — web` **#392 ✅**. Adds 51 AI food-item images (+ mobile thumbs) with lazy thumbnails + native AI/illustrative disclosures, and recovers the **owner-supplied** cup logo. Touches `APP/web/public/vital-vibes/*` (artwork.js + `assets/ai/*.webp`) + `app.js`. **AI images are non-human food items (no faces/club/event marks); the logo is owner-supplied, NOT AI-generated (guardrail-compliant); no protected route, no migration, no secrets.** **Anthony's own merge → recorded.**
@@ -221,7 +231,7 @@ nothing closed unmerged. The Vital Vibes merges #340–#342 (10-15, advancing `7
 Anthony has approved deletion, but the session git proxy returns **HTTP 403 on any `push --delete`**
 (server-side block, independent of permission), and the GitHub tooling here has no branch-delete API. Commands
 below remain for Anthony to paste from a local clone. **Verified KEEP:** `main`, `automation/status`, `claude/*`
-caretaker branches, **the nine open-draft heads** `codex/jacksonville-prospect-demos-20261017` (#343),
+caretaker branches, **the eight open-draft heads**
 `codex/seasonal-skins-queue-20260929` (#277), `claude/tech-research-integration-s66gw7` (#259),
 `claude/menu-control-app` (#238), `claude/instagram-dm-ordering-m8i210` (#225), `claude/blissful-darwin-gtt3su` (#221),
 `claude/las-palmas-loteria-hero` (#219), `claude/e-myth-ai-automation-gcetx0` (#218),
@@ -236,6 +246,8 @@ judgment). **Eligible** (merged since, no longer open-draft-protected): the eigh
 #305 (`codex/traffic-only-report-20261004`), #306 (`codex/maracaibo-flag-wave-20261004`), and the newest merged heads
 #307 (`codex/maracaibo-flag-ripple-20261004`), #308 (`codex/maracaibo-tequeno-keeper-20261004`),
 #309 (`codex/maracaibo-brand-refinement-20261004`) — add them to your local delete run.
+Also newly merge-eligible (merged 10-17): `codex/jacksonville-prospect-demos-20261017` (#343) plus the head branches of
+#344–#349 — add whichever your local clone still shows after pulling `main`.
 Still not auto-deleted here (proxy 403 + no branch-delete API).
 
 **amma-fina-calle** (verified merged or closed-superseded):
@@ -271,6 +283,7 @@ git -C vbfh-media-engine push origin --delete \
 
 ## Run log
 
+- **2026-10-17 (evening check-in, `claude-opus-4-8`):** **🟢 Healthy run — amma `main` advanced today via SEVEN of Anthony's OWN merges (#343–#349), all `CI — web` green and all guardrail-clean; zero failing workflow runs across all four repos; no caretaker fix needed; nothing newly needs Anthony beyond the standing Supabase-migration to-do + the owner-side traffic-email activation.** `main` moved `ea2f57e` (#342) → **`e0b44dd7`** (#349); latest `CI — web` **#414 ✅**, `CI — voice-gateway` **#27 ✅** unchanged. The seven: #343 Aji Ichiban + Elsa's Place `/aji-ichiban`+`/elsas-place` concept menus & collector game (the morning's held draft — Anthony merged it himself), #344 Aji/Elsa QR artwork, #345 Havana 58 `/havana-58` Cuban-coffee menu & game, #346 Havana 58 QR artwork, #347 Project Seed illustrated menu + product nav, #348 per-site traffic pageview reports + daily/weekly mail delivery, #349 bounded traffic-mail validation diagnostics. **File-list scans on each = 0 guardrail-sensitive paths** (no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS, secrets); **migrations dir UNCHANGED** (`0015`–`0023` + `20261004094018_maracaibo_table_visits`, +`0009`) — all Anthony's own merges → recorded, not caretaker actions. **Heads-up surfaced (owner territory, no action by caretaker):** #349's diagnosis doc (`APP/web/traffic/FAILED_TEST_DIAGNOSIS_20261017.md`) shows Anthony's traffic-email test send today got a Resend **HTTP 400** (app auth/data fine; email not delivered; cause unproven — likely API key / payload validation). #348/#349 are the green fix-forward adding safe diagnostics; turning the email on + verifying `TRAFFIC_RESEND_API_KEY` stays Anthony's (secrets/activation). **No change on other default branches:** vbfh `master` `75f9668` (build `CI` **#35 ✅**), VBFH Daily Report activation-held (#121 10-01 green, no #122 by design); shadow `5113ce5` (dormant); EscapeTheBomb `eee6a37` (dormant). **Eight** open amma drafts now (#277/#259/#238/#225/#221/#219/#218/#197 — #343 merged; all author-held, Vercel ✅, no new human review comments). vbfh/shadow/EscapeTheBomb have no open PRs; shadow & EscapeTheBomb have no CI workflows. No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question open; #29 closed (07-18). Branch cleanup still awaiting Anthony's approval (eight open-draft heads excluded; never deleted unprompted). Push notification + email sent.
 - **2026-10-17 (morning check-in, `claude-opus-4-8`):** **🟢 Healthy run — the only change org-wide since the 2026-10-16 evening check-in is ONE new guardrail-clean amma draft, #343 ("Add Aji Ichiban and Elsa's Place concept menus and games," head `codex/jacksonville-prospect-demos-20261017`, base `main` @ `ea2f57e`); no default branch moved, zero failing workflow runs across all four repos, no caretaker fix needed, nothing newly needs Anthony beyond the standing Supabase-migration to-do and his held-draft merge call on #343.** #343 (80 files, +1589) adds isolated `/aji-ichiban` + `/elsas-place` noindex prospect menus + an owned-snapshot collector game; files under `APP/web/{src,public}/*`, `DEMOS/jacksonville/*`, `OPERATIONS/JACKSONVILLE/2026-10-17/*` + queue/handoff; **file-list scan = 0 guardrail-sensitive paths** (no `/m/[id]`, `/owner/[id]`, `/customers`, Supabase, Stripe/Square/POS, secrets); `web` CI ✅ + Vercel ✅; `mergeable_state: clean`. Body claims owner approval to merge, but it is a **draft** and this is an unattended scheduled run → **author-held, not caretaker-merged** (flagged for Anthony's merge call). **No change across every default branch:** amma `main` UNCHANGED at `ea2f57e` (HEAD still #342; `CI — web` **#394 ✅**, `CI — voice-gateway` **#27 ✅**); vbfh `master` UNCHANGED at `75f9668` (build `CI` **#35 ✅**); shadow `5113ce5` (dormant, last commit 2026-07-09); EscapeTheBomb `eee6a37` (dormant, #1 merged 2026-07-30). **VBFH Daily Report — activation held: latest run still #121 (10-01) succeeded**, workflow object `active` but `on: workflow_dispatch` only, no #122 auto-fires by design. **No PRs merged/closed since last run** (org PR search `updated:>=2026-10-16` returned only #343). The other eight amma drafts (#277/#259/#238/#225/#221/#219/#218/#197) unchanged — author-held, Vercel ✅, no new human review comments. vbfh/shadow/EscapeTheBomb have no open PRs; shadow & EscapeTheBomb have no CI workflows (0 runs). **Supabase migration set UNCHANGED** `0015`–`0023` + `20261004094018_maracaibo_table_visits` (+`0009`) — still the one real standing to-do; #302's `/customers/maracaibo-tables` surface unchanged, still flagged. No merge-conflict/base-branch notices; GitHub API healthy all run. #218 governance question open; #29 closed (07-18). Branch cleanup still awaiting Anthony's approval (nine open-draft heads excluded; never deleted unprompted). Push notification + email sent.
 - **2026-10-16 (evening check-in, `claude-opus-4-8`):** **🟢 Quiet, healthy run — nothing changed anywhere since the 2026-10-16 morning check-in; nothing broke, no caretaker fix needed and nothing newly needs Anthony.** Zero failing workflow runs across all four repos. amma `main` UNCHANGED at `ea2f57e` (#342); vbfh `master` `75f9668` (CI #35 ✅); shadow `5113ce5`; EscapeTheBomb `eee6a37`. VBFH Daily Run #121 (10-01) succeeded, activation held. No new/merged/closed PRs since the morning run; eight amma drafts unchanged; Supabase migration set unchanged; GitHub API healthy. Push notification + email sent.
 - **2026-10-16 (morning check-in, `claude-opus-4-8`):** 🟢 Quiet, healthy run — nothing changed since the 2026-10-15 evening check-in; amma `main` `ea2f57e` (#342); vbfh `75f9668`; shadow/EscapeTheBomb dormant; VBFH Daily Run #121 held; migration set unchanged; eight drafts unchanged; GitHub API healthy. Push notification + email sent.
