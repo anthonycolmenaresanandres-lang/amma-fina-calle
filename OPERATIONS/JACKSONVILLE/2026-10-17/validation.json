@@ -1,0 +1,29 @@
+{
+  "QR": {
+    "quietZoneModules": 4,
+    "status": "PENDING",
+    "inMemoryReservedTargetTests": "PASS",
+    "reason": "Publication authorization and stable public URL proof required",
+    "encoder": "node-qrcode 1.5.4",
+    "independentDecoder": "jsQR"
+  },
+  "status": "LOCAL_READY_PUBLIC_QR_PENDING",
+  "branch": "codex/jacksonville-prospect-demos-20261017",
+  "remoteCI": "PENDING",
+  "browser": "evidence/browser-report.json",
+  "existingClients": "UNCHANGED",
+  "contrast": "evidence/contrast-menu-report.json",
+  "base": "ea2f57e4129c199640589d73a5269e6b8536be42",
+  "contracts": "contracts.json",
+  "ajiSmallTextContrast": 5.142575167412885,
+  "publication": "NOT ATTEMPTED",
+  "screenshots": 28,
+  "physicalPhone": "UNVERIFIED",
+  "lint": "PASS zero errors/warnings",
+  "build": {
+    "command": "node node_modules/next/dist/bin/next build --webpack",
+    "buildId": "JAZnIORfrf1dBUdNlqjal",
+    "pages": 58,
+    "status": "PASS"
+  }
+}
