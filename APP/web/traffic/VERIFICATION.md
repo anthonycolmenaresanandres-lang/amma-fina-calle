@@ -191,3 +191,26 @@ The test flag remains an enable window, not a durable one-shot latch. Parent mus
 coordinate one dispatch after direct user secret entry, inspect uncertain results
 without retry, read the actual message through Gmail and disable both test gates.
 No merge, credentials/configuration, migration, collection/monitoring or live send.
+
+## PASS - established production feed preservation
+
+Verified origin/main and successful Production deployment7142021412 at576c1ce.
+The initial new source gate would silently202/drop established ingestion with
+the flag absent/disabled, and the new parser would change IDs/attribution.
+The receiver now imports an isolated exact production dependency snapshot.
+
+Seven canonical source hashes and the original receiver Git blob are pinned.
+Only import isolation, preview blocking and generic error logging differ from
+the original receiver. Real old parser/writer run in local PGlite prove ingestion
+with new gates absent/disabled, original IDs/composite keys/pool defaults/schema,
+header/HMAC auth and replay dedup. New reports read those same rows SELECT-only
+without optional health schema or writer initialization.
+
+npm run traffic-morning:selftest (including continuity), traffic:selftest19groups,
+bodega-traffic:selftest and focused lint pass. Full local Webpack build exit0:
+38.9seconds compile,47seconds TypeScript,58static pages5.2seconds and final traces.
+No production SQL, payload, credential value, settings, migration, deployment,
+send or merge performed. Existing writer startup checks are preserved baseline
+behavior, not a new migration; report reads never invoke them.
+
+Recommended release flags and full evidence: ESTABLISHED_DRAIN_CONTINUITY.md.

@@ -1,3 +1,5 @@
+Established production drain continuity and exact off-flags: [ESTABLISHED_DRAIN_CONTINUITY.md](ESTABLISHED_DRAIN_CONTINUITY.md). The live feed is isolated from all optional new collector/report/mail gates; its existing configuration and behavior are preserved.
+
 Current mail-only continuation and exact credential/flag/cadence handoff: [MAIL_DELIVERY.md](MAIL_DELIVERY.md). This runbook supersedes the older proposed delivery/auth/scheduler details below. Report reads require no health-table migration. Parent holds scoped deployment/one-test approval; release and live send remain unperformed by this executor.
 
 # Traffic pipeline — prepared, not activated

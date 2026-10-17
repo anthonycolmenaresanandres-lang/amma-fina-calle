@@ -4,18 +4,17 @@
 // and return 200 quickly. Bot filtering is handled upstream by Vercel.
 
 import { NextResponse } from "next/server";
-import { verifyDrainRequest } from "@/lib/traffic/signature";
-import { parseDrainPayload } from "@/lib/traffic/parse-drain";
-import { getTrafficStore } from "@/lib/traffic/store";
-import { activeSource, boundedText } from "@/lib/traffic/first-party";
+import { verifyDrainRequest } from "@/lib/traffic/established-drain/signature";
+import { parseDrainPayload } from "@/lib/traffic/established-drain/parse-drain";
+import { getTrafficStore } from "@/lib/traffic/established-drain/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  if (process.env.VERCEL_ENV !== "production" || activeSource() !== "drain") return new Response(null, { status: 202 });
-  let rawBody: string;
-  try { rawBody = await boundedText(request, 65536); } catch { return new Response(null, { status: 413 }); }
+  // Keep the established production feed independent of new collector/mail gates.
+  if (process.env.VERCEL_ENV !== "production") return new Response(null, { status: 202 });
+  const rawBody = await request.text();
 
   const authorized = verifyDrainRequest({
     rawBody,

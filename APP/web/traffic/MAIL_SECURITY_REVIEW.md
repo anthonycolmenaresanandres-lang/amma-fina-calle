@@ -73,3 +73,7 @@ Credential names:
 No configuration changes, credential handling, schema migrations, monitoring or
 collection activation, production merge/deployment, dispatch or live email were
 performed by this executor.
+
+## Established feed preservation correction
+
+The pre-release source comparison found that the new source gate would disable the existing feed when absent/disabled, and new hashing/attribution would change telemetry even in drain mode. The current receiver uses a production-hash-pinned isolated ingestion chain. Only import isolation, preview blocking and error redaction differ at its route boundary. No mail capability/authentication widened. New optional collector/health gates stay off independently; source flag disabled does not stop established ingestion. Golden source and actual offline SQL regressions verify continuity; see ESTABLISHED_DRAIN_CONTINUITY.md. Production writer's pre-existing idempotent startup checks remain unchanged; new reporting reads never call them.

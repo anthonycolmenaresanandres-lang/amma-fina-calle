@@ -141,3 +141,7 @@ Read the actual message through connected Gmail, then turn both server and
 repository test gates off. The stable period key reduces duplicates within the
 provider window; it does not guarantee exactly-once delivery. Parent controls
 deployment and sends; this worker has performed neither.
+
+## Existing feed release prerequisite
+
+See ESTABLISHED_DRAIN_CONTINUITY.md. The established production drain is now isolated from optional new collection gates and retains its production parser/identifiers/attribution/writer/dedup/settings. Keep TRAFFIC_INGESTION_SOURCE=disabled (or absent) and TRAFFIC_HEALTH_RECORD_ENABLED=false; these do not stop the established feed. Preserve existing drain/database/Square configuration. Reporting stays SELECT-only. Do not deploy an earlier PR head containing the source gate on the live drain.
