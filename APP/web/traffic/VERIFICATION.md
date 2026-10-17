@@ -173,3 +173,21 @@ The native workflow stays disabled via false/absent repository variables and
 server flags until an approved test is actually read through connected Gmail.
 GitHub exact-time delivery is not guaranteed. Provider idempotency lasts 24 hours;
 there is no new durable send ledger. See MAIL_DELIVERY.md for exact handoff.
+
+## PASS - combined October Monday cadence correction
+
+October 19 and 26 now include independently queried yesterday and the previous
+completed Monday-Sunday week in one compact email, rather than omitting daily.
+November 2 and later Mondays send weekly only. No overlapping counts or distinct
+identifiers are added. New route/provider regressions prove two interval queries
+and one provider attempt, stable ordered-period key, separate daily/weekly values,
+raw-ID omission, provider-error redaction and unchanged enable/readback gates.
+
+Existing traffic tests, 19 pipeline groups, offline boundary/compatibility suites
+and focused ESLint pass. The corrected local Webpack build exited0: compilation
+39.2seconds, TypeScript61seconds, all58static pages6.6seconds, optimization/traces.
+Source security and operational limitations are in MAIL_SECURITY_REVIEW.md.
+The test flag remains an enable window, not a durable one-shot latch. Parent must
+coordinate one dispatch after direct user secret entry, inspect uncertain results
+without retry, read the actual message through Gmail and disable both test gates.
+No merge, credentials/configuration, migration, collection/monitoring or live send.

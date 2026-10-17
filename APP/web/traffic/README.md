@@ -57,8 +57,9 @@ custom recipients, custom date ranges or SQL. Every GET remains inspection only.
 
 Delivery, manual-test, readback and schedule gates are false by default.
 The prepared GitHub workflow also skips unless its repository variable is true.
-It selects yesterday daily October 18-31, with Monday replaced by a previous
-completed Monday-Sunday report; weekly Mondays continue afterward. Both UTC
+It selects yesterday daily October 18-31. October Mondays combine yesterday and
+an independently queried previous completed Monday-Sunday week in one short email;
+weekly-only Mondays continue afterward. Both UTC
 wake-ups are checked against the Eastern 8 a.m. hour. Weekly distinct counts
 come from an independent whole-week query.
 
@@ -76,7 +77,7 @@ owner test, then actual connected-Gmail readback before recurring activation.
 
 Existing Vercel/Neon/Resend plan quotas, current usage, overage settings and spending caps are **unverified**: read-only plan inspection stalled and was interrupted. Do not claim zero incremental cost. The local change installs no dependency or paid feature, but first-party requests, DB writes/storage/compute, health probes and email delivery consume resources.
 
-An all-site report currently executes up to 108 aggregate/read-only SELECTs (six per entry); query and pool limits bound concurrency, not total provider usage.
+One all-site period executes up to 108 aggregate/read-only SELECTs (six per entry). Combined October Mondays query two complete intervals independently, up to 216 SELECTs; query/pool limits bound concurrency, not total provider usage.
 
 At 18 registered entries, one whole-site health run performs up to 18 public page fetches, 18 prior-check SELECTs and 18 small check INSERTs, plus connection overhead. A 15-minute schedule would mean up to 1,728 page probes/day; review provider allowances before choosing cadence. No such schedule is configured. Per-instance admission controls do not constrain total distributed traffic spend; activation must verify an adequate existing hard provider cap or stop for a cost decision. No upgrade or new cap/account setting is authorized here.
 

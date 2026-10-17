@@ -43,3 +43,37 @@ export function renderTrafficPeriodReport(period: TrafficDeliveryPeriod, reports
     "Private dashboard: https://finacalleos.com/customers/traffic");
   return { subject: `Fina Calle traffic by site — ${date}`, text: lines.join("\n") };
 }
+
+export type TrafficReportBundle = { period: TrafficDeliveryPeriod; reports: TrafficReport[] };
+
+// Compact per-site update: overlapping periods stay separate and are never added.
+export function renderTrafficDeliveryReport(bundles: TrafficReportBundle[]) {
+  if (bundles.length < 1 || bundles.length > 2 ||
+    (bundles.length === 2 && (bundles[0].period.kind !== "daily" || bundles[1].period.kind !== "weekly" ||
+      bundles[0].period.last !== bundles[1].period.last))) throw new Error("INVALID_DELIVERY_PERIODS");
+  for (const { period, reports } of bundles) renderTrafficPeriodReport(period, reports); // registry completeness
+  const labels = bundles.map(({ period }) => period.kind === "daily" ? `Yesterday ${period.first}` : `Week ${period.first} through ${period.last}`);
+  const lines = [
+    "Production website traffic — America/New_York",
+    ...bundles.map(({ period }, index) => `${labels[index]}: [${period.range.since}, ${period.range.until})`),
+    "",
+    `Site | ${labels.join(" | ")}`,
+  ];
+  for (const site of TRAFFIC_SITES) {
+    const values = bundles.map(({ reports }) => {
+      const report = reports.find((row) => row.siteId === site.id)!;
+      const pageviews = report.state === "ready" ? report.pageviews : report.observedPageviews;
+      const identifiers = report.identifiedPageviews ? report.state === "ready" ? report.visitors : report.observedIdentifiers : undefined;
+      return pageviews === undefined ? `${report.state}: unavailable` :
+        `${pageviews} recorded pageviews; ${identifiers ?? "uncollected"} tracked identifiers; ${report.state}`;
+    });
+    lines.push(`${site.name} (${site.kind}) | ${values.join(" | ")}`);
+  }
+  lines.push("", "Each interval is queried independently; overlapping daily/weekly counts are not added.",
+    "Coverage is unverified. A recorded zero is not verified zero traffic; missing/unavailable data is not zero.",
+    "Tracked identifiers are not people. Anonymous first-party pageviews have no persistent identifier.",
+    "No combined cross-brand distinct total or physical QR-scan claim.",
+    "Private dashboard: https://finacalleos.com/customers/traffic");
+  const subjectPeriod = bundles.map(({ period }) => period.kind === "daily" ? period.first : `week ${period.first} through ${period.last}`).join(" + ");
+  return { subject: `Fina Calle traffic by site - ${subjectPeriod}`, text: lines.join("\n") };
+}

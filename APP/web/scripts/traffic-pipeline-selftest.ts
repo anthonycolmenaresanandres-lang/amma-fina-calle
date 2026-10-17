@@ -9,7 +9,7 @@ import { ALL_TRAFFIC_SITES, siteForPublicVisit } from "../src/lib/traffic/sites"
 import { sanitizePath } from "../src/lib/traffic/sanitize";
 import { parseFirstParty, AdmissionBudget, boundedText } from "../src/lib/traffic/first-party";
 import { parseDrainPayload } from "../src/lib/traffic/parse-drain";
-import { calendarRange, completeDays, previousEasternDay, previousCompletedWeek, scheduledTrafficPeriod } from "../src/lib/traffic/date";
+import { calendarRange, completeDays, previousEasternDay, previousCompletedWeek, scheduledTrafficPeriods } from "../src/lib/traffic/date";
 import { assessCoverage } from "../src/lib/traffic/coverage";
 import { __test } from "../src/lib/traffic/store";
 import type { CollectionCheck, NormalizedEvent } from "../src/lib/traffic/types";
@@ -169,27 +169,35 @@ check("latest failure does not hide the independent most recent successful probe
   assert.equal(assessment.state,"stale");assert.equal(assessment.complete,false);
 });
 
-check("daily cutoff, Monday weekly replacement, DST slots and completed weeks",()=>{
-  const plan=(date:string,slot="0 12 * * *")=>scheduledTrafficPeriod(slot,Date.parse(date));
+
+check("daily plus weekly Mondays, daily cutoff, DST slots and completed weeks",()=>{
+  const plan=(date:string,slot="0 12 * * *")=>scheduledTrafficPeriods(slot,Date.parse(date));
   assert.equal(plan("2026-10-17T12:00:00Z"),null);
   for(let day=18;day<=31;day++){
     const date="2026-10-"+day, instant=date+"T12:05:00Z";
-    const report=plan(instant)!;assert(report);
-    assert.equal(report.kind,[19,26].includes(day)?"weekly":"daily");
-    if(report.kind==="daily")assert.equal(report.last,new Date(Date.parse(date+"T00:00:00Z")-86400000).toISOString().slice(0,10));
+    const periods=plan(instant)!;assert(periods);
+    assert.deepEqual(periods.map(p=>p.kind),[19,26].includes(day)?["daily","weekly"]:["daily"]);
+    assert.equal(periods[0].last,new Date(Date.parse(date+"T00:00:00Z")-86400000).toISOString().slice(0,10));
   }
+  const oct19=plan("2026-10-19T12:00:00Z")!;
+  assert.equal(oct19[0].first,"2026-10-18");
+  assert.equal(oct19[1].first,"2026-10-12");assert.equal(oct19[1].last,"2026-10-18");
+  const oct26=plan("2026-10-26T12:00:00Z")!;
+  assert.equal(oct26[0].first,"2026-10-25");
+  assert.equal(oct26[1].first,"2026-10-19");assert.equal(oct26[1].last,"2026-10-25");
   assert.equal(plan("2026-10-19T13:00:00Z"),null);
   assert.equal(plan("2026-10-19T12:05:00Z","0 13 * * *"),null);
   assert.equal(plan("2026-11-01T13:00:00Z","0 13 * * *"),null);
   assert.equal(plan("2026-11-02T12:00:00Z"),null);
-  const autumn=plan("2026-11-02T13:00:00Z","0 13 * * *")!;
+  const november=plan("2026-11-02T13:00:00Z","0 13 * * *")!;
+  assert.deepEqual(november.map(p=>p.kind),["weekly"]);
+  const autumn=november[0];
   assert.equal(autumn.first,"2026-10-26");assert.equal(autumn.last,"2026-11-01");
   assert.equal((Date.parse(autumn.range.until)-Date.parse(autumn.range.since))/3600000,169);
   assert.equal(plan("2026-11-02T13:00:00Z","0 12 * * *"),null);
   assert.equal(plan("2026-11-03T13:00:00Z","0 13 * * *"),null);
-  const spring=plan("2027-03-15T12:00:00Z")!;assert.equal(spring.kind,"weekly");
-  const transition=previousCompletedWeek(Date.parse("2027-03-15T12:00:00Z"));
-  assert.equal((Date.parse(transition.range.until)-Date.parse(transition.range.since))/3600000,167);
+  const spring=plan("2027-03-15T12:00:00Z")!;assert.deepEqual(spring.map(p=>p.kind),["weekly"]);
+  assert.equal((Date.parse(spring[0].range.until)-Date.parse(spring[0].range.since))/3600000,167);
   const year=previousCompletedWeek(Date.parse("2027-01-04T13:00:00Z"));
   assert.equal(year.first,"2026-12-28");assert.equal(year.last,"2027-01-03");
 });

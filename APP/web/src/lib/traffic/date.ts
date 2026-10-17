@@ -121,9 +121,9 @@ export function previousCompletedWeek(now = Date.now()): TrafficDeliveryPeriod {
 
 /** Both UTC slots run; only the matching Eastern 08:00 hour may deliver.
  * Checking the original cron slot also rejects a delayed wrong-DST-slot job.
- * Mondays select weekly only, including during the temporary daily window.
+ * During the daily window, Monday includes daily plus weekly in one delivery.
  */
-export function scheduledTrafficPeriod(schedule: string, now = Date.now()): TrafficDeliveryPeriod | null {
+export function scheduledTrafficPeriods(schedule: string, now = Date.now()): TrafficDeliveryPeriod[] | null {
   const instant = new Date(now);
   const hour = Number(new Intl.DateTimeFormat("en-US", {
     timeZone: TRAFFIC_TIMEZONE, hour: "2-digit", hourCycle: "h23",
@@ -133,6 +133,8 @@ export function scheduledTrafficPeriod(schedule: string, now = Date.now()): Traf
   if ((slot !== 12 && slot !== 13) || schedule !== `0 ${slot} * * *`) return null;
   const today = dateStringInTz(TRAFFIC_TIMEZONE, now);
   if (today < "2026-10-18") return null;
-  if (new Date(`${today}T00:00:00Z`).getUTCDay() === 1) return previousCompletedWeek(now);
-  return today <= "2026-10-31" ? dailyTrafficPeriod(now) : null;
+  const periods: TrafficDeliveryPeriod[] = [];
+  if (today <= "2026-10-31") periods.push(dailyTrafficPeriod(now));
+  if (new Date(`${today}T00:00:00Z`).getUTCDay() === 1) periods.push(previousCompletedWeek(now));
+  return periods.length ? periods : null;
 }

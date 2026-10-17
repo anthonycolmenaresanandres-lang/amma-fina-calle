@@ -65,7 +65,7 @@ An all-source unavailable report is not sent.
 One provider POST attempt per trigger,15second timeout, redirects rejected.
 The scheduler client makes one request with45second timeout, no retry. Timeout
 or409 is uncertain: check the owner inbox before any manual intervention.
-The same kind/start/end always produces the same Resend idempotency key.
+The ordered daily/weekly period batch always produces the same Resend idempotency key.
 Resend retains keys for24hours; changed aggregate bodies can return409 rather
 than a new email. No durable delivery ledger or migration was introduced, so
 this is bounded delivery with provider deduplication, not an exactly-once promise.
@@ -82,8 +82,9 @@ matching the current08:00-08:59 America/New_York hour. A delayed wrong-DST-slot
 job is rejected too.
 
 - Daily sends: October18-31,2026, for yesterday's complete Eastern day.
-- Monday replaces the daily send with one previous completed Monday-Sunday
-  report; October19 and26 therefore do not send a second daily email.
+- October 19 and 26 combine yesterday and the previous completed Monday-Sunday
+  week in one short email. Both intervals are queried independently and remain
+  separate; neither daily totals nor daily distinct identifiers are added to the week.
 - After October31, Monday weekly reporting continues; other days skip.
 - The first weekly report onOctober19 coversOctober12-18.
 - Weekly distinct identifiers are queried across the whole week. Daily distinct
@@ -121,7 +122,7 @@ scheduler is introduced.
 - Real local in-memory SQL: whole-week distinct differs from daily sum;
   existing8columns survive absent/older health schema; SELECT-only report reads.
 - Eastern spring/fall day/week boundaries, year boundary, temporary daily cutoff,
-  Monday replacement, preview and token isolation, single-attempt failure paths.
+  Monday combined payload, preview and token isolation, single-attempt failure paths.
 - Focused lint/build evidence recorded in VERIFICATION.md after final checks.
 
 Official references checked October17,2026:
@@ -129,3 +130,14 @@ Official references checked October17,2026:
 - https://resend.com/docs/dashboard/emails/idempotency-keys
 - https://resend.com/docs/api-reference/errors
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
+
+## Single-test operational constraint
+
+The test flag is an enable window, not a durable one-shot latch. Parent must
+verify direct user secret entry and explicitly coordinate exactly one dispatch.
+No agent may dispatch merely because the flag is enabled. If the result is
+uncertain, do not retry: inspect provider acceptance and the owner inbox first.
+Read the actual message through connected Gmail, then turn both server and
+repository test gates off. The stable period key reduces duplicates within the
+provider window; it does not guarantee exactly-once delivery. Parent controls
+deployment and sends; this worker has performed neither.

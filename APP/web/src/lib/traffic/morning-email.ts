@@ -2,7 +2,7 @@ import "server-only";
 
 import type { TrafficReport } from "./site-traffic";
 import type { TrafficDeliveryPeriod } from "./date";
-import { renderTrafficPeriodReport } from "./morning-format";
+import { renderTrafficDeliveryReport, type TrafficReportBundle } from "./morning-format";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 export const VERIFIED_OWNER_EMAIL = "anthonycolmenaresanandres@gmail.com";
@@ -28,6 +28,12 @@ export function morningEmailStatus() {
 export async function sendTrafficPeriodReport(
   period: TrafficDeliveryPeriod, reports: TrafficReport[], mode: "test" | "scheduled",
 ): Promise<{ sent: boolean; reason?: string }> {
+  return sendTrafficDeliveryReport([{ period, reports }], mode);
+}
+
+export async function sendTrafficDeliveryReport(
+  bundles: TrafficReportBundle[], mode: "test" | "scheduled",
+): Promise<{ sent: boolean; reason?: string }> {
   if (!morningEmailStatus().enabled) return { sent: false, reason: "email_delivery_disabled" };
   if (mode === "test" && process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return { sent: false, reason: "test_delivery_disabled" };
   if (mode === "scheduled" && (process.env.TRAFFIC_SCHEDULE_ENABLED !== "true" ||
@@ -37,15 +43,16 @@ export async function sendTrafficPeriodReport(
   if (!apiKey || !from || !process.env.TRAFFIC_MORNING_REPORT_EMAIL?.trim()) return { sent: false, reason: "email_not_configured" };
   if (!morningEmailStatus().recipientValid) return { sent: false, reason: "invalid_report_recipient" };
   if (!validSender(from)) return { sent: false, reason: "invalid_report_sender" };
-  const content = renderTrafficPeriodReport(period, reports);
-  // One network attempt only, no automatic retries. The same period always uses
-  // the same key (also for a test during its scheduled delivery day).
+  const content = renderTrafficDeliveryReport(bundles);
+  const periodKey = bundles.map(({ period }) => `${period.kind}-${period.first}-${period.last}`).join("-and-");
+  // One network attempt only, no automatic retries. The same ordered period
+  // batch always uses the same key; this is not an exactly-once guarantee.
   try {
     const response = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json",
-        "Idempotency-Key": `fina-calle-traffic-${period.kind}-${period.first}-${period.last}`,
+        "Idempotency-Key": `fina-calle-traffic-${periodKey}`,
       },
       body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text }),
       cache: "no-store", redirect: "error", signal: AbortSignal.timeout(15000),

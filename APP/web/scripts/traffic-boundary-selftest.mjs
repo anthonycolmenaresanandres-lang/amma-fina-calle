@@ -122,22 +122,41 @@ for (const outcome of ['timeout',409,429,500]) {
   let attempts=0;
   const failureMail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async()=>{
     attempts++;if(outcome==='timeout')throw Error('unknown delivery outcome');
-    return new Response(null,{status:outcome});
+    return new Response("sensitive-provider-fixture",{status:outcome});
   });
   const failure=await failureMail.sendTrafficPeriodReport(period,result.reports,'test');
-  assert.equal(failure.sent,false);assert.equal(attempts,1);
+  assert.equal(failure.sent,false);assert.equal(attempts,1);assert(!JSON.stringify(failure).includes("sensitive-provider-fixture"));
   if(outcome==='timeout'||outcome===409)assert.equal(failure.reason,'delivery_outcome_unconfirmed');
 }
 console.log('PASS fixed recipient/verified sender, provider idempotency, one attempt and uncertain-outcome retry suppression');
+
+
+const combinedPeriods=dates.scheduledTrafficPeriods('0 12 * * *',Date.parse('2026-10-19T12:00:00Z'));
+const combinedBundles=combinedPeriods.map((period,index)=>({period,reports:result.reports.map(r=>({...r,state:'partial',reason:'Unverified coverage',observedPageviews:index?23:7,observedIdentifiers:index?4:2,identifiedPageviews:10,visitor_id:'do-not-output-raw-id'}))}));
+mailEnv.TRAFFIC_SCHEDULE_ENABLED='true';mailEnv.TRAFFIC_EMAIL_TEST_READBACK_CONFIRMED='true';
+const beforeCombined=sent;
+assert.equal((await mail.sendTrafficDeliveryReport(combinedBundles,'scheduled')).sent,true);
+assert.equal(sent,beforeCombined+1);
+const combinedDelivery=deliveries.at(-1),combinedContent=JSON.parse(combinedDelivery.options.body);
+assert(combinedContent.text.includes('Yesterday 2026-10-18'));assert(combinedContent.text.includes('Week 2026-10-12 through 2026-10-18'));
+assert(combinedContent.text.includes('7 recorded pageviews; 2 tracked identifiers'));
+assert(combinedContent.text.includes('23 recorded pageviews; 4 tracked identifiers'));
+assert(!combinedContent.text.includes('do-not-output-raw-id'));
+assert(!combinedContent.text.includes('30 recorded pageviews'));
+assert.equal(combinedDelivery.options.headers['Idempotency-Key'],'fina-calle-traffic-daily-2026-10-18-2026-10-18-and-weekly-2026-10-12-2026-10-18');
+assert.throws(()=>formatter.renderTrafficDeliveryReport([combinedBundles[1],combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
+assert.throws(()=>formatter.renderTrafficDeliveryReport([...combinedBundles,combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
+console.log('PASS one provider attempt and stable combined-period key; independent daily/weekly values remain distinct and raw IDs omitted');
+
 
 sent=0;
 const morningEnv={VERCEL_ENV:'preview',CRON_SECRET:'global-cron-fixture',TRAFFIC_MAIL_TRIGGER_SECRET:'mail-only-fixture-token-at-least-32-characters',TRAFFIC_EMAIL_ENABLED:'true'};
 let fixtureNow=Date.parse('2026-10-19T12:05:00Z');
 class FixtureDate extends Date { static now(){return fixtureNow;} }
-let queried=0;const queriedPeriods=[];
+let queried=0;const queriedPeriods=[],mailBatches=[];
 const morning=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':next,'@/lib/traffic/date':dates,
   '@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},
-  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficPeriodReport:async()=>{sent++;return {sent:true};}},
+  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficDeliveryReport:async bundles=>{sent++;mailBatches.push(bundles);return {sent:true};}},
   '@/lib/traffic/site-traffic':{getMorningTrafficReports:async()=>({date:'2026-10-18',reports:result.reports}),
     getTrafficPeriodReports:async p=>{queried++;queriedPeriods.push(p);return result.reports.map(r=>({...r,state:'partial',reason:'Unverified coverage'}));}}},
   morningEnv,undefined,FixtureDate);
@@ -160,12 +179,30 @@ assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12
 morningEnv.TRAFFIC_SCHEDULE_ENABLED='true';
 assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}))).status,503);assert.equal(sent,1);
 morningEnv.TRAFFIC_EMAIL_TEST_READBACK_CONFIRMED='true';
-assert.equal((await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}))).status,200);assert.equal(sent,2);
-assert.equal(queriedPeriods[1].kind,'weekly');assert.equal(queriedPeriods[1].first,'2026-10-12');assert.equal(queriedPeriods[1].last,'2026-10-18');
+const october19=await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}));
+assert.equal(october19.status,200);assert.equal(sent,2);assert.equal(queried,3);
+assert.deepEqual((await october19.json()).periods,[
+  {kind:'daily',first:'2026-10-18',last:'2026-10-18'},
+  {kind:'weekly',first:'2026-10-12',last:'2026-10-18'},
+]);
+assert.equal(mailBatches[1].length,2);
+assert.equal(queriedPeriods[1].kind,'daily');assert.equal(queriedPeriods[2].kind,'weekly');
 const wrongSlot=await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}));
-assert.equal((await wrongSlot.json()).skipped,true);assert.equal(sent,2);assert.equal(queried,2);
+assert.equal((await wrongSlot.json()).skipped,true);assert.equal(sent,2);assert.equal(queried,3);
+fixtureNow=Date.parse('2026-10-26T12:05:00Z');
+const october26=await morning.POST(morningRequest({mode:'scheduled',schedule:'0 12 * * *'}));
+assert.equal(sent,3);assert.equal(queried,5);
+assert.deepEqual((await october26.json()).periods,[
+  {kind:'daily',first:'2026-10-25',last:'2026-10-25'},
+  {kind:'weekly',first:'2026-10-19',last:'2026-10-25'},
+]);
+fixtureNow=Date.parse('2026-11-02T13:05:00Z');
+const november2=await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}));
+assert.equal(sent,4);assert.equal(queried,6);
+assert.deepEqual((await november2.json()).periods,[{kind:'weekly',first:'2026-10-26',last:'2026-11-01'}]);
+assert.equal(mailBatches[3].length,1);
 fixtureNow=Date.parse('2026-11-03T13:05:00Z');
-assert.equal((await (await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}))).json()).skipped,true);assert.equal(sent,2);
+assert.equal((await (await morning.POST(morningRequest({mode:'scheduled',schedule:'0 13 * * *'}))).json()).skipped,true);assert.equal(sent,4);
 assert(!JSON.parse(fs.readFileSync('vercel.json','utf8')).crons.some(cron=>cron.path.includes('/traffic/')));
 const workflow=fs.readFileSync('../../.github/workflows/traffic-report-mail.yml','utf8');
 assert(workflow.includes("vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true'"));assert(workflow.includes("vars.TRAFFIC_REPORT_TEST_ENABLED == 'true'"));
@@ -176,7 +213,7 @@ await assert.rejects(()=>triggerMail({TRAFFIC_MAIL_TRIGGER_SECRET:morningEnv.TRA
   triggerAttempts++;assert.equal(url,morningURL);assert.equal(JSON.parse(options.body).mode,'test');throw Error('timeout fixture');
 }));
 assert.equal(triggerAttempts,1);
-console.log('PASS GET cannot send; separate mail token, bounded fixed requests, readback gate and disabled scheduler');
+console.log('PASS combined Monday uses two independent queries and one send; November weekly only; restricted gates remain disabled');
 
 const healthPreview=load('src/app/api/internal/traffic/health/route.ts',{'../report/route':reportRoute,'node:crypto':crypto,'@/lib/traffic/sites':registry,'@/lib/traffic/store':store,'@/lib/traffic/first-party':first},{VERCEL_ENV:'preview',TRAFFIC_HEALTH_RECORD_ENABLED:'true',CRON_SECRET:'fixture-cron'});
 const beforeHealth=writes;assert.equal((await healthPreview.POST(new Request('https://preview.example.test/api/internal/traffic/health',{method:'POST',headers:{Authorization:'Bearer fixture-cron'}}))).status,503);assert.equal(writes,beforeHealth);

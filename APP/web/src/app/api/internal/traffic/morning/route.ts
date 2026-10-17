@@ -1,8 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getAdminContext } from "@/lib/admin/auth";
-import { dailyTrafficPeriod, scheduledTrafficPeriod } from "@/lib/traffic/date";
-import { morningEmailStatus, sendTrafficPeriodReport } from "@/lib/traffic/morning-email";
+import { dailyTrafficPeriod, scheduledTrafficPeriods } from "@/lib/traffic/date";
+import { morningEmailStatus, sendTrafficDeliveryReport } from "@/lib/traffic/morning-email";
 import { getMorningTrafficReports, getTrafficPeriodReports } from "@/lib/traffic/site-traffic";
 
 export const runtime = "nodejs";
@@ -66,11 +66,11 @@ export async function POST(request: Request) {
   } catch { return reply({ ok: false, reason: "invalid_request" }, 400); }
 
   const now = Date.now();
-  let period;
+  let periods;
   if (input.mode === "test") {
     if (input.schedule !== undefined) return reply({ ok: false, reason: "invalid_request" }, 400);
     if (process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return reply({ ok: false, reason: "test_delivery_disabled" }, 503);
-    period = dailyTrafficPeriod(now);
+    periods = [dailyTrafficPeriod(now)];
   } else if (input.mode === "scheduled") {
     if (typeof input.schedule !== "string" || !["0 12 * * *", "0 13 * * *"].includes(input.schedule)) {
       return reply({ ok: false, reason: "invalid_schedule" }, 400);
@@ -79,20 +79,25 @@ export async function POST(request: Request) {
       process.env.TRAFFIC_EMAIL_TEST_READBACK_CONFIRMED !== "true") {
       return reply({ ok: false, reason: "schedule_disabled_until_test_readback" }, 503);
     }
-    period = scheduledTrafficPeriod(input.schedule, now);
-    if (!period) return reply({ ok: true, skipped: true, reason: "outside_delivery_window" });
+    periods = scheduledTrafficPeriods(input.schedule, now);
+    if (!periods) return reply({ ok: true, skipped: true, reason: "outside_delivery_window" });
   } else return reply({ ok: false, reason: "invalid_mode" }, 400);
 
   try {
-    const reports = await getTrafficPeriodReports(period);
+    // Query both complete intervals independently, then make exactly one send.
+    const bundles = await Promise.all(periods.map(async (period) => ({
+      period, reports: await getTrafficPeriodReports(period),
+    })));
+    const reports = bundles.flatMap((bundle) => bundle.reports);
     // No provider call if every source is unavailable/unconfigured. Partial
     // records remain useful, with explicit unverified coverage in the email.
     if (reports.every((report) => report.state === "unconfigured" || report.state === "unavailable")) {
       return reply({ ok: false, reason: "report_data_unavailable" }, 503);
     }
-    const delivery = await sendTrafficPeriodReport(period, reports, input.mode);
-    return reply({ ok: delivery.sent, accepted: delivery.sent, kind: period.kind,
-      first: period.first, last: period.last, ...(!delivery.sent ? { reason: delivery.reason } : {}) },
+    const delivery = await sendTrafficDeliveryReport(bundles, input.mode);
+    return reply({ ok: delivery.sent, accepted: delivery.sent,
+      periods: periods.map(({ kind, first, last }) => ({ kind, first, last })),
+      ...(!delivery.sent ? { reason: delivery.reason } : {}) },
       delivery.sent ? 200 : 502);
   } catch { return reply({ ok: false, reason: "report_delivery_unconfirmed" }, 502); }
 }
