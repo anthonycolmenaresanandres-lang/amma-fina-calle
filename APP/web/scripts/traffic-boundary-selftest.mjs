@@ -129,6 +129,37 @@ for (const outcome of ['timeout',409,429,500]) {
   if(outcome==='timeout'||outcome===409)assert.equal(failure.reason,'delivery_outcome_unconfirmed');
 }
 console.log('PASS fixed recipient/verified sender, provider idempotency, one attempt and uncertain-outcome retry suppression');
+// Reconstruct the deployed non-secret payload contract offline. No provider IO.
+assert.equal(delivery.subject,'Fina Calle traffic by site - 2026-10-16');
+assert.equal(typeof delivery.text,'string');assert(delivery.text.length>0);
+assert.deepEqual(Object.keys(delivery).sort(),['from','subject','text','to']);
+assert.equal(deliveries[0].options.headers['Idempotency-Key'].length,46);
+assert(deliveries.every(({options})=>options.headers['Idempotency-Key'].length<=256));
+for (const [body,expected] of [
+  [{name:'invalid_idempotency_key',message:'private-fixture'},'invalid_idempotency_key'],
+  [{name:'validation_error',message:'API key is invalid'},'invalid_api_key'],
+  [{name:'validation_error',message:'private-fixture rejected field',secret:'private-fixture'},'validation_error'],
+  [{name:'unknown-private-fixture',message:'API key is invalid'},undefined],
+  [{name:'validation_error-private-fixture'},undefined],
+  [[],undefined],
+]) {
+  let attempts=0;
+  const diagnosticMail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async()=>{
+    attempts++;return Response.json(body,{status:400});
+  });
+  const diagnostic=await diagnosticMail.sendTrafficPeriodReport(period,result.reports,'test');
+  assert.equal(attempts,1);assert.equal(diagnostic.reason,'email_http_400');
+  assert.equal(diagnostic.providerError,expected);assert(!JSON.stringify(diagnostic).includes('private-fixture'));
+}
+for(const body of ['private-fixture-not-json',JSON.stringify({name:'validation_error',message:'private-fixture'.repeat(200)})]){
+  let attempts=0;
+  const diagnosticMail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async()=>{
+    attempts++;return new Response(body,{status:400});
+  });
+  const diagnostic=await diagnosticMail.sendTrafficPeriodReport(period,result.reports,'test');
+  assert.equal(attempts,1);assert.equal(diagnostic.reason,'email_http_400');assert.equal(diagnostic.providerError,undefined);
+}
+console.log('PASS offline deployed payload contract and bounded provider400 categories; raw messages omitted, one attempt only');
 
 
 const combinedPeriods=dates.scheduledTrafficPeriods('0 12 * * *',Date.parse('2026-10-19T12:00:00Z'));
@@ -144,6 +175,7 @@ assert(combinedContent.text.includes('23 recorded pageviews; 4 tracked identifie
 assert(!combinedContent.text.includes('do-not-output-raw-id'));
 assert(!combinedContent.text.includes('30 recorded pageviews'));
 assert.equal(combinedDelivery.options.headers['Idempotency-Key'],'fina-calle-traffic-daily-2026-10-18-2026-10-18-and-weekly-2026-10-12-2026-10-18');
+assert(combinedDelivery.options.headers['Idempotency-Key'].length<=256);
 assert.throws(()=>formatter.renderTrafficDeliveryReport([combinedBundles[1],combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
 assert.throws(()=>formatter.renderTrafficDeliveryReport([...combinedBundles,combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
 console.log('PASS one provider attempt and stable combined-period key; independent daily/weekly values remain distinct and raw IDs omitted');
@@ -153,10 +185,10 @@ sent=0;
 const morningEnv={VERCEL_ENV:'preview',CRON_SECRET:'global-cron-fixture',TRAFFIC_MAIL_TRIGGER_SECRET:'mail-only-fixture-token-at-least-32-characters',TRAFFIC_EMAIL_ENABLED:'true'};
 let fixtureNow=Date.parse('2026-10-19T12:05:00Z');
 class FixtureDate extends Date { static now(){return fixtureNow;} }
-let queried=0;const queriedPeriods=[],mailBatches=[];
+let queried=0;const queriedPeriods=[],mailBatches=[];let mailOutcome={sent:true};
 const morning=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':next,'@/lib/traffic/date':dates,
   '@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},
-  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficDeliveryReport:async bundles=>{sent++;mailBatches.push(bundles);return {sent:true};}},
+  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficDeliveryReport:async bundles=>{sent++;mailBatches.push(bundles);return mailOutcome;}},
   '@/lib/traffic/site-traffic':{getMorningTrafficReports:async()=>({date:'2026-10-18',reports:result.reports}),
     getTrafficPeriodReports:async p=>{queried++;queriedPeriods.push(p);return result.reports.map(r=>({...r,state:'partial',reason:'Unverified coverage'}));}}},
   morningEnv,undefined,FixtureDate);
@@ -214,6 +246,14 @@ await assert.rejects(()=>triggerMail({TRAFFIC_MAIL_TRIGGER_SECRET:morningEnv.TRA
 }));
 assert.equal(triggerAttempts,1);
 console.log('PASS combined Monday uses two independent queries and one send; November weekly only; restricted gates remain disabled');
+fixtureNow=Date.parse('2026-10-19T12:05:00Z');
+mailOutcome={sent:false,reason:'email_http_400',providerError:'validation_error'};
+const providerRejected=await morning.POST(morningRequest());
+assert.equal(providerRejected.status,502);
+const providerRejectedBody=await providerRejected.json();
+assert.equal(providerRejectedBody.reason,'email_http_400');assert.equal(providerRejectedBody.providerError,'validation_error');
+assert.equal(providerRejected.headers.get('Cache-Control'),'private, no-store');
+console.log('PASS authenticated route retains safe provider category with502 and no-store');
 
 const healthPreview=load('src/app/api/internal/traffic/health/route.ts',{'../report/route':reportRoute,'node:crypto':crypto,'@/lib/traffic/sites':registry,'@/lib/traffic/store':store,'@/lib/traffic/first-party':first},{VERCEL_ENV:'preview',TRAFFIC_HEALTH_RECORD_ENABLED:'true',CRON_SECRET:'fixture-cron'});
 const beforeHealth=writes;assert.equal((await healthPreview.POST(new Request('https://preview.example.test/api/internal/traffic/health',{method:'POST',headers:{Authorization:'Bearer fixture-cron'}}))).status,503);assert.equal(writes,beforeHealth);
