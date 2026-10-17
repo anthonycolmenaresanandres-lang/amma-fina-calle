@@ -1,0 +1,126 @@
+{
+  "results": [
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-cream-menu-320.png",
+      "file_id": "file_00000000ef0881f5b0d30867c500c759",
+      "library_file_id": "libfile_42f6db4ea26081918b77f622f0bdbb39",
+      "file_name": "project-seed-cream-menu-320.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 100741
+    },
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-cream-menu-390.png",
+      "file_id": "file_00000000511881f5aba340d5f96dcbff",
+      "library_file_id": "libfile_080dac48735c8191a1c79e47f9ac1d80",
+      "file_name": "project-seed-cream-menu-390.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 120191
+    },
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-cream-menu-1440.png",
+      "file_id": "file_000000009de481f5b6788fae3b33121d",
+      "library_file_id": "libfile_6035c9dd66a48191933c71e1a6b11ca2",
+      "file_name": "project-seed-cream-menu-1440.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 184220
+    },
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-integrated-footer-320.png",
+      "file_id": "file_00000000b7bc81f588376d96f8e2f8cb",
+      "library_file_id": "libfile_59c7c053684c81919f8b66c03958da5f",
+      "file_name": "project-seed-integrated-footer-320.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 51757
+    },
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-integrated-footer-390.png",
+      "file_id": "file_00000000c4e881f5b9fa26413fd7ccce",
+      "library_file_id": "libfile_0778ac9b55588191b17c868d6ef7d4b6",
+      "file_name": "project-seed-integrated-footer-390.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 54024
+    },
+    {
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/project-seed-integrated-footer-1440.png",
+      "file_id": "file_00000000714c81f5a97e741f9690cb8e",
+      "library_file_id": "libfile_f3adcf4b3c7c81919b5944affc1dc503",
+      "file_name": "project-seed-integrated-footer-1440.png",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_334656aa84dc8191882f6982c3c4bd20",
+      "mime_type": "image/png",
+      "library_artifact_type": "image",
+      "file_size_bytes": 80760
+    }
+  ],
+  "deliveryStatus": "all six Library saves confirmed",
+  "localMetadataStatus": "Windows os.setxattr unavailable; metadata helper failed, Library saves remain confirmed"
+}

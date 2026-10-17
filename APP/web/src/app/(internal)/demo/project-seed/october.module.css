@@ -1,4 +1,73 @@
-/* Seed-only red, blue, ivory and gold; native menu disclosures. */
-.seedPage{background:#a71930;color-scheme:dark}.seedPage>main>div{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}.seedPage>main>div>header{padding-top:28px;padding-bottom:24px}.seedPage .brandStage{width:220px;max-width:100%;padding-top:8px}.brandLogo{display:block;width:100%;height:auto;object-fit:contain;margin:auto}.heritage{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 0;color:#f7dccb;font-size:10px;letter-spacing:.08em;text-transform:uppercase}.heritage img{display:block;width:36px;height:18px}.navigation{position:sticky;top:0;z-index:20;background:#a71930}.navigation nav{position:static;border:0}.featured{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:24px 28px;padding:34px 0 20px}.featured h2{font-family:var(--font-geist-sans),sans-serif;font-size:clamp(38px,5vw,64px);line-height:1.08;font-weight:800;max-width:11ch}.heroProduct{display:block;width:min(100%,270px);height:auto;justify-self:end}.seasonalNote{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding-top:6px}.seasonalNote>span{color:#f7dccb;font-size:10px;letter-spacing:.07em;text-transform:uppercase}.seasonalNote a,.backToIndex{display:inline-flex;align-items:center;min-height:44px;color:#f2c85b;font-size:12px;font-weight:650;text-underline-offset:5px}.menuSections{display:block;grid-column:1/-1}.menuSections>section{border:0;scroll-margin-top:76px}.categoryDetails{min-width:0}.seedPage summary{list-style:none;cursor:pointer;touch-action:manipulation}.seedPage summary::-webkit-details-marker{display:none}.categorySummary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:80px;padding-block:16px}.categorySummary h2{flex:1;min-width:0;font-size:clamp(28px,3.4vw,40px);line-height:1.12;color:#fff7e8;font-weight:800}.categoryCue{display:grid;justify-items:end;gap:4px;flex-shrink:0;color:#f7dccb;font-size:10px;line-height:1.4;white-space:nowrap}.categoryCue .whenClosed,.categoryCue .whenOpen,.detailsCue{color:#f2c85b}.categorySummary:hover h2,.itemSummary:hover .itemName{color:#f2c85b}.whenOpen{display:none}.categoryDetails[open]>.categorySummary .whenClosed,.itemDetails[open]>.itemSummary .whenClosed{display:none}.categoryDetails[open]>.categorySummary .whenOpen,.itemDetails[open]>.itemSummary .whenOpen{display:inline}.categoryNote{max-width:52ch!important;margin:2px 0 14px!important;color:#f7dccb;font-size:13px;line-height:1.6}.itemList{display:block!important;columns:auto!important;list-style:none}.menuItem{border:0!important;scroll-margin-block:76px 130px;padding:0!important;break-inside:avoid}.itemDetails{min-width:0}.itemSummary{display:block;min-height:80px;padding-block:16px}.summaryContent{display:flex;align-items:center;justify-content:space-between;gap:12px}.summaryCopy{display:grid;gap:6px;min-width:0;flex:1}.itemName{font:650 18px/1.35 var(--font-geist-sans),sans-serif;overflow-wrap:anywhere;letter-spacing:-.01em}.itemPrice{color:#f7dccb;font:500 10px/1.5 var(--font-geist-mono),monospace;letter-spacing:.035em;text-transform:uppercase}.detailsCue{flex-shrink:0;font:500 10px/1.4 var(--font-geist-sans),sans-serif}.itemBody{padding:0 0 18px;color:#f7dccb;font-size:15px;line-height:1.6}.itemBody p+p{margin-top:7px}.backToIndex{margin-top:4px}.gameTeaser{border:0}.gameTeaser h2,.seedPage section[id="hours"] h2{font-size:clamp(30px,4vw,42px);line-height:1.12}.seedPage a.seedPlay{color:#fff7e8;background:#073b78;border:2px solid #073b78;box-shadow:4px 4px 0 #6f1024}.seedPage a.seedPlay:hover{color:#073b78;background:#fff7e8;border-color:#fff7e8}.playMark{display:grid;place-items:center;width:38px;padding-right:7px;border-right:1px solid #fff7e855}.playMark img{display:block;width:28px;height:28px;object-fit:contain}.seedPage h2[id="seed-review-title"]{font-size:clamp(26px,3.2vw,40px);line-height:1.12}.seedPage main>div>section[aria-labelledby="seed-review-title"]{border-top:0}.seedPage footer{border-top:0}.seedPage a[aria-label^="Powered by Fina Calle"]>span:last-child{background:#fff7e8;border:12px solid #fff7e8;border-radius:3px;box-sizing:content-box}.seedPage>main>div>a[href="#october-lattes"]{background:#fff7e8;color:#073b78}.seedPage summary:focus-visible{outline:3px solid #f2c85b;outline-offset:4px;scroll-margin-block:80px 130px}
-@media(max-width:699px){.seedPage .brandStage{width:180px}.featured{gap:20px 16px;padding-top:30px}.featured h2{font-size:clamp(34px,9.2vw,42px)}.heroProduct{max-width:170px}.categorySummary{gap:12px}.categorySummary h2{font-size:29px}.categoryCue{font-size:9px}.itemName{font-size:17px}.seedPage>main>div>header{padding-top:30px}}
-@media(max-width:359px){.seedPage .brandStage{width:160px}.featured h2{font-size:32px}.categorySummary h2{font-size:26px}.detailsCue{font-size:9px}.itemName{font-size:16px}}
+/* Project Seed: the approved print's warm paper, burgundy ink and original seal. */
+.seedPage{background:#fff7e8;color-scheme:light}
+.seedPage>main>div{padding-bottom:calc(146px + env(safe-area-inset-bottom,0px))}
+.seedPage>main>div>header{padding-top:40px;padding-bottom:28px}
+.seedPage .brandStage{position:relative;width:240px;max-width:100%;padding-top:8px}
+.brandLogo{display:block;width:100%;height:auto;object-fit:contain;margin:auto}
+.beanAccent{position:absolute;width:30px;height:auto;pointer-events:none}
+.beanLeft{left:-72px;top:36%;transform:rotate(-22deg)}
+.beanRight{right:-62px;top:64%;width:23px;transform:rotate(24deg)}
+.heritage{display:flex;align-items:center;justify-content:center;gap:10px;margin:16px 0 0;color:#72544d;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.heritage img{display:block;width:36px;height:18px}
+.navigation{position:sticky;top:0;z-index:20;background:#fff7e8}
+.navigation nav{position:static;border:0}
+.featured{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);align-items:center;gap:20px 28px;padding:36px 0 12px}
+.featured h2{font-family:var(--font-geist-sans),sans-serif;color:#a71930;font-size:clamp(38px,5vw,64px);line-height:1.08;font-weight:800;max-width:11ch}
+.seedPage [data-seed-lettering]>g:first-child{display:none}
+.heroProduct{display:block;width:min(100%,210px);height:auto;justify-self:center}
+.seasonalNote{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding-top:6px}
+.seasonalNote>span{color:#72544d;font-size:10px;letter-spacing:.07em;text-transform:uppercase}
+.seasonalNote a,.backToIndex{display:inline-flex;align-items:center;min-height:44px;color:#681d3d;font-size:12px;font-weight:650;text-underline-offset:5px}
+.menuSections{display:block;grid-column:1/-1}
+.menuSections>section{border:0;scroll-margin-top:76px}
+.categoryDetails{min-width:0}
+.seedPage summary{list-style:none;cursor:pointer;touch-action:manipulation}
+.seedPage summary::-webkit-details-marker{display:none}
+.categorySummary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:80px;padding-block:16px}
+.categorySummary h2{flex:1;min-width:0;font-size:clamp(28px,3.4vw,40px);line-height:1.12;color:#681d3d;font-weight:800}
+.categoryCue{display:grid;justify-items:end;gap:4px;flex-shrink:0;color:#72544d;font-size:10px;line-height:1.4;white-space:nowrap}
+.categoryCue .whenClosed,.categoryCue .whenOpen,.detailsCue{color:#681d3d}
+.categorySummary:hover h2,.itemSummary:hover .itemName{color:#a71930}
+.whenOpen{display:none}
+.categoryDetails[open]>.categorySummary .whenClosed,.itemDetails[open]>.itemSummary .whenClosed{display:none}
+.categoryDetails[open]>.categorySummary .whenOpen,.itemDetails[open]>.itemSummary .whenOpen{display:inline}
+.categoryNote{max-width:52ch!important;margin:2px 0 14px!important;color:#72544d;font-size:13px;line-height:1.6}
+.itemList{display:block!important;columns:auto!important;list-style:none}
+.menuItem{border:0!important;scroll-margin-block:76px 130px;padding:0!important;break-inside:avoid}
+.itemDetails{min-width:0}
+.itemSummary{display:block;min-height:80px;padding-block:16px}
+.summaryContent{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.summaryCopy{display:grid;gap:6px;min-width:0;flex:1}
+.itemName{font:650 18px/1.35 var(--font-geist-sans),sans-serif;overflow-wrap:anywhere;letter-spacing:-.01em}
+.itemPrice{color:#72544d;font:500 10px/1.5 var(--font-geist-mono),monospace;letter-spacing:.035em;text-transform:uppercase}
+.detailsCue{flex-shrink:0;font:500 10px/1.4 var(--font-geist-sans),sans-serif}
+.itemBody{padding:0 0 18px;color:#72544d;font-size:15px;line-height:1.6}
+.itemBody p+p{margin-top:7px}
+.backToIndex{margin-top:4px}
+.gameTeaser{border:0}
+.gameTeaser h2,.seedPage section[id="hours"] h2{font-size:clamp(30px,4vw,42px);line-height:1.12}
+.seedPage a.seedPlay{color:#fff7e8;background:#681d3d;border:2px solid #681d3d;box-shadow:none;border-radius:8px;transition:background 140ms ease,color 140ms ease}
+.seedPage a.seedPlay:hover{color:#fff7e8;background:#4f142d;border-color:#4f142d;box-shadow:none;transform:none}
+.seedPage a.seedPlay[id="seed-floating-play"]{grid-template-columns:30px minmax(0,1fr) 18px;gap:10px;width:min(258px,calc(100vw - 32px));min-height:64px;padding:10px 12px;left:auto;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.seedPage a.seedPlay[id="seed-floating-play"] strong{font-size:14px;letter-spacing:.02em}
+.playMark{display:grid;place-items:center;width:30px}
+.playMark img{display:block;width:28px;height:28px;object-fit:contain}
+.seedPage h2[id="seed-review-title"]{font-size:clamp(26px,3.2vw,40px);line-height:1.12}
+.seedPage main>div>section[aria-labelledby="seed-review-title"]{border:0;margin-bottom:12px;padding-bottom:32px}
+.seedPage footer{align-items:stretch;gap:22px;border-top:1px solid #dcc9b9;padding-top:26px}
+.footerCredit{display:flex;align-items:center;gap:16px;align-self:flex-start;max-width:100%;min-height:68px;color:#681d3d;text-decoration:none;touch-action:manipulation}
+.footerCredit img{display:block;flex:0 0 58px;width:58px;height:auto;object-fit:contain;filter:brightness(0)}
+.footerCreditCopy{display:grid;gap:4px;min-width:0}
+.footerCreditCopy small{font-size:10px;line-height:1.4;letter-spacing:.09em;text-transform:uppercase;color:#72544d}
+.footerCreditCopy strong{font-size:18px;line-height:1.25;font-weight:750}
+.footerCreditCopy>span{font-size:11px;line-height:1.5;color:#72544d}
+.footerCredit:hover strong{text-decoration:underline;text-underline-offset:4px}
+.footerRights{font-size:11px;line-height:1.6;color:#72544d;margin:0;max-width:48ch}
+.seedPage footer details{max-width:60ch}
+.seedPage footer summary{text-align:left}
+.seedPage>main>div>a[href="#october-lattes"]{background:#681d3d;color:#fff7e8}
+.seedPage summary:focus-visible,.footerCredit:focus-visible{outline:3px solid #073b78;outline-offset:4px;scroll-margin-block:80px 130px}
+.seedPage a:focus-visible{outline-color:#073b78}
+@media(max-width:699px){.seedPage .brandStage{width:200px}.featured{gap:20px 16px;padding-top:28px}.featured h2{font-size:clamp(34px,9.2vw,42px)}.heroProduct{max-width:128px}.categorySummary{gap:12px}.categorySummary h2{font-size:29px}.categoryCue{font-size:9px}.itemName{font-size:17px}.seedPage>main>div>header{padding-top:36px}.beanLeft{left:-46px;width:24px}.beanRight{right:-40px;width:19px}}
+@media(max-width:359px){.seedPage .brandStage{width:176px}.featured h2{font-size:32px}.categorySummary h2{font-size:26px}.detailsCue{font-size:9px}.itemName{font-size:16px}.beanLeft{left:-34px;width:20px}.beanRight{right:-30px;width:17px}.footerCredit{gap:12px}.footerCredit img{width:52px;flex-basis:52px}}
+@media(prefers-reduced-motion:reduce){.seedPage a.seedPlay{transition:none}}

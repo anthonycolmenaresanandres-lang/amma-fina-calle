@@ -6,7 +6,6 @@ import { VenueMenuNav, type VenueMenuNavSection } from "@/venue-menu/VenueMenuNa
 import { SeedMenuSection } from "./SeedMenuSection";
 import { SeedMenuNavigation } from "./SeedMenuNavigation";
 import { SeedLettering } from "./SeedLettering";
-import { FinaCalleSignature } from "../bodega/fina-calle-signature";
 import { MENU_CHECKED, OCTOBER_MENU_DATE, OFFICIAL_MENU_URL, OFFICIAL_ORDER_URL, octoberMenuGroups, octoberMenuIsLive, seedMenuGroups } from "./menu-data";
 import styles from "@/venue-menu/venue-menu.module.css";
 import seedStyles from "./october.module.css";
@@ -21,9 +20,9 @@ export const metadata: Metadata = {
 
 const artBase = "/assets/project-seed/seed-rush";
 const seedTheme = {
-  "--venue-ink": "#fff7e8", "--venue-muted": "#f7dccb", "--venue-line": "#c85362",
-  "--venue-surface": "#a71930", "--venue-accent": "#f2c85b", "--venue-heading": "#fff7e8", "--venue-hover": "#ffffff",
-  "--venue-shadow": "#6f1024", "--venue-soft": "#073b78",
+  "--venue-ink": "#681d3d", "--venue-muted": "#72544d", "--venue-line": "#dcc9b9",
+  "--venue-surface": "#fff7e8", "--venue-accent": "#a71930", "--venue-heading": "#681d3d", "--venue-hover": "#4f142d",
+  "--venue-shadow": "#e8d6c4", "--venue-soft": "#073b78",
 } as CSSProperties;
 const seedSections: VenueMenuNavSection[] = [
   { id: "october-lattes", label: "October" },
@@ -33,7 +32,9 @@ const seedSections: VenueMenuNavSection[] = [
 
 function SeedBrand() {
   return <div className={`${styles.sealStage} ${seedStyles.brandStage}`}>
-    <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-clean-v2.webp" alt="Project Seed Coffee circular logo" width={512} height={512} sizes="(max-width: 700px) 180px, 220px" priority />
+    <Image className={`${seedStyles.beanAccent} ${seedStyles.beanLeft}`} src="/assets/project-seed/brand/coffee-bean-illustration.svg" alt="" width={48} height={64} />
+    <Image className={`${seedStyles.beanAccent} ${seedStyles.beanRight}`} src="/assets/project-seed/brand/coffee-bean-illustration.svg" alt="" width={48} height={64} />
+    <Image className={seedStyles.brandLogo} src="/assets/project-seed/brand/project-seed-logo-clean-v2.webp" alt="Project Seed Coffee circular logo" width={512} height={512} sizes="(max-width: 359px) 176px, (max-width: 700px) 200px, 240px" priority />
     <div className={seedStyles.heritage}><Image src="/assets/project-seed/brand/philippines-flag.svg" alt="Philippine flag" width={36} height={18} /><span>Virginia Beach</span></div>
   </div>;
 }
@@ -49,7 +50,7 @@ function SeedRushLink({ floating = false }: { floating?: boolean }) {
 function SeedFeatured({ launched }: { launched: boolean }) {
   return <section id="seed-picks" className={seedStyles.featured} aria-labelledby="seed-picks-title">
     <h2 id="seed-picks-title"><SeedLettering text="Coffee. The Seed way." /></h2>
-    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-illustrated-v2.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 170px, 270px" priority />
+    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-illustrated-v2.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 128px, 210px" priority />
     <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Seasonal menu</a></div>
   </section>;
 }
@@ -86,7 +87,11 @@ export default function ProjectSeedMenuPage() {
       <div className={styles.noteForm}><p>Explore the menu, then check the restaurant&apos;s site for prices, availability, allergies, and pickup options.</p><div className={styles.visitLinks}><a href={OFFICIAL_MENU_URL} target="_blank" rel="noreferrer">Official menu ↗</a><a href={OFFICIAL_ORDER_URL} target="_blank" rel="noreferrer">Official pre-order ↗</a></div></div>
     </section>}
     footer={<>
-      <a className={styles.poweredBy} href="https://finacalleos.com" aria-label="Powered by Fina Calle — visit finacalleos.com"><span>Powered by</span><FinaCalleSignature /></a>
+      <a className={seedStyles.footerCredit} href="https://finacalleos.com" aria-label="Powered by Fina Calle - visit finacalleos.com">
+        <Image src="/assets/fina-calle/emblem-colattao.webp" alt="" width={460} height={488} sizes="58px" />
+        <span className={seedStyles.footerCreditCopy}><small>Powered by</small><strong>Fina Calle</strong></span>
+      </a>
+      <p className={seedStyles.footerRights}>Site design &amp; software &copy; {new Date().getUTCFullYear()} Fina Calle. All rights reserved.</p>
       <details id="review-notes"><summary>Menu details</summary><p>Concept preview, pending Project Seed approval. Regular menu wording follows the <a href={OFFICIAL_MENU_URL} target="_blank" rel="noreferrer">official menu</a>, checked {MENU_CHECKED}; October wording follows the supplied flyer. Ask staff about prices, availability, preparations, and allergies. Artwork is illustrative.</p></details>
     </>}
   /></SeedMenuNavigation>;
