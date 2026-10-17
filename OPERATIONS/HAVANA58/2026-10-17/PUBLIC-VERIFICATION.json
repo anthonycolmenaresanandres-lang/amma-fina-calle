@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "merge": "b8d3bd83c14fddef5a97373b7c991c3ac17d0572",
+  "deployment": "dpl_o7VHzutDwCrbKKF1L965VjERzwTa",
+  "checks": [
+    {
+      "url": "https://finacalleos.com/havana-58",
+      "status": 200,
+      "noindex": true,
+      "expectedContent": true
+    },
+    {
+      "url": "https://finacalleos.com/havana-58/play",
+      "status": 200,
+      "noindex": true,
+      "expectedContent": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/cafecito.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "a36250ca8fe6102f24a200e4fe473919d150ae9294bf6c75c724d51f3f3cd959"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/cake.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "2fcf6a6c33d4e48fb897b7df3d6e08931f77a239ed20edc226d9cacc5a545bb5"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/cappuccino.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "cf923ee301938b5e91ea7b11d06aa2140f6886498d0faaebdab4814521450f8a"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/croissant.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "bed3b2d654a996860abb8acc029957b66761479114b49e3d303e79663b945cbc"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/empanada.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "a4b62e2915ae0fd0a8fc9891af4e91c074981647a300ea9dbd0687d9b3a1ba6a"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/pastelito.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "13f434bf951c85c3964dac18a681db6ceb337064e6686260fa27a52b6c51994a"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/sandwich.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "75097aaa8c3ad561be70d6c9093bfea119af77360d6d7921b9cbb062c587ef3a"
+    },
+    {
+      "url": "https://finacalleos.com/assets/havana-58/scene.svg",
+      "status": 200,
+      "exactBytes": true,
+      "sha256": "0cf86d336b0142e26684b5fb21e7576de708821f1e040ca7094bbf7ef8253ef6"
+    }
+  ]
+}
