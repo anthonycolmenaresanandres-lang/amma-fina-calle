@@ -14,6 +14,36 @@ function validSender(from: string): boolean {
     from.replace(/>$/, "").toLowerCase().endsWith("@" + VERIFIED_SENDER_DOMAIN);
 }
 
+type ProviderValidationCategory = "invalid_idempotency_key" | "validation_error" | "invalid_api_key";
+type DeliveryResult = { sent: boolean; reason?: string; providerError?: ProviderValidationCategory };
+
+// Return fixed categories only. Never retain or expose arbitrary provider text,
+// payloads or headers. A provider 400 alone does not identify the invalid field.
+async function providerValidationCategory(response: Response): Promise<ProviderValidationCategory | undefined> {
+  if (response.status !== 400) return undefined;
+  try {
+    const reader = response.body?.getReader();
+    if (!reader) return undefined;
+    const chunks: Uint8Array[] = [];
+    let bytes = 0;
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > 2048) { await reader.cancel(); return undefined; }
+      chunks.push(value);
+    }
+    const result: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    if (!result || typeof result !== "object" || Array.isArray(result)) return undefined;
+    const error = result as { name?: unknown; message?: unknown };
+    if (error.name === "invalid_idempotency_key") return "invalid_idempotency_key";
+    if (error.name !== "validation_error") return undefined;
+    // Resend documents this exact fixed message for invalid Authorization.
+    // Do not include its message or infer which stored value caused it.
+    return error.message === "API key is invalid" ? "invalid_api_key" : "validation_error";
+  } catch { return undefined; }
+}
+
 /** Names/readiness only. Never return credentials or provider response payloads. */
 export function morningEmailStatus() {
   const missing = ["TRAFFIC_RESEND_API_KEY", "TRAFFIC_FROM_EMAIL", "TRAFFIC_MORNING_REPORT_EMAIL"]
@@ -27,13 +57,13 @@ export function morningEmailStatus() {
 
 export async function sendTrafficPeriodReport(
   period: TrafficDeliveryPeriod, reports: TrafficReport[], mode: "test" | "scheduled",
-): Promise<{ sent: boolean; reason?: string }> {
+): Promise<DeliveryResult> {
   return sendTrafficDeliveryReport([{ period, reports }], mode);
 }
 
 export async function sendTrafficDeliveryReport(
   bundles: TrafficReportBundle[], mode: "test" | "scheduled",
-): Promise<{ sent: boolean; reason?: string }> {
+): Promise<DeliveryResult> {
   if (!morningEmailStatus().enabled) return { sent: false, reason: "email_delivery_disabled" };
   if (mode === "test" && process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return { sent: false, reason: "test_delivery_disabled" };
   if (mode === "scheduled" && (process.env.TRAFFIC_SCHEDULE_ENABLED !== "true" ||
@@ -57,7 +87,11 @@ export async function sendTrafficDeliveryReport(
       body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text }),
       cache: "no-store", redirect: "error", signal: AbortSignal.timeout(15000),
     });
-    if (!response.ok) return { sent: false, reason: response.status === 409 ? "delivery_outcome_unconfirmed" : `email_http_${response.status}` };
+    if (!response.ok) {
+      const providerError = await providerValidationCategory(response);
+      return { sent: false, reason: response.status === 409 ? "delivery_outcome_unconfirmed" : `email_http_${response.status}`,
+        ...(providerError ? { providerError } : {}) };
+    }
     // A provider success means acceptance, not confirmed inbox delivery.
     return { sent: true };
   } catch {

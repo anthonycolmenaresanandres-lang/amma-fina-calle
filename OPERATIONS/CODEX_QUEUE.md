@@ -1285,3 +1285,6 @@ Parent requires unchanged existing Neon feed with optional new collector/monitor
 
 ## [x] Sanitized traffic-mail failure diagnostics - 2026-10-17
 Parent authorizes noncredential fixes supported by failed single-test evidence. Distinguish local configuration, HTTP rejection, provider response and uncertain transport using bounded allowlisted metadata; never emit raw errors/response bodies/headers/credentials. One attempt, no retries; existing ingestion and all delivery gates remain untouched/off. Offline tests and scoped lint; no new live send or enablement.
+
+## [x] Preserve safe provider validation details - 2026-10-17
+Parent's Vercel UI proves original request reached Resend and returned400; app trigger authentication succeeded. Authorizes offline minimal code/tests only. Check payload against official Resend contract, retain only bounded allowlisted provider category through authenticated route/client; no raw provider text or secrets, send, settings, push/deploy or ingestion changes.

@@ -11,6 +11,7 @@ const reasons = new Set([
   "invalid_report_recipient", "invalid_report_sender",
   "delivery_outcome_unconfirmed", "report_delivery_unconfirmed",
 ]);
+const providerErrors = new Set(["invalid_idempotency_key", "validation_error", "invalid_api_key"]);
 const beforeProvider = new Set([
   "unauthorized", "mail_trigger_not_configured", "unsupported_query", "invalid_request",
   "invalid_schedule", "invalid_mode", "test_delivery_disabled",
@@ -19,15 +20,16 @@ const beforeProvider = new Set([
   "invalid_report_sender",
 ]);
 class TriggerFailure extends Error {
-  constructor(code, phase, status, reason) {
+  constructor(code, phase, status, reason, providerError) {
     super("Traffic mail trigger unsuccessful");
-    this.code = code; this.phase = phase; this.status = status; this.reason = reason;
+    this.code = code; this.phase = phase; this.status = status; this.reason = reason; this.providerError = providerError;
   }
 }
 export function mailTriggerDiagnostic(error) {
   if (!(error instanceof TriggerFailure)) return { code: "outcome_unconfirmed", phase: "unknown" };
   return { code: error.code, phase: error.phase,
     ...(Number.isInteger(error.status) && error.status >= 100 && error.status <= 599 ? { status: error.status } : {}),
+    ...(error.phase === "provider_response" && providerErrors.has(error.providerError) ? { providerError: error.providerError } : {}),
     ...(typeof error.reason === "string" && (reasons.has(error.reason) || /^email_http_[45]\d{2}$/.test(error.reason)) ? { reason: error.reason } : {}),
   };
 }
@@ -49,7 +51,8 @@ async function boundedResult(response) {
     const reason = typeof result.reason === "string" &&
       (reasons.has(result.reason) || /^email_http_[45]\d{2}$/.test(result.reason)) ? result.reason : undefined;
     return { ok: result.ok === true, accepted: result.accepted === true,
-      skipped: result.skipped === true, reason };
+      skipped: result.skipped === true, reason,
+      providerError: reason === "email_http_400" && providerErrors.has(result.providerError) ? result.providerError : undefined };
   } catch { return null; }
 }
 export async function triggerMail(env = process.env, fetcher = fetch) {
@@ -74,7 +77,7 @@ export async function triggerMail(env = process.env, fetcher = fetch) {
   if (!response.ok) {
     const phase = beforeProvider.has(result?.reason) ? "before_provider" :
       /^email_http_[45]\d{2}$/.test(result?.reason ?? "") ? "provider_response" : "unknown";
-    throw new TriggerFailure("trigger_http_failure", phase, response.status, result?.reason);
+    throw new TriggerFailure("trigger_http_failure", phase, response.status, result?.reason, result?.providerError);
   }
   if (result?.ok && result.skipped && result.reason === "outside_delivery_window") {
     console.log("Skipped: outside the approved Eastern reporting window.");

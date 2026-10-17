@@ -97,7 +97,7 @@ export async function POST(request: Request) {
     const delivery = await sendTrafficDeliveryReport(bundles, input.mode);
     return reply({ ok: delivery.sent, accepted: delivery.sent,
       periods: periods.map(({ kind, first, last }) => ({ kind, first, last })),
-      ...(!delivery.sent ? { reason: delivery.reason } : {}) },
+      ...(!delivery.sent ? { reason: delivery.reason, ...(delivery.providerError ? { providerError: delivery.providerError } : {}) } : {}) },
       delivery.sent ? 200 : 502);
   } catch { return reply({ ok: false, reason: "report_delivery_unconfirmed" }, 502); }
 }

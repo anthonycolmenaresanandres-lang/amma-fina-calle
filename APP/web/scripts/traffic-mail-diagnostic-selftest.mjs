@@ -56,3 +56,14 @@ await triggerMail({ ...env, TRAFFIC_MAIL_TRIGGER_SECRET: " \n" + fixtureSecret +
 });
 assert.equal(acceptedCalls, 1); groups++;
 console.log(`PASS ${groups} offline mail diagnostic groups: safe phase/status codes, bounded bodies, matching token normalization and no retries; no live requests.`);
+
+for(const providerError of ['invalid_idempotency_key','validation_error','invalid_api_key']){
+  const result=await failure(async()=>Response.json({ok:false,reason:'email_http_400',providerError,message:'private-fixture'},{status:502}));
+  assert.equal(result.calls,1);assert.equal(result.diagnostic.phase,'provider_response');
+  assert.equal(result.diagnostic.providerError,providerError);assert(!JSON.stringify(result.diagnostic).includes('private-fixture'));groups++;
+}
+for(const [reason,providerError] of [['email_http_400','unknown-private-fixture'],['unauthorized','validation_error'],['email_http_500','validation_error']]){
+  const result=await failure(async()=>Response.json({ok:false,reason,providerError},{status:502}));
+  assert.equal(result.calls,1);assert(!('providerError' in result.diagnostic));groups++;
+}
+console.log('PASS6 offline provider-category client groups: explicit allowlist and matching400 only; no live requests.');
