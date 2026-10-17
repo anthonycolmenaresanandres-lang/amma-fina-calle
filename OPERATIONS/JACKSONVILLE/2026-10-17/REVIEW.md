@@ -1,0 +1,36 @@
+Both prospect menus and games are complete locally on `codex/jacksonville-prospect-demos-20261017`, based on `origin/main` `ea2f57e4129c199640589d73a5269e6b8536be42`.
+
+Worktree: `C:\dev\amma\worktrees\jacksonville-prospect-demos-20261017`.
+
+Implementation: `APP/web/src/app/aji-ichiban`, `APP/web/src/app/elsas-place` and the new isolated `APP/web/src/app/jacksonville-demos` module. Original art lives in each new venue's `APP/web/public/assets` directory. No existing client, shared runtime, dependency, configuration, live data or production files changed. Existing local worktrees were inspected and preserved. New scope is recorded in this branch's queue and handoff only.
+
+Aji: ivory/indigo/lacquer-red street-food counter, lanterns and bold plain typeset title. Elsa: warm cream/red, green/gold kitchen art, heavy serif title. Twelve exact verified menu names each, no prices or fixed hours, native category toggles, mobile persistent Play, clear demo identification and authentic Fina Calle emblem with site-software copyright. Elsa's existing website is linked. No official affiliation, ordering, payments or redeemable rewards.
+
+Games use an unchanged owned collector engine/rules snapshot; only venue configuration, illustrations and renderer differ. Three reachable layouts contain 72/116/170 pickups, score goals 1300/2200/3200, and one/two/three independent rivals using the existing gather/contest/hunt profiles. Stationary full-counter camera, no background tracking/zoom. Larger phone illustrations and less crowded food than the first capture. Explicit win/loss, score/goal/rival result, pause/resume, replay/level choice, menu return, touch, keyboard and button controls. All game art has primitive canvas fallback. Engine pickup IDs retain private inherited implementation handles; visible menu labels use only verified source names.
+
+Validation:
+
+- `node DEMOS/jacksonville/verify.cjs`: PASS. Exact 24 menu names, price omission, 12 food SVGs/two self-contained scenes, deterministic layouts, pickup spacing/starter budgets, maximum-size route connectivity and product reachability, frozen canonical/runtime engine hashes, pause/clock/end accounting, reciprocal capture threshold/hold, clear/win/loss and stationary camera contract. Receipt: `contracts.json`.
+- Scoped ESLint: PASS, zero errors/warnings on both new routes and the isolated demo module.
+- Production build: `node node_modules/next/dist/bin/next build --webpack` PASS with TypeScript and 58 generated pages, including all four new routes. Default remote CI/Turbopack is pending the publication decision.
+- Production browser QA: PASS. 320x740,390x844,1440x900 menus for both venues, no horizontal overflow, 72px persistent Play, noindex, exact item count, native category index opening, footer clearance and real emblem loading. Real CDP touch start/move/end, ArrowUp movement, frozen pause clock, live 45-second ending, explicit loss results, replay/menu return, and blocked-art primitive fallback.28 screenshots; zero uncaught JavaScript exceptions. Receipt: `evidence/browser-report.json`.
+- Contrast audit caught Aji's initial subdued small text at4.05:1; it is darkened to `#59665b`. Final targeted menu captures/receipt cover the correction. Game code is unchanged from the full browser pass.
+- QR encoder/independent decoder proof in memory passed both exact reserved URLs, with node-qrcode H correction and a four-module quiet zone. No final QR was saved because publication is not authorized and public reachability is not confirmed.
+
+Screenshots include `evidence/aji-ichiban-menu-390.png`, `evidence/elsas-place-menu-390.png`, both `*-category-390.png`, `*-footer-390.png`, `*-game-ready.png`, `*-game-running.png`, `*-game-pause.png`, `*-game-result.png` and `*-game-fallback.png`.
+
+Artwork: `artwork/aji-ichiban-print-DRAFT.png`, `artwork/elsas-place-print-DRAFT.png` are1500x2100 at300dpi (5x7in). Corresponding `*-mobile-DRAFT.png` are1080x1920. Editable SVG surrounds and `draft-manifest.json` are included. These deliberately contain a blank QR reservation marked pending public release. They are artwork drafts, not final scan-ready signs.
+
+Release/QR blocker — PENDING AUTHORIZATION, not denied or attempted: feature push, public PR, required exact-head CI, checked merge and deployment through the existing Fina Calle project. Repository `AGENTS.md` says “never push to main” and publication/production is human-gated. `.agents/skills/amma-video-game-visuals/SKILL.md` says “Stop before publish, deploy, customer send, paid generation, or external upload unless Anthony approved that exact boundary.” The delegation also explicitly excludes unauthorized public-source pushes. No production/access/spend boundary was crossed.
+
+Reserved targets, NOT live claims: `https://finacalleos.com/aji-ichiban` and `https://finacalleos.com/elsas-place`; game paths append `/play`. Existing same-host public deployment is the stable QR route; avoid a temporary protected preview URL. After publication, verify anonymous200 and exact content/assets, then run `node DEMOS/jacksonville/generate-artwork.cjs --final`. The generator refuses missing/redirected/wrong-content routes, creates QR programmatically, tests complete artwork at multiple resolutions with jsQR, and tests every quiet-zone pixel. Its independent decoder uses the existing local jsQR helper (or explicit `JSQR_PATH`). Generate final print/mobile outputs only after that passes, inspect them and export a print PDF if desired. No new service or credentials required.
+
+Local preview route: from `APP/web`, run `node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3125`, then visit `/aji-ichiban` and `/elsas-place`. Localhost is not suitable for phone QR distribution. Owned review servers/browsers are stopped at handoff.
+
+Remaining limitations: physical-device playtest and human difficulty tuning are unverified; browser touch was emulated. Clear win logic is covered by deterministic tests; observed browser rounds intentionally idle after a short input check and therefore demonstrate loss. Final public CI/deployment proof and scan-ready QR artwork await release authorization. No outreach, customer approval, spending, new installs, credentials or access changes.
+
+Read-only public checks: host fetch failed before an HTTP response for both reserved routes; web open also reported inaccessible. No404 or public-route availability claim is made. The prepared source has not been pushed or deployed.
+
+## Publication authorization received
+2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
+

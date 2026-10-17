@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "aji-ichiban",
+    "format": "print",
+    "status": "FINAL_QR",
+    "width": 1500,
+    "height": 2100,
+    "proposedUrl": "https://finacalleos.com/aji-ichiban",
+    "box": {
+      "x": 390,
+      "y": 1100,
+      "size": 720
+    },
+    "quietZoneModules": 4,
+    "dpi": 300,
+    "decodeTests": [
+      {
+        "width": 1500,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      },
+      {
+        "width": 750,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      },
+      {
+        "width": 450,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      }
+    ],
+    "quietZoneAllWhite": true
+  },
+  {
+    "slug": "aji-ichiban",
+    "format": "mobile",
+    "status": "FINAL_QR",
+    "width": 1080,
+    "height": 1920,
+    "proposedUrl": "https://finacalleos.com/aji-ichiban",
+    "box": {
+      "x": 292,
+      "y": 1030,
+      "size": 495
+    },
+    "quietZoneModules": 4,
+    "dpi": 144,
+    "decodeTests": [
+      {
+        "width": 1080,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/aji-ichiban"
+      }
+    ],
+    "quietZoneAllWhite": true
+  },
+  {
+    "slug": "elsas-place",
+    "format": "print",
+    "status": "FINAL_QR",
+    "width": 1500,
+    "height": 2100,
+    "proposedUrl": "https://finacalleos.com/elsas-place",
+    "box": {
+      "x": 390,
+      "y": 1100,
+      "size": 720
+    },
+    "quietZoneModules": 4,
+    "dpi": 300,
+    "decodeTests": [
+      {
+        "width": 1500,
+        "decoded": "https://finacalleos.com/elsas-place"
+      },
+      {
+        "width": 750,
+        "decoded": "https://finacalleos.com/elsas-place"
+      },
+      {
+        "width": 450,
+        "decoded": "https://finacalleos.com/elsas-place"
+      }
+    ],
+    "quietZoneAllWhite": true
+  },
+  {
+    "slug": "elsas-place",
+    "format": "mobile",
+    "status": "FINAL_QR",
+    "width": 1080,
+    "height": 1920,
+    "proposedUrl": "https://finacalleos.com/elsas-place",
+    "box": {
+      "x": 292,
+      "y": 1030,
+      "size": 495
+    },
+    "quietZoneModules": 4,
+    "dpi": 144,
+    "decodeTests": [
+      {
+        "width": 1080,
+        "decoded": "https://finacalleos.com/elsas-place"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/elsas-place"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/elsas-place"
+      }
+    ],
+    "quietZoneAllWhite": true
+  }
+]

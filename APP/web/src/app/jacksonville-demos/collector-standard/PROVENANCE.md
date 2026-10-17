@@ -1,0 +1,1 @@
+Unmodified owned collector-standard engine/rules copied from origin/main ea2f57e4129c199640589d73a5269e6b8536be42, originally pinned to 443de7d. Separate opt-in venue config/renderer; no existing client or canonical engine modified.

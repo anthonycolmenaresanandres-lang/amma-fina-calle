@@ -1,0 +1,111 @@
+{
+  "deployment": "dpl_3QkmEehNvSb8kqLbPKf6BbBgbYc1",
+  "merge": "15073816f22000f2c2ae3feb11270cc6dd784367",
+  "checks": [
+    {
+      "url": "https://finacalleos.com/aji-ichiban",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "url": "https://finacalleos.com/aji-ichiban/play",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/gyoza.svg",
+      "status": 200,
+      "sha256": "5ff561b15f0e3fe362cdadb4b07e24af6378cba089a5ea045d59cf01b2fa159c",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/katsu.svg",
+      "status": 200,
+      "sha256": "108fdaf1bddaa1882f2a5dd2932e976bb53f42c4a62ae4844fc24839971b7d58",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/lumpia.svg",
+      "status": 200,
+      "sha256": "e80561b0c15c30f0d25d3785aac1d3c93f67621bd3bcbbe9cccb8a7d64e7b13e",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/noodles.svg",
+      "status": 200,
+      "sha256": "b425c499dcd47b44bd80408069eaffdcd561c90541a16b7a0df5f6fa6597b2f2",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/scene.svg",
+      "status": 200,
+      "sha256": "28f6e5fb0b63275e7aca73bfb56186202954c4a683072592d82fcbc970a1069f",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/soba.svg",
+      "status": 200,
+      "sha256": "09896adbb462dba7979cc5fd3f5e65d35a176448eaf40f1a671c81badfe999b5",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/aji-ichiban/yakitori.svg",
+      "status": 200,
+      "sha256": "181ff1e93a4668c035c47f2fbe95320df2a1b4e1d356e3683830738448186c3f",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/elsas-place",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "url": "https://finacalleos.com/elsas-place/play",
+      "status": 200,
+      "noindex": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/curry.svg",
+      "status": 200,
+      "sha256": "f9b215064bc86e111668e57e81aa02f5f4a013e4b2d4bc46251f28caeebbfab2",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/fish.svg",
+      "status": 200,
+      "sha256": "74fc7d6d325bef1b446bc4b473bbe8d0915401426f1574d072c7011166b623c8",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/jerk.svg",
+      "status": 200,
+      "sha256": "a44ea5ab31852d3778dcf63172b75da743e7f80a9214076f97396cb026ee651c",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/patty.svg",
+      "status": 200,
+      "sha256": "fd68b7ce44b35c049cfb046f4a00c1e918545a610246a713b451e99675cdbe69",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/roti.svg",
+      "status": 200,
+      "sha256": "275a169cb0eff70d27e61ef8493963676a87521c06543b9e3e36f1a2fc8349ba",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/scene.svg",
+      "status": 200,
+      "sha256": "7acb292d9b13ddde03a46125fd591cd019ed15846a301f338b16ed4e4c742f9f",
+      "exactBytes": true
+    },
+    {
+      "url": "https://finacalleos.com/assets/elsas-place/shrimp.svg",
+      "status": 200,
+      "sha256": "0a111e4a9396aa90a803b20c551a532d48d66dafaf48079436d4327d5f0900f2",
+      "exactBytes": true
+    }
+  ],
+  "status": "PASS"
+}

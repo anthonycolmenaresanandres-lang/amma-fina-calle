@@ -1,0 +1,20 @@
+{
+  "items": 18,
+  "physicalPhone": "UNVERIFIED",
+  "screenshots": 14,
+  "QR": "Pending stable public URL",
+  "status": "LOCAL_VERIFIED_RELEASE_AUTHORIZED",
+  "lint": "PASS zero errors/warnings",
+  "build": {
+    "buildId": "u0m2IIl0_kuhJdRJsLUBO",
+    "command": "next build --webpack",
+    "pages": 60,
+    "status": "PASS"
+  },
+  "Toast": "External existing service only, no integration",
+  "categories": 6,
+  "contracts": "contracts.json",
+  "browser": "evidence/browser-report.json",
+  "otherClients": "UNCHANGED",
+  "branch": "codex/havana58-prospect-demo-20261017"
+}

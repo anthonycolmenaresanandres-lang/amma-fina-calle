@@ -3587,3 +3587,20 @@ Local-only isolated codex/project-seed-illustrated-art-20261017 from ea2f57e. In
 
 ## 2026-10-17 Project Seed illustrated art OUT — LOCAL REVIEW COMPLETE, DELIVERY PARTIAL
 Seven inspected generated2D illustrations integrated;122620bytes total, alpha256px. Only asset filename references and existing asset contracts changed in app source. Clean logo and13protectedsource files verified; focused lint/Seed checks, one webpack production54page build/types and bounded320/390/1440menu+390game/fallback review PASS. Before/after screenshots retained locally. QR source helper failed before bytes (prepare_materialize unavailable); no QR edit or decoding. Screenshot batch helper failed before preparation (prepare_uploads unavailable); no Library IDs or uncertain writes. Publication remains unrequested for this revision. No Jacksonville interaction. Owned3146server stopped/no listener. See OPERATIONS/PROJECT_SEED/2026-10-17/REVIEW.md.
+
+##2026-10-17 Jacksonville prospects IN
+Inspected canonical branch/worktrees/latest origin main without resets. Created isolated worktree codex/jacksonville-prospect-demos-20261017. Parent-verified Aji Ichiban/Elsa’s Place identities and12menu seeds each; no prices/hours/allergen claims. Reuse menu baseline, frozen collector snapshot, original vector food art and stationary camera. Local-only build/test/commit; public source push/release unapproved.
+
+##2026-10-17 Jacksonville prospects OUT — LOCAL READY / PUBLIC QR PENDING
+Both independent concepts and collector games complete; exact source-backed12items each, no prices/hours/recipes. New client namespaces only; unchanged canonical/runtime core. Final contracts/lint/build58pages/types/responsive320/390/1440/28screenshots/touch/keyboard/pause/explicitloss/replay/assetfallback PASS. Aji small-note contrast corrected5.14:1 and targetedmenu recapture PASS. Originalprint/mobile surrounddrafts saved; programmaticQRencoder/independentdecoder in-memory targetproof passes, finalQR awaits stablepublicroutes. No push/PR/merge/deploy/outreach/spend/newservice/credential/access change. Public GET check could not obtainHTTP; no reachability/404 claim. All task-owned browser/server processes stopped. Review and receipts in OPERATIONS/JACKSONVILLE/2026-10-17.
+
+
+## 2026-10-17 Jacksonville release IN — AUTHORIZED
+2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
+
+
+##2026-10-17 Havana58 IN —BUILD/PUBLICATION AUTHORIZED
+Separate codex/havana58-prospect-demo-20261017 fromd6922e8.18parent-verifiedToastmenu names, source-backedcharcoal/gold/coffee identity, no photos/logo reuse/prices/hours/ZIP/recipes. Newmenu/game/QRonly, preserveexternalToastflow with no integrationclaim; requiredtests/CI/checkedmerge/publicproof. No spending/access/credentials/customer-systemedits/outreach. Aji/Elsa release is independent.
+
+## 2026-10-17 Project Seed artwork publication IN - AUTHORIZED
+Anthony clarified the separate print QR request, then explicitly said "But publish this as well please"; parent confirms this authorizes the already-previewed menu/game illustration revision da74860. Reconcile current main d4225ab, preserve both append-only logs and Jacksonville/Havana source/assets/releases. Scope remains seven assets and filename references, no menu/prices/rules changes. Run relevant checks, feature push/draft PR/exact-head required CI/guarded merge/production verification. Separate simplified QR print source materialization reaches Windows metadata failure (os.setxattr unavailable), no finalized source pixels; no QR edit attempted. Library delivery of three menu/game review images is now confirmed via supported direct-create fallback; local identity metadata unsupported on Windows.

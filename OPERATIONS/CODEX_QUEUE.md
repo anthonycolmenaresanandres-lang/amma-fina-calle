@@ -1253,3 +1253,17 @@ Local completion: scoped selftest/lint, production build (54 static pages), six-
 
 ## [x] Project Seed illustrated menu/game artwork — 2026-10-17 LOCAL REVISION
 Anthony requested more animated, less realistic artwork. Isolated codex/project-seed-illustrated-art-20261017 from ea2f57e. Seven original transparent256px illustrations replace six photographic product cutouts and rendered Aswang via versioned filenames, including menu hero/Play icons and game. Logo/menu33items/prices/disclosures/rules/backdrops/otherclients preserved. Focused lint/Seed contracts/13-source-and-logo preservation/build54pages/types/8-case bounded production mobile+fallback review PASS. All task-owned servers stopped. No publication authorization. QR Library source download unavailable; QR unchanged/undecoded. Required screenshot Library upload unavailable before preparation; local screenshots retained. Evidence: OPERATIONS/PROJECT_SEED/2026-10-17/REVIEW.md.
+
+## [ ] Jacksonville two prospect demos —2026-10-17
+Authority: Anthony delegated local menu/game/QR artwork builds for verified Aji Ichiban and Elsa’s Place. Isolated codex/jacksonville-prospect-demos-20261017 from origin/main ea2f57e. Scope only new venue namespaces, new jacksonville-demos module, original assets and operations records. PASS: content/art/frozen-core tests, lint/build, mobile/browser evidence. STOP: push/PR/merge/deploy, services/spend/access/credentials/outreach. Final QR awaits stable reachable demo URLs and publication authorization.
+
+Jacksonville checkpoint: LOCAL READY. Both menus/games, exact24names, original14SVGart, stationary3-level collector, footer/disclosures/Play complete. Contracts/scoped lint/final58-page production build/TypeScript and28screenshots with real emulated touch, keyboard, pause/results/replay/fallback PASS. Final contrast correction5.14:1/menu recapture PASS. Print300dpi/mobile surrounds are DRAFT with no QR. Public-source push/PR/CI/merge/deploy and finalQR remain pending explicit release authorization. Review: OPERATIONS/JACKSONVILLE/2026-10-17/REVIEW.md.
+
+2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
+
+
+##2026-10-17 Havana58 IN —BUILD/PUBLICATION AUTHORIZED
+Separate codex/havana58-prospect-demo-20261017 fromd6922e8.18parent-verifiedToastmenu names, source-backedcharcoal/gold/coffee identity, no photos/logo reuse/prices/hours/ZIP/recipes. Newmenu/game/QRonly, preserveexternalToastflow with no integrationclaim; requiredtests/CI/checkedmerge/publicproof. No spending/access/credentials/customer-systemedits/outreach. Aji/Elsa release is independent.
+
+Havana58 LOCAL PASS:18source-backeditems/6categories/originalgold-charcoalcoffeeart/frozen3levelcollector complete. Contracts/scopedlint/build60pages/types/browser320/390/1440/touch/keyboard/pause/results/replay/fallback14screenshots PASS. FeaturePR/CI/checkedmerge/productionproof/finalQR next under explicit approval. No other client/sharedengine/config/dependency change. Review: OPERATIONS/HAVANA58/2026-10-17/REVIEW.md.
+

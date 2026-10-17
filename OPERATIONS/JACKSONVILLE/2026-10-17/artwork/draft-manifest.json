@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "aji-ichiban",
+    "format": "print",
+    "status": "DRAFT_NO_QR",
+    "width": 1500,
+    "height": 2100,
+    "proposedUrl": "https://finacalleos.com/aji-ichiban",
+    "box": {
+      "x": 390,
+      "y": 1100,
+      "size": 720
+    },
+    "quietZoneModules": null,
+    "dpi": 300
+  },
+  {
+    "slug": "aji-ichiban",
+    "format": "mobile",
+    "status": "DRAFT_NO_QR",
+    "width": 1080,
+    "height": 1920,
+    "proposedUrl": "https://finacalleos.com/aji-ichiban",
+    "box": {
+      "x": 281,
+      "y": 1030,
+      "size": 518
+    },
+    "quietZoneModules": null,
+    "dpi": 144
+  },
+  {
+    "slug": "elsas-place",
+    "format": "print",
+    "status": "DRAFT_NO_QR",
+    "width": 1500,
+    "height": 2100,
+    "proposedUrl": "https://finacalleos.com/elsas-place",
+    "box": {
+      "x": 390,
+      "y": 1100,
+      "size": 720
+    },
+    "quietZoneModules": null,
+    "dpi": 300
+  },
+  {
+    "slug": "elsas-place",
+    "format": "mobile",
+    "status": "DRAFT_NO_QR",
+    "width": 1080,
+    "height": 1920,
+    "proposedUrl": "https://finacalleos.com/elsas-place",
+    "box": {
+      "x": 281,
+      "y": 1030,
+      "size": 518
+    },
+    "quietZoneModules": null,
+    "dpi": 144
+  }
+]
