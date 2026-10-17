@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "havana-58",
+    "format": "print",
+    "status": "FINAL_QR",
+    "width": 1500,
+    "height": 2100,
+    "proposedUrl": "https://finacalleos.com/havana-58",
+    "box": {
+      "x": 401,
+      "y": 1100,
+      "size": 697
+    },
+    "quietZoneModules": 4,
+    "dpi": 300,
+    "decodeTests": [
+      {
+        "width": 1500,
+        "decoded": "https://finacalleos.com/havana-58"
+      },
+      {
+        "width": 750,
+        "decoded": "https://finacalleos.com/havana-58"
+      },
+      {
+        "width": 450,
+        "decoded": "https://finacalleos.com/havana-58"
+      }
+    ],
+    "quietZoneAllWhite": true
+  },
+  {
+    "slug": "havana-58",
+    "format": "mobile",
+    "status": "FINAL_QR",
+    "width": 1080,
+    "height": 1920,
+    "proposedUrl": "https://finacalleos.com/havana-58",
+    "box": {
+      "x": 294,
+      "y": 1030,
+      "size": 492
+    },
+    "quietZoneModules": 4,
+    "dpi": 144,
+    "decodeTests": [
+      {
+        "width": 1080,
+        "decoded": "https://finacalleos.com/havana-58"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/havana-58"
+      },
+      {
+        "width": 540,
+        "decoded": "https://finacalleos.com/havana-58"
+      }
+    ],
+    "quietZoneAllWhite": true
+  }
+]
