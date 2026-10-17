@@ -1288,3 +1288,9 @@ Parent authorizes noncredential fixes supported by failed single-test evidence. 
 
 ## [x] Preserve safe provider validation details - 2026-10-17
 Parent's Vercel UI proves original request reached Resend and returned400; app trigger authentication succeeded. Authorizes offline minimal code/tests only. Check payload against official Resend contract, retain only bounded allowlisted provider category through authenticated route/client; no raw provider text or secrets, send, settings, push/deploy or ingestion changes.
+
+## 2026-10-17 Owner account onboarding - local only
+Authorized continuation from 388fa45: private account staging, verified owner association, safe menu adapter preview, owner request status and synthetic tests. No pilot chosen; no live onboarding, grant, migration, credentials, sends, automatic activation, push or deploy. Worktree codex/owner-request-audit-20261017 only.
+
+### Owner account onboarding OUT — local preparation complete
+Implementation, 231 focused/regression checks, build and mobile preview evidence complete; all activation remains off. See OWNER_ACCOUNT_ONBOARDING_20261017.md and OWNER_ACCOUNT_VERIFICATION_20261017.md. No chosen pilot or live owner enrollment. Public promotion/certified publishing adapter/readback, policy approval, hosted Auth/concurrency/advisors and routine rollout UX/diagnostics remain release requirements.

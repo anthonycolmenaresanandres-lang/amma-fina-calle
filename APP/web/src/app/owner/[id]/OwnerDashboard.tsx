@@ -131,6 +131,7 @@ export default function OwnerDashboard({
 
   const requestSection = (
     <section id="owner-request" aria-label="Contact Fina Calle" tabIndex={-1} className={cn(styles.requestFrame, styles.sectionAnchor)}>
+      {!readOnly ? <p className="mb-5 text-sm"><Link className="inline-flex min-h-11 items-center underline underline-offset-4" href={`/owner/${data.restaurantId}/requests`}>Track requests and request an item change</Link></p> : null}
       <AskBar restaurantId={data.restaurantId} items={allItems.map((item) => ({ name: item.name, price: item.price, is_available: item.is_available }))} demo={readOnly} />
     </section>
   );
