@@ -7,12 +7,15 @@ import { NextResponse } from "next/server";
 import { verifyDrainRequest } from "@/lib/traffic/signature";
 import { parseDrainPayload } from "@/lib/traffic/parse-drain";
 import { getTrafficStore } from "@/lib/traffic/store";
+import { activeSource, boundedText } from "@/lib/traffic/first-party";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  const rawBody = await request.text();
+  if (process.env.VERCEL_ENV !== "production" || activeSource() !== "drain") return new Response(null, { status: 202 });
+  let rawBody: string;
+  try { rawBody = await boundedText(request, 65536); } catch { return new Response(null, { status: 413 }); }
 
   const authorized = verifyDrainRequest({
     rawBody,
@@ -33,10 +36,10 @@ export async function POST(request: Request) {
   if (events.length) {
     try {
       await getTrafficStore().insertEvents(events);
-    } catch (error) {
+    } catch {
       // Never make Vercel retry-storm on a transient store error in a way that
       // surfaces detail; log server-side and accept.
-      console.error("[traffic/drain] store error:", error instanceof Error ? error.message : error);
+      console.error("[traffic/drain] store unavailable");
       return NextResponse.json({ ok: false }, { status: 500 });
     }
   }

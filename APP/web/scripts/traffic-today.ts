@@ -1,92 +1,14 @@
-// Codex / local CLI: prints today's traffic report from the protected endpoint.
-//
-//   npm run traffic:today -- bodega
-//   npm run traffic:today -- fina-calle
-//   npm run traffic:today -- colattao
-//
-// Reads config from env (never prints secrets):
-//   TRAFFIC_REPORT_URL    base URL of the deployment (default http://localhost:3000)
-//   TRAFFIC_REPORT_TOKEN  bearer token for the report endpoint (required)
-
-const baseUrl = (process.env.TRAFFIC_REPORT_URL || "http://localhost:3000").replace(/\/+$/, "");
-const token = process.env.TRAFFIC_REPORT_TOKEN;
-const siteId = process.argv[2];
-const VALID_SITES = new Set(["bodega", "fina-calle", "colattao"]);
-
-function bar(count: number, max: number, width = 24): string {
-  if (max <= 0) return "";
-  return "█".repeat(Math.max(1, Math.round((count / max) * width)));
+// Read-only current-day inspection using an existing report token. No sends.
+async function main() {
+  const site = process.argv[2];
+  const token = process.env.TRAFFIC_REPORT_TOKEN;
+  if (!site || !token) { console.error("Usage: traffic:today -- SITE; existing TRAFFIC_REPORT_TOKEN required."); process.exitCode = 1; return; }
+  const base = process.env.TRAFFIC_REPORT_URL || "http://localhost:3000";
+  const url = new URL("/api/internal/traffic/today", base);
+  url.searchParams.set("site", site);
+  const response = await fetch(url, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000), cache: "no-store" });
+  if (!response.ok) { console.error(`Traffic report unavailable (HTTP ${response.status}); missing data is not zero.`); process.exitCode = 1; return; }
+  const report = await response.json();
+  console.log(JSON.stringify(report, null, 2));
 }
-
-async function main(): Promise<void> {
-  if (!VALID_SITES.has(siteId)) {
-    console.error("Specify exactly one site: bodega, fina-calle, or colattao. Mixed-site totals are not available.");
-    process.exitCode = 1;
-    return;
-  }
-  if (!token) {
-    console.error("TRAFFIC_REPORT_TOKEN is not set. Aborting (no token, no request).");
-    process.exitCode = 1;
-    return;
-  }
-
-  const url = `${baseUrl}/api/internal/traffic/today?site=${encodeURIComponent(siteId)}`;
-  let response: Response;
-  try {
-    response = await fetch(url, { headers: { authorization: `Bearer ${token}` } });
-  } catch (error) {
-    console.error(`Request failed: ${error instanceof Error ? error.message : String(error)}`);
-    process.exitCode = 1;
-    return;
-  }
-
-  if (!response.ok) {
-    console.error(`Report endpoint returned HTTP ${response.status}.`);
-    process.exitCode = 1;
-    return;
-  }
-
-  const report = (await response.json()) as {
-    siteId: string;
-    date: string;
-    timezone: string;
-    pageviews: number;
-    uniqueVisitors: number;
-    topPaths: { path: string; count: number }[];
-    topReferrers: { referrer: string; count: number }[];
-    lastUpdated: string;
-  };
-
-  console.log("");
-  if (report.siteId !== siteId) {
-    console.error("Report site mismatch; refusing to print traffic.");
-    process.exitCode = 1;
-    return;
-  }
-  console.log(`  ${report.siteId} traffic — ${report.date} (${report.timezone})`);
-  console.log(`  ${"─".repeat(40)}`);
-  console.log(`  Pageviews        ${report.pageviews}`);
-  console.log(`  Unique visitors  ${report.uniqueVisitors}`);
-  console.log(`  Last updated     ${report.lastUpdated}`);
-
-  if (report.topPaths.length) {
-    const max = report.topPaths[0].count;
-    console.log("");
-    console.log("  Top paths");
-    for (const row of report.topPaths) {
-      console.log(`    ${String(row.count).padStart(5)}  ${bar(row.count, max)}  ${row.path}`);
-    }
-  }
-
-  if (report.topReferrers.length) {
-    const max = report.topReferrers[0].count;
-    console.log("");
-    console.log("  Top referrers");
-    for (const row of report.topReferrers) {
-      console.log(`    ${String(row.count).padStart(5)}  ${bar(row.count, max)}  ${row.referrer}`);
-    }
-  }
-  console.log("");
-}
-
-main();
+main().catch(() => { console.error("Traffic report read failed; no estimate shown."); process.exitCode = 1; });

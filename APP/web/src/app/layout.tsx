@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -57,6 +58,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
+          <meta name="fc-traffic-collector" content="first-party-v1" />
+        )}
         <link
           rel="alternate"
           type="text/plain"
@@ -67,6 +71,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <Analytics />
+        {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
+          <Script src="/traffic-collector.js" strategy="afterInteractive" data-enabled="true" />
+        )}
       </body>
     </html>
   );

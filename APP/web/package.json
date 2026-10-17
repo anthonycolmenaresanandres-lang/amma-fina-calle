@@ -17,7 +17,9 @@
     "traffic-morning:selftest": "node scripts/traffic-morning-selftest.mjs",
     "owner-app:selftest": "tsx scripts/owner-app-selftest.ts",
     "owner-request:selftest": "tsx scripts/owner-request-selftest.ts",
-    "maracaibo-visits:selftest": "node --import tsx scripts/maracaibo-visits-selftest.ts && node scripts/maracaibo-visits-db-selftest.mjs"
+    "maracaibo-visits:selftest": "node --import tsx scripts/maracaibo-visits-selftest.ts && node scripts/maracaibo-visits-db-selftest.mjs",
+    "traffic:pipeline:selftest": "tsx scripts/traffic-pipeline-selftest.ts && node scripts/traffic-boundary-selftest.mjs",
+    "traffic:export": "tsx scripts/traffic-export.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

@@ -15,8 +15,9 @@ function authorized(request: Request, expected: string): boolean {
   return provided.length === secret.length && timingSafeEqual(provided, secret);
 }
 
-export async function GET(request: Request) {
-  const dryRun = new URL(request.url).searchParams.get("dryRun") === "1";
+async function handle(request: Request, deliver: boolean) {
+  const dryRun = !deliver;
+  if (deliver && (process.env.VERCEL_ENV !== "production" || process.env.TRAFFIC_EMAIL_ENABLED !== "true")) return NextResponse.json({ ok: false, reason: "email_delivery_disabled" }, { status: 503 });
   const secret = process.env.CRON_SECRET?.trim();
   if (dryRun) {
     // The signed-in operations admin can inspect the previous day's coverage
@@ -32,16 +33,12 @@ export async function GET(request: Request) {
   const ready = reports.filter((report) => report.state === "ready");
   if (dryRun) {
     return NextResponse.json({ ok: true, dryRun: true, date,
-      readyToSend: Boolean(secret) && morningEmailStatus().configured && ready.length > 0,
+      readyToSend: process.env.VERCEL_ENV === "production" && morningEmailStatus().enabled && Boolean(secret) && morningEmailStatus().configured,
       cronConfigured: Boolean(secret), email: morningEmailStatus(),
       squareRefreshEnabled: process.env.SQUARE_REFRESH_CRON_ENABLED === "true",
       sites: reports.map((report) => ({ siteId: report.siteId, state: report.state,
         ...(report.state === "ready" ? {} : { reason: report.reason }) })),
     }, { headers: { "Cache-Control": "private, no-store" } });
-  }
-  if (!ready.length) {
-    console.error("[traffic/morning] no verified site figures for:", date);
-    return NextResponse.json({ ok: false, date, reason: "no_verified_figures" }, { status: 503 });
   }
   try {
     const delivery = await sendMorningReport(date, reports);
@@ -51,8 +48,12 @@ export async function GET(request: Request) {
     }
     return NextResponse.json({ ok: true, date, sites: ready.map((report) => report.siteId),
       incomplete: reports.filter((report) => report.state !== "ready").map((report) => report.siteId) });
-  } catch (error) {
-    console.error("[traffic/morning] delivery failed:", error instanceof Error ? error.message : "unknown");
+  } catch {
+    console.error("[traffic/morning] delivery failed:", "provider_unavailable");
     return NextResponse.json({ ok: false, date, reason: "delivery_failed" }, { status: 502 });
   }
 }
+
+// Every GET is inspection only. Delivery requires an explicitly enabled POST.
+export async function GET(request: Request) { return handle(request, false); }
+export async function POST(request: Request) { return handle(request, true); }

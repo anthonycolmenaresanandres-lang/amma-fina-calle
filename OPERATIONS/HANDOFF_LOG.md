@@ -3619,3 +3619,9 @@ Anthony requests categories by items like Vital Vibes. Inspected actual Vital Vi
 
 ## 2026-10-17 Project Seed visual categories OUT - LOCAL COMPLETE, UNPUBLISHED
 Six product category selectors use existing illustrations/source-backed names/counts and open/focus native menu groups; keyboard/return/hash/itemdetails work. Originalseal/cream-burgundy/integratedfooter/33menuitems/prices/game/shared/otherclient code protected. Parent cloud reviewer confirmed print match/footer and identified390Play overlap; reserved automatic-height dock fixes it at3203901440 and enlargedcontroltext, firstitem/footer fully reachable. Final lint/contracts/preservation/build60pages/types/browser cases pass. Five fresh Library previews delivered, exactIDs receipt retained; local metadata helper unsupported Windows. All owned previews stopped. No public action or denial bypass. Local design review next.
+
+### [CHECK-IN] Codex - 2026-10-17 - per-site traffic reporting preparation
+Authority: Anthony Execute please. Isolated branch codex/site-traffic-reporting-20261017 from verified production 576c1ce. Local code/tests only; no live DB writes, sends, deployments, paid features or retention deletion.
+
+### [CHECK-OUT] Codex - 2026-10-17 - site traffic local preparation verified
+Result: anonymous first-party collector, 18 classified route/site mappings, SELECT-only report reads, Eastern complete-day ranges, independent health/coverage states, inactive owner delivery and prepared dedicated migration/Colattao template. Existing traffic suite, fourteen pipeline behavioral groups, boundary tests, dashboard compatibility and focused lint passed. Full Webpack build passed: TypeScript, 58 static pages and traces. No push/deploy/live database mutation/send/credential or access changes. Quotas and historical production figures remain unverified. See APP/web/traffic/README.md and VERIFICATION.md; activation requires separate approvals.

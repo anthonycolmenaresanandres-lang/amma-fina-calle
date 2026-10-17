@@ -21,6 +21,7 @@ import { trafficSite } from "./sites";
 const TOP_LIMIT = 10;
 
 function eventKey(event: NormalizedEvent): string {
+  if (event.eventId) return createHash("sha256").update(`${event.siteId}:${event.source}:${event.eventId}`).digest("hex");
   return createHash("sha256").update(JSON.stringify([
     event.siteId, event.ts, event.path, event.visitorId, event.referrerHost, event.eventType,
   ])).digest("hex");
@@ -60,9 +61,9 @@ function buildRangeReport(events: NormalizedEvent[], siteId: string, timezone: s
   const top = (values: Map<string, number>) => [...values]
     .map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count).slice(0, TOP_LIMIT);
   return {
-    siteId, pageviews: visits.length, uniqueVisitors: new Set(visits.map((event) => event.visitorId)).size,
+    siteId, pageviews: visits.length, identifiedPageviews: visits.filter((event) => event.visitorId).length, uniqueVisitors: new Set(visits.map((event) => event.visitorId).filter(Boolean)).size,
     daily: [...days].map(([date, rows]) => ({ date, pageviews: rows.length,
-      visitors: new Set(rows.map((row) => row.visitorId)).size })).sort((a, b) => a.date.localeCompare(b.date)),
+      visitors: new Set(rows.map((row) => row.visitorId).filter(Boolean)).size })).sort((a, b) => a.date.localeCompare(b.date)),
     topPaths: top(paths).map(({ key, count }) => ({ path: key, count })),
     topReferrers: top(referrers).map(({ key, count }) => ({ referrer: key, count })),
     lastUpdated: visits.length ? new Date(visits.reduce((latest, event) => Math.max(latest, event.ts), 0)).toISOString() : null,
@@ -77,7 +78,7 @@ function buildReport(
 ): DailyReport {
   events = uniqueEvents(events);
   const pageviews = events.filter((event) => event.eventType === "pageview").length;
-  const visitors = new Set(events.map((event) => event.visitorId));
+  const visitors = new Set(events.map((event) => event.visitorId).filter(Boolean));
   const pathCounts = new Map<string, number>();
   const referrerCounts = new Map<string, number>();
   let lastUpdatedMs = 0;
@@ -193,8 +194,9 @@ class PostgresTrafficStore implements TrafficStore {
   private readonly connectionString: string;
   private poolPromise: Promise<import("@vercel/postgres").VercelPool> | null = null;
 
-  constructor(connectionString: string) {
+  constructor(connectionString: string, pool?: import("@vercel/postgres").VercelPool) {
     this.connectionString = connectionString;
+    if (pool) this.poolPromise = Promise.resolve(pool);
   }
 
   private async getPool() {
@@ -204,25 +206,42 @@ class PostgresTrafficStore implements TrafficStore {
   }
 
   private async initializePool() {
+    // Connection construction only. Schema lives in traffic/migrations and is
+    // applied separately with explicit approval. First report issues SELECTs.
     const { createPool } = await import("@vercel/postgres");
-    const pool = createPool({ connectionString: this.connectionString });
-    await pool.sql`
-        CREATE TABLE IF NOT EXISTS traffic_events (
-          id BIGSERIAL PRIMARY KEY,
-          ts TIMESTAMPTZ NOT NULL,
-          path TEXT NOT NULL,
-          referrer_host TEXT,
-          visitor_id TEXT NOT NULL,
-          event_type TEXT NOT NULL
-        )
-    `;
-    // Legacy rows are deliberately left NULL: their site cannot be proven.
-    await pool.sql`ALTER TABLE traffic_events ADD COLUMN IF NOT EXISTS site_id TEXT`;
-    await pool.sql`ALTER TABLE traffic_events ADD COLUMN IF NOT EXISTS event_key TEXT`;
-    await pool.sql`CREATE INDEX IF NOT EXISTS traffic_events_ts_idx ON traffic_events (ts)`;
-    await pool.sql`CREATE INDEX IF NOT EXISTS traffic_events_site_ts_idx ON traffic_events (site_id, ts)`;
-    await pool.sql`CREATE UNIQUE INDEX IF NOT EXISTS traffic_events_event_key_idx ON traffic_events (event_key)`;
-    return pool;
+    return createPool({ connectionString: this.connectionString, max: 2, connectionTimeoutMillis: 3000, query_timeout: 3000, idleTimeoutMillis: 1000 });
+  }
+
+  async getCollectionChecks(siteId: string, startMs: number, endMs: number) {
+    const pool = await this.getPool();
+    try {
+      const result = await pool.query(`SELECT start_at, end_at, checked_at, healthy, probe_ok
+        FROM traffic_collection_checks WHERE site_id = $1 AND
+        ((end_at >= $2 AND start_at <= $3) OR start_at =
+          (SELECT MIN(start_at) FROM traffic_collection_checks WHERE site_id = $1 AND healthy))
+        ORDER BY start_at LIMIT 10000`,
+        [siteId, new Date(startMs).toISOString(), new Date(Math.max(endMs, Date.now())).toISOString()]);
+      return result.rows.map((row) => ({ start: new Date(row.start_at).toISOString(), end: new Date(row.end_at).toISOString(),
+        checkedAt: new Date(row.checked_at).toISOString(), healthy: row.healthy === true, probeHealthy: row.probe_ok === true }));
+    } catch (error) {
+      if ((error as { code?: string }).code === "42P01") return []; // no coverage evidence, never zero
+      throw error;
+    }
+  }
+
+  // Explicitly activated monitor POST only. Never called by reports/GETs.
+  async recordCollectionProbe(siteId: string, healthy: boolean, checkedAt: number) {
+    if (!trafficSite(siteId)) throw new Error("Unknown traffic site");
+    const pool = await this.getPool();
+    const end = new Date(checkedAt).toISOString();
+    const prior = await pool.query(`SELECT checked_at, probe_ok FROM traffic_collection_checks
+      WHERE site_id = $1 AND checked_at < $2 ORDER BY checked_at DESC LIMIT 1`, [siteId, end]);
+    const previous = prior.rows[0];
+    const gap = previous ? checkedAt - new Date(previous.checked_at).getTime() : Infinity;
+    const contiguous = gap > 0 && gap <= 15 * 60000;
+    const start = contiguous ? new Date(previous.checked_at).toISOString() : new Date(checkedAt - 1).toISOString();
+    await pool.query(`INSERT INTO traffic_collection_checks(site_id, start_at, end_at, checked_at, healthy, probe_ok)
+      VALUES($1,$2,$3,$3,$4,$5) ON CONFLICT DO NOTHING`, [siteId, start, end, healthy && (!contiguous || previous.probe_ok === true), healthy]);
   }
 
   async insertEvents(events: NormalizedEvent[]): Promise<void> {
@@ -248,7 +267,7 @@ class PostgresTrafficStore implements TrafficStore {
     const totals = await pool.sql`
       SELECT
         COUNT(*) FILTER (WHERE event_type = 'pageview') AS pageviews,
-        COUNT(DISTINCT visitor_id) AS unique_visitors,
+        COUNT(DISTINCT NULLIF(visitor_id, '')) AS unique_visitors,
         MAX(ts) AS last_updated
       FROM traffic_events
       WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
@@ -287,13 +306,13 @@ class PostgresTrafficStore implements TrafficStore {
     const allPaths = !onlyPath;
     const selectedPath = onlyPath ?? "";
     const totals = await pool.sql`
-      SELECT COUNT(*) AS pageviews, COUNT(DISTINCT visitor_id) AS visitors, MAX(ts) AS last_updated
+      SELECT COUNT(*) AS pageviews, COUNT(*) FILTER (WHERE visitor_id <> '') AS identified_pageviews, COUNT(DISTINCT NULLIF(visitor_id, '')) AS visitors, MAX(ts) AS last_updated
       FROM traffic_events WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
         AND event_type = 'pageview' AND (${allPaths} OR path = ${selectedPath})
     `;
     const daily = await pool.sql`
       SELECT to_char(ts AT TIME ZONE ${timezone}, 'YYYY-MM-DD') AS day,
-        COUNT(*) AS pageviews, COUNT(DISTINCT visitor_id) AS visitors
+        COUNT(*) AS pageviews, COUNT(DISTINCT NULLIF(visitor_id, '')) AS visitors
       FROM traffic_events WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
         AND event_type = 'pageview' AND (${allPaths} OR path = ${selectedPath})
       GROUP BY day ORDER BY day
@@ -313,7 +332,7 @@ class PostgresTrafficStore implements TrafficStore {
     `;
     const row = totals.rows[0] ?? {};
     return {
-      siteId, pageviews: Number(row.pageviews ?? 0), uniqueVisitors: Number(row.visitors ?? 0),
+      siteId, pageviews: Number(row.pageviews ?? 0), identifiedPageviews: Number(row.identified_pageviews ?? 0), uniqueVisitors: Number(row.visitors ?? 0),
       daily: daily.rows.map((item) => ({ date: String(item.day), pageviews: Number(item.pageviews), visitors: Number(item.visitors) })),
       topPaths: paths.rows.map((item) => ({ path: String(item.path), count: Number(item.count) })),
       topReferrers: referrers.rows.map((item) => ({ referrer: String(item.referrer), count: Number(item.count) })),
@@ -339,7 +358,13 @@ class PostgresTrafficStore implements TrafficStore {
 let cached: TrafficStore | null = null;
 
 export function trafficDatabaseUrl(): string | undefined {
-  return process.env.TRAFFIC_DATABASE_DATABASE_URL?.trim() || process.env.TRAFFIC_DATABASE_URL?.trim();
+  const url = process.env.TRAFFIC_DATABASE_DATABASE_URL?.trim() || process.env.TRAFFIC_DATABASE_URL?.trim();
+  if (url) {
+    const parsed = new URL(url);
+    if (!["postgres:", "postgresql:"].includes(parsed.protocol) || /supabase/i.test(parsed.hostname)) throw new Error("DEDICATED_TRAFFIC_DATABASE_REQUIRED");
+    if ([process.env.DATABASE_URL, process.env.POSTGRES_URL, process.env.NEXT_PUBLIC_SUPABASE_URL].includes(url)) throw new Error("DEDICATED_TRAFFIC_DATABASE_REQUIRED");
+  }
+  return url;
 }
 
 export function getTrafficStore(): TrafficStore {

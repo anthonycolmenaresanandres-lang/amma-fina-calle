@@ -4,7 +4,8 @@
 
 import { NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
-import { getTrafficStore } from "@/lib/traffic/store";
+import { getSiteTrafficReport } from "@/lib/traffic/site-traffic";
+import { todayRange } from "@/lib/traffic/date";
 import { trafficSite } from "@/lib/traffic/sites";
 
 export const runtime = "nodejs";
@@ -39,10 +40,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, reason: "valid_site_required" }, { status: 400 });
   }
   try {
-    const report = await getTrafficStore().getTodayReport(siteId, timezone);
-    return NextResponse.json({ ok: true, ...report });
-  } catch (error) {
-    console.error("[traffic/today] report error:", error instanceof Error ? error.message : error);
+    const day = todayRange(timezone);
+    const report = await getSiteTrafficReport(trafficSite(siteId)!, { since: new Date(day.startMs).toISOString(), until: new Date(Math.min(Date.now(), day.endMs)).toISOString(), timezone });
+    return NextResponse.json({ ok: true, mode: "current-incomplete-day", date: day.dateStr, ...report }, { headers: { "Cache-Control": "private, no-store" } });
+  } catch {
+    console.error("[traffic/today] report unavailable");
     return NextResponse.json({ ok: false, reason: "report_failed" }, { status: 500 });
   }
 }

@@ -60,6 +60,32 @@ export function todayRange(timeZone: string, now: number = Date.now()): TodayRan
 }
 
 export function previousEasternDay(now = Date.now()): { date: string; range: { since: string; until: string } } {
-  const day = todayRange("America/New_York", now - 86400000);
+  const date = addDays(dateStringInTz("America/New_York", now), -1);
+  const day = { dateStr: date, startMs: dayStartMs(date, "America/New_York"), endMs: dayStartMs(addDays(date, 1), "America/New_York") };
   return { date: day.dateStr, range: { since: new Date(day.startMs).toISOString(), until: new Date(day.endMs).toISOString() } };
+}
+
+export function calendarRange(first: string, last: string, timezone = "America/New_York") {
+  // Inclusive calendar labels -> half-open UTC instants. Never assume 24h days.
+  for (const date of [first, last]) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)) ||
+      new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date) throw new Error("INVALID_CALENDAR_DATE");
+  }
+  if (last < first) throw new Error("INVALID_DATE_ORDER");
+  if ((Date.parse(last) - Date.parse(first)) / 86400000 >= 90) throw new Error("RANGE_TOO_LONG");
+  const since = new Date(dayStartMs(first, timezone)).toISOString();
+  const until = new Date(dayStartMs(addDays(last, 1), timezone)).toISOString();
+  validateRange({ since, until }, timezone);
+  return { since, until, timezone, first, last, mode: "complete-calendar-days" as const };
+}
+export function completeDays(days = 30, now = Date.now(), timezone = "America/New_York") {
+  if (!Number.isInteger(days) || days < 1 || days > 90) throw new Error("INVALID_DAY_COUNT");
+  const today = dateStringInTz(timezone, now);
+  return calendarRange(addDays(today, -days), addDays(today, -1), timezone);
+}
+export function validateRange(range: { since: string; until: string }, timezone: string) {
+  new Intl.DateTimeFormat("en-US", { timeZone: timezone });
+  const start = Date.parse(range.since), end = Date.parse(range.until);
+  if (!/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.since) || !/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.until) ||
+    !Number.isFinite(start) || !Number.isFinite(end) || end <= start || end - start > 91 * 86400000) throw new Error("INVALID_RANGE");
 }
