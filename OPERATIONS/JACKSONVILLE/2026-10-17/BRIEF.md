@@ -1,0 +1,6 @@
+# Jacksonville prospect demos
+Base: origin/main ea2f57e4129c199640589d73a5269e6b8536be42. Branch codex/jacksonville-prospect-demos-20261017. Two independent sales concepts requested by Anthony for October18–23 visit. Aji Ichiban: Okinawan roots, no verified logo. Elsa’s Place: upgrade prospect with existing first-party WordPress website; Caribbean and American Cuisine. No owner approval asserted.
+
+Design: Aji warm ivory, charcoal/indigo, lacquer-red typeset title, original street-food counter/lantern art. Elsa warm cream, red heavy serif title, black shadow, restrained gold/green kitchen illustration. Open layout/native categories, mobile Play, authentic Fina Calle emblem and scoped current-year rights line. All art original SVG, no restaurant photographs or synthetic logos. Whole-board stationary collector camera; 3 inherited reachable layouts/1,2,3 independent rivals. Shared and existing client sources untouched.
+
+Publication excluded pending exact authorization; no push/PR/merge/deploy/spend/new services/credentials/access/outreach. Final QR cannot be issued before stable public route proof. Intended routes /aji-ichiban and /elsas-place on existing Fina Calle host. Proposed URLs are reservations, not live claims.

@@ -1,0 +1,348 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "reports": [
+    {
+      "slug": "aji-ichiban",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "items": 12,
+      "categories": 4,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": false
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 290,
+        "height": 72,
+        "bottom": 726
+      }
+    },
+    {
+      "slug": "aji-ichiban",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "items": 12,
+      "categories": 4,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 360,
+        "height": 75,
+        "bottom": 830
+      }
+    },
+    {
+      "slug": "aji-ichiban",
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "items": 12,
+      "categories": 4,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/soba.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/katsu.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/noodles.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/aji-ichiban/gyoza.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 330,
+        "height": 75,
+        "bottom": 875
+      }
+    },
+    {
+      "slug": "elsas-place",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "items": 12,
+      "categories": 3,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 290,
+        "height": 72,
+        "bottom": 726
+      }
+    },
+    {
+      "slug": "elsas-place",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "items": 12,
+      "categories": 3,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 360,
+        "height": 72,
+        "bottom": 830
+      }
+    },
+    {
+      "slug": "elsas-place",
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "items": 12,
+      "categories": 3,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/jerk.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/roti.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/assets/elsas-place/patty.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3125/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 330,
+        "height": 72,
+        "bottom": 875
+      }
+    }
+  ]
+}
