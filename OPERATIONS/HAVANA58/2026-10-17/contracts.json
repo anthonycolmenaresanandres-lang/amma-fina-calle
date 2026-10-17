@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "coverage": "1 exact 18-item menu, no prices, 7 original food illustrations/1 self-contained scene, 3 deterministic layouts, starter budgets, max-tier reachability, frozen core, pause/clock/win/loss/capture, stationary camera",
+  "levels": [
+    {
+      "level": 1,
+      "products": 72,
+      "target": 1300,
+      "totalPoints": 5010,
+      "rivals": 1,
+      "connectedCells": 1600
+    },
+    {
+      "level": 2,
+      "products": 116,
+      "target": 2200,
+      "totalPoints": 8240,
+      "rivals": 2,
+      "connectedCells": 2140
+    },
+    {
+      "level": 3,
+      "products": 170,
+      "target": 3200,
+      "totalPoints": 11470,
+      "rivals": 3,
+      "connectedCells": 2830
+    }
+  ]
+}

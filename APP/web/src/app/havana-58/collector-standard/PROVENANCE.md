@@ -1,0 +1,1 @@
+Unchanged company-owned collector-standard snapshot, identical to Aji/Elsa runtime at d6922e8 and canonical frozen443de7d. Havana venue configuration/art/renderer only; no existing engine or client changed.
