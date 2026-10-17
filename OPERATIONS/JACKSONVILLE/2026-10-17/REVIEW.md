@@ -30,3 +30,7 @@ Local preview route: from `APP/web`, run `node node_modules/next/dist/bin/next s
 Remaining limitations: physical-device playtest and human difficulty tuning are unverified; browser touch was emulated. Clear win logic is covered by deterministic tests; observed browser rounds intentionally idle after a short input check and therefore demonstrate loss. Final public CI/deployment proof and scan-ready QR artwork await release authorization. No outreach, customer approval, spending, new installs, credentials or access changes.
 
 Read-only public checks: host fetch failed before an HTTP response for both reserved routes; web open also reported inaccessible. No404 or public-route availability claim is made. The prepared source has not been pushed or deployed.
+
+## Publication authorization received
+2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
+

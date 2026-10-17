@@ -3588,3 +3588,7 @@ Inspected canonical branch/worktrees/latest origin main without resets. Created 
 ##2026-10-17 Jacksonville prospects OUT — LOCAL READY / PUBLIC QR PENDING
 Both independent concepts and collector games complete; exact source-backed12items each, no prices/hours/recipes. New client namespaces only; unchanged canonical/runtime core. Final contracts/lint/build58pages/types/responsive320/390/1440/28screenshots/touch/keyboard/pause/explicitloss/replay/assetfallback PASS. Aji small-note contrast corrected5.14:1 and targetedmenu recapture PASS. Originalprint/mobile surrounddrafts saved; programmaticQRencoder/independentdecoder in-memory targetproof passes, finalQR awaits stablepublicroutes. No push/PR/merge/deploy/outreach/spend/newservice/credential/access change. Public GET check could not obtainHTTP; no reachability/404 claim. All task-owned browser/server processes stopped. Review and receipts in OPERATIONS/JACKSONVILLE/2026-10-17.
 
+
+## 2026-10-17 Jacksonville release IN — AUTHORIZED
+2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
+
