@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "base": "d4225ab0cd91e11b7a47d8d85ae1fc3930bc085a",
+  "protectedFiles": [
+    "APP/web/src/app/(internal)/demo/project-seed/page.tsx",
+    "APP/web/src/app/play/project-seed/page.module.css",
+    "APP/web/src/app/(internal)/demo/project-seed/menu-data.ts",
+    "APP/web/src/app/play/project-seed/config.ts",
+    "APP/web/src/app/play/project-seed/SeedRushClient.tsx",
+    "APP/web/src/app/play/project-seed/october-config.ts",
+    "APP/web/src/caferush/CafeRushScene.ts",
+    "APP/web/src/caferush/config.ts",
+    "APP/web/src/caferush/types.ts",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedLettering.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/seed-lettering.ts",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuSection.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuNavigation.tsx"
+  ],
+  "logoSha256": "cca9d6e7ceab043959af722808759f5c1919b52b384700754507bb94128b2287",
+  "scope": "seven versioned illustration assets plus consuming filename references; menu text/prices/rules/engine/logo/lettering/disclosures unchanged",
+  "assets": [
+    {
+      "name": "buko-pandan-latte",
+      "source": "art/buko-pandan-latte-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "bytes": 16262,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "1d0ef4483f6a426d00bbe6be8695f3f16033561fbdda4afdc1f1830e0c07d8e3"
+    },
+    {
+      "name": "dark-iced-coffee",
+      "source": "art/dark-iced-coffee-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "bytes": 17734,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "674ca6d6328130dd3fe9b1427b6f8ba7e2dc86e05ef7ac8ee09dd1f13a5fa1ed"
+    },
+    {
+      "name": "borahae-latte",
+      "source": "art/borahae-latte-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/borahae-latte-illustrated-v2.webp",
+      "bytes": 15740,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "c20a951fda3d508000cac76c829280216a5a4a73ec0a8215afc6c192e4f1dece"
+    },
+    {
+      "name": "iced-green-latte",
+      "source": "art/iced-green-latte-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/iced-green-latte-illustrated-v2.webp",
+      "bytes": 15372,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "e03458f55a26cc969988f0de670372d9df89ce30a8aba9c59d1d5c4559127e72"
+    },
+    {
+      "name": "sugar-custard-swirl-pastry",
+      "source": "art/sugar-custard-swirl-pastry-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/sugar-custard-swirl-pastry-illustrated-v2.webp",
+      "bytes": 22730,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "364790ca03c2adf7fd8c0869b9c99f608e360378e27e9d1766bbb84e90aa367b"
+    },
+    {
+      "name": "purple-rolled-pastry",
+      "source": "art/purple-rolled-pastry-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/purple-rolled-pastry-illustrated-v2.webp",
+      "bytes": 18580,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "392d4a462ec5c2207f80d3441b5e604e1b65226f7473378f02375ecb5fe3a757"
+    },
+    {
+      "name": "aswang",
+      "source": "art/aswang-source.png",
+      "file": "APP/web/public/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "bytes": 16202,
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sha256": "ada88d1ed4bd46b6be3bb2a668c4c6c2c5d853e6488463a04f35b9f566435ac3"
+    }
+  ],
+  "totalSpriteBytes": 122620,
+  "qr": {
+    "name": "project-seed-menu-qr-philippine-flag-5x7.png",
+    "libraryFileId": "libfile_6c2a194f24b881919b336dec85d38ccb",
+    "status": "UNCHANGED: supported materialization failed: Library prepare_materialize is not available",
+    "decode": "not performed; no source bytes; no QR modification"
+  }
+}

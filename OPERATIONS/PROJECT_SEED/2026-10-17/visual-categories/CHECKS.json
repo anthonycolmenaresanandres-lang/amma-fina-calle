@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "base": "8a3c925c6d121f85ffa56d2db1193c4069f97293",
+  "protectedFiles": [
+    "APP/web/src/app/(internal)/demo/project-seed/menu-data.ts",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuSection.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedLettering.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/seed-lettering.ts",
+    "APP/web/src/app/play/project-seed/config.ts",
+    "APP/web/src/app/play/project-seed/october-config.ts",
+    "APP/web/src/app/play/project-seed/SeedRushClient.tsx",
+    "APP/web/src/app/play/project-seed/page.module.css",
+    "APP/web/src/caferush/CafeRushScene.ts",
+    "APP/web/src/venue-menu/VenueMenuLayout.tsx",
+    "APP/web/src/venue-menu/venue-menu.module.css",
+    "APP/web/public/assets/project-seed/brand/project-seed-logo-clean-v2.webp"
+  ],
+  "integratedFooter": "identical markup",
+  "existingArt": "unchanged",
+  "sourceScope": [
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuNavigation.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/october.module.css",
+    "APP/web/src/app/(internal)/demo/project-seed/page.tsx",
+    "OPERATIONS/HANDOFF_LOG.md"
+  ]
+}

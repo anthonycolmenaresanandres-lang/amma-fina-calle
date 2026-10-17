@@ -1,0 +1,265 @@
+{
+  "origin": "http://127.0.0.1:3146",
+  "results": [
+    {
+      "width": 320,
+      "categories": [
+        {
+          "id": "october-lattes",
+          "items": 5,
+          "touchTarget": {
+            "width": 89.328125,
+            "height": 144
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "october-non-coffee",
+          "items": 3,
+          "touchTarget": {
+            "width": 89.328125,
+            "height": 156.375
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "signature",
+          "items": 5,
+          "touchTarget": {
+            "width": 89.34375,
+            "height": 156.375
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "cold-brew",
+          "items": 5,
+          "touchTarget": {
+            "width": 89.328125,
+            "height": 144
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "coffee",
+          "items": 5,
+          "touchTarget": {
+            "width": 89.328125,
+            "height": 144
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "tea-more",
+          "items": 10,
+          "touchTarget": {
+            "width": 89.34375,
+            "height": 144
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        }
+      ],
+      "items": 33,
+      "dock": {
+        "width": 320,
+        "scrollWidth": 320,
+        "viewportBottom": 756,
+        "dockTop": 756,
+        "dockBottom": 844,
+        "dockHeight": 88,
+        "playTop": 768,
+        "playBottom": 832,
+        "height": 844,
+        "scrollPaneTop": 781
+      },
+      "firstItemReachable": true,
+      "footerReachable": true
+    },
+    {
+      "width": 390,
+      "categories": [
+        {
+          "id": "october-lattes",
+          "items": 5,
+          "touchTarget": {
+            "width": 110,
+            "height": 151.546875
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "october-non-coffee",
+          "items": 3,
+          "touchTarget": {
+            "width": 110,
+            "height": 169.09375
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "signature",
+          "items": 5,
+          "touchTarget": {
+            "width": 110,
+            "height": 151.546875
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "cold-brew",
+          "items": 5,
+          "touchTarget": {
+            "width": 110,
+            "height": 151.546875
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "coffee",
+          "items": 5,
+          "touchTarget": {
+            "width": 110,
+            "height": 151.546875
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "tea-more",
+          "items": 10,
+          "touchTarget": {
+            "width": 110,
+            "height": 151.546875
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        }
+      ],
+      "items": 33,
+      "dock": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewportBottom": 756,
+        "dockTop": 756,
+        "dockBottom": 844,
+        "dockHeight": 88,
+        "playTop": 768,
+        "playBottom": 832,
+        "height": 844,
+        "scrollPaneTop": 827
+      },
+      "firstItemReachable": true,
+      "footerReachable": true
+    },
+    {
+      "width": 1440,
+      "categories": [
+        {
+          "id": "october-lattes",
+          "items": 5,
+          "touchTarget": {
+            "width": 161.328125,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "october-non-coffee",
+          "items": 3,
+          "touchTarget": {
+            "width": 161.328125,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "signature",
+          "items": 5,
+          "touchTarget": {
+            "width": 161.328125,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "cold-brew",
+          "items": 5,
+          "touchTarget": {
+            "width": 161.34375,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "coffee",
+          "items": 5,
+          "touchTarget": {
+            "width": 161.328125,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        },
+        {
+          "id": "tea-more",
+          "items": 10,
+          "touchTarget": {
+            "width": 161.328125,
+            "height": 192.890625
+          },
+          "pointerAndKeyboard": true,
+          "reopens": true
+        }
+      ],
+      "items": 33,
+      "dock": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "viewportBottom": 812,
+        "dockTop": 812,
+        "dockBottom": 900,
+        "dockHeight": 88,
+        "playTop": 824,
+        "playBottom": 888,
+        "height": 900,
+        "scrollPaneTop": 743
+      },
+      "firstItemReachable": true,
+      "footerReachable": true
+    },
+    {
+      "skip": true,
+      "directItemHash": true,
+      "enlargedDock": {
+        "width": 390,
+        "scrollWidth": 390,
+        "viewportBottom": 684.21875,
+        "dockTop": 684.21875,
+        "dockBottom": 844,
+        "dockHeight": 159.78125,
+        "playTop": 696.21875,
+        "playBottom": 832,
+        "height": 844,
+        "scrollPaneTop": 1660
+      },
+      "reducedMotion": true,
+      "menuGameReturn": true
+    }
+  ],
+  "errors": [],
+  "limits": "Emulated Chromium320/390/1440, bounded pointer+keyboard. Dock tested with enlarged control text. No physical-device/Safari/game-balance claim."
+}

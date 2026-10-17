@@ -1,0 +1,68 @@
+{
+  "origin": "http://127.0.0.1:3146",
+  "results": [
+    {
+      "case": "menu",
+      "width": 320,
+      "categories": 6,
+      "items": 33,
+      "logoWidth": 160,
+      "repetition": "3 category reopen cycles",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear",
+      "noOverflow": true
+    },
+    {
+      "case": "menu",
+      "width": 390,
+      "categories": 6,
+      "items": 33,
+      "logoWidth": 180,
+      "repetition": "3 category reopen cycles",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear",
+      "noOverflow": true
+    },
+    {
+      "case": "menu",
+      "width": 1440,
+      "categories": 6,
+      "items": 33,
+      "logoWidth": 220,
+      "repetition": "3 category reopen cycles",
+      "item": "keyboard toggles",
+      "floating": "fixed",
+      "footerFocus": "clear",
+      "noOverflow": true
+    },
+    {
+      "case": "direct item hash",
+      "passed": true
+    },
+    {
+      "case": "skip focus/activation",
+      "clearance": {
+        "heading": 98.265625,
+        "nav": 52
+      }
+    },
+    {
+      "case": "game start/pause/resume/exit",
+      "passed": true
+    },
+    {
+      "case": "touch/keyboard input dispatch",
+      "passed": true,
+      "outcome": "no catch recorded",
+      "limits": "One bounded input sample; source capture geometry separately checked. No full win/balance claim."
+    },
+    {
+      "case": "blocked product art",
+      "primitiveFallback": "rendered, pause usable"
+    }
+  ],
+  "errors": [],
+  "limits": "Installed cached headless Chromium; emulated 320/390/1440 menu and 390 touch game. No physical phone, Safari/iOS, full three-round human win, long-running FPS or formal balance testing. External requests blocked."
+}

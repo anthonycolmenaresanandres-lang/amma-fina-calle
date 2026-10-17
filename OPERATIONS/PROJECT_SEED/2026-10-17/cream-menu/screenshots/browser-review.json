@@ -1,0 +1,67 @@
+{
+  "origin": "http://127.0.0.1:3146",
+  "results": [
+    {
+      "width": 320,
+      "theme": {
+        "bg": "rgb(255, 247, 232)",
+        "color": "rgb(104, 29, 61)"
+      },
+      "logoWidth": 176,
+      "items": 33,
+      "categories": 6,
+      "keyboardDisclosures": true,
+      "footerEmblemWidth": 52,
+      "footerBackground": "transparent on cream",
+      "creditLink": "https://finacalleos.com",
+      "footerFocusClear": true,
+      "playWidth": 258,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "theme": {
+        "bg": "rgb(255, 247, 232)",
+        "color": "rgb(104, 29, 61)"
+      },
+      "logoWidth": 200,
+      "items": 33,
+      "categories": 6,
+      "keyboardDisclosures": true,
+      "footerEmblemWidth": 58,
+      "footerBackground": "transparent on cream",
+      "creditLink": "https://finacalleos.com",
+      "footerFocusClear": true,
+      "playWidth": 258,
+      "noOverflow": true
+    },
+    {
+      "width": 1440,
+      "theme": {
+        "bg": "rgb(255, 247, 232)",
+        "color": "rgb(104, 29, 61)"
+      },
+      "logoWidth": 240,
+      "items": 33,
+      "categories": 6,
+      "keyboardDisclosures": true,
+      "footerEmblemWidth": 58,
+      "footerBackground": "transparent on cream",
+      "creditLink": "https://finacalleos.com",
+      "footerFocusClear": true,
+      "playWidth": 258,
+      "noOverflow": true
+    },
+    {
+      "directItemHash": true,
+      "skipClearance": {
+        "heading": 98.265625,
+        "nav": 52
+      },
+      "reducedMotion": true,
+      "gameAndReturnLink": true
+    }
+  ],
+  "errors": [],
+  "limits": "Emulated Chromium320/390/1440. No physical device, Safari/iOS or game balance claim. User JPEG/approved-print pixel materialization unavailable on Windows; trusted parent description and identical local baseline footer capture used."
+}

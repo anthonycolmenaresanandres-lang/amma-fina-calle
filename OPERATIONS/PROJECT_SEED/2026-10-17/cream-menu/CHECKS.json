@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "base": "bd3537afe67a48b61b1bf41f6b59ad185e5afa0c",
+  "protectedFiles": [
+    "APP/web/src/app/(internal)/demo/project-seed/menu-data.ts",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuSection.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedMenuNavigation.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/SeedLettering.tsx",
+    "APP/web/src/app/(internal)/demo/project-seed/seed-lettering.ts",
+    "APP/web/src/app/play/project-seed/config.ts",
+    "APP/web/src/app/play/project-seed/october-config.ts",
+    "APP/web/src/app/play/project-seed/SeedRushClient.tsx",
+    "APP/web/src/app/play/project-seed/page.module.css",
+    "APP/web/src/caferush/CafeRushScene.ts",
+    "APP/web/src/caferush/config.ts",
+    "APP/web/src/venue-menu/VenueMenuLayout.tsx",
+    "APP/web/src/venue-menu/venue-menu.module.css",
+    "APP/web/src/app/(internal)/demo/bodega/fina-calle-signature.tsx",
+    "APP/web/public/assets/project-seed/brand/project-seed-logo-clean-v2.webp"
+  ],
+  "contrast": {
+    "body": 10.766554305944204,
+    "muted": 6.380775792103833,
+    "red": 6.981497147265274,
+    "play": 10.766554305944204,
+    "focus": 10.347990820615552
+  },
+  "trackedChanges": [
+    "APP/web/src/app/(internal)/demo/project-seed/october.module.css",
+    "APP/web/src/app/(internal)/demo/project-seed/page.tsx",
+    "OPERATIONS/HANDOFF_LOG.md"
+  ],
+  "logoSha256": "cca9d6e7ceab043959af722808759f5c1919b52b384700754507bb94128b2287",
+  "scope": "menu theme/footer only; all menu data/controls/game rules/assets/shared source unchanged"
+}
