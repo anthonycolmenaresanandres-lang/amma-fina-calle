@@ -3592,3 +3592,6 @@ Both independent concepts and collector games complete; exact source-backed12ite
 ## 2026-10-17 Jacksonville release IN — AUTHORIZED
 2026-10-17 PUBLICATION AUTHORIZED: Anthony explicitly answered the pending public repository push/PR/checked merge/deploy request: Publish and do the cuban coffe shop too please. Aji/Elsa may now be pushed on this feature branch, opened as a draft PR, checked at the exact head, made ready and merged after required CI passes, then publicly verified and QR finalized. Third Havana58 concept is separately authorized and must not delay these two. No spending/new credentials/access/customer-system edits/outreach.
 
+
+##2026-10-17 Havana58 IN —BUILD/PUBLICATION AUTHORIZED
+Separate codex/havana58-prospect-demo-20261017 fromd6922e8.18parent-verifiedToastmenu names, source-backedcharcoal/gold/coffee identity, no photos/logo reuse/prices/hours/ZIP/recipes. Newmenu/game/QRonly, preserveexternalToastflow with no integrationclaim; requiredtests/CI/checkedmerge/publicproof. No spending/access/credentials/customer-systemedits/outreach. Aji/Elsa release is independent.

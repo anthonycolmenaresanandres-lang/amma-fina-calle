@@ -1,0 +1,70 @@
+.game{height:100svh;min-height:570px;background:#122736;color:#f6ecd5;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);font-family:var(--font-geist-sans),sans-serif;color-scheme:dark}
+.game :is(button,a,canvas,summary):focus-visible{outline:3px solid #f4b65c;outline-offset:3px}
+.game button{cursor:pointer;touch-action:manipulation;min-height:44px;border:1px solid #9a8170;color:#f6ecd5;background:#122736;border-radius:6px;padding:10px 16px}
+.game button:hover{background:#214356}
+.game button:disabled{opacity:.4;cursor:default}
+.game a:hover{color:#f4b65c}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:55px;padding:6px max(14px,env(safe-area-inset-right)) 6px max(14px,env(safe-area-inset-left));font-size:12px}
+.toolbar>a{min-height:44px;display:flex;align-items:center}
+.toolbar>span{font-weight:600}
+.concept{font-size:10px!important;color:#c9d0c7;font-weight:400!important}
+.scoreboard{display:flex;justify-content:space-around;padding:10px 12px 13px;font-family:var(--font-geist-mono),monospace;font-variant-numeric:tabular-nums;font-size:22px}
+.scoreboard span{text-align:center}
+.scoreboard small{display:block;font-family:var(--font-geist-sans),sans-serif;font-size:10px;color:#c9d0c7;margin-bottom:3px}
+.arena{position:relative;flex:1;min-height:280px}
+.arena canvas{position:absolute;width:100%;height:100%;touch-action:none;user-select:none}
+.overlay{position:absolute;inset:0;background:#122736f5;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:22px;overflow:auto;text-align:center;overscroll-behavior:contain}
+.overlay h1{max-width:440px;width:100%;color:#f66a49;margin:0;line-height:0}
+.overlay h2{font-size:clamp(23px,5vw,38px);line-height:1.1;margin:4px 0;letter-spacing:-.04em;text-wrap:balance}
+.overlay p{line-height:1.6;font-size:13px;margin:0;color:#c9d0c7}
+.overlay img{width:95px;height:81px}
+.overlay>small{font-size:9px;color:#c9d0c7}
+.eyebrow{font-family:var(--font-geist-mono),monospace;font-size:10px!important}
+.levels{display:flex;gap:8px;width:100%;max-width:360px}
+.levels button{flex:1;padding:9px 5px;font-size:12px}
+.levels small{display:block;font-size:9px;margin-top:3px}
+.levels [aria-pressed=true]{background:#f4b65c;color:#122736;border-color:#f4b65c}
+.overlay .primary{background:#f4b65c;color:#122736;border-color:#f4b65c;min-width:220px;font-weight:600}
+.overlay .primary:hover{background:#cedbb6}
+.description{font-size:11px!important;max-width:400px}
+.finalScore{font-size:40px;font-family:var(--font-geist-mono),monospace}
+.finalScore small{font-size:12px}
+.controls{padding:12px max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));font-size:10px;text-align:center}
+.growth{display:flex;justify-content:space-between;color:#f4b65c;font-size:11px}
+.controls p{color:#c9d0c7;margin:8px 0}
+.directions{display:flex;justify-content:center;gap:12px}
+.directions button{min-width:52px;font-size:19px;touch-action:none}
+.controls details{max-width:520px;margin:auto}
+.controls summary{cursor:pointer;min-height:35px;display:flex;align-items:center;justify-content:center}
+.controls details p{line-height:1.5;text-align:left}
+.game :global(.sr-only){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-height:760px){.overlay{gap:7px;padding:12px}
+.overlay img{display:none}
+.overlay h1{max-width:270px}
+.overlay p{font-size:12px}
+.controls{padding-top:7px}
+.overlay h2{font-size:24px}
+}
+@media(orientation:landscape) and (max-height:600px){.game{min-height:420px}
+.toolbar{min-height:44px}
+.scoreboard{padding:4px;font-size:16px}
+.arena{min-height:220px}
+.controls{padding:4px 16px}
+.controls>p,.controls details{display:none}
+.directions button{min-height:36px;padding:3px 12px}
+.overlay{gap:5px;padding:10px}
+.overlay h1,.overlay>small{display:none}
+.overlay p{font-size:11px}
+.overlay h2{font-size:20px}
+.overlay .primary{min-height:38px;padding:7px 12px}
+}
+
+.overlay{justify-content:safe center;gap:10px}
+.overlay>*{flex-shrink:0}
+.overlay h1{max-width:300px}
+.overlay img{display:none}
+@media(min-width:700px) and (min-height:900px){.overlay img{display:block}
+}
+
+.gameTitle{font-family:Impact,'Arial Black',sans-serif!important;font-size:clamp(32px,8vw,58px)!important;line-height:1!important;letter-spacing:-.02em!important}.game[data-venue=Elsa]{background:#283e30}.game[data-venue=Elsa] .overlay{background:#283e30fa}.game[data-venue=Elsa] .gameTitle{font-family:Georgia,serif!important;color:#f4ce67}.directions button{font-size:11px;min-width:56px}.overlay h1{line-height:1!important;max-width:400px}.overlay img{display:block;width:90px;height:76px}.arena{max-width:720px;width:100%;align-self:center}.toolbar{width:100%;max-width:1100px;align-self:center}@media(max-height:760px){.overlay img{display:none}.overlay .gameTitle{font-size:32px!important}}
+.game{background:#171b1c}.game .overlay{background:#171b1cfa}.game .gameTitle{color:#f8ca3e}.game button{background:#252a29;border-color:#ab9475}.game .overlay .primary,.game .levels [aria-pressed=true]{background:#f8ca3e;color:#171b1c;border-color:#f8ca3e}.game .growth{color:#f8ca3e}.game .scoreboard small,.game .overlay p,.game .controls p{color:#d6ccb5}

@@ -1,0 +1,246 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "reports": [
+    {
+      "slug": "havana-58",
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "items": 18,
+      "categories": 6,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": false
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": false
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 290,
+        "height": 72,
+        "bottom": 726
+      }
+    },
+    {
+      "slug": "havana-58",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "items": 18,
+      "categories": 6,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 360,
+        "height": 75,
+        "bottom": 830
+      }
+    },
+    {
+      "slug": "havana-58",
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "items": 18,
+      "categories": 6,
+      "images": [
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/scene.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cappuccino.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/sandwich.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/croissant.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/empanada.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cake.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/assets/havana-58/cafecito.svg",
+          "ok": true
+        },
+        {
+          "src": "http://127.0.0.1:3126/_next/image?url=%2Fassets%2Ffina-calle%2Femblem-colattao.webp&w=256&q=75",
+          "ok": true
+        }
+      ],
+      "robots": "noindex, nofollow",
+      "disclaimer": true,
+      "play": {
+        "width": 330,
+        "height": 75,
+        "bottom": 875
+      }
+    },
+    {
+      "slug": "havana-58",
+      "touch": "real CDP touch start/move/end",
+      "keyboard": "ArrowUp",
+      "pause": "clock frozen",
+      "result": "Counter 1 complete\n\nRound lost\n\nTime is up.\n\n30 points\n\nReach the score goal to win.\n\nGoal 1,300 · Leading rival 4,920\n\nPlay this counter again\nChoose next counter\nChoose a counter\nBack to menu",
+      "replay": true,
+      "fallback": true
+    }
+  ]
+}
