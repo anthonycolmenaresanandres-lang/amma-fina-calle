@@ -49,8 +49,8 @@ export async function getSiteTrafficReport(site: TrafficSite, range: TrafficRang
     if (coverage.state !== "ready") {
       const reason = {
         waiting: "Collection coverage is unverified; no measured zero is inferred from an empty event set.",
-        partial: "Recorded pageviews cover an unverified portion of this period. Earlier traffic is not backfilled.",
-        stale: "Independent collection checks are stale or failed. Recorded pageviews are incomplete evidence.",
+        partial: "Recorded pageviews have unverified ingestion coverage. Page/configuration probes cannot prove collector delivery or event writes; earlier traffic is not backfilled.",
+        stale: "Configuration probes are stale or failed. Ingestion coverage remains unverified.",
         "measured-zero": "No pageviews recorded in a fully covered interval with independent collection checks.",
       }[coverage.state];
       return { ...diagnostics, state: coverage.state, reason, observedPageviews: report.pageviews, observedIdentifiers: report.uniqueVisitors, recorded: report };

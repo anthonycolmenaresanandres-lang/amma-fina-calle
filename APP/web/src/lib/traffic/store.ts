@@ -215,14 +215,27 @@ class PostgresTrafficStore implements TrafficStore {
   async getCollectionChecks(siteId: string, startMs: number, endMs: number) {
     const pool = await this.getPool();
     try {
-      const result = await pool.query(`SELECT start_at, end_at, checked_at, healthy, probe_ok
-        FROM traffic_collection_checks WHERE site_id = $1 AND
-        ((end_at >= $2 AND start_at <= $3) OR start_at =
-          (SELECT MIN(start_at) FROM traffic_collection_checks WHERE site_id = $1 AND healthy))
-        ORDER BY start_at LIMIT 10000`,
-        [siteId, new Date(startMs).toISOString(), new Date(Math.max(endMs, Date.now())).toISOString()]);
+      // Aggregate every check in the bounded interval. First and latest probes
+      // are selected independently of that interval and of each other. These
+      // are configuration diagnostics, never ingestion/coverage evidence.
+      const result = await pool.query(`WITH interval_summary AS (
+          SELECT COUNT(*) AS check_count FROM traffic_collection_checks
+          WHERE site_id = $1 AND end_at > $2 AND start_at < $3
+        ), endpoints AS (
+          (SELECT start_at, end_at, checked_at, healthy, probe_ok FROM traffic_collection_checks
+           WHERE site_id = $1 ORDER BY start_at ASC, checked_at ASC LIMIT 1)
+          UNION
+          (SELECT start_at, end_at, checked_at, healthy, probe_ok FROM traffic_collection_checks
+           WHERE site_id = $1 ORDER BY checked_at DESC, start_at DESC LIMIT 1)
+          UNION
+          (SELECT start_at, end_at, checked_at, healthy, probe_ok FROM traffic_collection_checks
+           WHERE site_id = $1 AND probe_ok ORDER BY checked_at DESC, start_at DESC LIMIT 1)
+        ) SELECT endpoints.*, interval_summary.check_count FROM endpoints
+          CROSS JOIN interval_summary ORDER BY start_at`,
+        [siteId, new Date(startMs).toISOString(), new Date(endMs).toISOString()]);
       return result.rows.map((row) => ({ start: new Date(row.start_at).toISOString(), end: new Date(row.end_at).toISOString(),
-        checkedAt: new Date(row.checked_at).toISOString(), healthy: row.healthy === true, probeHealthy: row.probe_ok === true }));
+        checkedAt: new Date(row.checked_at).toISOString(), healthy: row.healthy === true, probeHealthy: row.probe_ok === true,
+        checksInRange: Number(row.check_count) }));
     } catch (error) {
       if ((error as { code?: string }).code === "42P01") return []; // no coverage evidence, never zero
       throw error;

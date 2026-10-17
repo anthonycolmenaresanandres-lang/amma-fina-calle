@@ -69,10 +69,13 @@ export interface TrafficStore {
   recordCollectionProbe?(siteId: string, healthy: boolean, checkedAt: number): Promise<void>;
 }
 
+/** Configuration/page probes only. These rows never certify event ingestion. */
 export interface CollectionCheck {
   start: string;
   end: string;
   checkedAt: string;
   healthy: boolean;
   probeHealthy?: boolean;
+  /** Complete SQL aggregate for the requested interval, not sampled rows. */
+  checksInRange?: number;
 }

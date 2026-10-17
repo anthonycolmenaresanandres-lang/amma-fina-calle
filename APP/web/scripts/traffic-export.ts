@@ -6,7 +6,7 @@ import { trafficDatabaseUrl, __test } from "../src/lib/traffic/store";
 import { assessCoverage } from "../src/lib/traffic/coverage";
 async function main() {
   const [first,last,timezone="America/New_York"] = process.argv.slice(2);
-  if (!first || !last) throw Error("Usage: traffic-export.ts YYYY-MM-DD YYYY-MM-DD [IANA timezone]");
+  if (!first || !last) throw Error("Usage: traffic-export.ts YYYY-MM-DD YYYY-MM-DD [America/New_York]");
   const range = calendarRange(first,last,timezone);
   const connection = trafficDatabaseUrl();
   if (!connection) throw Error("No existing dedicated traffic connection. Stop; do not retrieve or decrypt secrets.");

@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { calendarRange, completeDays } from "@/lib/traffic/date";
+import { calendarRange, completeDays, TRAFFIC_TIMEZONE } from "@/lib/traffic/date";
 import { getAdminContext } from "@/lib/admin/auth";
 import { ALL_TRAFFIC_SITES } from "@/lib/traffic/sites";
 import { getSiteTrafficReport } from "@/lib/traffic/site-traffic";
@@ -15,6 +15,7 @@ export async function GET(request: Request) {
   const query = new URL(request.url).searchParams;
   try {
     const timezone = query.get("timezone") ?? "America/New_York";
+    if (timezone !== TRAFFIC_TIMEZONE) return Response.json({ reason: "unsupported_timezone", supportedTimezone: TRAFFIC_TIMEZONE }, { status: 400, headers });
     const first = query.get("start"), last = query.get("end");
     if (Boolean(first) !== Boolean(last)) throw new Error("BOTH_DATES_REQUIRED");
     const range = first && last ? calendarRange(first, last, timezone) : completeDays(30, Date.now(), timezone);

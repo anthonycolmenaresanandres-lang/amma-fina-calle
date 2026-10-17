@@ -23,7 +23,7 @@ function displayDay(value: string) {
 
 function statusTitle(state: "unconfigured" | "unavailable" | "waiting" | "empty" | "partial" | "stale" | "measured-zero") {
   if (state === "partial") return "Partial collection coverage";
-  if (state === "stale") return "Independent collection checks stale";
+  if (state === "stale") return "Configuration probes stale";
   if (state === "measured-zero") return "Measured zero pageviews in covered period";
   if (state === "unconfigured") return "Collection not connected";
   if (state === "waiting") return "Waiting for the first verified pageview";
@@ -65,7 +65,7 @@ export default async function TrafficPage() {
                 <div className="mt-4" role="status">
                   <p className="text-sm font-semibold text-[#f4f6f7]">{statusTitle(report.state)}</p>
                   <p className="mt-2 text-sm leading-6 text-[#aeb7bd]">{report.reason}</p>
-                  <p className="mt-2 text-xs text-[#7f8a91]">Interval [start, end): {report.since} to {report.until} ({report.timezone ?? "America/New_York"}). Last independent check: {report.checkedAt ?? "unverified"}. Last successful check: {report.lastSuccessfulCheck ?? "unverified"}. Collection start: {report.collectionStart ?? "unknown"}.</p>
+                  <p className="mt-2 text-xs text-[#7f8a91]">Interval [start, end): {report.since} to {report.until} ({report.timezone ?? "America/New_York"}). Last configuration check: {report.checkedAt ?? "unverified"}. Last successful configuration check: {report.lastSuccessfulCheck ?? "unverified"}. Collection start: {report.collectionStart ?? "unknown"}.</p>
                   {report.observedPageviews !== undefined && <p className="mt-2 text-sm">Recorded pageviews: {report.observedPageviews} — coverage: {report.state}</p>}
                   {report.state === "empty" && <p className="mt-2 text-xs text-[#7f8a91]">Last verified pageview: {new Date(report.lastObservedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>}
                   <p className="mt-3 text-xs leading-5 text-[#7f8a91]">Vercel may still have historical data. In its Hostnames panel, filter to {report.domains.join(" or ")}. Do not use the unfiltered project total.</p>
@@ -75,7 +75,7 @@ export default async function TrafficPage() {
                 </div>
               ) : (
                 <>
-                  <p className="mt-2 text-xs text-[#7f8a91]">Interval [start, end): {report.since} to {report.until} ({report.timezone}). Last successful collection check: {report.lastSuccessfulCheck ?? "unverified"}.</p>
+                  <p className="mt-2 text-xs text-[#7f8a91]">Interval [start, end): {report.since} to {report.until} ({report.timezone}). Last successful configuration check: {report.lastSuccessfulCheck ?? "unverified"}.</p>
                   <p className="mt-2 break-all text-xs text-[#7f8a91]">{report.domains.join(" · ")}</p>
                   <p className="mt-1 text-xs text-[#7f8a91]">Latest verified event: {new Date(report.lastUpdated).toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>
                   <p className="mt-1 text-xs text-[#7f8a91]">First verified pageview: {new Date(report.firstObservedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET{Date.parse(report.firstObservedAt) > Date.parse(report.since) ? " · Earlier traffic is not backfilled" : ""}</p>

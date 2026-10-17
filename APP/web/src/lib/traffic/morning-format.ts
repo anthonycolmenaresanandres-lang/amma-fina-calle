@@ -15,7 +15,7 @@ export function renderMorningReport(date: string, reports: TrafficReport[]) {
     const report = reports.find((item) => item.siteId === site.id)!;
     lines.push(report.siteName, `Type: ${site.kind} (route classification; no business approval or collection status inferred)`, `Domains: ${report.domains.join(", ")}`);
     lines.push(`Interval [start, end): ${report.since ?? "unknown"} to ${report.until ?? "unknown"}; timezone ${report.timezone ?? "America/New_York"}`,
-      `Independent check: ${report.checkedAt ?? "unverified"}; last successful check: ${report.lastSuccessfulCheck ?? "unverified"}; collection start: ${report.collectionStart ?? "unknown"}`);
+      `Configuration check: ${report.checkedAt ?? "unverified"}; last successful configuration check: ${report.lastSuccessfulCheck ?? "unverified"}; collection start: ${report.collectionStart ?? "unknown"}`);
     if (report.state === "ready") {
       lines.push(`Distinct tracked identifiers (not people): ${report.identifiedPageviews === 0 ? "not collected" : report.visitors.toLocaleString("en-US")} (anonymous first-party pageviews have no persistent identifier)`,
         `Pageviews: ${report.pageviews.toLocaleString("en-US")}`);
@@ -30,7 +30,7 @@ export function renderMorningReport(date: string, reports: TrafficReport[]) {
     lines.push("");
   }
   lines.push("Only verified production hostnames and explicitly listed public pages are included.",
-    "Tracked identifiers are not identifiable people. Anonymous first-party collection measures pageviews only, not physical QR scans. Health evidence is independent of guest activity.",
+    "Tracked identifiers are not identifiable people. Anonymous first-party collection measures pageviews only, not physical QR scans. Configuration probes do not verify ingestion or prove zero traffic.",
     "Private dashboard: https://finacalleos.com/customers/traffic");
   return { subject: `Fina Calle traffic by site — ${date}`, text: lines.join("\n") };
 }

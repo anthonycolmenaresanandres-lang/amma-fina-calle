@@ -21,7 +21,7 @@ This change is local preparation only. No deployment, live migration, database w
 
 `[2026-09-17T04:00:00.000Z, 2026-10-17T04:00:00.000Z)`.
 
-Omitted dates mean the previous 30 **complete calendar days**, not a rolling 720 hours. Daily report boundaries use the preceding Eastern calendar day, including DST days of 23 or 25 hours. Maximum report range is 90 calendar days. The protected today endpoint explicitly labels its current incomplete day. Reports require the existing report token or existing authorized admin session and return private/no-store JSON. Tokens belong in Authorization headers, never URLs.
+Omitted dates mean the previous 30 **complete calendar days**, not a rolling 720 hours. Daily report boundaries use the preceding Eastern calendar day, including DST days of 23 or 25 hours. Maximum report range is 90 calendar days. The report contract accepts **America/New_York only**; unsupported timezones (including Australia/Sydney) return HTTP 400 until general timezone handling is implemented and tested. The protected today endpoint explicitly labels its current incomplete day. Reports require the existing report token or existing authorized admin session and return private/no-store JSON. Tokens belong in Authorization headers, never URLs.
 
 All report reads, including the first read, execute **SELECT only**. Runtime reporting contains no CREATE/ALTER/INDEX. Prepared schema is in `migrations/001_dedicated_traffic.sql`; applying it is separately gated. The dedicated Neon store is kept separate from Supabase. A Supabase hostname or an explicitly shared application connection is rejected.
 
@@ -29,11 +29,13 @@ Period distinct identifiers are computed directly from the full selected event i
 
 ## Health and coverage
 
-Reports distinguish `unconfigured`, `unavailable`, `waiting`, `partial`, `stale`, `ready`, and `measured-zero`. Partial/stale reports can show **recorded** pageviews with their limitation; they are not complete period totals. Event timestamps alone never determine collector health. First/last stored pageviews, collection start, latest check, latest successful check, coverage interval and current freshness remain separate.
+Current reports distinguish `unconfigured`, `unavailable`, `waiting`, `partial`, and `stale`. The older `ready`/`measured-zero` response types are retained for compatibility, but configuration probes cannot produce either state. Partial/stale reports can show **recorded** pageviews with their limitation; they are not complete period totals. Event timestamps alone never determine collector health. First/last stored pageviews, collection start, latest check, latest successful check, coverage interval and current freshness remain separate.
 
 No health schedule is activated. The prepared `POST /api/internal/traffic/health` requires `TRAFFIC_HEALTH_RECORD_ENABLED=true`, Production, and the existing `CRON_SECRET`. It checks each verified public page for an enabled collector marker and HTTP availability, then records independent check intervals in the dedicated store. It does not run page JavaScript or count synthetic pageviews. HTTP probes are tagged `traffic_test=health`.
 
-Two successful checks no more than 15 minutes apart cover the intervening interval. A failed check or a gap invalidates continuity. The first check covers only its instant; it does not backfill. A complete union of healthy intervals permits measured zero **recorded** pageviews; incomplete evidence remains partial/waiting. Last check older than 30 minutes or a failed latest check is stale for incomplete coverage. Historical fully covered intervals remain usable if current collection later stops. This is availability/configuration monitoring, not proof that every browser executed JavaScript or that every network request was delivered.
+The monitor proves only page/configuration availability. A successful page response and meta marker do not prove that the collector JS exists, executes, delivers an event, or that `traffic_events` INSERT succeeds. **Configuration-only checks never establish complete coverage or measured zero**, even when consecutive successful probes span the entire requested period. `ingestionVerified` is false, `complete` is false, and collection start/covered-until remain unknown. First configuration check, latest successful configuration check and first/last recorded events are distinct metadata.
+
+All checks in the requested bounded interval are counted in SQL, without a 10,000-row truncation. First, latest, and latest-successful probes are selected independently, so current configuration freshness is not lost on large or historical windows. A regression covers 25,920 five-minute checks across 90 days. This is aggregate diagnostics, not a claim of ingestion coverage. Separately verified ingestion-path evidence would require a future reviewed design with excluded synthetic events; no live synthetic event or such activation is performed here.
 
 Monitor execution writes only after its separate activation approval. Every health/report GET is read-only. There is no traffic cron in `vercel.json`; the unrelated existing Square entry is unchanged.
 
@@ -41,7 +43,7 @@ Monitor execution writes only after its separate activation approval. Every heal
 
 AMMA React routes use the global collector only in explicitly selected Production first-party mode. Vital Vibes and Pocket Cafe standalone responses have equivalent conditional script/marker and same-origin CSP allowance. Four independently served HTML concepts have **inactive** `data-enabled="false"` script hooks. Their activation requires explicit review: set their hook to true and add `<meta name="fc-traffic-collector" content="first-party-v1">`. They remain unverified/unhealthy until then.
 
-The separate Colattao app is **not modified or deployed** by this branch. `templates/ColattaoTraffic.tsx` plus `public/traffic-collector.js` is the prepared integration for that app's root layout. It sends to AMMA's validated receiver without cookies. Its existing `/menu` route and QR signage remain unchanged. A separate scoped Colattao integration/review/deployment is required; do not claim collection coverage before its production probe succeeds.
+The separate Colattao app is **not modified or deployed** by this branch. `templates/ColattaoTraffic.tsx` plus `public/traffic-collector.js` is the prepared integration for that app's root layout. It sends to AMMA's validated receiver without cookies. Its existing `/menu` route and QR signage remain unchanged. A separate scoped Colattao integration/review/deployment is required; a successful production page probe alone must never be treated as verified ingestion coverage.
 
 ## Daily owner delivery
 
@@ -83,3 +85,11 @@ Stored rows with NULL/unproven site attribution are excluded; they cannot safely
 - **Collection:** separate approval for AMMA/Colattao deployment, selected public concepts/static hooks, input mode, and monitoring writes/cadence, after existing quotas and hard spending limits are verified.
 - **Email:** confirm the verified owner destination, exact frequency/time/timezone, provider allowance and a test send before any recurring authenticated POST delivery. Native Vercel Cron uses GET; this branch installs no schedule and every GET remains read-only. A suitable existing scheduler must be verified before proposing activation.
 - **Credentials/access:** no new credentials, secret discovery/decryption, grants or account changes are needed for the local code. If existing authorized access is absent during activation, stop and identify that distinct requirement; none is authorized by the code-publication decision.
+
+## PR review corrections
+
+Configuration-only page/meta checks do not verify collector JavaScript or event INSERTs. All such checks, including existing stored rows, remain unverified for ingestion; they cannot establish complete traffic coverage or measured zero. Recorded pageviews remain explicitly partial/stale/waiting. No synthetic live event was introduced.
+
+Diagnostic queries now aggregate the full requested interval and independently select first, latest and latest-successful probes. They do not return the first 10,000 rows or lose current freshness on 90-day windows. Offline regressions exercise 25,920 checks, a subsequent failure, and historical subranges. `traffic:selftest` includes these pipeline regressions and is already run by the existing CI workflow.
+
+All report/date-range entry points support America/New_York only. Australia/Sydney and other unsupported timezones are rejected; 23-hour and 25-hour Eastern DST-day tests remain in place.

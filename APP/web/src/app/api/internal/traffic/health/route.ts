@@ -31,8 +31,8 @@ export async function POST(request: Request) {
     } catch { healthy = false; }
     try {
       await recordProbe(site.id, healthy, Date.now());
-      return { siteId: site.id, healthy };
-    } catch { return { siteId: site.id, healthy: false, reason: "store_unavailable" }; }
+      return { siteId: site.id, healthy, evidence: "configuration-only" };
+    } catch { return { siteId: site.id, healthy: false, evidence: "configuration-only", reason: "store_unavailable" }; }
   }));
-  return Response.json({ checks, note: "Configuration/availability checks are independent of guest events; browser blocking, lost requests and bots remain limitations." }, { headers: { "Cache-Control": "private, no-store" } });
+  return Response.json({ checks, ingestionVerified: false, note: "Configuration-only checks cannot establish complete ingestion coverage or measured-zero traffic. Collector JS and event writes are unverified." }, { headers: { "Cache-Control": "private, no-store" } });
 }

@@ -40,7 +40,7 @@ const actualStore=load('src/lib/traffic/store.ts',{'node:fs':fs,'node:crypto':cr
 const firstReadStore=new actualStore.__test.PostgresTrafficStore('postgres://fixture-unused.test/traffic');
 await firstReadStore.getRangeReport('bodega',Date.now()-60000,Date.now(),'America/New_York');
 await firstReadStore.getObservationWindow('bodega');await firstReadStore.getCollectionChecks('bodega',Date.now()-60000,Date.now());
-assert.equal(poolCreations,1);assert.equal(readStatements.length,6);assert(readStatements.every(sql=>/^\s*SELECT\b/i.test(sql)));
+assert.equal(poolCreations,1);assert.equal(readStatements.length,6);assert(readStatements.every(sql=>/^\s*(SELECT|WITH)\b/i.test(sql) && !/\b(INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|TRUNCATE|GRANT|REVOKE)\b/i.test(sql)));
 console.log('PASS actual first connection factory is reused and emits SELECTs only; no schema initialization');
 const coverage=load('src/lib/traffic/coverage.ts',{});
 const fakeStore={async getRangeReport(){return {pageviews:0,uniqueVisitors:0,daily:[],topPaths:[],topReferrers:[],lastUpdated:null};},async getObservationWindow(){return {firstObservedAt:null,lastObservedAt:null};},async getCollectionChecks(){return [];}};
@@ -60,7 +60,42 @@ const read=await reportRoute.GET(new Request(reportURL,{headers:{Authorization:'
 const result=await read.json();assert.equal(result.range.since,'2026-09-17T04:00:00.000Z');assert.equal(result.range.until,'2026-10-17T04:00:00.000Z');
 assert(result.reports.every(row=>row.state==='unavailable'));
 assert.equal(read.headers.get('Cache-Control'),'private, no-store');
+const unsupported=await reportRoute.GET(new Request(reportURL+'&timezone=Australia%2FSydney',{headers:{Authorization:'Bearer fixture-report-token'}}));
+assert.equal(unsupported.status,400);assert.equal((await unsupported.json()).reason,'unsupported_timezone');
 console.log('PASS protected connector-readable calendar report, unavailable data remains unavailable');
+
+// Configuration success must remain unverified even when the independent
+// collector resource is missing or an event INSERT fails. All IO is mocked.
+for (const failure of ['collector-404','event-insert-fails']) {
+  const fixtureNow=Date.now();
+  const fixtureRange={since:new Date(fixtureNow-60000).toISOString(),until:new Date(fixtureNow).toISOString()};
+  const fixtureChecks=[{start:fixtureRange.since,end:fixtureRange.until,checkedAt:fixtureRange.until,healthy:true,probeHealthy:true}];
+  const fixtureStore={
+    async insertEvents(){if(failure==='event-insert-fails')throw Error('fixture INSERT failure');},
+    async recordCollectionProbe(){},
+    async getRangeReport(){return {pageviews:0,uniqueVisitors:0,daily:[],topPaths:[],topReferrers:[],lastUpdated:null};},
+    async getObservationWindow(){return {firstObservedAt:null,lastObservedAt:null};},
+    async getCollectionChecks(){return fixtureChecks;},
+  };
+  const fixtureImports={getTrafficStore:()=>fixtureStore,trafficDatabaseUrl:()=> 'configured-fixture'};
+  const fixtureEnv={VERCEL_ENV:'production',TRAFFIC_INGESTION_SOURCE:'first-party',TRAFFIC_HEALTH_RECORD_ENABLED:'true',CRON_SECRET:'fixture-cron'};
+  const fixtureHealth=load('src/app/api/internal/traffic/health/route.ts',{'../report/route':reportRoute,'node:crypto':crypto,'@/lib/traffic/sites':registry,'@/lib/traffic/store':fixtureImports,'@/lib/traffic/first-party':{activeSource:()=> 'first-party'}},fixtureEnv,
+    async url=>String(url).endsWith('/traffic-collector.js') ? new Response(null,{status:404}) : new Response('<meta name="fc-traffic-collector" content="first-party-v1">',{status:200}));
+  if(failure==='event-insert-fails'){
+    const fixtureCollector=load('src/app/api/traffic/pageview/route.ts',{'@/lib/traffic/first-party':first,'@/lib/traffic/store':fixtureImports},fixtureEnv);
+    env.TRAFFIC_INGESTION_SOURCE='first-party';
+    assert.equal((await fixtureCollector.POST(request())).status,503);
+  }
+  const probe=await fixtureHealth.POST(new Request('https://finacalleos.com/api/internal/traffic/health',{method:'POST',headers:{Authorization:'Bearer fixture-cron'}}));
+  assert.equal(probe.status,200);const probeResult=await probe.json();
+  assert(probeResult.checks.every(check=>check.healthy && check.evidence==='configuration-only'));
+  assert.equal(probeResult.ingestionVerified,false);
+  const fixtureService=load('src/lib/traffic/site-traffic.ts',{'server-only':{},'./date':dates,'./coverage':coverage,'./sites':registry,'./store':fixtureImports},fixtureEnv);
+  const uncertain=await fixtureService.getSiteTrafficReport(registry.ALL_TRAFFIC_SITES[0],fixtureRange);
+  assert.equal(uncertain.state,'partial',failure);assert.equal(uncertain.coverage.complete,false);
+  assert.equal(uncertain.coverage.ingestionVerified,false);assert.equal(uncertain.observedPageviews,0);
+}
+console.log('PASS healthy pages plus collector 404 or event INSERT failure cannot establish coverage or measured zero');
 
 const formatter=load('src/lib/traffic/morning-format.ts',{'./sites':registry});
 let sent=0;const deliveries=[];

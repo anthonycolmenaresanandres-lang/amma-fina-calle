@@ -3,6 +3,10 @@
 // plus the YYYY-MM-DD label. DST transitions at midnight are an irrelevant edge
 // for traffic reporting.
 
+export const TRAFFIC_TIMEZONE = "America/New_York";
+export function requireTrafficTimezone(timezone: string): void {
+  if (timezone !== TRAFFIC_TIMEZONE) throw new Error("UNSUPPORTED_TRAFFIC_TIMEZONE");
+}
 function tzOffsetMs(timeZone: string, atMs: number): number {
   const dtf = new Intl.DateTimeFormat("en-US", {
     timeZone,
@@ -53,6 +57,7 @@ export interface TodayRange {
 }
 
 export function todayRange(timeZone: string, now: number = Date.now()): TodayRange {
+  requireTrafficTimezone(timeZone);
   const dateStr = dateStringInTz(timeZone, now);
   const startMs = dayStartMs(dateStr, timeZone);
   const endMs = dayStartMs(addDays(dateStr, 1), timeZone);
@@ -66,6 +71,7 @@ export function previousEasternDay(now = Date.now()): { date: string; range: { s
 }
 
 export function calendarRange(first: string, last: string, timezone = "America/New_York") {
+  requireTrafficTimezone(timezone);
   // Inclusive calendar labels -> half-open UTC instants. Never assume 24h days.
   for (const date of [first, last]) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)) ||
@@ -79,11 +85,13 @@ export function calendarRange(first: string, last: string, timezone = "America/N
   return { since, until, timezone, first, last, mode: "complete-calendar-days" as const };
 }
 export function completeDays(days = 30, now = Date.now(), timezone = "America/New_York") {
+  requireTrafficTimezone(timezone);
   if (!Number.isInteger(days) || days < 1 || days > 90) throw new Error("INVALID_DAY_COUNT");
   const today = dateStringInTz(timezone, now);
   return calendarRange(addDays(today, -days), addDays(today, -1), timezone);
 }
 export function validateRange(range: { since: string; until: string }, timezone: string) {
+  requireTrafficTimezone(timezone);
   new Intl.DateTimeFormat("en-US", { timeZone: timezone });
   const start = Date.parse(range.since), end = Date.parse(range.until);
   if (!/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.since) || !/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(range.until) ||

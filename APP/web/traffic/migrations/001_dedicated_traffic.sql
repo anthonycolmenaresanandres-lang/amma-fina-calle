@@ -17,3 +17,4 @@ CREATE TABLE IF NOT EXISTS traffic_collection_checks (
   PRIMARY KEY(site_id, start_at, end_at), CHECK(end_at > start_at),
   CHECK(end_at - start_at <= INTERVAL '15 minutes'), CHECK(checked_at >= end_at)
 );
+CREATE INDEX IF NOT EXISTS traffic_collection_checks_latest_idx ON traffic_collection_checks(site_id, checked_at DESC);

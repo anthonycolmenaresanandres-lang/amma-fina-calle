@@ -88,7 +88,7 @@ export default async function BodegaTrafficPage() {
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[#aeb7bd]">
                 {report.reason}
               </p>
-              <p className="mt-2 text-xs">Interval [start, end): {report.since} to {report.until}. Last independent check: {report.checkedAt ?? "unverified"}. Last successful check: {report.lastSuccessfulCheck ?? "unverified"}. Collection start: {report.collectionStart ?? "unknown"}.</p>
+              <p className="mt-2 text-xs">Interval [start, end): {report.since} to {report.until}. Last configuration check: {report.checkedAt ?? "unverified"}. Last successful configuration check: {report.lastSuccessfulCheck ?? "unverified"}. Collection start: {report.collectionStart ?? "unknown"}.</p>
               {report.observedPageviews !== undefined && <p className="mt-2 text-sm">Recorded pageviews: {report.observedPageviews}; coverage: {report.state}</p>}
               <p className="mt-4 text-xs leading-5 text-[#7f8a91]">
                 This page is admin-only and fails closed. Historical data may still

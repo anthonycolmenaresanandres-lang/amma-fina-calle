@@ -78,14 +78,19 @@ check("Eastern calendar boundaries, DST and immediately after midnight", () => {
   assert.throws(()=>calendarRange("2026-02-30","2026-03-01"));
   assert.throws(()=>calendarRange("2026-10-02","2026-10-01"));
   assert.throws(()=>calendarRange("2026-01-01","2026-04-01"));
+  assert.throws(()=>calendarRange("2026-10-04","2026-10-04","Australia/Sydney"),/UNSUPPORTED_TRAFFIC_TIMEZONE/);
+  assert.throws(()=>completeDays(30,now,"UTC"),/UNSUPPORTED_TRAFFIC_TIMEZONE/);
 });
 const a = now-900000, b=now;
 const full:CollectionCheck[]=[{start:new Date(a).toISOString(),end:new Date(b).toISOString(),checkedAt:new Date(b).toISOString(),healthy:true}];
-check("quiet, missing, stale, failed and partial coverage differ from measured zero",()=>{
+check("configuration checks never prove complete coverage or measured zero",()=>{
   assert.equal(assessCoverage([],new Date(a).toISOString(),new Date(b).toISOString(),0,now).state,"waiting");
   assert.equal(assessCoverage([],new Date(a).toISOString(),new Date(b).toISOString(),3,now).state,"partial");
-  assert.equal(assessCoverage(full,full[0].start,full[0].end,0,now).state,"measured-zero");
-  assert.equal(assessCoverage(full,full[0].start,full[0].end,3,now).state,"ready");
+  assert.equal(assessCoverage(full,full[0].start,full[0].end,0,now).state,"partial");
+  assert.equal(assessCoverage(full,full[0].start,full[0].end,3,now).state,"partial");
+  assert.equal(assessCoverage(full,full[0].start,full[0].end,0,now).complete,false);
+  assert.equal(assessCoverage(full,full[0].start,full[0].end,0,now).ingestionVerified,false);
+  assert.equal(assessCoverage(full,full[0].start,full[0].end,0,now).collectionStart,null);
   assert.equal(assessCoverage(full,new Date(a-900000).toISOString(),full[0].end,0,now+3600000).state,"stale");
   assert.equal(assessCoverage([{...full[0],healthy:false}],full[0].start,full[0].end,0,now).state,"stale");
   assert.equal(assessCoverage(full,new Date(a-1).toISOString(),full[0].end,0,now).complete,false);
@@ -112,7 +117,7 @@ const store = new __test.PostgresTrafficStore("postgres://unused.test/traffic",p
 await store.getRangeReport("bodega",now-1000,now+1000,"America/New_York");
 await store.getObservationWindow("bodega");
 await store.getCollectionChecks("bodega",now-1000,now+1000);
-check("all first-read database statements are SELECT-only",()=>{assert(statements.length>0);assert(statements.every(sql=>/^\s*SELECT\b/i.test(sql)));});
+check("all first-read database statements are SELECT-only",()=>{assert(statements.length>0);assert(statements.every(sql=>/^\s*(SELECT|WITH)\b/i.test(sql) && !/\b(INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|TRUNCATE|GRANT|REVOKE)\b/i.test(sql)));});
 statements.length=0;
 const base:NormalizedEvent={siteId:"bodega",ts:now,path:"/",referrerHost:null,visitorId:"same-device",eventType:"pageview"};
 await store.insertEvents([base,base,{...base,ts:now+86400000},{...base,ts:now+86400000,visitorId:""},{...base,siteId:"colattao"}]);
@@ -133,10 +138,35 @@ await store.recordCollectionProbe("bodega",true,now);
 await store.recordCollectionProbe("bodega",false,now+300000);
 await store.recordCollectionProbe("bodega",true,now+600000);
 await store.recordCollectionProbe("bodega",true,now+900000);
-const monitorChecks=await store.getCollectionChecks("bodega",now-1,now+900001);
+const monitorChecks=(await db.query<{healthy:boolean;probe_ok:boolean}>("SELECT healthy, probe_ok FROM traffic_collection_checks WHERE site_id = 'bodega' ORDER BY checked_at")).rows;
 check("monitor failure creates a gap and recovers after successive good probes",()=>{
   assert.deepEqual(monitorChecks.map(check=>check.healthy),[true,false,false,true]);
-  assert.deepEqual(monitorChecks.map(check=>check.probeHealthy),[true,false,true,true]);
+  assert.deepEqual(monitorChecks.map(check=>check.probe_ok),[true,false,true,true]);
+});
+const bulkStart=now-90*86400000;
+await db.query(`INSERT INTO traffic_collection_checks(site_id,start_at,end_at,checked_at,healthy,probe_ok)
+  SELECT 'project-seed',to_timestamp($1::double precision/1000+n*300),
+    to_timestamp($1::double precision/1000+(n+1)*300),to_timestamp($1::double precision/1000+(n+1)*300),true,true
+  FROM generate_series(0,25919) AS n`,[bulkStart]);
+const highVolume=await store.getCollectionChecks("project-seed",bulkStart,now);
+const shortHistorical=await store.getCollectionChecks("project-seed",bulkStart,bulkStart+300000);
+check("25920 checks aggregate without truncation and latest freshness is independent of interval",()=>{
+  assert.equal(highVolume.length,2);assert.equal(highVolume[0].checksInRange,25920);
+  assert.equal(highVolume.at(-1)?.checkedAt,new Date(now).toISOString());
+  assert.equal(shortHistorical[0].checksInRange,1);
+  assert.equal(shortHistorical.at(-1)?.checkedAt,new Date(now).toISOString());
+  const assessment=assessCoverage(highVolume,new Date(bulkStart).toISOString(),new Date(now).toISOString(),0,now);
+  assert.equal(assessment.configurationChecksInRange,25920);assert.equal(assessment.fresh,true);
+  assert.equal(assessment.complete,false);assert.equal(assessment.state,"partial");
+});
+await store.recordCollectionProbe("project-seed",false,now+300000);
+const failedLatest=await store.getCollectionChecks("project-seed",bulkStart,now+300000);
+check("latest failure does not hide the independent most recent successful probe",()=>{
+  const assessment=assessCoverage(failedLatest,new Date(bulkStart).toISOString(),new Date(now+300000).toISOString(),0,now+300000);
+  assert.equal(assessment.checkedAt,new Date(now+300000).toISOString());
+  assert.equal(assessment.lastSuccessfulCheck,new Date(now).toISOString());
+  assert.equal(assessment.configurationChecksInRange,25921);
+  assert.equal(assessment.state,"stale");assert.equal(assessment.complete,false);
 });
 await db.close();
 console.log(`PASS ${checks} traffic pipeline behavioral groups; no live services accessed.`);

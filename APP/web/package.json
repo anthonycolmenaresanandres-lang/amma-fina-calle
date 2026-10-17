@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "eslint",
     "traffic:today": "tsx scripts/traffic-today.ts",
-    "traffic:selftest": "tsx scripts/traffic-selftest.ts",
+    "traffic:selftest": "tsx scripts/traffic-selftest.ts && tsx scripts/traffic-pipeline-selftest.ts",
     "traffic-morning:selftest": "node scripts/traffic-morning-selftest.mjs",
     "owner-app:selftest": "tsx scripts/owner-app-selftest.ts",
     "owner-request:selftest": "tsx scripts/owner-request-selftest.ts",

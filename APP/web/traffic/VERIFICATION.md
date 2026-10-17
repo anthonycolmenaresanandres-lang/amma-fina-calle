@@ -1,3 +1,17 @@
+# Current PR review verification
+
+This section supersedes the earlier configuration-probe coverage assumptions in the original preparation evidence below.
+
+- Configuration-only page/meta checks never establish complete coverage or measured-zero traffic. Ingestion remains unverified, even after contiguous successful probes. First recorded events and configuration check times remain separate from unknown collection start.
+- Mocked regressions pass for HTTP-200 page plus missing collector JavaScript (404), and HTTP-200 page plus event INSERT failure (503). No synthetic live event was sent.
+- The high-volume in-memory PostgreSQL regression passes with 25,920 five-minute checks across 90 days, complete aggregate counts, and an independently selected latest check. A subsequent failed check does not hide the independently selected latest successful probe.
+- America/New_York is the only supported reporting timezone. Sydney is rejected (helper and HTTP contract); Eastern 23-hour/25-hour DST tests remain passing.
+- The updated full local Webpack build passed: compilation (25s), TypeScript (30.1s), 58 static pages (3.8s), optimization and traces, exit 0.
+- All 16 pipeline behavioral groups, mocked boundary suite, existing traffic self-test and dashboard compatibility passed. Focused lint passed. The pipeline regression suite is now included in `traffic:selftest`, already run by CI.
+- Report initialization remains SELECT-only (including read-only CTE SELECTs); preview write/send guards remain disabled. No merge, production activation, live database change or send was performed.
+
+---
+
 # Offline verification
 
 All checks use fixtures or a local in-memory PGlite database; no live connection, deployment or mail provider is used.
