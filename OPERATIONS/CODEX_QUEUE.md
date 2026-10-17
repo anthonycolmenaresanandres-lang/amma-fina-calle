@@ -1288,3 +1288,6 @@ Parent authorizes noncredential fixes supported by failed single-test evidence. 
 
 ## [x] Preserve safe provider validation details - 2026-10-17
 Parent's Vercel UI proves original request reached Resend and returned400; app trigger authentication succeeded. Authorizes offline minimal code/tests only. Check payload against official Resend contract, retain only bounded allowlisted provider category through authenticated route/client; no raw provider text or secrets, send, settings, push/deploy or ingestion changes.
+
+## [x] Spacious traffic email presentation - 2026-10-17
+Anthony received the report and requests gaps, improved appearance and mobile readability. Parent authorizes template-only HTML/text implementation, preview, PR/checks/merge/deploy. Preserve counts, periods, subject, recipient, auth/privacy/cadence/ingestion and idempotency. Waiting/uncollected entries must prominently say Data not yet available; preserve recorded-zero detail and caveats. No extra test email or recurring activation. All delivery gates remain off. No external tracked assets, services, spending or migration.

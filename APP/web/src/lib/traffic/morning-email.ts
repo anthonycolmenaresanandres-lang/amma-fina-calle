@@ -84,7 +84,7 @@ export async function sendTrafficDeliveryReport(
         Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json",
         "Idempotency-Key": `fina-calle-traffic-${periodKey}`,
       },
-      body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text }),
+      body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text, html: content.html }),
       cache: "no-store", redirect: "error", signal: AbortSignal.timeout(15000),
     });
     if (!response.ok) {

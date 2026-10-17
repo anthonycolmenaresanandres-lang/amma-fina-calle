@@ -132,7 +132,7 @@ console.log('PASS fixed recipient/verified sender, provider idempotency, one att
 // Reconstruct the deployed non-secret payload contract offline. No provider IO.
 assert.equal(delivery.subject,'Fina Calle traffic by site - 2026-10-16');
 assert.equal(typeof delivery.text,'string');assert(delivery.text.length>0);
-assert.deepEqual(Object.keys(delivery).sort(),['from','subject','text','to']);
+assert.deepEqual(Object.keys(delivery).sort(),['from','html','subject','text','to']);
 assert.equal(deliveries[0].options.headers['Idempotency-Key'].length,46);
 assert(deliveries.every(({options})=>options.headers['Idempotency-Key'].length<=256));
 for (const [body,expected] of [
