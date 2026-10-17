@@ -53,9 +53,36 @@ assert(combined.text.includes('7 recorded pageviews; 2 tracked identifiers'));
 assert(combined.text.includes('23 recorded pageviews; 4 tracked identifiers'));
 assert(combined.html.includes('>7</p>')&&combined.html.includes('>23</p>'));
 assert(!combined.html.includes('>30</p>')&&!combined.text.includes('30 recorded pageviews'));
-const missing=formatter.renderTrafficDeliveryReport([{period,reports:reports.map(r=>({...r,state:'unavailable',observedPageviews:undefined}))}]);
+// Real failure reports omit diagnostics; do not spread successful counts into them.
+const failedReports=state=>reports.map(({siteId,siteName,domains})=>({siteId,siteName,domains,state,reason:'Synthetic source failure'}));
+const missing=formatter.renderTrafficDeliveryReport([{period,reports:failedReports('unavailable')}]);
 assert.equal((missing.html.match(/Data not yet available<\/p>/g)??[]).length,18);
 assert(!missing.html.includes('0 recorded pageviews'));
+for(const state of ['unavailable','unconfigured']){
+  const failed=formatter.renderTrafficDeliveryReport([{period,reports:failedReports(state)}]);
+  assert.equal((failed.html.match(/<strong>Unavailable<\/strong>/g)??[]).length,18,`${state}: identifier status must remain unavailable`);
+  assert(!failed.html.includes('Not collected'));assert(!failed.text.includes('uncollected'));
+  assert.equal((failed.text.match(new RegExp(`${state}: unavailable`,'g'))??[]).length,18);
+}
+const failedZero=formatter.renderTrafficDeliveryReport([{period,reports:failedReports('unavailable').map(r=>({...r,identifiedPageviews:0}))}]);
+assert(!failedZero.html.includes('Not collected'));assert(!failedZero.text.includes('uncollected'));
+assert.equal((daily.html.match(/<strong>Not collected<\/strong>/g)??[]).length,16,'Successful explicit zero-ID reports stay uncollected');
+const mixedReports=reports.map((r,i)=>i===1?failedReports('unconfigured')[i]:i===3?failedReports('unavailable')[i]:r);
+const mixed=formatter.renderTrafficDeliveryReport([{period,reports:mixedReports}]);
+assert.equal((mixed.html.match(/<strong>Unavailable<\/strong>/g)??[]).length,2);
+assert.equal((mixed.html.match(/<strong>Not collected<\/strong>/g)??[]).length,14);
+assert(mixed.text.includes('42 recorded pageviews; 17 tracked identifiers; partial'));
+assert(mixed.text.includes('128 recorded pageviews; 63 tracked identifiers; partial'));
+assert(mixed.html.includes('<strong>17</strong> tracked identifiers')&&mixed.html.includes('<strong>63</strong> tracked identifiers'));
+for(const identifiedPageviews of [undefined,42]){
+  const unknown=formatter.renderTrafficDeliveryReport([{period,reports:reports.map(r=>r.siteId==='bodega'?{...r,identifiedPageviews,observedIdentifiers:undefined}:r)}]);
+  assert(unknown.html.includes('<strong>Unavailable</strong>'));
+  assert(unknown.text.includes('42 recorded pageviews; unavailable tracked identifiers; partial'));
+}
+const anonymous=formatter.renderTrafficDeliveryReport([{period,reports:reports.map(r=>r.siteId==='bodega'?{...r,identifiedPageviews:0,observedIdentifiers:0}:r)}]);
+assert(anonymous.text.includes('42 recorded pageviews; uncollected tracked identifiers; partial'));
+assert.equal((anonymous.html.match(/<strong>Not collected<\/strong>/g)??[]).length,17);
+console.log('PASS identifier availability: unconfigured/query failure/missing counts stay unavailable; explicit successful zero stays uncollected; HTML/text numeric counts unchanged');
 const maliciousRegistry={...registry,ALL_TRAFFIC_SITES:registry.ALL_TRAFFIC_SITES.map((s,i)=>i? s:{...s,name:'Bodega <img src="x"> & friends'})};
 const malicious=load('src/lib/traffic/morning-format.ts',{'./date':dates,'./sites':maliciousRegistry}).renderTrafficDeliveryReport([{period,reports:reports.map(r=>({...r,state:'<script>private-fixture</script>'}))}]);
 assert(malicious.html.includes('Bodega &lt;img src=&quot;x&quot;&gt; &amp; friends'));

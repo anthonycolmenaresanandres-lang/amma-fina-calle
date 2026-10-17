@@ -3668,3 +3668,9 @@ Implemented inline-style responsive HTML plus blank-line text fallback using sam
 
 ### [CHECK-IN] Codex - 2026-10-17 - one styled preview authorized
 User asks send me a test now please for me to see it at21:58:43UTC. Add fixed test-only spaced-html-20261017-v1 key suffix; recurring idempotency stays exactly unchanged. Run mocked stability/mode-isolation regression, update PR350, wait exact-head checks, then one styled dispatch/readback and close gates. Existing plain success key will not be reused with different HTML; no random key or retry.
+
+### [CHECK-IN] Codex - 2026-10-17 - local identifier-state review correction
+Verified PR350 review5560291731 against deployed14915a3 content: HTML maps undefinedIDs to Not collected although failed/unconfigured report has no diagnostics. Work only reporting worktree, narrow renderer/test fix. Failure-state regression first, explicit known-uncollected versus unknown, preserve numeric counts/subject/cadence/auth. Local commit only; no deployment/send/schedule or owner-portal action.
+
+### [CHECK-OUT] Codex - 2026-10-17 - identifier-state correction verified locally
+Confirmed review5560291731/discussion4304685618. Added realistic absent-diagnostics fixtures; regression failed on14915a3 (zero Unavailable labels versus expected18). Narrow formatter flag now reserves Not collected for explicit zero on nonfailed source; unknown/unconfigured/query-failure IDs show Unavailable, including plain fallback for known pageviews/missing ID count. Numeric counts unchanged. Mixed/unknown/known-uncollected fixtures, full offline traffic/mail/drain suite, scopedlint and fullwebpackbuild+TypeScript+58pages PASS. Only formatter and presentation test code changed plus required ops notes; protected data/auth/transport/cadence/ingestion files unchanged. Local commit only; no push/PR/deploy/email/schedule/owner-portal changes.

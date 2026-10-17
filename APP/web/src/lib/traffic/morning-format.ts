@@ -46,7 +46,7 @@ export function renderTrafficPeriodReport(period: TrafficDeliveryPeriod, reports
 
 export type TrafficReportBundle = { period: TrafficDeliveryPeriod; reports: TrafficReport[] };
 
-type EmailMetric = { state: string; pageviews?: number; identifiers?: number; summary: string };
+type EmailMetric = { state: string; pageviews?: number; identifiers?: number; identifiersUncollected: boolean; summary: string };
 type EmailSite = { name: string; kind: string; values: EmailMetric[] };
 
 function htmlText(value: string | number): string {
@@ -71,7 +71,7 @@ function renderDeliveryHtml(bundles: TrafficReportBundle[], labels: string[], si
       return `<tr><td style="padding:${index ? "20px" : "16px"} 0 0;">
         <p style="margin:0;color:${muted};font-size:13px;font-weight:700;line-height:1.6;">${htmlText(labels[index])}</p>
         ${primary}${recordedDetail}
-        <p style="margin:0;color:${ink};font-size:15px;line-height:1.6;"><strong>${metric.identifiers === undefined ? "Not collected" : htmlText(metric.identifiers.toLocaleString("en-US"))}</strong> ${metric.identifiers === undefined ? "&mdash; tracked identifiers" : "tracked identifiers"}</p>
+        <p style="margin:0;color:${ink};font-size:15px;line-height:1.6;"><strong>${metric.identifiers === undefined ? metric.identifiersUncollected ? "Not collected" : "Unavailable" : htmlText(metric.identifiers.toLocaleString("en-US"))}</strong> ${metric.identifiers === undefined ? "&mdash; tracked identifiers" : "tracked identifiers"}</p>
         <p style="margin:6px 0 0;color:${muted};font-size:13px;line-height:1.6;">Coverage status: ${htmlText(metric.state)}</p>
       </td></tr>`;
     }).join("");
@@ -127,9 +127,13 @@ export function renderTrafficDeliveryReport(bundles: TrafficReportBundle[]) {
       const report = reports.find((row) => row.siteId === site.id)!;
       const pageviews = report.state === "ready" ? report.pageviews : report.observedPageviews;
       const identifiers = report.identifiedPageviews ? report.state === "ready" ? report.visitors : report.observedIdentifiers : undefined;
-      return { state: report.state, pageviews, identifiers,
+      // Missing diagnostics are unknown. Only an explicit zero from a readable
+      // source establishes that identifiers were not collected.
+      const identifiersUncollected = report.identifiedPageviews === 0 &&
+        report.state !== "unconfigured" && report.state !== "unavailable";
+      return { state: report.state, pageviews, identifiers, identifiersUncollected,
         summary: pageviews === undefined ? `${report.state}: unavailable` :
-          `${pageviews} recorded pageviews; ${identifiers ?? "uncollected"} tracked identifiers; ${report.state}` };
+          `${pageviews} recorded pageviews; ${identifiers ?? (identifiersUncollected ? "uncollected" : "unavailable")} tracked identifiers; ${report.state}` };
     }),
   }));
   const caveats = [
