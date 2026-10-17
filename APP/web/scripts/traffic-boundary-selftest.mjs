@@ -112,7 +112,7 @@ mailEnv.TRAFFIC_FROM_EMAIL='Traffic <reports@finacalleos.com>';
 assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).sent,true);assert.equal(sent,1);
 const delivery=JSON.parse(deliveries[0].options.body);assert.deepEqual(delivery.to,['anthonycolmenaresanandres@gmail.com']);
 assert(delivery.text.includes('unavailable'));assert(!delivery.text.includes('Pageviews: 0'));
-assert.equal(deliveries[0].options.headers['Idempotency-Key'],'fina-calle-traffic-daily-2026-10-16-2026-10-16');
+assert.equal(deliveries[0].options.headers['Idempotency-Key'],'fina-calle-traffic-daily-2026-10-16-2026-10-16-preview-spaced-html-20261017-v1');
 assert.equal(deliveries[0].options.redirect,'error');
 assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'scheduled')).reason,'schedule_disabled_until_test_readback');
 mailEnv.VERCEL_ENV='preview';assert.equal((await mail.sendTrafficPeriodReport(period,result.reports,'test')).reason,'email_delivery_disabled');assert.equal(sent,1);
@@ -133,7 +133,7 @@ console.log('PASS fixed recipient/verified sender, provider idempotency, one att
 assert.equal(delivery.subject,'Fina Calle traffic by site - 2026-10-16');
 assert.equal(typeof delivery.text,'string');assert(delivery.text.length>0);
 assert.deepEqual(Object.keys(delivery).sort(),['from','html','subject','text','to']);
-assert.equal(deliveries[0].options.headers['Idempotency-Key'].length,46);
+assert(deliveries[0].options.headers['Idempotency-Key'].length<=256);
 assert(deliveries.every(({options})=>options.headers['Idempotency-Key'].length<=256));
 for (const [body,expected] of [
   [{name:'invalid_idempotency_key',message:'private-fixture'},'invalid_idempotency_key'],
@@ -179,6 +179,19 @@ assert(combinedDelivery.options.headers['Idempotency-Key'].length<=256);
 assert.throws(()=>formatter.renderTrafficDeliveryReport([combinedBundles[1],combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
 assert.throws(()=>formatter.renderTrafficDeliveryReport([...combinedBundles,combinedBundles[0]]),/INVALID_DELIVERY_PERIODS/);
 console.log('PASS one provider attempt and stable combined-period key; independent daily/weekly values remain distinct and raw IDs omitted');
+const revisionKeys=[];
+const revisionMail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async(url,options)=>{
+  revisionKeys.push(options.headers['Idempotency-Key']);return new Response(null,{status:200});
+});
+await revisionMail.sendTrafficPeriodReport(period,result.reports,'test');
+await revisionMail.sendTrafficPeriodReport(period,result.reports,'test');
+await revisionMail.sendTrafficPeriodReport(period,result.reports,'scheduled');
+assert.equal(revisionKeys.length,3);assert.equal(revisionKeys[0],revisionKeys[1]);
+assert.equal(revisionKeys[2],'fina-calle-traffic-daily-2026-10-16-2026-10-16');
+assert.notEqual(revisionKeys[0],revisionKeys[2]);
+assert(revisionKeys[0].endsWith('-preview-spaced-html-20261017-v1'));
+assert(revisionKeys.every(key=>key.length<=256));
+console.log('PASS stable revision-scoped preview key avoids prior plain-email collision; recurring daily/weekly keys unchanged; mocked IO only');
 
 
 sent=0;

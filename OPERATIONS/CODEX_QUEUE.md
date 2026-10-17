@@ -1291,3 +1291,5 @@ Parent's Vercel UI proves original request reached Resend and returned400; app t
 
 ## [x] Spacious traffic email presentation - 2026-10-17
 Anthony received the report and requests gaps, improved appearance and mobile readability. Parent authorizes template-only HTML/text implementation, preview, PR/checks/merge/deploy. Preserve counts, periods, subject, recipient, auth/privacy/cadence/ingestion and idempotency. Waiting/uncollected entries must prominently say Data not yet available; preserve recorded-zero detail and caveats. No extra test email or recurring activation. All delivery gates remain off. No external tracked assets, services, spending or migration.
+
+Late scoped authorization21:58:43UTC: Anthony explicitly requests exactly one styled test after template checks/deployment. Add stable test-only preview revision identity to avoid colliding with the successfully delivered same-period plain report; recurring keys unchanged. Verify HTML/text Gmail readback, then close test gates and fresh deploy. No blind retry or recurring activation.

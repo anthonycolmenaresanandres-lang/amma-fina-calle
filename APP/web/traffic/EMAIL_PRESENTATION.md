@@ -17,7 +17,7 @@ receiving the aggregate test. This is presentation only.
 - Plain text has a blank line between every site and clear period labels.
 - HTML and text are derived from the same existing per-site values. The mailer
   adds only the HTML body field. Subject, recipient, sender, auth, periods,
-  idempotency key, single-attempt behavior, scheduler and ingestion are unchanged.
+  recurring idempotency key, single-attempt behavior, scheduler and ingestion are unchanged.
 - Dynamic HTML text is escaped. No images, remote fonts, scripts, external style
   sheets, tracking assets or new services are included. One fixed private
   dashboard link;50px target in the browser preview.
@@ -42,11 +42,15 @@ synthetic figures and interval; Monday390px preview separately verifies stacking
 Production webpack build, TypeScript,58static pages and focused ESLint pass.
 Reviewed against repository frontend-design and fresh Web Interface Guidelines;
 email-safe inline/table equivalents apply. Preview browser used an isolated local
-profile, closed after screenshots. No styled email was sent for this change.
+profile, closed after screenshots. Offline preview/testing sends no email.
 
 ## Closed gates and cadence handoff
-Delivery/readback/schedule flags and both GitHub variables remain false. Do not
-send another test or activate recurring from this presentation PR.
+Delivery/readback/schedule flags and both GitHub variables stay closed outside
+the one explicitly authorized styled preview. Anthony approved exactly one
+styled test at21:58:43UTC; recurring stays off. Test mode uses stable suffix
+preview-spaced-html-20261017-v1 to avoid a payload conflict with today's
+already-delivered plain report. Repeated tests of this revision/period reuse
+that same key; no random bypass or automatic retry. Scheduled keys are unchanged.
 
 After parent coordination, the already requested cadence is08:00America/New_York
 daily October18-31inclusive, then Mondays weekly. October19/26combine yesterday
