@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requestReceipt } from "@/lib/requests/receipt";
 import {
   persistChangeRequest,
   sendChangeRequestEmail,
@@ -145,7 +146,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}`;
+  const referenceId = `AMMA-${Date.now().toString(36).toUpperCase()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
 
   const payload = {
     businessName,
@@ -160,9 +161,8 @@ export async function POST(request: Request) {
   };
 
   // Persist first so attachments can link to the stored row by reference_id.
-  // Every stage degrades gracefully: a missing Supabase/Resend config (or a
-  // transient failure) never fails the request. Attachment storage only runs
-  // once the request row itself persisted.
+  // Preserve email fallback and report only confirmed receipt. Attachment
+  // storage runs only once the request row itself persisted.
   const persistResult = await persistChangeRequest(payload);
 
   const [attachmentResult, emailResult] = await Promise.all([
@@ -172,13 +172,14 @@ export async function POST(request: Request) {
     sendChangeRequestEmail(payload),
   ]);
 
+  const receipt = requestReceipt(persistResult.persisted, emailResult.sent);
   return NextResponse.json({
-    ok: true,
+    ...receipt,
     referenceId,
     filesReceived: files.length,
     filesStored: attachmentResult.stored,
     emailActive: emailResult.sent,
     uploadStorageActive: attachmentResult.stored > 0,
     persistenceActive: persistResult.persisted,
-  });
+  }, { status: receipt.ok ? 200 : 503 });
 }

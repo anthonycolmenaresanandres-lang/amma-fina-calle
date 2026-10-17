@@ -28,7 +28,7 @@ import styles from "./owner-portal.module.css";
 type Item = { name: string; price: number | string; is_available: boolean };
 
 type Result =
-  | { kind: "apply"; title: string; detail: string }
+  | { kind: "apply"; title: string; detail: string; previewFingerprint?: string }
   | { kind: "review"; reason: string }
   | { kind: "error"; message: string }
   | null;
@@ -97,6 +97,7 @@ export default function AskBar({
 }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const requestKeyRef = useRef<string | null>(null);
   const [text, setText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState("");
@@ -122,6 +123,7 @@ export default function AskBar({
   }, [files.length, retryUpload, text]);
 
   function clearDraft() {
+    requestKeyRef.current = null;
     setText("");
     setFiles([]);
     setSubmitted("");
@@ -139,6 +141,7 @@ export default function AskBar({
   }
 
   function invalidatePreview() {
+    requestKeyRef.current = null;
     setResult(null);
     setDone(null);
     setRetryUpload(null);
@@ -194,6 +197,7 @@ export default function AskBar({
       if (state.phase === "apply") {
         setResult({
           kind: "apply",
+          previewFingerprint: state.previewFingerprint,
           title: `${state.proposal.entityLabel} · ${state.proposal.fieldLabel}`,
           detail: `${state.proposal.currentDisplay} → ${state.proposal.newDisplay}. Review this change before saving.`,
         });
@@ -248,7 +252,7 @@ export default function AskBar({
     setRetryUpload(null);
     setDone({
       tone: "success",
-      message: `Request ${referenceId} sent with ${total} ${total === 1 ? "file" : "files"}.`,
+      message: `Request ${referenceId} saved with ${total} ${total === 1 ? "file" : "files"}.`,
     });
   }
 
@@ -275,6 +279,7 @@ export default function AskBar({
       formData.set("fileCount", String(submittedFiles.length));
 
       if (kind === "apply" && submittedFiles.length === 0) {
+        formData.set("previewFingerprint", result?.kind === "apply" ? result.previewFingerprint ?? "" : "");
         const state = await confirmOwnerRequest(restaurantId ?? "", { phase: "idle" }, formData);
         if (state.phase === "applied") {
           setDone({ tone: "success", message: `${state.message} Check the connected guest menu to verify the update.` });
@@ -287,6 +292,9 @@ export default function AskBar({
         return;
       }
 
+      // Preserve this key on uncertain network/save responses; a changed draft gets a new key.
+      requestKeyRef.current ??= crypto.randomUUID();
+      formData.set("clientKey", requestKeyRef.current);
       const state = await sendOwnerReview(restaurantId ?? "", { phase: "idle" }, formData);
       if (state.phase === "error") {
         setResult({ kind: "error", message: state.message });
@@ -296,7 +304,7 @@ export default function AskBar({
 
       const targets = submittedFiles.map((file, slot) => ({ file, slot }));
       if (targets.length === 0) {
-        setDone({ tone: "success", message: `Request ${state.referenceId} sent to the team.` });
+        setDone({ tone: "success", message: `Request ${state.referenceId}: ${state.message}` });
         setResult(null);
         clearDraft();
         return;
