@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { VenueMenuLayout } from "@/venue-menu/VenueMenuLayout";
-import { VenueMenuNav, type VenueMenuNavSection } from "@/venue-menu/VenueMenuNav";
+import { SeedCategoryGallery } from "./SeedCategoryGallery";
 import { SeedMenuSection } from "./SeedMenuSection";
 import { SeedMenuNavigation } from "./SeedMenuNavigation";
 import { SeedLettering } from "./SeedLettering";
@@ -24,11 +24,6 @@ const seedTheme = {
   "--venue-surface": "#fff7e8", "--venue-accent": "#a71930", "--venue-heading": "#681d3d", "--venue-hover": "#4f142d",
   "--venue-shadow": "#e8d6c4", "--venue-soft": "#073b78",
 } as CSSProperties;
-const seedSections: VenueMenuNavSection[] = [
-  { id: "october-lattes", label: "October" },
-  ...seedMenuGroups.map(({ id, name }) => ({ id, label: name })),
-  { id: "hours", label: "Visit" },
-];
 
 function SeedBrand() {
   return <div className={`${styles.sealStage} ${seedStyles.brandStage}`}>
@@ -50,19 +45,19 @@ function SeedRushLink({ floating = false }: { floating?: boolean }) {
 function SeedFeatured({ launched }: { launched: boolean }) {
   return <section id="seed-picks" className={seedStyles.featured} aria-labelledby="seed-picks-title">
     <h2 id="seed-picks-title"><SeedLettering text="Coffee. The Seed way." /></h2>
-    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-illustrated-v2.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 128px, 210px" priority />
+    <div id="seed-menu-index" className={seedStyles.visualIndex} tabIndex={-1}><SeedCategoryGallery /></div>
     <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Seasonal menu</a></div>
   </section>;
 }
 
 export default function ProjectSeedMenuPage() {
   const octoberLive = octoberMenuIsLive();
-  return <SeedMenuNavigation><VenueMenuLayout
+  return <SeedMenuNavigation dock={<nav className={seedStyles.playDock} aria-label="Game"><SeedRushLink floating /></nav>}><VenueMenuLayout
     brandName="Project Seed Coffee"
     brand={<SeedBrand />}
-    nav={<div id="seed-menu-index" className={seedStyles.navigation}><VenueMenuNav sections={seedSections} floatingAction={<SeedRushLink floating />} /></div>}
+    nav={null}
     featured={<SeedFeatured launched={octoberLive} />}
-    skipHref="#october-lattes" skipLabel="Skip to October menu" previewLabel="Concept preview · Pending approval" theme={seedTheme}
+    skipHref="#seed-menu-index" skipLabel="Skip to menu categories" previewLabel="Concept preview · Pending approval" theme={seedTheme}
     menu={<div className={seedStyles.menuSections}>
       {octoberMenuGroups.map((group) => <SeedMenuSection key={group.id} group={group} />)}
       {seedMenuGroups.map((group) => <SeedMenuSection key={group.id} group={group} />)}
