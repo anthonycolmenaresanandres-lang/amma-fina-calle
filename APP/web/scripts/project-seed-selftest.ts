@@ -31,15 +31,15 @@ assert.deepEqual(seedRounds.map((_, index) => seedSkinForRound(index).items.map(
 assert.equal(seedRoundShowcase.length, 3);
 const products = seedSkin.items.filter((item) => item.kind === "good");
 assert.equal(products.length, 6);
-assert.ok(products.every((item) => item.asset?.startsWith("/assets/project-seed/seed-rush/") && item.asset.endsWith("-v1.webp")));
+assert.ok(products.every((item) => item.asset?.startsWith("/assets/project-seed/seed-rush/") && item.asset.endsWith("-illustrated-v2.webp")));
 for (const item of products) {
   const file = new URL(`../public${item.asset}`, import.meta.url);
   assert.ok(statSync(file).size <= 40_000, `${item.id} game asset must remain lightweight`);
 }
 assert.ok(products.every((item) => !/\bUbe\b|\bTuron\b/i.test(item.label)), "Unmatched art must not be assigned an official menu identity");
 const aswang = seedSkin.items.find((item) => item.id === "aswang");
-assert.deepEqual(aswang && { kind: aswang.kind, shape: aswang.shape, asset: aswang.asset }, { kind: "bad", shape: "bad-vibes", asset: "/assets/project-seed/seed-rush/aswang-v1.webp" });
-assert.ok(statSync(new URL("../public/assets/project-seed/seed-rush/aswang-v1.webp", import.meta.url)).size <= 40_000, "Aswang game asset must remain lightweight");
+assert.deepEqual(aswang && { kind: aswang.kind, shape: aswang.shape, asset: aswang.asset }, { kind: "bad", shape: "bad-vibes", asset: "/assets/project-seed/seed-rush/aswang-illustrated-v2.webp" });
+assert.ok(statSync(new URL("../public/assets/project-seed/seed-rush/aswang-illustrated-v2.webp", import.meta.url)).size <= 40_000, "Aswang game asset must remain lightweight");
 const gameSource = readFileSync(new URL("../src/app/play/project-seed/SeedRushClient.tsx", import.meta.url), "utf8");
 assert.match(gameSource, /itemScale: 3\.0/, "Seed pickup art/tap scale is 20% smaller; shared 28px minimum radius and 1.3 capture padding stay intact");
 assert.doesNotMatch(gameSource, /Tabi-tabi po/);

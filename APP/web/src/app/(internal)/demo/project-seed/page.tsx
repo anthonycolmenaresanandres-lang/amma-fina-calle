@@ -40,7 +40,7 @@ function SeedBrand() {
 
 function SeedRushLink({ floating = false }: { floating?: boolean }) {
   return <a className={`${floating ? styles.floatingPlay : styles.teaserPlay} ${seedStyles.seedPlay}`} href="/play/project-seed" aria-label="Play Seed Rush, three rounds" id={floating ? "seed-floating-play" : undefined}>
-    <span className={seedStyles.playMark} aria-hidden="true"><Image src={`${artBase}/buko-pandan-latte-v1.webp`} alt="" width={36} height={36} sizes="36px" /></span>
+    <span className={seedStyles.playMark} aria-hidden="true"><Image src={`${artBase}/buko-pandan-latte-illustrated-v2.webp`} alt="" width={36} height={36} sizes="36px" /></span>
     <span className={styles.vibraCopy}><strong>PLAY SEED RUSH</strong><small>THREE FAST ROUNDS</small></span>
     <span className={styles.vibraArrow} aria-hidden="true">→</span>
   </a>;
@@ -49,7 +49,7 @@ function SeedRushLink({ floating = false }: { floating?: boolean }) {
 function SeedFeatured({ launched }: { launched: boolean }) {
   return <section id="seed-picks" className={seedStyles.featured} aria-labelledby="seed-picks-title">
     <h2 id="seed-picks-title"><SeedLettering text="Coffee. The Seed way." /></h2>
-    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-v1.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 170px, 270px" priority />
+    <Image className={seedStyles.heroProduct} src={`${artBase}/buko-pandan-latte-illustrated-v2.webp`} alt="Buko Pandan Latte" width={256} height={256} sizes="(max-width: 700px) 170px, 270px" priority />
     <div className={seedStyles.seasonalNote}><span>{launched ? "Now pouring · October" : `October menu · ${OCTOBER_MENU_DATE}`}</span><a href="#october-lattes">Seasonal menu</a></div>
   </section>;
 }
@@ -67,7 +67,7 @@ export default function ProjectSeedMenuPage() {
       {seedMenuGroups.map((group) => <SeedMenuSection key={group.id} group={group} />)}
     </div>}
     game={<section className={`${styles.sessionsTeaser} ${seedStyles.gameTeaser}`} aria-labelledby="seed-rush-title">
-      <Image src={`${artBase}/sugar-custard-swirl-pastry-v1.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
+      <Image src={`${artBase}/sugar-custard-swirl-pastry-illustrated-v2.webp`} alt="" width={120} height={120} sizes="(max-width: 700px) 72px, 100px" />
       <div><h2 id="seed-rush-title"><SeedLettering text="Seed Rush" /></h2><p>Coffee, pastries, and three fast rounds. Catch your favorites. Avoid the Aswang.</p></div>
       <SeedRushLink />
     </section>}
