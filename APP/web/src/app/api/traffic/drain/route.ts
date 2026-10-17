@@ -4,14 +4,16 @@
 // and return 200 quickly. Bot filtering is handled upstream by Vercel.
 
 import { NextResponse } from "next/server";
-import { verifyDrainRequest } from "@/lib/traffic/signature";
-import { parseDrainPayload } from "@/lib/traffic/parse-drain";
-import { getTrafficStore } from "@/lib/traffic/store";
+import { verifyDrainRequest } from "@/lib/traffic/established-drain/signature";
+import { parseDrainPayload } from "@/lib/traffic/established-drain/parse-drain";
+import { getTrafficStore } from "@/lib/traffic/established-drain/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  // Keep the established production feed independent of new collector/mail gates.
+  if (process.env.VERCEL_ENV !== "production") return new Response(null, { status: 202 });
   const rawBody = await request.text();
 
   const authorized = verifyDrainRequest({
@@ -33,10 +35,10 @@ export async function POST(request: Request) {
   if (events.length) {
     try {
       await getTrafficStore().insertEvents(events);
-    } catch (error) {
+    } catch {
       // Never make Vercel retry-storm on a transient store error in a way that
       // surfaces detail; log server-side and accept.
-      console.error("[traffic/drain] store error:", error instanceof Error ? error.message : error);
+      console.error("[traffic/drain] store unavailable");
       return NextResponse.json({ ok: false }, { status: 500 });
     }
   }

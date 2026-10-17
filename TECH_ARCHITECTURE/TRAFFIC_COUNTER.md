@@ -1,5 +1,11 @@
 # First-party, site-separated Vercel traffic copy
 
+> October 17, 2026 preparation supersedes the drain activation instructions below.
+> Use [the current pipeline runbook](../APP/web/traffic/README.md). Collection is
+> disabled by default; do not enable paid Drains, apply a migration, deploy, send
+> email, or create a schedule without the specific approvals listed there.
+> This older document records the prior drain-based design, not current metrics.
+
 Site-scoped first-party traffic copies, sourced from **Vercel Web Analytics** and stored
 in **our own database** so we can read numbers from a terminal and keep them
 going forward.

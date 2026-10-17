@@ -1,0 +1,32 @@
+name: Traffic report mail (disabled until verified)
+on:
+  schedule:
+    # 08:00 America/New_York: the server chooses the correct DST slot.
+    - cron: "0 12 * * *"
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: traffic-report-mail
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    if: >-
+      (github.event_name == 'schedule' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true') ||
+      (github.event_name == 'workflow_dispatch' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Request one fixed-recipient aggregate email
+        env:
+          TRAFFIC_MAIL_TRIGGER_SECRET: ${{ secrets.TRAFFIC_MAIL_TRIGGER_SECRET }}
+          TRAFFIC_MAIL_MODE: ${{ github.event_name == 'schedule' && 'scheduled' || 'test' }}
+          TRAFFIC_MAIL_SCHEDULE: ${{ github.event.schedule }}
+        run: node APP/web/scripts/traffic-mail-trigger.mjs

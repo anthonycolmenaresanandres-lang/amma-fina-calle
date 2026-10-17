@@ -1,12 +1,14 @@
 // Shared types for the first-party traffic counter.
 //
-// Source of truth is Vercel Web Analytics, forwarded to us via a Vercel
-// Drain (Vercel analytics schema v1/v2). We normalize public pageviews, store them
-// in a SEPARATE store (not Supabase — see TECH_ARCHITECTURE/TRAFFIC_COUNTER.md),
-// and serve aggregates from a protected report endpoint. No names, emails,
-// phone numbers, or IPs are ever stored — only Vercel's anonymized device id.
+// Anonymous first-party pageviews, plus existing attributed drain history.
+// Dedicated store only; no names, emails, phone numbers or raw IPs. Historical
+// tracked identifiers are scoped by site/type; anonymous pageviews carry none.
 
 export interface NormalizedEvent {
+  /** Random page-load/navigation ID; retries keep the same ID. */
+  eventId?: string;
+  source?: "first-party" | "drain";
+  hostname?: string;
   /** Verified public site registry ID. Events without one are discarded. */
   siteId: string;
   /** Epoch milliseconds. */
@@ -15,7 +17,7 @@ export interface NormalizedEvent {
   path: string;
   /** External referrer host, when the drain provides one. */
   referrerHost: string | null;
-  /** Vercel's anonymized device/session id — our "unique visitor" key. */
+  /** Site-scoped tracked identifier, or empty when unmeasured. Never a person. */
   visitorId: string;
   /** "pageview" or a custom analytics event name. */
   eventType: string;
@@ -46,6 +48,7 @@ export interface RangeReport {
   siteId: string;
   pageviews: number;
   uniqueVisitors: number;
+  identifiedPageviews?: number;
   daily: Array<{ date: string; pageviews: number; visitors: number }>;
   topPaths: PathCount[];
   topReferrers: ReferrerCount[];
@@ -62,4 +65,17 @@ export interface TrafficStore {
   getTodayReport(siteId: string, timezone: string): Promise<DailyReport>;
   getRangeReport(siteId: string, startMs: number, endMs: number, timezone: string, path?: string): Promise<RangeReport>;
   getObservationWindow(siteId: string): Promise<ObservationWindow>;
+  getCollectionChecks?(siteId: string, startMs: number, endMs: number): Promise<CollectionCheck[]>;
+  recordCollectionProbe?(siteId: string, healthy: boolean, checkedAt: number): Promise<void>;
+}
+
+/** Configuration/page probes only. These rows never certify event ingestion. */
+export interface CollectionCheck {
+  start: string;
+  end: string;
+  checkedAt: string;
+  healthy: boolean;
+  probeHealthy?: boolean;
+  /** Complete SQL aggregate for the requested interval, not sampled rows. */
+  checksInRange?: number;
 }

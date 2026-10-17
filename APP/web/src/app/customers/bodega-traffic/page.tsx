@@ -65,12 +65,12 @@ export default async function BodegaTrafficPage() {
           <Eyebrow>Bodega Cafe · Private analytics</Eyebrow>
           <PageTitle>Traffic pulse</PageTitle>
           <Lede>
-            Last 30 days across the Bodega production hostname, sourced directly
-            from a site-verified Vercel Web Analytics drain.
+            Previous 30 complete calendar days in America/New_York, scoped to
+            verified Bodega hostnames and public paths.
           </Lede>
           <p className="mt-6 text-xs leading-6 text-[#7f8a91]">
-            Bot-filtered Web Analytics. No customer IP addresses or personal data
-            are stored by this dashboard.
+            First-party pageviews are anonymous and may include automated traffic.
+            Historical tracked identifiers are not people or physical QR scans.
           </p>
         </div>
 
@@ -88,6 +88,8 @@ export default async function BodegaTrafficPage() {
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[#aeb7bd]">
                 {report.reason}
               </p>
+              <p className="mt-2 text-xs">Interval [start, end): {report.since} to {report.until}. Last configuration check: {report.checkedAt ?? "unverified"}. Last successful configuration check: {report.lastSuccessfulCheck ?? "unverified"}. Collection start: {report.collectionStart ?? "unknown"}.</p>
+              {report.observedPageviews !== undefined && <p className="mt-2 text-sm">Recorded pageviews: {report.observedPageviews}; coverage: {report.state}</p>}
               <p className="mt-4 text-xs leading-5 text-[#7f8a91]">
                 This page is admin-only and fails closed. Historical data may still
                 be visible in Vercel Analytics after filtering by the Bodega hostname.
@@ -101,8 +103,8 @@ export default async function BodegaTrafficPage() {
                   {date(report.since)} – {date(report.until)}
                 </SectionHeading>
                 <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                  <StatTile label="Distinct devices" icon={<Users size={12} aria-hidden />}>
-                    {report.visitors.toLocaleString()}
+                  <StatTile label="Distinct tracked identifiers" icon={<Users size={12} aria-hidden />}>
+                    {report.identifiedPageviews === 0 ? "Not collected" : report.visitors.toLocaleString()}
                   </StatTile>
                   <StatTile label="Pageviews" icon={<MousePointerClick size={12} aria-hidden />}>
                     {report.pageviews.toLocaleString()}
@@ -110,8 +112,8 @@ export default async function BodegaTrafficPage() {
                   <StatTile label="Game opens" icon={<Gamepad2 size={12} aria-hidden />}>
                     {report.gamePageviews.toLocaleString()}
                   </StatTile>
-                  <StatTile label="Game devices" icon={<Users size={12} aria-hidden />}>
-                    {report.gameVisitors.toLocaleString()}
+                  <StatTile label="Game tracked identifiers" icon={<Users size={12} aria-hidden />}>
+                    {report.identifiedPageviews === 0 ? "Not collected" : report.gameVisitors.toLocaleString()}
                   </StatTile>
                 </dl>
                 <p className="mt-4 text-xs text-[#667178]">
@@ -181,7 +183,7 @@ export default async function BodegaTrafficPage() {
               <Panel>
                 <SectionHeading tone="gold">What this measures</SectionHeading>
                 <p className="mt-4 text-sm leading-6 text-[#aeb7bd]">
-                  The headline device number counts distinct anonymized device IDs
+                  The headline identifier number counts distinct site-scoped tracked identifiers
                   among forwarded Bodega production pageviews in this period. Game opens are
                   pageviews for <code>/bodega-sessions-review</code>. This is website
                   traffic, not a guaranteed count of physical QR scans.

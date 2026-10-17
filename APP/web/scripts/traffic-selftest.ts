@@ -55,8 +55,8 @@ async function main(): Promise<void> {
   check("public menu path preserved", sanitizePath("/m/colattao") === "/m/colattao");
   check("opaque id collapsed", sanitizePath("/m/3f9a1c2b4d5e6f70819a2b3c4d5e6f70") === "/m/:id");
   check("numeric id collapsed", sanitizePath("/blog/12345") === "/blog/:id");
-  check("owner portal anonymized", sanitizePath("/owner/abc/settings") === "/owner/:private");
-  check("customers portal anonymized", sanitizePath("/customers/xyz/requests") === "/customers/:private");
+  check("owner portal excluded", sanitizePath("/owner/abc/settings") === null);
+  check("customers portal excluded", sanitizePath("/customers/xyz/requests") === null);
   check("api route dropped", sanitizePath("/api/lead-arcade/dossier") === null);
   check("query string dropped", sanitizePath("/menu?utm_source=ig") === "/menu");
 
@@ -93,11 +93,11 @@ async function main(): Promise<void> {
     ...shared, schema: "vercel.analytics.v1", eventType: "pageview", deviceId: 700,
     origin: "https://bodegacafe757.com", path: "/",
   })).length === 1);
-  check("hosted client path never becomes Fina marketing", !siteForPublicVisit("finacalleos.com", "/demo/project-seed"));
+  check("hosted client path never becomes Fina marketing", siteForPublicVisit("finacalleos.com", "/demo/project-seed")?.id === "project-seed");
   check("preview deployment never becomes Colattao", !siteForPublicVisit("colattao-cafe-rush-abc.vercel.app", "/menu"));
   check("wrong source project rejected", parseDrainPayload(JSON.stringify({ ...shared, projectId: TRAFFIC_SITES[2].projectId, eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
   check("preview environment rejected", parseDrainPayload(JSON.stringify({ ...shared, vercelEnvironment: "preview", eventType: "pageview", deviceId: 67890, origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
-  check("missing visitor id rejected", parseDrainPayload(JSON.stringify({ ...shared, eventType: "pageview", origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 0);
+  check("pageviews without tracked identifiers still recorded", parseDrainPayload(JSON.stringify({ ...shared, eventType: "pageview", origin: "https://finacalleos.com", path: "/for-restaurants" })).length === 1);
   const spring = todayRange("America/New_York", Date.parse("2026-03-08T15:00:00Z"));
   const fall = todayRange("America/New_York", Date.parse("2026-11-01T15:00:00Z"));
   check("Eastern spring reporting day spans 23 hours", spring.dateStr === "2026-03-08" && spring.endMs - spring.startMs === 23 * 3600000);

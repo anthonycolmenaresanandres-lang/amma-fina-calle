@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { renderMorningReport } from "../src/lib/traffic/morning-format";
-import { TRAFFIC_SITES } from "../src/lib/traffic/sites";
+import { ALL_TRAFFIC_SITES as TRAFFIC_SITES } from "../src/lib/traffic/sites";
 import type { TrafficReport } from "../src/lib/traffic/site-traffic";
 
 async function read(relative: string) {
@@ -39,7 +39,7 @@ async function main() {
   assert.match(page, /getAdminContext\(\)/);
   assert.match(page, /admin\.state !== "authorized"/);
   assert.match(page, /getBodegaTrafficReport\(30\)/);
-  assert.match(page, /Distinct devices/);
+  assert.match(page, /Distinct tracked identifiers/);
   assert.match(page, /Game opens/);
   assert.match(page, /not a guaranteed count of physical QR scans/);
   assert.match(central, /getAdminContext\(\)/);
@@ -49,9 +49,11 @@ async function main() {
   assert.match(customers, /href="\/customers\/traffic"/);
   assert.match(env, /TRAFFIC_DATABASE_URL=/);
   assert.match(env, /TRAFFIC_MORNING_REPORT_EMAIL=/);
-  assert.match(cron, /\/api\/internal\/traffic\/morning/);
-  assert.match(morning, /CRON_SECRET/);
-  assert.match(morning, /ready\.length/);
+  assert(!cron.includes("/api/internal/traffic/morning"), "Delivery schedule stays inactive");
+  assert.match(morning, /process\.env\.TRAFFIC_MAIL_TRIGGER_SECRET/);
+  assert(!morning.includes("process.env.CRON_SECRET"), "Mail token cannot authorize the shared cron capability");
+  assert.match(morning, /TRAFFIC_EMAIL_ENABLED/);
+  assert.match(morning, /export async function POST/);
 
   const sampleReports: TrafficReport[] = TRAFFIC_SITES.map((site, index) => ({
     state: "ready", siteId: site.id, siteName: site.name, domains: site.domains, analyticsUrl: site.analyticsUrl,
@@ -63,14 +65,14 @@ async function main() {
   }));
   const email = renderMorningReport("2026-09-30", sampleReports);
   for (const site of TRAFFIC_SITES) assert.match(email.text, new RegExp(site.name));
-  assert.equal((email.text.match(/Distinct tracked devices:/g) ?? []).length, TRAFFIC_SITES.length);
+  assert.equal((email.text.match(/Distinct tracked identifiers \(not people\):/g) ?? []).length, TRAFFIC_SITES.length);
   assert.equal((email.text.match(/Pageviews:/g) ?? []).length, TRAFFIC_SITES.length);
   assert(!email.text.includes("Total visitors:"), "No cross-client visitor total");
   const partial = renderMorningReport("2026-09-30", [...sampleReports.slice(0, -1), {
-    state: "unavailable", siteId: "colattao", siteName: "Colattao Coffee House",
-    domains: TRAFFIC_SITES[2].domains, analyticsUrl: TRAFFIC_SITES[2].analyticsUrl, reason: "test",
+    state: "unavailable", siteId: TRAFFIC_SITES.at(-1)!.id, siteName: TRAFFIC_SITES.at(-1)!.name,
+    domains: TRAFFIC_SITES.at(-1)!.domains, analyticsUrl: TRAFFIC_SITES.at(-1)!.analyticsUrl, reason: "test",
   }]);
-  assert.match(partial.text, /Colattao Coffee House[\s\S]*Status: test/);
+  assert.match(partial.text, /Status: test/);
   assert.equal((partial.text.match(/Pageviews:/g) ?? []).length, TRAFFIC_SITES.length - 1);
   assert.throws(() => renderMorningReport("2026-09-30", sampleReports.slice(0, -1)), /INCOMPLETE_SITE_REPORTS/);
 

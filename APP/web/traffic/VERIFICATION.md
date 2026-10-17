@@ -1,0 +1,216 @@
+# Current PR review verification
+
+This section supersedes the earlier configuration-probe coverage assumptions in the original preparation evidence below.
+
+- Configuration-only page/meta checks never establish complete coverage or measured-zero traffic. Ingestion remains unverified, even after contiguous successful probes. First recorded events and configuration check times remain separate from unknown collection start.
+- Mocked regressions pass for HTTP-200 page plus missing collector JavaScript (404), and HTTP-200 page plus event INSERT failure (503). No synthetic live event was sent.
+- The high-volume in-memory PostgreSQL regression passes with 25,920 five-minute checks across 90 days, complete aggregate counts, and an independently selected latest check. A subsequent failed check does not hide the independently selected latest successful probe.
+- America/New_York is the only supported reporting timezone. Sydney is rejected (helper and HTTP contract); Eastern 23-hour/25-hour DST tests remain passing.
+- The updated full local Webpack build passed: compilation (25s), TypeScript (30.1s), 58 static pages (3.8s), optimization and traces, exit 0.
+- All 16 pipeline behavioral groups, mocked boundary suite, existing traffic self-test and dashboard compatibility passed. Focused lint passed. The pipeline regression suite is now included in `traffic:selftest`, already run by CI.
+- Report initialization remains SELECT-only (including read-only CTE SELECTs); preview write/send guards remain disabled. No merge, production activation, live database change or send was performed.
+
+---
+
+# Offline verification
+
+All checks use fixtures or a local in-memory PGlite database; no live connection, deployment or mail provider is used.
+
+## PASS — `node --import tsx scripts/traffic-selftest.ts`
+
+```text
+
+Traffic counter self-test
+
+  ✓ Neon Marketplace traffic URL takes precedence
+  ✓ manual traffic URL remains a fallback
+  ✓ missing traffic database URL fails closed
+  ✓ public menu path preserved
+  ✓ opaque id collapsed
+  ✓ numeric id collapsed
+  ✓ owner portal excluded
+  ✓ customers portal excluded
+  ✓ api route dropped
+  ✓ query string dropped
+  ✓ api event dropped during parse
+  ✓ only verified public pageviews parsed
+  ✓ all Fina events attributed to Fina
+  ✓ instagram referrer host extracted
+  ✓ json array payload parsed
+  ✓ garbage payload is empty, not thrown
+  ✓ same project Bodega host stays Bodega
+  ✓ identical root paths on shared project stay separated by hostname
+  ✓ documented v1 schema is accepted
+  ✓ hosted client path never becomes Fina marketing
+  ✓ preview deployment never becomes Colattao
+  ✓ wrong source project rejected
+  ✓ preview environment rejected
+  ✓ pageviews without tracked identifiers still recorded
+  ✓ Eastern spring reporting day spans 23 hours
+  ✓ Eastern fall reporting day spans 25 hours
+  ✓ spring morning report covers the complete preceding Eastern day
+  ✓ fall morning report covers the complete preceding Eastern day
+  ✓ header secret authorizes
+  ✓ wrong header secret rejected
+  ✓ missing secret fails closed
+  ✓ vercel HMAC signature authorizes
+  ✓ Fina pageviews exclude Colattao
+  ✓ range report deduplicates retry and isolates site
+  ✓ first and last observation remain site scoped
+  ✓ range daily row matches verified views
+  ✓ Fina visitors exclude Colattao
+  ✓ Colattao remains separate
+  ✓ top path is the Fina marketing page
+  ✓ yesterday excluded from today
+  ✓ top referrer is instagram
+  ✓ unknown site report rejected
+
+All checks passed.
+
+```
+
+## PASS — `node --import tsx scripts/traffic-pipeline-selftest.ts`
+
+```text
+PASS every registered brand hostname/path is independently attributed
+PASS every AMMA mapping has an actual source route; concepts are explicitly labeled
+PASS shared roots and hosted menus stay separated
+PASS preview/unknown hosts, private routes, internal tests and hostile paths rejected
+PASS first-party trusts validated origin/path and stores no user identity
+PASS drain identifiers are scoped by site and type; missing IDs still yield pageviews
+PASS Eastern calendar boundaries, DST and immediately after midnight
+PASS quiet, missing, stale, failed and partial coverage differ from measured zero
+PASS per-instance admission limits reset without retaining personal data
+PASS all first-read database statements are SELECT-only
+PASS SQL deduplicates retries and computes whole-period distinct, never daily sum
+PASS range start inclusive, end exclusive, site isolation, anonymous events not fake visitors
+PASS monitor failure creates a gap and recovers after successive good probes
+PASS 14 traffic pipeline behavioral groups; no live services accessed.
+
+```
+
+## PASS — `node scripts/traffic-boundary-selftest.mjs`
+
+```text
+PASS collector failures isolated, preview excluded, one active source, conflicting identities rejected
+PASS service distinguishes empty evidence from unavailable storage
+PASS protected connector-readable calendar report, unavailable data remains unavailable
+PASS all report GETs cannot send mail, owner restriction, disabled delivery, no traffic schedule
+PASS browser network failure does not throw, navigation preserved, duplicate mounts ignored
+PASS all offline traffic boundary tests; no external IO.
+
+```
+
+## PASS — `node --import tsx scripts/bodega-traffic-dashboard-selftest.ts`
+
+```text
+PASS: per-site production registry, admin dashboard, Bodega compatibility, and guarded morning cron are wired.
+
+```
+
+## PASS — `node node_modules/eslint/bin/eslint.js src/lib/traffic src/app/api/traffic src/app/api/internal/traffic src/app/layout.tsx src/app/vital-vibes/route.ts src/app/demo/pocket-cafe/route.ts src/app/customers/traffic/page.tsx src/app/customers/bodega-traffic/page.tsx scripts/traffic-pipeline-selftest.ts scripts/traffic-export.ts scripts/traffic-today.ts scripts/traffic-boundary-selftest.mjs traffic/templates/ColattaoTraffic.tsx`
+
+```text
+
+```
+
+
+## PASS — full production build
+
+Command: `node node_modules/next/dist/bin/next build --webpack` (Next.js 16.2.11).
+
+- Compilation passed (42 seconds).
+- TypeScript passed (46 seconds).
+- Page-data collection passed.
+- All 58 static pages generated (6.1 seconds). Pocket Cafe and Vital Vibes are dynamic standalone responses for explicit runtime activation.
+- Page optimization and build traces completed; process exit code 0.
+- Default Turbopack was attempted earlier and rejected the dependency junction pointing outside its filesystem root. Existing local dependencies were reused; Webpack verification passed without changing production build configuration or installing packages.
+
+## Source and review evidence
+
+- AMMA production deployment and origin/main matched `576c1ce61fdb26b47cf2ef999be2d00fae501652` at task start.
+- Every final AMMA mapping has a real source route/file; the local-only Las Palmas pilot was removed. Redirect-only paths stay excluded.
+- Colattao's five existing paths `/`, `/menu`, `/penalty`, `/market`, `/get-started` were verified against its local source at `22f403d73a8631fec3a72e78854af2965cf612f6`. Its app was not modified; production collection integration remains a template, not a completed deployment.
+- Registry: 18 entries, comprising two customer-site mappings, one marketing site, fourteen public concepts and one experience group. This is not a count of active customers or configured collectors.
+- Review checked origin/path conflicts, private/preview/internal exclusions, anonymous identifiers, idempotency, first-read SELECT-only behavior, DST boundaries, monitoring recovery and explicit POST-only send/write boundaries. React review confirmed optional after-hydration collection, no new client rendering dependency and no changes to menus/game behavior or QR routes.
+- Browser visual verification remains unavailable because desktop browser discovery crashes; mocked browser-failure tests passed. No visual screenshots or real browser end-to-end pass are claimed.
+- No live connection, real connector-readable production report, historical counts or provider quotas were verified. No push, deployment, live DB mutation, access change, paid feature, retention deletion or email send occurred.
+
+## PASS — actual connection-initialization regression check
+
+`node scripts/traffic-boundary-selftest.mjs` was rerun after adding a mocked actual pool factory (without constructor pool injection). Exactly one pool was created across the first report, observation and health reads; all six emitted statements were SELECTs. The full boundary suite passed. Focused lint of this added regression test also passed.
+
+## Approved publication payload and preview guard verification
+
+Before publication, the changed payload was checked for private-key blocks, live provider tokens, credential-bearing database URLs, JWTs, non-example env files and raw-data/key-file extensions. No findings were detected. Manual review confirmed synthetic test fixtures and aggregate-only reporting, with no raw customer records or credentials. The intended owner address already exists in the public production baseline.
+
+Preview regressions passed even with email/monitoring opt-in flags set: non-production collection, health recording and email delivery are blocked in code, GETs cannot send, and report reads contain no schema initialization. Targeted lint passed. Publication is authorized for the branch and draft PR only; merge, production deployment, migration, collection activation, real email and access/spending changes remain gated.
+
+## PASS - mail-only daily/weekly continuation
+
+Verified the clean existing worktree at f49064e before editing. Prepared a dedicated
+TRAFFIC_MAIL_TRIGGER_SECRET POST capability, owner recipient and verified sender
+domain pinning, independent whole-period queries, and disabled GitHub scheduler.
+No shared cron/report token fallback, caller-selected recipient/date/SQL, raw event
+export, automatic retry, migration, credentials, live configuration or send.
+
+Final local verification passed:
+- npm run traffic:selftest: existing suite and 19 pipeline groups.
+- npm run traffic-morning:selftest: all offline route/provider/collector boundaries.
+- npm run bodega-traffic:selftest: existing dashboard/format compatibility.
+- Focused ESLint of all changed TS/MJS application and test sources: exit 0.
+- node node_modules/next/dist/bin/next build --webpack: exit 0, compilation 67s,
+  TypeScript 49s, 58 static pages, optimization and traces.
+- git diff --check: no whitespace errors.
+
+Regressions include prior-week independent distinct counts versus daily sum,
+Eastern DST 167/169-hour weeks, daily October18-31 cutoff, Monday weekly-only
+replacement, year boundary, wrong/delayed UTC slot, absent/older health schemas
+with the existing eight-column events table, preview gates, shared-token rejection,
+recipient/sender pinning, bounded body and one-attempt uncertain provider outcomes.
+
+The native workflow stays disabled via false/absent repository variables and
+server flags until an approved test is actually read through connected Gmail.
+GitHub exact-time delivery is not guaranteed. Provider idempotency lasts 24 hours;
+there is no new durable send ledger. See MAIL_DELIVERY.md for exact handoff.
+
+## PASS - combined October Monday cadence correction
+
+October 19 and 26 now include independently queried yesterday and the previous
+completed Monday-Sunday week in one compact email, rather than omitting daily.
+November 2 and later Mondays send weekly only. No overlapping counts or distinct
+identifiers are added. New route/provider regressions prove two interval queries
+and one provider attempt, stable ordered-period key, separate daily/weekly values,
+raw-ID omission, provider-error redaction and unchanged enable/readback gates.
+
+Existing traffic tests, 19 pipeline groups, offline boundary/compatibility suites
+and focused ESLint pass. The corrected local Webpack build exited0: compilation
+39.2seconds, TypeScript61seconds, all58static pages6.6seconds, optimization/traces.
+Source security and operational limitations are in MAIL_SECURITY_REVIEW.md.
+The test flag remains an enable window, not a durable one-shot latch. Parent must
+coordinate one dispatch after direct user secret entry, inspect uncertain results
+without retry, read the actual message through Gmail and disable both test gates.
+No merge, credentials/configuration, migration, collection/monitoring or live send.
+
+## PASS - established production feed preservation
+
+Verified origin/main and successful Production deployment7142021412 at576c1ce.
+The initial new source gate would silently202/drop established ingestion with
+the flag absent/disabled, and the new parser would change IDs/attribution.
+The receiver now imports an isolated exact production dependency snapshot.
+
+Seven canonical source hashes and the original receiver Git blob are pinned.
+Only import isolation, preview blocking and generic error logging differ from
+the original receiver. Real old parser/writer run in local PGlite prove ingestion
+with new gates absent/disabled, original IDs/composite keys/pool defaults/schema,
+header/HMAC auth and replay dedup. New reports read those same rows SELECT-only
+without optional health schema or writer initialization.
+
+npm run traffic-morning:selftest (including continuity), traffic:selftest19groups,
+bodega-traffic:selftest and focused lint pass. Full local Webpack build exit0:
+38.9seconds compile,47seconds TypeScript,58static pages5.2seconds and final traces.
+No production SQL, payload, credential value, settings, migration, deployment,
+send or merge performed. Existing writer startup checks are preserved baseline
+behavior, not a new migration; report reads never invoke them.
+
+Recommended release flags and full evidence: ESTABLISHED_DRAIN_CONTINUITY.md.
