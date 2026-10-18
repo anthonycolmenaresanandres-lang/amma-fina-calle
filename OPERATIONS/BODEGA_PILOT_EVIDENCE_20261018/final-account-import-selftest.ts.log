@@ -1,0 +1,39 @@
+PASS valid bounded menu normalizes to a stable snapshot
+PASS wrong tenant
+PASS empty menu
+PASS duplicate item IDs
+PASS duplicate category IDs
+PASS missing category
+PASS duplicate position
+PASS negative price
+PASS fractional cents
+PASS negative order
+PASS fractional order
+PASS blank item ID
+PASS unsupported sources are explicit
+PASS extra authority fields rejected
+PASS malformed JSON rejected
+PASS oversized input rejected before parsing
+PASS first import adds each variant and never publishes
+PASS same menu produces no item changes
+PASS rename keeps source identity and requires owner review
+PASS omitted items retained without hiding
+PASS retained position collision fails closed
+PASS price update requires commercial review
+PASS health claim update requires health review
+PASS source switching requires explicit reviewed mapping
+PASS category rename is visible in preview
+PASS static adapter preserves explicit variant IDs and unknown prices
+PASS static adapter refuses missing sidecar
+PASS static adapter refuses renamed/reordered source without review
+PASS static adapter refuses unused mappings
+PASS timeline uses owner-facing state labels
+PASS request target identity is bounded
+PASS request parser rejects other tenant
+PASS request parser rejects unknown states
+PASS request parser rejects malformed dates
+PASS request parser rejects provider data or unbounded attempts
+PASS request parser rejects malformed events
+PASS verified request offers confirm and rollback
+PASS unverified request cannot confirm
+42 account/import/progress checks passed.

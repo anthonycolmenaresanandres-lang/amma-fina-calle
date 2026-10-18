@@ -1,0 +1,70 @@
+PASS all 50 published entries have permanent source IDs
+PASS manifest binds the ID mapping as well as content
+PASS complete valid control snapshot accepted
+PASS wrong tenant rejected atomically
+PASS wrong source hash rejected atomically
+PASS partial response rejected atomically
+PASS unknown item rejected atomically
+PASS duplicate item rejected atomically
+PASS occupied group position rejected atomically
+PASS negative order rejected atomically
+PASS fractional order rejected atomically
+PASS unbounded order rejected atomically
+PASS bad availability rejected atomically
+PASS unsafe version rejected atomically
+PASS impossible item generation rejected atomically
+PASS private top-level fields rejected atomically
+PASS immutable item field rejected atomically
+PASS feature off never creates a database client
+PASS unconfigured reader falls back without stale controls
+PASS transport errors are redacted into fallback
+PASS single scoped public RPC returns complete validated state
+PASS partial backend response never overlays any items
+PASS availability changes leave all original content intact
+PASS display changes reorder only the same presentation group
+PASS forged internal state falls back as one menu
+PASS unlisted prices remain unlisted
+PASS every projected entry preserves every immutable source field
+PASS real leaf renderers expose 50 visible control markers
+PASS readback validates the rendered menu and exact target
+PASS wrong deployment revision cannot reuse a source certificate
+PASS missing deployment revision cannot verify a public read
+PASS order readback follows the rendered table row sequence
+PASS reordered DOM rows cannot certify stale position metadata
+PASS feature-off menu cannot verify completion
+PASS fallback menu cannot verify completion
+PASS old snapshot cannot verify completion
+PASS incomplete document cannot verify completion
+PASS changed version marker cannot verify completion
+PASS hidden page cannot verify completion
+PASS inert template cannot verify completion
+PASS invisible sold-out label cannot verify completion
+PASS missing sold-out label cannot verify completion
+PASS wrong visible item name cannot verify completion
+PASS metadata only in a comment cannot verify completion
+PASS metadata only in a script cannot verify completion
+PASS bounded public readback uses fixed path without credentials
+PASS unapproved origin rejected: https://example.invalid
+PASS unapproved origin rejected: http://finacalleos.com
+PASS unapproved origin rejected: https://finacalleos.com/other
+PASS unapproved origin rejected: https://user:pass@finacalleos.com
+PASS unapproved origin rejected: http://127.0.0.1:3147
+PASS loopback fixture requires exact local gate
+PASS Vercel cannot use a loopback fixture
+PASS HTTP failure
+PASS wrong MIME
+PASS oversized body
+PASS fallback response
+PASS trusted verifier stays off before activation
+PASS failed public readback cannot confirm the database request
+PASS valid rendered readback reaches only the scoped verification RPC
+PASS stale target version blocks HTTP and confirmation
+PASS wrong tenant frame cannot trigger a public read or write
+PASS uncertain verification does not claim confirmation or retry
+PASS execution coordinator remains off before explicit activation
+PASS wrong deployment blocks preflight before any write
+PASS one approved change receives preflight and fresh postflight
+PASS uncertain apply receipt resumes verification without applying twice
+PASS requested rollback receives independent preflight and restored readback
+PASS source data including every recipe and price remains byte-equivalent
+69 Bodega source/overlay/render/readback checks passed.

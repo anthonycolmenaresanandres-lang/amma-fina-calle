@@ -1,0 +1,32 @@
+PASS unchanged target matches
+PASS case-normalized email
+PASS missing or malformed preview rejected
+PASS missing or malformed preview rejected
+PASS missing or malformed preview rejected
+PASS missing or malformed preview rejected
+PASS missing or malformed preview rejected
+PASS missing or malformed preview rejected
+PASS price changed
+PASS availability changed
+PASS description changed
+PASS raw precision changed
+PASS tenant changed
+PASS actor changed
+PASS text changed
+PASS target changed
+PASS removed target rejected
+PASS unrelated item edit preserves preview
+PASS health claim requires review: rename Mocha to Gluten-free Mocha
+PASS health claim requires review: set Mocha description to safe for allergies
+PASS health claim requires review: rename Mocha to Nut free Mocha
+PASS health claim requires review: set Mocha description to cures diabetes
+PASS health claim requires review: set Mocha description to vegan chocolate
+PASS health claim requires review: rename Mocha to sin gluten
+PASS health claim requires review: set Mocha description to dairy-free
+PASS health claim requires review: set Mocha description to allergen friendly
+PASS ordinary exact edit still previewed
+PASS no evidence is failure
+PASS durable row is saved even when email fails
+PASS email fallback remains distinct from saved
+PASS saved plus email stays saved
+31 owner request reliability checks passed. No network, database or messages.

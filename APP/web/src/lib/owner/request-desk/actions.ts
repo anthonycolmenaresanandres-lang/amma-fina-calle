@@ -13,7 +13,7 @@ import {
 import { readOwnerMenu } from "./menu";
 import { triageRequest } from "./triage";
 import { isOwnerPreviewCurrent, ownerPreviewFingerprint } from "./preview";
-import { ownerQueueEnabled, submitOwnerReviewToQueue } from "../queue/client";
+import { ownerQueueEnabledForTenant, submitOwnerReviewToQueue } from "../queue/client";
 
 /** What the client renders for an apply preview — display strings only, never authority. */
 export type DeskProposalView = {
@@ -83,7 +83,7 @@ export async function triageOwnerRequest(
     const supabase = await createServerSupabase();
     if (!supabase) return { phase: "error", message: "Editing isn’t configured yet." };
 
-    if (ownerQueueEnabled()) {
+    if (ownerQueueEnabledForTenant(restaurantId)) {
       return { phase: "review", text, reason: "This request will be saved for review. No menu change will be made now." };
     }
     const snapshot = await readOwnerMenu(supabase, restaurantId);
@@ -131,7 +131,7 @@ export async function confirmOwnerRequest(
 ): Promise<DeskResultState> {
   const text = readText(formData);
   if (!text) return { phase: "error", message: "Nothing to apply." };
-  if (ownerQueueEnabled()) return { phase: "error", message: "Use the queued request review before making a change." };
+  if (ownerQueueEnabledForTenant(restaurantId)) return { phase: "error", message: "Use the queued request review before making a change." };
   // A direct action POST must not bypass the attachment-review rule.
   if (readFileCount(formData) !== 0) {
     return { phase: "error", message: "Requests with files need team review." };
@@ -203,7 +203,7 @@ export async function sendOwnerReview(
     const supabase = await createServerSupabase();
     if (!supabase) return { phase: "error", message: "Requests aren’t configured yet." };
 
-    if (ownerQueueEnabled()) {
+    if (ownerQueueEnabledForTenant(restaurantId)) {
       const result = await submitOwnerReviewToQueue(supabase, {
         restaurantId, clientKey: String(formData.get("clientKey") ?? ""), brief: text,
       });

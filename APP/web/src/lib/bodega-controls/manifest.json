@@ -1,0 +1,408 @@
+{
+  "schema": "bodega-controls-v1",
+  "tenant": "bodega",
+  "guestPath": "/demo/bodega",
+  "hash": "5f05e784821eeddd7049aab7593a64ab4f6d7ec14867482cf1a38e83b95509fc",
+  "entries": [
+    {
+      "id": "85950d0c-22cb-82bf-a3a3-7a1e2d2518a6",
+      "sourceId": "fall-maple-morning",
+      "scope": "seasonal",
+      "name": "Maple Morning",
+      "baselineOrder": 10,
+      "contentHash": "324a1de16be15fe9a19366ca5daf0c0cd1bcfa8d56ad36aa77ae73e40759c34b"
+    },
+    {
+      "id": "462b0803-9a0e-8235-aaf1-ef1ddc68a43f",
+      "sourceId": "fall-autumn-brew",
+      "scope": "seasonal",
+      "name": "Autumn Brew",
+      "baselineOrder": 20,
+      "contentHash": "25c2064b08a11f24fd70e95ced2ff118daa27d376d03119eeb54f8bceb40c239"
+    },
+    {
+      "id": "97009f12-55e2-85f8-acbc-e5a9e2348f02",
+      "sourceId": "fall-haystack",
+      "scope": "seasonal",
+      "name": "Haystack",
+      "baselineOrder": 30,
+      "contentHash": "2c03181e9069e3219d229fcd18d2e7d03379a641737867e4bb198623e73d7ae9"
+    },
+    {
+      "id": "0771ebd2-21a5-80bd-abed-0ed673b417fe",
+      "sourceId": "fall-sugar-n-spice",
+      "scope": "seasonal",
+      "name": "Sugar N Spice",
+      "baselineOrder": 40,
+      "contentHash": "a932407efb16d45c4d086cad30ebab87b82ce55994e74e6bdcb70efbdc0111c8"
+    },
+    {
+      "id": "7e4c6968-7160-8364-aea1-a12fecdbfe70",
+      "sourceId": "fall-spiced-apple-chai",
+      "scope": "seasonal",
+      "name": "Spiced Apple Chai",
+      "baselineOrder": 50,
+      "contentHash": "e11c0ae77ae5133b470f6d323856b08c668e755c6cac539891e84a407cc91042"
+    },
+    {
+      "id": "a5a3dffb-5e8c-8dd5-a6ec-bae0122b7de8",
+      "sourceId": "espresso-double-quad",
+      "scope": "espresso",
+      "name": "Espresso",
+      "baselineOrder": 10,
+      "contentHash": "d61dbee91dc68de2b78aa24eaf9c524c2741198412fa41ad62048df2b7f8a2fc"
+    },
+    {
+      "id": "c542e7a1-d6f8-8da0-a326-7d7f88d9f62d",
+      "sourceId": "cortado",
+      "scope": "espresso",
+      "name": "Cortado",
+      "baselineOrder": 20,
+      "contentHash": "5f116aedcc862cb788de7ee24f6329f9ed7ada965309e8e80cf912674604341c"
+    },
+    {
+      "id": "47429e4c-97a3-872d-aad1-4128a4b41823",
+      "sourceId": "classic-americano",
+      "scope": "classics",
+      "name": "Americano",
+      "baselineOrder": 10,
+      "contentHash": "457ca80345268458f0d541c0b4a616460934e6bcaf2df202c043e33a91e63a3e"
+    },
+    {
+      "id": "f36b663c-4995-8bf3-a582-ae7d05d46412",
+      "sourceId": "classic-cappuccino",
+      "scope": "classics",
+      "name": "Cappuccino",
+      "baselineOrder": 20,
+      "contentHash": "4fdc047c8ebd5d93fd62fdb76cbb0b8be94eb4ac6e6321453dddabba0f56de81"
+    },
+    {
+      "id": "38bfa599-47f3-898c-a318-3e8a44816287",
+      "sourceId": "classic-latte",
+      "scope": "classics",
+      "name": "Latte",
+      "baselineOrder": 30,
+      "contentHash": "9eb7f0c7e64f7748637f29933ac8683631ddbbf5b687f1a0abb41b4b4322d6e7"
+    },
+    {
+      "id": "243d623a-7035-8e8a-a268-b707b7e8ec44",
+      "sourceId": "classic-mocha",
+      "scope": "classics",
+      "name": "Mocha",
+      "baselineOrder": 40,
+      "contentHash": "cd92e237c29079368bb1a32d30215714b6ee735fc1a00dae94219e1ea3b53e36"
+    },
+    {
+      "id": "18dce6df-fc7e-89d3-a338-7e450893c002",
+      "sourceId": "classic-drip",
+      "scope": "classics",
+      "name": "Drip coffee",
+      "baselineOrder": 50,
+      "contentHash": "d66feecf59d9b2b2fd86d4cee2a9039e09d70a752435197fd14f07e5ae6b6696"
+    },
+    {
+      "id": "5ea7ddc9-a1f0-8ee9-a7b3-2f2d70023a58",
+      "sourceId": "classic-hot-cocoa",
+      "scope": "classics",
+      "name": "Hot cocoa",
+      "baselineOrder": 60,
+      "contentHash": "1521177d45982a7d5ff4275701f643afba293ee0f7800349569f03aebccc98e6"
+    },
+    {
+      "id": "0db22da8-7ca8-83d7-abfc-376b82d703c8",
+      "sourceId": "classic-chai",
+      "scope": "classics",
+      "name": "Chai tea",
+      "baselineOrder": 70,
+      "contentHash": "b48cdd3d7b52df6cc4ffdc52aa40096d980ec15978f7383b1340cf30e3c4503f"
+    },
+    {
+      "id": "1bc8b849-db2b-8857-ae77-26f43b29af3c",
+      "sourceId": "classic-tea",
+      "scope": "classics",
+      "name": "Tea",
+      "baselineOrder": 80,
+      "contentHash": "b087d0af9cbc87a5a8cc4c356d875fa9dabbd497343a6e4c476e2b24820f51c8"
+    },
+    {
+      "id": "96305773-5855-88de-abb9-9d8613c11edd",
+      "sourceId": "extra-oat-milk",
+      "scope": "extras",
+      "name": "Oat milk",
+      "baselineOrder": 10,
+      "contentHash": "fce95e7535fc4bc224e06e0412baaf13feebaec02e3d1473218acf409280c58b"
+    },
+    {
+      "id": "97637e4a-d479-86f1-a401-9adf1f435c2e",
+      "sourceId": "extra-almond-milk",
+      "scope": "extras",
+      "name": "Almond milk",
+      "baselineOrder": 20,
+      "contentHash": "b992593b3d94023a026a22956b69ff7a96e1eeb52fe5b31ea6044ca0d0d32da1"
+    },
+    {
+      "id": "f749f231-0b41-87a3-a8d4-7dd19d7c5ba4",
+      "sourceId": "extra-syrup",
+      "scope": "extras",
+      "name": "Syrup flavors",
+      "baselineOrder": 30,
+      "contentHash": "6303d18327902252e1aefb5fff1f9527950590f18b7ee7206bd70495789cc600"
+    },
+    {
+      "id": "f88b0cc2-1703-83ad-ac45-47d05999c58c",
+      "sourceId": "cafecito-bodega-cat",
+      "scope": "signature-cafecito",
+      "name": "Bodega Cat",
+      "baselineOrder": 10,
+      "contentHash": "9a3c151eda6533d7bddbd068e24e6a66a99021410c57105b233b982d0fb7cbb8"
+    },
+    {
+      "id": "019dd229-0eed-8698-a3d8-5552b6b6e040",
+      "sourceId": "cafecito-spanish-latte",
+      "scope": "signature-cafecito",
+      "name": "Spanish Latte",
+      "baselineOrder": 20,
+      "contentHash": "ef16771483e34d92d2b528d70c56ebcac939e2b5478d309c0a79ecea40bcfbab"
+    },
+    {
+      "id": "a5133c3f-d55b-8d6a-ab85-866c8f8cbc43",
+      "sourceId": "cafecito-coco-loco",
+      "scope": "signature-cafecito",
+      "name": "Coco Loco",
+      "baselineOrder": 30,
+      "contentHash": "8cf151b53d62897795bfc98e046daafad678c1ed534b7490edb5dd00c1e2fa80"
+    },
+    {
+      "id": "f81d8928-bf7c-8333-a2a2-26e527482edd",
+      "sourceId": "cafecito-la-isla",
+      "scope": "signature-cafecito",
+      "name": "La Isla",
+      "baselineOrder": 40,
+      "contentHash": "553db254b1adde460fcaa944d96de9692e1205846f2a7362393ef351010a6f54"
+    },
+    {
+      "id": "41381983-8d98-8210-aaa5-7b0e3d4c2c48",
+      "sourceId": "cafecito-canela-love",
+      "scope": "signature-cafecito",
+      "name": "Canela Love",
+      "baselineOrder": 50,
+      "contentHash": "93e295baaa7f644e74b9402097ccdd0d85c4aa29a3385064c97a3588cd83f15e"
+    },
+    {
+      "id": "ff4aee25-168e-8b4c-a306-a4510edd6a1a",
+      "sourceId": "matcha-latte",
+      "scope": "matcha",
+      "name": "Matcha Latte",
+      "baselineOrder": 10,
+      "contentHash": "ec9c1443dd3bf3b231814089d8c3020af386aabc732a43da907f940e13edee47"
+    },
+    {
+      "id": "f92f892a-9f32-84fc-affd-28d0c224f354",
+      "sourceId": "matcha-banana-cloud",
+      "scope": "matcha",
+      "name": "Banana Cloud Matcha",
+      "baselineOrder": 20,
+      "contentHash": "4b1f4c8351b8ef8b95bc77904fda18deb6b0c9c42fdf0fdafabab2d5d3dcf619"
+    },
+    {
+      "id": "dadc6ce4-f0dd-8dae-a4db-5b07587f2a29",
+      "sourceId": "matcha-creme-brulee",
+      "scope": "matcha",
+      "name": "Crème Brûlée Matcha",
+      "baselineOrder": 30,
+      "contentHash": "a590d339b8d8fc7374e4571182596e01be2ab409b556511cf4fbea2716f49b67"
+    },
+    {
+      "id": "2c399e5f-0375-882d-a588-59ccd19f4761",
+      "sourceId": "matcha-ube-coconut",
+      "scope": "matcha",
+      "name": "Ube Coconut Matcha",
+      "baselineOrder": 40,
+      "contentHash": "ce77c0fdca98c51c0d7b3de8b3674982a71509fe565230a5886d08b06b1686ef"
+    },
+    {
+      "id": "b0de61d0-f0ca-82cc-a96e-1457079e6c3c",
+      "sourceId": "noncoffee-lemonade",
+      "scope": "non-coffee",
+      "name": "Lemonade",
+      "baselineOrder": 10,
+      "contentHash": "ec42f0dd892a73be39cc0e8d5709d539dc4a87fd564afb921330b8204c9628d1"
+    },
+    {
+      "id": "62aaa480-244e-8f6e-ac40-9f2a4d619ccf",
+      "sourceId": "noncoffee-morir-sonando",
+      "scope": "non-coffee",
+      "name": "Morir Soñando",
+      "baselineOrder": 20,
+      "contentHash": "9fc8274e2fdd758177b8e636e8b33a2a5d97bd9068f861c5847826e108bbc2d8"
+    },
+    {
+      "id": "7b02fdaf-47df-8152-a47e-d6bbe3ed51f9",
+      "sourceId": "noncoffee-strawberry-dragonfruit",
+      "scope": "non-coffee",
+      "name": "Strawberry Dragonfruit Refresher",
+      "baselineOrder": 30,
+      "contentHash": "46ea36deeb26c34499a590dc050dfbaefe3db6bd623b307a466cef38acf73451"
+    },
+    {
+      "id": "96c9adef-7361-87d6-a28b-d138cd32f18b",
+      "sourceId": "noncoffee-smoothies",
+      "scope": "non-coffee",
+      "name": "Fruit smoothies",
+      "baselineOrder": 40,
+      "contentHash": "7185718af1994fb6778a3256f66a252dd166011dc0f80fd0e73bdb9f540272c0"
+    },
+    {
+      "id": "9e938cf3-8c6d-8093-af39-9b15bab0871c",
+      "sourceId": "bites-ham-swiss",
+      "scope": "morning-bites",
+      "name": "Ham & Swiss",
+      "baselineOrder": 10,
+      "contentHash": "1e98fb9ef18e68314db7f1812f137904342bf60c2ab5b8a21b626b56f5a735a3"
+    },
+    {
+      "id": "0a481f7c-5495-8ffa-aaf0-60675208d8e8",
+      "sourceId": "bites-turkey-cheddar",
+      "scope": "morning-bites",
+      "name": "Turkey & cheddar",
+      "baselineOrder": 20,
+      "contentHash": "2aa2653dede4b36283258d1b015e46f246c87825e4d7a5b87b768e3af13cd151"
+    },
+    {
+      "id": "ad0b98d5-7667-880d-a4f8-e0dab27a3e01",
+      "sourceId": "bites-chicken-colby",
+      "scope": "morning-bites",
+      "name": "Chicken & Colby",
+      "baselineOrder": 30,
+      "contentHash": "b8eca8b88027fc22f43f00019bf4ba0ef75e60d51189e84b5ae67fa24d444001"
+    },
+    {
+      "id": "5ca9df15-cd19-8071-a995-7d90ca7a9768",
+      "sourceId": "bites-bacon-egg-cheese",
+      "scope": "morning-bites",
+      "name": "Bacon, egg & cheese",
+      "baselineOrder": 40,
+      "contentHash": "00a53bf79d6c0e996367177854afc251f48c0d7baf2411dac8d7e10e00306648"
+    },
+    {
+      "id": "4d3e6b64-1db2-8237-a3ee-4541f6f5773b",
+      "sourceId": "bites-sausage-egg-cheese",
+      "scope": "morning-bites",
+      "name": "Sausage, egg & cheese",
+      "baselineOrder": 50,
+      "contentHash": "6f59ec3f9ea16afbf7a648d435fb1013bc21b4be8a082e54fb544a6c7a688e28"
+    },
+    {
+      "id": "7039bf3c-1e3f-81ed-ac25-874c9c11b461",
+      "sourceId": "bites-avocado-toast",
+      "scope": "morning-bites",
+      "name": "Avocado toast",
+      "baselineOrder": 60,
+      "contentHash": "4a216f576880f82467731592210f1c12f1a25f920726637280edd933b3ad748a"
+    },
+    {
+      "id": "e2d294a1-5cb3-83f3-ade6-64c2e984cb00",
+      "sourceId": "bites-chicken-wraps",
+      "scope": "morning-bites",
+      "name": "Chicken lettuce wraps",
+      "baselineOrder": 70,
+      "contentHash": "5055576ea3dd77c3ba8afd3e0da9023d96b2547ebce21e924c1c50331c9e44a8"
+    },
+    {
+      "id": "0ef51e73-77de-823c-a3b4-2df5ed436bc4",
+      "sourceId": "bites-strawberry-parfaits",
+      "scope": "morning-bites",
+      "name": "Strawberry parfaits",
+      "baselineOrder": 80,
+      "contentHash": "785ded1899c3d2b0e574acb0030b1c611cd336a9223dea55fa3391352f111fb7"
+    },
+    {
+      "id": "c3f1a890-26ff-885f-afeb-e88751373844",
+      "sourceId": "bites-mini-pancakes",
+      "scope": "morning-bites",
+      "name": "Mini pancakes",
+      "baselineOrder": 90,
+      "contentHash": "db28f39b8ed8e76dd4edb7041f990e547dd9279797a87063e6577ba0dea27f3e"
+    },
+    {
+      "id": "e44ce5b2-6084-839f-a319-ef3da1f41108",
+      "sourceId": "bakery-guava",
+      "scope": "bakery-case",
+      "name": "Guava",
+      "baselineOrder": 10,
+      "contentHash": "4d26fb84bfd74cee3f101dbd6900032162b2bab7a5bde3a17cf95b5b1123a0ce"
+    },
+    {
+      "id": "cfaf95d2-073c-8cc6-a841-7a330e7c6933",
+      "sourceId": "bakery-mixed-berry",
+      "scope": "bakery-case",
+      "name": "Mixed Berry Strudel",
+      "baselineOrder": 20,
+      "contentHash": "fa32bf944ba8817bbab8f8b6b5243189abea023ba35e669b5a7332832d2b6aa9"
+    },
+    {
+      "id": "80d902a6-e870-841c-a20c-370ecac9141d",
+      "sourceId": "bakery-maple-pecan",
+      "scope": "bakery-case",
+      "name": "Maple Pecan",
+      "baselineOrder": 30,
+      "contentHash": "08f418204d24e34e199ad1631b08375d9b0e4defc0bcbc24f1faa52f4db5d8f4"
+    },
+    {
+      "id": "23b267f6-88cf-8ca5-ab89-362e30e2163f",
+      "sourceId": "bakery-chocolate-twist",
+      "scope": "bakery-case",
+      "name": "Chocolate Twist",
+      "baselineOrder": 40,
+      "contentHash": "ab8fd312235240272fcf4667c02625d5d75b2a10b9ddc513085d998a2eec6eed"
+    },
+    {
+      "id": "c796a795-5256-87cd-a2ea-d7215b66f8b6",
+      "sourceId": "bakery-quesito",
+      "scope": "bakery-case",
+      "name": "Cheese Stick (Quesito)",
+      "baselineOrder": 50,
+      "contentHash": "b16129a27311462dfafdafeb09cacc39070bb6d33db9a02eac7b409c43a29c34"
+    },
+    {
+      "id": "d63372f8-75a3-836d-aff1-6a5b6d76364a",
+      "sourceId": "bakery-pumpkin",
+      "scope": "bakery-case",
+      "name": "Pumpkin",
+      "baselineOrder": 60,
+      "contentHash": "cb1910a1490f1e4d991f801702ed115cbca83a3a52092d4acf518180c87a719a"
+    },
+    {
+      "id": "97c9c354-9bda-8885-a193-67cba84a2ab5",
+      "sourceId": "bakery-cinnamon-coffee",
+      "scope": "bakery-case",
+      "name": "Cinnamon Coffee",
+      "baselineOrder": 70,
+      "contentHash": "283ccac0527098e0adfa097d6c066be5afc5bace10425dd0003e89593b3dcb58"
+    },
+    {
+      "id": "c81f4aad-a01b-88d5-afcd-ca73d8016718",
+      "sourceId": "bakery-chocolate-chip",
+      "scope": "bakery-case",
+      "name": "Chocolate Chip",
+      "baselineOrder": 80,
+      "contentHash": "199cb3b09b317e309ae60879fac4fb2c575e49d7478fa2fbce3a76b28a79b7a9"
+    },
+    {
+      "id": "9675ad6d-ca38-8548-a0ce-1f4d91f01822",
+      "sourceId": "bakery-orange-cranberry",
+      "scope": "bakery-case",
+      "name": "Orange Cranberry",
+      "baselineOrder": 90,
+      "contentHash": "cd597a744e85c2ca025f5e6c03cbefdfd85011c21aa83f6dcedba88568278b2c"
+    },
+    {
+      "id": "767ba5ea-70a2-8137-a491-d7fe256028f6",
+      "sourceId": "bakery-bagels",
+      "scope": "bakery-case",
+      "name": "Bagels",
+      "baselineOrder": 100,
+      "contentHash": "ed840468eb2c7fb25591a488f0513b6a754645fe254cfaa4d13744ec43a5d905"
+    }
+  ]
+}

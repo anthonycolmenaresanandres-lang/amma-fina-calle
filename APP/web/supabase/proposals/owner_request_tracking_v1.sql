@@ -23,9 +23,9 @@ begin
  select * into q from owner_request_private.requests where id=p_id and actor_user_id=auth.uid();
  if not found then return null;end if;
  perform owner_request_private.owner_identity(q.restaurant_id,auth.uid());
- return jsonb_build_object('id',q.id,'restaurant_id',q.restaurant_id,'status',q.status,'change_type',q.change_type,'item_id',q.item_id,'created_at',q.created_at,
+ return jsonb_build_object('id',q.id,'restaurant_id',q.restaurant_id,'status',q.status,'change_type',q.change_type,'item_id',coalesce(q.source_item_id,q.item_id),'created_at',q.created_at,
  'reference_id',(select reference_id from public.change_requests where id=q.id),
- 'item_name',(select name from public.menu_items where id=q.item_id and restaurant_id=q.restaurant_id),
+ 'item_name',coalesce(q.item_label,(select name from public.menu_items where id=q.item_id and restaurant_id=q.restaurant_id)),
  'before',q.before_value,'after',q.after_value,'owner_acknowledged_at',q.owner_acknowledged_at,
  'events',coalesce((select jsonb_agg(jsonb_build_object('type',e.event_type,'at',e.created_at) order by e.id) from owner_request_private.events e where e.request_id=q.id),'[]'),
  'delivery',coalesce((select jsonb_agg(jsonb_build_object('status',o.status,'attempt',o.attempt,'next_attempt_at',o.next_attempt_at) order by o.event_id) from owner_request_private.outbox o where o.request_id=q.id),'[]'));
@@ -34,8 +34,7 @@ create function public.get_owner_request_items_v1(p_restaurant_id text) returns 
 language plpgsql security definer set search_path='' as $$
 begin
  perform owner_request_private.owner_identity(p_restaurant_id,auth.uid());
- if (select count(*) from public.menu_items where restaurant_id=p_restaurant_id)>200 then raise exception 'menu requires a scoped adapter' using errcode='22023';end if;
- return coalesce((select jsonb_agg(jsonb_build_object('id',m.id,'name',m.name,'available',m.is_available,'order',m.sort_order,'version',m.owner_request_version) order by m.sort_order,m.id) from public.menu_items m where restaurant_id=p_restaurant_id),'[]');
+ return owner_request_private.list_targets(p_restaurant_id);
 end $$;
 revoke all on function public.list_owner_requests_v1(text,uuid),public.get_owner_request_v1(uuid),public.get_owner_request_items_v1(text) from public,anon,authenticated,service_role;
 grant execute on function public.list_owner_requests_v1(text,uuid),public.get_owner_request_v1(uuid),public.get_owner_request_items_v1(text) to authenticated;

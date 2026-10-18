@@ -1,0 +1,96 @@
+PASS all gates default off
+PASS no tenants enrolled
+PASS queue disabled at database even with authenticated owner
+PASS anonymous caller cannot claim a tenant
+PASS public inquiry remains tenantless and unverified
+PASS owner A cannot claim tenant B
+PASS legacy owner attribution derived from Auth and tenant registry
+PASS unconfirmed Auth email cannot submit
+PASS password-reset-required user blocked at RPC
+PASS invalid request rejected: wrong tenant
+PASS invalid request rejected: unknown type
+PASS invalid request rejected: missing confirmation
+PASS invalid request rejected: wrong item
+PASS invalid request rejected: stale version
+PASS invalid request rejected: bad boolean
+PASS invalid request rejected: negative order
+PASS invalid request rejected: excess order
+PASS invalid request rejected: empty brief
+PASS structured request saved
+PASS retry returns same request id
+PASS idempotency key cannot change payload
+PASS save/retry emits one event
+PASS save/retry emits one durable notification
+PASS anon cannot select private queue
+PASS authenticated cannot select private queue
+PASS service_role cannot select private queue
+PASS anon cannot invoke executor
+PASS authenticated cannot invoke executor
+PASS owner B cannot read owner A request
+PASS owner B cannot confirm owner A request
+PASS owner cannot grant execution approval
+PASS non-authority admin cannot approve
+PASS owner cannot read authority review payload
+PASS other admins cannot read authority review payload
+PASS authority can inspect authenticated typed before/after before approval
+PASS authority cannot approve unenrolled tenant
+PASS authority approval binds enrolled policy
+PASS execution gate remains off after approval
+PASS bounded apply waits for real source verification
+PASS replayed execute is idempotent
+PASS second request of old revision cannot overwrite
+PASS one atomic row/version update
+PASS one request-linked audit entry
+PASS owner cannot complete before source verification
+PASS wrong guest destination cannot verify
+PASS mismatched public observation stays pending
+PASS matching source proof waits for owner
+PASS original owner confirms completion
+PASS owner confirmation replay is idempotent
+PASS owner can request inverse change
+PASS rollback restores exact before value but needs readback
+PASS rollback replay cannot repeat write
+PASS rollback source readback recorded
+PASS owner can acknowledge rolled back result
+PASS legacy content edits invalidate queued version
+PASS rollback refuses later owner revision
+PASS typos remain review-only
+PASS typo cannot become executable under initial policy
+PASS free text is data for review only
+PASS free text cannot execute
+PASS audit failure aborts apply transaction
+PASS failed audit leaves content and revision unchanged
+PASS revoked enrollment prevents approved execution
+PASS policy change invalidates old approval
+PASS removed owner cannot execute existing approved request
+PASS single item order can use the approved bounded rail
+PASS order updates only the requested position value
+PASS order requires matching public source proof
+PASS occupied position is a conflict, not an implicit bulk reorder
+PASS static menu tenant cannot become executable through enrollment alone
+PASS expired enrollment prevents execution
+PASS outbox failure aborts request transaction
+PASS failed outbox leaves no false public receipt
+PASS completion cannot acknowledge an intervening edit
+PASS notification gate defaults off
+PASS notification batches are bounded
+PASS unselected tenant notices cannot be claimed
+PASS unselected tenant outbox remains unchanged
+PASS wrong lease token cannot acknowledge
+PASS expired worker cannot acknowledge
+PASS expired lease is reclaimed
+PASS timeout becomes durable retry
+PASS attempt count survives retry
+PASS last attempt is bounded
+PASS six failures stop retries
+PASS error storage accepts fixed categories only
+PASS successful delivery recorded
+PASS delivery ack replay fenced
+PASS retry stops before provider idempotency retention expires
+PASS notification pause blocks fresh claims
+PASS all five private tables have RLS
+PASS anon cannot inherit executor execute via PUBLIC
+PASS owners cannot inherit executor capability
+PASS missing settings fail closed
+PASS missing settings cannot bypass execution kill switch
+97 queue SQL checks passed. Synthetic in-memory only. PGlite serializes one connection; live concurrent-role testing remains required.

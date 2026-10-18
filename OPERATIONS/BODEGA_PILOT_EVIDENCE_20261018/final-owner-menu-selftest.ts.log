@@ -1,0 +1,52 @@
+PASS price canonicalization
+PASS reject price ""
+PASS reject price " "
+PASS reject price "-1"
+PASS reject price "1e2"
+PASS reject price "1.234"
+PASS reject price "NaN"
+PASS reject price "Infinity"
+PASS reject price "100000000"
+PASS reject price "1,234"
+PASS reject price "$1"
+PASS zero means ask staff
+PASS blank names rejected
+PASS long descriptions rejected
+PASS availability strict
+PASS availability accepted
+PASS malformed item rejected
+PASS unsafe tenant rejected
+PASS unknown field rejected
+PASS missing size rejected
+PASS valid size accepted
+PASS stable Las Palmas destination
+PASS stable Bodega destination
+PASS stable Colattao destination
+PASS stable Scrambled destination
+PASS Scrambled QR keeps the stable Fina Calle URL
+PASS Colattao stable path resolves to approved current menu
+PASS Colattao QR keeps the stable Fina Calle URL
+PASS unknown restaurants stay on their encoded Fina Calle route
+PASS public zero price says ask staff
+PASS public size prices retain labels
+PASS guest adapter reads updated price
+PASS sold out disappears
+PASS empty menu remains empty
+PASS wrong tenant fails closed
+PASS missing payload fails closed
+PASS invalid stored price fails closed
+PASS size prices preserved
+PASS local preview localhost:3131
+PASS local preview 127.0.0.1:3131
+PASS local preview [::1]:3131
+PASS remote preview rejected finacalleos.com
+PASS remote preview rejected localhost.evil.test
+PASS remote preview rejected 127.0.0.1@evil.test
+PASS remote preview rejected null
+PASS preview disabled by default
+PASS preview blocked on Vercel
+PASS server action re-authorizes and scopes item
+PASS connected menu opt-in
+PASS public menu follows approved external destinations before reading sample data
+PASS menu QR routes use the shared stable destination
+51 owner-menu checks passed. No live database or access tests performed.

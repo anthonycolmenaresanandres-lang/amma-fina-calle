@@ -1,10 +1,10 @@
 import type { QueueClient } from "./client";
-import { QUEUE_UUID } from "./client";
+import { QUEUE_UUID, ownerQueueEnabled, ownerQueueEnabledForTenant } from "./client";
 export type Notice = { id: string; lease_token: string; request_id: string; reference_id: string; restaurant_id: string; event_type: string; attempt: number };
 type Delivery = { sent: true } | { sent: false; error: "timeout" | "provider_4xx" | "provider_5xx" | "transport" | "invalid_response" };
 type Env = Record<string, string | undefined>;
 function config(env: Env) {
-  if (env.OWNER_REQUEST_QUEUE_ENABLED !== "true" || env.OWNER_REQUEST_NOTIFICATIONS_ENABLED !== "true") return null;
+  if (!ownerQueueEnabled(env) || env.OWNER_REQUEST_NOTIFICATIONS_ENABLED !== "true") return null;
   const to = env.REQUESTS_NOTIFICATION_EMAIL?.trim();
   const from = env.REQUESTS_FROM_EMAIL?.trim();
   const key = env.RESEND_API_KEY?.trim();
@@ -22,7 +22,7 @@ function notice(value: unknown): value is Notice {
 /** Provider acceptance only. No customer brief, attachments, or owner address. */
 export async function deliverOwnerRequestNotice(job: Notice, env: Env, fetcher: typeof fetch = fetch, timeoutMs = 8000): Promise<Delivery> {
   const c = config(env);
-  if (!c || !notice(job)) return { sent: false, error: "invalid_response" };
+  if (!c || !notice(job) || !ownerQueueEnabledForTenant(job.restaurant_id,env)) return { sent: false, error: "invalid_response" };
   const controller = new AbortController();
   let timer: ReturnType<typeof setTimeout> | undefined;
   const timeout = new Promise<Delivery>(resolve => { timer = setTimeout(() => { controller.abort(); resolve({ sent: false, error: "timeout" }); }, timeoutMs); });
@@ -44,7 +44,7 @@ export async function drainOwnerRequestNotices(client: QueueClient, env: Env = p
   let processed = 0;
   try {
     const claim = await client.rpc("claim_owner_request_notices_v1", { p_limit: limit });
-    if (claim.error || !Array.isArray(claim.data) || claim.data.length > limit || !claim.data.every(notice)) return { state: "claim_failed", processed };
+    if (claim.error || !Array.isArray(claim.data) || claim.data.length > limit || !claim.data.every(value => notice(value) && ownerQueueEnabledForTenant(value.restaurant_id,env))) return { state: "claim_failed", processed };
     for (const job of claim.data) {
       const delivery = await deliverOwnerRequestNotice(job, env, fetcher);
       const ack = await client.rpc("finish_owner_request_notice_v1", { p_id: job.id, p_lease_token: job.lease_token, p_sent: delivery.sent, p_error: delivery.sent ? null : delivery.error });

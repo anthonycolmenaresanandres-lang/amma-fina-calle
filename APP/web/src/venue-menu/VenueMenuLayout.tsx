@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import styles from "./venue-menu.module.css";
+import type { MenuReadbackAttributes } from "./menu-controls";
 
 type Props = {
   brandName: string;
@@ -15,12 +16,13 @@ type Props = {
   skipLabel: string;
   previewLabel?: string;
   theme?: CSSProperties;
+  readback?: MenuReadbackAttributes;
 };
 
 // The markup and CSS are shared by Bodega and Project Seed. Each venue supplies
 // only its menu data, artwork, links, and theme variables.
-export function VenueMenuLayout({ brandName, brand, nav, featured, menu, game, visit, engagement, footer, skipHref, skipLabel, previewLabel = "Preview", theme }: Props) {
-  return <main className={styles.page} style={theme}>
+export function VenueMenuLayout({ brandName, brand, nav, featured, menu, game, visit, engagement, footer, skipHref, skipLabel, previewLabel = "Preview", theme, readback }: Props) {
+  return <main className={styles.page} style={theme} data-menu-source={readback?.source} data-menu-mode={readback?.mode} data-menu-manifest={readback?.manifest} data-menu-snapshot-version={readback?.version} data-menu-deployment={readback?.deploymentCommit}>
     <div className={styles.shell}>
       <a className={styles.skipLink} href={skipHref}>{skipLabel}</a>
       <header className={styles.hero}>

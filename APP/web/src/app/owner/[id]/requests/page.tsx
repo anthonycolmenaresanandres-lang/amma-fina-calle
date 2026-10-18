@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOwnerContext } from "@/lib/owner/auth";
 import { createServerSupabase } from "@/lib/supabase/server";
-import { ownerQueueEnabled, QUEUE_UUID } from "@/lib/owner/queue/client";
+import { ownerQueueEnabledForTenant, QUEUE_UUID } from "@/lib/owner/queue/client";
 import { REQUEST_STATUS, readRequestSummary, type RequestSummary } from "@/lib/owner/queue/progress";
 import { ownerQueueSourceAssessment } from "@/lib/owner/queue/sources";
 import ItemRequestForm, { type RequestItem } from "@/components/accounts/ItemRequestForm";
@@ -14,7 +14,7 @@ export default async function OwnerRequestsPage({ params, searchParams }: { para
   const owner = await getOwnerContext(id);
   const shell = (children: React.ReactNode) => <main className={styles.workspace}><nav className={styles.nav}><Link href={`/owner/${id}`}>← Owner desk</Link><span>Fina Calle · Requests</span></nav><p className={styles.eyebrow}>Your business</p><h1>Your requests.</h1>{children}</main>;
   if (owner.state !== "authorized") return shell(<p>Sign in through your <Link href={id === "bodega" ? "/owner/bodega/billing" : `/owner/${id}`}>owner desk</Link> with the authorized account, then return here.</p>);
-  if (!ownerQueueEnabled()) return shell(<p className={styles.notice}>Request tracking has not been released yet. Use the existing request desk for reviewed assistance.</p>);
+  if (!ownerQueueEnabledForTenant(id)) return shell(<p className={styles.notice}>Request tracking has not been released yet. Use the existing request desk for reviewed assistance.</p>);
   const { before } = await searchParams; if (before && !QUEUE_UUID.test(before)) notFound();
   const client = await createServerSupabase();
   const [list, menu] = await Promise.all([client?.rpc("list_owner_requests_v1", { p_restaurant_id: id, p_before: before ?? null }), client?.rpc("get_owner_request_items_v1", { p_restaurant_id: id })]);

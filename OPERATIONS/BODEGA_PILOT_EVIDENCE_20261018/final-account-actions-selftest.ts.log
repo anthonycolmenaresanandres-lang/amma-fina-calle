@@ -1,0 +1,18 @@
+PASS createAccountCandidate disabled without RPC or Auth access
+PASS prepareAccountMenu disabled without RPC or Auth access
+PASS acceptAccountCandidate disabled without RPC or Auth access
+PASS approveAccountMenu disabled without RPC or Auth access
+PASS stageAccountMenu disabled without RPC or Auth access
+PASS malformed posted account is rejected without throwing
+PASS non-manager cannot create draft
+PASS missing session cannot create draft
+PASS create payload never supplies an actor UID or approval
+PASS database errors are redacted
+PASS unknown transition never claims success
+PASS owner confirmation required by actual actions
+PASS menu tenant comes from authorized server record
+PASS menu prepared through bounded RPC only
+PASS non-manager cannot stage
+PASS owner actions defer association verification to database
+PASS only documented private-staging RPCs called
+17 actual account-action boundary checks passed.

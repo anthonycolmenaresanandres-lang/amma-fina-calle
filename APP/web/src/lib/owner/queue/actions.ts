@@ -1,11 +1,11 @@
 "use server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { getOwnerContext } from "@/lib/owner/auth";
-import { ownerQueueEnabled, submitStructuredQueueRequest, QUEUE_UUID, type StructuredQueueInput, type QueueResult } from "./client";
+import { ownerQueueEnabledForTenant, submitStructuredQueueRequest, QUEUE_UUID, type StructuredQueueInput, type QueueResult } from "./client";
 
 /** Prepared endpoint only: no component enables it, no direct writes, gate OFF. */
 export async function queueStructuredOwnerRequest(input: StructuredQueueInput): Promise<QueueResult> {
-  if (!ownerQueueEnabled()) return { ok: false, message: "The request queue is disabled." };
+  if (!ownerQueueEnabledForTenant(input?.restaurantId)) return { ok: false, message: "The request queue is disabled." };
   if (!input || typeof input.restaurantId !== "string") return { ok: false, message: "Choose a restaurant." };
   try {
     const owner = await getOwnerContext(input.restaurantId);
@@ -17,7 +17,7 @@ export async function queueStructuredOwnerRequest(input: StructuredQueueInput): 
 }
 
 export async function acknowledgeQueuedOwnerRequest(restaurantId: string, requestId: string, action: "confirm" | "rollback"): Promise<{ ok: boolean; message: string }> {
-  if (!ownerQueueEnabled()) return { ok: false, message: "The request queue is disabled." };
+  if (!ownerQueueEnabledForTenant(restaurantId)) return { ok: false, message: "The request queue is disabled." };
   if (!QUEUE_UUID.test(requestId) || !["confirm", "rollback"].includes(action)) return { ok: false, message: "Choose a valid request action." };
   try {
     if ((await getOwnerContext(restaurantId)).state !== "authorized") return { ok: false, message: "Sign in with the authorized owner account." };

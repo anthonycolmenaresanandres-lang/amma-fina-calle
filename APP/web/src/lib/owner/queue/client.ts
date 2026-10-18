@@ -6,7 +6,14 @@ export type QueueReceipt = { id: string; referenceId: string; status: string };
 export type QueueResult = { ok: true; receipt: QueueReceipt } | { ok: false; message: string };
 export const QUEUE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export function ownerQueueEnabled(env: Record<string, string | undefined> = process.env): boolean {
-  return env.OWNER_REQUEST_QUEUE_ENABLED === "true";
+  return env.OWNER_REQUEST_QUEUE_ENABLED === "true" && queueTenants(env).length > 0;
+}
+function queueTenants(env: Record<string,string|undefined>): string[] {
+  const tenants = (env.OWNER_REQUEST_QUEUE_TENANTS ?? "").split(",").map(value => value.trim());
+  return tenants.length <= 20 && tenants.every(value => value.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) ? tenants : [];
+}
+export function ownerQueueEnabledForTenant(restaurantId: string, env: Record<string,string|undefined> = process.env): boolean {
+  return ownerQueueEnabled(env) && queueTenants(env).includes(restaurantId);
 }
 export type StructuredQueueInput = {
   restaurantId: string; clientKey: string; changeType: "availability" | "display_order" | "name_typo";
@@ -37,12 +44,12 @@ async function submit(client: QueueClient, args: Record<string, unknown>): Promi
   }
 }
 export async function submitOwnerReviewToQueue(client: QueueClient, input: { restaurantId: string; clientKey: string; brief: string }, env: Record<string, string | undefined> = process.env): Promise<QueueResult> {
-  if (!ownerQueueEnabled(env)) return { ok: false, message: "The request queue is disabled." };
+  if (!ownerQueueEnabledForTenant(input?.restaurantId,env)) return { ok: false, message: "The request queue is disabled." };
   if (!QUEUE_UUID.test(input.clientKey) || !input.brief.trim() || input.brief.length > 4000) return { ok: false, message: "Review the request again before sending." };
   return submit(client, { p_restaurant_id: input.restaurantId, p_client_key: input.clientKey, p_change_type: "review", p_item_id: null, p_expected_version: null, p_after_value: null, p_brief: input.brief.trim(), p_confirmed: true });
 }
 export async function submitStructuredQueueRequest(client: QueueClient, input: StructuredQueueInput, env: Record<string, string | undefined> = process.env): Promise<QueueResult> {
-  if (!ownerQueueEnabled(env)) return { ok: false, message: "The request queue is disabled." };
+  if (!ownerQueueEnabledForTenant(input?.restaurantId,env)) return { ok: false, message: "The request queue is disabled." };
   let value: StructuredQueueInput;
   try { value = validateStructuredQueueInput(input); } catch { return { ok: false, message: "Review and confirm one valid item request." }; }
   return submit(client, { p_restaurant_id: value.restaurantId, p_client_key: value.clientKey, p_change_type: value.changeType, p_item_id: value.itemId, p_expected_version: value.expectedVersion, p_after_value: value.afterValue, p_brief: value.brief, p_confirmed: true });

@@ -36,7 +36,7 @@ const mocks = {
   "./menu": { readOwnerMenu: async () => structuredClone(snapshot) },
   "./triage": { triageRequest },
   "./preview": { ownerPreviewFingerprint, isOwnerPreviewCurrent },
-  "../queue/client": { ownerQueueEnabled: () => queueEnabled, submitOwnerReviewToQueue: async () => ({ ok: true, receipt: { id: "synthetic", referenceId: "AMMA-SYNTHETIC-1234ABCD", status: "needs_review" } }) },
+  "../queue/client": { ownerQueueEnabledForTenant: () => queueEnabled, submitOwnerReviewToQueue: async () => ({ ok: true, receipt: { id: "synthetic", referenceId: "AMMA-SYNTHETIC-1234ABCD", status: "needs_review" } }) },
 };
 const actions = load("../src/lib/owner/request-desk/actions.ts", mocks);
 const form = (text = "change Mocha to $8", files = "0", fingerprint?: string) => {
@@ -126,7 +126,7 @@ let queueOwner = true, queueRpc = 0, queueTenant = "test-a", queueOutcome = "com
 const queuedActions = load("../src/lib/owner/queue/actions.ts", {
   "@/lib/owner/auth": { getOwnerContext: async () => ({ state: queueOwner ? "authorized" : "unauthorized" }) },
   "@/lib/supabase/server": { createServerSupabase: async () => ({ rpc: async (name: string) => { queueRpc++; return { data: name === "get_owner_request_v1" ? { restaurant_id: queueTenant } : queueOutcome, error: null }; } }) },
-  "./client": { ownerQueueEnabled: () => queueEnabled, QUEUE_UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, submitStructuredQueueRequest: async () => ({ ok: true }) },
+  "./client": { ownerQueueEnabledForTenant: () => queueEnabled, QUEUE_UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, submitStructuredQueueRequest: async () => ({ ok: true }) },
 });
 const qid = "00000000-0000-4000-8000-000000000001";
 await check("queued actions default off before any RPC", async () => {

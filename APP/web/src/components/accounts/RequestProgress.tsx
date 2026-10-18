@@ -15,7 +15,7 @@ export default function RequestProgress({ request, demo = false }: { request: Pr
   return <>
     <p className={styles.receipt}>{request.reference_id}<br />{request.id}</p>
     <h2>{demoAction === "confirm" ? "Test completion acknowledged" : demoAction === "rollback" ? "Test rollback requested" : REQUEST_STATUS[request.status]}</h2>
-    <h3>{request.item_name ? `Current item: ${request.item_name}` : request.item_id ? "Menu item" : "General review request"}</h3>{request.item_id ? <p className={styles.receipt}>Item {request.item_id}</p> : null}
+    <h3>{request.item_name ? `Requested item: ${request.item_name}` : request.item_id ? "Menu item" : "General review request"}</h3>{request.item_id ? <p className={styles.receipt}>Item {request.item_id}</p> : null}
     <p className={styles.muted}>{request.change_type.replaceAll("_", " ")} · Received {date(request.created_at)}</p>
     <div className={styles.pair}><div><small>Before</small><p>{requestValue(request.change_type, request.before)}</p></div><div><small>Requested</small><p>{requestValue(request.change_type, request.after)}</p></div></div>
     <section className={styles.section}><h3>Request history</h3><ol className={styles.timeline}>{request.events.map((event, i) => <li key={`${event.at}-${i}`}>{requestEventLabel(event.type)}<time dateTime={event.at}>{date(event.at)}</time></li>)}</ol>

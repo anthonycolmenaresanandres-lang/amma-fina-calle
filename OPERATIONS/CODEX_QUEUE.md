@@ -1294,3 +1294,9 @@ Authorized continuation from 388fa45: private account staging, verified owner as
 
 ### Owner account onboarding OUT — local preparation complete
 Implementation, 231 focused/regression checks, build and mobile preview evidence complete; all activation remains off. See OWNER_ACCOUNT_ONBOARDING_20261017.md and OWNER_ACCOUNT_VERIFICATION_20261017.md. No chosen pilot or live owner enrollment. Public promotion/certified publishing adapter/readback, policy approval, hosted Auth/concurrency/advisors and routine rollout UX/diagnostics remain release requirements.
+
+## Bodega selected pilot - local adapter IN
+Anthony approved Bodega pilot selection with availability/display-order scope only. Implement and certify locally with fixtures; production permissions/enrollment/activation remain separately gated. Existing owner worktree only. Preserve menu visual/content source and other clients.
+
+### Bodega selected pilot OUT - local implementation complete, 2026-10-18
+Prepared default-off source/ID/deployment-bound controls for all 50 published entries; availability/order only, unchanged content/prices. Authenticated queue integration, explicit tenant scopes, worker preflight/CAS/fresh readback/owner acknowledgement, durable conflicts and inverse rollback. 69 core +117 Bodega SQL; 97 queue compatibility; existing account/actions/menu regressions PASS. Focused lint/full types/production webpack build/actual HTTP/mobile320/390 PASS. Release scope and owner identity prerequisite: BODEGA_OWNER_PILOT_20261018.md; evidence: BODEGA_PILOT_VERIFICATION_20261018.md. No production action, real-owner enrollment, migration/grants, sends, credentials, spend, push/deploy or automatic caller. All release gates default off. Integrate current main/mail changes and separately approve release/enrollment/activation.

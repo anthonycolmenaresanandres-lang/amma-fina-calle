@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
-import { ownerQueueEnabled, submitOwnerReviewToQueue, submitStructuredQueueRequest, validateStructuredQueueInput, type QueueClient, type StructuredQueueInput } from "../src/lib/owner/queue/client";
+import { ownerQueueEnabled, ownerQueueEnabledForTenant, submitOwnerReviewToQueue, submitStructuredQueueRequest, validateStructuredQueueInput, type QueueClient, type StructuredQueueInput } from "../src/lib/owner/queue/client";
 import { ownerQueueSourceAssessment } from "../src/lib/owner/queue/sources";
 import { deliverOwnerRequestNotice, drainOwnerRequestNotices, type Notice } from "../src/lib/owner/queue/notifications";
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12,"0")}`;
 const input: StructuredQueueInput = { restaurantId: "test-a", clientKey: id(1), itemId: id(2), changeType: "availability", expectedVersion: 0, afterValue: false, brief: "Owner confirmed exact change", confirmed: true };
 const job: Notice = { id: id(11), lease_token: id(12), request_id: id(13), reference_id: "AMMA-SYNTHETIC-1234ABCD", restaurant_id: "test-a", event_type: "submitted", attempt: 1 };
-const env = { OWNER_REQUEST_QUEUE_ENABLED: "true", OWNER_REQUEST_NOTIFICATIONS_ENABLED: "true", REQUESTS_NOTIFICATION_EMAIL: "operations@example.test", REQUESTS_FROM_EMAIL: "Fina Calle <notices@example.test>", RESEND_API_KEY: "SYNTHETIC-NOT-A-CREDENTIAL" };
+const env = { OWNER_REQUEST_QUEUE_ENABLED: "true", OWNER_REQUEST_QUEUE_TENANTS: "test-a", OWNER_REQUEST_NOTIFICATIONS_ENABLED: "true", REQUESTS_NOTIFICATION_EMAIL: "operations@example.test", REQUESTS_FROM_EMAIL: "Fina Calle <notices@example.test>", RESEND_API_KEY: "SYNTHETIC-NOT-A-CREDENTIAL" };
 let checks=0;
 async function check(label: string, test: () => unknown | Promise<unknown>) { await test(); checks++; console.log(`PASS ${label}`); }
 async function main() {
+ for (const scope of [undefined,"","*","bodega,","bodega,INVALID"]) await check(`missing or invalid scope ${scope}`,()=>assert.equal(ownerQueueEnabled({OWNER_REQUEST_QUEUE_ENABLED:"true",OWNER_REQUEST_QUEUE_TENANTS:scope}),false));
+ await check("tenant gates are exact and independent",()=>{assert.equal(ownerQueueEnabledForTenant("bodega",env),false);assert.equal(ownerQueueEnabledForTenant("test-a",env),true)});
  let rpcCalls=0;
  const client: QueueClient = { rpc: async (_name,args) => { rpcCalls++; assert.equal("p_contact_info" in args,false); assert.equal("actor_user_id" in args,false); return { data: { id: id(22), reference_id: job.reference_id, status: "needs_review" }, error: null }; } };
  await check("application gate defaults off",()=>assert.equal(ownerQueueEnabled({}),false));
@@ -39,6 +41,7 @@ async function main() {
    const body=JSON.parse(bodies[0]);assert.deepEqual(body.to,["operations@example.test"]);assert.match(body.text,/customers\/requests\//);assert.doesNotMatch(bodies[0],/Owner confirmed|owner-a@|attachments|SYNTHETIC-NOT-A-CREDENTIAL/);
  });
  await check("provider idempotency key stable across delivery retry",async()=>{await deliverOwnerRequestNotice({...job,lease_token:id(55),attempt:2},env,fetcher);assert.equal(keys[0],keys[1])});
+ await check("unselected tenant never receives a notification",async()=>{const calls=mail;assert.equal((await drainOwnerRequestNotices({rpc:async()=>({data:[{...job,restaurant_id:"bodega"}],error:null})},env,fetcher)).state,"claim_failed");assert.equal(mail,calls)});
  await check("untrusted claimed payload never reaches mail",async()=>{
    const calls=mail;const result=await drainOwnerRequestNotices({rpc:async()=>({data:[{...job,reference_id:"<script>"}],error:null})},env,fetcher);assert.equal(result.state,"claim_failed");assert.equal(mail,calls);
  });

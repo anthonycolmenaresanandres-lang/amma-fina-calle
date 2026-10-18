@@ -1,0 +1,19 @@
+PASS unauthorized owner never previews or writes
+PASS missing preview cannot write
+PASS file-bearing direct confirmation cannot write
+PASS stale preview cannot write
+PASS fresh confirmed preview writes once
+PASS saved request reports unconfirmed notification honestly
+PASS failed request save sends no notification
+PASS email acceptance reported separately
+PASS enabled queue routes a brief to review and blocks direct confirmation
+PASS partial database read fails closed
+PASS actual public route returns 503 without receipt evidence
+PASS public route retains email-only fallback
+PASS saved request survives notification failure and references are distinct
+PASS queued actions default off before any RPC
+PASS queued actions re-authorize owners
+PASS owner completion action scopes request to selected tenant
+PASS owner completion action reports conflict as failure
+PASS owner completion action requires exact confirmed state
+18 actual server action/route checks passed with mocked external services.

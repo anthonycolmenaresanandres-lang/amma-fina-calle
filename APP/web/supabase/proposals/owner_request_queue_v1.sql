@@ -10,6 +10,9 @@ create table owner_request_private.settings (
   enabled boolean not null default false,
   execution_enabled boolean not null default false,
   notifications_enabled boolean not null default false,
+  intake_tenants text[] not null default '{}' check(cardinality(intake_tenants)<=20),
+  execution_tenants text[] not null default '{}' check(cardinality(execution_tenants)<=20),
+  notification_tenants text[] not null default '{}' check(cardinality(notification_tenants)<=20),
   authority_email text not null default 'anthonycolmenaresanandres@gmail.com'
 );
 insert into owner_request_private.settings default values;
@@ -48,6 +51,10 @@ create table owner_request_private.requests (
   client_key uuid not null,
   change_type text not null check (change_type in ('availability','display_order','name_typo','review')),
   item_id uuid references public.menu_items(id),
+  source_item_id uuid,
+  item_label text check (item_label is null or length(item_label) between 1 and 120),
+  target_source text not null default 'supabase_public_menu_v1' check (target_source in ('supabase_public_menu_v1','bodega_controls_v1')),
+  source_manifest_hash text,
   expected_version bigint,
   before_value jsonb,
   after_value jsonb,
@@ -62,6 +69,9 @@ create table owner_request_private.requests (
   owner_acknowledged_at timestamptz,
   created_at timestamptz not null default now(),
   unique (restaurant_id, actor_user_id, client_key)
+  ,check ((target_source='supabase_public_menu_v1' and source_item_id is null and source_manifest_hash is null)
+    or (target_source='bodega_controls_v1' and restaurant_id='bodega' and item_id is null and source_item_id is not null
+        and source_manifest_hash is not null and source_manifest_hash ~ '^[a-f0-9]{64}$' and change_type in ('availability','display_order')))
 );
 create table owner_request_private.events (
   id bigint generated always as identity primary key,
@@ -114,6 +124,23 @@ begin
   if not found then raise exception 'not authorized for tenant' using errcode='42501'; end if;
   return a || jsonb_build_object('business_name',b);
 end $$;
+-- Private adapter seam. The base implementation still reads the existing menu rows.
+-- A separately reviewed source proposal can override these helpers, never the actor.
+create function owner_request_private.read_target(p_restaurant_id text,p_item_id uuid) returns jsonb
+language plpgsql security definer set search_path='' as $$
+declare item public.menu_items;
+begin
+ select * into item from public.menu_items where id=p_item_id and restaurant_id=p_restaurant_id for share;
+ if not found then return null;end if;
+ return jsonb_build_object('id',item.id,'database_item_id',item.id,'source_item_id',null,'target_source','supabase_public_menu_v1','manifest_hash',null,
+ 'name',item.name,'available',item.is_available,'sort_order',item.sort_order,'version',item.owner_request_version,'category_id',item.category_id);
+end $$;
+create function owner_request_private.list_targets(p_restaurant_id text) returns jsonb
+language plpgsql security definer set search_path='' as $$
+begin
+ if (select count(*) from public.menu_items where restaurant_id=p_restaurant_id)>200 then raise exception 'menu requires a scoped adapter' using errcode='22023';end if;
+ return coalesce((select jsonb_agg(jsonb_build_object('id',m.id,'name',m.name,'available',m.is_available,'order',m.sort_order,'version',m.owner_request_version) order by m.sort_order,m.id) from public.menu_items m where restaurant_id=p_restaurant_id),'[]');
+end $$;
 create function owner_request_private.require_enabled(p_mode text) returns void
 language plpgsql security definer set search_path = '' as $$
 declare s owner_request_private.settings;
@@ -136,6 +163,7 @@ create function owner_request_private.enrollment(q owner_request_private.request
 language plpgsql security definer set search_path = '' as $$
 declare e owner_request_private.enrollments;
 begin
+  if not coalesce(q.restaurant_id=any((select execution_tenants from owner_request_private.settings where singleton)::text[]),false) then raise exception 'tenant execution disabled' using errcode='42501'; end if;
   perform owner_request_private.owner_identity(q.restaurant_id,q.actor_user_id);
   select * into e from owner_request_private.enrollments where restaurant_id=q.restaurant_id and owner_user_id=q.actor_user_id for share;
   if not found or e.revoked_at is not null or e.expires_at<=now() or e.owner_consented_at>now()
@@ -187,9 +215,10 @@ create function public.submit_owner_request_v1(
   p_restaurant_id text,p_client_key uuid,p_change_type text,p_item_id uuid,p_expected_version bigint,
   p_after_value jsonb,p_brief text,p_confirmed boolean
 ) returns jsonb language plpgsql security definer set search_path = '' as $$
-declare a jsonb; q owner_request_private.requests; item public.menu_items; before_value jsonb; rid uuid:=gen_random_uuid(); ref text; next_state text;
+declare a jsonb; q owner_request_private.requests; item jsonb; before_value jsonb; rid uuid:=gen_random_uuid(); ref text; next_state text;
 begin
   perform owner_request_private.require_enabled('intake');
+  if not coalesce(p_restaurant_id=any((select intake_tenants from owner_request_private.settings where singleton)::text[]),false) then raise exception 'tenant intake disabled' using errcode='42501'; end if;
   a:=owner_request_private.owner_identity(p_restaurant_id,auth.uid());
   if p_client_key is null or p_confirmed is distinct from true or p_change_type is null
     or p_change_type not in ('availability','display_order','name_typo','review')
@@ -197,7 +226,7 @@ begin
   perform pg_advisory_xact_lock(hashtextextended(p_restaurant_id||(a->>'id')||p_client_key::text,0));
   select * into q from owner_request_private.requests where restaurant_id=p_restaurant_id and actor_user_id=(a->>'id')::uuid and client_key=p_client_key;
   if found then
-    if q.change_type<>p_change_type or q.item_id is distinct from p_item_id or q.expected_version is distinct from p_expected_version
+    if q.change_type<>p_change_type or coalesce(q.source_item_id,q.item_id) is distinct from p_item_id or q.expected_version is distinct from p_expected_version
        or q.after_value is distinct from p_after_value or q.brief<>trim(p_brief) then raise exception 'idempotency key reused with different request' using errcode='22023'; end if;
     return jsonb_build_object('id',q.id,'reference_id',(select reference_id from public.change_requests where id=q.id),'status',q.status);
   end if;
@@ -205,25 +234,26 @@ begin
   if p_change_type='review' then
     if p_item_id is not null or p_expected_version is not null or p_after_value is not null then raise exception 'review has no executable target' using errcode='22023'; end if;
   else
-    select * into item from public.menu_items where id=p_item_id and restaurant_id=p_restaurant_id for share;
-    if not found or p_expected_version is distinct from item.owner_request_version then raise exception 'item version conflict' using errcode='40001'; end if;
+    item:=owner_request_private.read_target(p_restaurant_id,p_item_id);
+    if item is null or p_expected_version is distinct from (item->>'version')::bigint then raise exception 'item version conflict' using errcode='40001'; end if;
+    if item->>'target_source'='bodega_controls_v1' and p_change_type not in ('availability','display_order') then raise exception 'Bodega pilot field not allowed' using errcode='42501';end if;
     if p_change_type='availability' then
       if jsonb_typeof(p_after_value) is distinct from 'boolean' then raise exception 'invalid availability' using errcode='22023'; end if;
-      before_value:=to_jsonb(item.is_available); next_state:='queued';
+      before_value:=item->'available'; next_state:='queued';
     elsif p_change_type='display_order' then
       if jsonb_typeof(p_after_value) is distinct from 'number' or (p_after_value#>>'{}')!~'^[0-9]{1,5}$' or (p_after_value#>>'{}')::int>10000 then raise exception 'invalid display order' using errcode='22023'; end if;
-      before_value:=to_jsonb(item.sort_order); next_state:='queued';
+      before_value:=item->'sort_order'; next_state:='queued';
     else
       if jsonb_typeof(p_after_value) is distinct from 'string' or length(trim(p_after_value#>>'{}')) not between 1 and 120 then raise exception 'invalid name proposal' using errcode='22023'; end if;
-      before_value:=to_jsonb(item.name);
+      before_value:=item->'name';
     end if;
     if before_value=p_after_value then raise exception 'no change requested' using errcode='22023'; end if;
   end if;
   ref:='AMMA-'||upper(replace(rid::text,'-',''))||'-'||upper(substr(gen_random_uuid()::text,1,8));
   insert into public.change_requests(id,restaurant_id,business_name,contact_name,contact_info,request_type,priority,message,source_page,reference_id,status,actor_user_id,attribution_kind)
     values(rid,p_restaurant_id,a->>'business_name',a->>'email',a->>'email','Menu/content update','Normal',trim(p_brief),'/owner/'||p_restaurant_id,ref,next_state,(a->>'id')::uuid,'owner_queue');
-  insert into owner_request_private.requests(id,restaurant_id,actor_user_id,actor_email,client_key,change_type,item_id,expected_version,before_value,after_value,brief,status)
-    values(rid,p_restaurant_id,(a->>'id')::uuid,a->>'email',p_client_key,p_change_type,p_item_id,p_expected_version,before_value,p_after_value,trim(p_brief),next_state);
+  insert into owner_request_private.requests(id,restaurant_id,actor_user_id,actor_email,client_key,change_type,item_id,source_item_id,item_label,target_source,source_manifest_hash,expected_version,before_value,after_value,brief,status)
+    values(rid,p_restaurant_id,(a->>'id')::uuid,a->>'email',p_client_key,p_change_type,(item->>'database_item_id')::uuid,(item->>'source_item_id')::uuid,item->>'name',coalesce(item->>'target_source','supabase_public_menu_v1'),item->>'manifest_hash',p_expected_version,before_value,p_after_value,trim(p_brief),next_state);
   perform owner_request_private.record_event(rid,'submitted',(a->>'id')::uuid);
   return jsonb_build_object('id',rid,'reference_id',ref,'status',next_state);
 end $$;
@@ -238,7 +268,7 @@ begin
   select * into q from owner_request_private.requests where id=p_id;
   if not found then return null; end if;
   return jsonb_build_object('id',q.id,'restaurant_id',q.restaurant_id,'actor_user_id',q.actor_user_id,
-    'owner_confirmed_at',q.owner_confirmed_at,'change_type',q.change_type,'item_id',q.item_id,
+    'owner_confirmed_at',q.owner_confirmed_at,'change_type',q.change_type,'item_id',coalesce(q.source_item_id,q.item_id),'item_name',q.item_label,'target_source',q.target_source,'manifest_hash',q.source_manifest_hash,
     'before',q.before_value,'after',q.after_value,'expected_version',q.expected_version,'brief',q.brief,'status',q.status,
     'source',(select jsonb_build_object('kind',e.source_kind,'path',e.guest_path,'verified_at',e.source_verified_at,'policy',e.policy_version,'approval_reference',e.authority_approval_reference,'expires_at',e.expires_at,'revoked_at',e.revoked_at) from owner_request_private.enrollments e where e.restaurant_id=q.restaurant_id and e.owner_user_id=q.actor_user_id));
 end $$;
@@ -266,6 +296,7 @@ create function owner_request_private.write_change(q owner_request_private.reque
 language plpgsql security definer set search_path = '' as $$
 declare item public.menu_items; current_value jsonb; wanted jsonb; expected bigint; version bigint; field text;
 begin
+  if q.target_source<>'supabase_public_menu_v1' then raise exception 'source write adapter not installed' using errcode='42501';end if;
   select * into item from public.menu_items where id=q.item_id and restaurant_id=q.restaurant_id for update;
   expected:=case when p_rollback then q.applied_version else q.expected_version end;
   if not found or expected is distinct from item.owner_request_version then return null; end if;
@@ -306,20 +337,21 @@ begin
 end $$;
 create function public.verify_owner_request_v1(p_id uuid,p_guest_path text,p_observed_value jsonb,p_evidence text) returns text
 language plpgsql security definer set search_path = '' as $$
-declare q owner_request_private.requests; item public.menu_items; expected bigint; wanted jsonb; current_value jsonb; target text; next_state text;
+declare q owner_request_private.requests; item jsonb; expected bigint; wanted jsonb; current_value jsonb; target text; next_state text;
 begin
   perform owner_request_private.require_enabled('execution');
   select * into q from owner_request_private.requests where id=p_id for update;
   if not found or q.status not in ('awaiting_verification','rolled_back_pending_verification') then raise exception 'verification not pending' using errcode='22023'; end if;
+  if q.target_source='bodega_controls_v1' then raise exception 'Bodega requires the rendered-menu readback adapter' using errcode='42501';end if;
   perform owner_request_private.enrollment(q);
   select guest_path into target from owner_request_private.enrollments where restaurant_id=q.restaurant_id and owner_user_id=q.actor_user_id;
   if p_guest_path is distinct from target or p_evidence is null or length(trim(p_evidence)) not between 1 and 1000 then raise exception 'approved source readback evidence required' using errcode='22023'; end if;
   if q.change_type='display_order' and exists(select 1 from public.menu_items where category_id=(select category_id from public.menu_items where id=q.item_id) and restaurant_id=q.restaurant_id and id<>q.item_id and sort_order=(p_observed_value#>>'{}')::integer) then return 'verification_pending'; end if;
   expected:=case when q.status='awaiting_verification' then q.applied_version else q.rollback_version end;
   wanted:=case when q.status='awaiting_verification' then q.after_value else q.before_value end;
-  select * into item from public.menu_items where id=q.item_id and restaurant_id=q.restaurant_id for share;
-  current_value:=case when q.change_type='availability' then to_jsonb(item.is_available) else to_jsonb(item.sort_order) end;
-  if not found or item.owner_request_version is distinct from expected or p_observed_value is distinct from wanted or current_value is distinct from wanted then return 'verification_pending'; end if;
+  item:=owner_request_private.read_target(q.restaurant_id,coalesce(q.source_item_id,q.item_id));
+  current_value:=case when q.change_type='availability' then item->'available' else item->'sort_order' end;
+  if item is null or (item->>'version')::bigint is distinct from expected or item->>'target_source' is distinct from q.target_source or item->>'manifest_hash' is distinct from q.source_manifest_hash or p_observed_value is distinct from wanted or current_value is distinct from wanted then return 'verification_pending'; end if;
   next_state:=case when q.status='awaiting_verification' then 'awaiting_owner_ack' else 'rolled_back' end;
   update owner_request_private.requests set status=next_state where id=p_id;
   perform owner_request_private.record_event(p_id,'source_verified',null,jsonb_build_object('path',target,'evidence',p_evidence));
@@ -327,18 +359,18 @@ begin
 end $$;
 create function public.acknowledge_owner_request_v1(p_id uuid,p_action text) returns text
 language plpgsql security definer set search_path = '' as $$
-declare q owner_request_private.requests; next_state text; item public.menu_items; current_value jsonb; expected bigint; wanted jsonb;
+declare q owner_request_private.requests; next_state text; item jsonb; current_value jsonb; expected bigint; wanted jsonb;
 begin
   select * into q from owner_request_private.requests where id=p_id for update;
   if not found or q.actor_user_id is distinct from auth.uid() then raise exception 'request not available' using errcode='42501'; end if;
   perform owner_request_private.owner_identity(q.restaurant_id,auth.uid());
   if p_action='confirm' and q.status in ('awaiting_owner_ack','completed','rolled_back') then
     if q.owner_acknowledged_at is not null then return q.status; end if;
-    select * into item from public.menu_items where id=q.item_id and restaurant_id=q.restaurant_id for share;
+    item:=owner_request_private.read_target(q.restaurant_id,coalesce(q.source_item_id,q.item_id));
     expected:=case when q.status='rolled_back' then q.rollback_version else q.applied_version end;
     wanted:=case when q.status='rolled_back' then q.before_value else q.after_value end;
-    current_value:=case when q.change_type='availability' then to_jsonb(item.is_available) else to_jsonb(item.sort_order) end;
-    if not found or item.owner_request_version is distinct from expected or current_value is distinct from wanted then
+    current_value:=case when q.change_type='availability' then item->'available' else item->'sort_order' end;
+    if item is null or (item->>'version')::bigint is distinct from expected or item->>'target_source' is distinct from q.target_source or item->>'manifest_hash' is distinct from q.source_manifest_hash or current_value is distinct from wanted then
       update owner_request_private.requests set status='completion_conflict' where id=p_id;
       perform owner_request_private.record_event(p_id,'completion_conflict',auth.uid());
       return 'completion_conflict';
@@ -374,7 +406,7 @@ begin
   select * into q from owner_request_private.requests where id=p_id and actor_user_id=auth.uid();
   if not found then return null; end if;
   perform owner_request_private.owner_identity(q.restaurant_id,auth.uid());
-  return jsonb_build_object('id',q.id,'restaurant_id',q.restaurant_id,'status',q.status,'change_type',q.change_type,'item_id',q.item_id,
+  return jsonb_build_object('id',q.id,'restaurant_id',q.restaurant_id,'status',q.status,'change_type',q.change_type,'item_id',coalesce(q.source_item_id,q.item_id),'item_name',q.item_label,
     'before',q.before_value,'after',q.after_value,'owner_acknowledged_at',q.owner_acknowledged_at,
     'events',coalesce((select jsonb_agg(jsonb_build_object('type',e.event_type,'at',e.created_at) order by e.id) from owner_request_private.events e where e.request_id=q.id),'[]'),
     'delivery',coalesce((select jsonb_agg(jsonb_build_object('status',o.status,'attempt',o.attempt,'next_attempt_at',o.next_attempt_at)) from owner_request_private.outbox o where o.request_id=q.id),'[]'));
@@ -386,10 +418,10 @@ declare result jsonb;
 begin
   perform owner_request_private.require_enabled('notifications');
   if p_limit is null or p_limit not between 1 and 10 then raise exception 'bounded batch required' using errcode='22023'; end if;
-  update owner_request_private.outbox set status='dead_letter',error_category='retry_window_expired',lease_token=null,lease_expires_at=null where status in ('pending','retry_wait','leased') and attempt>0 and first_attempt_at<clock_timestamp()-interval '23 hours';
-  update owner_request_private.outbox set status='dead_letter',error_category='lease_expired',lease_token=null,lease_expires_at=null where status='leased' and lease_expires_at<=clock_timestamp() and attempt>=6;
+  update owner_request_private.outbox set status='dead_letter',error_category='retry_window_expired',lease_token=null,lease_expires_at=null where exists(select 1 from public.change_requests r where r.id=owner_request_private.outbox.request_id and r.restaurant_id=any((select notification_tenants from owner_request_private.settings where singleton)::text[])) and status in ('pending','retry_wait','leased') and attempt>0 and first_attempt_at<clock_timestamp()-interval '23 hours';
+  update owner_request_private.outbox set status='dead_letter',error_category='lease_expired',lease_token=null,lease_expires_at=null where exists(select 1 from public.change_requests r where r.id=owner_request_private.outbox.request_id and r.restaurant_id=any((select notification_tenants from owner_request_private.settings where singleton)::text[])) and status='leased' and lease_expires_at<=clock_timestamp() and attempt>=6;
   with due as (
-    select id from owner_request_private.outbox where attempt<6 and
+    select id from owner_request_private.outbox o where exists(select 1 from public.change_requests r where r.id=o.request_id and r.restaurant_id=any((select notification_tenants from owner_request_private.settings where singleton)::text[])) and attempt<6 and
       ((status in ('pending','retry_wait') and next_attempt_at<=clock_timestamp()) or (status='leased' and lease_expires_at<=clock_timestamp()))
       order by next_attempt_at,id for update skip locked limit p_limit
   ), claimed as (
