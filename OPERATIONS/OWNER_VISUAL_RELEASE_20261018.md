@@ -17,3 +17,5 @@ Completed visuals previously verified at320/390/desktop with no horizontal overf
 Merge only after exact-head CI/build succeed. Verify production project amma-fina-calle/prj_Y9350Up2cl8sLjYBCZ05lM2lZ0E4 in team_MwMFazBLYzRGQnqRAJOPDPH3 is READY at merged SHA; verify canonical finacalleos.com, unauthenticated owner sign-in, fixture404s and unchanged public Bodega menu. All activation remains off; real owner enrollment and database rollout remain separate work.
 
 Local isolated production webpack build: PASS, including TypeScript,58 static pages and build traces; all credentials/activation keys absent from build environment. Focused lint PASS. Existing dependency lock hash matched before junction reuse; no installation.
+
+Review5563007875 verified and addressed before merge: leading CTA now targets the existing #owner-request desk while queue activation is off; complete outlines retained for menu/workspace/request fields; existing warning, error, payment and response-state borders/backgrounds retained. Neutral containers remain open. This corrects release regressions without enabling functionality or changing handlers.

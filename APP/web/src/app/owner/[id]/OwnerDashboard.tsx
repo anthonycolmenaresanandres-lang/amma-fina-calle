@@ -174,7 +174,7 @@ export default function OwnerDashboard({
         <div>
           <h1>Your owner desk.</h1>
           <p className={styles.welcomeIntro}>Menu updates and requests, in one place.</p>
-          {!readOnly ? <div className={styles.deskAction}><Link href={`/owner/${data.restaurantId}/requests`} className={styles.primaryAction}>Request an item change</Link></div> : null}
+          {!readOnly ? <div className={styles.deskAction}><Link href="#owner-request" className={styles.primaryAction}>Request an item change</Link></div> : null}
         </div>
       </div>
 
