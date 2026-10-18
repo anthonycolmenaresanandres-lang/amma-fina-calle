@@ -7,6 +7,8 @@ import { renderTrafficDeliveryReport, type TrafficReportBundle } from "./morning
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 export const VERIFIED_OWNER_EMAIL = "anthonycolmenaresanandres@gmail.com";
 const VERIFIED_SENDER_DOMAIN = "finacalleos.com";
+// Stable per presentation revision, test-only. Never use a random retry key.
+const PREVIEW_REVISION = "spaced-html-20261017-v1";
 
 function validSender(from: string): boolean {
   return /^(?:[^<>\r\n]+ <)?[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@finacalleos\.com>?$/i.test(from) &&
@@ -75,16 +77,17 @@ export async function sendTrafficDeliveryReport(
   if (!validSender(from)) return { sent: false, reason: "invalid_report_sender" };
   const content = renderTrafficDeliveryReport(bundles);
   const periodKey = bundles.map(({ period }) => `${period.kind}-${period.first}-${period.last}`).join("-and-");
+  const idempotencyKey = `fina-calle-traffic-${periodKey}${mode === "test" ? `-preview-${PREVIEW_REVISION}` : ""}`;
   // One network attempt only, no automatic retries. The same ordered period
-  // batch always uses the same key; this is not an exactly-once guarantee.
+  // batch/revision always uses the same key. Scheduled keys stay unchanged.
   try {
     const response = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json",
-        "Idempotency-Key": `fina-calle-traffic-${periodKey}`,
+        "Idempotency-Key": idempotencyKey,
       },
-      body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text }),
+      body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text, html: content.html }),
       cache: "no-store", redirect: "error", signal: AbortSignal.timeout(15000),
     });
     if (!response.ok) {

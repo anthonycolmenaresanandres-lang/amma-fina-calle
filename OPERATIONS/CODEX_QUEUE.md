@@ -1303,3 +1303,11 @@ Prepared default-off source/ID/deployment-bound controls for all 50 published en
 
 ## Bodega approved review-phase release IN - 2026-10-18
 Integrate current main into owner branch, preserve traffic mail/collection, validate exact revision and release through CI/PR with all gates off. Approved protected queue/Bodega schema/grants only after target/schema/nonproduction prerequisites. Existing available Supabase inventory has no separate nonproduction environment; no schema mutation until prerequisite is verified. No owner email/authority/consent yet, no enrollment/publication/intake/execution/notifications/credentials/spend. Account-staging SQL excluded.
+
+## [x] Spacious traffic email presentation - 2026-10-17
+Anthony received the report and requests gaps, improved appearance and mobile readability. Parent authorizes template-only HTML/text implementation, preview, PR/checks/merge/deploy. Preserve counts, periods, subject, recipient, auth/privacy/cadence/ingestion and idempotency. Waiting/uncollected entries must prominently say Data not yet available; preserve recorded-zero detail and caveats. No extra test email or recurring activation. All delivery gates remain off. No external tracked assets, services, spending or migration.
+
+Late scoped authorization21:58:43UTC: Anthony explicitly requests exactly one styled test after template checks/deployment. Add stable test-only preview revision identity to avoid colliding with the successfully delivered same-period plain report; recurring keys unchanged. Verify HTML/text Gmail readback, then close test gates and fresh deploy. No blind retry or recurring activation.
+
+## [x] Local traffic-email identifier-state correction - 2026-10-17
+Parent requests verification of PR350 review5560291731. Confirmed missing identifier diagnostics on unconfigured/query-failure reports become Not collected in HTML. Correct locally to distinguish unavailable/unknown from explicit successful zero-ID evidence; mixed failure/known-uncollected fixtures and HTML/text parity. Preserve counts/cadence. Local commit only: no push, PR, deployment, extra email or settings changes; avoid owner portal worktree.

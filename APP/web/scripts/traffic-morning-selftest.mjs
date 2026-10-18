@@ -4,3 +4,5 @@ import './traffic-boundary-selftest.mjs';
 import './traffic-established-drain-selftest.mjs';
 
 import './traffic-mail-diagnostic-selftest.mjs';
+
+import './traffic-email-presentation-selftest.mjs';
