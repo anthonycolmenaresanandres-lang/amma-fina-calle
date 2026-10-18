@@ -550,6 +550,12 @@ export function triageRequest(text: string, snap: MenuSnapshot): TriageResult {
     return review("This looks like an outage or something broken — escalating to the AMMA team as urgent.", "Operational support", "Urgent");
   }
 
+  // Food safety and health claims always need a person to verify the facts.
+  // This conservative keyword guard is not a complete safety classifier.
+  if (/\b(allergen\w*|allerg\w*|gluten|celiac|coeliac|nut[ -]?free|dairy[ -]?free|safe for|health\w*|cure\w*|diabet\w*|vegan|vegetarian|sin gluten|sin lactosa|sin nueces)\b/i.test(raw)) {
+    return review("Ingredient, allergen and health claims need owner and team review before anything changes.", "Menu/content update", "Normal");
+  }
+
   // Colattao's guest menu is hosted separately. A database-only edit would not
   // update that site. Both preview and confirmation re-run this server decision.
   if (snap.restaurantId === "colattao") {

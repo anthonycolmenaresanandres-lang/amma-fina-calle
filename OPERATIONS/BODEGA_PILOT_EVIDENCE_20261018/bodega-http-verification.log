@@ -1,0 +1,5 @@
+PASS actual Next HTTP fixture baseline
+PASS actual Next HTTP fixture live
+PASS actual Next HTTP fixture fallback
+PASS actual public page retains flag-off source
+PASS invalid fixture mode blocked

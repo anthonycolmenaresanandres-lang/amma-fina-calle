@@ -1,7 +1,8 @@
 import Image from "next/image";
 import styles from "./venue-menu.module.css";
+import { menuControlAttributes, type PublicMenuControl } from "./menu-controls";
 
-export type VenueMenuItem = { id?: string; name: string; description?: string; options?: string; priceLabel?: string };
+export type VenueMenuItem = { id?: string; name: string; description?: string; options?: string; priceLabel?: string; publicControl?: PublicMenuControl };
 
 export function VenueMenuSection({ id, title, note, art, items }: { id: string; title: string; note: string; art?: string; items: VenueMenuItem[] }) {
   return <section className={styles.menuSection} id={id} aria-labelledby={`${id}-title`}>
@@ -11,11 +12,12 @@ export function VenueMenuSection({ id, title, note, art, items }: { id: string; 
     </header>
     <p className={styles.sectionNote}>{note}</p>
     <ul className={styles.itemList}>
-      {items.map((item) => <li className={styles.item} id={item.id} key={item.id ?? item.name}>
+      {items.map((item) => <li className={styles.item} id={item.id} key={item.id ?? item.name} {...menuControlAttributes(item.publicControl)}>
         <h3 className={styles.itemName}>{item.name}</h3>
         {item.description && <p className={styles.itemDescription}>{item.description}</p>}
         {item.options && <p className={styles.itemDescription}>{item.options}</p>}
         {item.priceLabel && <p className={styles.itemPrice}>{item.priceLabel}</p>}
+        {item.publicControl?.available === false ? <p className={styles.itemPrice}>Sold out</p> : null}
       </li>)}
     </ul>
   </section>;

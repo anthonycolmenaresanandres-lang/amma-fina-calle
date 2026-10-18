@@ -1289,6 +1289,21 @@ Parent authorizes noncredential fixes supported by failed single-test evidence. 
 ## [x] Preserve safe provider validation details - 2026-10-17
 Parent's Vercel UI proves original request reached Resend and returned400; app trigger authentication succeeded. Authorizes offline minimal code/tests only. Check payload against official Resend contract, retain only bounded allowlisted provider category through authenticated route/client; no raw provider text or secrets, send, settings, push/deploy or ingestion changes.
 
+## 2026-10-17 Owner account onboarding - local only
+Authorized continuation from 388fa45: private account staging, verified owner association, safe menu adapter preview, owner request status and synthetic tests. No pilot chosen; no live onboarding, grant, migration, credentials, sends, automatic activation, push or deploy. Worktree codex/owner-request-audit-20261017 only.
+
+### Owner account onboarding OUT — local preparation complete
+Implementation, 231 focused/regression checks, build and mobile preview evidence complete; all activation remains off. See OWNER_ACCOUNT_ONBOARDING_20261017.md and OWNER_ACCOUNT_VERIFICATION_20261017.md. No chosen pilot or live owner enrollment. Public promotion/certified publishing adapter/readback, policy approval, hosted Auth/concurrency/advisors and routine rollout UX/diagnostics remain release requirements.
+
+## Bodega selected pilot - local adapter IN
+Anthony approved Bodega pilot selection with availability/display-order scope only. Implement and certify locally with fixtures; production permissions/enrollment/activation remain separately gated. Existing owner worktree only. Preserve menu visual/content source and other clients.
+
+### Bodega selected pilot OUT - local implementation complete, 2026-10-18
+Prepared default-off source/ID/deployment-bound controls for all 50 published entries; availability/order only, unchanged content/prices. Authenticated queue integration, explicit tenant scopes, worker preflight/CAS/fresh readback/owner acknowledgement, durable conflicts and inverse rollback. 69 core +117 Bodega SQL; 97 queue compatibility; existing account/actions/menu regressions PASS. Focused lint/full types/production webpack build/actual HTTP/mobile320/390 PASS. Release scope and owner identity prerequisite: BODEGA_OWNER_PILOT_20261018.md; evidence: BODEGA_PILOT_VERIFICATION_20261018.md. No production action, real-owner enrollment, migration/grants, sends, credentials, spend, push/deploy or automatic caller. All release gates default off. Integrate current main/mail changes and separately approve release/enrollment/activation.
+
+## Bodega approved review-phase release IN - 2026-10-18
+Integrate current main into owner branch, preserve traffic mail/collection, validate exact revision and release through CI/PR with all gates off. Approved protected queue/Bodega schema/grants only after target/schema/nonproduction prerequisites. Existing available Supabase inventory has no separate nonproduction environment; no schema mutation until prerequisite is verified. No owner email/authority/consent yet, no enrollment/publication/intake/execution/notifications/credentials/spend. Account-staging SQL excluded.
+
 ## [x] Spacious traffic email presentation - 2026-10-17
 Anthony received the report and requests gaps, improved appearance and mobile readability. Parent authorizes template-only HTML/text implementation, preview, PR/checks/merge/deploy. Preserve counts, periods, subject, recipient, auth/privacy/cadence/ingestion and idempotency. Waiting/uncollected entries must prominently say Data not yet available; preserve recorded-zero detail and caveats. No extra test email or recurring activation. All delivery gates remain off. No external tracked assets, services, spending or migration.
 

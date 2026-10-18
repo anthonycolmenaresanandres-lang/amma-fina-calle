@@ -1,0 +1,78 @@
+PASS account staging defaults off
+PASS manager cannot bypass default database gate
+PASS anonymous creation denied
+PASS owner cannot create staff accounts
+PASS existing tenant cannot be overwritten
+PASS existing registry business requires reconciliation
+PASS unconfirmed owner rejected
+PASS missing owner rejected without provisioning
+PASS legacy business duplicate cannot bypass normalized whitespace and case
+PASS idempotent account creation
+PASS account retry key cannot change identity
+PASS duplicate slug denied
+PASS duplicate business-location identity denied
+PASS manager can resume recent private account drafts
+PASS owner cannot export private account draft list
+PASS unrelated owner cannot read account draft
+PASS unrelated owner cannot accept association
+PASS staff identity cannot accept as owner
+PASS explicit association confirmation required
+PASS verified associated owner accepts
+PASS association does not grant public portal access
+PASS owner cannot prepare staff menu plans
+PASS cross tenant rejected at database
+PASS unsupported source rejected at database
+PASS empty import rejected at database
+PASS duplicate source ID rejected at database
+PASS negative price rejected at database
+PASS authority claim rejected at database
+PASS bad price type rejected at database
+PASS menu preview retry is idempotent
+PASS menu retry key cannot change payload
+PASS staff cannot stage without owner approval
+PASS other owner cannot approve exact menu
+PASS wrong digest cannot approve
+PASS associated owner approves exact persisted preview
+PASS approved menu staged privately
+PASS staging retry is idempotent
+PASS one atomic revision increment
+PASS private staging never claims a successful live sync
+PASS stable UUID identities allocated privately
+PASS no public menu rows created
+PASS public customer registry unchanged
+PASS one audit event for staging and retry
+PASS missing items retained by database
+PASS renames and sync retries preserve item UUIDs
+PASS stale preview revision rejected
+PASS competing approved plan cannot overwrite newer revision
+PASS expired preview requires new owner approval
+PASS reset-required owner cannot read draft
+PASS owner revocation blocks even a staging retry
+PASS anon cannot read private accounts
+PASS anon cannot read private plans
+PASS anon cannot read private identities
+PASS anon cannot read private events
+PASS anon cannot read private settings
+PASS authenticated cannot read private accounts
+PASS authenticated cannot read private plans
+PASS authenticated cannot read private identities
+PASS authenticated cannot read private events
+PASS authenticated cannot read private settings
+PASS service_role cannot read private accounts
+PASS service_role cannot read private plans
+PASS service_role cannot read private identities
+PASS service_role cannot read private events
+PASS service_role cannot read private settings
+PASS owner history page bounded to 25
+PASS private cursor returns remaining history
+PASS stable pagination has no repeated requests
+PASS owner detail includes same durable reference
+PASS scoped empty menu stays empty
+PASS detail identifies the exact tenant item and current name
+PASS owner item choices expose the expected revision
+PASS other owner cannot list another tenant
+PASS other owner cannot inspect request detail
+PASS cursor cannot cross owner or tenant
+PASS anonymous request list denied
+PASS anonymous item export denied
+77 synthetic account-staging/tracking database checks passed.

@@ -1,0 +1,44 @@
+PASS missing or invalid scope undefined
+PASS missing or invalid scope
+PASS missing or invalid scope *
+PASS missing or invalid scope bodega,
+PASS missing or invalid scope bodega,INVALID
+PASS tenant gates are exact and independent
+PASS application gate defaults off
+PASS strict gate 1
+PASS strict gate TRUE
+PASS strict gate false
+PASS strict gate undefined
+PASS disabled submission makes no RPC
+PASS enabled review derives identity only in DB
+PASS structured payload is bounded
+PASS invalid structured input {"changeType":"price"}
+PASS invalid structured input {"afterValue":"false"}
+PASS invalid structured input {"expectedVersion":-1}
+PASS invalid structured input {"afterValue":null}
+PASS invalid structured input {"confirmed":false}
+PASS invalid structured input {"clientKey":"bad"}
+PASS invalid structured input {"changeType":"display_order","afterValue":10001}
+PASS invalid structured input {"changeType":"name_typo","afterValue":""}
+PASS receipt uncertainty preserves error without DB details
+PASS bodega static source cannot promise database propagation
+PASS scrambled static source cannot promise database propagation
+PASS project-seed static source cannot promise database propagation
+PASS Colattao separate site
+PASS Las Palmas conditional
+PASS generic menu still requires source certification
+PASS notification default-off makes no DB or network calls
+PASS missing mail config does not lease jobs
+PASS bad batch does not lease jobs
+PASS one lease gets one attempt and fenced acknowledgement
+PASS notice contains only fixed metadata and private link
+PASS provider idempotency key stable across delivery retry
+PASS unselected tenant never receives a notification
+PASS untrusted claimed payload never reaches mail
+PASS lost acknowledgement is reported without resending
+PASS provider 5xx maps to bounded category
+PASS provider 4xx maps to bounded category
+PASS transport exception does not expose error
+PASS timeout ends an unresolved provider attempt
+PASS notification rejection is persisted, not retried in memory
+43 queue client/source/notification checks passed. All fetches and RPCs mocked; no messages sent.

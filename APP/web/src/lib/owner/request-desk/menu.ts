@@ -44,6 +44,10 @@ export async function readOwnerMenu(
       .order("day_of_week"),
   ]);
 
+  // A partial read is not a trustworthy preview or business identity.
+  if (restaurantRes.error || categoriesRes.error || itemsRes.error || hoursRes.error || !restaurantRes.data) {
+    throw new Error("The menu could not be loaded completely. Refresh and try again.");
+  }
   const items = (itemsRes.data as ItemRow[] | null) ?? [];
   const categories = (categoriesRes.data as CategoryRow[] | null) ?? [];
   const hours = (hoursRes.data as HoursRow[] | null) ?? [];

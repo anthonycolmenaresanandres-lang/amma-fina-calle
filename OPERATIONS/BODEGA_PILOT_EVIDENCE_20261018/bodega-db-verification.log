@@ -1,0 +1,118 @@
+PASS only 50 published source identities are seeded
+PASS Bodega publication/execution/certification start disabled
+PASS no owner enrollment seeded
+PASS anonymous read gets no controls before publication approval
+PASS anonymous owner request rejected
+PASS all tenant scopes start empty
+PASS publication flag alone cannot bypass missing binding approval
+PASS approved public surface contains only this fixed menu
+PASS public envelope excludes account/customer/request data
+PASS public rows expose only display controls
+PASS public controls contain no private or commercial fields
+PASS different source manifest cannot read or merge controls
+PASS queue intake remains off
+PASS uncertified rendered source cannot receive executable item requests
+PASS verified Bodega owner sees only its mapped public-source items
+PASS owner cannot list another tenant
+PASS owner cannot claim another tenant with a Bodega ID
+PASS Bodega cannot target another tenant database item
+PASS another tenant cannot target a private Bodega control
+PASS valid other-tenant owner and item remain intake-disabled
+PASS pilot rejects price
+PASS pilot rejects name typo
+PASS pilot rejects bad boolean
+PASS pilot rejects negative position
+PASS pilot rejects excess position
+PASS pilot rejects stale version
+PASS pilot rejects unconfirmed
+PASS submission retry preserves the request UUID
+PASS retry cannot replace the confirmed payload
+PASS queue binds authenticated owner, immutable item identity/name and source hash
+PASS submission and retry create one durable notice
+PASS pilot selection does not substitute for tenant-owner enrollment
+PASS owner enrollment must bind the exact certified manifest
+PASS forged JWT email cannot replace the verified Auth actor
+PASS ordinary admin cannot grant the execution policy
+PASS explicit authority approval queues the bounded change
+PASS global execution switch remains off
+PASS Bodega execution switch remains off independently
+PASS approved Bodega request remains disabled without its execution scope
+PASS malformed nullable execution scope fails closed
+PASS one approved availability field changes atomically
+PASS execution replay cannot apply twice
+PASS competing request cannot overwrite the changed version
+PASS generic evidence cannot bypass rendered Bodega verification
+PASS owner cannot invoke trusted verification
+PASS owner cannot invoke trusted worker inspection
+PASS wrong tenant cannot certify this request
+PASS wrong deployment cannot certify this request
+PASS wrong origin cannot certify this request
+PASS wrong path cannot certify this request
+PASS wrong manifest cannot certify this request
+PASS wrong item cannot certify this request
+PASS raw evidence cannot certify this request
+PASS extra fields cannot certify this request
+PASS old item version stays pending
+PASS old snapshot stays pending
+PASS different availability stays pending
+PASS different order stays pending
+PASS fresh exact-source readback permits owner confirmation
+PASS verification retry is idempotent
+PASS verification retry emits no duplicate event
+PASS one request writes one availability audit record
+PASS Bodega control writes create no fake public menu or price rows
+PASS other owner cannot read Bodega request history
+PASS other owner cannot confirm Bodega completion
+PASS owner detail identifies the exact item captured at submission
+PASS owner explicitly acknowledges the verified result
+PASS owner explicitly requests inverse rollback
+PASS rollback restores only the prior availability value
+PASS pre-rollback readback cannot certify restoration
+PASS restored public snapshot matches the old value
+PASS restored rendered state requires a new verification
+PASS owner confirms the restored result
+PASS later item edit blocks stale owner acknowledgement
+PASS rollback cannot clobber a later edit
+PASS occupied display position cannot overwrite or swap another item
+PASS unoccupied within-group display position applies
+PASS public state exposes the applied display order
+PASS ordered result requires exact versioned readback
+PASS occupied original position blocks destructive rollback
+PASS immutable source catalog rejects name changes
+PASS control identity cannot be retargeted
+PASS item cannot move into another presentation group
+PASS control store has no price field
+PASS all immutable source rows remain identical
+PASS unrelated menu names, descriptions and prices remain unchanged
+PASS expired source certificate stops new executable requests
+PASS new publication commit invalidates the previous certificate
+PASS revoked tenant-owner enrollment blocks a queued approved change
+PASS fresh Auth reset restriction blocks queued execution
+PASS anon cannot read private settings
+PASS anon cannot read private groups
+PASS anon cannot read private catalog
+PASS anon cannot read private controls
+PASS anon cannot invoke private source helpers
+PASS authenticated cannot read private settings
+PASS authenticated cannot read private groups
+PASS authenticated cannot read private catalog
+PASS authenticated cannot read private controls
+PASS authenticated cannot invoke private source helpers
+PASS service_role cannot read private settings
+PASS service_role cannot read private groups
+PASS service_role cannot read private catalog
+PASS service_role cannot read private controls
+PASS service_role cannot invoke private source helpers
+PASS anonymous reader cannot inspect private requests
+PASS anonymous reader cannot confirm changes
+PASS publication kill switch removes all public controls
+PASS disabled source cannot masquerade as a connected owner menu
+PASS matching preflight cannot manufacture a conflict
+PASS stale preflight becomes a durable conflict without item writes
+PASS durable conflict recording is idempotent
+PASS preflight conflict emits one event
+PASS owner cannot invoke worker conflict recorder
+PASS other tenant keeps the existing menu adapter
+PASS other tenant keeps the existing verification contract
+PASS other tenant keeps the existing confirmation contract
+117 synthetic Bodega database/queue checks passed. No live schema, grants or enrollment executed.

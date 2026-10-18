@@ -110,6 +110,7 @@ export default async function CustomersPage() {
           <Inbox size={13} strokeWidth={1.75} aria-hidden />
           Request Inbox
         </Link>
+        {admin.canManageTeam ? <Link href="/customers/new" className="inline-flex min-h-11 items-center text-sm text-[#f0d79c]">Add account</Link> : null}
         <SignOutButton />
       </TopBar>
 

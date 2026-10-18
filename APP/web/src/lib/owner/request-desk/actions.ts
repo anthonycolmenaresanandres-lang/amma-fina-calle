@@ -12,6 +12,8 @@ import {
 } from "./files";
 import { readOwnerMenu } from "./menu";
 import { triageRequest } from "./triage";
+import { isOwnerPreviewCurrent, ownerPreviewFingerprint } from "./preview";
+import { ownerQueueEnabledForTenant, submitOwnerReviewToQueue } from "../queue/client";
 
 /** What the client renders for an apply preview — display strings only, never authority. */
 export type DeskProposalView = {
@@ -23,7 +25,7 @@ export type DeskProposalView = {
 
 export type DeskTriageState =
   | { phase: "idle" }
-  | { phase: "apply"; text: string; proposal: DeskProposalView }
+  | { phase: "apply"; text: string; proposal: DeskProposalView; previewFingerprint: string }
   | { phase: "review"; text: string; reason: string }
   | { phase: "error"; message: string };
 
@@ -77,10 +79,13 @@ export async function triageOwnerRequest(
   }
 
   try {
-    await requireOwner(restaurantId);
+    const { email } = await requireOwner(restaurantId);
     const supabase = await createServerSupabase();
     if (!supabase) return { phase: "error", message: "Editing isn’t configured yet." };
 
+    if (ownerQueueEnabledForTenant(restaurantId)) {
+      return { phase: "review", text, reason: "This request will be saved for review. No menu change will be made now." };
+    }
     const snapshot = await readOwnerMenu(supabase, restaurantId);
     const result = triageRequest(text, snapshot);
 
@@ -99,6 +104,7 @@ export async function triageOwnerRequest(
       return {
         phase: "apply",
         text,
+        previewFingerprint: ownerPreviewFingerprint(email, text, snapshot, p),
         proposal: {
           entityLabel: p.entityLabel,
           fieldLabel: p.fieldLabel,
@@ -125,9 +131,14 @@ export async function confirmOwnerRequest(
 ): Promise<DeskResultState> {
   const text = readText(formData);
   if (!text) return { phase: "error", message: "Nothing to apply." };
+  if (ownerQueueEnabledForTenant(restaurantId)) return { phase: "error", message: "Use the queued request review before making a change." };
+  // A direct action POST must not bypass the attachment-review rule.
+  if (readFileCount(formData) !== 0) {
+    return { phase: "error", message: "Requests with files need team review." };
+  }
 
   try {
-    await requireOwner(restaurantId);
+    const { email } = await requireOwner(restaurantId);
     const supabase = await createServerSupabase();
     if (!supabase) return { phase: "error", message: "Editing isn’t configured yet." };
 
@@ -141,6 +152,11 @@ export async function confirmOwnerRequest(
     }
 
     const p = result.proposal;
+    if (!isOwnerPreviewCurrent(
+      formData.get("previewFingerprint"), ownerPreviewFingerprint(email, text, snapshot, p),
+    )) {
+      return { phase: "error", message: "This preview no longer matches. Review the request again before saving." };
+    }
     if (p.sizeLabel) {
       // One size's price inside the jsonb array → dedicated audited rail.
       await applyOwnerSizePrice({
@@ -187,6 +203,14 @@ export async function sendOwnerReview(
     const supabase = await createServerSupabase();
     if (!supabase) return { phase: "error", message: "Requests aren’t configured yet." };
 
+    if (ownerQueueEnabledForTenant(restaurantId)) {
+      const result = await submitOwnerReviewToQueue(supabase, {
+        restaurantId, clientKey: String(formData.get("clientKey") ?? ""), brief: text,
+      });
+      return result.ok
+        ? { phase: "sent", referenceId: result.receipt.referenceId, message: "Request saved for review. Notification is queued; no menu change has been made." }
+        : { phase: "error", message: result.message };
+    }
     const snapshot = await readOwnerMenu(supabase, restaurantId);
     const result = triageRequest(text, snapshot);
     const review =
@@ -212,7 +236,7 @@ export async function sendOwnerReview(
     if (error) return { phase: "error", message: "Couldn’t save the request. Please try again." };
 
     // Best-effort notification — a missing email config never fails the request.
-    await sendChangeRequestEmail({
+    const notification = await sendChangeRequestEmail({
       businessName: snapshot.businessName,
       contactName: email,
       contactInfo: email,
@@ -225,7 +249,12 @@ export async function sendOwnerReview(
       filesExpected: fileCount,
     });
 
-    return { phase: "sent", message: "Sent to the AMMA team. They’ll follow up.", referenceId };
+    return {
+      phase: "sent", referenceId,
+      message: notification.sent
+        ? "Request saved. Team notification email accepted."
+        : "Request saved. Email notification could not be confirmed; keep your reference.",
+    };
   } catch (error) {
     return { phase: "error", message: error instanceof Error ? error.message : "Couldn’t send the request." };
   }

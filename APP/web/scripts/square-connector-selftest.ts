@@ -31,10 +31,10 @@ async function main() {
   assert.equal(guestNoteClientKey(new Headers(), { vercel: false, production: true }), null);
   assert(guestNoteClientKey(new Headers(), { vercel: false, production: false }));
 
-  const [env, config, catalog, connection, webhook, menu, guest, migration, connect, oauth, locationRoute, callback, manualSync] = await Promise.all([
+  const [env, config, catalog, connection, webhook, menu, menuView, guest, migration, connect, oauth, locationRoute, callback, manualSync] = await Promise.all([
     text(".env.example"), text("src/lib/square/config.ts"), text("src/lib/square/catalog.ts"),
     text("src/lib/square/connection.ts"), text("src/app/api/integrations/square/webhook/route.ts"),
-    text("src/app/(internal)/demo/bodega/page.tsx"), text("src/app/api/bodega/guest-notes/route.ts"),
+    text("src/app/(internal)/demo/bodega/page.tsx"), text("src/app/(internal)/demo/bodega/bodega-menu-view.tsx"), text("src/app/api/bodega/guest-notes/route.ts"),
     text("supabase/migrations/0022_square_lifecycle_and_guest_note_cleanup.sql"),
     text("src/app/api/integrations/square/connect/route.ts"), text("src/lib/square/oauth.ts"),
     text("src/app/api/integrations/square/location/route.ts"),
@@ -55,8 +55,9 @@ async function main() {
   assert(callback.indexOf("await saveSquareOAuthConnection") < callback.indexOf("await syncSquareCatalog"), "A connection must be saved before its catalog is read");
   assert.match(manualSync, /!connection\?\.locationId/);
   assert(!config.includes("ITEMS_WRITE"));
-  assert(!menu.includes("@/lib/square/"), "Square imports must not auto-publish to the public menu");
-  assert.match(menu, /BodegaGuestNoteForm/);
+  assert(![menu, menuView].some(source => source.includes("@/lib/square/")), "Square imports must not auto-publish to the public menu");
+  assert.match(menu, /<BodegaMenuView\b/);
+  assert.match(menuView, /engagement=\{<BodegaGuestNoteForm/);
   assert.match(guest, /restaurantId: null/);
   assert(!guest.includes('restaurantId: "bodega"'), "Guest contact details stay out of tenant RLS");
   assert.match(guest, /consume_bodega_guest_note_limits/);
