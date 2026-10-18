@@ -163,7 +163,7 @@ assert.doesNotMatch(
 // Task navigation stays available without the previous robotic step numbering.
 for (const [id, label] of [
   ["owner-menu", "Menu"],
-  ["owner-billing", "Account & payments"],
+  ["owner-billing", "Account"],
   ["owner-request", "Requests"],
   ["owner-history", "History"],
 ]) {
@@ -174,6 +174,8 @@ for (const [id, label] of [
 assert.match(dashboardSource, /MenuQuickEdit/);
 assert.match(dashboardSource, /ownerGuestMenuPath/);
 assert.match(dashboardSource, /View live menu/);
+// With queue activation off, the leading request action reaches the existing desk.
+assert.match(dashboardSource, /href="#owner-request" className=\{styles.primaryAction\}/);
 assert.match(dashboardSource, /readOnly \?/);
 assert.doesNotMatch(ownerPageSource, /promosRes|type Promo/);
 assert.doesNotMatch(ownerPageSource, /Lilita_One/);

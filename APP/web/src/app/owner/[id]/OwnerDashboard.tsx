@@ -1,11 +1,9 @@
 import {
   ArrowUpRight,
-  BookOpen,
   ExternalLink,
   History,
   LogOut,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   Panel,
@@ -80,7 +78,7 @@ const FIELD_LABELS: Record<string, string> = {
 const OWNER_SECTIONS = [
   { label: "Menu", detail: "View or update", href: "#owner-menu" },
   { label: "Requests", detail: "Tell us what changed", href: "#owner-request" },
-  { label: "Account & payments", detail: "Billing details", href: "#owner-billing" },
+  { label: "Account", detail: "Billing details", href: "#owner-billing" },
   { label: "History", detail: "Recent changes", href: "#owner-history" },
 ] as const;
 
@@ -123,7 +121,7 @@ export default function OwnerDashboard({
         <h2 id="owner-menu-heading" className={styles.frameLabel}>{isColattao ? "Your live menu." : "Update your menu."}</h2>
       </div>
       {data.menuConnectionNotice ? <p role="status" className={styles.connectionNotice}>{data.menuConnectionNotice}</p> : null}
-      {readOnly ? <p className={styles.emptyState}>Menu changes require an authorized owner. This preview does not save.</p>
+      {readOnly ? <p className={styles.emptyState}>Preview only. No menu changes are saved.</p>
         : isColattao ? <div className={styles.menuRequest}><p>Colattao’s guest menu runs on its public café site. Send the item and change you need; Fina Calle reviews it before publishing.</p><a href="#owner-request" className={styles.textLink}>Request a menu change <ArrowUpRight size={17} aria-hidden /></a><span>Direct publishing is not connected.</span></div>
           : <MenuQuickEdit restaurantId={data.restaurantId} categories={data.categories} />}
     </section>
@@ -131,7 +129,6 @@ export default function OwnerDashboard({
 
   const requestSection = (
     <section id="owner-request" aria-label="Contact Fina Calle" tabIndex={-1} className={cn(styles.requestFrame, styles.sectionAnchor)}>
-      {!readOnly ? <p className="mb-5 text-sm"><Link className="inline-flex min-h-11 items-center underline underline-offset-4" href={`/owner/${data.restaurantId}/requests`}>Track requests and request an item change</Link></p> : null}
       <AskBar restaurantId={data.restaurantId} items={allItems.map((item) => ({ name: item.name, price: item.price, is_available: item.is_available }))} demo={readOnly} />
     </section>
   );
@@ -175,12 +172,10 @@ export default function OwnerDashboard({
 
       <div className={styles.welcome}>
         <div>
-          <p className={styles.kicker}>Owner portal</p>
-          <h1>{isColattao ? <>A little less admin.<br /><em>More hospitality.</em></> : <>Your restaurant.<br /><em>Within reach.</em></>}</h1>
-          <p className={styles.welcomeIntro}>{isColattao ? "Keep your menu looking its best." : "The tools for the small updates that keep your business moving."}</p>
+          <h1>Your owner desk.</h1>
+          <p className={styles.welcomeIntro}>Menu updates and requests, in one place.</p>
+          {!readOnly ? <div className={styles.deskAction}><Link href="#owner-request" className={styles.primaryAction}>Request an item change</Link></div> : null}
         </div>
-        {isColattao ? <Image className={styles.welcomeArt} src="/assets/colattao/colattao-menu-hero-4x5-v1.webp" width={1080} height={1350} alt="Colattao coffee and pastry" priority />
-          : <Link href="/owner/guide" className={styles.guideLink}><BookOpen size={20} strokeWidth={1.5} aria-hidden /><span>New here?<strong>Open your owner guide</strong></span><ArrowUpRight size={18} strokeWidth={1.5} aria-hidden /></Link>}
       </div>
 
       <nav className={styles.sectionIndex} aria-label="Owner portal sections">
@@ -188,8 +183,8 @@ export default function OwnerDashboard({
           {sections.map((section) => (
             <li key={section.href}>
               <a className={styles.indexLink} href={section.href}>
-                <span>{section.label}<small>{section.detail}</small></span>
-                <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden className={styles.indexArrow} />
+                <span>{section.label}</span>
+
               </a>
             </li>
           ))}

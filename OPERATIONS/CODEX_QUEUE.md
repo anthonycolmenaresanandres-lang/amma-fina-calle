@@ -1311,3 +1311,6 @@ Late scoped authorization21:58:43UTC: Anthony explicitly requests exactly one st
 
 ## [x] Local traffic-email identifier-state correction - 2026-10-17
 Parent requests verification of PR350 review5560291731. Confirmed missing identifier diagnostics on unconfigured/query-failure reports become Not collected in HTML. Correct locally to distinguish unavailable/unknown from explicit successful zero-ID evidence; mixed failure/known-uncollected fixtures and HTML/text parity. Preserve counts/cadence. Local commit only: no push, PR, deployment, extra email or settings changes; avoid owner portal worktree.
+
+## Owner open-layout release IN - 2026-10-18
+Anthony explicitly requests deployment of completed work after stopping further design. Isolate six reusable visual files onto current main; exclude local owner sample routes/data, screenshots, SQL proposals and native tooling. Validate unchanged auth/actions, focused tests/build and exact-head CI, PR then authorized merge/deploy. All owner/Bodega/staging/notification gates remain off; no migration, enrollment, credential/configuration changes, sends or new features.
