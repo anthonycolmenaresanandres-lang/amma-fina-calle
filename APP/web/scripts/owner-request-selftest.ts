@@ -163,7 +163,7 @@ assert.doesNotMatch(
 // Task navigation stays available without the previous robotic step numbering.
 for (const [id, label] of [
   ["owner-menu", "Menu"],
-  ["owner-billing", "Account & payments"],
+  ["owner-billing", "Account"],
   ["owner-request", "Requests"],
   ["owner-history", "History"],
 ]) {
