@@ -53,6 +53,17 @@ jobs:
           npx --no-install tsx scripts/owner-request-selftest.ts
           npx --no-install tsx scripts/owner-menu-selftest.ts
           npm run owner-app:selftest
+      - name: Disabled owner queue and Bodega pilot safety
+        run: |
+          node --import tsx scripts/owner-request-reliability-selftest.ts
+          node --import tsx scripts/owner-request-actions-selftest.ts
+          node --import tsx scripts/owner-queue-client-selftest.ts
+          node scripts/account-queue-compatibility-selftest.mjs
+          node --import tsx scripts/account-import-selftest.ts
+          node --import tsx scripts/account-actions-selftest.ts
+          node scripts/account-staging-db-selftest.mjs
+          node --import tsx scripts/bodega-controls-selftest.ts
+          node scripts/bodega-controls-db-selftest.mjs
       - name: Bodega launch and Square cleanup regressions
         run: |
           npm run bodega-launch:selftest
