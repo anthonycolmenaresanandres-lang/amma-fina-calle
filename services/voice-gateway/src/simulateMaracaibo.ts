@@ -12,12 +12,12 @@ for (const key of Object.keys(process.env)) {
   if (/^(OPENAI_|TWILIO_|CALCOM_|SQUARE_|WEBHOOK_|STAFF_|STORE_|DEFAULT_TENANT_)/.test(key)) delete process.env[key];
 }
 Object.assign(process.env, { DOTENV_CONFIG_PATH: path.join(service, "offline-test-no-env"), TENANTS_FILE: path.join(service, "tenants.json"), PUBLIC_HOST: "voice.test", TWILIO_VALIDATE_WEBHOOKS: "false", LINE_PAUSED: "false" });
-const { getTenantByVoiceNumber, getTenantByNumber, allTenants } = await import("./tenant");
+const { getTenantById, getTenantByVoiceNumber, getTenantByNumber, allTenants } = await import("./tenant");
 const { buildRealtimeSessionUpdate, buildGreetingResponse } = await import("./realtime");
 const { runTool } = await import("./orchestrator");
 const { tools } = await import("./tools");
 const { store } = await import("./store");
-const demo = getTenantByVoiceNumber("+17573001118");
+const demo = getTenantById("maracaibo-demo")!;
 let checks = 0;
 const check = (name: string, fn: () => void) => { fn(); checks++; console.log("PASS " + name); };
 check("entire VBFH persona stays identical to main except removal of 300 voice override", () => {
@@ -28,7 +28,7 @@ check("entire VBFH persona stays identical to main except removal of 300 voice o
 });
 check("voice-only override isolates 300 SMS and 666 across number formats", () => {
   for (const to of ["+17573001118", "+1 (757) 300-1118", "17573001118"]) {
-    assert.equal(getTenantByVoiceNumber(to).id, "maracaibo-demo");
+    assert.equal(getTenantByVoiceNumber(to).id, "el-mariachi-demo");
     assert.equal(getTenantByNumber(to).id, "fina-calle");
   }
   assert.equal(getTenantByVoiceNumber("+17576660078").id, "vbfh-info");
@@ -63,6 +63,32 @@ check("verified contact, hours and menu reach isolated production payload", () =
     assert.ok(!JSON.stringify(buildRealtimeSessionUpdate(other)).includes(demo.knowledge!));
   }
 });
+check("saved Maracaibo personality is unchanged except its removed voice assignment", () => {
+  const raw = JSON.parse(readFileSync(path.join(service, "tenants.json"), "utf8")) as { id: string; voicePhoneNumbers?: string[] }[];
+  const saved = raw.find(tenant => tenant.id === "maracaibo-demo"); assert.ok(saved);
+  const restoredAssignment = { ...saved, voicePhoneNumbers: ["+1 757 300 1118"] };
+  const hash = createHash("sha256").update(JSON.stringify(restoredAssignment)).digest("hex");
+  assert.equal(hash, "b35cd28852a23723612fae0aacde2cb0987edfbdd2cf5bd1ecfd607f68d57517");
+});
+check("El Mariachi voice session discloses the bilingual demo and contains six-location knowledge without tools", () => {
+  const mariachi = getTenantById("el-mariachi-demo")!;
+  const mariachiSession = buildRealtimeSessionUpdate(mariachi).session as { instructions: string; tools: { name: string }[]; audio: { output: { voice: string } } };
+  assert.deepEqual(mariachi.phoneNumbers, []);
+  assert.deepEqual(mariachi.voicePhoneNumbers, ["17573001118"]);
+  assert.deepEqual(demo.phoneNumbers, []); assert.deepEqual(demo.voicePhoneNumbers, []);
+  assert.deepEqual(mariachiSession.tools, []); assert.equal(mariachi.notify?.staffWebhookUrl, "");
+  assert.deepEqual(mariachi.privacy, { retainCallerId: false, missedCallFollowup: false });
+  assert.equal(mariachi.language, "English"); assert.equal(mariachiSession.audio.output.voice, "marin");
+  const greeting = JSON.stringify(buildGreetingResponse(mariachi));
+  assert.match(greeting, /AI assistant in an independent Fina Calle demo inspired by El Mariachi, not the restaurant/);
+  assert.match(greeting, /This call may be recorded/);
+  assert.match(mariachiSession.instructions, /Offer English or Spanish once/);
+  assert.match(mariachiSession.instructions, /Before answering a menu, price, address, phone or hours question/);
+  const knowledge = JSON.parse(mariachi.knowledge!) as { locations: { location: string }[] };
+  assert.deepEqual(knowledge.locations.map(location => location.location).sort(), ["Belhaven", "Burgaw", "Jacksonville", "Wallace", "Washington", "Williamston"]);
+  assert.ok(mariachiSession.instructions.includes(mariachi.knowledge!));
+  assert.doesNotMatch(mariachiSession.instructions, /You may record a message|A staff notification route is configured/);
+});
 const before = store.stats();
 for (const tool of tools) {
   const result = await runTool(demo, "offline-denied", tool.name, { customer_name: "Test", customer_phone: "000", draft_id: "none", service: "table", date: "2026-10-10" });
@@ -90,14 +116,14 @@ try {
     if (healthy) break; await new Promise(resolve => setTimeout(resolve, 100));
   }
   assert.ok(healthy, logs);
-  for (const [number, expected] of [["+17573001118", "maracaibo-demo"], ["+17576660078", "vbfh-info"]]) {
+  for (const [number, expected] of [["+17573001118", "el-mariachi-demo"], ["+17576660078", "vbfh-info"]]) {
     const response = await fetch(url + "/twiml", { method: "POST", body: new URLSearchParams({ To: number! }) });
     const xml = await response.text();
     check("real HTTP voice handler " + number, () => { assert.equal(response.status, 200); assert.ok(xml.includes('name="tenant" value="' + expected + '"')); });
   }
   const sms = await fetch(url + "/sms", { method: "POST", body: new URLSearchParams({ To: "+17573001118", Body: "HELP" }) });
   const xml = await sms.text();
-  check("real SMS HELP retains Fina Calle and omits restaurant demo", () => { assert.equal(sms.status, 200); assert.match(xml, /Fina Calle:/); assert.doesNotMatch(xml, /Maracaibo/); });
+  check("real SMS HELP retains Fina Calle and omits restaurant demo", () => { assert.equal(sms.status, 200); assert.match(xml, /Fina Calle:/); assert.doesNotMatch(xml, /Maracaibo|El Mariachi/); });
   const registry = await (await fetch(url + "/tenants")).json() as { tenants: { id: string; language: string; voice: string; toolNames: string[] }[] };
   check("safe live diagnostics expose Spanish and disabled tools", () => { const tenant = registry.tenants.find(t => t.id === demo.id)!; assert.equal(tenant.language, "Spanish"); assert.equal(tenant.voice, "marin"); assert.deepEqual(tenant.toolNames, []); });
 } finally { child.kill(); if (child.exitCode === null) await new Promise<void>(resolve => child.once("exit", () => resolve())); }

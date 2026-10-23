@@ -40,12 +40,12 @@ const { allTenants, getTenantById, getTenantByNumber, getTenantByVoiceNumber } =
 const { buildRealtimeSessionUpdate, buildGreetingResponse } = await import("./realtime");
 const { connectStreamTwiML } = await import("./twilio");
 
-check("only the requested inactive personality was removed", () => {
-  assert.deepEqual(raw.filter(t => t.id !== "maracaibo-demo").map(t => t.id), Object.keys(baselineHashes));
+check("original personality set is preserved alongside the two explicitly approved demos", () => {
+  assert.deepEqual(raw.filter(t => t.id !== "maracaibo-demo" && t.id !== "el-mariachi-demo").map(t => t.id), Object.keys(baselineHashes));
   assert.equal(getTenantById("larissa-offgrid"), undefined);
 });
 check("other three personalities are identical to reviewed main", () => {
-  for (const t of raw.filter(t => t.id !== "vbfh-info" && t.id !== "maracaibo-demo")) assert.equal(fingerprint(t), baselineHashes[t.id]);
+  for (const t of raw.filter(t => t.id !== "vbfh-info" && t.id !== "maracaibo-demo" && t.id !== "el-mariachi-demo")) assert.equal(fingerprint(t), baselineHashes[t.id]);
 });
 check("VBFH identity, disclosure, shared numbers and capability limits are preserved", () => {
   const omitEdits = ({ knowledge: _k, instructions: _i, voicePhoneNumbers: _v, ...rest }: RawTenant) => rest;
@@ -64,9 +64,9 @@ check("666 voice and SMS still select VBFH across number formatting", () => {
     assert.equal(getTenantByNumber(to).id, "vbfh-info");
   }
 });
-check("300 voice selects Maracaibo demo while shared/SMS selects Fina Calle", () => {
+check("300 voice selects El Mariachi demo while shared/SMS selects Fina Calle", () => {
   for (const to of ["+1 (757) 300-1118", "17573001118", "+1 757 300 1118"]) {
-    assert.equal(getTenantByVoiceNumber(to).id, "maracaibo-demo");
+    assert.equal(getTenantByVoiceNumber(to).id, "el-mariachi-demo");
     assert.equal(getTenantByNumber(to).id, "fina-calle");
   }
 });
@@ -172,9 +172,10 @@ try {
   }
   const exposed = await (await fetch(url + "/tenants")).json() as { count: number; tenants: { id: string; phoneNumbers: string[]; voicePhoneNumbers: string[] }[] };
   check("HTTP registry exposes reviewed voice-only mapping and omits removed persona", () => {
-    assert.equal(exposed.count, 5);
+    assert.equal(exposed.count, 6);
     assert.deepEqual(exposed.tenants.find(t => t.id === "vbfh-info")?.voicePhoneNumbers, []);
-    assert.deepEqual(exposed.tenants.find(t => t.id === "maracaibo-demo")?.voicePhoneNumbers, ["17573001118"]);
+    assert.deepEqual(exposed.tenants.find(t => t.id === "maracaibo-demo")?.voicePhoneNumbers, []);
+    assert.deepEqual(exposed.tenants.find(t => t.id === "el-mariachi-demo")?.voicePhoneNumbers, ["17573001118"]);
     assert.deepEqual(exposed.tenants.find(t => t.id === "fina-calle")?.phoneNumbers, ["17573001118"]);
     assert.ok(!exposed.tenants.some(t => t.id === "larissa-offgrid"));
   });

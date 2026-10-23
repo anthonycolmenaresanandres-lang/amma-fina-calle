@@ -20,7 +20,7 @@ const trap = createServer((_req, res) => { notifications++; res.writeHead(204).e
 await new Promise<void>(resolve => trap.listen(0, "127.0.0.1", resolve));
 const trapAddress = trap.address(); assert.ok(trapAddress && typeof trapAddress === "object");
 const raw = JSON.parse(readFileSync(path.join(service, "tenants.json"), "utf8"));
-const sourceDemo = raw.find((t: { id: string }) => t.id === "maracaibo-demo");
+const sourceDemo = raw.find((t: { id: string }) => t.id === "el-mariachi-demo");
 assert.deepEqual(sourceDemo.privacy, { retainCallerId: false, missedCallFollowup: false });
 sourceDemo.notify = { staffWebhookUrl: "http://127.0.0.1:" + trapAddress.port + "/notification" };
 raw.push({ id: "privacy-partial", phoneNumbers: [], privacy: { retainCallerId: false } });
@@ -33,7 +33,7 @@ const { getTenantById, getTenantByNumber, getTenantByVoiceNumber } = await impor
 const { store, createStore } = await import("./store");
 const { finalizeCall } = await import("./orchestrator");
 const { connectStreamTwiML } = await import("./twilio");
-const demo = getTenantById("maracaibo-demo")!;
+const demo = getTenantById("el-mariachi-demo")!;
 const vbfh = getTenantById("vbfh-info")!;
 let checks = 0;
 async function check(name: string, fn: () => unknown | Promise<unknown>) { await fn(); checks++; console.log("PASS " + name); }
@@ -119,7 +119,7 @@ try {
     for (let i = 0; i < 3; i++) {
       const xml = await (await fetch(url + "/twiml", { method: "POST", body: new URLSearchParams({ To: "+17573001118", From: syntheticCaller }) })).text();
       assert.ok(!xml.includes(syntheticCaller)); assert.doesNotMatch(xml, /name="from"/);
-      if (i < 2) assert.match(xml, /name="tenant" value="maracaibo-demo"/); else assert.match(xml, /reached the call limit/);
+      if (i < 2) assert.match(xml, /name="tenant" value="el-mariachi-demo"/); else assert.match(xml, /reached the call limit/);
     }
   });
   await check("real 666 voice and 300 SMS handlers preserve identity routing and behavior", async () => {
