@@ -16,6 +16,7 @@ const { getTenantById, getTenantByVoiceNumber, getTenantByNumber, allTenants } =
 const { buildRealtimeSessionUpdate, buildGreetingResponse } = await import("./realtime");
 const { runTool } = await import("./orchestrator");
 const { tools } = await import("./tools");
+const { lookupMenu, menuLookupMetadata } = await import("./menuLookup");
 const { store } = await import("./store");
 const demo = getTenantById("maracaibo-demo")!;
 let checks = 0;
@@ -70,24 +71,77 @@ check("saved Maracaibo personality is unchanged except its removed voice assignm
   const hash = createHash("sha256").update(JSON.stringify(restoredAssignment)).digest("hex");
   assert.equal(hash, "b35cd28852a23723612fae0aacde2cb0987edfbdd2cf5bd1ecfd607f68d57517");
 });
-check("El Mariachi voice session discloses the bilingual demo and contains six-location knowledge without tools", () => {
+check("El Mariachi has the short greeting, bilingual identity and read-only full-menu lookup", () => {
   const mariachi = getTenantById("el-mariachi-demo")!;
   const mariachiSession = buildRealtimeSessionUpdate(mariachi).session as { instructions: string; tools: { name: string }[]; audio: { output: { voice: string } } };
   assert.deepEqual(mariachi.phoneNumbers, []);
   assert.deepEqual(mariachi.voicePhoneNumbers, ["17573001118"]);
   assert.deepEqual(demo.phoneNumbers, []); assert.deepEqual(demo.voicePhoneNumbers, []);
-  assert.deepEqual(mariachiSession.tools, []); assert.equal(mariachi.notify?.staffWebhookUrl, "");
+  assert.deepEqual(mariachiSession.tools.map(t => t.name), ["lookup_menu"]); assert.equal(mariachi.notify?.staffWebhookUrl, "");
   assert.deepEqual(mariachi.privacy, { retainCallerId: false, missedCallFollowup: false });
   assert.equal(mariachi.language, "English"); assert.equal(mariachiSession.audio.output.voice, "marin");
   const greeting = JSON.stringify(buildGreetingResponse(mariachi));
-  assert.match(greeting, /AI assistant in an independent Fina Calle demo inspired by El Mariachi, not the restaurant/);
-  assert.match(greeting, /This call may be recorded/);
-  assert.match(mariachiSession.instructions, /Offer English or Spanish once/);
+  assert.equal(mariachi.disclosure, "Hi! Thanks for calling El Mariachi. How can I help you today?");
+  assert.match(greeting, /Hi! Thanks for calling El Mariachi/);
+  assert.doesNotMatch(greeting, /recorded|independent/);
+  assert.match(mariachiSession.instructions, /AI assistant in an independent Fina Calle demo, not the restaurant/);
+  assert.match(mariachiSession.instructions, /this call may be recorded/);
+  assert.match(mariachiSession.instructions, /Follow the caller.s chosen English or Spanish/);
+  assert.match(mariachiSession.instructions, /Gracias por llamar a El Mariachi/);
   assert.match(mariachiSession.instructions, /Before answering a menu, price, address, phone or hours question/);
   const knowledge = JSON.parse(mariachi.knowledge!) as { locations: { location: string }[] };
   assert.deepEqual(knowledge.locations.map(location => location.location).sort(), ["Belhaven", "Burgaw", "Jacksonville", "Wallace", "Washington", "Williamston"]);
   assert.ok(mariachiSession.instructions.includes(mariachi.knowledge!));
   assert.doesNotMatch(mariachiSession.instructions, /You may record a message|A staff notification route is configured/);
+});
+check("full menu retrieval preserves every website record and bounded pagination", () => {
+  const mariachi = getTenantById("el-mariachi-demo")!;
+  const snapshot = JSON.parse(readFileSync(path.join(service, "src/data/el-mariachi-jacksonville.json"), "utf8"));
+  const index = JSON.parse(lookupMenu(mariachi, { location: "Jacksonville" }));
+  assert.equal(index.ok, true); assert.equal(index.categories.length, 20);
+  assert.equal(menuLookupMetadata(mariachi)?.itemCount, 260);
+  let count = 0;
+  for (const category of snapshot.categories) {
+    let offset = 0;
+    const returned: Record<string, unknown>[] = [];
+    do {
+      const page = JSON.parse(lookupMenu(mariachi, { location: "Jacksonville", categoryId: category.id, offset }));
+      assert.equal(page.ok, true); assert.ok(page.items.length <= 8);
+      assert.equal(page.totalMatches, category.items.length);
+      returned.push(...page.items);
+      if (page.nextOffset === null) break;
+      assert.ok(page.nextOffset > offset); offset = page.nextOffset;
+    } while (offset < category.items.length);
+    assert.equal(returned.length, category.items.length);
+    for (const item of category.items) {
+      const result = JSON.parse(lookupMenu(mariachi, { location: "Jacksonville", itemId: item.id }));
+      assert.equal(result.totalMatches, 1);
+      const actual = result.items[0];
+      for (const [key, value] of Object.entries(item)) assert.deepEqual(actual[key], value);
+      assert.equal(actual.categoryId, category.id);
+      count++;
+    }
+  }
+  assert.equal(count, 260);
+  const duplicates = JSON.parse(lookupMenu(mariachi, { location: "Jacksonville", query: "Burrito Chipotle" }));
+  assert.ok(duplicates.items.some((i: {id: string}) => i.id === "1124"));
+  assert.ok(duplicates.items.some((i: {id: string}) => i.id === "2933"));
+});
+check("menu lookup rejects unsupported tenants, locations and malformed arguments", () => {
+  const mariachi = getTenantById("el-mariachi-demo")!;
+  for (const tenant of allTenants().filter(t => t.id !== mariachi.id)) {
+    assert.equal(menuLookupMetadata(tenant), undefined);
+    assert.equal(JSON.parse(lookupMenu(tenant, { location: "Jacksonville" })).ok, false);
+    assert.ok(!(buildRealtimeSessionUpdate(tenant).session as {tools: {name:string}[]}).tools.some(t => t.name === "lookup_menu"));
+  }
+  for (const changed of [{...mariachi, tools: undefined}, {...mariachi, menuCatalog: undefined}, {...mariachi, id: "default"}]) {
+    assert.equal(JSON.parse(lookupMenu(changed, { location: "Jacksonville" })).ok, false);
+  }
+  for (const args of [null, [], {location: "Washington"}, {location: "Jacksonville", offset: -1}, {location: "Jacksonville", offset: 1.5}, {location: "Jacksonville", query: "x".repeat(101)}]) {
+    assert.equal(JSON.parse(lookupMenu(mariachi, args as unknown as Record<string, unknown>)).ok, false);
+  }
+  const missing = JSON.parse(lookupMenu(mariachi, { location: "Jacksonville", itemId: "unknown" }));
+  assert.equal(missing.items?.length ?? 0, 0);
 });
 const before = store.stats();
 for (const tool of tools) {

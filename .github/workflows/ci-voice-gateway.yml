@@ -3,11 +3,13 @@ on:
   pull_request:
     paths:
       - "services/voice-gateway/**"
+      - "APP/web/src/app/el-mariachi/jacksonville-menu.json"
       - ".github/workflows/ci-voice-gateway.yml"
   push:
     branches: [main]
     paths:
       - "services/voice-gateway/**"
+      - "APP/web/src/app/el-mariachi/jacksonville-menu.json"
       - ".github/workflows/ci-voice-gateway.yml"
 
 concurrency:
@@ -29,6 +31,7 @@ jobs:
           cache: npm
           cache-dependency-path: services/voice-gateway/package-lock.json
       - run: npm ci
+      - run: npm run check:menu
       - run: npm run typecheck
       - run: npm run simulate
       - run: npm run simulate:sms

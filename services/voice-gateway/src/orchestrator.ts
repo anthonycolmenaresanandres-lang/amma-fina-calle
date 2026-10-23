@@ -3,6 +3,7 @@
 // confirmation — idempotently, so a retried/duplicated confirm never double-books.
 // Every handler is tenant-scoped (multi-tenant: one gateway, many businesses).
 
+import { lookupMenu } from "./menuLookup";
 import { connectorFor } from "./adapter";
 import { store } from "./store";
 import { notifyStaff, notificationWording } from "./notify";
@@ -153,6 +154,7 @@ export async function runTool(tenant: Tenant, callId: string, name: string, args
       : "That tool is not available for this tenant.";
   }
   try {
+    if (name === "lookup_menu") return lookupMenu(tenant, args);
     if (name === "list_services") {
       const s = await connectorFor(tenant).listServices();
       return "Services: " + s.map((x) => `${x.name} (${x.durationMin}m)`).join(", ");

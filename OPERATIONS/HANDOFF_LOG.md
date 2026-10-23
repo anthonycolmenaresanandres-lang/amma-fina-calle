@@ -3737,3 +3737,7 @@ Viewed both user screenshots before identifying/removing the green Tacos/Fajitas
 
 ### [CHECK-IN] Codex - 2026-10-23 - El Mariachi category refinement merge approved
 Anthony instructed When done please merge for the screenshot-grounded green-strip removal, top category navigation in green/white/red and hidden item counts. This supersedes this revision's local publication hold. Checked implementation05b8ab7 preserves the 260-item menu/prices, images, game and phone. Proceed through the normal feature PR, unchanged required CI, protected merge and automatic Vercel production deployment to finacalleos.com. No extra browser/gameplay/smoke checks or calls; confirm source-control/deployment metadata only. No unrelated scope or new spending/services/access.
+
+
+### [CHECK-IN] Codex - 2026-10-23 - complete El Mariachi voice menu
+Anthony requests all current menu items and a short warm greeting on the existing El Mariachi demo line. Reconciled main7933169 and live Render e670247 / six-tenant registry. Scope: all260 Jacksonville site records via bounded read-only retrieval, exact requested greeting, same bilingual honesty/action/privacy boundaries. Existing number routing, VBFH666, shared Fina Calle SMS300, other personas, caller retention and services unchanged. User authorizes checked PR/merge and existing Render auto-deployment; no calls, model probes, browser/gameplay/smoke QA. Existing mandatory CI remains; local static/type/data checks only. Later food/texture website revision stays separate and unpublished pending approval.
