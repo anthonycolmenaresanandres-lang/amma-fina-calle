@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { BRAND_URL } from "./data";
+import { visualAssets } from "./visual-assets";
 import styles from "./menu.module.css";
 
-const title = "El Mariachi Mex & Grill | Fina Calle concept";
-const description = "An independent Fina Calle menu and play concept for El Mariachi Mex & Grill. Not commissioned, approved, or operated by the restaurant.";
+const title = "El Mariachi Jacksonville | Fina Calle concept";
+const description = "An independent Fina Calle menu and play concept for El Mariachi Mex & Grill in Jacksonville, North Carolina. Not commissioned, approved, or operated by the restaurant.";
 
 export const metadata: Metadata = {
   title,
@@ -40,7 +41,8 @@ export default function ElMariachiLayout({ children }: { children: React.ReactNo
           </Link>
           <div className={styles.footerNote}>
             <p>Independent concept. Not commissioned or approved by El Mariachi.</p>
-            <p>Logo and food photos from <a href={BRAND_URL} target="_blank" rel="noopener noreferrer">the official website<span className={styles.srOnly}> (opens in a new tab)</span></a>. Restaurant ordering opens on its existing service.</p>
+            <p>Logo and original food photos from <a href={BRAND_URL} target="_blank" rel="noopener noreferrer">the official website<span className={styles.srOnly}> (opens in a new tab)</span></a>. Restaurant ordering opens on its existing service.</p>
+            {(visualAssets.grill.generated || visualAssets.courtyard) && <p>AI-styled grill photography and an imagined courtyard illustrate this concept; the setting is not a photograph of an El Mariachi location.</p>}
           </div>
         </div>
       </footer>
