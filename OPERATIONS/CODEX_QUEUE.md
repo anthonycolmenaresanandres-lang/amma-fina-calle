@@ -1344,3 +1344,9 @@ Local preparation complete: two screenshots viewed; exact green decorative strip
 
 ## [ ] El Mariachi complete voice menu - 2026-10-23
 Authorized live content/capability update on existing El Mariachi voice300 only: all260 current Jacksonville menu entries and short warm greeting. Scoped paginated read-only menu lookup; preserve other personas/routing/SMS/privacy/no-order boundaries. Branch codex/el-mariachi-full-voice-menu-20261023 from7933169. Required static/typecheck and existing remote CI; protected PR/merge then Render live/config readback. No calls, browser/gameplay/smoke or model probes, spending/services/access. Follow-on website imagery/texture is separate, not approved for publication.
+
+
+## [ ] El Mariachi food photography and texture - 2026-10-23 LOCAL PREPARATION
+After completed phone release PR358, integrate the exact approved Fajitas fundida/Pizza Birria Library cutouts and add subtle whole-page plaster/terracotta texture. Keep menu, existing courtyard/hero, category layout/colors, game and phone unchanged. Static/build checks allowed; no browser/gameplay/smoke/calls. No remote publication approved for this separate visual revision.
+
+Publication approval: Anthony's Merge them all supersedes the visual revision hold. Phone release358already complete; release only this scoped imagery/texture branch through required CI and Vercel metadata verification.
