@@ -1,0 +1,112 @@
+.game {
+  --cream: var(--em-cream, #fff5d9);
+  --green: var(--em-green, #1d4c37);
+  --chili: var(--em-chili, #c63325);
+  --gold: var(--em-gold, #f2ba45);
+  --ink: var(--em-ink, #183a2c);
+  min-height: 100svh;
+  padding: 20px 20px calc(7rem + env(safe-area-inset-bottom));
+  color: var(--ink);
+  background: var(--cream);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+.game button, .game a, .game summary { -webkit-tap-highlight-color: transparent; }
+.game button { font: inherit; cursor: pointer; }
+.game :is(a, button, summary):focus-visible { outline: 3px solid var(--chili); outline-offset: 5px; }
+.header { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; }
+.logo { width: 98px; height: 98px; object-fit: contain; }
+.gameLayout { max-width: 1100px; margin: 20px auto 0; }
+.intro { max-width: 520px; margin: 0 auto 24px; }
+.eyebrow { margin: 0 0 12px; font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+.intro h1 { margin: 0; font-family: Impact, "Arial Narrow", "Arial Black", sans-serif; font-size: clamp(49px, 11vw, 76px); line-height: 1.02; font-weight: 400; letter-spacing: -.025em; text-transform: uppercase; }
+.intro h1 span { color: var(--chili); }
+.lead { margin: 16px 0 0; font-weight: 650; font-size: 19px; line-height: 1.3; }
+.lead br { display: none; }
+.lead br::after { content: " "; }
+.instructions { margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 35ch; }
+.keyboard { margin: 18px 0 0; font-size: 11px; color: #4d6351; line-height: 1.7; display: none; }
+.keyboard kbd { border-bottom: 1px solid #8f9e83; font: inherit; padding: 1px 3px; }
+.playArea { max-width: 520px; min-width: 0; margin: 0 auto; }
+.scoreboard { display: flex; align-items: end; justify-content: space-between; padding: 0 8px 16px; }
+.scoreboard div { min-width: 70px; }
+.scoreboard div:last-child { text-align: right; }
+.scoreboard span { display: block; margin-bottom: 3px; font-size: 10px; letter-spacing: .12em; font-weight: 700; text-transform: uppercase; }
+.scoreboard strong { display: block; font-size: 29px; font-weight: 750; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+.scoreboard strong small { font-size: 16px; padding-left: 3px; font-weight: 500; }
+.clock { text-align: center; }
+.instrument { position: relative; padding: 16px 5px 18px; border-radius: 48% 48% 12px 12px / 15% 15% 12px 12px; overflow: hidden; background: var(--green); color: var(--cream); }
+.feedback { position: relative; z-index: 2; margin: 0; height: 24px; text-align: center; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+.stage { position: relative; width: 100%; aspect-ratio: 1; max-width: 400px; margin: 0 auto; }
+.rosette, .cues, .renderer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rosette { color: var(--gold); opacity: .45; }
+.renderer { overflow: hidden; }
+.cues { z-index: 1; }
+.target { position: absolute; z-index: 2; left: 31%; top: 31%; width: 38%; height: 38%; border: 0; border-radius: 50%; background: var(--cream); color: var(--green); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.target > span:not(.targetOrnament) { font-size: clamp(17px, 4.5vw, 24px); font-weight: 750; letter-spacing: -.025em; }
+.target small { font-size: 10px; font-weight: 550; }
+.targetOrnament { font-size: 21px; color: var(--chili); line-height: 1; margin-bottom: 4px; }
+.stage[data-beat="true"] .target { background: var(--gold); }
+.game .target:focus-visible { outline: 3px solid var(--gold); outline-offset: 9px; }
+.stageNote { margin: 0; text-align: center; font-size: 10px; line-height: 1.4; color: #eddfb6; min-height: 15px; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+.controls button, .controls a { min-height: 46px; padding: 8px 2px; border: 0; background: transparent; color: var(--green); display: inline-flex; gap: 9px; align-items: center; font-size: 12px; font-weight: 700; text-underline-offset: 5px; }
+.controls button:hover, .controls a:hover { text-decoration: underline; }
+.audioNote { margin: 5px 0 0; text-align: center; font-size: 10px; color: #4d6351; line-height: 1.5; }
+.rules { margin-top: 24px; padding-top: 16px; border-top: 1px solid #ccc9a8; color: #41543e; font-size: 12px; line-height: 1.7; }
+.rules summary { cursor: pointer; min-height: 44px; font-weight: 650; }
+.rules p { margin: 5px 0 14px; max-width: 58ch; }
+.result { position: absolute; z-index: 3; inset: 17% 10%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px; }
+.result h2 { font-size: clamp(21px, 5vw, 28px); font-weight: 650; letter-spacing: -.04em; line-height: 1.08; max-width: 12ch; margin: 0; text-wrap: balance; }
+.result h2:focus { outline: 2px solid var(--gold); outline-offset: 7px; border-radius: 2px; }
+.finalScore { font-size: clamp(46px, 12vw, 64px); font-family: Impact, "Arial Narrow", "Arial Black", sans-serif; line-height: .95; letter-spacing: .01em; color: var(--gold); font-weight: 400; }
+.finalScore small { display: block; font-family: var(--font-geist-sans), Arial, sans-serif; font-size: 11px; font-weight: 600; line-height: 1; letter-spacing: .05em; text-transform: uppercase; margin-top: 8px; }
+.replay { display: flex; justify-content: center; align-items: center; gap: 25px; min-height: 46px; min-width: 160px; padding: 11px 22px; border: 0; border-radius: 100px; color: var(--green); background: var(--cream); font-size: 13px !important; font-weight: 700 !important; }
+.replay:hover { background: var(--gold); }
+.game .replay:focus-visible { outline-color: var(--gold); }
+.instrument[data-mode="result"] .rosette { opacity: .13; }
+.instrument[data-mode="result"] .cues { opacity: 0; }
+.resultsStats { display: flex; justify-content: space-between; margin: 20px 0 4px; padding: 0 4px; gap: 10px; }
+.resultsStats div { display: flex; flex-direction: column-reverse; gap: 4px; text-align: center; }
+.resultsStats dt { font-size: 10px; color: #4d6351; }
+.resultsStats dd { margin: 0; font-size: 22px; font-weight: 750; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (min-width: 760px) {
+  .game { padding: 24px 40px 64px; }
+  .gameLayout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(330px, 450px); gap: 48px; align-items: start; margin-top: 48px; }
+  .intro { margin: 48px 0 0; }
+  .intro h1 { font-size: clamp(76px, 7.4vw, 110px); }
+  .intro h1 span { display: block; }
+  .eyebrow { font-size: 10px; max-width: 30ch; line-height: 1.7; margin-bottom: 24px; }
+  .lead { font-size: 24px; margin-top: 28px; line-height: 1.25; }
+  .lead br { display: block; }
+  .instructions { margin-top: 22px; font-size: 15px; }
+  .keyboard { display: block; }
+  .playArea { width: 100%; }
+  .instrument { padding-top: 22px; padding-bottom: 23px; }
+  .scoreboard { padding-bottom: 22px; }
+  .scoreboard strong { font-size: 34px; }
+  .target > span:not(.targetOrnament) { font-size: 24px; }
+  .stageNote { font-size: 11px; }
+}
+@media (min-width: 1150px) { .gameLayout { gap: 90px; } }
+@media (max-width: 359px) {
+  .game { padding-left: 14px; padding-right: 14px; }
+  .intro h1 { font-size: 44px; }
+  .target > span:not(.targetOrnament) { font-size: 17px; }
+  .targetOrnament { font-size: 17px; }
+  .target small { font-size: 9px; }
+  .result { gap: 12px; }
+  .result h2 { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game *, .game *::before, .game *::after { scroll-behavior: auto; animation: none; transition: none; }
+}
+.skipLink { position: absolute; z-index: 60; top: 8px; left: 16px; padding: 12px 20px; background: var(--green); color: var(--cream); transform: translateY(-150%); }
+.skipLink:focus { transform: translateY(0); }
+.concept { margin-left: 16px; font-size: 10px; max-width: 12ch; line-height: 1.4; text-transform: uppercase; letter-spacing: .08em; color: #4d6351; }
+.playArea { scroll-margin-top: 20px; }
+.playArea:focus-visible { outline: 2px solid var(--chili); outline-offset: 8px; }
+.target:hover { background: var(--gold); }
+@media (hover: none) { .target:hover { background: var(--cream); } .stage[data-beat="true"] .target { background: var(--gold); } }
+@media (min-width: 760px) { .playArea { scroll-margin-top: 100px; } }
