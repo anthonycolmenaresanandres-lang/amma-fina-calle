@@ -6,7 +6,7 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowDown, ArrowRight, ArrowUpRight, ChevronDown, Clock3, MapPin, Phone, Plus, Search, X } from "lucide-react";
 import { ElMariachiNav } from "./ElMariachiNav";
-import { BRAND_URL, MENU_RETRIEVED, LOGO_PATH, categories, getCategory, jacksonville, normalizeSearch, totalItems, type Location, type MenuItem } from "./data";
+import { BRAND_URL, MENU_RETRIEVED, LOGO_PATH, categories, getCategory, jacksonville, normalizeSearch, type Location, type MenuItem } from "./data";
 import { visualAssets } from "./visual-assets";
 import styles from "./menu.module.css";
 
@@ -155,8 +155,9 @@ export default function MenuExperience() {
   const visibleCategories = useMemo(() => {
     const search = normalizeSearch(deferredQuery);
     return categories
-      .map((category) => ({
+      .map((category, index) => ({
         ...category,
+        tone: ["green", "white", "red"][index % 3],
         items: category.items.filter((item) => !search || normalizeSearch(`${item.name} ${item.description} ${category.name}`).includes(search)),
       }))
       .filter((category) => category.items.length > 0);
@@ -182,8 +183,17 @@ export default function MenuExperience() {
       </header>
       <main>
         <HeroScene />
-        <div className={styles.flavorLine} aria-hidden="true"><span>Tacos</span><span>✦</span><span>Fajitas</span><span>✦</span><span>Birria</span><span>✦</span><span>Y mucho más</span></div>
         <section id="menu" className={styles.menuSection} aria-labelledby="menu-heading" tabIndex={-1}>
+          <nav className={styles.categoryNav} aria-label="Menu categories">
+            <div className={styles.categoryNavLabel}><span>Choose a category</span><span>{visibleCategories.length > 0 && <>Scroll for more<ArrowRight size={14} aria-hidden="true" /></>}</span></div>
+            <div className={styles.categoryBar}>
+              {visibleCategories.length > 0 ? visibleCategories.map((category) => (
+                <button type="button" key={category.id} data-tone={category.tone} aria-pressed={categoryId === category.id} aria-expanded={categoryId === category.id} aria-controls={`panel-${category.id}`} onClick={() => selectCategory(category.id)}>
+                  <span>{category.name}</span>
+                </button>
+              )) : <p className={styles.categoryEmpty}>No matching categories</p>}
+            </div>
+          </nav>
           <div className={styles.menuHeadingRow}>
             <div><p className={styles.eyebrow}>Something for every craving</p><h2 id="menu-heading" className={styles.sectionTitle}>The menu<span>.</span></h2></div>
             <p className={styles.menuLocation}><MapPin size={17} aria-hidden="true" />Jacksonville, NC</p>
@@ -197,21 +207,9 @@ export default function MenuExperience() {
               {query && <button type="button" aria-label="Clear menu search" onClick={() => { updateSearch(""); document.getElementById("mariachi-search")?.focus(); }}><X size={18} aria-hidden="true" /></button>}
             </div>
           </div>
-          {visibleCategories.length > 0 && (
-            <nav className={styles.categoryNav} aria-label="Menu categories">
-              <div className={styles.categoryNavLabel}><span>Choose a category</span><span>Scroll for more<ArrowRight size={14} aria-hidden="true" /></span></div>
-              <div className={styles.categoryBar}>
-                {visibleCategories.map((category) => (
-                  <button type="button" key={category.id} aria-pressed={categoryId === category.id} aria-expanded={categoryId === category.id} aria-controls={`panel-${category.id}`} onClick={() => selectCategory(category.id)}>
-                    <span>{category.name}</span><span className={styles.categoryCount}>{category.items.length}<span className={styles.srOnly}> dishes</span></span>
-                  </button>
-                ))}
-              </div>
-            </nav>
-          )}
           <div className={styles.menuResults} aria-busy={query !== deferredQuery}>
             <div className={styles.menuResultMeta}>
-              <p role="status" aria-live="polite" aria-atomic="true">{query ? `${resultCount} ${resultCount === 1 ? "dish" : "dishes"} in ${visibleCategories.length} ${visibleCategories.length === 1 ? "category" : "categories"}` : `${totalItems} dishes · ${categories.length} categories`}</p>
+              <p className={styles.srOnly} role="status" aria-live="polite" aria-atomic="true">{query ? `${resultCount} ${resultCount === 1 ? "dish" : "dishes"} in ${visibleCategories.length} ${visibleCategories.length === 1 ? "category" : "categories"}` : "All menu categories available"}</p>
               <span>Open a category, then a dish for details</span>
             </div>
             {visibleCategories.length === 0 ? (
@@ -227,7 +225,7 @@ export default function MenuExperience() {
                   <h3 className={styles.categoryHeading}>
                     <button type="button" id={`heading-${category.id}`} className={styles.categoryToggle} aria-expanded={expanded} aria-controls={`panel-${category.id}`} onClick={() => toggleCategory(category.id)}>
                       <span>{category.name}</span>
-                      <span className={styles.categoryToggleMeta}>{category.items.length}<span className={styles.srOnly}> dishes</span><ChevronDown size={22} aria-hidden="true" /></span>
+                      <span className={styles.categoryToggleMeta}><ChevronDown size={22} aria-hidden="true" /></span>
                     </button>
                   </h3>
                   <div id={`panel-${category.id}`} className={styles.categoryPanel} hidden={!expanded}>
