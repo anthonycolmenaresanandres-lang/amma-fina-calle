@@ -4,6 +4,7 @@
 // tenant id rides into the Media Stream so the session uses that business's Knowledge
 // Pack + connector. Run on an always-on host (Render/Fly/Railway/VM), NOT serverless.
 
+import { menuLookupMetadata } from "./menuLookup";
 import http from "node:http";
 import OpenAIWebSocket, { WebSocketServer, type RawData, WebSocket } from "ws";
 import twilio from "twilio";
@@ -163,6 +164,7 @@ const server = http.createServer(async (req, res) => {
       phoneNumbers: t.phoneNumbers, voicePhoneNumbers: t.voicePhoneNumbers ?? [],
       connector: t.connector, hours: t.business.hours,
       services: t.business.services.map((s) => s.name),
+      ...(menuLookupMetadata(t) ? { menu: menuLookupMetadata(t), greeting: t.disclosure } : {}),
     }));
     res.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({ count: list.length, tenants: list }, null, 2));
     return;

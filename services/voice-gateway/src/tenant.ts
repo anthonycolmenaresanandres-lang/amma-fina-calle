@@ -30,6 +30,7 @@ export interface Tenant {
   voice: string;
   language: string; // spoken language the agent answers in (e.g. "English", "Mandarin Chinese")
   instructions?: string; // full system-instruction override (e.g. an info/Q&A line instead of the booking flow)
+  menuCatalog?: "el-mariachi-jacksonville"; // explicit read-only catalog opt-in
   knowledge?: string; // knowledge pack appended to the override instructions (the facts the bot may use)
   tools?: string[]; // undefined = all tools; [] = no tools; otherwise an enforced allow-list
   soundGate: typeof config.soundGate; // barge-in debounce referee (whole-object override)
@@ -75,6 +76,7 @@ function mergeTenant(def: Tenant, t: Partial<Tenant>, i: number): Tenant {
     language: t.language ?? def.language,
     instructions: t.instructions ?? def.instructions,
     knowledge: t.knowledge ?? def.knowledge,
+    menuCatalog: t.menuCatalog,
     tools: t.tools ?? def.tools,
     soundGate: t.soundGate ?? def.soundGate,
   };

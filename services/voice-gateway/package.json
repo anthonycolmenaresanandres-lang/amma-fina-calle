@@ -16,7 +16,9 @@
     "typecheck": "tsc --noEmit",
     "simulate:reliability": "tsx src/simulateReliability.ts",
     "simulate:maracaibo": "tsx src/simulateMaracaibo.ts",
-    "simulate:privacy": "tsx src/simulateDemoPrivacy.ts"
+    "simulate:privacy": "tsx src/simulateDemoPrivacy.ts",
+    "sync:menu": "node scripts/sync-el-mariachi-menu.mjs",
+    "check:menu": "node scripts/sync-el-mariachi-menu.mjs --check"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

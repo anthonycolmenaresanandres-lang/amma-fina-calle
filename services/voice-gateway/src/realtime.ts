@@ -8,6 +8,7 @@
 import WebSocket from "ws";
 import { config, requireOpenAI } from "./config";
 import { tools, systemInstructions } from "./tools";
+import { menuLookupTool, menuLookupMetadata } from "./menuLookup";
 import { runTool } from "./orchestrator";
 import { BargeInGate } from "./soundgate";
 import { store } from "./store";
@@ -36,7 +37,7 @@ export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unkno
     type: "session.update",
     session: {
       type: "realtime",
-      instructions: instructions + "\n\n" + (tenant.tools?.length === 0
+      instructions: instructions + "\n\n" + (tenant.tools?.length === 0 || menuLookupMetadata(tenant)
         ? "Esta demostración es solo informativa: no registra mensajes, no notifica al restaurante y no promete seguimiento."
         : handoffInstructions(Boolean(tenant.notify?.staffWebhookUrl?.trim()))),
       output_modalities: ["audio"],
@@ -52,7 +53,7 @@ export function buildRealtimeSessionUpdate(tenant: Tenant): Record<string, unkno
           voice: tenant.voice,
         },
       },
-      tools: advertisedTools,
+      tools: menuLookupMetadata(tenant) ? [...advertisedTools, menuLookupTool] : advertisedTools,
       tool_choice: "auto",
     },
   };
