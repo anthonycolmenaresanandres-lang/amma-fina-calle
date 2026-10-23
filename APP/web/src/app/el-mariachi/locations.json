@@ -1,0 +1,326 @@
+{
+  "brand": "El Mariachi Mex And Grill",
+  "capturedAt": "2026-10-23",
+  "primarySource": "https://www.elmariachimexandgrillnc.com/",
+  "locationSource": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+  "notes": [
+    "Hours are copied from the per-location blocks on the official homepage; they are local North Carolina time.",
+    "The generic hours in the location-selector footer belong to Washington; do not apply them to all locations.",
+    "Menu URLs are each location-specific public ordering entry points, with pickup/delivery selected by the official service.",
+    "Source research only: no restaurant contact, no cart submission, no application testing."
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "slug": "washington",
+      "name": "Washington",
+      "street": "1302 Carolina Ave",
+      "city": "Washington",
+      "state": "NC",
+      "postalCode": "27889",
+      "fullAddress": "1302 Carolina Ave, Washington, NC 27889",
+      "phone": "(252) 975-1505",
+      "phoneHref": "tel:+12529751505",
+      "hours": {
+        "Sun": "11:00 am - 9:00 pm",
+        "Mon": "11:00 am - 10:00 pm",
+        "Tue": "11:00 am - 10:00 pm",
+        "Wed": "11:00 am - 10:00 pm",
+        "Thu": "11:00 am - 10:00 pm",
+        "Fri": "11:00 am - 10:00 pm",
+        "Sat": "11:00 am - 10:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 35.5580215,
+        "longitude": -77.06052389999999
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1302-Carolina-Ave/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1302-Carolina-Ave/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": true,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "1",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "Official delivery button launches an address/estimate modal; the location form has delivery=1, op=setCart, and this location id.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1302-Carolina-Ave/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    },
+    {
+      "id": 2,
+      "slug": "williamston",
+      "name": "Williamston",
+      "street": "129 West Blvd",
+      "city": "Williamston",
+      "state": "NC",
+      "postalCode": "27892",
+      "fullAddress": "129 West Blvd, Williamston, NC 27892",
+      "phone": "(252) 802-4119",
+      "phoneHref": "tel:+12528024119",
+      "hours": {
+        "Sun": "11:00 am - 9:30 pm",
+        "Mon": "11:00 am - 10:00 pm",
+        "Tue": "11:00 am - 10:00 pm",
+        "Wed": "11:00 am - 10:00 pm",
+        "Thu": "11:00 am - 10:00 pm",
+        "Fri": "11:00 am - 11:00 pm",
+        "Sat": "11:00 am - 11:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 35.8410376,
+        "longitude": -77.0672343
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/129-West-Blvd/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/129-West-Blvd/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": true,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "2",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "Official delivery button launches an address/estimate modal; the location form has delivery=1, op=setCart, and this location id.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/129-West-Blvd/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    },
+    {
+      "id": 3,
+      "slug": "wallace",
+      "name": "Wallace",
+      "street": "5680 NC-41",
+      "city": "Wallace",
+      "state": "NC",
+      "postalCode": "28466",
+      "fullAddress": "5680 NC-41, Wallace, NC 28466",
+      "phone": "(910) 665-1790",
+      "phoneHref": "tel:+19106651790",
+      "hours": {
+        "Sun": "11:00 am - 9:30 pm",
+        "Mon": "11:00 am - 10:00 pm",
+        "Tue": "11:00 am - 10:00 pm",
+        "Wed": "11:00 am - 10:00 pm",
+        "Thu": "11:00 am - 10:00 pm",
+        "Fri": "11:00 am - 11:00 pm",
+        "Sat": "11:00 am - 11:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 34.74093789999999,
+        "longitude": -77.9738795
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/5680-NC-41/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/5680-NC-41/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": true,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "3",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "Official delivery button launches an address/estimate modal; the location form has delivery=1, op=setCart, and this location id.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/5680-NC-41/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    },
+    {
+      "id": 4,
+      "slug": "jacksonville",
+      "name": "Jacksonville",
+      "street": "1305 N Marine Blvd",
+      "city": "Jacksonville",
+      "state": "NC",
+      "postalCode": "28540",
+      "fullAddress": "1305 N Marine Blvd, Jacksonville, NC 28540",
+      "phone": "(910) 353-5886",
+      "phoneHref": "tel:+19103535886",
+      "hours": {
+        "Sun": "11:00 am - 9:30 pm",
+        "Mon": "11:00 am - 10:00 pm",
+        "Tue": "11:00 am - 10:00 pm",
+        "Wed": "11:00 am - 10:00 pm",
+        "Thu": "11:00 am - 10:00 pm",
+        "Fri": "11:00 am - 11:00 pm",
+        "Sat": "11:00 am - 11:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 34.7659993,
+        "longitude": -77.4088525
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1305-N-Marine-Blvd/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1305-N-Marine-Blvd/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": true,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "4",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "Official delivery button launches an address/estimate modal; the location form has delivery=1, op=setCart, and this location id.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/1305-N-Marine-Blvd/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    },
+    {
+      "id": 5,
+      "slug": "belhaven",
+      "name": "Belhaven",
+      "street": "458 Pamlico St",
+      "city": "Belhaven",
+      "state": "NC",
+      "postalCode": "27810",
+      "fullAddress": "458 Pamlico St, Belhaven, NC 27810",
+      "phone": "(252) 943-2000",
+      "phoneHref": "tel:+12529432000",
+      "hours": {
+        "Sun": "11:00 am - 9:00 pm",
+        "Mon": "11:00 am - 9:00 pm",
+        "Tue": "11:00 am - 9:00 pm",
+        "Wed": "11:00 am - 9:00 pm",
+        "Thu": "11:00 am - 9:00 pm",
+        "Fri": "11:00 am - 11:00 pm",
+        "Sat": "11:00 am - 11:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 35.5394215,
+        "longitude": -76.6187296
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/458-Pamlico-St/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/458-Pamlico-St/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": true,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "5",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "Official delivery button launches an address/estimate modal; the location form has delivery=1, op=setCart, and this location id.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/458-Pamlico-St/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    },
+    {
+      "id": 6,
+      "slug": "burgaw",
+      "name": "Burgaw",
+      "street": "409 US Hwy 117 Byp N",
+      "city": "Burgaw",
+      "state": "NC",
+      "postalCode": "28425",
+      "fullAddress": "409 US Hwy 117 Byp N, Burgaw, NC 28425",
+      "phone": "(910) 300-6362",
+      "phoneHref": "tel:+19103006362",
+      "hours": {
+        "Sun": "11:00 am - 9:00 pm",
+        "Mon": "11:00 am - 10:00 pm",
+        "Tue": "11:00 am - 10:00 pm",
+        "Wed": "11:00 am - 10:00 pm",
+        "Thu": "11:00 am - 10:00 pm",
+        "Fri": "11:00 am - 10:00 pm",
+        "Sat": "11:00 am - 10:00 pm"
+      },
+      "timezone": "America/New_York",
+      "coordinates": {
+        "latitude": 34.5582286,
+        "longitude": -77.9191884
+      },
+      "orderUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/409-US-Hwy-117-Byp-N/",
+      "menuUrl": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/409-US-Hwy-117-Byp-N/",
+      "pickupAvailable": true,
+      "deliveryAvailableOnOfficialPage": false,
+      "orderingSource": {
+        "locationSelectorUrl": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "pickupForm": {
+          "method": "POST",
+          "fields": {
+            "lid": "6",
+            "delivery": "0",
+            "op": "setCart"
+          },
+          "action": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/"
+        },
+        "deliveryNote": "No delivery button is present for Burgaw on the official locations page.",
+        "linkVerification": "Direct GET returned location-specific menu title and self-link for this exact address. No order was started or submitted."
+      },
+      "sources": {
+        "hours": "https://www.elmariachimexandgrillnc.com/",
+        "directMenu": "https://fromtherestaurant.com/el-mariachi-mex-and-grill/menu/409-US-Hwy-117-Byp-N/",
+        "coordinates": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "ordering": "https://elmariachimexandgrillnc.com/el-mariachi-mex-and-grill/locations/",
+        "address": "https://www.elmariachimexandgrillnc.com/",
+        "phone": "https://www.elmariachimexandgrillnc.com/"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "APP/web/public/assets/el-mariachi/official-logo.png",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-jxn7kcl3-logo.png",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "capturedAt": "2026-10-23",
+    "originalBytes": 262551,
+    "width": 826,
+    "height": 826,
+    "description": "Official logo with mariachi musician, red/orange wordmark and green Mex & Grill banner on a white circular background.",
+    "modification": "Downloaded unchanged; renamed for route use",
+    "authorization": "User requested real official public brand assets for an independent prospect concept. No restaurant approval or license inferred."
+  },
+  {
+    "file": "APP/web/public/assets/el-mariachi/official-grill.jpg",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-72zbqk4r-food1.jpg",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "capturedAt": "2026-10-23",
+    "originalBytes": 218366,
+    "width": 1047,
+    "height": 785,
+    "description": "Official homepage food image: grilled meats, cactus and fried egg. Source does not identify the menu item.",
+    "modification": "Downloaded unchanged; renamed for route use",
+    "authorization": "User requested real official public brand assets for an independent prospect concept. No restaurant approval or license inferred."
+  },
+  {
+    "file": "APP/web/public/assets/el-mariachi/official-fajitas.jpg",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-fb8tjpvc-food2.jpg",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "capturedAt": "2026-10-23",
+    "originalBytes": 108496,
+    "width": 922,
+    "height": 692,
+    "description": "Official homepage food image; embedded image text reads Fajitas fundida.",
+    "modification": "Downloaded unchanged; renamed for route use",
+    "authorization": "User requested real official public brand assets for an independent prospect concept. No restaurant approval or license inferred."
+  },
+  {
+    "file": "APP/web/public/assets/el-mariachi/official-birria.jpg",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-x2nh5qgc-food3.jpg",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "capturedAt": "2026-10-23",
+    "originalBytes": 149601,
+    "width": 922,
+    "height": 692,
+    "description": "Official homepage food image; embedded image text reads Pizza Birria.",
+    "modification": "Downloaded unchanged; renamed for route use",
+    "authorization": "User requested real official public brand assets for an independent prospect concept. No restaurant approval or license inferred."
+  }
+]
