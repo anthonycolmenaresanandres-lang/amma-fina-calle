@@ -14,6 +14,22 @@ const dayNames: Record<string, string> = {
   Sun: "Sunday", Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday",
 };
 
+function FeaturedDish({ dish }: { dish: (typeof visualAssets.food)[number] }) {
+  const [failed, setFailed] = useState(false);
+  const image = failed ? dish.fallback : dish;
+  return (
+    <figure className={styles.foodFigure}>
+      <div className={styles.foodImageWrap}>
+        <Image src={image.src} alt={image.alt} width={image.width} height={image.height}
+          sizes="(max-width: 760px) 46vw, (max-width: 1440px) 24vw, 330px"
+          className={failed ? styles.foodPhotoFallback : styles.foodCutout}
+          onError={() => setFailed(true)} />
+      </div>
+      <figcaption className={styles.foodCaption}>{dish.label}</figcaption>
+    </figure>
+  );
+}
+
 function ExternalArrow() {
   return <ArrowUpRight size={18} aria-hidden="true" />;
 }
@@ -242,8 +258,7 @@ export default function MenuExperience() {
         </section>
         <section className={styles.interlude} aria-labelledby="play-heading">
           <div className={styles.interludePhotos}>
-            <Image src="/assets/el-mariachi/official-fajitas.jpg" alt="El Mariachi's official photograph labeled Fajitas fundida, served in a pineapple" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
-            <Image src="/assets/el-mariachi/official-birria.jpg" alt="El Mariachi's official photograph labeled Pizza Birria, with salsa and consommé" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
+            {visualAssets.food.map(dish => <FeaturedDish key={dish.src} dish={dish} />)}
           </div>
           <div className={styles.interludeCopy}>
             <p className={styles.eyebrow}>A little break at the table</p>

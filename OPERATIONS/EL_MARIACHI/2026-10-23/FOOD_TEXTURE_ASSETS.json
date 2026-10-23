@@ -1,0 +1,30 @@
+[
+  {
+    "file": "fajitas-cutout-v1.webp",
+    "libraryId": "libfile_feaef0f638c081919f2f0709bcfbf0f2",
+    "width": 1536,
+    "height": 1024,
+    "originalBytes": 2764036,
+    "deliveryBytes": 477296,
+    "sourceSHA256": "2395ec0431fb984404e03ff3cd118a011e09d4c46f70a7373da0b11b118a4d2b",
+    "deliverySHA256": "f54b773ec506f832f456578d5dc12d158dccaabe5f350d49a97615aaf633374f",
+    "transparentPixels": 684040,
+    "nearOpaquePixels": 846468,
+    "alphaPreservedExactly": true,
+    "sourcePhoto": "https://finacalleos.com/assets/el-mariachi/official-fajitas.jpg"
+  },
+  {
+    "file": "pizza-birria-cutout-v1.webp",
+    "libraryId": "libfile_61706bb609d48191a58cbdefc7fde886",
+    "width": 1536,
+    "height": 1024,
+    "originalBytes": 3237873,
+    "deliveryBytes": 558334,
+    "sourceSHA256": "5a0b10a019706a695ff6ca4c808dc348783676ace7c5b5d36b9f8f145b3963ff",
+    "deliverySHA256": "f392f4fb2a64ae300975ca5b558c65fc943bb7ec282c283bbd7af891bc5b26d5",
+    "transparentPixels": 404586,
+    "nearOpaquePixels": 1151857,
+    "alphaPreservedExactly": true,
+    "sourcePhoto": "https://finacalleos.com/assets/el-mariachi/official-birria.jpg"
+  }
+]
