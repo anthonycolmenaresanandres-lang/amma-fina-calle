@@ -2,285 +2,273 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { Pause, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Pause, Play, RotateCcw } from "lucide-react";
 import { ElMariachiNav } from "./ElMariachiNav";
-import { MariachiAudio } from "./rhythm-audio";
-import { BEATS, BEAT_COUNT, FIRST_BEAT_MS, ROUND_MS, MariachiRound, beatCue, initialView, type RoundView } from "./rhythm-engine";
+import { CourtyardRound, GROWTH, WORLD_HEIGHT, WORLD_WIDTH, createHoleState, type HoleInput } from "./hole-engine";
+import { drawCourtyard } from "./hole-drawing";
 import styles from "./game.module.css";
 
-function Rosette() {
-  return <svg className={styles.rosette} viewBox="0 0 400 400" fill="none" aria-hidden="true">
-    <circle cx="200" cy="200" r="112" stroke="currentColor" strokeWidth="1" />
-    <circle cx="200" cy="200" r="104" stroke="currentColor" strokeWidth="2" />
-    {Array.from({ length: 24 }, (_, index) => <path key={index} d="M200 88l4 9-4 7-4-7z" fill="currentColor" transform={`rotate(${index * 15} 200 200)`} />)}
-    {[184, 190, 196, 204, 210, 216].map(x => <path key={x} d={`M${x} 24v60M${x} 316v60`} stroke="currentColor" strokeWidth="1" opacity=".5" />)}
-    <path d="M175 38h50M175 61h50M175 339h50M175 362h50" stroke="currentColor" strokeWidth="2" opacity=".45" />
-  </svg>;
-}
+const DIRECTIONS = {
+  up: { x: 0, y: -1, Icon: ArrowUp },
+  left: { x: -1, y: 0, Icon: ArrowLeft },
+  down: { x: 0, y: 1, Icon: ArrowDown },
+  right: { x: 1, y: 0, Icon: ArrowRight },
+};
+type Direction = keyof typeof DIRECTIONS;
+const MOVEMENT: Record<string, HoleInput> = {
+  ArrowUp: DIRECTIONS.up, ArrowDown: DIRECTIONS.down, ArrowLeft: DIRECTIONS.left, ArrowRight: DIRECTIONS.right,
+  w: DIRECTIONS.up, s: DIRECTIONS.down, a: DIRECTIONS.left, d: DIRECTIONS.right,
+};
 
-export default function MariachiRush({ locationSlug, locationName, orderUrl }: { locationSlug: string; locationName: string; orderUrl: string }) {
-  const [view, setView] = useState<RoundView>(initialView);
-  const [sound, setSound] = useState(false);
-  const round = useRef(new MariachiRound());
-  const audio = useRef<MariachiAudio | null>(null);
-  const soundEnabled = useRef(false);
-  const nextAudioBeat = useRef(0);
-  const visual = useRef({ view: initialView(), reducedMotion: false });
-  const cueRing = useRef<SVGCircleElement>(null);
-  const cueFill = useRef<SVGCircleElement>(null);
-  const targetRing = useRef<SVGCircleElement>(null);
-  const stage = useRef<HTMLDivElement>(null);
+export default function CourtyardSweep({ locationSlug, locationName, orderUrl }: { locationSlug: string; locationName: string; orderUrl: string }) {
+  const [view, setView] = useState(createHoleState);
+  const [enhanced, setEnhanced] = useState(false);
+  const round = useRef(new CourtyardRound());
+  const board = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<HTMLDivElement>(null);
-  const target = useRef<HTMLButtonElement>(null);
-  const resultTitle = useRef<HTMLHeadingElement>(null);
+  const overlayTitle = useRef<HTMLHeadingElement>(null);
+  const stick = useRef<HTMLDivElement>(null);
+  const reducedMotion = useRef(false);
+  const enhancedReady = useRef(false);
+  const keys = useRef(new Set<string>());
+  const pointer = useRef<{ id: number; originX: number; originY: number; x: number; y: number } | null>(null);
+  const held = useRef<Direction | null>(null);
+  const nudge = useRef<{ direction: Direction; until: number } | null>(null);
 
-  const publish = useCallback((now: number) => {
-    const current = round.current.view(now);
-    visual.current.view = current;
-    setView(current);
+  const clearInput = useCallback(() => {
+    keys.current.clear();
+    pointer.current = null;
+    held.current = null;
+    nudge.current = null;
+    if (stick.current) stick.current.style.opacity = "0";
   }, []);
-
-  const alignAudio = useCallback((elapsed: number) => {
-    const next = BEATS.findIndex(at => at >= elapsed);
-    nextAudioBeat.current = next === -1 ? BEATS.length : next;
-  }, []);
-
-  const playAudio = useCallback(() => {
-    if (!soundEnabled.current) return;
-    if (!audio.current) audio.current = new MariachiAudio();
-    audio.current.unlock();
-  }, []);
-
+  const publish = useCallback(() => { setView({ ...round.current.state }); }, []);
   const start = useCallback(() => {
-    const now = performance.now();
-    round.current.start(now);
-    nextAudioBeat.current = 0;
-    audio.current?.pause();
-    playAudio();
-    publish(now);
-    target.current?.focus({ preventScroll: true });
-  }, [playAudio, publish]);
-
+    clearInput();
+    round.current.start(performance.now());
+    publish();
+    board.current?.focus({ preventScroll: true });
+  }, [clearInput, publish]);
   const pause = useCallback(() => {
-    if (round.current.mode !== "running") return;
-    const now = performance.now();
-    round.current.pause(now);
-    audio.current?.pause();
-    publish(now);
-  }, [publish]);
-
+    clearInput();
+    round.current.pause(performance.now());
+    publish();
+  }, [clearInput, publish]);
   const resume = useCallback(() => {
-    if (document.hidden || round.current.mode !== "paused") return;
-    const now = performance.now();
-    round.current.resume(now);
-    alignAudio(round.current.elapsed(now));
-    playAudio();
-    publish(now);
-    target.current?.focus({ preventScroll: true });
-  }, [alignAudio, playAudio, publish]);
-
-  const activate = useCallback(() => {
-    if (round.current.mode === "ready" || round.current.mode === "result") { start(); return; }
-    if (round.current.mode === "paused") { resume(); return; }
-    const now = performance.now();
-    round.current.tap(now);
-    publish(now);
-  }, [publish, resume, start]);
-
-  const toggleSound = () => {
-    const enabled = !soundEnabled.current;
-    soundEnabled.current = enabled;
-    setSound(enabled);
-    if (!enabled) audio.current?.pause();
-    else if (round.current.mode === "running") {
-      alignAudio(round.current.elapsed(performance.now()));
-      playAudio();
-    }
-    if (round.current.mode === "running") target.current?.focus({ preventScroll: true });
-  };
+    if (document.hidden) return;
+    clearInput();
+    round.current.resume(performance.now());
+    publish();
+    board.current?.focus({ preventScroll: true });
+  }, [clearInput, publish]);
 
   useEffect(() => {
     let frame = 0;
-    let lastPublish = 0;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const setMotion = () => { visual.current.reducedMotion = reduced.matches; };
-    setMotion();
-    reduced.addEventListener("change", setMotion);
-
+    let lastHud = 0;
+    let lastDraw = -1000;
+    let previousDrawMode = "";
+    const context = canvas.current?.getContext("2d");
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => { reducedMotion.current = media.matches; lastDraw = -1000; };
+    updateMotion();
+    media.addEventListener("change", updateMotion);
     const tick = (now: number) => {
-      const previousMode = round.current.mode;
-      round.current.step(now);
-      const current = round.current.view(now);
-      visual.current.view = current;
-      if (previousMode === "running" && current.mode === "result") audio.current?.pause();
-
-      if (current.mode === "running" && soundEnabled.current) {
-        while (nextAudioBeat.current < BEATS.length) {
-          const index = nextAudioBeat.current;
-          const delay = BEATS[index] - current.elapsed;
-          if (delay > 110) break;
-          if (delay >= -45 && !audio.current?.scheduleBeat(index, delay)) break;
-          nextAudioBeat.current += 1;
-        }
-      }
-
-      const cue = beatCue(current.elapsed);
-      const playing = current.mode === "running";
-      const hasCue = playing && cue.visible;
-      if (cueRing.current) {
-        cueRing.current.setAttribute("r", String(visual.current.reducedMotion ? 90 : cue.radius));
-        cueRing.current.setAttribute("opacity", hasCue && !visual.current.reducedMotion ? "1" : "0");
-      }
-      if (cueFill.current) {
-        // A stationary filling ring offers the same timing without radial movement.
-        cueFill.current.setAttribute("stroke-dasharray", `${cue.progress * 565.49} 565.49`);
-        cueFill.current.setAttribute("opacity", hasCue && visual.current.reducedMotion ? "1" : "0");
-      }
-      targetRing.current?.setAttribute("stroke-width", hasCue && cue.onBeat ? "5" : "2");
-      stage.current?.setAttribute("data-beat", hasCue && cue.onBeat ? "true" : "false");
-      if ((current.mode === "running" && now - lastPublish >= 90) || previousMode !== current.mode) {
-        setView(current);
-        lastPublish = now;
+      const input = { x: 0, y: 0 };
+      if (held.current) Object.assign(input, DIRECTIONS[held.current]);
+      else if (keys.current.size) keys.current.forEach(key => { const direction = MOVEMENT[key]; if (direction) { input.x += direction.x; input.y += direction.y; } });
+      else if (pointer.current) { input.x = pointer.current.x; input.y = pointer.current.y; }
+      else if (nudge.current && now < nudge.current.until) Object.assign(input, DIRECTIONS[nudge.current.direction]);
+      const before = round.current.state.mode;
+      round.current.step(now, input);
+      const state = round.current.state;
+      if (before !== state.mode) { clearInput(); publish(); }
+      else if (state.mode === "running" && now - lastHud >= 100) { publish(); lastHud = now; }
+      if (context && !enhancedReady.current && (state.mode === "running" ? now - lastDraw >= 32 : previousDrawMode !== state.mode || lastDraw === -1000)) {
+        context.setTransform(2, 0, 0, 2, 0, 0);
+        drawCourtyard(context, state, reducedMotion.current);
+        lastDraw = now;
+        previousDrawMode = state.mode;
       }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
-    const hidden = () => { if (document.hidden) pause(); };
-    const escape = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape" && round.current.mode === "running") { event.preventDefault(); pause(); }
+    const keyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && round.current.state.mode === "running") { event.preventDefault(); pause(); return; }
+      if (round.current.state.mode !== "running" || document.activeElement !== board.current) return;
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      if (MOVEMENT[key]) { event.preventDefault(); keys.current.add(key); }
     };
-    document.addEventListener("visibilitychange", hidden);
-    window.addEventListener("blur", pause);
-    window.addEventListener("pagehide", pause);
-    window.addEventListener("keydown", escape);
+    const keyUp = (event: KeyboardEvent) => { keys.current.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key); };
+    const background = () => { if (document.hidden && round.current.state.mode === "running") pause(); };
+    const blur = () => { if (round.current.state.mode === "running") pause(); else clearInput(); };
+    const releasePointer = () => { pointer.current = null; held.current = null; if (stick.current) stick.current.style.opacity = "0"; };
+    document.addEventListener("visibilitychange", background);
+    window.addEventListener("blur", blur);
+    window.addEventListener("pagehide", blur);
+    window.addEventListener("keydown", keyDown);
+    window.addEventListener("keyup", keyUp);
+    window.addEventListener("pointerup", releasePointer);
+    window.addEventListener("pointercancel", releasePointer);
     return () => {
       cancelAnimationFrame(frame);
-      reduced.removeEventListener("change", setMotion);
-      document.removeEventListener("visibilitychange", hidden);
-      window.removeEventListener("blur", pause);
-      window.removeEventListener("pagehide", pause);
-      window.removeEventListener("keydown", escape);
-      audio.current?.dispose();
-      audio.current = null;
+      clearInput();
+      media.removeEventListener("change", updateMotion);
+      document.removeEventListener("visibilitychange", background);
+      window.removeEventListener("blur", blur);
+      window.removeEventListener("pagehide", blur);
+      window.removeEventListener("keydown", keyDown);
+      window.removeEventListener("keyup", keyUp);
+      window.removeEventListener("pointerup", releasePointer);
+      window.removeEventListener("pointercancel", releasePointer);
     };
-  }, [pause]);
+  }, [clearInput, pause, publish]);
 
   useEffect(() => {
     const host = renderer.current;
     if (!host) return;
     let cancelled = false;
     let dispose: (() => void) | undefined;
-    // Import only in the browser; gameplay starts immediately with SVG primitives.
-    void import("./rhythm-renderer").then(({ mountRhythmScene }) => {
-      if (!cancelled) dispose = mountRhythmScene(host, () => visual.current);
-    }).catch(() => { /* The complete primitive game remains available. */ });
-    return () => { cancelled = true; dispose?.(); };
+    const fallback = () => {
+      if (cancelled) return;
+      enhancedReady.current = false;
+      setEnhanced(false);
+      const context = canvas.current?.getContext("2d");
+      if (context) { context.setTransform(2, 0, 0, 2, 0, 0); drawCourtyard(context, round.current.state, reducedMotion.current); }
+    };
+    // Graphics loading never gates input or the original Canvas2D game.
+    void import("./hole-renderer").then(({ mountCourtyard }) => {
+      if (cancelled) return;
+      dispose = mountCourtyard(host, () => ({ state: round.current.state, reducedMotion: reducedMotion.current }), () => {
+        if (!cancelled) { enhancedReady.current = true; setEnhanced(true); }
+      }, fallback);
+    }).catch(fallback);
+    return () => { cancelled = true; enhancedReady.current = false; dispose?.(); };
   }, []);
 
   useEffect(() => {
-    if (view.mode === "result") {
-      audio.current?.pause();
-      resultTitle.current?.focus({ preventScroll: true });
-    } else if (view.mode === "paused" || view.mode === "running") target.current?.focus({ preventScroll: true });
+    if (view.mode === "paused" || view.mode === "result") overlayTitle.current?.focus({ preventScroll: true });
+    else if (view.mode === "running") board.current?.focus({ preventScroll: true });
   }, [view.mode]);
 
-  const pointer = (event: PointerEvent<HTMLButtonElement>) => {
-    if (!event.isPrimary || event.button !== 0) return;
+  const pointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (round.current.state.mode !== "running" || !event.isPrimary || event.button !== 0) return;
     event.preventDefault();
+    clearInput();
     event.currentTarget.focus({ preventScroll: true });
-    activate();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointer.current = { id: event.pointerId, originX: event.clientX, originY: event.clientY, x: 0, y: 0 };
+    if (stick.current) {
+      const bounds = event.currentTarget.getBoundingClientRect();
+      stick.current.style.left = `${event.clientX - bounds.left}px`;
+      stick.current.style.top = `${event.clientY - bounds.top}px`;
+      stick.current.style.opacity = "1";
+    }
   };
-  const key = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key !== " " && event.key !== "Enter") return;
-    event.preventDefault();
-    if (!event.repeat) activate();
+  const pointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const active = pointer.current;
+    if (!active || active.id !== event.pointerId) return;
+    active.x = (event.clientX - active.originX) / 48;
+    active.y = (event.clientY - active.originY) / 48;
   };
   const playing = view.mode === "running";
-  const seconds = Math.max(0, Math.ceil((ROUND_MS - view.elapsed) / 1000));
-  const hits = view.perfect + view.good;
-  const accuracy = Math.round(hits / (BEAT_COUNT + view.offbeat) * 100);
-  const freshFeedback = view.elapsed - view.feedbackAt < 430;
-  const feedback = view.mode === "ready" ? "One thumb. All rhythm." : view.mode === "paused" ? "Your rhythm can wait." : view.elapsed < FIRST_BEAT_MS - 300 ? "Find the gold ring…" : freshFeedback ? view.feedback : "Follow the ring";
-  const targetLabel = view.mode === "ready" ? "Let’s play" : view.mode === "paused" ? "Resume" : "Tap";
-
+  const growth = GROWTH[view.tier - 1];
+  const nextGrowth = GROWTH[view.tier];
+  const progress = nextGrowth ? Math.min(100, (view.mass - growth.mass) / (nextGrowth.mass - growth.mass) * 100) : 100;
   const menuHref = `/el-mariachi?location=${encodeURIComponent(locationSlug)}#menu`;
+  const resultHeading = view.cleared ? "Courtyard cleared!" : view.tier === 5 ? "A huge appetite." : view.tier >= 3 ? "Room for more?" : "A tasty start.";
+  const liveStatus = view.mode === "result" ? `${resultHeading} ${view.score} points. ${view.collected} of ${view.total} objects swallowed. Final size ${view.tier} of 5.` : view.mode === "paused" ? "Game paused. The clock is stopped. Choose Resume to continue." : view.mode === "running" ? `Size ${view.tier} of 5. You can now swallow ${growth.eats.toLowerCase()}.` : "Courtyard Sweep is ready. Start a 55-second round.";
 
   return <main className={styles.game} id="main-content">
-    <a className={styles.skipLink} href="#rhythm-game">Skip to game</a>
+    <a className={styles.skipLink} href="#courtyard-game">Skip to game</a>
     <header className={styles.header}>
-      <Link href={menuHref} className={styles.brand} aria-label="El Mariachi menu">
-        <Image src="/assets/el-mariachi/official-logo.png" alt="El Mariachi" width={98} height={98} sizes="98px" className={styles.logo} priority />
-      </Link>
+      <Link href={menuHref} className={styles.brand} aria-label="El Mariachi menu"><Image src="/assets/el-mariachi/official-logo.png" alt="El Mariachi" width={82} height={82} sizes="82px" priority /></Link>
       <span className={styles.concept}>Independent concept</span>
       <ElMariachiNav active="play" menuHref={menuHref} playHref={`/el-mariachi/play?location=${encodeURIComponent(locationSlug)}`} orderUrl={orderUrl} locationName={locationName} />
     </header>
-
-    <div className={styles.gameLayout}>
-      <section className={styles.intro} aria-labelledby="rush-title">
-        <p className={styles.eyebrow}>A little rhythm before your next bite</p>
-        <h1 id="rush-title" translate="no">Mariachi <span>Rush.</span></h1>
-        <p className={styles.lead}>Catch the beat.<br /> Keep the fiesta going.</p>
-        <p className={styles.instructions} id="rhythm-help">Tap the center when the gold ring meets the circle. One thumb, 30 seconds. Sound is optional.</p>
-        <p className={styles.keyboard}>Keyboard: <kbd>Space</kbd> or <kbd>Enter</kbd> to tap. <kbd>Esc</kbd> to pause.</p>
+    <div className={styles.layout}>
+      <section className={styles.intro} aria-labelledby="courtyard-title">
+        <p className={styles.eyebrow}>El Mariachi / a little play before your plate</p>
+        <h1 id="courtyard-title">Courtyard<br /><span>Sweep.</span></h1>
+        <p className={styles.lead}>Small hole.<br />Big appetite.</p>
+        <p className={styles.instructions} id="courtyard-help">Drag anywhere on the courtyard to steer. Swallow the small things, grow your opening, and come back for the big ones.</p>
+        <div className={styles.howTo}><span><b>Start small</b>Limes and chiles</span><span><b>Grow bigger</b>Cups, tacos, planters</span><span><b>Go all in</b>Chairs and tables</span></div>
+        <p className={styles.keyboard}>Arrows or WASD move. Esc pauses. Direction buttons work too.</p>
+        <p className={styles.justForFun}>55 seconds. Just for fun. No prizes or discounts.</p>
       </section>
 
-      <section className={styles.playArea} id="rhythm-game" tabIndex={-1} aria-label="Mariachi Rush rhythm game">
-        <div className={styles.scoreboard} aria-label="Round status">
+      <section className={styles.playArea} id="courtyard-game" tabIndex={-1} aria-label="Courtyard Sweep game">
+        <div className={styles.scoreboard}>
           <div><span>Score</span><strong>{view.score.toLocaleString("en-US")}</strong></div>
-          <div className={styles.clock}><span>Time</span><strong>{seconds}<small>s</small></strong></div>
-          <div><span>Streak</span><strong>{view.streak}<small>×</small></strong></div>
+          <div><span>Time</span><strong>{Math.ceil(view.remaining)}<small>s</small></strong></div>
+          <div><span>Swallowed</span><strong>{view.collected}<small>/{view.total}</small></strong></div>
         </div>
-
-        <div className={styles.instrument} data-mode={view.mode}>
-          <p className={styles.feedback} aria-hidden="true">{view.mode === "result" ? "¡Bravo!" : feedback}</p>
-          <div className={styles.stage} ref={stage}>
-            <Rosette />
-            <div className={styles.renderer} ref={renderer} aria-hidden="true" />
-            <svg className={styles.cues} viewBox="0 0 400 400" fill="none" aria-hidden="true">
-              <circle ref={targetRing} cx="200" cy="200" r="90" stroke="#fff5d9" strokeWidth="2" opacity=".7" />
-              <circle ref={cueRing} cx="200" cy="200" r="174" stroke="#f2ba45" strokeWidth="5" opacity="0" />
-              <circle ref={cueFill} cx="200" cy="200" r="90" stroke="#f2ba45" strokeWidth="7" strokeLinecap="round" transform="rotate(-90 200 200)" opacity="0" />
-            </svg>
-            {view.mode !== "result" && <button
-              ref={target}
-              type="button"
-              className={styles.target}
-              onPointerDown={pointer}
-              onKeyDown={key}
-              onClick={event => { if (event.detail === 0) activate(); }}
-              aria-label={view.mode === "ready" ? "Start a 30-second Mariachi Rush round" : view.mode === "paused" ? "Resume round" : "Tap the beat"}
-              aria-describedby="rhythm-help"
-            ><span className={styles.targetOrnament} aria-hidden="true">✦</span><span>{targetLabel}</span>{view.mode === "ready" && <small>30 seconds</small>}</button>}
-            {view.mode === "result" && <section className={styles.result} aria-labelledby="rush-result-title">
-              <h2 ref={resultTitle} tabIndex={-1} id="rush-result-title">{accuracy >= 85 ? "You’ve got rhythm." : accuracy >= 50 ? "Fiesta found." : "Every beat’s a new start."}</h2>
+        <div className={styles.growth}>
+          <div><strong>Size {view.tier} <span>/ 5</span></strong><span>{nextGrowth ? `Next: ${nextGrowth.eats.toLowerCase()}` : "Everything fits"}</span></div>
+          <progress max={100} value={progress} aria-label={nextGrowth ? `Growth toward size ${view.tier + 1}` : "Maximum size reached"} />
+        </div>
+        <div
+          ref={board} className={styles.board} data-playing={playing} tabIndex={playing ? 0 : -1}
+          role="group" aria-label="Courtyard play area. Drag to steer, or use arrow keys and WASD." aria-describedby="courtyard-help"
+          onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={clearInput} onPointerCancel={clearInput} onLostPointerCapture={clearInput}
+          onBlur={() => { keys.current.clear(); }}
+        >
+          <canvas ref={canvas} className={styles.fallback} width={WORLD_WIDTH * 2} height={WORLD_HEIGHT * 2} aria-hidden="true" style={{ visibility: enhanced ? "hidden" : "visible" }} />
+          <div ref={renderer} className={styles.renderer} aria-hidden="true" style={{ visibility: enhanced ? "visible" : "hidden" }} />
+          <div ref={stick} className={styles.stick} aria-hidden="true"><span /></div>
+          {view.mode !== "running" && <section className={styles.overlay} aria-labelledby="round-title">
+            {view.mode === "ready" && <>
+              <p className={styles.overlayKicker}>Your courtyard. Your appetite.</p>
+              <h2 id="round-title">Swallow.<br />Grow. Repeat.</h2>
+              <p>Guide the dark opening beneath the gold-ringed objects. Bigger things fit as you grow.</p>
+              <button className={styles.primary} type="button" onClick={start}><Play size={18} aria-hidden="true" /> Start 55-second round</button>
+              <small>Drag to steer or use the direction buttons.</small>
+            </>}
+            {view.mode === "paused" && <>
+              <p className={styles.overlayKicker}>Take your time</p>
+              <h2 id="round-title" ref={overlayTitle} tabIndex={-1}>Appetite on pause.</h2>
+              <p>Your opening, score and clock are right where you left them.</p>
+              <button className={styles.primary} type="button" onClick={resume}><Play size={18} aria-hidden="true" /> Resume</button>
+              <button className={styles.secondary} type="button" onClick={start}><RotateCcw size={16} aria-hidden="true" /> Restart round</button>
+              <Link href={menuHref}>Back to menu</Link>
+            </>}
+            {view.mode === "result" && <>
+              <p className={styles.overlayKicker}>{view.cleared ? "Every last bite" : "Round complete"}</p>
+              <h2 id="round-title" ref={overlayTitle} tabIndex={-1}>{resultHeading}</h2>
               <strong className={styles.finalScore}>{view.score.toLocaleString("en-US")}<small>points</small></strong>
-              <button className={styles.replay} type="button" onClick={start}>Play again <span aria-hidden="true">↗</span></button>
-            </section>}
+              <p>{view.collected} of {view.total} objects swallowed<br />Size {view.tier} of 5 &middot; {growth.name}</p>
+              <button className={styles.primary} type="button" onClick={start}><RotateCcw size={17} aria-hidden="true" /> Play again</button>
+              <Link href={menuHref}>Back to menu</Link>
+            </>}
+          </section>}
+        </div>
+        <p className={styles.feedback} aria-hidden="true">{view.feedback}</p>
+        <div className={styles.controlRow}>
+          <div className={styles.directions} aria-label="Direction controls">
+            {(Object.keys(DIRECTIONS) as Direction[]).map(direction => {
+              const { Icon } = DIRECTIONS[direction];
+              return <button key={direction} type="button" disabled={!playing} aria-label={`Move ${direction}`} onPointerDown={event => {
+                if (!event.isPrimary || event.button !== 0) return;
+                event.preventDefault(); clearInput(); held.current = direction; event.currentTarget.setPointerCapture(event.pointerId);
+              }} onPointerUp={clearInput} onPointerCancel={clearInput} onLostPointerCapture={clearInput} onKeyDown={event => {
+                if (event.key !== " " && event.key !== "Enter") return;
+                event.preventDefault(); if (!event.repeat) held.current = direction;
+              }} onKeyUp={event => { if (event.key === " " || event.key === "Enter") held.current = null; }} onBlur={clearInput} onClick={event => {
+                if (event.detail === 0 && round.current.state.mode === "running") nudge.current = { direction, until: performance.now() + 180 };
+              }}><Icon size={21} aria-hidden="true" /></button>;
+            })}
           </div>
-          <p className={styles.stageNote}>{view.mode === "ready" ? "Press Let’s play to begin" : view.mode === "paused" ? "Paused · the clock and sound are stopped" : view.mode === "result" ? `${hits} of ${BEAT_COUNT} beats caught` : view.elapsed < FIRST_BEAT_MS ? "A moment to find the beat" : "Gold meets ivory. That’s your beat."}</p>
+          {playing ? <button className={styles.pause} type="button" onClick={pause}><Pause size={17} aria-hidden="true" /> Pause</button> : <span className={styles.controlHint}>Hold a direction<br />or drag to move</span>}
         </div>
-
-        {view.mode === "result" && <dl className={styles.resultsStats}>
-          <div><dt>Beat accuracy</dt><dd>{accuracy}%</dd></div>
-          <div><dt>Perfect beats</dt><dd>{view.perfect}</dd></div>
-          <div><dt>Best streak</dt><dd>{view.bestStreak}</dd></div>
-        </dl>}
-
-        <div className={styles.controls}>
-          <button type="button" onClick={toggleSound} aria-pressed={sound} aria-label={sound ? "Turn sound off" : "Turn sound on"}>{sound ? <Volume2 size={19} aria-hidden="true" /> : <VolumeX size={19} aria-hidden="true" />} Sound {sound ? "on" : "off"}</button>
-          {playing && <button type="button" onClick={pause}><Pause size={17} aria-hidden="true" /> Pause</button>}
-          {view.mode === "paused" && <button type="button" onClick={start}>Restart round</button>}
-          {view.mode === "result" && <Link href={menuHref}>Back to menu <span aria-hidden="true">↗</span></Link>}
-        </div>
-        <p className={styles.audioNote}>Original instrumental beat. No sign-up. Just for fun.</p>
         <details className={styles.rules}>
-          <summary>How the rhythm works</summary>
-          <p>There are 47 beats. Tap within 160 milliseconds of a beat for 60 points; within 75 milliseconds for a perfect 100. Missed beats and offbeat taps break your streak. Extra taps lower beat accuracy. The first moments are a free count-in.</p>
-          <p>With reduced motion enabled, the gold ring fills in place. Tap when it is full. This concept game offers no prizes or discounts.</p>
+          <summary>How to grow</summary>
+          <p>Your opening swallows objects that fit completely inside it. Gold rings mark what fits now. Larger objects stay put until you grow. Every swallowed object adds points and growth; there are five sizes and 54 objects.</p>
+          <p>Drag farther from your first touch to move faster. Release to stop. Arrow keys, WASD and the direction buttons also work. The game pauses when you leave the tab. Reduced motion removes decorative spin and effects.</p>
+          <p>Original game artwork. No sound, sign-up, prizes or discounts.</p>
         </details>
       </section>
     </div>
-    <p className={styles.srOnly} role="status" aria-live="polite">{view.mode === "ready" ? "Mariachi Rush is ready. Start a 30-second round." : view.mode === "paused" ? "Round paused. Choose Resume to continue." : view.mode === "result" ? `Round complete. ${view.score} points. ${hits} of ${BEAT_COUNT} beats caught. ${accuracy} percent beat accuracy.` : "Round started. Focus is on the tap button. Press Space or Enter to tap, Escape to pause."}</p>
+    <p className={styles.srOnly} role="status" aria-live="polite">{liveStatus}</p>
   </main>;
 }

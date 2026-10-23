@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useDeferredValue, useMemo } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowDown, ArrowRight, ArrowUpRight, ChevronDown, Clock3, MapPin, Phone, Plus, Search, X } from "lucide-react";
 import { ElMariachiNav } from "./ElMariachiNav";
-import { BRAND_URL, MENU_RETRIEVED, LOGO_PATH, categories, getCategory, getLocation, locations, normalizeSearch, totalItems, type Location, type MenuItem } from "./data";
+import { BRAND_URL, MENU_RETRIEVED, LOGO_PATH, categories, getCategory, jacksonville, normalizeSearch, totalItems, type Location, type MenuItem } from "./data";
+import { visualAssets } from "./visual-assets";
 import styles from "./menu.module.css";
 
 const dayNames: Record<string, string> = {
@@ -33,6 +34,38 @@ function ItemDisclosure({ item }: { item: MenuItem }) {
         </a>
       </div>
     </details>
+  );
+}
+
+function HeroScene() {
+  const [backgroundFailed, setBackgroundFailed] = useState(false);
+  const [dishFailed, setDishFailed] = useState(false);
+  const courtyard = backgroundFailed ? null : visualAssets.courtyard;
+  const grill = dishFailed ? {
+    src: "/assets/el-mariachi/official-grill.jpg", width: 1047, height: 785,
+    alt: "Grilled meats, cactus, onion and a fried egg in El Mariachi's official food photograph",
+    transparent: false, generated: false,
+  } : visualAssets.grill;
+
+  return (
+    <section className={styles.hero} aria-labelledby="hero-heading" data-scene={courtyard ? "courtyard" : "plain"}>
+      {courtyard && <div className={styles.heroBackdrop} aria-hidden="true">
+        <Image src={courtyard.src} alt="" fill sizes="100vw" preload className={styles.courtyardImage} onError={() => setBackgroundFailed(true)} />
+      </div>}
+      <div className={styles.heroCopy}>
+        <p className={styles.eyebrow}>El Mariachi Mex &amp; Grill</p>
+        <h1 id="hero-heading" className={styles.heroTitle}><span lang="es">¡Buen<br /><span>provecho!</span></span></h1>
+        <p className={styles.heroIntro}>Mexican favorites in Jacksonville, North Carolina.</p>
+        <a href="#menu" className={styles.heroCta}>Find your flavor<ArrowDown size={19} aria-hidden="true" /></a>
+      </div>
+      <figure className={styles.heroFigure}>
+        <div className={`${styles.heroImageWrap} ${grill.transparent ? styles.cutoutWrap : styles.photoWrap}`}>
+          <Image src={grill.src} alt={grill.alt} width={grill.width} height={grill.height} sizes="(max-width: 760px) 100vw, 58vw" preload className={grill.transparent ? styles.heroCutout : styles.heroImage} onError={() => setDishFailed(true)} />
+        </div>
+        <figcaption className={styles.photoCaption}>{grill.generated ? "A new angle on the original grill photograph" : "From the El Mariachi kitchen"}</figcaption>
+      </figure>
+      {courtyard && <p className={styles.sceneCaption}>An imagined courtyard. An El Mariachi concept.</p>}
+    </section>
   );
 }
 
@@ -64,18 +97,28 @@ function LocationDetails({ location }: { location: Location }) {
   );
 }
 
+function scrollToCategory(categoryId: string) {
+  document.getElementById(`heading-${categoryId}`)?.focus({ preventScroll: true });
+  document.getElementById(`category-${categoryId}`)?.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block: "start",
+  });
+}
+
 export default function MenuExperience() {
   const searchParams = useSearchParams();
-  const location = getLocation(searchParams.get("location"));
   const categoryId = getCategory(searchParams.get("category"));
   const query = searchParams.get("q")?.slice(0, 120) ?? "";
   const deferredQuery = useDeferredValue(query);
-  const isJacksonville = location.slug === "jacksonville";
-  const playHref = `/el-mariachi/play?location=${location.slug}`;
-  const menuHref = `/el-mariachi?location=${location.slug}#menu`;
+  const pendingScrollRef = useRef<string | null>(null);
+  const location = jacksonville;
+  const playHref = "/el-mariachi/play";
+  const menuHref = "/el-mariachi#menu";
 
   function updateFilters(values: Record<string, string | null>, push = false) {
     const url = new URL(window.location.href);
+    // Legacy location links still show and order from Jacksonville only.
+    url.searchParams.delete("location");
     for (const [key, value] of Object.entries(values)) {
       if (value === null || value === "" || value === "all") url.searchParams.delete(key);
       else url.searchParams.set(key, value);
@@ -85,17 +128,46 @@ export default function MenuExperience() {
     else window.history.replaceState(null, "", url);
   }
 
+  function updateSearch(value: string) {
+    pendingScrollRef.current = null;
+    const search = normalizeSearch(value);
+    const firstMatch = search ? categories.find((category) => category.items.some((item) =>
+      normalizeSearch(`${item.name} ${item.description} ${category.name}`).includes(search),
+    )) : undefined;
+    updateFilters({ q: value, category: firstMatch?.id ?? null });
+  }
+
+  function selectCategory(id: string) {
+    if (categoryId === id) {
+      pendingScrollRef.current = null;
+      scrollToCategory(id);
+      return;
+    }
+    pendingScrollRef.current = id;
+    updateFilters({ category: id }, true);
+  }
+
+  function toggleCategory(id: string) {
+    pendingScrollRef.current = null;
+    updateFilters({ category: categoryId === id ? null : id }, true);
+  }
+
   const visibleCategories = useMemo(() => {
     const search = normalizeSearch(deferredQuery);
     return categories
-      .filter((category) => categoryId === "all" || category.id === categoryId)
       .map((category) => ({
         ...category,
         items: category.items.filter((item) => !search || normalizeSearch(`${item.name} ${item.description} ${category.name}`).includes(search)),
       }))
       .filter((category) => category.items.length > 0);
-  }, [categoryId, deferredQuery]);
+  }, [deferredQuery]);
   const resultCount = visibleCategories.reduce((count, category) => count + category.items.length, 0);
+
+  useEffect(() => {
+    if (pendingScrollRef.current !== categoryId || query !== deferredQuery) return;
+    pendingScrollRef.current = null;
+    scrollToCategory(categoryId);
+  }, [categoryId, query, deferredQuery]);
 
   return (
     <>
@@ -104,108 +176,82 @@ export default function MenuExperience() {
       <header className={styles.masthead}>
         <Link href="/el-mariachi" className={styles.brand} aria-label="El Mariachi concept home">
           <Image src={LOGO_PATH} alt="El Mariachi Mex & Grill" width={826} height={826} sizes="(max-width: 600px) 76px, 92px" className={styles.brandLogo} />
-          <span>Mex & Grill<span>North Carolina</span></span>
+          <span>Mex &amp; Grill<span>Jacksonville, NC</span></span>
         </Link>
         <p className={styles.conceptLabel}>Independent Fina Calle concept</p>
       </header>
       <main>
-        <section className={styles.hero} aria-labelledby="hero-heading">
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>El Mariachi Mex & Grill</p>
-            <h1 id="hero-heading" className={styles.heroTitle}><span lang="es">¡Buen<br /><span>provecho!</span></span></h1>
-            <p className={styles.heroIntro}>Mexican favorites. Six North Carolina locations.</p>
-            <a href="#menu" className={styles.heroCta}>Find your flavor<ArrowDown size={19} aria-hidden="true" /></a>
-          </div>
-          <figure className={styles.heroFigure}>
-            <div className={styles.heroImageWrap}>
-              <Image src="/assets/el-mariachi/official-grill.jpg" alt="Grilled meats, cactus and a fried egg on a skillet, from the official El Mariachi website" width={1047} height={785} sizes="(max-width: 760px) 100vw, 55vw" preload className={styles.heroImage} />
-            </div>
-            <figcaption className={styles.photoCaption}>From the El Mariachi kitchen</figcaption>
-            <div className={styles.heroSeal} aria-hidden="true"><span>Mex</span><span>&</span><span>Grill</span></div>
-          </figure>
-        </section>
+        <HeroScene />
         <div className={styles.flavorLine} aria-hidden="true"><span>Tacos</span><span>✦</span><span>Fajitas</span><span>✦</span><span>Birria</span><span>✦</span><span>Y mucho más</span></div>
         <section id="menu" className={styles.menuSection} aria-labelledby="menu-heading" tabIndex={-1}>
           <div className={styles.menuHeadingRow}>
             <div><p className={styles.eyebrow}>Something for every craving</p><h2 id="menu-heading" className={styles.sectionTitle}>The menu<span>.</span></h2></div>
-            <div className={styles.locationControl}>
-              <label htmlFor="mariachi-location"><MapPin size={15} aria-hidden="true" />Your location</label>
-              <div className={styles.selectWrap}>
-                <select id="mariachi-location" name="location" value={location.slug} onChange={(event) => updateFilters({ location: event.target.value, category: null, q: null }, true)}>
-                  {locations.map((place) => <option value={place.slug} key={place.slug}>{place.name}</option>)}
-                </select>
-                <ChevronDown size={21} aria-hidden="true" />
-              </div>
-            </div>
+            <p className={styles.menuLocation}><MapPin size={17} aria-hidden="true" />Jacksonville, NC</p>
           </div>
           <LocationDetails location={location} />
-          {isJacksonville ? (
-            <>
-              <div className={styles.menuTools}>
-                <div className={styles.searchWrap}>
-                  <Search size={19} aria-hidden="true" />
-                  <label htmlFor="mariachi-search" className={styles.srOnly}>Search the Jacksonville menu</label>
-                  <input id="mariachi-search" name="q" type="search" autoComplete="off" placeholder="Search tacos, fajitas, churros…" maxLength={120} value={query} onChange={(event) => updateFilters({ q: event.target.value })} />
-                  {query && <button type="button" aria-label="Clear menu search" onClick={() => updateFilters({ q: null })}><X size={18} aria-hidden="true" /></button>}
-                </div>
-                <div className={styles.categorySelect}>
-                  <label htmlFor="mariachi-category" className={styles.srOnly}>Menu category</label>
-                  <select id="mariachi-category" name="category" value={categoryId} onChange={(event) => updateFilters({ category: event.target.value }, true)}>
-                    <option value="all">All categories</option>
-                    {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
-                  </select>
-                  <ChevronDown size={19} aria-hidden="true" />
-                </div>
-              </div>
-              <div className={styles.menuLayout}>
-                <aside className={styles.categorySidebar} aria-label="Menu categories">
-                  <p>Browse the menu</p>
-                  <button type="button" aria-pressed={categoryId === "all"} onClick={() => updateFilters({ category: null }, true)}><span>Everything</span><span>{totalItems}</span></button>
-                  {categories.map((category) => (
-                    <button type="button" key={category.id} aria-pressed={categoryId === category.id} onClick={() => updateFilters({ category: category.id }, true)}><span>{category.name}</span><span>{category.items.length}</span></button>
-                  ))}
-                </aside>
-                <div className={styles.menuResults} aria-busy={query !== deferredQuery}>
-                  <div className={styles.menuResultMeta}>
-                    <p role="status" aria-live="polite" aria-atomic="true">{query || categoryId !== "all" ? `${resultCount} ${resultCount === 1 ? "dish" : "dishes"} found` : "Jacksonville menu"}</p>
-                    <span>Tap a dish for details</span>
-                  </div>
-                  {visibleCategories.length === 0 ? (
-                    <div className={styles.emptyState}>
-                      <h3>No dishes found.</h3>
-                      <p>Try a different name or explore the full menu.</p>
-                      <button type="button" onClick={() => updateFilters({ q: null, category: null }, true)}>Show the full menu<ArrowRight size={18} aria-hidden="true" /></button>
-                    </div>
-                  ) : visibleCategories.map((category) => (
-                    <section className={styles.categorySection} key={`${category.id}-${deferredQuery}`} aria-labelledby={`heading-${category.id}`}>
-                      <div className={styles.categoryHeading}><h3 id={`heading-${category.id}`}>{category.name}</h3><span>{category.items.length}</span></div>
-                      <div className={styles.dishList}>{category.items.map((item) => <ItemDisclosure key={item.id} item={item} />)}</div>
-                    </section>
-                  ))}
-                  <div className={styles.priceNote}>
-                    <p>Jacksonville online base prices, recorded {MENU_RETRIEVED}. Options, taxes and fees may be extra. Prices and availability can change.</p>
-                    <a href={location.orderUrl} target="_blank" rel="noopener noreferrer">See the restaurant’s current menu<ExternalArrow /><span className={styles.srOnly}> (opens in a new tab)</span></a>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className={styles.otherLocation}>
-              <div><p className={styles.eyebrow}>{location.name}, North Carolina</p><h3>Your local<br />El Mariachi.</h3></div>
-              <div><p>See {location.name}’s dishes, current prices and options on the restaurant’s ordering menu.</p><p className={styles.fulfillment}>{location.deliveryAvailableOnOfficialPage ? "Pickup & delivery" : "Pickup"}</p><a href={location.orderUrl} target="_blank" rel="noopener noreferrer" className={styles.solidCta}>Open {location.name} menu<ExternalArrow /><span className={styles.srOnly}> (opens in a new tab)</span></a></div>
+          <div className={styles.menuTools}>
+            <div className={styles.searchWrap}>
+              <Search size={19} aria-hidden="true" />
+              <label htmlFor="mariachi-search" className={styles.srOnly}>Search the Jacksonville menu</label>
+              <input id="mariachi-search" name="q" type="search" autoComplete="off" placeholder="Search tacos, fajitas, churros…" maxLength={120} value={query} onChange={(event) => updateSearch(event.target.value)} />
+              {query && <button type="button" aria-label="Clear menu search" onClick={() => { updateSearch(""); document.getElementById("mariachi-search")?.focus(); }}><X size={18} aria-hidden="true" /></button>}
             </div>
+          </div>
+          {visibleCategories.length > 0 && (
+            <nav className={styles.categoryNav} aria-label="Menu categories">
+              <div className={styles.categoryNavLabel}><span>Choose a category</span><span>Scroll for more<ArrowRight size={14} aria-hidden="true" /></span></div>
+              <div className={styles.categoryBar}>
+                {visibleCategories.map((category) => (
+                  <button type="button" key={category.id} aria-pressed={categoryId === category.id} aria-expanded={categoryId === category.id} aria-controls={`panel-${category.id}`} onClick={() => selectCategory(category.id)}>
+                    <span>{category.name}</span><span className={styles.categoryCount}>{category.items.length}<span className={styles.srOnly}> dishes</span></span>
+                  </button>
+                ))}
+              </div>
+            </nav>
           )}
+          <div className={styles.menuResults} aria-busy={query !== deferredQuery}>
+            <div className={styles.menuResultMeta}>
+              <p role="status" aria-live="polite" aria-atomic="true">{query ? `${resultCount} ${resultCount === 1 ? "dish" : "dishes"} in ${visibleCategories.length} ${visibleCategories.length === 1 ? "category" : "categories"}` : `${totalItems} dishes · ${categories.length} categories`}</p>
+              <span>Open a category, then a dish for details</span>
+            </div>
+            {visibleCategories.length === 0 ? (
+              <div className={styles.emptyState}>
+                <h3>No dishes found.</h3>
+                <p>Try a different name or explore the full menu.</p>
+                <button type="button" onClick={() => updateSearch("")}>Show the full menu<ArrowRight size={18} aria-hidden="true" /></button>
+              </div>
+            ) : visibleCategories.map((category) => {
+              const expanded = categoryId === category.id;
+              return (
+                <section className={styles.categorySection} id={`category-${category.id}`} key={category.id} aria-labelledby={`heading-${category.id}`}>
+                  <h3 className={styles.categoryHeading}>
+                    <button type="button" id={`heading-${category.id}`} className={styles.categoryToggle} aria-expanded={expanded} aria-controls={`panel-${category.id}`} onClick={() => toggleCategory(category.id)}>
+                      <span>{category.name}</span>
+                      <span className={styles.categoryToggleMeta}>{category.items.length}<span className={styles.srOnly}> dishes</span><ChevronDown size={22} aria-hidden="true" /></span>
+                    </button>
+                  </h3>
+                  <div id={`panel-${category.id}`} className={styles.categoryPanel} hidden={!expanded}>
+                    {expanded && <div className={styles.dishList}>{category.items.map((item) => <ItemDisclosure key={item.id} item={item} />)}</div>}
+                  </div>
+                </section>
+              );
+            })}
+            <div className={styles.priceNote}>
+              <p>Jacksonville online base prices, recorded {MENU_RETRIEVED}. Options, taxes and fees may be extra. Prices and availability can change.</p>
+              <a href={location.orderUrl} target="_blank" rel="noopener noreferrer">See the restaurant&apos;s current menu<ExternalArrow /><span className={styles.srOnly}> (opens in a new tab)</span></a>
+            </div>
+          </div>
         </section>
         <section className={styles.interlude} aria-labelledby="play-heading">
           <div className={styles.interludePhotos}>
-            <Image src="/assets/el-mariachi/official-fajitas.jpg" alt="El Mariachi’s official photograph labeled Fajitas fundida, served in a pineapple" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
-            <Image src="/assets/el-mariachi/official-birria.jpg" alt="El Mariachi’s official photograph labeled Pizza Birria, with salsa and consommé" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
+            <Image src="/assets/el-mariachi/official-fajitas.jpg" alt="El Mariachi's official photograph labeled Fajitas fundida, served in a pineapple" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
+            <Image src="/assets/el-mariachi/official-birria.jpg" alt="El Mariachi's official photograph labeled Pizza Birria, with salsa and consommé" width={922} height={692} sizes="(max-width: 760px) 50vw, 28vw" />
           </div>
           <div className={styles.interludeCopy}>
-            <p className={styles.eyebrow}>A little rhythm at the table</p>
-            <h2 id="play-heading">Got a minute?<br /><span>Find your beat.</span></h2>
-            <p>Tap along in Mariachi Rush.</p>
-            <Link href={playHref}>Let’s play<ArrowRight size={19} aria-hidden="true" /></Link>
+            <p className={styles.eyebrow}>A little break at the table</p>
+            <h2 id="play-heading">Start small.<br /><span>Swallow the scene.</span></h2>
+            <p>Glide through the courtyard. Collect, grow, and clear a little more.</p>
+            <Link href={playHref}>Let&apos;s play<ArrowRight size={19} aria-hidden="true" /></Link>
           </div>
         </section>
       </main>
