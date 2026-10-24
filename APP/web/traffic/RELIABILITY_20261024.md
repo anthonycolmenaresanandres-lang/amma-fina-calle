@@ -53,7 +53,9 @@ Vercel production dpl_84V2kTsGjQaMgehrE5o8aSoVM8Yi is READY at7a9d87f
   Timeout/409/5xx/failed acceptance persistence remain fenced. No random retry key.
 -23:17UTC runs check-only after18Eastern in either season. A missing acceptance,
   failed source, disabled gate or inaccessible ledger returns a failure, not a
-  success skip. A missing GitHub run or disabled GitHub schedule still requires
+  success skip. This check runs even when the repository send variable is off;
+  manualcheck also remains available while sends are paused. A missing GitHub
+  run or disabled whole workflow still requires
   operational monitoring; this is not an exactly-once or failure-proof promise.
 - The admin GET exposes readiness and state/timestamps, never frozen content or
   credentials. The trigger token's check mode returns only acceptance/status.

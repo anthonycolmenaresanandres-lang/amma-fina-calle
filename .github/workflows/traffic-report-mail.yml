@@ -25,9 +25,10 @@ concurrency:
 jobs:
   deliver:
     if: >-
-      (github.event_name == 'schedule' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true') ||
+      (github.event_name == 'schedule' && (github.event.schedule == '17 23 * * *' || vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')) ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'test' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true') ||
-      (github.event_name == 'workflow_dispatch' && inputs.mode != 'test' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'check') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'recovery' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
