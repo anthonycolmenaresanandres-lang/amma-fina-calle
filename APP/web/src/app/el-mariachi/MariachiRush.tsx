@@ -3,27 +3,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Pause, Play, RotateCcw } from "lucide-react";
+import { Pause, Play, RotateCcw } from "lucide-react";
 import { ElMariachiNav } from "./ElMariachiNav";
 import { CourtyardRound, GROWTH, WORLD_HEIGHT, WORLD_WIDTH, createHoleState, type HoleInput } from "./hole-engine";
 import { drawCourtyard } from "./hole-drawing";
+import { screenToWorldInput } from "./hole-camera";
 import styles from "./game.module.css";
 
-const DIRECTIONS = {
-  up: { x: 0, y: -1, Icon: ArrowUp },
-  left: { x: -1, y: 0, Icon: ArrowLeft },
-  down: { x: 0, y: 1, Icon: ArrowDown },
-  right: { x: 1, y: 0, Icon: ArrowRight },
-};
-type Direction = keyof typeof DIRECTIONS;
 const MOVEMENT: Record<string, HoleInput> = {
-  ArrowUp: DIRECTIONS.up, ArrowDown: DIRECTIONS.down, ArrowLeft: DIRECTIONS.left, ArrowRight: DIRECTIONS.right,
-  w: DIRECTIONS.up, s: DIRECTIONS.down, a: DIRECTIONS.left, d: DIRECTIONS.right,
+  ArrowUp: { x: 0, y: -1 }, ArrowDown: { x: 0, y: 1 },
+  ArrowLeft: { x: -1, y: 0 }, ArrowRight: { x: 1, y: 0 },
+  w: { x: 0, y: -1 }, s: { x: 0, y: 1 },
+  a: { x: -1, y: 0 }, d: { x: 1, y: 0 },
 };
 
 export default function CourtyardSweep({ locationSlug, locationName, orderUrl }: { locationSlug: string; locationName: string; orderUrl: string }) {
   const [view, setView] = useState(createHoleState);
   const [enhanced, setEnhanced] = useState(false);
+  const hasStarted = view.mode !== "ready";
   const round = useRef(new CourtyardRound());
   const board = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -34,22 +31,18 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
   const enhancedReady = useRef(false);
   const keys = useRef(new Set<string>());
   const pointer = useRef<{ id: number; originX: number; originY: number; x: number; y: number } | null>(null);
-  const held = useRef<Direction | null>(null);
-  const nudge = useRef<{ direction: Direction; until: number } | null>(null);
 
   const clearInput = useCallback(() => {
     keys.current.clear();
     pointer.current = null;
-    held.current = null;
-    nudge.current = null;
     if (stick.current) stick.current.style.opacity = "0";
   }, []);
   const publish = useCallback(() => { setView({ ...round.current.state }); }, []);
   const start = useCallback(() => {
+    if (document.hidden) return;
     clearInput();
     round.current.start(performance.now());
     publish();
-    board.current?.focus({ preventScroll: true });
   }, [clearInput, publish]);
   const pause = useCallback(() => {
     clearInput();
@@ -61,10 +54,10 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
     clearInput();
     round.current.resume(performance.now());
     publish();
-    board.current?.focus({ preventScroll: true });
   }, [clearInput, publish]);
 
   useEffect(() => {
+    if (!hasStarted) return;
     let frame = 0;
     let lastHud = 0;
     let lastDraw = -1000;
@@ -76,12 +69,10 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
     media.addEventListener("change", updateMotion);
     const tick = (now: number) => {
       const input = { x: 0, y: 0 };
-      if (held.current) Object.assign(input, DIRECTIONS[held.current]);
-      else if (keys.current.size) keys.current.forEach(key => { const direction = MOVEMENT[key]; if (direction) { input.x += direction.x; input.y += direction.y; } });
+      if (keys.current.size) keys.current.forEach(key => { const direction = MOVEMENT[key]; if (direction) { input.x += direction.x; input.y += direction.y; } });
       else if (pointer.current) { input.x = pointer.current.x; input.y = pointer.current.y; }
-      else if (nudge.current && now < nudge.current.until) Object.assign(input, DIRECTIONS[nudge.current.direction]);
       const before = round.current.state.mode;
-      round.current.step(now, input);
+      round.current.step(now, screenToWorldInput(input));
       const state = round.current.state;
       if (before !== state.mode) { clearInput(); publish(); }
       else if (state.mode === "running" && now - lastHud >= 100) { publish(); lastHud = now; }
@@ -103,7 +94,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
     const keyUp = (event: KeyboardEvent) => { keys.current.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key); };
     const background = () => { if (document.hidden && round.current.state.mode === "running") pause(); };
     const blur = () => { if (round.current.state.mode === "running") pause(); else clearInput(); };
-    const releasePointer = () => { pointer.current = null; held.current = null; if (stick.current) stick.current.style.opacity = "0"; };
+    const releasePointer = () => { pointer.current = null; if (stick.current) stick.current.style.opacity = "0"; };
     document.addEventListener("visibilitychange", background);
     window.addEventListener("blur", blur);
     window.addEventListener("pagehide", blur);
@@ -123,9 +114,10 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
       window.removeEventListener("pointerup", releasePointer);
       window.removeEventListener("pointercancel", releasePointer);
     };
-  }, [clearInput, pause, publish]);
+  }, [hasStarted, clearInput, pause, publish]);
 
   useEffect(() => {
+    if (!hasStarted) return;
     const host = renderer.current;
     if (!host) return;
     let cancelled = false;
@@ -145,7 +137,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
       }, fallback);
     }).catch(fallback);
     return () => { cancelled = true; enhancedReady.current = false; dispose?.(); };
-  }, []);
+  }, [hasStarted]);
 
   useEffect(() => {
     if (view.mode === "paused" || view.mode === "result") overlayTitle.current?.focus({ preventScroll: true });
@@ -180,29 +172,36 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
   const resultHeading = view.cleared ? "Courtyard cleared!" : view.tier === 5 ? "A huge appetite." : view.tier >= 3 ? "Room for more?" : "A tasty start.";
   const liveStatus = view.mode === "result" ? `${resultHeading} ${view.score} points. ${view.collected} of ${view.total} objects swallowed. Final size ${view.tier} of 5.` : view.mode === "paused" ? "Game paused. The clock is stopped. Choose Resume to continue." : view.mode === "running" ? `Size ${view.tier} of 5. You can now swallow ${growth.eats.toLowerCase()}.` : "Courtyard Sweep is ready. Start a 55-second round.";
 
-  return <main className={styles.game} id="main-content">
-    <a className={styles.skipLink} href="#courtyard-game">Skip to game</a>
+  return <main className={styles.game} id="main-content" data-stage={hasStarted ? "play" : "welcome"}>
+    <a className={styles.skipLink} href={hasStarted ? "#courtyard-game" : "#courtyard-welcome"}>{hasStarted ? "Skip to game" : "Skip to instructions"}</a>
     <header className={styles.header}>
       <Link href={menuHref} className={styles.brand} aria-label="El Mariachi menu"><Image src="/assets/el-mariachi/official-logo.png" alt="El Mariachi" width={82} height={82} sizes="82px" priority /></Link>
       <span className={styles.concept}>Independent concept</span>
       <ElMariachiNav active="play" menuHref={menuHref} playHref={`/el-mariachi/play?location=${encodeURIComponent(locationSlug)}`} orderUrl={orderUrl} locationName={locationName} />
     </header>
     <div className={styles.layout}>
-      <section className={styles.intro} aria-labelledby="courtyard-title">
-        <p className={styles.eyebrow}>El Mariachi / a little play before your plate</p>
+      {!hasStarted && <section className={styles.welcome} id="courtyard-welcome" tabIndex={-1} aria-labelledby="courtyard-title">
+        <p className={styles.eyebrow}>A little play before your plate</p>
         <h1 id="courtyard-title">Courtyard<br /><span>Sweep.</span></h1>
-        <p className={styles.lead}>Small hole.<br />Big appetite.</p>
-        <p className={styles.instructions} id="courtyard-help">Drag anywhere on the courtyard to steer. Swallow the small things, grow your opening, and come back for the big ones.</p>
-        <div className={styles.howTo}><span><b>Start small</b>Limes and chiles</span><span><b>Grow bigger</b>Cups, tacos, planters</span><span><b>Go all in</b>Chairs and tables</span></div>
-        <p className={styles.keyboard}>Arrows or WASD move. Esc pauses. Direction buttons work too.</p>
-        <p className={styles.justForFun}>55 seconds. Just for fun. No prizes or discounts.</p>
-      </section>
+        <p className={styles.lead}>Small hole. Big appetite.</p>
+        <p className={styles.instructions}>Swallow the smaller objects to grow. Start with limes and chiles, then work your way up to chairs and tables.</p>
+        <div className={styles.howTo}>
+          <p><strong>55 seconds</strong><span>Clear as much as you can.</span></p>
+          <p><strong>Drag to steer</strong><span>Release to stop.</span></p>
+        </div>
+        <button className={`${styles.primary} ${styles.startButton}`} type="button" onClick={start}><Play size={18} aria-hidden="true" /> Play</button>
+        <p className={styles.keyboard}>Arrows or WASD move. Esc pauses.</p>
+        <p className={styles.justForFun}>Just for fun. No prizes or discounts.</p>
+      </section>}
 
-      <section className={styles.playArea} id="courtyard-game" tabIndex={-1} aria-label="Courtyard Sweep game">
+      <section className={styles.playArea} id="courtyard-game" hidden={!hasStarted} tabIndex={-1} aria-labelledby="game-title">
+        <h1 id="game-title" className={styles.srOnly}>Courtyard Sweep</h1>
+        <p className={styles.srOnly} id="courtyard-help">Drag anywhere on the courtyard to steer. Release to stop. Arrow keys or WASD also move. Escape pauses. Swallow smaller objects to grow during the 55-second round. Gold rings mark what fits.</p>
         <div className={styles.scoreboard}>
           <div><span>Score</span><strong>{view.score.toLocaleString("en-US")}</strong></div>
           <div><span>Time</span><strong>{Math.ceil(view.remaining)}<small>s</small></strong></div>
           <div><span>Swallowed</span><strong>{view.collected}<small>/{view.total}</small></strong></div>
+          <button className={styles.pause} type="button" onClick={pause} disabled={!playing}><Pause size={17} aria-hidden="true" /><span>Pause</span></button>
         </div>
         <div className={styles.growth}>
           <div><strong>Size {view.tier} <span>/ 5</span></strong><span>{nextGrowth ? `Next: ${nextGrowth.eats.toLowerCase()}` : "Everything fits"}</span></div>
@@ -217,14 +216,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
           <canvas ref={canvas} className={styles.fallback} width={WORLD_WIDTH * 2} height={WORLD_HEIGHT * 2} aria-hidden="true" style={{ visibility: enhanced ? "hidden" : "visible" }} />
           <div ref={renderer} className={styles.renderer} aria-hidden="true" style={{ visibility: enhanced ? "visible" : "hidden" }} />
           <div ref={stick} className={styles.stick} aria-hidden="true"><span /></div>
-          {view.mode !== "running" && <section className={styles.overlay} aria-labelledby="round-title">
-            {view.mode === "ready" && <>
-              <p className={styles.overlayKicker}>Your courtyard. Your appetite.</p>
-              <h2 id="round-title">Swallow.<br />Grow. Repeat.</h2>
-              <p>Guide the dark opening beneath the gold-ringed objects. Bigger things fit as you grow.</p>
-              <button className={styles.primary} type="button" onClick={start}><Play size={18} aria-hidden="true" /> Start 55-second round</button>
-              <small>Drag to steer or use the direction buttons.</small>
-            </>}
+          {(view.mode === "paused" || view.mode === "result") && <section className={styles.overlay} aria-labelledby="round-title">
             {view.mode === "paused" && <>
               <p className={styles.overlayKicker}>Take your time</p>
               <h2 id="round-title" ref={overlayTitle} tabIndex={-1}>Appetite on pause.</h2>
@@ -244,29 +236,6 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
           </section>}
         </div>
         <p className={styles.feedback} aria-hidden="true">{view.feedback}</p>
-        <div className={styles.controlRow}>
-          <div className={styles.directions} aria-label="Direction controls">
-            {(Object.keys(DIRECTIONS) as Direction[]).map(direction => {
-              const { Icon } = DIRECTIONS[direction];
-              return <button key={direction} type="button" disabled={!playing} aria-label={`Move ${direction}`} onPointerDown={event => {
-                if (!event.isPrimary || event.button !== 0) return;
-                event.preventDefault(); clearInput(); held.current = direction; event.currentTarget.setPointerCapture(event.pointerId);
-              }} onPointerUp={clearInput} onPointerCancel={clearInput} onLostPointerCapture={clearInput} onKeyDown={event => {
-                if (event.key !== " " && event.key !== "Enter") return;
-                event.preventDefault(); if (!event.repeat) held.current = direction;
-              }} onKeyUp={event => { if (event.key === " " || event.key === "Enter") held.current = null; }} onBlur={clearInput} onClick={event => {
-                if (event.detail === 0 && round.current.state.mode === "running") nudge.current = { direction, until: performance.now() + 180 };
-              }}><Icon size={21} aria-hidden="true" /></button>;
-            })}
-          </div>
-          {playing ? <button className={styles.pause} type="button" onClick={pause}><Pause size={17} aria-hidden="true" /> Pause</button> : <span className={styles.controlHint}>Hold a direction<br />or drag to move</span>}
-        </div>
-        <details className={styles.rules}>
-          <summary>How to grow</summary>
-          <p>Your opening swallows objects that fit completely inside it. Gold rings mark what fits now. Larger objects stay put until you grow. Every swallowed object adds points and growth; there are five sizes and 54 objects.</p>
-          <p>Drag farther from your first touch to move faster. Release to stop. Arrow keys, WASD and the direction buttons also work. The game pauses when you leave the tab. Reduced motion removes decorative spin and effects.</p>
-          <p>Original game artwork. No sound, sign-up, prizes or discounts.</p>
-        </details>
       </section>
     </div>
     <p className={styles.srOnly} role="status" aria-live="polite">{liveStatus}</p>
