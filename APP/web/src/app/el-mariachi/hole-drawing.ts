@@ -1,276 +1,324 @@
 import { WORLD_WIDTH, WORLD_HEIGHT, type HoleItem, type HoleState } from "./hole-engine";
+import { applyGroundTransform, projectGround } from "./hole-camera";
 
-// Original procedural courtyard art, shared by Phaser and the canvas fallback.
-// No image downloads, client logo recreation, or third-party game artwork.
+// Original low-poly courtyard art. The same projected scene serves Phaser and
+// the Canvas2D fallback; no assets, copied game art, or gameplay changes.
 const C = {
   cream: "#fffaf0", green: "#244536", chili: "#9b382b", gold: "#b58a4a",
-  floor: "#e6bc8c", tile: "#ddb183", grout: "#f2d3a7", clay: "#b96a42",
-  shadow: "rgba(73, 44, 31, 0.20)", dark: "#101c19", lime: "#92ad3d",
+  floor: "#dfb18b", tile: "#d6a47b", grout: "#edccb0", clay: "#b96a42",
+  dark: "#101c19", shadow: "rgba(69,43,28,.17)", wood: "#8d593b",
 };
+type Point3 = [number, number, number];
+type Face = { points: Point3[]; fill: string };
+type PropFrame = { x: number; y: number; z: number; rotation: number; scale: number };
 let paving: HTMLCanvasElement | null = null;
 
-function ellipse(ctx: CanvasRenderingContext2D, x: number, y: number, rx: number, ry: number, fill: string) {
+function path(ctx: CanvasRenderingContext2D, points: { x: number; y: number }[]) {
   ctx.beginPath();
-  ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
-  ctx.fillStyle = fill;
-  ctx.fill();
-}
-
-function polygon(ctx: CanvasRenderingContext2D, points: number[], fill: string) {
-  ctx.beginPath();
-  ctx.moveTo(points[0], points[1]);
-  for (let i = 2; i < points.length; i += 2) ctx.lineTo(points[i], points[i + 1]);
+  ctx.moveTo(points[0].x, points[0].y);
+  for (let index = 1; index < points.length; index++) ctx.lineTo(points[index].x, points[index].y);
   ctx.closePath();
-  ctx.fillStyle = fill;
-  ctx.fill();
 }
 
-function stroke(ctx: CanvasRenderingContext2D, points: number[], color: string, width = 1) {
+function flatCircle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, fill: string) {
   ctx.beginPath();
-  ctx.moveTo(points[0], points[1]);
-  for (let i = 2; i < points.length; i += 2) ctx.lineTo(points[i], points[i + 1]);
-  ctx.strokeStyle = color;
-  ctx.lineWidth = width;
-  ctx.stroke();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = fill;
+  ctx.fill();
 }
 
 function drawPaving(ctx: CanvasRenderingContext2D) {
+  ctx.fillStyle = "#eee6d7";
+  ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+  // The two visible slab faces establish height without enclosing the play area.
+  for (const [edge, color] of [
+    [[[WORLD_WIDTH, 0, 0], [WORLD_WIDTH, WORLD_HEIGHT, 0], [WORLD_WIDTH, WORLD_HEIGHT, -9], [WORLD_WIDTH, 0, -9]], "#9c684d"],
+    [[[0, WORLD_HEIGHT, 0], [WORLD_WIDTH, WORLD_HEIGHT, 0], [WORLD_WIDTH, WORLD_HEIGHT, -9], [0, WORLD_HEIGHT, -9]], "#b5815d"],
+  ] as [Point3[], string][]) {
+    path(ctx, edge.map(([x,y,z]) => projectGround(x,y,z)));
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  ctx.save();
+  applyGroundTransform(ctx);
+  ctx.beginPath();
+  ctx.rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+  ctx.clip();
   ctx.fillStyle = C.floor;
   ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-  // Broad Saltillo-inspired paving leaves the collectible silhouettes readable.
   for (let row = 0; row < 9; row++) {
-    for (let col = 0; col < 7; col++) {
-      const x = col * 64 + (row % 2 ? -30 : 2);
-      const y = row * 68 - 2;
+    for (let col = 0; col < 8; col++) {
+      const x = col * 64 + (row % 2 ? -30 : 0);
+      const y = row * 68;
       ctx.fillStyle = (row + col) % 3 === 0 ? C.tile : C.floor;
       ctx.fillRect(x + 2, y + 2, 61, 65);
       ctx.strokeStyle = C.grout;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.4;
       ctx.strokeRect(x + 1, y + 1, 63, 67);
-      // A small, fixed surface mark gives texture without image noise or animation.
-      stroke(ctx, [x + 14, y + 15, x + 28, y + 14], "rgba(255,245,217,.18)");
     }
   }
-  // A narrow decorative tile border is outside the useful play surface.
-  ctx.fillStyle = C.green;
-  ctx.fillRect(0, 0, WORLD_WIDTH, 13);
-  ctx.fillRect(0, WORLD_HEIGHT - 13, WORLD_WIDTH, 13);
-  ctx.fillStyle = "#c9865a";
-  ctx.fillRect(0, 13, 11, WORLD_HEIGHT - 26);
-  ctx.fillRect(WORLD_WIDTH - 11, 13, 11, WORLD_HEIGHT - 26);
-  for (let x = 14; x < WORLD_WIDTH; x += 24) {
-    polygon(ctx, [x, 3, x + 4, 7, x, 11, x - 4, 7], C.gold);
-    polygon(ctx, [x, WORLD_HEIGHT - 11, x + 4, WORLD_HEIGHT - 7, x, WORLD_HEIGHT - 3, x - 4, WORLD_HEIGHT - 7], C.gold);
-  }
-
+  // A low tile inlay stays inside the field. No walls obscure edge collectibles.
+  ctx.strokeStyle = C.green;
+  ctx.lineWidth = 8;
+  ctx.strokeRect(5, 5, WORLD_WIDTH - 10, WORLD_HEIGHT - 10);
+  ctx.strokeStyle = C.gold;
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(11, 11, WORLD_WIDTH - 22, WORLD_HEIGHT - 22);
+  ctx.restore();
 }
 
 function backdrop(ctx: CanvasRenderingContext2D) {
   if (!paving && typeof document !== "undefined") {
-    const canvas = document.createElement("canvas");
-    canvas.width = WORLD_WIDTH;
-    canvas.height = WORLD_HEIGHT;
-    const ink = canvas.getContext("2d");
-    if (ink) { drawPaving(ink); paving = canvas; }
+    const surface = document.createElement("canvas");
+    surface.width = WORLD_WIDTH;
+    surface.height = WORLD_HEIGHT;
+    const ink = surface.getContext("2d");
+    if (ink) { drawPaving(ink); paving = surface; }
   }
   if (paving) ctx.drawImage(paving, 0, 0);
   else drawPaving(ctx);
 }
 
-function lime(ctx: CanvasRenderingContext2D, r: number) {
-  ellipse(ctx, 0, 0, r * 0.88, r * 0.8, "#63842b");
-  ellipse(ctx, -r * 0.08, -r * 0.12, r * 0.72, r * 0.65, "#b5c957");
-  ellipse(ctx, -r * 0.08, -r * 0.12, r * 0.58, r * 0.51, "#dce58a");
-  for (let i = 0; i < 5; i++) {
-    const angle = i * Math.PI * 2 / 5;
-    stroke(ctx, [-r * 0.08, -r * 0.12, Math.cos(angle) * r * 0.5 - r * 0.08, Math.sin(angle) * r * 0.44 - r * 0.12], "#9aac48", 0.8);
-  }
+function worldPoint(frame: PropFrame, [x,y,z]: Point3): Point3 {
+  const cos = Math.cos(frame.rotation), sin = Math.sin(frame.rotation);
+  return [frame.x + (x * cos - y * sin) * frame.scale, frame.y + (x * sin + y * cos) * frame.scale, frame.z + z * frame.scale];
 }
 
-function chili(ctx: CanvasRenderingContext2D, r: number) {
-  ctx.beginPath();
-  ctx.moveTo(-r * 0.5, -r * 0.64);
-  ctx.bezierCurveTo(r * 0.42, -r * 0.95, r * 1.1, r * 0.18, r * 0.18, r * 0.75);
-  ctx.bezierCurveTo(-r * 0.18, r * 0.98, -r * 0.74, r * 0.83, -r * 0.84, r * 0.5);
-  ctx.bezierCurveTo(-r * 0.12, r * 0.7, r * 0.17, r * 0.23, -r * 0.5, -r * 0.64);
-  ctx.fillStyle = C.chili;
-  ctx.fill();
-  stroke(ctx, [-r * 0.52, -r * 0.66, -r * 0.4, -r * 0.96, -r * 0.12, -r * 0.97], C.green, r * 0.2);
-  stroke(ctx, [-r * 0.1, -r * 0.44, r * 0.26, -r * 0.2, r * 0.33, r * 0.18], "#f18a55", r * 0.14);
-}
-
-function cup(ctx: CanvasRenderingContext2D, r: number) {
-  ctx.strokeStyle = "#c98b55";
-  ctx.lineWidth = r * 0.24;
-  ctx.beginPath();
-  ctx.ellipse(r * 0.57, r * 0.02, r * 0.31, r * 0.38, 0, 0, Math.PI * 2);
-  ctx.stroke();
-  ellipse(ctx, -r * 0.08, r * 0.15, r * 0.64, r * 0.7, "#c98b55");
-  ellipse(ctx, -r * 0.08, -r * 0.05, r * 0.64, r * 0.62, C.cream);
-  ellipse(ctx, -r * 0.08, -r * 0.05, r * 0.47, r * 0.44, "#743c26");
-  ctx.beginPath();
-  ctx.arc(-r * 0.08, -r * 0.05, r * 0.3, -2.7, -0.4);
-  ctx.strokeStyle = "#c38a4c";
-  ctx.lineWidth = r * 0.09;
-  ctx.stroke();
-}
-
-function taco(ctx: CanvasRenderingContext2D, r: number) {
-  ellipse(ctx, 0, r * 0.06, r * 0.96, r * 0.66, "#f8e6ba");
-  ellipse(ctx, 0, 0, r * 0.82, r * 0.48, "#527140");
-  for (let i = 0; i < 5; i++) {
-    ellipse(ctx, (i - 2) * r * 0.27, -r * 0.12 + (i % 2) * r * 0.08, r * 0.16, r * 0.19, "#7aa44f");
-    ellipse(ctx, (i - 2) * r * 0.25, r * 0.07, r * 0.12, r * 0.12, i % 2 ? "#814027" : C.chili);
-  }
-  ctx.beginPath();
-  ctx.ellipse(0, r * 0.04, r * 0.85, r * 0.55, 0, 0, Math.PI);
-  ctx.closePath();
-  ctx.fillStyle = C.gold;
-  ctx.fill();
-  for (const x of [-0.52, -0.12, 0.35]) ellipse(ctx, r * x, r * 0.28, r * 0.055, r * 0.035, "#bd7e31");
-}
-
-function planter(ctx: CanvasRenderingContext2D, r: number) {
-  ellipse(ctx, 0, r * 0.3, r * 0.54, r * 0.47, "#a45c39");
-  ellipse(ctx, 0, r * 0.09, r * 0.68, r * 0.58, C.clay);
-  ellipse(ctx, 0, r * 0.01, r * 0.54, r * 0.44, "#684b2c");
-  for (let i = 0; i < 7; i++) {
-    const angle = i * Math.PI * 2 / 7;
-    ctx.save();
-    ctx.rotate(angle);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.quadraticCurveTo(-r * 0.29, -r * 0.63, 0, -r * 0.95);
-    ctx.quadraticCurveTo(r * 0.23, -r * 0.55, 0, 0);
-    ctx.fillStyle = i % 2 ? "#497948" : C.green;
+function mesh(ctx: CanvasRenderingContext2D, frame: PropFrame, faces: Face[]) {
+  // Internal faces use the viewing direction (the cross product of the camera's
+  // screen axes). Whole props are sorted separately by their ground anchors.
+  const p = projectGround(0,0,0), px = projectGround(1,0,0), py = projectGround(0,1,0), pz = projectGround(0,0,1);
+  const a = px.x-p.x, b = py.x-p.x, c = pz.x-p.x;
+  const d = px.y-p.y, e = py.y-p.y, f = pz.y-p.y;
+  const depth = ([x,y,z]: Point3) => (b*f-c*e)*x + (c*d-a*f)*y + (a*e-b*d)*z;
+  const projected = faces.map(face => {
+    const vertices = face.points.map(point => worldPoint(frame, point));
+    return { ...face, vertices, depth: vertices.reduce((total, vertex) => total + depth(vertex), 0) / vertices.length };
+  }).sort((left, right) => left.depth - right.depth);
+  for (const face of projected) {
+    path(ctx, face.vertices.map(([x,y,z]) => projectGround(x,y,z)));
+    ctx.fillStyle = face.fill;
     ctx.fill();
-    stroke(ctx, [0, -r * 0.08, 0, -r * 0.78], "#86a05c", 1);
-    ctx.restore();
   }
-  ellipse(ctx, 0, 0, r * 0.12, r * 0.1, C.gold);
 }
 
-function chair(ctx: CanvasRenderingContext2D, r: number) {
-  ctx.fillStyle = "#633c28";
-  for (const x of [-0.5, 0.4]) {
-    ctx.fillRect(r * x, -r * 0.45, r * 0.13, r * 1.15);
-  }
-  polygon(ctx, [-r * 0.62, -r * 0.12, r * 0.62, -r * 0.12, r * 0.54, r * 0.58, -r * 0.54, r * 0.58], "#8f482e");
-  polygon(ctx, [-r * 0.62, -r * 0.25, r * 0.62, -r * 0.25, r * 0.54, r * 0.43, -r * 0.54, r * 0.43], C.chili);
-  ctx.fillStyle = "#7e3829";
-  ctx.fillRect(-r * 0.59, -r * 0.88, r * 1.18, r * 0.53);
-  ctx.fillStyle = "#dc6545";
-  ctx.fillRect(-r * 0.59, -r * 0.88, r * 1.18, r * 0.13);
-  stroke(ctx, [-r * 0.39, -r * 0.69, r * 0.39, -r * 0.69], "#edb179", 2);
-  stroke(ctx, [-r * 0.39, -r * 0.48, r * 0.39, -r * 0.48], "#edb179", 2);
-  stroke(ctx, [-r * 0.39, -r * 0.04, r * 0.34, -r * 0.04], "#edb179", 1.4);
-  stroke(ctx, [-r * 0.35, r * 0.17, r * 0.3, r * 0.17], "#edb179", 1.4);
+function box(faces: Face[], x: number, y: number, z: number, width: number, depth: number, height: number, colors: [string,string,string]) {
+  const x0 = x-width/2, x1 = x+width/2, y0 = y-depth/2, y1 = y+depth/2, top = z+height;
+  faces.push(
+    { points: [[x0,y0,z],[x1,y0,z],[x1,y0,top],[x0,y0,top]], fill: colors[1] },
+    { points: [[x1,y0,z],[x1,y1,z],[x1,y1,top],[x1,y0,top]], fill: colors[2] },
+    { points: [[x1,y1,z],[x0,y1,z],[x0,y1,top],[x1,y1,top]], fill: colors[2] },
+    { points: [[x0,y1,z],[x0,y0,z],[x0,y0,top],[x0,y1,top]], fill: colors[1] },
+    { points: [[x0,y0,top],[x1,y0,top],[x1,y1,top],[x0,y1,top]], fill: colors[0] },
+  );
 }
 
-function table(ctx: CanvasRenderingContext2D, r: number) {
-  ellipse(ctx, 0, r * 0.17, r * 0.63, r * 0.57, "#774730");
-  ellipse(ctx, 0, r * 0.07, r * 0.63, r * 0.57, "#c08d54");
-  // An original striped parasol viewed from above; its silhouette fits the radius.
-  const count = 8;
-  for (let i = 0; i < count; i++) {
-    const a = i * Math.PI * 2 / count;
-    const b = (i + 1) * Math.PI * 2 / count;
-    polygon(ctx, [0, -r * 0.12, Math.cos(a) * r * 0.9, Math.sin(a) * r * 0.83 - r * 0.1, Math.cos(b) * r * 0.9, Math.sin(b) * r * 0.83 - r * 0.1], i % 2 ? C.cream : C.green);
-    stroke(ctx, [0, -r * 0.12, Math.cos(a) * r * 0.9, Math.sin(a) * r * 0.83 - r * 0.1], "rgba(84,77,44,.24)", 1);
-  }
-  ellipse(ctx, 0, -r * 0.12, r * 0.075, r * 0.07, C.gold);
+function disc(faces: Face[], x: number, y: number, z: number, radius: number, color: string, sides = 16) {
+  faces.push({ fill: color, points: Array.from({ length: sides }, (_, index) => {
+    const angle = index * Math.PI * 2 / sides;
+    return [x + Math.cos(angle)*radius, y + Math.sin(angle)*radius, z] as Point3;
+  }) });
 }
 
-function drawProp(ctx: CanvasRenderingContext2D, item: HoleItem, reducedMotion: boolean) {
-  const sink = Math.max(0, Math.min(1, item.sink));
-  const ease = sink * sink;
-  const x = reducedMotion ? item.x : item.x + (item.sinkX - item.x) * ease;
-  const y = reducedMotion ? item.y : item.y + (item.sinkY - item.y) * ease;
+function cylinder(faces: Face[], radius: number, height: number, colors: [string,string,string], bottom = radius, z = 0, sides = 16) {
+  for (let index = 0; index < sides; index++) {
+    const a = index * Math.PI * 2 / sides, b = (index+1) * Math.PI * 2 / sides;
+    faces.push({ fill: Math.sin((a+b)/2) + Math.cos((a+b)/2)*0.4 > 0 ? colors[2] : colors[1], points: [
+      [Math.cos(a)*bottom,Math.sin(a)*bottom,z], [Math.cos(b)*bottom,Math.sin(b)*bottom,z],
+      [Math.cos(b)*radius,Math.sin(b)*radius,z+height], [Math.cos(a)*radius,Math.sin(a)*radius,z+height],
+    ] });
+  }
+  disc(faces, 0, 0, z+height, radius, colors[0], sides);
+}
+
+function lime(faces: Face[], r: number) {
+  cylinder(faces, r*.84, r*.6, ["#d3df84","#8da43f","#577c2c"], r*.57, 0, 10);
+  const z = r*.6+.2;
+  for (let index = 0; index < 5; index++) {
+    const angle = index * Math.PI * 2 / 5;
+    faces.push({ fill: "#a8bd55", points: [[0,0,z],[Math.cos(angle+.1)*r*.65,Math.sin(angle+.1)*r*.65,z],[Math.cos(angle+1.08)*r*.65,Math.sin(angle+1.08)*r*.65,z]] });
+  }
+}
+
+function chili(faces: Face[], r: number) {
+  const curve: Point3[] = [[-r*.6,-r*.45,2],[-r*.13,-r*.2,r*.43],[r*.4,r*.12,r*.31],[r*.43,r*.76,1]];
+  const widths = [r*.18,r*.27,r*.19,0];
+  for (let index = 0; index < curve.length-1; index++) {
+    const [x,y,z] = curve[index], [nx,ny,nz] = curve[index+1];
+    faces.push({ fill: index % 2 ? "#b54a32" : C.chili, points: [[x-widths[index],y,z],[nx-widths[index+1],ny,nz],[nx+widths[index+1],ny,nz],[x+widths[index],y,z]] });
+    faces.push({ fill: "#773326", points: [[x-widths[index],y,0],[nx-widths[index+1],ny,0],[nx-widths[index+1],ny,nz],[x-widths[index],y,z]] });
+  }
+  box(faces,-r*.6,-r*.65,1,r*.16,r*.42,r*.18,["#69834c",C.green,C.green]);
+}
+
+function cup(faces: Face[], r: number) {
+  const height = r*1.5;
+  cylinder(faces,r*.64,height,[C.cream,"#e5d9bb","#bdad8c"],r*.49);
+  disc(faces,0,0,height+.15,r*.49,"#5e3526");
+  disc(faces,-r*.09,-r*.11,height+.3,r*.22,"#a16e43");
+  for (let index = 0; index < 12; index++) {
+    const a = index*Math.PI/6, b = (index+1)*Math.PI/6;
+    const p = (angle:number,inner:boolean):Point3 => [r*.75+Math.cos(angle)*r*(inner?.14:.25),0,height*.52+Math.sin(angle)*height*(inner?.18:.29)];
+    faces.push({ fill: index < 6 ? "#d7c7a7" : C.cream, points: [p(a,false),p(b,false),p(b,true),p(a,true)] });
+  }
+}
+
+function taco(faces: Face[], r: number) {
+  // A standing shell, rather than a flat icon: two curved walls and visible filling.
+  for (const side of [-1,1]) {
+    const points: Point3[] = [[-r*.86,side*r*.24,0]];
+    for (let index = 0; index <= 10; index++) {
+      const angle = Math.PI - index*Math.PI/10;
+      points.push([Math.cos(angle)*r*.86,side*r*.24,Math.sin(angle)*r*.78+1]);
+    }
+    points.push([r*.86,side*r*.24,0]);
+    faces.push({ points, fill: side < 0 ? "#e2b762" : "#c99442" });
+  }
+  for (let index = 0; index < 5; index++) {
+    const x = (index-2)*r*.29, z = Math.sqrt(Math.max(0,1-(x/(r*.9))**2))*r*.78+1.5;
+    box(faces,x,0,z,r*.23,r*.37,r*.12,[index%2?"#738c44":"#91a852","#587539",C.green]);
+    box(faces,x+r*.05,r*.1,z+r*.12,r*.1,r*.12,r*.09,[C.chili,"#b95838","#803025"]);
+  }
+}
+
+function planter(faces: Face[], r: number) {
+  const height = r*.86;
+  cylinder(faces,r*.64,height,["#c98b63",C.clay,"#8d4f33"],r*.44);
+  cylinder(faces,r*.7,r*.14,["#d69d74","#c7845d","#a96845"],r*.7,height-r*.08);
+  disc(faces,0,0,height+r*.07,r*.54,"#514531");
+  for (let index = 0; index < 7; index++) {
+    const angle = index*Math.PI*2/7, cos = Math.cos(angle), sin = Math.sin(angle);
+    const leafHeight = r*(.95+(index%3)*.12);
+    faces.push({ fill: index%2 ? "#688453" : C.green, points: [
+      [0,0,height], [cos*r*.42-sin*r*.16,sin*r*.42+cos*r*.16,height+leafHeight*.61],
+      [cos*r*.83,sin*r*.83,height+leafHeight], [cos*r*.43+sin*r*.13,sin*r*.43-cos*r*.13,height+leafHeight*.5],
+    ] });
+  }
+}
+
+function chair(faces: Face[], r: number) {
+  const w = r*1.04, d = r*.92, seat = r*.7;
+  const wood: [string,string,string] = ["#bd8756",C.wood,"#70442f"];
+  for (const x of [-w*.38,w*.38]) {
+    for (const y of [-d*.37,d*.37]) box(faces,x,y,0,r*.1,r*.1,seat,wood);
+    box(faces,x,-d*.37,seat,r*.1,r*.1,r*.87,wood);
+  }
+  box(faces,0,0,seat-r*.1,w,d,r*.1,wood);
+  for (const z of [seat+r*.23,seat+r*.49,seat+r*.75]) box(faces,0,-d*.37,z,w*.87,r*.09,r*.14,wood);
+}
+
+function table(faces: Face[], r: number) {
+  const wood: [string,string,string] = ["#c39869","#9d724f","#795538"];
+  for (const x of [-r*.3,r*.3]) for (const y of [-r*.3,r*.3]) box(faces,x,y,0,r*.08,r*.08,r*.67,wood);
+  cylinder(faces,r*.63,r*.07,wood,r*.63,r*.65);
+  box(faces,0,0,r*.7,r*.065,r*.065,r*.97,[C.gold,"#9d784a","#765b3c"]);
+  const edge = r*1.35, peak = r*1.77, canopy = r*.9;
+  for (let index = 0; index < 8; index++) {
+    const a = index*Math.PI/4, b = (index+1)*Math.PI/4;
+    const pa:Point3 = [Math.cos(a)*canopy,Math.sin(a)*canopy,edge];
+    const pb:Point3 = [Math.cos(b)*canopy,Math.sin(b)*canopy,edge];
+    const color = index%2 ? "#d5b58a" : "#ae6b4f";
+    faces.push({ points: [[0,0,peak],pa,pb], fill: color });
+    faces.push({ points: [pa,pb,[pb[0],pb[1],edge-r*.11],[pa[0],pa[1],edge-r*.11]], fill: index%2?"#b99970":"#8e513f" });
+  }
+  box(faces,0,0,peak,r*.07,r*.07,r*.065,[C.gold,C.gold,"#82613d"]);
+}
+
+const HEIGHT = { lime: 7, chili: 7, cup: 24, taco: 17, planter: 51, chair: 54, table: 82 };
+const MODELS = { lime, chili, cup, taco, planter, chair, table };
+const modelCache = new Map<string, Face[]>();
+
+function propFrame(item: HoleItem, state: HoleState, reducedMotion: boolean): PropFrame {
+  if (item.sink === 0) return { x:item.x,y:item.y,z:0,rotation:item.rotation,scale:1 };
+  const sink = Math.min(1,item.sink), scale = reducedMotion ? 1 : 1-sink*.17;
+  const dx = item.x-state.x, dy = item.y-state.y, distance = Math.hypot(dx,dy);
+  const available = Math.max(0,state.radius-item.radius*scale-2);
+  const offset = Math.min(1-sink,distance > 0 ? available/distance : 0);
+  return {
+    x:state.x+dx*offset,y:state.y+dy*offset,z:reducedMotion ? 0 : -(HEIGHT[item.kind]*1.08+state.radius*.9)*sink,
+    rotation:item.rotation,scale,
+  };
+}
+
+/** Clip a sinking silhouette above the projected aperture's FRONT INNER edge.
+ * The ellipse basis comes from projectGround, so camera changes stay consistent.
+ * No rim is repainted over props that are nearer to the viewer.
+ */
+function clipAtMouth(ctx: CanvasRenderingContext2D, state: HoleState) {
+  const r = Math.max(1,state.radius-1.4);
+  const center = projectGround(state.x,state.y), px = projectGround(state.x+r,state.y), py = projectGround(state.x,state.y+r);
+  const ux = px.x-center.x, uy = px.y-center.y, vx = py.x-center.x, vy = py.y-center.y;
+  const rx = Math.hypot(ux,vx), slope = (ux*uy+vx*vy)/(rx*rx);
+  const ry = Math.sqrt(Math.max(0,uy*uy+vy*vy-slope*slope*rx*rx));
+  ctx.beginPath();
+  ctx.moveTo(center.x-rx,-WORLD_HEIGHT);
+  ctx.lineTo(center.x+rx,-WORLD_HEIGHT);
+  for (let index = 0; index <= 32; index++) {
+    const angle = index*Math.PI/32, dx = rx*Math.cos(angle);
+    ctx.lineTo(center.x+dx,center.y+slope*dx+ry*Math.sin(angle));
+  }
+  ctx.closePath();
+  ctx.clip();
+}
+
+function drawGroundDetails(ctx: CanvasRenderingContext2D, state: HoleState, reducedMotion: boolean) {
   ctx.save();
-  ctx.translate(x, y);
-  ctx.globalAlpha = 1 - sink;
-  const scale = reducedMotion ? 1 : 1 - sink * 0.9;
-  ctx.scale(scale, scale);
-  if (sink === 0) ellipse(ctx, item.radius * 0.16, item.radius * 0.25, item.radius * 0.9, item.radius * 0.69, C.shadow);
-  ctx.rotate(item.rotation + (reducedMotion ? 0 : sink * 0.45));
-  if (item.kind === "lime") lime(ctx, item.radius);
-  else if (item.kind === "chili") chili(ctx, item.radius);
-  else if (item.kind === "cup") cup(ctx, item.radius);
-  else if (item.kind === "taco") taco(ctx, item.radius);
-  else if (item.kind === "planter") planter(ctx, item.radius);
-  else if (item.kind === "chair") chair(ctx, item.radius);
-  else table(ctx, item.radius);
-  ctx.restore();
-}
-
-function hole(ctx: CanvasRenderingContext2D, state: HoleState, reducedMotion: boolean) {
-  const { x, y, radius: r } = state;
-  ellipse(ctx, x + 2, y + 5, r + 4, r + 3, "rgba(65,43,29,.24)");
-  ellipse(ctx, x, y, r + 3.5, r + 3.5, C.cream);
-  ellipse(ctx, x, y, r + 1.6, r + 1.6, C.gold);
-  ellipse(ctx, x, y, r, r, C.dark);
-  ellipse(ctx, x, y - r * 0.08, r * 0.8, r * 0.7, "#091310");
-  // Restrained, low-contrast movement inside the opening never changes its hit area.
-  ctx.save();
-  ctx.translate(x, y);
-  if (!reducedMotion && state.mode === "running") ctx.rotate(state.elapsed / 1800);
-  ctx.strokeStyle = "#294838";
-  ctx.lineWidth = Math.max(1, r * 0.045);
-  for (let i = 0; i < 2; i++) {
+  applyGroundTransform(ctx);
+  ctx.beginPath(); ctx.rect(0,0,WORLD_WIDTH,WORLD_HEIGHT); ctx.clip();
+  for (const item of state.items) {
+    if (item.collected || item.sink > 0) continue;
     ctx.beginPath();
-    ctx.arc(0, 0, r * (0.37 + i * 0.26), i * 2.6, i * 2.6 + Math.PI * 1.2);
-    ctx.stroke();
+    ctx.ellipse(item.x+HEIGHT[item.kind]*.16,item.y+HEIGHT[item.kind]*.19,item.radius*.9,item.radius*.72,0,0,Math.PI*2);
+    ctx.fillStyle = C.shadow; ctx.fill();
+    if (item.radius <= state.radius*.82) {
+      ctx.beginPath(); ctx.arc(item.x,item.y,item.radius+3,0,Math.PI*2);
+      ctx.strokeStyle = "#956b30"; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.beginPath(); ctx.arc(item.x,item.y,item.radius+1.4,0,Math.PI*2);
+      ctx.strokeStyle = "#f8df9e"; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+  const {x,y,radius:r} = state;
+  flatCircle(ctx,x,y+2,r+4,"rgba(61,40,27,.2)");
+  flatCircle(ctx,x,y,r+3,C.cream);
+  flatCircle(ctx,x,y,r+1.5,C.gold);
+  flatCircle(ctx,x,y,r,C.dark);
+  flatCircle(ctx,x,y-r*.05,r*.78,"#08120f");
+  ctx.strokeStyle = "#294838"; ctx.lineWidth = Math.max(1,r*.035);
+  const turn = reducedMotion ? 0 : state.elapsed/2200;
+  for (let index=0;index<2;index++) {
+    ctx.beginPath(); ctx.arc(x,y,r*(.34+index*.25),turn+index*2.7,turn+index*2.7+3.3); ctx.stroke();
   }
   ctx.restore();
 }
 
 export function drawCourtyard(ctx: CanvasRenderingContext2D, state: HoleState, reducedMotion: boolean): void {
   ctx.save();
-  ctx.clearRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+  ctx.clearRect(0,0,WORLD_WIDTH,WORLD_HEIGHT);
   backdrop(ctx);
-  const remaining = state.items.filter(item => !item.collected);
-  // Eligibility appears as a physical footprint, not only as a color change in the prop.
-  for (const item of remaining) {
-    if (item.sink > 0 || item.radius > state.radius * 0.82) continue;
-    ctx.beginPath();
-    ctx.arc(item.x, item.y, item.radius + 4, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,245,217,.26)";
-    ctx.fill();
-    ctx.strokeStyle = "#99712c";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(item.x, item.y, item.radius + 2.5, 0, Math.PI * 2);
-    ctx.strokeStyle = C.gold;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
-  hole(ctx, state, reducedMotion);
-  remaining.sort((a, b) => a.y - b.y);
-  for (const item of remaining) if (item.sink === 0) drawProp(ctx, item, reducedMotion);
-  for (const item of remaining) if (item.sink > 0) drawProp(ctx, item, reducedMotion);
-  // Front lip sits above a sinking prop, making the opening feel recessed.
-  ctx.beginPath();
-  ctx.arc(state.x, state.y, state.radius + 1, 0.15, Math.PI - 0.15);
-  ctx.lineWidth = 2.5;
-  ctx.strokeStyle = C.gold;
-  ctx.stroke();
-  const age = state.elapsed - state.lastCollectAt;
-  if (!reducedMotion && state.mode === "running" && state.lastCollectAt > 0 && age >= 0 && age < 350) {
-    const fade = 1 - age / 350;
-    ctx.globalAlpha = fade;
-    const distance = state.radius + 6 + age / 35;
-    for (let i = 0; i < 5; i++) {
-      const angle = i * Math.PI * 2 / 5 - Math.PI / 2;
-      ellipse(ctx, state.x + Math.cos(angle) * distance, state.y + Math.sin(angle) * distance, 2 * fade, 2 * fade, C.cream);
+  drawGroundDetails(ctx,state,reducedMotion);
+  const props = state.items.filter(item => !item.collected).map(item => {
+    const frame = propFrame(item,state,reducedMotion);
+    return { item,frame,depth:projectGround(frame.x,frame.y).y };
+  }).sort((left,right) => left.depth-right.depth || left.item.id-right.item.id);
+  for (const {item,frame} of props) {
+    ctx.save();
+    if (item.sink > 0) {
+      clipAtMouth(ctx,state);
+      // Finish below the front rim; a brief terminal fade avoids a last-frame pop.
+      ctx.globalAlpha = reducedMotion ? 1-item.sink : Math.min(1,(1-item.sink)/.15);
     }
-    ctx.globalAlpha = 1;
+    const key = `${item.kind}:${item.radius}`;
+    let faces = modelCache.get(key);
+    if (!faces) { faces = []; MODELS[item.kind](faces,item.radius); modelCache.set(key,faces); }
+    mesh(ctx,frame,faces);
+    ctx.restore();
   }
+  // The player's label is screen-space, while its opening and capture area stay
+  // in world space. No global front-lip pass can overpaint a foreground prop.
   if (state.mode === "running" && state.elapsed < 2800) {
-    ctx.fillStyle = C.green;
-    ctx.font = "700 9px Arial, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("YOU", state.x, Math.min(WORLD_HEIGHT - 19, state.y + state.radius + 16));
+    const label = projectGround(state.x,state.y+state.radius+18);
+    ctx.fillStyle = C.green; ctx.font = "700 9px Arial, sans-serif"; ctx.textAlign = "center";
+    ctx.fillText("YOU",label.x,Math.min(WORLD_HEIGHT-16,label.y));
   }
   ctx.restore();
 }
