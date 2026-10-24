@@ -16,12 +16,22 @@
     "delivered": {
       "src": "/assets/el-mariachi/menu/1143-fajitas-fundida.webp",
       "width": 480,
-      "height": 360,
-      "bytes": 25182,
-      "sha256": "73ec12fb4774d3f92adf0e70d9c5dd8b9f2956b121f9190fc020fb7442feda70"
+      "height": 320,
+      "bytes": 53860,
+      "sha256": "27bd77c22c148260ea82b90c620d592dbbd5f5690ea7d0dbd4bd26583c795c87",
+      "hasAlpha": true,
+      "transparentPixels": 66571,
+      "alphaMatchesResizedSourceExactly": true
     },
     "matchEvidence": "Original official photograph has embedded caption \"Fajitas fundida\". Exact existing Jacksonville item name, case-insensitive; ID 1143. Not matched by visual similarity.",
-    "modification": "Proportional downsize and WebP compression only. Complete original frame and embedded caption retained. No crop, generated pixels, ingredient changes or background removal."
+    "modification": "Reused previously approved AI-styled cutout of the caption-identified official photo. Proportional resize to480px and WebP compression only; no crop, new generation, invented ingredients or alteration of the approved hero/featured assets. Alpha retained exactly after proportional resize. Embedded original caption remains in matching evidence, not the approved cutout.",
+    "approvedCutout": {
+      "file": "APP/web/public/assets/el-mariachi/fajitas-cutout-v1.webp",
+      "libraryId": "libfile_feaef0f638c081919f2f0709bcfbf0f2",
+      "sha256": "f54b773ec506f832f456578d5dc12d158dccaabe5f350d49a97615aaf633374f",
+      "generated": true,
+      "approval": "User requested matching transparent enhanced treatment on 2026-10-24; parent directed reuse of already approved enhanced cutouts instead of regeneration."
+    }
   },
   {
     "id": "2913",
@@ -40,11 +50,120 @@
     "delivered": {
       "src": "/assets/el-mariachi/menu/2913-pizza-birria.webp",
       "width": 480,
-      "height": 360,
-      "bytes": 37328,
-      "sha256": "3ddfcdcfd514848a0502753b5c70773b987f883e9343fcd22c05048d8881abfe"
+      "height": 320,
+      "bytes": 54540,
+      "sha256": "6e8b64fe28ee1d512ff4f68d5909b36d0a26a59adf1213ccd7f2c3696566fbd3",
+      "hasAlpha": true,
+      "transparentPixels": 39309,
+      "alphaMatchesResizedSourceExactly": true
     },
     "matchEvidence": "Original official photograph has embedded caption \"Pizza Birria\". Exact existing Jacksonville item name, case-insensitive; ID 2913. Not matched by visual similarity.",
-    "modification": "Proportional downsize and WebP compression only. Complete original frame and embedded caption retained. No crop, generated pixels, ingredient changes or background removal."
+    "modification": "Reused previously approved AI-styled cutout of the caption-identified official photo. Proportional resize to480px and WebP compression only; no crop, new generation, invented ingredients or alteration of the approved hero/featured assets. Alpha retained exactly after proportional resize. Embedded original caption remains in matching evidence, not the approved cutout.",
+    "approvedCutout": {
+      "file": "APP/web/public/assets/el-mariachi/pizza-birria-cutout-v1.webp",
+      "libraryId": "libfile_61706bb609d48191a58cbdefc7fde886",
+      "sha256": "f392f4fb2a64ae300975ca5b558c65fc943bb7ec282c283bbd7af891bc5b26d5",
+      "generated": true,
+      "approval": "User requested matching transparent enhanced treatment on 2026-10-24; parent directed reuse of already approved enhanced cutouts instead of regeneration."
+    }
+  },
+  {
+    "id": "1207",
+    "name": "Arroz Con Pollo",
+    "caption": "Arroz con Pollo",
+    "file": "arroz-con-pollo-cutout-v1.png",
+    "libraryId": "libfile_77e7f9d741508191b786c897c8a6f156",
+    "categoryId": "cat_80",
+    "sourcePage": "https://www.doordash.com/store/el-mariachi-jacksonville-27536538/96700975/?pickup=true&src=yp",
+    "sourceLocation": "1305 North Marine Boulevard, Jacksonville, NC",
+    "sourceEvidence": "Parent source-research worker verified this exact merchant dish label and Jacksonville address, then supplied its enhanced cutout through Library. Item ID and exact current menu name independently reconciled here. No customer review image or appearance-only association used.",
+    "sourceVerifiedAt": "2026-10-24",
+    "generated": true,
+    "original": {
+      "file": "arroz-con-pollo-cutout-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1933371,
+      "sha256": "2c544b5823b086f7bdbfffc0828397c4eba60662efd7e3b1ac058f02a2188c1d",
+      "hasAlpha": true
+    },
+    "delivered": {
+      "src": "/assets/el-mariachi/menu/1207-arroz-con-pollo-cutout-v1.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 58600,
+      "sha256": "fba4ee5524469d70085940acf1ab519870c8c87a81d6bd5db00abc03aeb5c768",
+      "hasAlpha": true,
+      "transparentPixels": 92520,
+      "alphaMatchesResizedSourceExactly": true
+    },
+    "matchEvidence": "Merchant source caption \"Arroz con Pollo\" matches existing item 1207 by name, case-insensitive. Food identity was established before enhancement, not inferred from generated pixels.",
+    "modification": "Parent-provided AI-enhanced transparent cutout of the verified restaurant-source photograph. Desktop integration only proportionally resizes/compresses it; no crop, new generated ingredients or further semantic editing. Delivered alpha matches the resized source exactly. Actual supplied pixels inspected before integration."
+  },
+  {
+    "id": "2915",
+    "name": "Arroz Texano",
+    "caption": "Arroz Texano",
+    "file": "arroz-texano-cutout-v1.png",
+    "libraryId": "libfile_23e3e42fccb081919ed9dadb29a2527a",
+    "categoryId": "cat_68",
+    "sourcePage": "https://www.doordash.com/store/el-mariachi-jacksonville-27536538/96700975/?pickup=true&src=yp",
+    "sourceLocation": "1305 North Marine Boulevard, Jacksonville, NC",
+    "sourceEvidence": "Parent source-research worker verified this exact merchant dish label and Jacksonville address, then supplied its enhanced cutout through Library. Item ID and exact current menu name independently reconciled here. No customer review image or appearance-only association used.",
+    "sourceVerifiedAt": "2026-10-24",
+    "generated": true,
+    "original": {
+      "file": "arroz-texano-cutout-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2364325,
+      "sha256": "6627bb16b8f0ecb1286644d309bbaccad8217835186eb10e62b40e0f2d349002",
+      "hasAlpha": true
+    },
+    "delivered": {
+      "src": "/assets/el-mariachi/menu/2915-arroz-texano-cutout-v1.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 65846,
+      "sha256": "e650843ad376a5981310124f416394bed73b8fda4e28cffbb9d6711527602c94",
+      "hasAlpha": true,
+      "transparentPixels": 59312,
+      "alphaMatchesResizedSourceExactly": true
+    },
+    "matchEvidence": "Merchant source caption \"Arroz Texano\" matches existing item 2915 by name, case-insensitive. Food identity was established before enhancement, not inferred from generated pixels.",
+    "modification": "Parent-provided AI-enhanced transparent cutout of the verified restaurant-source photograph. Desktop integration only proportionally resizes/compresses it; no crop, new generated ingredients or further semantic editing. Delivered alpha matches the resized source exactly. Actual supplied pixels inspected before integration."
+  },
+  {
+    "id": "2912",
+    "name": "Quesabirria",
+    "caption": "Quesabirria",
+    "file": "quesabirria-cutout-v1.png",
+    "libraryId": "libfile_96296c21f7448191abca8f2affa06450",
+    "categoryId": "cat_68",
+    "sourcePage": "https://www.doordash.com/store/el-mariachi-jacksonville-27536538/96700975/?pickup=true&src=yp",
+    "sourceLocation": "1305 North Marine Boulevard, Jacksonville, NC",
+    "sourceEvidence": "Parent source-research worker verified this exact merchant dish label and Jacksonville address, then supplied its enhanced cutout through Library. Item ID and exact current menu name independently reconciled here. No customer review image or appearance-only association used.",
+    "sourceVerifiedAt": "2026-10-24",
+    "generated": true,
+    "original": {
+      "file": "quesabirria-cutout-v1.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2631128,
+      "sha256": "4406ca9b85b00288ecdaad4eaf9e2d4886983d66d6941929673798f5cbb9a786",
+      "hasAlpha": true
+    },
+    "delivered": {
+      "src": "/assets/el-mariachi/menu/2912-quesabirria-cutout-v1.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 74824,
+      "sha256": "14e14e02bc438c68f0894e493c888587c115597afa24982c4432e794061609e8",
+      "hasAlpha": true,
+      "transparentPixels": 59291,
+      "alphaMatchesResizedSourceExactly": true
+    },
+    "matchEvidence": "Merchant source caption \"Quesabirria\" matches existing item 2912 by name, case-insensitive. Food identity was established before enhancement, not inferred from generated pixels.",
+    "modification": "Parent-provided AI-enhanced transparent cutout of the verified restaurant-source photograph. Desktop integration only proportionally resizes/compresses it; no crop, new generated ingredients or further semantic editing. Delivered alpha matches the resized source exactly. Actual supplied pixels inspected before integration."
   }
 ]

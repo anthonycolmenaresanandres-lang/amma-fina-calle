@@ -49,7 +49,7 @@ function ItemDisclosure({ item }: { item: MenuItem }) {
             alt=""
             width={visiblePhoto.width}
             height={visiblePhoto.height}
-            sizes="(max-width: 760px) 64px, 80px"
+            sizes="(max-width: 760px) 80px, 96px"
             loading="lazy"
             className={styles.itemPhoto}
             onError={() => setFailedPhoto(visiblePhoto.src)}

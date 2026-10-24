@@ -1,44 +1,49 @@
-# El Mariachi exact item photographs — draft, 2026-10-24
+# El Mariachi item cutouts — draft, 2026-10-24
 
-Prepared on `codex/el-mariachi-item-photos-20261024` from production commit `56f8a57d3900e38a24caf52e65e32c5de894171c`.
+Prepared on `codex/el-mariachi-item-photos-20261024` from production `56f8a57d3900e38a24caf52e65e32c5de894171c`. Draft PR: https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/360 . No merge or deployment approved for this batch.
 
-## Result and limits
+## Final scope
 
-Two previously unillustrated menu rows now have real restaurant photographs:
+**Three newly sourced dish photos; two reused approved cutouts; five newly illustrated menu rows.** All five displayed images are AI-enhanced transparent cutouts of identified restaurant-source photographs, not unedited photographs. No new dish identity was invented, no ingredients or menu wording were changed, and no image was assigned by visual similarity alone.
 
-| Existing Jacksonville item | ID | Category | Explicit identity evidence |
+| Exact existing Jacksonville item | ID | Source and matching evidence | Treatment |
 | --- | --- | --- | --- |
-| Fajitas Fundida | 1143 | Fajitas | The original official photo contains the caption “Fajitas fundida”. |
-| Pizza Birria | 2913 | Especialidades De La Casa | The original official photo contains the caption “Pizza Birria”. |
+| Arroz Con Pollo | 1207 | Exact merchant caption “Arroz con Pollo” on the Jacksonville DoorDash listing | Newly supplied enhanced cutout |
+| Arroz Texano | 2915 | Exact merchant caption “Arroz Texano” on the same listing | Newly supplied enhanced cutout |
+| Quesabirria | 2912 | Exact merchant caption “Quesabirria” on the same listing | Newly supplied enhanced cutout |
+| Fajitas Fundida | 1143 | Original official homepage photograph contains “Fajitas fundida” | Reused already-approved enhanced cutout |
+| Pizza Birria | 2913 | Original official homepage photograph contains “Pizza Birria” | Reused already-approved enhanced cutout |
 
-Both photographs come from the [official homepage](https://www.elmariachimexandgrillnc.com/). Their full source URLs, retrieval times, dimensions, bytes, SHA-256 hashes and exact matching rationale are retained in `ITEM_PHOTO_PROVENANCE.json`. The restaurant has not been contacted; no owner validation, commission or new license is claimed.
+The parent source-research worker verified the three new merchant image labels and **1305 North Marine Boulevard** location at https://www.doordash.com/store/el-mariachi-jacksonville-27536538/96700975/?pickup=true&src=yp before enhancement. The desktop independently reconciled exact current menu IDs/names, materialized the supplied Library assets, and inspected their actual pixels. It did not redownload the original DoorDash photo bytes. Source captions/location are evidence supplied by the parent research, not an owner-validation claim. No review/customer photo, menu price or description was imported from DoorDash.
 
-These are two new **item-level associations**, not two newly discovered dishes: the original photographs already existed as source/fallback assets for the approved featured food cutouts. Those cutouts and the hero remain untouched. No stock or generated item images were added. No image was assigned from appearance alone.
+The original two photograph URLs, source hashes and embedded caption evidence remain in `ITEM_PHOTO_PROVENANCE.json`, alongside approved cutout Library identities/hashes and all five delivered asset hashes. Original official site: https://www.elmariachimexandgrillnc.com/ . Existing hero, courtyard and featured cutouts are untouched.
 
-## Delivery
+## Mobile presentation
 
-- Separate exact-ID `item-photos.ts` map; the original 260-item, 20-category ordering snapshot is unchanged, including prices, descriptions, options text and source links. The voice catalog and phone configuration are untouched.
-- Full-frame 480 × 360 WebP copies, 25,182 bytes and 37,328 bytes (62,510 total). Only proportional resizing and compression; original labels retained, no crop, background removal or content edits.
-- Compact 80px thumbnails, 64px on narrow screens. Intrinsic dimensions reserve space; `object-fit: contain` preserves the complete photo.
-- Existing `expanded &&` category rendering bounds mounted items. `loading="lazy"` and responsive image sizes defer offscreen requests; no image preloads or eager list of 260 images.
-- The adjacent item name labels the photograph, so thumbnail `alt=""` avoids repeating the name in the native disclosure. Failed images are removed without changing details or ordering access.
-- Jacksonville-only content, category colors/navigation/accordions/search, approved background/hero/cutouts, game, existing checkout links, other client routes and phone remain unchanged.
+- Separate exact-ID `item-photos.ts`; original 260-item/20-category ordering JSON, prices, descriptions, options text and checkout links remain unchanged. Voice data/routing are untouched.
+- Five WebPs total **307,670 bytes**. The existing two are 480 × 320; the new three are 480 × 480. Only proportional resizing and compression were applied on desktop. No new generation, crop, background fill or semantic food edit occurred here.
+- All files retain real alpha. Decoded delivery alpha matches the proportionally resized input exactly. Supplied new PNGs are 1254 × 1254 RGBA with Library metadata readback confirmed.
+- Natural 96px thumbnails on desktop and 80px on mobile, `object-fit: contain`, intrinsic image dimensions and no fixed item-row height. No frame or cover crop removes food.
+- Existing category `expanded &&` rendering mounts only an open category. Native lazy loading and responsive sizes defer offscreen images; no eager loading of all 260 items.
+- Adjacent dish text labels the thumbnail (`alt=""` avoids duplicate spoken names). Failed images disappear, retaining disclosure/details/order access.
+- Footer retains concept/AI-enhancement disclosure and attributes both the official site and restaurant DoorDash menu. Existing ordering still uses the original Jacksonville ordering links.
 
-## Unresolved photographs
+## Research coverage and unresolved matches
 
-The official homepage's uncaptioned grill photograph (`el-mariachi-mex-and-grill-72zbqk4r-food1.jpg`, generic “Food image prep” metadata) and banner (`el-mariachi-mex-and-grill-vjmkr3z2-banner.jpg`) have no verified exact item-name label. Neither is mapped to a menu row. Generic alt text is not matching evidence.
+The first phase inspected all 260 public Jacksonville item-detail GETs: all returned HTTP 200 and matched normalized item titles, none contained item-photo references. `ORDERING_PHOTO_AUDIT.json` preserves the sanitized per-item evidence. The official homepage gallery has three food images and a banner, no linked separate gallery; only the Fajitas Fundida and Pizza Birria originals carry exact dish captions. `OFFICIAL_GALLERY_AUDIT.json` records that narrower phase's zero-new-photo result. The later DoorDash research is what adds three new distinct dish sources.
 
-The supplied Jacksonville ordering menu's main HTML contains no assigned food images; its `.fireItemImage` modal is an empty placeholder. Detail-page coverage is recorded separately in the source audit. Items without an explicit reliable photo association remain text-only.
+The uncaptioned homepage grill and banner remain unassigned. The legacy Jacksonville gallery at `restaurantselmariachi.com` was also investigated after explicit parent authorization. Its direct asset requests failed certificate validation (`NotTimeValid`) before any HTTP response; TLS validation was not disabled. Cached gallery labels alone were insufficient to integrate photographs. See `LEGACY_SOURCE_EVIDENCE.json`:
 
-## Review and deployment hold
+- Arroz Con Pollo and Camarones A La Diabla have exact cached label matches, but legacy pixels were not obtained. Arroz Con Pollo is instead sourced through the separate verified DoorDash image.
+- Chicken salad cannot distinguish grilled versus fried current items.
+- Chicken & shrimp house special has no exact current match; a filename cannot establish one.
+- Burrito Veracruz and Burrito Veracruzano are distinct legacy entries; they were not conflated.
+- Botanera is insufficiently specific for a current match.
 
-Only a draft PR is authorized. No merge or deployment is authorized for this batch. `APP/web/vercel.json` sets `git.deploymentEnabled` to `false` for this **exact draft branch only**, retaining every existing cron entry and leaving all other branches at their default. This prevents the usual automatic preview on push without changing live project settings or weakening CI. Before a future approved release, remove the branch-only hold so normal Vercel checks can run. [Vercel branch configuration reference](https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled).
+The remaining **255 menu rows** are text-only. More coverage requires additional reliably labeled restaurant-source photos. This is a limitation of the researched sources, not a claim that other photographs do not exist.
 
-Required targeted ESLint, production build and normal remote repository CI are retained. Browser, rendered-page, gameplay, smoke and phone-call checks are intentionally not run at the user's request. Source-photo inspection is provenance research, not verification of the finished UI.
+## Review and release hold
 
-## Completed preparation checks
-Targeted ESLint passed with zero warnings. Production Webpack compile, TypeScript, all60static pages and build traces completed successfully. Independent source/asset review found no blockers. All260 official item-page GETs returned200 and normalized titles matched; no item-photo references, errors or rate limits. See ORDERING_PHOTO_AUDIT.json. These read-only source requests were research, not functional testing of the implementation. Remote CI status will be recorded on the draft PR.
+`APP/web/vercel.json` disables automatic deployment for **only this exact draft branch**, leaving all other branches, live project settings, cron entries and GitHub CI unchanged. This prevents an automatic preview during draft review. After explicit publication approval, remove that branch-only hold and run the normal Vercel checks before any permitted merge. Reference: https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled .
 
-
-## Official gallery coverage
-The current homepage gallery contains three food photographs and a banner. The two confirmed captioned pictures are already-used official originals: **zero new distinct dish photographs discovered, two newly illustrated menu rows**. All current navigation links and image URLs were inspected; no separate gallery is linked. Domain-restricted gallery/photos/menu and food searches found only the homepage. See `OFFICIAL_GALLERY_AUDIT.json`. This is a limitation of the inspected sources, not a claim that no other restaurant photographs exist elsewhere.
+Targeted lint, production build and normal repository CI are retained. Initial two-photo commit `6cfed2e` passed local lint/build and CI run `40050554662`; the final five-cutout working tree passed fresh scoped ESLint, production Webpack compile, TypeScript, all 60 static pages and build traces. Independent source review found no blockers. Its new remote CI result will be recorded on the draft PR. Browser, rendered-page, gameplay, smoke and phone-call testing remain skipped at the user's request. Asset inspection and read-only source research do not establish finished UI behavior.

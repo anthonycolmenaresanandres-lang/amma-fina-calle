@@ -1353,3 +1353,5 @@ Publication approval: Anthony's Merge them all supersedes the visual revision ho
 
 ## [x] El Mariachi exact menu-item photographs - 2026-10-24 DRAFT READY
 Scope: official Jacksonville ordering/brand sources only; exact item IDs and explicit photo associations, no visual guesses, stock or generated new dishes. Preserve all 260 records/prices and prior hero/cutouts/game/phone. Branch codex/el-mariachi-item-photos-20261024 from 56f8a57. Prepare draft PR only; no merge/deploy pending Anthony approval. Required static/build/CI, no post-change browser/gameplay/smoke/calls.
+
+Follow-on scope: user requested the same enhanced transparent treatment; reuse approved Fajitas Fundida/Pizza Birria assets and add parent-verified DoorDash source cutouts for Arroz Con Pollo1207, Arroz Texano2915 and Quesabirria2912. Five item associations, three new source dishes, no menu text/price changes. Same draft/no-deploy hold and waived runtime QA.
