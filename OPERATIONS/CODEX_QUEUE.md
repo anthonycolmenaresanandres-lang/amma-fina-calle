@@ -1350,3 +1350,10 @@ Authorized live content/capability update on existing El Mariachi voice300 only:
 After completed phone release PR358, integrate the exact approved Fajitas fundida/Pizza Birria Library cutouts and add subtle whole-page plaster/terracotta texture. Keep menu, existing courtyard/hero, category layout/colors, game and phone unchanged. Static/build checks allowed; no browser/gameplay/smoke/calls. No remote publication approved for this separate visual revision.
 
 Publication approval: Anthony's Merge them all supersedes the visual revision hold. Phone release358already complete; release only this scoped imagery/texture branch through required CI and Vercel metadata verification.
+
+## [x] El Mariachi exact menu-item photographs - 2026-10-24 DRAFT READY
+Scope: official Jacksonville ordering/brand sources only; exact item IDs and explicit photo associations, no visual guesses, stock or generated new dishes. Preserve all 260 records/prices and prior hero/cutouts/game/phone. Branch codex/el-mariachi-item-photos-20261024 from 56f8a57. Prepare draft PR only; no merge/deploy pending Anthony approval. Required static/build/CI, no post-change browser/gameplay/smoke/calls.
+
+Follow-on scope: user requested the same enhanced transparent treatment; reuse approved Fajitas Fundida/Pizza Birria assets and add parent-verified DoorDash source cutouts for Arroz Con Pollo1207, Arroz Texano2915 and Quesabirria2912. Five item associations, three new source dishes, no menu text/price changes. Same draft/no-deploy hold and waived runtime QA.
+
+Publication approval — 2026-10-24: Anthony explicitly approved merging and publishing the completed five-item photo update at finacalleos.com/el-mariachi. Remove only its draft-specific deployment hold; final-head CI and Vercel checks remain required. Merge only PR360 and confirm exact production commit READY/domain assignment. Menu/prices, game, phone and unrelated work remain protected; no runtime QA/calls.

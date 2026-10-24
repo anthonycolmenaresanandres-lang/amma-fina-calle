@@ -1,0 +1,90 @@
+{
+  "researchedOn": "2026-10-24",
+  "scope": "Public legacy-source research only. No repository edits, tests, orders, publishing or Library uploads.",
+  "galleryUrl": "https://restaurantselmariachi.com/w/categoria-producto/jacksonville-nc/",
+  "homepageUrl": "https://restaurantselmariachi.com/w/",
+  "galleryEvidence": "Web reader returned a gallery copy marked crawled four months ago. It explicitly labels the six candidates below and exposes their product links. This is cached textual evidence, not current pixel verification.",
+  "downloadResult": {
+    "downloadedImageCount": 0,
+    "downloadedHtmlCount": 0,
+    "libraryUploadCount": 0,
+    "executorHttpStatus": null,
+    "executorErrorType": "System.Security.Authentication.AuthenticationException",
+    "executorError": "The remote certificate is invalid because of errors in the certificate chain: NotTimeValid",
+    "affectedUrls": "Homepage, gallery, and all six supplied image URLs failed during TLS negotiation before an HTTP response.",
+    "webReaderErrors": "Homepage returned '(400) Timeout fetching'. Direct Arroz con Pollo and Camarones images and all six product pages returned TimeoutError. Only cached gallery text was available.",
+    "accessDenialObserved": false,
+    "certificateValidationDisabled": false,
+    "availabilityConclusion": "No original photo was downloaded or pixel-verified; all candidates remain unintegrated."
+  },
+  "authoritativeMenuPath": "C:\\dev\\amma\\worktrees\\el-mariachi-prospect-20261023\\APP\\web\\src\\app\\el-mariachi\\jacksonville-menu.json",
+  "candidates": [
+    {
+      "galleryLabel": "ARROZ CON POLLO",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/arroz-con-pollo-3/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2020/09/arroz-con-pollo-420x420.jpeg",
+      "currentMenuName": "Arroz Con Pollo",
+      "currentMenuId": "1207",
+      "textMatch": "Exact after case normalization; photograph identity remains unverified.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    },
+    {
+      "galleryLabel": "Camarones a la diabla",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/camarones-a-la-diabla-2/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2021/04/Camarones-a-la-diabla-420x420.jpeg",
+      "currentMenuName": "Camarones A La Diabla",
+      "currentMenuId": "1225",
+      "textMatch": "Exact after case normalization; photograph identity remains unverified.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    },
+    {
+      "galleryLabel": "Chicken salad",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/chicken-salad/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2021/04/chicken-salad-420x420.jpeg",
+      "currentMenuName": null,
+      "currentMenuId": null,
+      "ambiguity": "Current menu has Grilled Chicken Salad (1273) and Fried Chicken Salad (1274), both without descriptions. The generic legacy label does not select either.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    },
+    {
+      "galleryLabel": "Chicken & shrimp house special",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/chicken-shrimp-house-special/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2021/04/pollo-el-mariachi-420x420.jpeg",
+      "currentMenuName": null,
+      "currentMenuId": null,
+      "ambiguity": "No exact current menu name. Pollo El Mariachi (1206) has a related description, but shared ingredients and the supplied filename do not establish identity.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    },
+    {
+      "galleryLabel": "Burrito Veracruz",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/burrito-veracruz/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2021/04/burrito-beracruz-420x420.jpeg",
+      "currentMenuName": null,
+      "currentMenuId": null,
+      "ambiguity": "The legacy gallery separately lists Burrito Veracruz and BURRITO VERACRUZANO. Do not map this image to current Burrito Veracruzano (1130). The legacy entries are distinct.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    },
+    {
+      "galleryLabel": "Botanera",
+      "productUrl": "https://restaurantselmariachi.com/w/producto/botanera/",
+      "suppliedImageUrl": "https://restaurantselmariachi.com/w/wp-content/uploads/2021/04/Botanera-420x420.jpeg",
+      "currentMenuName": null,
+      "currentMenuId": null,
+      "ambiguity": "Current Charola Botanera (1252) is not an exact name match. The abbreviated legacy label alone does not establish identity.",
+      "localImagePath": null,
+      "pixelVerified": false,
+      "clearedForIntegration": false
+    }
+  ],
+  "priceBoundary": "Legacy prices were not copied into or substituted for the current Jacksonville menu."
+}

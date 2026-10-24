@@ -194,6 +194,8 @@
 .dishList { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 35px; align-items: start; }
 .menuItem { min-width: 0; border-bottom: 1px solid #d6d8bf; }
 .itemSummary { display: flex; align-items: baseline; gap: 13px; cursor: pointer; padding: 21px 0; min-height: 68px; list-style: none; }
+.itemSummaryWithPhoto { align-items: center; }
+.itemPhoto { display: block; flex: 0 0 auto; width: 96px; height: auto; max-height: 96px; object-fit: contain; align-self: center; }
 .itemSummary::-webkit-details-marker { display: none; }
 .itemSummary:hover .itemName { color: var(--em-chili); }
 .itemName { flex: 1; min-width: 0; font-size: 13px; line-height: 1.5; font-weight: 650; overflow-wrap: anywhere; }
@@ -306,6 +308,7 @@
   .categoryToggle { min-height: 73px; gap: 12px; padding-block: 18px; }
   .categoryToggleMeta { gap: 12px; }
   .itemSummary { gap: 12px; padding: 21px 0; min-height: 66px; }
+  .itemPhoto { width: 80px; max-height: 80px; }
   .itemName { font-size: 13px; }
   .itemPrice { font-size: 12px; }
   .itemDetail > p { font-size: 12px; }
