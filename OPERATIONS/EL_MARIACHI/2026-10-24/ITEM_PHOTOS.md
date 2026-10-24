@@ -1,6 +1,6 @@
-# El Mariachi item cutouts — draft, 2026-10-24
+# El Mariachi item cutouts — release approved, 2026-10-24
 
-Prepared on `codex/el-mariachi-item-photos-20261024` from production `56f8a57d3900e38a24caf52e65e32c5de894171c`. Draft PR: https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/360 . No merge or deployment approved for this batch.
+Prepared on `codex/el-mariachi-item-photos-20261024` from production `56f8a57d3900e38a24caf52e65e32c5de894171c`. PR: https://github.com/anthonycolmenaresanandres-lang/amma-fina-calle/pull/360 . Anthony explicitly approved merging and publishing this exact menu-photo update on 2026-10-24.
 
 ## Final scope
 
@@ -42,8 +42,8 @@ The uncaptioned homepage grill and banner remain unassigned. The legacy Jacksonv
 
 The remaining **255 menu rows** are text-only. More coverage requires additional reliably labeled restaurant-source photos. This is a limitation of the researched sources, not a claim that other photographs do not exist.
 
-## Review and release hold
+## Review and release authorization
 
-`APP/web/vercel.json` disables automatic deployment for **only this exact draft branch**, leaving all other branches, live project settings, cron entries and GitHub CI unchanged. This prevents an automatic preview during draft review. After explicit publication approval, remove that branch-only hold and run the normal Vercel checks before any permitted merge. Reference: https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled .
+The draft-specific deployment hold has been removed after explicit publication approval. `APP/web/vercel.json` is restored to its existing production configuration; cron entries, other branches, live project settings and GitHub CI are unchanged. Complete normal required checks on the final PR head, merge only PR360, and verify the automatic production deployment reaches READY at the exact merge commit with finacalleos.com assigned. No browser, gameplay, smoke or phone-call checks. Reference for the removed branch hold: https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled .
 
 Targeted lint, production build and normal repository CI are retained. Initial two-photo commit `6cfed2e` passed local lint/build and CI run `40050554662`; the final five-cutout working tree passed fresh scoped ESLint, production Webpack compile, TypeScript, all 60 static pages and build traces. Independent source review found no blockers. Its new remote CI result will be recorded on the draft PR. Browser, rendered-page, gameplay, smoke and phone-call testing remain skipped at the user's request. Asset inspection and read-only source research do not establish finished UI behavior.
