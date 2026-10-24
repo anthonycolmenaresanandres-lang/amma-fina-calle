@@ -3763,3 +3763,10 @@ Three new parent-verified DoorDash dish sources integrated for Arroz Con Pollo (
 
 ### [CHECK-IN] Codex - 2026-10-24 - menu-photo publication approved
 Reconciled PR360 as open, draft and unmerged at e8ac809 before acting. Anthony explicitly approved both merging and publishing this exact update after the prior publication hold. Remove only the draft-branch deployment rule and update release records; application code/assets stay byte-identical to the locally checked e8ac809 implementation. Run all normal required CI/Vercel checks on the new head, then checked merge and exact production READY/domain readback. No browser/gameplay/smoke/calls, unrelated clients, phone changes or services.
+# [CHECK-IN] Codex - 2026-10-24 - traffic delivery reliability
+
+Fresh isolated worktree from f3c8f63; old traffic-delay branch/worktree preserved.
+Current Oct23 Actions job120514943226 confirms outside-window HTTP-success skip
+after delayed12UTC execution at16UTC. Implement scoped scheduling/date/idempotency
+repair and offline validation/PR under Anthony's new instruction. No production
+schema/settings/delivery mutation without coordinated approval; no game edits.

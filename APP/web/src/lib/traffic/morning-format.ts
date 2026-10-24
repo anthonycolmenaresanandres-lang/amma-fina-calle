@@ -1,6 +1,10 @@
 import type { TrafficReport } from "./site-traffic";
 import { calendarRange, type TrafficDeliveryPeriod } from "./date";
-import { ALL_TRAFFIC_SITES as TRAFFIC_SITES } from "./sites";
+import { ALL_TRAFFIC_SITES } from "./sites";
+
+// Presentation order only. Do not alter the production collector's registry.
+const TRAFFIC_SITES = [...ALL_TRAFFIC_SITES].sort((a, b) =>
+  (a.id === "bodega" ? 0 : a.id === "colattao" ? 1 : 2) - (b.id === "bodega" ? 0 : b.id === "colattao" ? 1 : 2));
 
 export function renderMorningReport(date: string, reports: TrafficReport[]) {
   return renderTrafficPeriodReport({ kind: "daily", first: date, last: date, range: calendarRange(date, date) }, reports);

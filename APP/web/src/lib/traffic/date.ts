@@ -119,22 +119,48 @@ export function previousCompletedWeek(now = Date.now()): TrafficDeliveryPeriod {
   return { kind: "weekly", first, last, range: calendarRange(first, last) };
 }
 
-/** Both UTC slots run; only the matching Eastern 08:00 hour may deliver.
- * Checking the original cron slot also rejects a delayed wrong-DST-slot job.
- * During the daily window, Monday includes daily plus weekly in one delivery.
- */
-export function scheduledTrafficPeriods(schedule: string, now = Date.now()): TrafficDeliveryPeriod[] | null {
-  const instant = new Date(now);
+export const TRAFFIC_SCHEDULES = ["0 12 * * *", "0 13 * * *", "17 12 * * *", "17 13 * * *", "17 16 * * *", "17 20 * * *", "17 23 * * *"];
+
+/** The delivery date, not the worker's eventual execution date, owns the batch. */
+export function trafficPeriodsForDeliveryDate(date: string): TrafficDeliveryPeriod[] {
+  calendarRange(date, date); // strict calendar validation
+  if (date < "2026-10-18") return [];
+  const anchor = dayStartMs(date, TRAFFIC_TIMEZONE) + 12 * 3600000;
+  const periods: TrafficDeliveryPeriod[] = [];
+  if (date <= "2026-10-31") periods.push(dailyTrafficPeriod(anchor));
+  if (new Date(`${date}T00:00:00Z`).getUTCDay() === 1) periods.push(previousCompletedWeek(anchor));
+  return periods;
+}
+
+export type TrafficScheduleDecision = {
+  state: "deliver" | "skip" | "missed";
+  reason?: "not_due" | "inactive_dst_slot" | "before_delivery_window" | "delivery_window_missed";
+  periods: TrafficDeliveryPeriod[];
+};
+
+export function trafficScheduleDecision(schedule: string, deliveryDate: string, now = Date.now()): TrafficScheduleDecision {
+  if (!TRAFFIC_SCHEDULES.includes(schedule)) throw new Error("INVALID_SCHEDULE");
+  const periods = trafficPeriodsForDeliveryDate(deliveryDate);
+  const today = dateStringInTz(TRAFFIC_TIMEZONE, now);
+  if (deliveryDate > today) throw new Error("FUTURE_DELIVERY_DATE");
+  if (!periods.length) return { state: "skip", reason: "not_due", periods };
+  // At 08:00 on a DST-transition date the midnight offset may differ.
+  // Anchor at local noon, then ask Intl which UTC hour represents 08:00.
+  const noon = dayStartMs(deliveryDate, TRAFFIC_TIMEZONE) + 12 * 3600000;
+  const offset = tzOffsetMs(TRAFFIC_TIMEZONE, noon);
+  const slot = 8 - offset / 3600000;
+  const cronHour = Number(schedule.split(" ")[1]);
+  if ([12, 13].includes(cronHour) && cronHour !== slot) return { state: "skip", reason: "inactive_dst_slot", periods };
   const hour = Number(new Intl.DateTimeFormat("en-US", {
     timeZone: TRAFFIC_TIMEZONE, hour: "2-digit", hourCycle: "h23",
-  }).format(instant));
-  if (hour !== 8) return null;
-  const slot = instant.getUTCHours();
-  if ((slot !== 12 && slot !== 13) || schedule !== `0 ${slot} * * *`) return null;
-  const today = dateStringInTz(TRAFFIC_TIMEZONE, now);
-  if (today < "2026-10-18") return null;
-  const periods: TrafficDeliveryPeriod[] = [];
-  if (today <= "2026-10-31") periods.push(dailyTrafficPeriod(now));
-  if (new Date(`${today}T00:00:00Z`).getUTCDay() === 1) periods.push(previousCompletedWeek(now));
-  return periods.length ? periods : null;
+  }).format(new Date(now)));
+  if (deliveryDate < today || hour >= 18) return { state: "missed", reason: "delivery_window_missed", periods };
+  if (hour < 8) return { state: "skip", reason: "before_delivery_window", periods };
+  return { state: "deliver", periods };
+}
+
+/** Compatibility for existing offline callers. Routes always supply a date. */
+export function scheduledTrafficPeriods(schedule: string, now = Date.now()): TrafficDeliveryPeriod[] | null {
+  const decision = trafficScheduleDecision(schedule, dateStringInTz(TRAFFIC_TIMEZONE, now), now);
+  return decision.state === "deliver" ? decision.periods : null;
 }

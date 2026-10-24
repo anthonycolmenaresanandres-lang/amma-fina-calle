@@ -1,10 +1,20 @@
-name: Traffic report mail (disabled until verified)
+name: Traffic report mail
 on:
   schedule:
-    # 08:00 America/New_York: the server chooses the correct DST slot.
-    - cron: "0 12 * * *"
-    - cron: "0 13 * * *"
+    # 08:17 ET primary (server rejects inactive DST slot), then bounded catch-up.
+    - cron: "17 12 * * *"
+    - cron: "17 13 * * *"
+    - cron: "17 16 * * *"
+    - cron: "17 20 * * *"
+    # Acceptance watchdog after 18:00 Eastern in either DST season. Never sends.
+    - cron: "17 23 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Owner-approved action; check never sends; recovery is current delivery date only"
+        type: choice
+        options: [check, recovery, test]
+        default: check
 
 permissions:
   contents: read
@@ -16,7 +26,8 @@ jobs:
   deliver:
     if: >-
       (github.event_name == 'schedule' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true') ||
-      (github.event_name == 'workflow_dispatch' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true')
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'test' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode != 'test' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -24,9 +35,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Anchor to original run date (public metadata, no token)
+        id: context
+        run: node APP/web/scripts/traffic-schedule-context.mjs
       - name: Request one fixed-recipient aggregate email
         env:
           TRAFFIC_MAIL_TRIGGER_SECRET: ${{ secrets.TRAFFIC_MAIL_TRIGGER_SECRET }}
-          TRAFFIC_MAIL_MODE: ${{ github.event_name == 'schedule' && 'scheduled' || 'test' }}
+          TRAFFIC_MAIL_MODE: ${{ github.event_name == 'schedule' && (github.event.schedule == '17 23 * * *' && 'check' || 'scheduled') || inputs.mode }}
           TRAFFIC_MAIL_SCHEDULE: ${{ github.event.schedule }}
+          TRAFFIC_MAIL_DELIVERY_DATE: ${{ steps.context.outputs.delivery_date }}
         run: node APP/web/scripts/traffic-mail-trigger.mjs
