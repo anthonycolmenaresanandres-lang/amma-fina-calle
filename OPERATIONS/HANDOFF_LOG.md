@@ -3769,3 +3769,6 @@ Reconciled clean retained worktree and production f3c8f638; preserved previous l
 
 ### [CHECK-OUT] Codex - 2026-10-24 - angled courtyard draft prepared
 Original oblique ground/raised props and screen-direction input adapter; short welcome gates timer/RAF/Phaser until Play; bottom direction panel removed, top Pause and immediate replay preserved. All engine rules, menu/photos, phone and other clients unchanged. Independent source review corrected margin specificity and terminal sink fade; final scoped lint and production Webpack/TypeScript/60-page/traces build PASS. Draft feature PR/unchanged CI only; exact-branch deployment hold stays. Runtime/browser/gameplay/smoke/rendered captures/calls skipped by user instruction. Evidence: EL_MARIACHI/2026-10-24/GAME_VIEW_REVISION.md.
+
+### [CHECK-IN] Codex - 2026-10-24 - game publication approved
+Reconciled PR361 open/draft/unmerged at bcf04200556d1ed0b4a6829eb3caf9a332aa518b with passing CI40098075501 and no review threads. Anthony explicitly approved game merge/publication. Restore only this branch's held Vercel config to existing production config; application remains byte-identical to the checked draft. Final-head CI/Vercel then normal protected merge and deployment metadata readback. Traffic-report repair stays separate; no runtime/browser/gameplay/smoke/calls or unrelated scope.

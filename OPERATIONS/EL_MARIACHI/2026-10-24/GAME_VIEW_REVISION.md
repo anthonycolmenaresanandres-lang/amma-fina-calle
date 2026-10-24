@@ -28,3 +28,6 @@ Final required local checks passed:
 - git diff --check and protected-source diff: menu/photos, phone, game engine/loader, dependencies and existing CI workflow unchanged.
 
 Initial checks passed before the two source-review corrections; final lint/build were repeated because source changed. No browser, rendered capture, gameplay/smoke check or call was performed. Exact-head remote CI remains the next draft prerequisite. No merge or deployment authorized for this revision.
+
+## Publication authorization - 2026-10-24
+Anthony explicitly approved merging and publishing PR361 after the prepared draft was presented. This supersedes the draft-only publication hold above. Draft head bcf04200556d1ed0b4a6829eb3caf9a332aa518b passed local lint/build and remote CI40098075501. Remove only its branch-specific deployment hold; keep source/assets byte-identical, run unchanged required CI and Vercel checks on the release head, merge normally and confirm exact production commit READY with finacalleos.com assigned. Traffic repair is a separate task. No game/browser/smoke/call verification; runtime/visual uncertainty remains.
