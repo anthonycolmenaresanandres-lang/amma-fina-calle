@@ -1,5 +1,10 @@
 # Mail-only traffic reporting: preparation and controlled handoff
 
+Historical October17 preparation record. The October24 reliability repair and
+current release/verification requirements are in RELIABILITY_20261024.md; they
+supersede the old08am-only gate, absence of durable ledger and single wake-up
+behavior described below. Do not activate or recover using the historical steps.
+
 Current continuation of draft PR348. Code is prepared; no credentials, production
 configuration, schema migration, monitoring, collection activation, or live email
 were performed by this executor. Anthony approved the restricted credentials,

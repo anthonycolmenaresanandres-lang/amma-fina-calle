@@ -3763,6 +3763,13 @@ Three new parent-verified DoorDash dish sources integrated for Arroz Con Pollo (
 
 ### [CHECK-IN] Codex - 2026-10-24 - menu-photo publication approved
 Reconciled PR360 as open, draft and unmerged at e8ac809 before acting. Anthony explicitly approved both merging and publishing this exact update after the prior publication hold. Remove only the draft-branch deployment rule and update release records; application code/assets stay byte-identical to the locally checked e8ac809 implementation. Run all normal required CI/Vercel checks on the new head, then checked merge and exact production READY/domain readback. No browser/gameplay/smoke/calls, unrelated clients, phone changes or services.
+### [CHECK-IN] Codex - 2026-10-24 - traffic delivery reliability
+
+Fresh isolated worktree from f3c8f63; old traffic-delay branch/worktree preserved.
+Current Oct23 Actions job120514943226 confirms outside-window HTTP-success skip
+after delayed12UTC execution at16UTC. Implement scoped scheduling/date/idempotency
+repair and offline validation/PR under Anthony's new instruction. No production
+schema/settings/delivery mutation without coordinated approval; no game edits.
 
 ### [CHECK-IN] Codex - 2026-10-24 - angled courtyard draft
 Reconciled clean retained worktree and production f3c8f638; preserved previous local release audit on its old branch. Read repository frontend/game guidance. Original projected ground and upright geometry, concise pre-Play landing and top Pause; keep engine rules and all unrelated sources unchanged. Draft PR and mandatory static/build/CI only, no preview/production release or runtime QA/calls.
@@ -3772,3 +3779,12 @@ Original oblique ground/raised props and screen-direction input adapter; short w
 
 ### [CHECK-IN] Codex - 2026-10-24 - game publication approved
 Reconciled PR361 open/draft/unmerged at bcf04200556d1ed0b4a6829eb3caf9a332aa518b with passing CI40098075501 and no review threads. Anthony explicitly approved game merge/publication. Restore only this branch's held Vercel config to existing production config; application remains byte-identical to the checked draft. Final-head CI/Vercel then normal protected merge and deployment metadata readback. Traffic-report repair stays separate; no runtime/browser/gameplay/smoke/calls or unrelated scope.
+### [CHECK-OUT] Codex - 2026-10-24 - traffic repair prepared for scoped PR
+
+Integrated published7a9d87f; append conflict resolved retaining all game/traffic
+records. Current-source61reliability groups +counter/19pipeline/mail/drain/
+presentation tests PASS, full lint0errors111existingwarnings, scopedlint and
+productionWebpack/TypeScript/60pages/traces PASS. Public run metadata date read
+verified without token. Original collector, metric query, dependencies and game
+paths unchanged againstmain. ScopedPR/exact-headCI next; no live schema/settings,
+credential, provider send, historical backfill, merge or production deployment.
