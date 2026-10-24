@@ -4,5 +4,10 @@
       "path": "/api/integrations/square/refresh",
       "schedule": "17 9 * * *"
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "codex/el-mariachi-item-photos-20261024": false
+    }
+  }
 }

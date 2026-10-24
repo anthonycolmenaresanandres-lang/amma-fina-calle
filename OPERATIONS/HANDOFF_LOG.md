@@ -3748,3 +3748,9 @@ Phone update finished first: PR358 merged545cab4, exact Render deployment live,2
 
 ### [CHECK-IN] Codex - 2026-10-23 - food and texture publication approved
 Anthony instructed Merge them all for the two scoped pending El Mariachi updates. Phone PR358 is already merged/deployed and must not be repeated. This new approval supersedes the visual revision's local-only hold: complete lint/build, focused PR and all required CI, then merge and confirm Vercel READY/finacalleos.com alias. Only the approved Fajitas/Pizza Birria cutouts, whole-page texture and supporting scoped records. No other branches, phone changes, browser/gameplay/smoke tests, calls, spending/services/access.
+### [CHECK-IN] Codex - 2026-10-24 - exact El Mariachi menu-item photos
+Reconciled current main56f8a57 and preserved prior audit branch. Gather restaurant-owned photos with explicit item identity; add bounded lazy images only inside opened category. Record provenance and unresolved matches. Draft PR authorized, production/preview deployment held pending approval; preserve required CI and skip runtime QA/calls.
+
+
+### [CHECK-OUT] Codex - 2026-10-24 - exact item photos draft ready
+Two explicit homepage-caption matches: Fajitas Fundida1143 and Pizza Birria2913. All260 ordering detail GETs supplied no item photos;258rows remain text-only. Original full-frame WebP thumbnails total62510bytes; lazy category-bounded mounting and graceful text fallback. No menu/price/description/hero/cutout/game/phone/CIchanges. Scoped lint, productionWebpack/TypeScript/60pages/traces and independent source review PASS. Draftbranch-only Verceldeploymenthold honors no-deploy instruction; remoteCI remains required. No browser/gameplay/smoke/calls. Exact evidence in EL_MARIACHI/2026-10-24.

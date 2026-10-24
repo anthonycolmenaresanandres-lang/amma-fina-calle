@@ -1,0 +1,38 @@
+{
+  "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+  "checkedAt": "2026-10-24",
+  "sourceSha256": "5187953d827fc00b6f41a7bdc9d58e5059cd5d0b0f3485e5b94d099b36ab1117",
+  "navigationLinks": [
+    "/",
+    "/#contact",
+    "/#location",
+    "/el-mariachi-mex-and-grill/",
+    "https://d803lamfzaqnm.cloudfront.net/bootstrap-icons.css",
+    "https://d803lamfzaqnm.cloudfront.net/bootstrap.min.css",
+    "tel:12528024119",
+    "tel:12529432000",
+    "tel:12529751505",
+    "tel:19103006362",
+    "tel:19103535886",
+    "tel:19106651790"
+  ],
+  "imageUrls": [
+    "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-72zbqk4r-food1.jpg",
+    "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-fb8tjpvc-food2.jpg",
+    "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-jxn7kcl3-logo.png",
+    "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-vjmkr3z2-banner.jpg",
+    "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-x2nh5qgc-food3.jpg"
+  ],
+  "galleryFinding": "The public homepage contains three food images and a banner, plus its logo. Navigation links only to the homepage, contact/location anchors and ordering. No separate gallery page is linked. Domain-restricted searches for gallery/photos/menu and food found only the homepage.",
+  "confirmedItemCaptions": {
+    "1143": "Fajitas fundida",
+    "2913": "Pizza Birria"
+  },
+  "excludedUnlabeled": [
+    "el-mariachi-mex-and-grill-72zbqk4r-food1.jpg",
+    "el-mariachi-mex-and-grill-vjmkr3z2-banner.jpg"
+  ],
+  "newDistinctPhotographsDiscovered": 0,
+  "newItemPhotoAssociations": 2,
+  "limit": "No additional exact named dish photos located in these requested public sources. This does not establish that no other restaurant photos exist elsewhere."
+}

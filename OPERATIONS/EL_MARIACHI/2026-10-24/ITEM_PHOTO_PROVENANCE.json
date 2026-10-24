@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1143",
+    "name": "Fajitas Fundida",
+    "caption": "Fajitas fundida",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-fb8tjpvc-food2.jpg",
+    "file": "1143-fajitas-fundida.webp",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "retrievedAt": "2026-10-24T01:28:28.721Z",
+    "original": {
+      "width": 922,
+      "height": 692,
+      "bytes": 108496,
+      "sha256": "5c490f41817e9d6c90d67e1b060f89e272b1069cb1502e10edcaa53177d2f9f6"
+    },
+    "delivered": {
+      "src": "/assets/el-mariachi/menu/1143-fajitas-fundida.webp",
+      "width": 480,
+      "height": 360,
+      "bytes": 25182,
+      "sha256": "73ec12fb4774d3f92adf0e70d9c5dd8b9f2956b121f9190fc020fb7442feda70"
+    },
+    "matchEvidence": "Original official photograph has embedded caption \"Fajitas fundida\". Exact existing Jacksonville item name, case-insensitive; ID 1143. Not matched by visual similarity.",
+    "modification": "Proportional downsize and WebP compression only. Complete original frame and embedded caption retained. No crop, generated pixels, ingredient changes or background removal."
+  },
+  {
+    "id": "2913",
+    "name": "Pizza Birria",
+    "caption": "Pizza Birria",
+    "source": "https://d2gqo3h0psesgi.cloudfront.net/auto/el-mariachi-mex-and-grill-x2nh5qgc-food3.jpg",
+    "file": "2913-pizza-birria.webp",
+    "sourcePage": "https://www.elmariachimexandgrillnc.com/",
+    "retrievedAt": "2026-10-24T01:28:28.880Z",
+    "original": {
+      "width": 922,
+      "height": 692,
+      "bytes": 149601,
+      "sha256": "071d7a98c0d956a503d761c1b89df580396e084c7973735a33dfbb88f713b910"
+    },
+    "delivered": {
+      "src": "/assets/el-mariachi/menu/2913-pizza-birria.webp",
+      "width": 480,
+      "height": 360,
+      "bytes": 37328,
+      "sha256": "3ddfcdcfd514848a0502753b5c70773b987f883e9343fcd22c05048d8881abfe"
+    },
+    "matchEvidence": "Original official photograph has embedded caption \"Pizza Birria\". Exact existing Jacksonville item name, case-insensitive; ID 2913. Not matched by visual similarity.",
+    "modification": "Proportional downsize and WebP compression only. Complete original frame and embedded caption retained. No crop, generated pixels, ingredient changes or background removal."
+  }
+]

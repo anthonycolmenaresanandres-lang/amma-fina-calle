@@ -8,6 +8,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, ChevronDown, Clock3, MapPin, Phone
 import { ElMariachiNav } from "./ElMariachiNav";
 import { BRAND_URL, MENU_RETRIEVED, LOGO_PATH, categories, getCategory, jacksonville, normalizeSearch, type Location, type MenuItem } from "./data";
 import { visualAssets } from "./visual-assets";
+import { itemPhotos } from "./item-photos";
 import styles from "./menu.module.css";
 
 const dayNames: Record<string, string> = {
@@ -35,9 +36,25 @@ function ExternalArrow() {
 }
 
 function ItemDisclosure({ item }: { item: MenuItem }) {
+  const [failedPhoto, setFailedPhoto] = useState<string | null>(null);
+  const photo = itemPhotos[item.id];
+  const visiblePhoto = photo && failedPhoto !== photo.src ? photo : undefined;
+
   return (
     <details className={styles.menuItem} id={`dish-${item.id}`}>
-      <summary className={styles.itemSummary}>
+      <summary className={visiblePhoto ? `${styles.itemSummary} ${styles.itemSummaryWithPhoto}` : styles.itemSummary}>
+        {visiblePhoto && (
+          <Image
+            src={visiblePhoto.src}
+            alt=""
+            width={visiblePhoto.width}
+            height={visiblePhoto.height}
+            sizes="(max-width: 760px) 64px, 80px"
+            loading="lazy"
+            className={styles.itemPhoto}
+            onError={() => setFailedPhoto(visiblePhoto.src)}
+          />
+        )}
         <span className={styles.itemName}>{item.name}</span>
         <span className={styles.itemPrice}>{item.priceDisplay}</span>
         <Plus size={17} className={styles.itemPlus} aria-hidden="true" />
