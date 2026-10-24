@@ -3779,3 +3779,12 @@ Original oblique ground/raised props and screen-direction input adapter; short w
 
 ### [CHECK-IN] Codex - 2026-10-24 - game publication approved
 Reconciled PR361 open/draft/unmerged at bcf04200556d1ed0b4a6829eb3caf9a332aa518b with passing CI40098075501 and no review threads. Anthony explicitly approved game merge/publication. Restore only this branch's held Vercel config to existing production config; application remains byte-identical to the checked draft. Final-head CI/Vercel then normal protected merge and deployment metadata readback. Traffic-report repair stays separate; no runtime/browser/gameplay/smoke/calls or unrelated scope.
+### [CHECK-OUT] Codex - 2026-10-24 - traffic repair prepared for scoped PR
+
+Integrated published7a9d87f; append conflict resolved retaining all game/traffic
+records. Current-source61reliability groups +counter/19pipeline/mail/drain/
+presentation tests PASS, full lint0errors111existingwarnings, scopedlint and
+productionWebpack/TypeScript/60pages/traces PASS. Public run metadata date read
+verified without token. Original collector, metric query, dependencies and game
+paths unchanged againstmain. ScopedPR/exact-headCI next; no live schema/settings,
+credential, provider send, historical backfill, merge or production deployment.

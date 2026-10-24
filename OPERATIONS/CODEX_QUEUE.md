@@ -11,6 +11,11 @@ regressions, lint/build and exact-head CI. Production migration/settings,
 merge/deploy and one latest-period Anthony-only verification require coordinated
 approval before execution. No mass backfill, new credentials/services or spend.
 
+Local implementation complete:61newreliability groups plus all existing traffic/
+mail/drain/presentation regressions, full lint (0errors), TypeScript/production
+Webpackbuild/60pages PASS. Integrated published7a9d87f without product/ingestion
+diffs. Create scopedPR and wait exact-headCI; release/migration/delivery pending.
+
 ## [x] Maracaibo full-screen Penalty Rush image release - October 5
 
 **Authority/scope:** Anthony approved fitting the two generated raster images into the saved full-screen Penalty Rush change and merging. Reuse f815418; preserve goal markings, cartoon player/keeper, gameplay, Back to menu, and unrelated work. Isolated sibling worktree. No extra local lint/build, browser QA, tests, new generation, services or secrets.

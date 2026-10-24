@@ -130,6 +130,17 @@ Existing pipeline and established-drain continuity tests are retained. Final
 commands and exact commit/CI evidence are recorded in thePR; live migration and
 delivery evidence remain pending approval, not claimed by mocked tests.
 
+Local final verification on code tree53f6a1a (includes published7a9d87f):
+`npm run traffic:selftest` (counter +19pipeline groups),
+`npm run traffic-morning:selftest` (existing mail/drain/presentation boundaries
+plus61reliability groups), touched-sourceESLint, full `npm run lint` (0errors;
+111existingwarnings), and `npm run build -- --webpack` (compile, TypeScript,
+60static pages and build traces) PASS. WorkflowYAML parses with five wake-ups,
+defaultcheck and contents:read. Actual publicGitHub metadata extraction for
+run39983020194 returns2026-10-23 without authentication or any mutation.
+Protected collection/aggregation/drain/ElMariachi/dependency paths have no diff
+against7a9d87f. RemoteCI/preview are checked against the finalPRcommit separately.
+
 Official contracts checkedOctober24:
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
 - https://resend.com/docs/dashboard/emails/idempotency-keys
