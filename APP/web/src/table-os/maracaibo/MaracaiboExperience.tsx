@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, Star } from "lucide-react";
+import { Check, Star, ReceiptText, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { usePhone } from "./use-phone";
 import { useTableVisit } from "./use-table-visit";
+import { MaracaiboSplitBill } from "./MaracaiboSplitBill";
 import { MaracaiboPenaltyClient } from "./MaracaiboPenaltyClient";
 import { MaracaiboFootballClient } from "./MaracaiboFootballClient";
 import type { OrderDestination } from "../toast";
@@ -30,6 +31,10 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
   const [multiplayerRequested, setMultiplayerRequested] = useState(false);
   const membership = useTableVisit(tableId, device === "phone" && multiplayerRequested);
   const [view, setView] = useState<View>("welcome");
+  const [splitOpen, setSplitOpen] = useState(false);
+  const splitActive = useRef(false);
+  const closingSplit = useRef(false);
+  const splitTrigger = useRef<HTMLElement | null>(null);
   const [request, setRequest] = useState<RequestId | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
@@ -53,6 +58,40 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
     window.addEventListener("popstate", restorePenaltyView);
     return () => window.removeEventListener("popstate", restorePenaltyView);
   }, [tableId]);
+
+  useEffect(() => {
+    const restoreSplit = () => {
+      const open = window.history.state?.maracaiboSplit?.tableId === tableId;
+      splitActive.current = open;
+      closingSplit.current = false;
+      setSplitOpen(open);
+    };
+    restoreSplit();
+    window.addEventListener("popstate", restoreSplit);
+    return () => window.removeEventListener("popstate", restoreSplit);
+  }, [tableId]);
+
+  // Outside controls remain inert until the native dialog has unmounted.
+  useEffect(() => {
+    if (splitOpen || !splitTrigger.current) return;
+    const frame = window.requestAnimationFrame(() => splitTrigger.current?.focus({ preventScroll: true }));
+    return () => window.cancelAnimationFrame(frame);
+  }, [splitOpen]);
+
+  function openSplit(event: React.MouseEvent<HTMLButtonElement>): void {
+    if (splitActive.current) return;
+    splitTrigger.current = event.currentTarget;
+    splitActive.current = true;
+    closingSplit.current = false;
+    window.history.pushState({ ...window.history.state, maracaiboSplit: { tableId } }, "", "#split-bill");
+    setSplitOpen(true);
+  }
+
+  function closeSplit(): void {
+    if (!splitActive.current || closingSplit.current) return;
+    closingSplit.current = true;
+    window.history.back();
+  }
 
   function navigate(next: View): void {
     if (view === next) return;
@@ -145,6 +184,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             <button type="button" onClick={() => navigate("ordering")}><strong><Lettering name="order-online" label="Order online" priority /></strong><small>Pickup &amp; delivery only</small></button>
             <button type="button" onClick={() => navigate("service")}><strong><Lettering name="service" label="Service" priority /></strong><small>Ask your server · Preview</small></button>
             <button type="button" onClick={() => navigate("games")}><strong className={styles.playLettering}><Lettering name="play" label="Play" priority /></strong><small>Multiplayer football · Solo penalties</small></button>
+            <button type="button" className={styles.payEntry} onClick={openSplit}><strong><ReceiptText aria-hidden="true" />Pay / Split bill<ArrowUpRight aria-hidden="true" /></strong><small>Try the demo checkout</small></button>
           </div>
         </section>
       ) : (
@@ -153,7 +193,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
 
           {view === "menu" ? (
             <section aria-labelledby="menu-title">
-              <div className={styles.sectionHeading}><h1 ref={titleRef} tabIndex={-1} id="menu-title"><Lettering name="menu" label="Menu" /></h1><p>Owner approval pending. Confirm prices &amp; availability with your server.</p></div>
+              <div className={styles.sectionHeading}><h1 ref={titleRef} tabIndex={-1} id="menu-title"><Lettering name="menu" label="Menu" /></h1><p>Owner approval pending. Confirm prices &amp; availability with your server.</p><button type="button" className={styles.menuPay} onClick={openSplit}><ReceiptText size={18} aria-hidden="true" />Pay / Split bill<span>DEMO</span></button></div>
               <div className={styles.categoryBar}><nav aria-label="Menu categories">{venue.menu.map((section) => <a key={section.name} href={"#" + categoryId(section.name)}>{section.name}</a>)}</nav></div>
               <div className={styles.menuSections}>{venue.menu.map((section, index) => (
                 <section className={styles.menuSection} id={categoryId(section.name)} key={section.name} data-flag-color={index % 3}>
@@ -179,7 +219,7 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
           {view === "ordering" ? (
             <section aria-labelledby="ordering-title">
               <div className={styles.sectionHeading}><h1 ref={titleRef} tabIndex={-1} id="ordering-title"><Lettering name="order-online" label="Order online" /></h1></div>
-              <div className={styles.checkState}><h2>Table payment unavailable</h2><p>Ask your server to view or pay your bill.<br />No live check or payment status is connected.</p></div>
+              <div className={styles.checkState}><h2>Split the table bill</h2><p>Try a sample equal split. No live check is connected.</p><button type="button" className={styles.primaryButton} onClick={openSplit}>Pay / Split bill</button></div>
               <div className={styles.takeout}><h2>Ordering to go?</h2><p>Toast is for pickup / delivery only.<br />It does not open or settle your table’s check.</p><a className={styles.primaryButton} href={orderDestination.url} target="_blank" rel="noreferrer">Order on Toast<span className={styles.srOnly}> for pickup or delivery (opens in a new tab)</span></a></div>
             </section>
           ) : null}
@@ -199,13 +239,14 @@ export function MaracaiboExperience({ venue, tableId, orderDestination }: Props)
             </section>
           ) : null}
 
-          {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
+          {view !== "match" ? <nav className={styles.utilityBar} aria-label="Table navigation"><button type="button" aria-current={view === "menu" ? "page" : undefined} onClick={() => navigate("menu")}>Menu</button><button type="button" aria-current={view === "service" ? "page" : undefined} onClick={() => navigate("service")}>Service</button><button type="button" onClick={openSplit}><ReceiptText size={16} aria-hidden="true" />Pay / Split bill</button><button type="button" onClick={() => navigate("welcome")}>Home</button></nav> : null}
         </div>
       )}
       {device === "phone" && multiplayerRequested ? <div className={styles.visitFooter}>
         <span role="status">{membership.status === "active" ? `${currentTable} · Your visit` : membership.status === "ended" ? "You’ve left this table." : membership.status === "connecting" ? "Connecting your table…" : "Table connection unavailable"}</span>
         {membership.status === "active" ? <button type="button" className={styles.quietButton} onClick={() => { if (window.confirm("Leave this table on your phone? Other guests can keep playing.")) { activeMatch.current = false; setView("welcome"); void membership.leave(); } }}>Leave table</button> : null}
       </div> : null}
+      {splitOpen ? <MaracaiboSplitBill venue={venue} tableId={tableId} onClose={closeSplit} /> : null}
       <footer className={styles.footer} aria-label="Brought to you by Fina Calle">
         <span className={styles.footerCredit}>Brought to you by</span>
         <Image className={styles.footerLogo} src="/assets/fina-calle/emblem-colattao.webp" alt="Fina Calle" width={460} height={488} unoptimized />
