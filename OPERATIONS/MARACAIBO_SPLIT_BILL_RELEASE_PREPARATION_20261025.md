@@ -1,6 +1,6 @@
 # Maracaibo split-bill DEMO release preparation
 
-State: **VERIFIED LOCAL; PUBLICATION HELD**. Wait for explicit parent clearance for this Maracaibo release. The Seed-specific approval in main does not release this hold. No remote write was performed.
+State: **VERIFIED LOCAL; PUBLICATION AUTHORIZED**. Parent explicitly lifted the Maracaibo hold after Seed PR363 reached production READY with required CI passing. The owner requested "Deploy everything that needs deployment please" on October25. Release only this labeled demo through draft PR, exact-head checks, checked merge and exact-commit production verification; traffic PR362 remains excluded.
 
 Branch: `codex/maracaibo-split-bill-release-20261025`
 
@@ -36,8 +36,8 @@ The unchanged local Vercel Analytics script returns404 with MIME warnings (four 
 
 Private evidence: `C:\dev\amma\evidence\maracaibo-split-release-20261025\qa.json`, `browser-smoke.cjs`, and `split-1440.png`, `split-390.png`, `split-320.png`. Screenshots were visually inspected. These are local QA files, not uploaded user attachments. Existing Library capability failure was not retried for this preparation task.
 
-## Held release gates and limits
+## Release gates and limits
 
-No push, PR creation, remote CI, merge, deployment or production verification. Parent must explicitly release the Maracaibo hold, reconcile any newer main, then use normal exact-head CI/protected PR and production verification. Do not revive stopped owner portal or other pending features.
+At initial preparation no remote write had occurred. Publication is now authorized: reconcile current main, push only this branch, create a draft PR, verify exact-head CI/reviews and normal checked merge, then verify the exact production commit and demo route. Do not revive stopped owner portal or include blocked traffic PR362 or other pending features. The release receipt will distinguish completed remote stages from pending ones.
 
 No real-device/multiplayer/payment or Toast merchant readiness certification. Physical touch/FPS and existing game-exit flow were not rerun; this refresh is limited to the changed demo. Actual owner/Toast eligibility, exact table URLs and enabled product remain unverified. Owned isolated browser contexts closed; loopback preview stopped and port3149 checked closed.
