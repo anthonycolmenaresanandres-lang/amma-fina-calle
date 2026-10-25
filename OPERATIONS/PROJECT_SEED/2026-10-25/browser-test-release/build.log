@@ -1,0 +1,136 @@
+Γû▓ Next.js 16.2.11 (webpack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 90s
+  Running TypeScript ...
+  Finished TypeScript in 30.1s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/60) ...
+  Generating static pages using 3 workers (15/60) 
+  Generating static pages using 3 workers (30/60) 
+  Generating static pages using 3 workers (45/60) 
+Γ£ô Generating static pages using 3 workers (60/60) in 7.2s
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)                                             Revalidate  Expire
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /aji-ichiban
+Γö£ Γùï /aji-ichiban/play
+Γö£ ╞Æ /api/bodega/guest-notes
+Γö£ ╞Æ /api/bodega/rewards
+Γö£ ╞Æ /api/bodega/rewards/redeem
+Γö£ ╞Æ /api/customer-requests
+Γö£ ╞Æ /api/integrations/square/callback
+Γö£ ╞Æ /api/integrations/square/connect
+Γö£ ╞Æ /api/integrations/square/disconnect
+Γö£ ╞Æ /api/integrations/square/location
+Γö£ ╞Æ /api/integrations/square/refresh
+Γö£ ╞Æ /api/integrations/square/sync
+Γö£ ╞Æ /api/integrations/square/webhook
+Γö£ ╞Æ /api/internal/traffic/health
+Γö£ ╞Æ /api/internal/traffic/morning
+Γö£ ╞Æ /api/internal/traffic/report
+Γö£ ╞Æ /api/internal/traffic/today
+Γö£ ╞Æ /api/lead-arcade/dossier
+Γö£ ╞Æ /api/lead-arcade/img
+Γö£ ╞Æ /api/lead-arcade/pitch-email
+Γö£ ╞Æ /api/maracaibo/tables
+Γö£ ╞Æ /api/maracaibo/visit/[tableId]
+Γö£ ╞Æ /api/owner/[id]/requests/[referenceId]/attachments
+Γö£ ╞Æ /api/stripe/webhook
+Γö£ ╞Æ /api/traffic/drain
+Γö£ ╞Æ /api/traffic/pageview
+Γö£ ╞Æ /auth/confirm
+Γö£ Γùï /band
+Γö£ Γùï /bodega-menu-review
+Γö£ ╞Æ /bodega-sessions-review
+Γö£ ╞Æ /bodega-vibra-rules
+Γö£ ╞Æ /cafe-rush
+Γö£ Γùï /case-studies
+Γö£ Γùï /case-studies/colattao
+Γö£ Γùï /command-center
+Γö£ Γùï /command-center/code
+Γö£ Γùï /conquest
+Γö£ Γùï /contact
+Γö£ Γùï /content-engine
+Γö£ ╞Æ /customers
+Γö£ ╞Æ /customers/[id]
+Γö£ ╞Æ /customers/auth/callback
+Γö£ ╞Æ /customers/bodega-traffic
+Γö£ ╞Æ /customers/maracaibo-tables
+Γö£ ╞Æ /customers/new
+Γö£ ╞Æ /customers/onboarding/[candidateId]
+Γö£ ╞Æ /customers/payments
+Γö£ ╞Æ /customers/requests
+Γö£ ╞Æ /customers/requests/[id]
+Γö£ ╞Æ /customers/signout
+Γö£ ╞Æ /customers/team
+Γö£ ╞Æ /customers/traffic
+Γö£ Γùï /demo/aj-gators
+Γö£ ╞Æ /demo/bodega
+Γö£ Γùï /demo/discover
+Γö£ Γùï /demo/gran-patron
+Γö£ ╞Æ /demo/las-palmas
+Γö£ ╞Æ /demo/pocket-cafe
+Γö£ ╞Æ /demo/project-seed
+Γö£ Γùï /demo/scrambled
+Γö£ Γùï /discover
+Γö£ ╞Æ /el-mariachi
+Γö£ Γùï /el-mariachi/play
+Γö£ Γùï /elsas-place
+Γö£ Γùï /elsas-place/play
+Γö£ Γùï /for-restaurants
+Γö£ Γùï /havana-58
+Γö£ Γùï /havana-58/play
+Γö£ Γùï /lead-arcade
+Γö£ ╞Æ /m/[id]
+Γö£ Γùï /news                                                       5m      1y
+Γö£ ╞Æ /news/[slug]
+Γö£ Γùï /news/about
+Γö£ Γùï /news/sitemap.xml
+Γö£ Γùï /olympia
+Γö£ Γùï /olympia/play
+Γö£ ╞Æ /owner/[id]
+Γö£ ╞Æ /owner/[id]/app-icon/[size]
+Γö£ ╞Æ /owner/[id]/auth/callback
+Γö£ ╞Æ /owner/[id]/manifest.webmanifest
+Γö£ ╞Æ /owner/[id]/requests
+Γö£ ╞Æ /owner/[id]/requests/[requestId]
+Γö£ ╞Æ /owner/[id]/signout
+Γö£ Γùï /owner/bodega
+Γö£ ╞Æ /owner/bodega/billing
+Γö£ ╞Æ /owner/bodega/insights
+Γö£ ╞Æ /owner/bodega/qr
+Γö£ ╞Æ /owner/bodega/redeem
+Γö£ ╞Æ /owner/colattao/plan
+Γö£ ╞Æ /owner/colattao/qr
+Γö£ ╞Æ /owner/enrollment/[candidateId]
+Γö£ Γùï /owner/guide
+Γö£ ╞Æ /penalty-shootout
+Γö£ ╞Æ /pilot/accounts
+Γö£ ╞Æ /pilot/bodega-controls
+Γö£ ╞Æ /pilot/las-palmas
+Γö£ Γùï /play/gran-patron
+Γö£ Γùï /play/las-palmas
+Γö£ Γùï /play/maracaibo-street-football
+Γö£ ╞Æ /play/project-seed
+Γö£ Γùï /project-seed/menu
+Γö£ Γùï /rd
+Γö£ Γùï /request-update
+Γö£ Γùï /research-and-development/paybridge
+Γö£ Γùï /robots.txt
+Γö£ Γùï /royal-chocolate
+Γö£ Γùï /royal-chocolate/play
+Γö£ Γùï /scrambled/menu
+Γö£ Γùï /systems
+Γö£ ╞Æ /table-duel
+Γö£ ╞Æ /table-os/[venueId]
+Γö£ ╞Æ /table/[venueId]/[tableId]
+Γöö ╞Æ /vital-vibes
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

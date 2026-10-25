@@ -1,0 +1,33 @@
+{
+  "rounds": [
+    {
+      "heading": "NICE CATCH.",
+      "summary": "You scored 220 points. Next up: Purple & green.",
+      "next": true,
+      "complete": false
+    },
+    {
+      "heading": "NICE CATCH.",
+      "summary": "You scored 320 points. Next up: Sweet finish.",
+      "next": true,
+      "complete": false
+    },
+    {
+      "heading": "GROWN.",
+      "summary": "You finished all three rounds with 990 points. Personal best: 990.",
+      "next": false,
+      "complete": true
+    }
+  ],
+  "assetLoads": [
+    "cafe-roof-map-portrait-v3.webp",
+    "buko-pandan-latte-illustrated-v2.webp",
+    "dark-iced-coffee-illustrated-v2.webp",
+    "aswang-illustrated-v2.webp",
+    "borahae-latte-illustrated-v2.webp",
+    "iced-green-latte-illustrated-v2.webp",
+    "sugar-custard-swirl-pastry-illustrated-v2.webp",
+    "purple-rolled-pastry-illustrated-v2.webp"
+  ],
+  "errors": []
+}

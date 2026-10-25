@@ -1,0 +1,335 @@
+{
+  "mobileMenu": {
+    "href": "/demo/project-seed",
+    "title": "Project Seed Coffee · Menu Concept Preview",
+    "width": 390,
+    "scroll": 390,
+    "items": 33,
+    "nav": true,
+    "noindex": "noindex, nofollow, nocache",
+    "forms": 0,
+    "gameLink": true
+  },
+  "narrowMenu": {
+    "width": 320,
+    "scroll": 320,
+    "items": 33
+  },
+  "tabletMenu": {
+    "width": 768,
+    "scroll": 768,
+    "items": 33
+  },
+  "desktopMenu": {
+    "width": 1440,
+    "scroll": 1440,
+    "items": 33,
+    "title": "Project Seed Coffee · Menu Concept Preview"
+  },
+  "intro": {
+    "title": "Seed Rush · Project Seed Concept Preview",
+    "heading": "Seed Rush",
+    "width": 390,
+    "scroll": 390,
+    "start": true,
+    "rounds": 3,
+    "images": [
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/borahae-latte-illustrated-v2.webp",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/iced-green-latte-illustrated-v2.webp",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/sugar-custard-swirl-pastry-illustrated-v2.webp",
+        "loaded": true
+      },
+      {
+        "src": "http://127.0.0.1:3158/assets/project-seed/seed-rush/purple-rolled-pastry-illustrated-v2.webp",
+        "loaded": true
+      }
+    ],
+    "aswang": true,
+    "passage": 0
+  },
+  "narrowIntro": {
+    "width": 320,
+    "scroll": 320,
+    "rounds": 3
+  },
+  "desktopIntro": {
+    "width": 1440,
+    "scroll": 1440,
+    "rounds": 3
+  },
+  "playing": {
+    "canvas": true,
+    "round": "FIRST POUR",
+    "hud": "SCORE\n0\nTARGET\n80\nTIME\n15S",
+    "width": 390,
+    "scroll": 390,
+    "pause": true,
+    "hidden": false
+  },
+  "paused": {
+    "label": true,
+    "hud": "SCORE\n0\nTARGET\n80\nTIME\n15S"
+  },
+  "stillPaused": "SCORE\n0\nTARGET\n80\nTIME\n15S",
+  "resumed": "SCORE\n0\nTARGET\n80\nTIME\n14S",
+  "caught": {
+    "result": true
+  },
+  "exited": true,
+  "loss": {
+    "heading": "TRY AGAIN.",
+    "retry": true
+  },
+  "retry": {
+    "canvas": true,
+    "heading": "FIRST POUR"
+  },
+  "fallback": {
+    "canvas": true,
+    "loadError": false,
+    "help": "Catch the coffee and pandan. Let the aswang pass. Reach 80 points in 20 seconds."
+  },
+  "fallbackBlockedRequests": [
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/october/cafe-roof-map-portrait-v3.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/october/cafe-roof-map-portrait-v3.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/october/cafe-roof-map-portrait-v3.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "blockedReason": "inspector",
+      "errorText": ""
+    }
+  ],
+  "fallbackSuccessfulAssets": [],
+  "spriteResponses": [
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/borahae-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/iced-green-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/sugar-custard-swirl-pastry-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/purple-rolled-pastry-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/borahae-latte-illustrated-v2.webp",
+      "status": 304,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/iced-green-latte-illustrated-v2.webp",
+      "status": 304,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/sugar-custard-swirl-pastry-illustrated-v2.webp",
+      "status": 304,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/purple-rolled-pastry-illustrated-v2.webp",
+      "status": 304,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/borahae-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/iced-green-latte-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/sugar-custard-swirl-pastry-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    },
+    {
+      "url": "http://127.0.0.1:3158/assets/project-seed/seed-rush/purple-rolled-pastry-illustrated-v2.webp",
+      "status": 200,
+      "fromDiskCache": false
+    }
+  ],
+  "errors": [],
+  "badResponses": [],
+  "failures": []
+}

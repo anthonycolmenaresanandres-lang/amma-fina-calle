@@ -16,6 +16,10 @@ mail/drain/presentation regressions, full lint (0errors), TypeScript/production
 Webpackbuild/60pages PASS. Integrated published7a9d87f without product/ingestion
 diffs. Create scopedPR and wait exact-headCI; release/migration/delivery pending.
 
+October25 reconciliation: PR36376a0547 andPR364b71b0bb are published. Parent
+authorizes branch refresh/checks only while Neon access remains pending. Preserve
+both releases; no SQL, gate changes, email, PR merge or deployment in this phase.
+
 ## [x] Maracaibo full-screen Penalty Rush image release - October 5
 
 **Authority/scope:** Anthony approved fitting the two generated raster images into the saved full-screen Penalty Rush change and merging. Reuse f815418; preserve goal markings, cartoon player/keeper, gameplay, Back to menu, and unrelated work. Isolated sibling worktree. No extra local lint/build, browser QA, tests, new generation, services or secrets.
@@ -1378,3 +1382,14 @@ Publication approval — 2026-10-24: Anthony explicitly approved merging and pub
 User requests elevated oblique perspective, removal of bottom direction controls and brief restaurant-inspired instructions before Play. Isolated codex/el-mariachi-oblique-game-20261024 from production f3c8f638. Scope: route-local presentation/input projection and welcome flow only; preserve the 55-second round, 54 objects, growth/scoring, menu/photos/phone and other clients. Draft PR authorized, no merge or deployment until new publication approval. Required lint/build and unchanged CI retained; browser/gameplay/smoke/calls explicitly skipped. Branch-specific deployment hold protects the draft.
 
 Publication approved - 2026-10-24: Anthony explicitly approved merging and publishing the prepared game revision PR361. Remove only its exact-branch deployment hold, preserve application source bcf0420, run final-head required CI and Vercel checks, then checked merge and exact production READY/domain verification. Traffic repair is a separate task/worktree; no changes to traffic, menu/photos, phone or other clients. Browser/gameplay/smoke/calls remain skipped.
+
+## [ ] Project Seed browser repair publication preparation - 2026-10-25
+Anthony requested deployment of ready updates. Parent explicitly holds push/merge/deployment until traffic PR362 finishes and parent releases this hold. Isolated codex/project-seed-browser-tests-release-20261025 from main7a9d87f. Verify old16790a4 absent and narrow repair still needed; refresh only two browser suites plus scoped operational evidence. No application, art, menu, gameplay, dependencies, CI or traffic changes. PASS = syntax/scoped lint, enhanced/fallback with actual active-asset blocks, all three rounds, source-preservation proof and clean local commit. STOP = all remote writes/publication until explicit release instruction. No spend/access/credentials.
+Publication hold released by parent after traffic task stopped without production changes. Release only this two-script patch through draft PR/exact-head CI/checked merge/Vercel verification. Exclude PR362 and all other work.
+
+## [x] 2026-10-25 - Maracaibo split-bill DEMO release preparation
+State: VERIFIED LOCAL; NARROW PUBLICATION AUTHORIZED AFTER SEED PR363. Owner requested deploying ready Fina Calle updates; parent delegated reconciliation of bbd9a815/cf5ec74 while traffic PR362 releases. Fresh codex/maracaibo-split-bill-release-20261025 from main 7a9d87f57f6099afc294f97aa45f1786ffb3a48e. Scope: carry forward the existing labeled fictional split-bill demo and disabled owner-verified Toast seam only; preserve published menu, games, CI and all unrelated work. PASS: exact-source reconciliation, relevant tests/lint/types/build and local phone/desktop smoke. STOP: no push, PR, merge or deployment until parent releases hold; no real payment/order/Toast activation, stopped owner work, credentials, services or spend.
+
+Maracaibo preparation complete: source/tests byte-identical to bbd9a815; refreshed onto main76a0547 after Project Seed PR363. Focused/full lint (111 inherited warnings, no errors), TypeScript/60-page production build, allocation/URL/Maracaibo regressions and isolated Chrome155 desktop/390/320 smoke pass. Local-only Vercel Analytics404/MIME messages recorded separately. No demo page errors, external requests or mutating requests. Parent's Maracaibo release hold remains explicit despite Seed-specific release approval in preceding records. Review: MARACAIBO_SPLIT_BILL_RELEASE_PREPARATION_20261025.md.
+
+Maracaibo publication clearance - October25: parent explicitly lifted this release hold after main76a0547/PR363 production READY and required CI. Release only labeled DEMO split-bill branch through draft PR, exact-head CI, checked merge and exact-commit production/live-demo verification. Traffic PR362 is unmerged/access-blocked and excluded. No real payment/order/Toast activation, stopped owner features, services/spend or credential/access changes.

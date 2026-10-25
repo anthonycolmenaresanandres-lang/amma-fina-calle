@@ -42,6 +42,8 @@ jobs:
         run: node --import tsx scripts/discover-demo-selftest.ts
       - name: Olympia prospect menu and standard-game contracts
         run: node --import tsx scripts/olympia-selftest.ts
+      - name: Maracaibo sample split bill and safe Toast handoff
+        run: npm run maracaibo-split-bill:selftest
       - name: Maracaibo concurrent football and recovery
         run: npm run maracaibo-football:selftest
       - name: Maracaibo table visit lifecycle and access boundaries
