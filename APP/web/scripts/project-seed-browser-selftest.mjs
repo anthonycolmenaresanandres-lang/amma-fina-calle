@@ -12,15 +12,26 @@ const pending = new Map();
 const errors = [];
 const badResponses = [];
 const spriteResponses = [];
+const fallbackRequests = new Map();
+const fallbackBlockedRequests = [];
+const fallbackSuccessfulAssets = [];
+let checkingFallback = false;
+const fallbackSprites = ["aswang-illustrated-v2.webp", "buko-pandan-latte-illustrated-v2.webp", "dark-iced-coffee-illustrated-v2.webp"];
 let id = 0;
 await new Promise((resolve, reject) => { socket.addEventListener("open", resolve, { once: true }); socket.addEventListener("error", reject, { once: true }); });
 socket.addEventListener("message", (event) => {
   const message = JSON.parse(event.data);
   if (message.id && pending.has(message.id)) { const { resolve, reject } = pending.get(message.id); pending.delete(message.id); if (message.error) reject(new Error(message.error.message)); else resolve(message.result); }
+  if (checkingFallback && message.method === "Network.requestWillBeSent") fallbackRequests.set(message.params.requestId, message.params.request.url);
+  if (checkingFallback && message.method === "Network.loadingFailed" && fallbackRequests.has(message.params.requestId)) {
+    const url = fallbackRequests.get(message.params.requestId);
+    if (url.includes("/assets/project-seed/")) fallbackBlockedRequests.push({ url, blockedReason: message.params.blockedReason, errorText: message.params.errorText });
+  }
+  if (checkingFallback && message.method === "Network.responseReceived" && message.params.response.status < 400 && message.params.response.url.includes("/assets/project-seed/")) fallbackSuccessfulAssets.push(message.params.response.url);
   if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails.text);
   if (message.method === "Log.entryAdded" && message.params.entry.level === "error" && !message.params.entry.text.includes("/_vercel/insights/script.js") && !message.params.entry.text.startsWith("Failed to load resource:")) errors.push(message.params.entry.text);
   if (message.method === "Network.responseReceived" && message.params.response.status >= 400 && !message.params.response.url.includes("/_vercel/insights/script.js")) badResponses.push(`${message.params.response.status} ${message.params.response.url}`);
-  if (message.method === "Network.responseReceived" && message.params.response.url.includes("/assets/project-seed/") && message.params.response.url.endsWith("-v1.webp")) spriteResponses.push({ url: message.params.response.url, status: message.params.response.status, fromDiskCache: message.params.response.fromDiskCache });
+  if (message.method === "Network.responseReceived" && message.params.response.url.includes("/assets/project-seed/") && new URL(message.params.response.url).pathname.endsWith("-illustrated-v2.webp")) spriteResponses.push({ url: message.params.response.url, status: message.params.response.status, fromDiskCache: message.params.response.fromDiskCache });
 });
 function send(method, params = {}) { const current = ++id; socket.send(JSON.stringify({ id: current, method, params })); return new Promise((resolve, reject) => pending.set(current, { resolve, reject })); }
 async function pause(ms = 700) { await new Promise((resolve) => setTimeout(resolve, ms)); }
@@ -35,7 +46,7 @@ await send("Page.enable"); await send("Runtime.enable"); await send("Log.enable"
 await send("Emulation.setFocusEmulationEnabled", { enabled: true });
 await viewport(390, 844, true);
 await nav(`${app}/project-seed/menu`);
-const mobileMenu = await evalInPage(`(() => ({ href:location.pathname, title:document.title, width:innerWidth, scroll:document.documentElement.scrollWidth, items:document.querySelectorAll('li[id]').length, nav:[...document.querySelectorAll('nav a')].every(a=>document.querySelector(a.hash)), noindex:document.querySelector('meta[name="robots"]')?.content, forms:document.forms.length, gameLink:!!document.querySelector('a[href="/play/project-seed"]') }))()`);
+const mobileMenu = await evalInPage(`(() => ({ href:location.pathname, title:document.title, width:innerWidth, scroll:document.documentElement.scrollWidth, items:document.querySelectorAll('li[id]').length, nav:(() => { const links = [...document.querySelectorAll('nav[aria-label="Menu categories"] a[href^="#"]')]; return links.length === 6 && links.every(a=>document.querySelector(a.hash)); })(), noindex:document.querySelector('meta[name="robots"]')?.content, forms:document.forms.length, gameLink:!!document.querySelector('a[href="/play/project-seed"]') }))()`);
 await shot("menu-mobile.png");
 await viewport(320, 700, true);
 await nav(`${app}/demo/project-seed`);
@@ -104,13 +115,15 @@ await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent
 await waitFor(`!![...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))`);
 await pause(500);
 await send("Network.setCacheDisabled", { cacheDisabled: true });
-await send("Network.setBlockedURLs", { urls: ["*aswang-v1.webp*", "*buko-pandan-latte-v1.webp*", "*dark-iced-coffee-v1.webp*", "*cafe-roof-map-*-v2.webp*"] });
+await send("Network.setBlockedURLs", { urls: [...fallbackSprites.map(name => `*${name}*`), "*cafe-roof-map-*-v3.webp*"] });
+checkingFallback = true;
 await evalInPage(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Start Seed Rush'))?.click()`);
 await waitFor(`!!document.querySelector('canvas') && !document.body.innerText.includes('Preparing cups')`);
 await evalInPage(`(() => { const original = Math.random; let calls = 0; Math.random = () => calls++ < 4 ? 0 : original(); })()`);
 await pause(4200);
 const fallback = await evalInPage(`(() => ({ canvas:!!document.querySelector('canvas'), loadError:document.body.innerText.includes('Game could not load.'), help:document.querySelector('[class*="roundHelp"]')?.innerText }))()`);
 await shot("game-playing-fallback-mobile.png");
+checkingFallback = false;
 await send("Network.setBlockedURLs", { urls: [] });
 await send("Network.setCacheDisabled", { cacheDisabled: false });
 const failures = [];
@@ -119,14 +132,19 @@ if (mobileMenu.scroll > mobileMenu.width || narrowMenu.scroll > narrowMenu.width
 if (desktopMenu.items !== 33 || !intro.start || intro.rounds !== 3 || !playing.canvas || !playing.pause) failures.push("desktop menu or game boot");
 if (!intro.aswang || intro.passage !== 0) failures.push("aswang legend or removed passage text");
 if (intro.images.length !== 6 || intro.images.some((entry) => !entry.loaded)) failures.push("six product preview sprites");
-if (!spriteResponses.some((entry) => entry.url.includes("aswang-v1.webp") && entry.status === 200)) failures.push("aswang asset did not load successfully");
+if (!spriteResponses.some((entry) => entry.url.includes("aswang-illustrated-v2.webp") && entry.status === 200)) failures.push("aswang asset did not load successfully");
 if (!paused.label || paused.hud !== stillPaused || paused.hud === resumed) failures.push("pause/resume behavior");
 if ((!caught.hud || !/SCORE\s+\d*[1-9]\d*/.test(caught.hud)) && !caught.result) failures.push("keyboard catch did not change game state");
 if (!exited) failures.push("exit game did not return to intro");
 if (!loss.retry || !retry.canvas) failures.push("loss/retry behavior");
 if (!fallback.canvas || fallback.loadError || !fallback.help?.includes("Let the aswang pass")) failures.push("missing-asset primitive fallback");
+for (const name of fallbackSprites) {
+  if (!fallbackBlockedRequests.some(entry => new URL(entry.url).pathname.endsWith(`/${name}`) && entry.blockedReason === "inspector")) failures.push(`fallback did not block active sprite: ${name}`);
+}
+if (!fallbackBlockedRequests.some(entry => /cafe-roof-map-.*-v3\.webp$/.test(new URL(entry.url).pathname) && entry.blockedReason === "inspector")) failures.push("fallback did not block active backdrop");
+if (fallbackSuccessfulAssets.some(url => fallbackSprites.some(name => new URL(url).pathname.endsWith(`/${name}`)))) failures.push("fallback loaded a supposedly blocked active sprite");
 if (errors.length) failures.push(`browser errors: ${errors.join(" | ")}`);
 if (badResponses.length) failures.push(`HTTP errors: ${badResponses.join(" | ")}`);
-console.log(JSON.stringify({ mobileMenu, narrowMenu, tabletMenu, desktopMenu, intro, narrowIntro, desktopIntro, playing, paused, stillPaused, resumed, caught, exited, loss, retry, fallback, spriteResponses, errors, badResponses, failures }, null, 2));
+console.log(JSON.stringify({ mobileMenu, narrowMenu, tabletMenu, desktopMenu, intro, narrowIntro, desktopIntro, playing, paused, stillPaused, resumed, caught, exited, loss, retry, fallback, fallbackBlockedRequests, fallbackSuccessfulAssets, spriteResponses, errors, badResponses, failures }, null, 2));
 socket.close();
 if (failures.length) process.exitCode = 1;

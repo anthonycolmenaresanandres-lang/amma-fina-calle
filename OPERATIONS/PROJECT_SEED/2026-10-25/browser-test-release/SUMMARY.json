@@ -1,0 +1,44 @@
+{
+  "baseCommit": "7a9d87f57f6099afc294f97aa45f1786ffb3a48e",
+  "sourceRepair": "16790a482c8e264c259b9b03ef6dfca5dd03add5",
+  "branch": "codex/project-seed-browser-tests-release-20261025",
+  "relevantAbsentFromMain": true,
+  "scriptPatchMatchesOriginal": true,
+  "syntax": "PASS",
+  "scopedEslint": "PASS",
+  "productionBuild": "PASS: Webpack, TypeScript,60 static pages,traces",
+  "enhancedFailures": [],
+  "browserErrors": [],
+  "badResponses": [],
+  "fallbackBlockedCount": 12,
+  "fallbackBlockedUrls": [
+    "http://127.0.0.1:3158/assets/project-seed/october/cafe-roof-map-portrait-v3.webp",
+    "http://127.0.0.1:3158/assets/project-seed/seed-rush/aswang-illustrated-v2.webp",
+    "http://127.0.0.1:3158/assets/project-seed/seed-rush/buko-pandan-latte-illustrated-v2.webp",
+    "http://127.0.0.1:3158/assets/project-seed/seed-rush/dark-iced-coffee-illustrated-v2.webp"
+  ],
+  "fallbackSuccessfulAssets": [],
+  "fallbackCanvas": true,
+  "roundHeadings": [
+    "NICE CATCH.",
+    "NICE CATCH.",
+    "GROWN."
+  ],
+  "roundFinalSummary": "You finished all three rounds with 990 points. Personal best: 990.",
+  "roundLoadedAssets": [
+    "cafe-roof-map-portrait-v3.webp",
+    "buko-pandan-latte-illustrated-v2.webp",
+    "dark-iced-coffee-illustrated-v2.webp",
+    "aswang-illustrated-v2.webp",
+    "borahae-latte-illustrated-v2.webp",
+    "iced-green-latte-illustrated-v2.webp",
+    "sugar-custard-swirl-pastry-illustrated-v2.webp",
+    "purple-rolled-pastry-illustrated-v2.webp"
+  ],
+  "roundErrors": [],
+  "protectedSourceChanges": [],
+  "remainingTaskListeners": [],
+  "defectFinding": "No application/gameplay defect reproduced on unchanged production source",
+  "publication": "Authorized after parent released traffic hold; push/PR/CI/merge/deployment next",
+  "exclusions": "PR362/traffic and all unrelated work unchanged"
+}
