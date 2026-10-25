@@ -381,3 +381,16 @@
 .footballGame .resultScore { margin: 16px 0; }
 .footballGame .resultScore strong { font-size: clamp(2rem, 10vw, 4rem); }
 .footballGame .results .primaryButton { margin-top: 12px; }
+
+/* Payment preview action uses existing table colors and real accessible type. */
+.actionRail .payEntry { min-height: 96px; color: var(--flag-yellow); border-top: 1px solid var(--line); margin-top: 12px; }
+.actionRail .payEntry strong { display: flex; align-items: center; gap: 14px; font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 750; letter-spacing: -.045em; }
+.payEntry svg { width: 28px; height: 28px; flex: 0 0 auto; }
+.payEntry svg:last-child { margin-left: auto; }
+.payEntry:hover strong { color: var(--paper); }
+.utilityBar button:has(svg) { display: inline-flex; align-items: center; gap: 8px; color: var(--flag-yellow); }
+.checkState .primaryButton { margin-top: 20px; }
+
+.menuPay { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 14px; margin-top: 16px; border: 1px solid var(--flag-yellow); border-radius: 4px; background: transparent; color: var(--flag-yellow); font-size: .875rem; font-weight: 650; }
+.menuPay span { border-left: 1px solid var(--line); padding-left: 10px; font-size: .6875rem; letter-spacing: .08em; }
+.menuPay:hover { background: var(--flag-yellow); color: var(--ink); }

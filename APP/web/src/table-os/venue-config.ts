@@ -14,6 +14,8 @@ export type OrderingVenueConfig = Readonly<{
   publicOrderUrl: string;
   tableOrderPayStatus: "OWNER_SETUP_REQUIRED" | "READY";
   tableOrderPayUrls: Readonly<Record<string, string>>;
+  // Separate owner-verified guest payment handoff; never reuses a pickup link.
+  tablePayment?: Readonly<{ status: "OWNER_SETUP_REQUIRED" | "OWNER_VERIFIED"; tableUrls: Readonly<Record<string, string>> }>;
 }>;
 
 export type MenuEvidence = Readonly<{
@@ -55,6 +57,7 @@ const maracaibo: TableOsVenue = {
     publicOrderUrl: "https://www.toasttab.com/local/order/maracaibo-bistro",
     tableOrderPayStatus: "OWNER_SETUP_REQUIRED",
     tableOrderPayUrls: {},
+    tablePayment: { status: "OWNER_SETUP_REQUIRED", tableUrls: {} },
   },
   skin: {
     id: "maracaibo-kitchen-cocktails",
