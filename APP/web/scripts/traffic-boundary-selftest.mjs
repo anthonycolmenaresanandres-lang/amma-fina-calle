@@ -5,8 +5,13 @@ import vm from 'node:vm';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import ts from 'typescript';
+import { memoryLedger, keyFor } from './traffic-ledger-fixture.mjs';
 function load(file, imports, env={}, fetch=async()=>{throw Error('Unexpected network');}, clock=Date) {
   const exports={};
+  if (file.endsWith('morning-email.ts')) {
+    const ledger = memoryLedger();
+    imports = { ...imports, './delivery-ledger': { getDeliveryLedger: () => ledger, trafficDeliveryKey: keyFor } };
+  }
   const code=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText;
   vm.runInNewContext(code,{exports,process:{env},Buffer,URL,URLSearchParams,Response,Request,TextDecoder,Uint8Array,AbortSignal,Date:clock,fetch,
     console:{error(){},info(){}},require(name){if(!(name in imports))throw Error(`Unmocked ${name}`);return imports[name];}},{filename:file});
@@ -201,12 +206,12 @@ class FixtureDate extends Date { static now(){return fixtureNow;} }
 let queried=0;const queriedPeriods=[],mailBatches=[];let mailOutcome={sent:true};
 const morning=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':next,'@/lib/traffic/date':dates,
   '@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},
-  '@/lib/traffic/morning-email':{morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficDeliveryReport:async bundles=>{sent++;mailBatches.push(bundles);return mailOutcome;}},
+  '@/lib/traffic/morning-email':{trafficDeliveryStatus:async()=>null,morningEmailStatus:()=>({configured:true,enabled:true}),sendTrafficDeliveryReport:async bundles=>{sent++;mailBatches.push(bundles);return mailOutcome;}},
   '@/lib/traffic/site-traffic':{getMorningTrafficReports:async()=>({date:'2026-10-18',reports:result.reports}),
     getTrafficPeriodReports:async p=>{queried++;queriedPeriods.push(p);return result.reports.map(r=>({...r,state:'partial',reason:'Unverified coverage'}));}}},
   morningEnv,undefined,FixtureDate);
 const morningURL='https://finacalleos.com/api/internal/traffic/morning';
-const morningRequest=(body={mode:'test'},token=morningEnv.TRAFFIC_MAIL_TRIGGER_SECRET,url=morningURL)=>new Request(url,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+const morningRequest=(body={mode:'test'},token=morningEnv.TRAFFIC_MAIL_TRIGGER_SECRET,url=morningURL)=>new Request(url,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body.mode==='scheduled'?{...body,deliveryDate:dates.dateStringInTz('America/New_York',fixtureNow)}:body)});
 const preview=await morning.GET();assert.equal(preview.status,200);assert.equal((await preview.json()).readyToSend,false);assert.equal(sent,0);
 assert.equal((await morning.POST(morningRequest())).status,503);assert.equal(sent,0);
 morningEnv.VERCEL_ENV='production';

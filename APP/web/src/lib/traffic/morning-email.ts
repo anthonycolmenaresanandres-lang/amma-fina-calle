@@ -3,6 +3,7 @@ import "server-only";
 import type { TrafficReport } from "./site-traffic";
 import type { TrafficDeliveryPeriod } from "./date";
 import { renderTrafficDeliveryReport, type TrafficReportBundle } from "./morning-format";
+import { getDeliveryLedger, trafficDeliveryKey, type DeliveryLedger } from "./delivery-ledger";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 export const VERIFIED_OWNER_EMAIL = "anthonycolmenaresanandres@gmail.com";
@@ -17,7 +18,27 @@ function validSender(from: string): boolean {
 }
 
 type ProviderValidationCategory = "invalid_idempotency_key" | "validation_error" | "invalid_api_key";
-type DeliveryResult = { sent: boolean; reason?: string; providerError?: ProviderValidationCategory };
+type DeliveryResult = { sent: boolean; deduplicated?: boolean; reason?: string; providerError?: ProviderValidationCategory };
+
+async function providerAcceptanceId(response: Response): Promise<string | undefined> {
+  try {
+    const reader = response.body?.getReader();
+    if (!reader) return undefined;
+    const chunks: Uint8Array[] = []; let bytes = 0;
+    for (;;) {
+      const { value, done } = await reader.read(); if (done) break;
+      bytes += value.byteLength;
+      if (bytes > 2048) { await reader.cancel(); return undefined; }
+      chunks.push(value);
+    }
+    const id = JSON.parse(Buffer.concat(chunks).toString("utf8"))?.id;
+    return typeof id === "string" && /^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(id) ? id : undefined;
+  } catch { return undefined; }
+}
+
+export async function trafficDeliveryStatus(periods: TrafficDeliveryPeriod[]) {
+  return getDeliveryLedger().status(trafficDeliveryKey(periods));
+}
 
 // Return fixed categories only. Never retain or expose arbitrary provider text,
 // payloads or headers. A provider 400 alone does not identify the invalid field.
@@ -76,10 +97,33 @@ export async function sendTrafficDeliveryReport(
   if (!morningEmailStatus().recipientValid) return { sent: false, reason: "invalid_report_recipient" };
   if (!validSender(from)) return { sent: false, reason: "invalid_report_sender" };
   const content = renderTrafficDeliveryReport(bundles);
-  const periodKey = bundles.map(({ period }) => `${period.kind}-${period.first}-${period.last}`).join("-and-");
-  const idempotencyKey = `fina-calle-traffic-${periodKey}${mode === "test" ? `-preview-${PREVIEW_REVISION}` : ""}`;
-  // One network attempt only, no automatic retries. The same ordered period
-  // batch/revision always uses the same key. Scheduled keys stay unchanged.
+  const idempotencyKey = `${trafficDeliveryKey(bundles.map(b => b.period))}${mode === "test" ? `-preview-${PREVIEW_REVISION}` : ""}`;
+  let payload = JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text, html: content.html });
+  let ledger: DeliveryLedger | undefined, attemptId: string | undefined;
+  if (mode === "scheduled") {
+    try {
+      ledger = getDeliveryLedger();
+      const existing = await ledger.status(idempotencyKey);
+      if (existing?.state === "accepted") return { sent: true, deduplicated: true };
+      if (existing && existing.state !== "pending") return { sent: false, reason: "delivery_reconciliation_required" };
+      await ledger.freeze(idempotencyKey, payload);
+      const claim = await ledger.claim(idempotencyKey);
+      if (!claim) {
+        const status = await ledger.status(idempotencyKey);
+        return status?.state === "accepted" ? { sent: true, deduplicated: true } :
+          { sent: false, reason: status?.state === "pending" ? "delivery_retry_exhausted" : "delivery_reconciliation_required" };
+      }
+      attemptId = claim.attemptId;
+      payload = claim.payload; // exact frozen bytes, even if aggregates changed
+      const frozen = JSON.parse(payload);
+      if (frozen.to?.length !== 1 || frozen.to[0] !== VERIFIED_OWNER_EMAIL || !validSender(frozen.from ?? "")) {
+        await ledger.finish(idempotencyKey, attemptId, "rejected", "invalid_frozen_payload");
+        return { sent: false, reason: "invalid_frozen_payload" };
+      }
+    } catch { return { sent: false, reason: "delivery_ledger_unavailable" }; }
+  }
+  // One provider attempt per invocation. Only an explicit 429 can release the
+  // claim for a later bounded attempt. Sending/unconfirmed claims never expire.
   try {
     const response = await fetch(RESEND_ENDPOINT, {
       method: "POST",
@@ -87,17 +131,25 @@ export async function sendTrafficDeliveryReport(
         Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json",
         "Idempotency-Key": idempotencyKey,
       },
-      body: JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text, html: content.html }),
+      body: payload,
       cache: "no-store", redirect: "error", signal: AbortSignal.timeout(15000),
     });
     if (!response.ok) {
       const providerError = await providerValidationCategory(response);
+      if (ledger && attemptId) {
+        const state = response.status === 429 ? "pending" : response.status >= 400 && response.status < 500 && response.status !== 409 ? "rejected" : "unconfirmed";
+        await ledger.finish(idempotencyKey, attemptId, state, `email_http_${response.status}`);
+      }
       return { sent: false, reason: response.status === 409 ? "delivery_outcome_unconfirmed" : `email_http_${response.status}`,
         ...(providerError ? { providerError } : {}) };
     }
+    if (ledger && attemptId) await ledger.finish(idempotencyKey, attemptId, "accepted", null, await providerAcceptanceId(response));
     // A provider success means acceptance, not confirmed inbox delivery.
     return { sent: true };
   } catch {
+    if (ledger && attemptId) {
+      try { await ledger.finish(idempotencyKey, attemptId, "unconfirmed", "delivery_outcome_unconfirmed"); } catch { /* sending remains fenced for reconciliation */ }
+    }
     // A timeout could follow provider acceptance. Never automatically retry it.
     return { sent: false, reason: "delivery_outcome_unconfirmed" };
   }

@@ -185,7 +185,7 @@ check("daily plus weekly Mondays, daily cutoff, DST slots and completed weeks",(
   const oct26=plan("2026-10-26T12:00:00Z")!;
   assert.equal(oct26[0].first,"2026-10-25");
   assert.equal(oct26[1].first,"2026-10-19");assert.equal(oct26[1].last,"2026-10-25");
-  assert.equal(plan("2026-10-19T13:00:00Z"),null);
+  assert.deepEqual(plan("2026-10-19T13:00:00Z"),oct19); // delayed correct slot remains due
   assert.equal(plan("2026-10-19T12:05:00Z","0 13 * * *"),null);
   assert.equal(plan("2026-11-01T13:00:00Z","0 13 * * *"),null);
   assert.equal(plan("2026-11-02T12:00:00Z"),null);

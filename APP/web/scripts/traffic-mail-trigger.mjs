@@ -10,6 +10,9 @@ const reasons = new Set([
   "report_data_unavailable", "email_delivery_disabled", "email_not_configured",
   "invalid_report_recipient", "invalid_report_sender",
   "delivery_outcome_unconfirmed", "report_delivery_unconfirmed",
+  "not_due", "inactive_dst_slot", "before_delivery_window", "delivery_window_missed",
+  "invalid_delivery_date", "recovery_not_authorized", "due_report_not_accepted",
+  "delivery_ledger_unavailable", "delivery_reconciliation_required", "delivery_retry_exhausted", "invalid_frozen_payload",
 ]);
 const providerErrors = new Set(["invalid_idempotency_key", "validation_error", "invalid_api_key"]);
 const beforeProvider = new Set([
@@ -18,6 +21,7 @@ const beforeProvider = new Set([
   "schedule_disabled_until_test_readback", "report_data_unavailable",
   "email_delivery_disabled", "email_not_configured", "invalid_report_recipient",
   "invalid_report_sender",
+  "invalid_delivery_date", "recovery_not_authorized", "delivery_window_missed", "due_report_not_accepted", "delivery_ledger_unavailable",
 ]);
 class TriggerFailure extends Error {
   constructor(code, phase, status, reason, providerError) {
@@ -59,11 +63,13 @@ export async function triggerMail(env = process.env, fetcher = fetch) {
   // Match the server's existing normalization; no credential is printed.
   const secret = env.TRAFFIC_MAIL_TRIGGER_SECRET?.trim();
   const mode = env.TRAFFIC_MAIL_MODE;
-  if (!secret || secret.length < 32 || secret.length > 512 || !["test", "scheduled"].includes(mode)) {
+  if (!secret || secret.length < 32 || secret.length > 512 || !["test", "scheduled", "check", "recovery"].includes(mode)) {
     throw new TriggerFailure("trigger_configuration_invalid", "before_request");
   }
-  const body = mode === "test" ? { mode } : { mode, schedule: env.TRAFFIC_MAIL_SCHEDULE };
-  if (mode === "scheduled" && !["0 12 * * *", "0 13 * * *"].includes(body.schedule)) {
+  const body = mode === "test" ? { mode } : { mode, deliveryDate: env.TRAFFIC_MAIL_DELIVERY_DATE,
+    ...(mode === "scheduled" ? { schedule: env.TRAFFIC_MAIL_SCHEDULE } : {}) };
+  if (mode !== "test" && !/^\d{4}-\d{2}-\d{2}$/.test(body.deliveryDate ?? "")) throw new TriggerFailure("delivery_date_invalid", "before_request");
+  if (mode === "scheduled" && !["0 12 * * *", "0 13 * * *", "17 12 * * *", "17 13 * * *", "17 16 * * *", "17 20 * * *"].includes(body.schedule)) {
     throw new TriggerFailure("schedule_invalid", "before_request");
   }
   let response;
@@ -79,10 +85,10 @@ export async function triggerMail(env = process.env, fetcher = fetch) {
       /^email_http_[45]\d{2}$/.test(result?.reason ?? "") ? "provider_response" : "unknown";
     throw new TriggerFailure("trigger_http_failure", phase, response.status, result?.reason, result?.providerError);
   }
-  if (result?.ok && result.skipped && result.reason === "outside_delivery_window") {
-    console.log("Skipped: outside the approved Eastern reporting window.");
+  if (result?.ok && result.skipped && ["not_due", "inactive_dst_slot", "before_delivery_window"].includes(result.reason)) {
+    console.log("Traffic mail intentional skip:", result.reason);
   } else if (result?.ok && result.accepted) {
-    console.log("Provider accepted the aggregate email; inbox delivery requires Gmail readback. No automatic retry.");
+    console.log("Aggregate email acceptance recorded; inbox delivery requires Gmail readback. No blind retry.");
   } else throw new TriggerFailure("response_outcome_unconfirmed", "unknown", response.status, result?.reason);
 }
 if (process.argv[1]?.replaceAll("\\", "/").endsWith("/traffic-mail-trigger.mjs")) {

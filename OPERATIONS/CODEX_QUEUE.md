@@ -1,5 +1,25 @@
 # Codex Queue - canonical live queue
 
+## [ ] Traffic delivery reliability - 2026-10-24
+
+Anthony: "Publish please and fix the traffic reports permanently please".
+Scope: isolated codex/traffic-reliability-20261024, report scheduling/date gates,
+durable frozen delivery ledger, offline regression tests and scoped PR. Preserve
+all site attribution/coverage and established ingestion. El Mariachi release is
+concurrent and excluded. PASS: late/DST/cadence/concurrency/retry/partial-data
+regressions, lint/build and exact-head CI. Production migration/settings,
+merge/deploy and one latest-period Anthony-only verification require coordinated
+approval before execution. No mass backfill, new credentials/services or spend.
+
+Local implementation complete:61newreliability groups plus all existing traffic/
+mail/drain/presentation regressions, full lint (0errors), TypeScript/production
+Webpackbuild/60pages PASS. Integrated published7a9d87f without product/ingestion
+diffs. Create scopedPR and wait exact-headCI; release/migration/delivery pending.
+
+October25 reconciliation: PR36376a0547 andPR364b71b0bb are published. Parent
+authorizes branch refresh/checks only while Neon access remains pending. Preserve
+both releases; no SQL, gate changes, email, PR merge or deployment in this phase.
+
 ## [x] Maracaibo full-screen Penalty Rush image release - October 5
 
 **Authority/scope:** Anthony approved fitting the two generated raster images into the saved full-screen Penalty Rush change and merging. Reuse f815418; preserve goal markings, cartoon player/keeper, gameplay, Back to menu, and unrelated work. Isolated sibling worktree. No extra local lint/build, browser QA, tests, new generation, services or secrets.
@@ -1381,3 +1401,6 @@ Royal local implementation VERIFIED: focusedlint/build/types60pages/gameplay/cam
 
 ## 2026-10-28 Royal Chocolate release authorization
 Anthony approved merging when ready after requesting a clean logo with the background details removed. Parent authorizes combining verified game commit992d129 with the confirmed final clean-logo revision, then final checks, feature push, PR, exact-head CI, normal checked merge and resulting Git/Vercel production verification. Wait for parent's confirmed final logo asset; do not consume the older ornate version. Preserve the game look and overall menu layout. No GitHub approval review, protection bypass, new services, spending, access, migrations or unrelated changes. Seed and other clients remain excluded.
+
+## [ ] 2026-10-28 Traffic PR362 release reconciliation
+Parent resumes the approved delivery-ledger migration002 and checked release after Royal PR369/main8abc28bd. No migration001, credential/grant/security changes, raw visitor reads, new spending, manual recovery email or production send endpoint during QA. Preserve all Royal/Halloween and other published work. Neon SQL access now works for fina-calle-traffic/lucky-sunset-17826860, primary main/br-billowing-fire-b7z4nda1, neondb. Read-only catalogs show ledger/function absent; inspection role neondb_owner. Existing Vercel production variables share the dedicated traffic integration binding, but sensitive PGUSER/NEON_PROJECT_ID values are omitted by both list and single-variable APIs; integration-resource lookup returns404. Runtime role binding is still UNVERIFIED, so no production DDL, gates, merge/deploy or email executed. Refresh branch and checks independently; release remains blocked at binding confirmation, not a Neon login or denied SQL operation.

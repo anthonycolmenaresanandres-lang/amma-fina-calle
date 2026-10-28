@@ -3763,6 +3763,13 @@ Three new parent-verified DoorDash dish sources integrated for Arroz Con Pollo (
 
 ### [CHECK-IN] Codex - 2026-10-24 - menu-photo publication approved
 Reconciled PR360 as open, draft and unmerged at e8ac809 before acting. Anthony explicitly approved both merging and publishing this exact update after the prior publication hold. Remove only the draft-branch deployment rule and update release records; application code/assets stay byte-identical to the locally checked e8ac809 implementation. Run all normal required CI/Vercel checks on the new head, then checked merge and exact production READY/domain readback. No browser/gameplay/smoke/calls, unrelated clients, phone changes or services.
+### [CHECK-IN] Codex - 2026-10-24 - traffic delivery reliability
+
+Fresh isolated worktree from f3c8f63; old traffic-delay branch/worktree preserved.
+Current Oct23 Actions job120514943226 confirms outside-window HTTP-success skip
+after delayed12UTC execution at16UTC. Implement scoped scheduling/date/idempotency
+repair and offline validation/PR under Anthony's new instruction. No production
+schema/settings/delivery mutation without coordinated approval; no game edits.
 
 ### [CHECK-IN] Codex - 2026-10-24 - angled courtyard draft
 Reconciled clean retained worktree and production f3c8f638; preserved previous local release audit on its old branch. Read repository frontend/game guidance. Original projected ground and upright geometry, concise pre-Play landing and top Pause; keep engine rules and all unrelated sources unchanged. Draft PR and mandatory static/build/CI only, no preview/production release or runtime QA/calls.
@@ -3772,6 +3779,15 @@ Original oblique ground/raised props and screen-direction input adapter; short w
 
 ### [CHECK-IN] Codex - 2026-10-24 - game publication approved
 Reconciled PR361 open/draft/unmerged at bcf04200556d1ed0b4a6829eb3caf9a332aa518b with passing CI40098075501 and no review threads. Anthony explicitly approved game merge/publication. Restore only this branch's held Vercel config to existing production config; application remains byte-identical to the checked draft. Final-head CI/Vercel then normal protected merge and deployment metadata readback. Traffic-report repair stays separate; no runtime/browser/gameplay/smoke/calls or unrelated scope.
+### [CHECK-OUT] Codex - 2026-10-24 - traffic repair prepared for scoped PR
+
+Integrated published7a9d87f; append conflict resolved retaining all game/traffic
+records. Current-source61reliability groups +counter/19pipeline/mail/drain/
+presentation tests PASS, full lint0errors111existingwarnings, scopedlint and
+productionWebpack/TypeScript/60pages/traces PASS. Public run metadata date read
+verified without token. Original collector, metric query, dependencies and game
+paths unchanged againstmain. ScopedPR/exact-headCI next; no live schema/settings,
+credential, provider send, historical backfill, merge or production deployment.
 
 ## 2026-10-25 Project Seed browser repair refresh IN - PUBLICATION HELD
 Fresh isolated codex/project-seed-browser-tests-release-20261025 from origin/main7a9d87f. Old16790a4 is not an ancestor and both main scripts retain obsolete v1/v2 expectations. Reapply only two-script test repair, run local syntax/lint/enhanced/fallback/three-round checks and preserve all application/traffic source. Dedicated local ports3158/9249; do not touch other processes/worktrees. Parent holds push/merge/deployment until traffic PR362 release is finished and explicit go-ahead arrives. Owner's deployment request recorded; no spending or credential/access change.
@@ -3785,9 +3801,27 @@ Project Seed2026-10-25 local checks PASS: syntax/scopedlint/build60pages/enhance
 
 2026-10-25 IN Maracaibo DEMO publication AUTHORIZED: parent released this specific hold after Seed PR363/main76a0547 production READY and PR/main CI passing. Owner authority: "Deploy everything that needs deployment please". Fresh main, draft feature PR, exact-head CI/reviews, normal checked merge and exact production/live-demo verification only. Blocked traffic PR362, owner-portal revival and all real payment/order/Toast activation remain excluded. No new services/spend/credentials/access.
 
+### [CHECK-IN/OUT] Codex - 2026-10-25 - traffic PR362 branch refresh only
+
+Parent authorizes independent release preparation while Neon access remains
+pending: no live SQL, gate change, send, PR merge or production deployment.
+Reconciled clean295a5da and mainb71b0bb, including PR36376a0547 andPR364b71b0bb.
+Only conflict: concurrent appended records in this handoff log; retained both
+sides. Existing upstream build-log whitespace preserved. Traffic implementation,
+scheduler and migration remain byte-identical to295a5da; published Seed/Maracaibo/
+ElMariachi code and current CI/package configuration match main. Counter and
+19pipeline groups, mail/drain/presentation boundaries,61reliability groups and
+productionWebpack/TypeScript/60pages/traces PASS. Existing PR branch update and
+exact-head CI/preview verification only; production release remains held.
 2026-10-28 IN Royal world/capture: isolated worktree based on production d494832; existing reciprocal capture confirmed. Prepare Royal-only larger world, clear play area, analog movement and regression evidence. Seed/menu/brand/shared core untouched; no publication.
 
 2026-10-28 OUT Royal world/capture VERIFIED LOCAL: >2x world area54/66/78 and232/350/480foods; no bottompanel/minimap; analog steering; current art/scale and frozen core unchanged. All reciprocal/fairness/hold/one-time accounting/reachability/camera/three wins, focusedlint, productionbuild60pages/types and browser mobile/landscape/pause/restart/fallback checks PASS. Natural rival ateplayer observed; pointer30/keyboard90. Evidence OPERATIONS/ROYAL_CHOCOLATE/2026-10-28. Seed/menu untouched. No push/PR/merge/deploy/spend/access/send. Production preview3171 retained for review.
 
 ## 2026-10-28 Royal Chocolate release authorization
 Anthony approved merging when ready after requesting a clean logo with the background details removed. Parent authorizes combining verified game commit992d129 with the confirmed final clean-logo revision, then final checks, feature push, PR, exact-head CI, normal checked merge and resulting Git/Vercel production verification. Wait for parent's confirmed final logo asset; do not consume the older ornate version. Preserve the game look and overall menu layout. No GitHub approval review, protection bypass, new services, spending, access, migrations or unrelated changes. Seed and other clients remain excluded.
+
+### [CHECK-IN] Codex - 2026-10-28 - traffic PR362 release reconciliation
+Parent authorizes approved migration002 and release after completed Royal PR369, expressly excluding manual recovery email and production send endpoints during QA. Reconciled cleana487f46 and fetched main8abc28bd; only merge conflict is append-only handoff history, both sides retained. Traffic code, migration and workflow remain identical to the reviewed implementation; Royal/Halloween source comes unchanged from main. Neon read-only SQL works; ledger/function remain absent. Vercel hides sensitive PGUSER/project-id values and its dedicated integration-store detail lookup returns404. No proof yet of the actual app role binding; production migration, schedule gates and merge/deploy stay untouched pending that prerequisite. No new credential, access, branch/service, spending or email.
+
+### [CHECK-OUT] Codex - 2026-10-28 - traffic refresh, production held
+Traffic counter/19pipeline and61reliability/PGlite groups PASS; refreshed compilation/TypeScript/all60pages PASS, build traces and full lint finishing. No changes to traffic runtime/workflow/migration, current Royal/Halloween/products or dependency/CI configuration. Vercel scoped integration-configuration list additionally returned403 forbidden; CLI fallback not installed, no denied-action retry/bypass. Runtime binding remains unverified despite working Neon SQL. Release checkpoint: APP/web/traffic/RELEASE_20261028.md. Existing PR branch refresh and exact-head CI may proceed independently; production migration, gates, merge/deploy and all sends remain unexecuted.
