@@ -14,3 +14,4 @@
 .ghost { position: absolute; left: 0; width: 34px; height: 40px; opacity: 0; color: var(--ghost); filter: drop-shadow(0 2px 3px var(--shadow)); will-change: transform, opacity; }
 @media(min-width:700px) { .pumpkin { width: 42px; } .resident { width: 38px; } }
 @media(prefers-reduced-motion:reduce) { .flight { display: none; } }
+.bodega .pumpkin { top: 160px; width: 30px; }
