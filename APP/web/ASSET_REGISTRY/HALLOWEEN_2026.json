@@ -1,0 +1,73 @@
+{
+  "provenance": "User-approved AI-generated transparent art; Library IDs and native EA validation in task handoff. PNG originals retained in task-2/halloween-art. No synthetic substitutes.",
+  "assets": [
+    {
+      "name": "jack-o-lantern",
+      "original_sha256": "f0ef997f28f8cba4bdb4ddbd621496f56e8304cf6d0583d73d1539dd6763ca6c",
+      "original_bytes": 2086878,
+      "runtime_bytes": 42428,
+      "runtime_size": [
+        384,
+        384
+      ],
+      "runtime_alpha": [
+        0,
+        255
+      ],
+      "library_file_id": "libfile_e102e3970e9481919f7150e41d176e8e",
+      "version": 0,
+      "metadata": "Native NTFS identity/version EAs verified; source pixels inspected"
+    },
+    {
+      "name": "ghost-ivory",
+      "original_sha256": "b49e6c5029a6fd7029b7481ea27942e229ff6778a6369d24445a63fa721a9d13",
+      "original_bytes": 2054400,
+      "runtime_bytes": 26932,
+      "runtime_size": [
+        384,
+        576
+      ],
+      "runtime_alpha": [
+        0,
+        255
+      ],
+      "library_file_id": "libfile_84fbc405839081919c2c27f47726180e",
+      "version": 0,
+      "metadata": "Native NTFS identity/version EAs verified; source pixels inspected"
+    },
+    {
+      "name": "spiderweb-silver",
+      "original_sha256": "ebfad1c1068e03a400ed6ccd893d03d0016f3895f211b3cf2e87dddbfa246c9b",
+      "original_bytes": 1423043,
+      "runtime_bytes": 68418,
+      "runtime_size": [
+        384,
+        384
+      ],
+      "runtime_alpha": [
+        0,
+        255
+      ],
+      "library_file_id": "libfile_3b329dcd459881918fbc3457ed999509",
+      "version": 0,
+      "metadata": "Native NTFS identity/version EAs verified; source pixels inspected"
+    },
+    {
+      "name": "spiderweb-charcoal",
+      "original_sha256": "cc90dec8c2e1c7b63c069dd9ef8d49484d5c5ab557475fb95ac7d27992b3b31f",
+      "original_bytes": 904071,
+      "runtime_bytes": 44176,
+      "runtime_size": [
+        384,
+        384
+      ],
+      "runtime_alpha": [
+        0,
+        255
+      ],
+      "library_file_id": "libfile_292a23e1713481919605e6dda4896a1c",
+      "version": 0,
+      "metadata": "Native NTFS identity/version EAs verified; source pixels inspected"
+    }
+  ]
+}

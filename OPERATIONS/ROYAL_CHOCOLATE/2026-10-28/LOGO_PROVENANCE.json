@@ -1,0 +1,38 @@
+{
+  "library_file_id": "libfile_a59495ea69708191a41f1e210cf07f99",
+  "file_id": "file_00000000d23481f5b06d7d58060b1ffa",
+  "version": 1,
+  "filename": "royal-chocolate-logo-minimal.png",
+  "original_path": "C:\\Users\\bellmark\\Documents\\Codex\\2026-10-28\\task-3\\royal-logo\\royal-chocolate-logo-minimal.png",
+  "original_sha256": "5ce1af53dba2a14d09401e6549d02ce9402e847aea99943a8a9e8edb80ff4c11",
+  "original_size": 1327374,
+  "original_dimensions": [
+    1774,
+    887
+  ],
+  "original_mode": "RGBA",
+  "native_EAs": "verified exact Library ID/version1 with fsutil queryEA",
+  "runtime_path": "APP\\web\\public\\assets\\royal-chocolate\\logo-clean-v1.webp",
+  "runtime_sha256": "81e16d785c630cfc8695b2dbd7f8cccd759ff7a93427b3f75023fbbe13f0b42c",
+  "runtime_size": 66964,
+  "runtime_dimensions": [
+    1024,
+    512
+  ],
+  "alpha": [
+    0,
+    255
+  ],
+  "brand_source": [
+    "https://www.instagram.com/theroyalchocolatevb/p/De2B5T3F1Yq/",
+    "https://www.instagram.com/theroyalchocolatevb/p/Dew32spiHTa/"
+  ],
+  "palette": {
+    "navy": "#091B3F",
+    "white": "#F5F7FC",
+    "silver": "#D1D8E5",
+    "muted": "#B8C3D6"
+  },
+  "color_note": "Navy sampled from official Instagram reference, not a published official hex. Approved logo is a concept treatment, business approval remains pending.",
+  "optimization": "1024x512 WebP quality88; alpha preserved; no semantic/logo redraw"
+}
