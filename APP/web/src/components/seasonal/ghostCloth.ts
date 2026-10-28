@@ -91,7 +91,7 @@ export function createGhostCloth(canvas: HTMLCanvasElement, source: string) {
   canvas.addEventListener("webglcontextlost",fail);
   image.src=source;
   return {
-    start() { stop(); if(disposed) return; frames=0;last=0;until=performance.now()+3600;playing=true;if(ready) frame=requestAnimationFrame(render); },
+    start() { stop(); if(disposed) return; frames=0;last=0;until=performance.now()+8000;playing=true;if(ready) frame=requestAnimationFrame(render); },
     stop,
     destroy() {
       stop();disposed=true;image.onload=null;image.onerror=null;

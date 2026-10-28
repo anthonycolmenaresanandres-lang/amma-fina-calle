@@ -75,7 +75,7 @@ export default function HalloweenSkin({ brand, collection = false }: { brand: "c
             { transform: `translate3d(${from + (to-from)*.2}px,-4px,0) rotate(3deg)`, opacity: .85, offset: .2 },
             { transform: `translate3d(${from + (to-from)*.6}px,3px,0) rotate(-3deg)`, opacity: .85, offset: .6 },
             { transform: `translate3d(${to}px,0,0) rotate(5deg)`, opacity: 0 }
-          ], { duration: 3600, easing: "ease-in-out", fill: "forwards" });
+          ], { duration: 8000, easing: "ease-in-out", fill: "forwards" });
           reverse = !reverse;
         }
       }
