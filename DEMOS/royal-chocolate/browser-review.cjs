@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),assert=require('assert/strict');
 const {chromium}=require(process.env.ROYAL_PLAYWRIGHT_CORE||'playwright-core');
-const out=path.resolve(__dirname,'../../OPERATIONS/ROYAL_CHOCOLATE/2026-10-13/screenshots');
+const out=path.resolve(process.env.ROYAL_BROWSER_EVIDENCE||path.join(__dirname,'../../OPERATIONS/ROYAL_CHOCOLATE/2026-10-28/screenshots'));
 const origin=process.env.ROYAL_PREVIEW_ORIGIN||'http://127.0.0.1:3137';if(!/^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(origin))throw new Error('Loopback origin required');
 fs.mkdirSync(out,{recursive:true});
 const results=[],errors=[];
@@ -32,12 +32,12 @@ async function healthy(page){assert(await page.evaluate(()=>document.documentEle
   const cdp=await context.newCDPSession(page),box=await page.locator('canvas').boundingBox(),x=box.x+box.width*.45,y=box.y+box.height*.58;
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+65,y:y-25}]});await page.waitForTimeout(650);await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   await page.locator('canvas').focus();await page.keyboard.down('ArrowDown');await page.waitForTimeout(500);await page.keyboard.up('ArrowDown');
-  const right=await page.getByRole('button',{name:'Move right',exact:true}).boundingBox();await page.mouse.move(right.x+right.width/2,right.y+right.height/2);await page.mouse.down();await page.waitForTimeout(450);await page.mouse.up();await screenshot(page,'game-input-390');
+  assert.equal(await page.locator('[aria-label="Direction controls"],main footer').count(),0,'bottom controls removed');await screenshot(page,'game-input-390');
   await page.locator('canvas').focus();await page.keyboard.press('Escape');assert(await page.getByRole('heading',{name:'Take a sweet pause.'}).isVisible());
   await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement.textContent),'Back to menu');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.textContent),'Resume collecting');
   await screenshot(page,'game-paused-390');await page.getByRole('button',{name:'Resume collecting'}).click();
-  console.log('PASS touch/key/button/pause dialog inputs; waiting for natural result');
-  await page.getByRole('heading',{name:'Round lost',exact:true}).waitFor({timeout:48000});await screenshot(page,'game-result-390');const summary=await page.getByRole('dialog').innerText();await page.waitForTimeout(800);assert.equal(await page.getByRole('dialog').innerText(),summary,'result continued changing');results.push({case:'inputs/result',touch:'Chromium touch dispatched',keyboard:'held arrow and Escape',buttons:'held pointer',pauseFocus:'trap wraps',naturalResult:'loss stopped'});
+  console.log('PASS touch/key/pause dialog inputs; waiting for natural result');
+  await page.getByRole('heading',{name:'Round lost',exact:true}).waitFor({timeout:48000});await screenshot(page,'game-result-390');const summary=await page.getByRole('dialog').innerText();await page.waitForTimeout(800);assert.equal(await page.getByRole('dialog').innerText(),summary,'result continued changing');results.push({case:'inputs/result',touch:'Chromium touch dispatched',keyboard:'held arrow and Escape',bottomPanel:'removed',pauseFocus:'trap wraps',naturalResult:'loss stopped'});
   await page.getByRole('button',{name:'Play this counter again',exact:true}).click();await page.waitForTimeout(350);assert(await page.getByRole('button',{name:'Pause',exact:true}).isVisible());assert((await page.locator('[aria-label="Round status"]').innerText()).includes('45s'));results.push({case:'replay',passed:true});
   await page.goto(origin+'/royal-chocolate/play',{waitUntil:'networkidle'});
   await context.route('**/assets/royal-chocolate/*.svg',route=>route.abort());await page.getByRole('button',{name:'Start collecting',exact:true}).click();await page.waitForTimeout(900);await screenshot(page,'game-fallback-390');await page.getByRole('button',{name:'Pause',exact:true}).click();results.push({case:'all game SVGs blocked',primitiveCanvas:'rendered and pause usable'});

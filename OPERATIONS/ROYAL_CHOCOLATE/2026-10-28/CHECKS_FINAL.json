@@ -1,0 +1,21 @@
+{
+  "status": "FINAL_LOCAL_PASS_RELEASE_AUTHORIZED",
+  "base": "d494832f762bebb1237d162971e5bae225869660",
+  "logo": "LOGO_PROVENANCE.json",
+  "gameplay": "gameplay-final.json",
+  "checks": {
+    "focusedLint": "PASS four changed TS/TSX files",
+    "productionBuild": "PASS compilation, TypeScript,60static pages,traces; exit0",
+    "logo": "PNG original verified;1024x512 WebP66964bytes;alpha0..255",
+    "contrast": {
+      "navyWhite": 15.8,
+      "navySilver": 11.82,
+      "navyMuted": 9.53
+    },
+    "reactAndUiAudit": "PASS touched components; explicit image dimensions/alt, existing hooks cleanup, safe areas, focus and semantic details retained",
+    "browser": "Built app loopback3171:390menu navy/clean logo/all5DOMimages loaded/no horizontaloverflow; category navigation opens six apple details; Enter toggles product;320game logo loaded/Start visible y621..667 in740px viewport; native pointer drag afterrestart scored30; pause/resume/natural result/restart observed; no browser error-log entries. Landscape844x390 retains scrollable ready overlay and no horizontal overflow. Earlier full game QA and fallback receipts retained in CHECKS.json."
+  },
+  "limitations": "No physical phone or Safari verification. Native held-key attempts in this final UI pass were not used as a movement assertion; previous keyboard90 and current simulation regression checks remain the keyboard/movement evidence. No live claim until deployment verification.",
+  "protected": "Seed,otherclients,menu-data,gameart,frozenengine/rules,dependencies,CI and hostingconfig unchanged.",
+  "release": "User explicitly approved clean logo/navy site/menu and merge when ready. Existing Git integration only; no approval review or protection bypass."
+}

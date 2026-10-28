@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "coverage": "3 deterministic layouts, spacing/starter budgets, max-size route/product reachability, pause/clock/end/replay accounting, reciprocal capture/hold/threshold, clear/win/loss, menu price omission, frozen core",
+  "levels": [
+    {
+      "level": 1,
+      "products": 232,
+      "target": 1300,
+      "totalPoints": 17260,
+      "rivals": 1,
+      "connectedCells": 3721
+    },
+    {
+      "level": 2,
+      "products": 350,
+      "target": 2200,
+      "totalPoints": 24660,
+      "rivals": 2,
+      "connectedCells": 5459
+    },
+    {
+      "level": 3,
+      "products": 480,
+      "target": 3200,
+      "totalPoints": 34400,
+      "rivals": 3,
+      "connectedCells": 7758
+    },
+    {
+      "regressions": "two-way Royal capture, tied/similar size safety, interrupted hold, single capture under contention, pending-food transfer, analog speed/clock, clean restart, expanded populated world/boundaries"
+    },
+    {
+      "camera": "all four world corners at 320/390/844/1440; player retained; unchanged object scale",
+      "legalRouteWins": [
+        {
+          "level": 1,
+          "score": 14340,
+          "outcome": "won",
+          "simulatedSeconds": 32.44999999999944,
+          "wallMs": 2094
+        },
+        {
+          "level": 2,
+          "score": 17970,
+          "outcome": "won",
+          "simulatedSeconds": 44.99999999999873,
+          "wallMs": 6943
+        },
+        {
+          "level": 3,
+          "score": 21730,
+          "outcome": "won",
+          "simulatedSeconds": 42.633333333332196,
+          "wallMs": 9161
+        }
+      ]
+    }
+  ]
+}
