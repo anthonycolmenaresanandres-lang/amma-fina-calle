@@ -1,0 +1,32 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
+const rootPath=fileURLToPath(new URL('..',import.meta.url));
+const source=fs.readFileSync(path.join(rootPath,'src/components/seasonal/HalloweenSkin.tsx'),'utf8');
+const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX}}).outputText;
+let effect,timerId=0,reduced=false,hasGame=false,focus='body',refCount=0,cancels=0,starts=0,stops=0,activity,observing=false;
+const timers=new Map(),events=new Map(),mediaEvents=new Map(),windowEvents=new Map(),visits=[];
+const root={hidden:true,contains:()=>false};
+const visitor={style:{},getBoundingClientRect:()=>({width:parseFloat(visitor.style.width)||72,height:parseFloat(visitor.style.height)||108}),animate:(frames,options)=>{visits.push({frames,options});return{cancel:()=>cancels++};}};
+const refs=[root,visitor,{}];
+const obstacle={checkVisibility:()=>true,matches:()=>true,getBoundingClientRect:()=>({left:0,right:390,top:0,bottom:844,width:390,height:844})};
+const document={hidden:false,body:{},activeElement:{closest:selector=>focus==='editable'||focus==='formButton'&&selector.includes('form,')?{}:null},querySelector:()=>hasGame?{}:null,querySelectorAll:()=>[obstacle],createTreeWalker:()=>({nextNode:()=>null}),addEventListener:(type,fn)=>events.set(type,fn),removeEventListener:type=>events.delete(type)};
+const media={get matches(){return reduced;},addEventListener:(type,fn)=>mediaEvents.set(type,fn),removeEventListener:type=>mediaEvents.delete(type)};
+const window={innerHeight:844,innerWidth:390,matchMedia:()=>media,addEventListener:(type,fn)=>windowEvents.set(type,fn),removeEventListener:type=>windowEvents.delete(type)};
+class Clock extends Date{static now(){return Date.parse('2026-10-28T13:00:00Z');}}
+const context={exports:{},Date:Clock,Math,document,window,NodeFilter:{SHOW_TEXT:4},MutationObserver:class{constructor(fn){activity=fn;}observe(){observing=true;}disconnect(){observing=false;}},setTimeout:(fn,delay)=>{timers.set(++timerId,{fn,delay});return timerId;},clearTimeout:id=>timers.delete(id),require:name=>name==='react'?{useRef:()=>({current:refs[refCount++]}),useEffect:fn=>effect=fn}:name==='react/jsx-runtime'?{jsx:()=>null,jsxs:()=>null}:name==='./ghostCloth'?{createGhostCloth:()=>({start:()=>starts++,stop:()=>stops++,destroy:()=>{}})}:{default:{}}};
+vm.runInNewContext(code,context);context.exports.default({brand:'colattao'});const cleanup=effect();assert.equal(root.hidden,false);assert.equal(observing,true);
+const first=[...timers.values()].find(t=>t.delay>=15000&&t.delay<=20000);assert.ok(first);first.fn();assert.equal(visits.length,1);assert.equal(visits[0].options.duration,8000);assert.equal(visits[0].frames[1].opacity,.32);assert.equal(visitor.style.height,'72px');assert.equal(starts,1);
+const next=()=>[...timers.values()].filter(t=>t.delay>=45000&&t.delay<=75000).at(-1);
+const timerCount=timers.size;
+for(let i=0;i<8;i++){events.get('pointerdown')?.();events.get('touchstart')?.();events.get('scroll')?.();windowEvents.get('resize')?.();focus='formButton';events.get('focusin')();}
+assert.equal(cancels,0,'ordinary browsing must not cancel');assert.equal(stops,0);assert.equal(timers.size,timerCount,'touch/scroll must not reset timer');assert.equal(visitor.style.opacity,'1');
+focus='editable';events.get('focusin')();assert.equal(visitor.style.opacity,'0');assert.ok(cancels>0);next().fn();assert.equal(visits.length,1);focus='body';next().fn();assert.equal(visits.length,2);
+hasGame=true;activity();assert.equal(visitor.style.opacity,'0');next().fn();assert.equal(visits.length,2);hasGame=false;activity();next().fn();assert.equal(visits.length,3);
+document.hidden=true;events.get('visibilitychange')();next().fn();assert.equal(visits.length,3);document.hidden=false;events.get('visibilitychange')();next().fn();assert.equal(visits.length,4);
+reduced=true;mediaEvents.get('change')();next().fn();assert.equal(visits.length,4);reduced=false;mediaEvents.get('change')();next().fn();assert.equal(visits.length,5);
+assert.ok(starts===5&&stops>0);const expiry=[...timers.values()].find(t=>t.delay>75000);expiry.fn();assert.equal(root.hidden,true);cleanup();assert.equal(observing,false);assert.equal(events.size,0);assert.equal(mediaEvents.size,0);assert.equal(windowEvents.size,0);
+console.log('PASS actual controller: dense viewport visit; repeated touch/scroll/resize and form-button focus persist without timer reset; editable/game/hidden/reduced suppression and resume; 8second cloth, expiry and cleanup.');
