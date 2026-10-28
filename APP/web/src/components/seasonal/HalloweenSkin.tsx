@@ -23,7 +23,7 @@ function Bat() {
   return <svg viewBox="0 0 100 45" fill="currentColor"><path d="m49 14-6-9-2 13C27 8 13 10 2 2c2 17 9 29 23 29 2-7 9-6 14 2l11 10 11-10c5-8 12-9 14-2 14 0 21-12 23-29-11 8-25 6-39 16L57 5l-6 9Z"/></svg>;
 }
 function Pumpkin() {
-  return <svg viewBox="0 0 90 80" fill="none"><path d="M44 20q-3-14 9-16" stroke="currentColor" strokeWidth="6"/><path d="M44 23C8 7-5 66 23 73q12 6 22 0c15 9 37-2 38-23 1-23-19-36-39-27Z" fill="currentColor"/><path d="M44 24c-17 11-17 37 0 49m2-49c17 11 17 37 0 49" stroke="#182d25" strokeWidth="2" opacity=".5"/><path d="m24 42 11-6-1 11Zm33-6 11 6-10 5ZM31 56l8 4 5-3 6 3 10-5c-4 15-24 15-29 1Z" fill="#182d25"/></svg>;
+  return <svg viewBox="0 0 90 80" fill="none"><path d="M44 20q-3-14 9-16" stroke="currentColor" strokeWidth="6"/><path d="M44 23C8 7-5 66 23 73q12 6 22 0c15 9 37-2 38-23 1-23-19-36-39-27Z" fill="currentColor"/><path d="M44 24c-17 11-17 37 0 49m2-49c17 11 17 37 0 49" stroke="#182d25" strokeWidth="2" opacity=".5"/><path d="m24 42 11-6-1 11Zm33-6 11 6-10 5ZM31 56l8 4 5-3 6 3 10-5c-4 15-24 15-29 1Z" fill="var(--face, #182d25)"/></svg>;
 }
 
 export default function HalloweenSkin({ brand }: { brand: "colattao" | "bodega" }) {
