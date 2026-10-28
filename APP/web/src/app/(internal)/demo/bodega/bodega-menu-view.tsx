@@ -1,4 +1,5 @@
 import Image from "next/image";
+import HalloweenSkin from "@/components/seasonal/HalloweenSkin";
 import { BodegaMenuNav } from "./bodega-menu-nav";
 import { BodegaVibraLink } from "./bodega-vibra-link";
 import { BodegaGuestNoteForm } from "./bodega-guest-note-form";
@@ -18,7 +19,7 @@ export function BodegaMenuView({ menu, localFixture = false, deploymentCommit }:
   return (
     <VenueMenuLayout
       brandName="Bodega Cafe"
-      brand={<BodegaSignalLogo />}
+      brand={<><HalloweenSkin brand="bodega" /><BodegaSignalLogo /></>}
       nav={<BodegaMenuNav />}
       featured={<>{localFixture ? <p className={styles.sectionNote} role="status">Local test only · Availability and order below are fixtures. No live changes.</p> : null}<FallSessions drinks={menu.seasonal} />{menu.state.mode === "fallback" ? <p className={styles.sectionNote} role="status">Live availability could not be confirmed. Ask the café team about current availability.</p> : null}</>}
       readback={menu.state.mode === "off" ? undefined : { source: "bodega-controls-v1", mode: menu.state.mode, manifest: BODEGA_MANIFEST.hash, version: menu.state.snapshot?.snapshot_version, deploymentCommit }}
