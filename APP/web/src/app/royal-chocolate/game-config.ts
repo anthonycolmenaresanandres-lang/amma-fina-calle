@@ -18,9 +18,9 @@ export const GROWTH:readonly GrowthStage[]=[
 ];
 interface Counter {name:string;description:string;size:number;target:number;count:number;spawns:Direction[];obstacles:Obstacle[];color:string}
 export const COUNTERS:readonly Counter[]=[
- {name:'The dipping counter',description:'An open counter. One gathering rival.',size:38,target:1300,count:116,spawns:[{x:0,z:0},{x:-11,z:-10}],obstacles:[],color:'#785742'},
- {name:'The tasting tray',description:'Circle the tray. Two rivals contest the sweets.',size:46,target:2200,count:170,spawns:[{x:0,z:12},{x:-14,z:-12},{x:14,z:-12}],obstacles:[{x:0,z:0,halfWidth:6,halfDepth:2.5}],color:'#6d5145'},
- {name:'The chocolate circuit',description:'Loop around two displays. Three rivals hunt and retreat.',size:54,target:3200,count:232,spawns:[{x:0,z:0},{x:-17,z:-17},{x:17,z:-17},{x:0,z:19}],obstacles:[{x:-10,z:0,halfWidth:2.3,halfDepth:6},{x:10,z:0,halfWidth:2.3,halfDepth:6}],color:'#5e4d44'},
+ {name:'The dipping counter',description:'An open counter. One gathering rival.',size:54,target:1300,count:232,spawns:[{x:0,z:0},{x:-11,z:-10}],obstacles:[],color:'#785742'},
+ {name:'The tasting tray',description:'Circle the tray. Two rivals contest the sweets.',size:66,target:2200,count:350,spawns:[{x:0,z:12},{x:-14,z:-12},{x:14,z:-12}],obstacles:[{x:0,z:0,halfWidth:6,halfDepth:2.5}],color:'#6d5145'},
+ {name:'The chocolate circuit',description:'Loop around two displays. Three rivals hunt and retreat.',size:78,target:3200,count:480,spawns:[{x:0,z:0},{x:-17,z:-17},{x:17,z:-17},{x:0,z:19}],obstacles:[{x:-10,z:0,halfWidth:2.3,halfDepth:6},{x:10,z:0,halfWidth:2.3,halfDepth:6}],color:'#5e4d44'},
 ];
 export function generateChocolateItems(level:number):Ingredient[]{
  const spec=COUNTERS[level];let seed=131026+level*777;
@@ -28,7 +28,7 @@ export function generateChocolateItems(level:number):Ingredient[]{
  const cells:Direction[]=[];
  for(let z=-spec.size/2+3;z<=spec.size/2-3;z+=2.5)for(let x=-spec.size/2+3;x<=spec.size/2-3;x+=2.5){
   const cell={x:x+(random()-.5)*.18,z:z+(random()-.5)*.18};
-  if(!spec.obstacles.some(o=>overlapsObstacle(cell,1.3,o))&&spec.spawns.every(s=>Math.hypot(s.x-cell.x,s.z-cell.z)>2.5))cells.push(cell);
+  if(!spec.obstacles.some(o=>overlapsObstacle(cell,2.2,o))&&spec.spawns.every(s=>Math.hypot(s.x-cell.x,s.z-cell.z)>2.5))cells.push(cell);
  }
  const items:Ingredient[]=[];
  const place=(kind:PickupKind,cell:Direction)=>{cells.splice(cells.indexOf(cell),1);items.push({uid:`royal-${level}-${items.length}`,defId:kind,...cell,...PICKUPS[kind],initialScale:1,rotationY:(random()-.5)*.3,collected:false,sinkProgress:0});};
@@ -45,4 +45,17 @@ export function generateChocolateItems(level:number):Ingredient[]{
  }
  return items;
 }
-export function createChocolateRace(level:number){const spec=COUNTERS[level];return new CollectorRace(generateChocolateItems(level),GROWTH,spec.size,spec.size,{...COLLECTOR_RACE_V2[level],id:`royal-chocolate/1/${level+1}`,target:spec.target},spec);}
+export function createChocolateRace(level:number){const spec=COUNTERS[level];return new ChocolateRace(generateChocolateItems(level),GROWTH,spec.size,spec.size,{...COLLECTOR_RACE_V2[level],id:`royal-chocolate/2/${level+1}`,target:spec.target},spec);}
+
+/** Royal-only analog adapter; the frozen shared collector snapshot stays unchanged.
+ * Short drags give fine control inside the same capture/hold rules as rivals.
+ */
+export class ChocolateRace extends CollectorRace {
+ override step(delta:number,direction:Direction,active=true) {
+  const strength=Math.min(1,Math.hypot(direction.x,direction.z));
+  const speed=this.growth.find(stage=>stage.tier===this.player.tier)!.speed;
+  this.player.speed=speed*strength;
+  try { super.step(delta,direction,active); }
+  finally { this.player.speed=this.growth.find(stage=>stage.tier===this.player.tier)!.speed; }
+ }
+}

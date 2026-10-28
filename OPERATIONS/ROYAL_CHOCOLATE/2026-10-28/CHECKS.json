@@ -1,0 +1,33 @@
+{
+  "status": "PASS_LOCAL_UNPUBLISHED",
+  "base": "d494832f762bebb1237d162971e5bae225869660",
+  "branch": "codex/royal-world-consumption-20261028",
+  "lint": "focused ESLint: three changed TypeScript/TSX files; no output/errors",
+  "build": "next build --webpack: compiled successfully, TypeScript, 60/60 static pages and build traces; exit 0",
+  "nodeChecks": "verify.cjs and browser-review.cjs syntax PASS",
+  "gameplay": "gameplay.json: fair reciprocal capture, hold reset, equal/similar safety, one-time capture/points, pending-food transfer, analog/clock/reset, reachability/camera, legal wins all three counters",
+  "browser": {
+    "tool": "Codex in-app browser via cua_repl; current built application on loopback 3171, initial development checks on 3169",
+    "viewports": [
+      "390x844 play/pause/restart",
+      "320x740 pause/Counter2",
+      "844x390 Counter3 play",
+      "1280x720 initial play"
+    ],
+    "mobileArena": {
+      "width": 390,
+      "height": 714,
+      "top": 130,
+      "bottom": 844,
+      "bottomControlPanels": 0,
+      "horizontalOverflow": false
+    },
+    "input": "relative pointer drag scored30; held ArrowRight scored90; keyboard focus and pause/resume worked",
+    "rounds": "three counter selectors/start verified; natural time-up immutable loss and replay reset0points/45seconds; Counter3 natural rival capture with25seconds left, player0, rival3240",
+    "fallback": "production-build proxy returned404 for all six Royal SVGs; 12 requests across six unique assets. Primitive food visible at390x844; keyboard movement scored90; Pause worked. No browser error-log entries.",
+    "normalErrors": [],
+    "limits": "Responsive emulation and pointer/keyboard input; no physical phone, iOS/Safari, or human balance certification. Player-eats-rival and three wins verified with the real configured simulation; natural rival-eats-player also observed in browser. Existing browser-review runner updated/syntax-checked; this turn used cua_repl for UI verification."
+  },
+  "sourceProtection": "No changes to Seed, Royal menu, frozen engine/rules, art, other sites, dependencies, CI or hosting.",
+  "release": "No push, PR, merge or deployment; production unchanged. Local production preview http://127.0.0.1:3171/royal-chocolate/play remains available for review."
+}

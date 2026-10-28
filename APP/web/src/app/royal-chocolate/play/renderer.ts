@@ -21,14 +21,16 @@ export function drawCounter(ctx:CanvasRenderingContext2D,width:number,height:num
  ctx.fillStyle=spec.color;ctx.fillRect(0,0,width,height);
  // One cohesive top-down chocolate-shop counter: subtle stone veins, inset edge, serving displays.
  ctx.strokeStyle='#fff2da0b';ctx.lineWidth=2;
- for(let n=-30;n<40;n+=6){ctx.beginPath();ctx.moveTo(px(n),pz(-spec.size/2));ctx.bezierCurveTo(px(n+12),pz(-5),px(n-10),pz(7),px(n+9),pz(spec.size/2));ctx.stroke();}
+ for(let n=-spec.size/2-12;n<spec.size/2+12;n+=6){ctx.beginPath();ctx.moveTo(px(n),pz(-spec.size/2));ctx.bezierCurveTo(px(n+12),pz(-5),px(n-10),pz(7),px(n+9),pz(spec.size/2));ctx.stroke();}
  ctx.strokeStyle='#b98654';ctx.lineWidth=9;ctx.strokeRect(px(-spec.size/2),pz(-spec.size/2),spec.size*scale,spec.size*scale);
  for(const o of race.obstacles){ctx.fillStyle='#211b1a';ctx.beginPath();ctx.roundRect(px(o.x-o.halfWidth),pz(o.z-o.halfDepth),o.halfWidth*2*scale,o.halfDepth*2*scale,8);ctx.fill();ctx.strokeStyle='#c69861';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#e4be96';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText(level===1?'TASTING TRAY':'DISPLAY',px(o.x),pz(o.z)+4);}
  for(const actor of race.actors){if(!actor.alive)continue;const x=px(actor.x),y=pz(actor.z),r=actor.radius*.9*scale;
   const color=actor.id==='player'?'#b8ca97':actor.id==='rival'?'#f7c5c2':actor.id==='rival-2'?'#a5c2d0':'#f0b879';
   ctx.fillStyle='#140d0c';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=5;ctx.stroke();
   ctx.strokeStyle='#523328';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,r*.68,.2,Math.PI*1.2);ctx.stroke();
-  ctx.fillStyle=color;ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(actor.id==='player'?'YOU':actor.id==='rival'?'RIVAL 1':actor.id==='rival-2'?'RIVAL 2':'RIVAL 3',x,y-r-9);
+  const name=actor.id==='rival'?'RIVAL 1':actor.id==='rival-2'?'RIVAL 2':'RIVAL 3';
+  const relation=race.player.radius>=actor.radius*race.rules.captureRatio?'SMALLER':actor.radius>=race.player.radius*race.rules.captureRatio?'BIGGER':'EVEN';
+  ctx.fillStyle=color;ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(actor.id==='player'?'YOU':`${name} · ${relation}`,x,y-r-9);
  }
  for(const item of race.items){if(item.collected)continue;const x=px(item.renderX),y=pz(item.renderZ);if(x<-45||x>width+45||y<-45||y>height+45)continue;
   const kind=item.defId as PickupKind,size=Math.max(30,item.radius*scale*2.8)*(1-item.sinkProgress*.75),image=art[kind];
@@ -38,10 +40,4 @@ export function drawCounter(ctx:CanvasRenderingContext2D,width:number,height:num
  }
  ctx.restore();
  if(pointer){ctx.fillStyle='#fff2da20';ctx.strokeStyle='#fff2da88';ctx.lineWidth=1;ctx.beginPath();ctx.arc(pointer.x,pointer.y,32,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#b8ca97aa';ctx.beginPath();ctx.arc(pointer.x+pointer.dx*27,pointer.y+pointer.dy*27,11,0,Math.PI*2);ctx.fill();}
- // Compact overview keeps unseen products/rivals discoverable on the large later counters.
- const mini=64,left=width-mini-12,top=12;
- ctx.fillStyle='#211b1add';ctx.fillRect(left,top,mini,mini);ctx.strokeStyle='#fff2da55';ctx.strokeRect(left,top,mini,mini);
- const mx=(x:number)=>left+(x/spec.size+.5)*mini,mz=(z:number)=>top+(z/spec.size+.5)*mini;
- for(const item of race.items)if(!item.collected){ctx.fillStyle='#e4be9677';ctx.fillRect(mx(item.x),mz(item.z),1.5,1.5);}
- for(const actor of race.actors)if(actor.alive){ctx.fillStyle=actor.id==='player'?'#b8ca97':'#cc4e70';ctx.beginPath();ctx.arc(mx(actor.x),mz(actor.z),2.5,0,Math.PI*2);ctx.fill();}
 }
