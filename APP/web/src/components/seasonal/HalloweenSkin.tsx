@@ -15,6 +15,20 @@ export function ghostDelay(first: boolean, random = Math.random()) {
   return first ? 15000 + random * 5000 : 45000 + random * 30000;
 }
 
+// Keep the normal footprint where it fits; compact phones can use a 72px-tall visitor.
+export function ghostLane(boxes: Pick<DOMRect, "width" | "height" | "left" | "right" | "top" | "bottom">[],
+  viewportWidth: number, viewportHeight: number, width: number, height: number) {
+  for (const candidate of [height, Math.min(height, 72)]) {
+    for (let top = 48; top < viewportHeight - candidate - 12; top += 4) {
+      if (!boxes.some(box => box.width > 2 && box.height > 2 && box.right > 0 &&
+        box.left < viewportWidth && box.bottom > top - 4 && box.top < top + candidate + 8)) {
+        return { top, width: width * candidate / height, height: candidate };
+      }
+    }
+  }
+  return null;
+}
+
 export default function HalloweenSkin({ brand, collection = false }: { brand: "colattao" | "bodega"; collection?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const ghost = useRef<HTMLDivElement>(null);
@@ -37,32 +51,33 @@ export default function HalloweenSkin({ brand, collection = false }: { brand: "c
     const clearLane = () => {
       const boxes: DOMRect[] = [];
       document.querySelectorAll("a,button,input,textarea,select,canvas,video,img[alt*='Bodega Cafe'],img[alt*='Colattao Coffee']").forEach(node => {
-        if (!element.contains(node)) boxes.push(node.getBoundingClientRect());
+        if (!element.contains(node) && node.checkVisibility?.({ opacityProperty: true, visibilityProperty: true }) !== false) boxes.push(node.getBoundingClientRect());
       });
       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       let node: Node | null;
       while ((node = walker.nextNode())) {
         const parent = node.parentElement;
         if (!node.textContent?.trim() || !parent || element.contains(parent) ||
-          parent.closest("script,style,[aria-hidden='true']") ||
+          parent.closest("script,style,[aria-hidden='true'],.sr-only") ||
+          parent.checkVisibility?.({ opacityProperty: true, visibilityProperty: true }) === false ||
           getComputedStyle(parent).visibility === "hidden") continue;
         const range = document.createRange();
         range.selectNodeContents(node);
         boxes.push(...Array.from(range.getClientRects()));
       }
-      const height = visitor.getBoundingClientRect().height;
-      for (let y = 48; y < window.innerHeight - height - 12; y += 8) {
-        if (!boxes.some(box => box.width > 0 && box.height > 0 && box.right > 0 &&
-          box.left < window.innerWidth && box.bottom > y - 4 && box.top < y + height + 8)) return y;
-      }
-      return null;
+      visitor.style.width = "";
+      visitor.style.height = "";
+      const size = visitor.getBoundingClientRect();
+      return ghostLane(boxes, window.innerWidth, window.innerHeight, size.width, size.height);
     };
     const visit = () => {
       if (!halloweenActive()) { element.hidden = true; hide(); return; }
       if (!blocked()) {
         const lane = clearLane();
         if (lane !== null) {
-          visitor.style.top = lane + "px";
+          visitor.style.top = lane.top + "px";
+          visitor.style.width = lane.width + "px";
+          visitor.style.height = lane.height + "px";
           const width = visitor.getBoundingClientRect().width;
           const from = reverse ? window.innerWidth + width : -width;
           const to = reverse ? -width : window.innerWidth + width;
