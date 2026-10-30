@@ -19,6 +19,7 @@ export function verifiedOrigin(raw: string | null): URL | null {
 export function parseFirstParty(raw: unknown, origin: string, now = Date.now()): NormalizedEvent | null {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
   const input = raw as Record<string, unknown>;
+  if (input.eventType !== undefined && input.eventType !== "pageview") return null;
   const url = verifiedOrigin(origin);
   if (!url || input.hostname !== url.hostname || input.internal === true ||
       input.siteId !== undefined || input.site_id !== undefined || // identity comes from host + path

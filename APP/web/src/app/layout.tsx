@@ -58,6 +58,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_TRIAL_COLLECTION_ENABLED === "true" && (
+          <meta name="fc-trial-tracking" content="enabled" />
+        )}
         {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
           <meta name="fc-traffic-collector" content="first-party-v1" />
         )}
@@ -71,8 +74,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <Analytics />
-        {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
-          <Script src="/traffic-collector.js" strategy="afterInteractive" data-enabled="true" />
+        {process.env.VERCEL_ENV === "production" && (process.env.TRAFFIC_INGESTION_SOURCE === "first-party" || process.env.TRAFFIC_TRIAL_COLLECTION_ENABLED === "true") && (
+          <Script src="/traffic-collector.js" strategy="afterInteractive" data-enabled="true" data-trials-enabled={process.env.TRAFFIC_TRIAL_COLLECTION_ENABLED === "true" ? "true" : "false"} data-scope={process.env.TRAFFIC_INGESTION_SOURCE === "first-party" ? "all" : "trials"} />
         )}
       </body>
     </html>

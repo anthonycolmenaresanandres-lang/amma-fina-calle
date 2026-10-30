@@ -16,6 +16,10 @@
           internal = true; sessionStorage.setItem('traffic-internal', '1');
         }
         if (internal || sessionStorage.getItem('traffic-internal') === '1') return;
+        const trialPath = ['/demo/project-seed', '/play/project-seed', '/el-mariachi', '/el-mariachi/play'].includes(location.pathname.replace(/\/$/, ''));
+        if (trialPath && script?.getAttribute('data-trials-enabled') === 'false') return;
+        if (script?.getAttribute('data-scope') === 'trials' &&
+          !trialPath) return;
         if (/^\/(api|auth|_next|owner|customers|command-center|lead-arcade|table-os|pilot)(\/|$)/i.test(location.pathname)) return;
         if (previous === location.pathname) return;
         previous = location.pathname;

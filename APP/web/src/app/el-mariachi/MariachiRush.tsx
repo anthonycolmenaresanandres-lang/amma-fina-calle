@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
+import { createTrialRun } from "@/lib/traffic/trial-client";
 import { ElMariachiNav } from "./ElMariachiNav";
 import { CourtyardRound, GROWTH, WORLD_HEIGHT, WORLD_WIDTH, createHoleState, type HoleInput } from "./hole-engine";
 import { drawCourtyard } from "./hole-drawing";
@@ -22,6 +23,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
   const [enhanced, setEnhanced] = useState(false);
   const hasStarted = view.mode !== "ready";
   const round = useRef(new CourtyardRound());
+  const trialRun = useRef<ReturnType<typeof createTrialRun> | null>(null);
   const board = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<HTMLDivElement>(null);
@@ -40,8 +42,11 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
   const publish = useCallback(() => { setView({ ...round.current.state }); }, []);
   const start = useCallback(() => {
     if (document.hidden) return;
+    if (!["ready", "result"].includes(round.current.state.mode)) return;
     clearInput();
     round.current.start(performance.now());
+    trialRun.current = createTrialRun();
+    trialRun.current.start();
     publish();
   }, [clearInput, publish]);
   const pause = useCallback(() => {
@@ -74,6 +79,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
       const before = round.current.state.mode;
       round.current.step(now, screenToWorldInput(input));
       const state = round.current.state;
+      if (state.mode === "result") trialRun.current?.complete();
       if (before !== state.mode) { clearInput(); publish(); }
       else if (state.mode === "running" && now - lastHud >= 100) { publish(); lastHud = now; }
       if (context && !enhancedReady.current && (state.mode === "running" ? now - lastDraw >= 32 : previousDrawMode !== state.mode || lastDraw === -1000)) {

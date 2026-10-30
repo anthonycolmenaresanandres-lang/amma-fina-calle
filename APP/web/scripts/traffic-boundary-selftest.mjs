@@ -16,10 +16,11 @@ const env={VERCEL_ENV:'production',TRAFFIC_INGESTION_SOURCE:'first-party'};
 const sanitize=load('src/lib/traffic/sanitize.ts',{});
 const registry=load('src/lib/traffic/sites.ts',{'./sanitize':sanitize});
 const first=load('src/lib/traffic/first-party.ts',{'./sanitize':sanitize,'./sites':registry},env);
+const trials=load('src/lib/traffic/trial-events.ts',{'./first-party':first},env);
 let writes=0;let fail=false;
 const store={getTrafficStore(){return {async insertEvents(){writes++;if(fail)throw Error('fixture-private-connection');}};}};
-const collector=load('src/app/api/traffic/pageview/route.ts',{'@/lib/traffic/first-party':first,'@/lib/traffic/store':store},env);
-const body={id:'89c4b568-4138-49d9-84b2-58111abc5678',ts:Date.now(),hostname:'finacalleos.com',path:'/demo/project-seed'};
+const collector=load('src/app/api/traffic/pageview/route.ts',{'@/lib/traffic/first-party':first,'@/lib/traffic/store':store,'@/lib/traffic/trial-events':trials},env);
+const body={id:'89c4b568-4138-49d9-84b2-58111abc5678',ts:Date.now(),hostname:'finacalleos.com',path:'/demo/bodega'};
 const request=(payload=body,origin='https://finacalleos.com')=>new Request('https://finacalleos.com/api/traffic/pageview',{method:'POST',headers:{Origin:origin},body:JSON.stringify(payload)});
 assert.equal((await collector.POST(request())).status,204);assert.equal(writes,1);
 assert.equal((await collector.POST(request({...body,hostname:'bodegacafe757.com'}))).status,400);assert.equal(writes,1);
@@ -35,7 +36,7 @@ const queryPool={
   async sql(strings){readStatements.push(strings.join('?'));return {rows:[]};},
   async query(sql){readStatements.push(sql);return {rows:[]};},
 };
-const actualStore=load('src/lib/traffic/store.ts',{'node:fs':fs,'node:crypto':crypto,'node:path':{default:path},'./date':dates,'./sites':registry,
+const actualStore=load('src/lib/traffic/store.ts',{'node:fs':fs,'node:crypto':crypto,'node:path':{default:path},'./date':dates,'./sites':registry,'./trial-events':trials,
   '@vercel/postgres':{createPool:()=>{poolCreations++;return queryPool;}}});
 const firstReadStore=new actualStore.__test.PostgresTrafficStore('postgres://fixture-unused.test/traffic');
 await firstReadStore.getRangeReport('bodega',Date.now()-60000,Date.now(),'America/New_York');
@@ -82,7 +83,7 @@ for (const failure of ['collector-404','event-insert-fails']) {
   const fixtureHealth=load('src/app/api/internal/traffic/health/route.ts',{'../report/route':reportRoute,'node:crypto':crypto,'@/lib/traffic/sites':registry,'@/lib/traffic/store':fixtureImports,'@/lib/traffic/first-party':{activeSource:()=> 'first-party'}},fixtureEnv,
     async url=>String(url).endsWith('/traffic-collector.js') ? new Response(null,{status:404}) : new Response('<meta name="fc-traffic-collector" content="first-party-v1">',{status:200}));
   if(failure==='event-insert-fails'){
-    const fixtureCollector=load('src/app/api/traffic/pageview/route.ts',{'@/lib/traffic/first-party':first,'@/lib/traffic/store':fixtureImports},fixtureEnv);
+    const fixtureCollector=load('src/app/api/traffic/pageview/route.ts',{'@/lib/traffic/first-party':first,'@/lib/traffic/store':fixtureImports,'@/lib/traffic/trial-events':trials},fixtureEnv);
     env.TRAFFIC_INGESTION_SOURCE='first-party';
     assert.equal((await fixtureCollector.POST(request())).status,503);
   }
@@ -97,7 +98,7 @@ for (const failure of ['collector-404','event-insert-fails']) {
 }
 console.log('PASS healthy pages plus collector 404 or event INSERT failure cannot establish coverage or measured zero');
 
-const formatter=load('src/lib/traffic/morning-format.ts',{'./sites':registry,'./date':dates});
+const formatter=load('src/lib/traffic/morning-format.ts',{'./sites':registry,'./date':dates,'./trial-events':trials});
 let sent=0;const deliveries=[];
 const mailEnv={VERCEL_ENV:'production',TRAFFIC_RESEND_API_KEY:'fixture',TRAFFIC_FROM_EMAIL:'Traffic <reports@finacalleos.com>',TRAFFIC_MORNING_REPORT_EMAIL:'anthonycolmenaresanandres@gmail.com',TRAFFIC_EMAIL_TEST_ENABLED:'true'};
 const mail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter},mailEnv,async(url,options)=>{sent++;deliveries.push({url,options});return new Response(null,{status:200});});

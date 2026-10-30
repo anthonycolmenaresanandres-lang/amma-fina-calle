@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createTrialRun } from "@/lib/traffic/trial-client";
 import type { Game } from "phaser";
 import Image from "next/image";
 import type { CafeRushStatus } from "@/caferush/types";
@@ -22,6 +23,7 @@ function PreviewItem({ itemId }: { itemId: string }) {
 
 export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }) {
   const [view, setView] = useState<View>("intro");
+  const trialRun = useRef<ReturnType<typeof createTrialRun> | null>(null);
   const [roundIndex, setRoundIndex] = useState(0);
   const [roundKey, setRoundKey] = useState(0);
   const [completed, setCompleted] = useState(0);
@@ -93,6 +95,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
     setTotalScore(nextTotal);
     setCompleted(roundIndex + 1);
     if (roundIndex === seedRounds.length - 1) {
+      trialRun.current?.complete();
       if (nextTotal > best) {
         setBest(nextTotal);
         try { window.localStorage.setItem(BEST_KEY, String(nextTotal)); } catch { /* Run remains playable. */ }
@@ -102,6 +105,11 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
   }, [view, status, round, roundIndex, totalScore, best]);
 
   function begin(index = roundIndex, reset = false) {
+    if (reset) {
+      if (trialRun.current && !trialRun.current.finished) return;
+      trialRun.current = createTrialRun();
+      trialRun.current.start();
+    }
     if (reset) { setTotalScore(0); setCompleted(0); }
     setRoundIndex(index);
     setStatus({ score: 0, seconds: seedRounds[index].rules.durationSec, target: seedRounds[index].rules.targetScore, over: false });
@@ -151,7 +159,7 @@ export default function SeedRushClient({ octoberLive }: { octoberLive: boolean }
           {paused ? <div className={styles.overlay}>Paused</div> : null}
           {loadError ? <div className={styles.overlay}><p>Game could not load.</p><button onClick={() => begin(roundIndex)} type="button">Try again</button><a href="/project-seed/menu">Browse menu</a></div> : null}
         </div>
-        <div className={styles.controls}><button type="button" onClick={togglePause} disabled={loading || loadError}>{paused ? "Resume" : "Pause"}</button><button type="button" onClick={() => setView("intro")}>Exit game</button></div>
+        <div className={styles.controls}><button type="button" onClick={togglePause} disabled={loading || loadError}>{paused ? "Resume" : "Pause"}</button><button type="button" onClick={() => { trialRun.current = null; setView("intro"); }}>Exit game</button></div>
       </section> : null}
 
       {view === "won" || view === "lost" || view === "complete" ? <section className={styles.result} aria-live="polite">
