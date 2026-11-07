@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
+import TrafficAnalytics from "@/lib/traffic/TrafficAnalytics";
+import { enabledTrialSites } from "@/lib/traffic/trial-events";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -52,12 +53,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const trialSites = enabledTrialSites();
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {process.env.VERCEL_ENV === "production" && trialSites.length > 0 && (
+          <meta name="fc-trial-tracking" content="enabled" data-sites={trialSites.join(",")} />
+        )}
         {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
           <meta name="fc-traffic-collector" content="first-party-v1" />
         )}
@@ -70,9 +75,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         {children}
-        <Analytics />
-        {process.env.VERCEL_ENV === "production" && process.env.TRAFFIC_INGESTION_SOURCE === "first-party" && (
-          <Script src="/traffic-collector.js" strategy="afterInteractive" data-enabled="true" />
+        <TrafficAnalytics />
+        {process.env.VERCEL_ENV === "production" && (process.env.TRAFFIC_INGESTION_SOURCE === "first-party" || trialSites.length > 0) && (
+          <Script src="/traffic-collector.js" strategy="afterInteractive" data-enabled="true" data-trials-enabled={trialSites.length > 0 ? "true" : "false"} data-trial-sites={trialSites.join(",")} data-scope={process.env.TRAFFIC_INGESTION_SOURCE === "first-party" ? "all" : "trials"} />
         )}
       </body>
     </html>

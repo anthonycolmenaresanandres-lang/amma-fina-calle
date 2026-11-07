@@ -85,10 +85,10 @@ export async function sendTrafficPeriodReport(
 }
 
 export async function sendTrafficDeliveryReport(
-  bundles: TrafficReportBundle[], mode: "test" | "scheduled",
+  bundles: TrafficReportBundle[], mode: "test" | "scheduled" | "verify",
 ): Promise<DeliveryResult> {
   if (!morningEmailStatus().enabled) return { sent: false, reason: "email_delivery_disabled" };
-  if (mode === "test" && process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return { sent: false, reason: "test_delivery_disabled" };
+  if ((mode === "test" || mode === "verify") && process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return { sent: false, reason: "test_delivery_disabled" };
   if (mode === "scheduled" && (process.env.TRAFFIC_SCHEDULE_ENABLED !== "true" ||
     process.env.TRAFFIC_EMAIL_TEST_READBACK_CONFIRMED !== "true")) return { sent: false, reason: "schedule_disabled_until_test_readback" };
   const apiKey = process.env.TRAFFIC_RESEND_API_KEY?.trim();
@@ -97,10 +97,12 @@ export async function sendTrafficDeliveryReport(
   if (!morningEmailStatus().recipientValid) return { sent: false, reason: "invalid_report_recipient" };
   if (!validSender(from)) return { sent: false, reason: "invalid_report_sender" };
   const content = renderTrafficDeliveryReport(bundles);
-  const idempotencyKey = `${trafficDeliveryKey(bundles.map(b => b.period))}${mode === "test" ? `-preview-${PREVIEW_REVISION}` : ""}`;
-  let payload = JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: content.subject, text: content.text, html: content.html });
+  const idempotencyKey = `${trafficDeliveryKey(bundles.map(b => b.period))}${mode === "test" ? `-preview-${PREVIEW_REVISION}` : mode === "verify" ? "-owner-verification-v1" : ""}`;
+  let payload = JSON.stringify({ from, to: [VERIFIED_OWNER_EMAIL], subject: mode === "verify" ? `[VERIFICATION] ${content.subject}` : content.subject,
+    text: mode === "verify" ? `Owner-only verification report. Actual completed-period records; coverage remains unverified.\n\n${content.text}` : content.text,
+    html: mode === "verify" ? content.html.replace("Traffic by site</h1>", "Owner verification: traffic by site</h1>") : content.html });
   let ledger: DeliveryLedger | undefined, attemptId: string | undefined;
-  if (mode === "scheduled") {
+  if (mode !== "test") {
     try {
       ledger = getDeliveryLedger();
       const existing = await ledger.status(idempotencyKey);

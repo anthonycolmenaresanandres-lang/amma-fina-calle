@@ -13,7 +13,7 @@ on:
       mode:
         description: "Owner-approved action; check never sends; recovery is current delivery date only"
         type: choice
-        options: [check, recovery, test]
+        options: [check, recovery, test, verify]
         default: check
 
 permissions:
@@ -27,6 +27,7 @@ jobs:
     if: >-
       (github.event_name == 'schedule' && (github.event.schedule == '17 23 * * *' || vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')) ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'test' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'verify' && vars.TRAFFIC_REPORT_TEST_ENABLED == 'true') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'check') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'recovery' && vars.TRAFFIC_REPORT_SCHEDULE_ENABLED == 'true')
     runs-on: ubuntu-latest

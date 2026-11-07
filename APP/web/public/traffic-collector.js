@@ -12,16 +12,26 @@
     const send = () => {
       try {
         const query = new URLSearchParams(location.search);
+        if (query.get('traffic_qa') === '1') sessionStorage.setItem('traffic-qa', '1');
+        const qa = sessionStorage.getItem('traffic-qa') === '1';
         if (['traffic_test', 'internal_test', 'qa', 'e2e'].some(key => query.has(key))) {
           internal = true; sessionStorage.setItem('traffic-internal', '1');
         }
         if (internal || sessionStorage.getItem('traffic-internal') === '1') return;
+        const trialPath = ['/demo/project-seed', '/play/project-seed', '/el-mariachi', '/el-mariachi/play'].includes(location.pathname.replace(/\/$/, ''));
+        const trialSites = script?.getAttribute('data-trial-sites');
+        const trialSite = location.pathname.includes('project-seed') ? 'project-seed' : 'el-mariachi';
+        if (trialPath && trialSites && !trialSites.split(',').includes(trialSite)) return;
+        if (qa && !trialPath) return;
+        if (trialPath && script?.getAttribute('data-trials-enabled') === 'false') return;
+        if (script?.getAttribute('data-scope') === 'trials' &&
+          !trialPath) return;
         if (/^\/(api|auth|_next|owner|customers|command-center|lead-arcade|table-os|pilot)(\/|$)/i.test(location.pathname)) return;
         if (previous === location.pathname) return;
         previous = location.pathname;
         let referrer = null;
         try { referrer = new URL(document.referrer).origin; } catch { /* direct visit */ }
-        const body = JSON.stringify({ id: crypto.randomUUID(), ts: Date.now(), hostname: location.hostname, path: location.pathname, referrer });
+        const body = JSON.stringify({ id: crypto.randomUUID(), ts: Date.now(), hostname: location.hostname, path: location.pathname, referrer, ...(qa ? { eventType: 'qa_pageview' } : {}) });
         // text/plain avoids a cross-origin preflight for the separate Colattao
         // app. credentials:omit ensures no private cookie is transmitted.
         void fetch(endpoint, { method: 'POST', body, mode: 'no-cors', credentials: 'omit', keepalive: true,

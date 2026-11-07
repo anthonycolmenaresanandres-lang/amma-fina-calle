@@ -11,7 +11,7 @@ import { memoryLedger, keyFor } from './traffic-ledger-fixture.mjs';
 function load(file, imports={}, env={}, fetcher=async()=>{throw Error('Unexpected network');}, clock=Date) {
   const exports={};
   vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,
-    {exports,process:{env},Buffer,URL,Request,Response,AbortSignal,Date:clock,fetch:fetcher,console:{error(){}},require(n){assert(n in imports,`Unmocked ${n}`);return imports[n];}});
+    {exports,process:{env},Buffer,URL,Request,Response,AbortSignal,Date:clock,fetch:fetcher,console:{error(){},info(){}},require(n){assert(n in imports,`Unmocked ${n}`);return imports[n];}});
   return exports;
 }
 let checks=0;
@@ -97,7 +97,7 @@ const memory=memoryLedger(),outputs=[];
 const mail=load('src/lib/traffic/morning-email.ts',{'server-only':{},'./morning-format':formatter,'./delivery-ledger':{getDeliveryLedger:()=>memory,trafficDeliveryKey:keyFor}},baseEnv,async(u,o)=>{providerCalls++;outputs.push(JSON.parse(o.body));return new Response(null,{status:200});});
 const report=p=>sites.ALL_TRAFFIC_SITES.map((s,i)=>({siteId:s.id,siteName:s.name,domains:s.domains,analyticsUrl:s.analyticsUrl,state:unavailable?'unavailable':'partial',reason:'Coverage unverified',since:p.range.since,until:p.range.until,observedPageviews:unavailable?undefined:i,observedIdentifiers:0,identifiedPageviews:0}));
 const service={getTrafficPeriodReports:async p=>{queries++;return report(p);},getMorningTrafficReports:async()=>({date:'2026-10-23',reports:report(periods[0])})};
-const route=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':{NextResponse:{json:(b,i)=>Response.json(b,i)}},'@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},'@/lib/traffic/date':dates,'@/lib/traffic/morning-email':mail,'@/lib/traffic/site-traffic':service},baseEnv,undefined,Clock);
+const route=load('src/app/api/internal/traffic/morning/route.ts',{'node:crypto':crypto,'next/server':{NextResponse:{json:(b,i)=>Response.json(b,i)}},'@/lib/traffic/binding':{inspectTrafficDatabase:async()=>({database:'neondb',role:'fixture',endpointId:'ep-fixture'})},'@/lib/admin/auth':{getAdminContext:async()=>({state:'authorized'})},'@/lib/traffic/date':dates,'@/lib/traffic/morning-email':mail,'@/lib/traffic/site-traffic':service},baseEnv,undefined,Clock);
 const post=async(body,token=baseEnv.TRAFFIC_MAIL_TRIGGER_SECRET)=>route.POST(new Request('https://finacalleos.com/api/internal/traffic/morning',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)}));
 const scheduled={mode:'scheduled',schedule:'17 12 * * *',deliveryDate:'2026-10-24'};
 assert.equal((await post(scheduled,'wrong')).status,401);checks++;

@@ -4,6 +4,7 @@
 // request/response bodies, provider messages or raw exception text.
 const endpoint = "https://finacalleos.com/api/internal/traffic/morning";
 const reasons = new Set([
+  "binding_unavailable",
   "unauthorized", "mail_trigger_not_configured", "unsupported_query",
   "invalid_request", "invalid_schedule", "invalid_mode", "test_delivery_disabled",
   "schedule_disabled_until_test_readback", "outside_delivery_window",
@@ -16,6 +17,7 @@ const reasons = new Set([
 ]);
 const providerErrors = new Set(["invalid_idempotency_key", "validation_error", "invalid_api_key"]);
 const beforeProvider = new Set([
+  "binding_unavailable",
   "unauthorized", "mail_trigger_not_configured", "unsupported_query", "invalid_request",
   "invalid_schedule", "invalid_mode", "test_delivery_disabled",
   "schedule_disabled_until_test_readback", "report_data_unavailable",
@@ -63,12 +65,12 @@ export async function triggerMail(env = process.env, fetcher = fetch) {
   // Match the server's existing normalization; no credential is printed.
   const secret = env.TRAFFIC_MAIL_TRIGGER_SECRET?.trim();
   const mode = env.TRAFFIC_MAIL_MODE;
-  if (!secret || secret.length < 32 || secret.length > 512 || !["test", "scheduled", "check", "recovery"].includes(mode)) {
+  if (!secret || secret.length < 32 || secret.length > 512 || !["test", "scheduled", "check", "recovery", "verify"].includes(mode)) {
     throw new TriggerFailure("trigger_configuration_invalid", "before_request");
   }
-  const body = mode === "test" ? { mode } : { mode, deliveryDate: env.TRAFFIC_MAIL_DELIVERY_DATE,
+  const body = ["test", "verify"].includes(mode) ? { mode } : { mode, deliveryDate: env.TRAFFIC_MAIL_DELIVERY_DATE,
     ...(mode === "scheduled" ? { schedule: env.TRAFFIC_MAIL_SCHEDULE } : {}) };
-  if (mode !== "test" && !/^\d{4}-\d{2}-\d{2}$/.test(body.deliveryDate ?? "")) throw new TriggerFailure("delivery_date_invalid", "before_request");
+  if (!["test", "verify"].includes(mode) && !/^\d{4}-\d{2}-\d{2}$/.test(body.deliveryDate ?? "")) throw new TriggerFailure("delivery_date_invalid", "before_request");
   if (mode === "scheduled" && !["0 12 * * *", "0 13 * * *", "17 12 * * *", "17 13 * * *", "17 16 * * *", "17 20 * * *"].includes(body.schedule)) {
     throw new TriggerFailure("schedule_invalid", "before_request");
   }

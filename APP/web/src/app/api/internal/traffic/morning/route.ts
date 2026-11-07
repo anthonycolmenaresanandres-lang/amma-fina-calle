@@ -4,6 +4,7 @@ import { getAdminContext } from "@/lib/admin/auth";
 import { dailyTrafficPeriod, dateStringInTz, TRAFFIC_TIMEZONE, TRAFFIC_SCHEDULES, trafficPeriodsForDeliveryDate, trafficScheduleDecision } from "@/lib/traffic/date";
 import { morningEmailStatus, sendTrafficDeliveryReport, trafficDeliveryStatus } from "@/lib/traffic/morning-email";
 import { getMorningTrafficReports, getTrafficPeriodReports } from "@/lib/traffic/site-traffic";
+import { inspectTrafficDatabase } from "@/lib/traffic/binding";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,11 +23,14 @@ function authorized(request: Request, expected: string): boolean {
 export async function GET() {
   const admin = await getAdminContext();
   if (admin.state !== "authorized") return reply({ ok: false, reason: "unauthorized" }, 401);
+  // Identity is returned only behind the existing operations-admin authorization.
+  let binding;
+  try { binding = await inspectTrafficDatabase(); } catch { binding = null; }
   const { date, reports } = await getMorningTrafficReports();
   let delivery;
   try { delivery = await trafficDeliveryStatus(trafficPeriodsForDeliveryDate(dateStringInTz(TRAFFIC_TIMEZONE, Date.now()))); }
   catch { delivery = { state: "ledger_unavailable" }; }
-  return reply({ ok: true, dryRun: true, date,
+  return reply({ ok: true, dryRun: true, date, binding,
     readyToSend: process.env.VERCEL_ENV === "production" && morningEmailStatus().enabled && morningEmailStatus().configured &&
       Boolean(process.env.TRAFFIC_MAIL_TRIGGER_SECRET?.trim()) && (!delivery || delivery.state === "pending"),
     mailTriggerConfigured: Boolean(process.env.TRAFFIC_MAIL_TRIGGER_SECRET?.trim()),
@@ -72,7 +76,7 @@ export async function POST(request: Request) {
 
   const now = Date.now();
   let periods;
-  if (input.mode === "test") {
+  if (input.mode === "test" || input.mode === "verify") {
     if (input.schedule !== undefined || input.deliveryDate !== undefined) return reply({ ok: false, reason: "invalid_request" }, 400);
     if (process.env.TRAFFIC_EMAIL_TEST_ENABLED !== "true") return reply({ ok: false, reason: "test_delivery_disabled" }, 503);
     periods = [dailyTrafficPeriod(now)];
@@ -92,6 +96,10 @@ export async function POST(request: Request) {
     if (input.deliveryDate > today) return reply({ ok: false, reason: "invalid_delivery_date" }, 400);
     if (input.mode === "recovery" && (process.env.TRAFFIC_EMAIL_RECOVERY_ENABLED !== "true" || input.deliveryDate !== today)) {
       return reply({ ok: false, reason: "recovery_not_authorized" }, 403);
+    }
+    if (input.mode === "check") {
+      try { console.info("[traffic/binding]", JSON.stringify(await inspectTrafficDatabase())); }
+      catch { return reply({ ok: false, reason: "binding_unavailable" }, 503); }
     }
     if (!periods.length) return reply({ ok: true, skipped: true, reason: "not_due" });
     try {
@@ -118,7 +126,7 @@ export async function POST(request: Request) {
     if (reports.every((report) => report.state === "unconfigured" || report.state === "unavailable")) {
       return reply({ ok: false, reason: "report_data_unavailable" }, 503);
     }
-    const delivery = await sendTrafficDeliveryReport(bundles, input.mode === "test" ? "test" : "scheduled");
+    const delivery = await sendTrafficDeliveryReport(bundles, input.mode === "test" ? "test" : input.mode === "verify" ? "verify" : "scheduled");
     return reply({ ok: delivery.sent, accepted: delivery.sent, deduplicated: delivery.deduplicated === true,
       periods: periods.map(({ kind, first, last }) => ({ kind, first, last })),
       ...(!delivery.sent ? { reason: delivery.reason, ...(delivery.providerError ? { providerError: delivery.providerError } : {}) } : {}) },
