@@ -29,8 +29,8 @@ for(const site of registry.ALL_TRAFFIC_SITES){
   assert(daily.text.includes(`\n\n${site.name} (${site.kind})\n`),`Blank gap before ${site.id}`);
   assert(daily.html.replaceAll("&#39;", "'").replaceAll("&amp;", "&").includes(`>${site.name}</h2>`));
 }
-assert.equal((daily.html.match(/Data not yet available<\/p>/g)??[]).length,16);
-assert.equal((daily.html.match(/0 recorded pageviews; coverage is unverified\./g)??[]).length,16);
+assert.equal((daily.html.match(/Data not yet available<\/p>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length-2);
+assert.equal((daily.html.match(/0 recorded pageviews; coverage is unverified\./g)??[]).length,registry.ALL_TRAFFIC_SITES.length-2);
 assert(!/>0<\/p>/.test(daily.html));
 assert(daily.html.includes('>42</p>')&&daily.html.includes('>128</p>'));
 assert(daily.html.includes('<strong>17</strong> tracked identifiers'));
@@ -56,21 +56,21 @@ assert(!combined.html.includes('>30</p>')&&!combined.text.includes('30 recorded 
 // Real failure reports omit diagnostics; do not spread successful counts into them.
 const failedReports=state=>reports.map(({siteId,siteName,domains})=>({siteId,siteName,domains,state,reason:'Synthetic source failure'}));
 const missing=formatter.renderTrafficDeliveryReport([{period,reports:failedReports('unavailable')}]);
-assert.equal((missing.html.match(/Data not yet available<\/p>/g)??[]).length,18);
+assert.equal((missing.html.match(/Data not yet available<\/p>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length);
 assert(!missing.html.includes('0 recorded pageviews'));
 for(const state of ['unavailable','unconfigured']){
   const failed=formatter.renderTrafficDeliveryReport([{period,reports:failedReports(state)}]);
-  assert.equal((failed.html.match(/<strong>Unavailable<\/strong>/g)??[]).length,18,`${state}: identifier status must remain unavailable`);
+  assert.equal((failed.html.match(/<strong>Unavailable<\/strong>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length,`${state}: identifier status must remain unavailable`);
   assert(!failed.html.includes('Not collected'));assert(!failed.text.includes('uncollected'));
-  assert.equal((failed.text.match(new RegExp(`${state}: unavailable`,'g'))??[]).length,18);
+  assert.equal((failed.text.match(new RegExp(`${state}: unavailable`,'g'))??[]).length,registry.ALL_TRAFFIC_SITES.length);
 }
 const failedZero=formatter.renderTrafficDeliveryReport([{period,reports:failedReports('unavailable').map(r=>({...r,identifiedPageviews:0}))}]);
 assert(!failedZero.html.includes('Not collected'));assert(!failedZero.text.includes('uncollected'));
-assert.equal((daily.html.match(/<strong>Not collected<\/strong>/g)??[]).length,16,'Successful explicit zero-ID reports stay uncollected');
+assert.equal((daily.html.match(/<strong>Not collected<\/strong>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length-2,'Successful explicit zero-ID reports stay uncollected');
 const mixedReports=reports.map((r,i)=>i===1?failedReports('unconfigured')[i]:i===3?failedReports('unavailable')[i]:r);
 const mixed=formatter.renderTrafficDeliveryReport([{period,reports:mixedReports}]);
 assert.equal((mixed.html.match(/<strong>Unavailable<\/strong>/g)??[]).length,2);
-assert.equal((mixed.html.match(/<strong>Not collected<\/strong>/g)??[]).length,14);
+assert.equal((mixed.html.match(/<strong>Not collected<\/strong>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length-4);
 assert(mixed.text.includes('42 recorded pageviews; 17 tracked identifiers; partial'));
 assert(mixed.text.includes('128 recorded pageviews; 63 tracked identifiers; partial'));
 assert(mixed.html.includes('<strong>17</strong> tracked identifiers')&&mixed.html.includes('<strong>63</strong> tracked identifiers'));
@@ -81,7 +81,7 @@ for(const identifiedPageviews of [undefined,42]){
 }
 const anonymous=formatter.renderTrafficDeliveryReport([{period,reports:reports.map(r=>r.siteId==='bodega'?{...r,identifiedPageviews:0,observedIdentifiers:0}:r)}]);
 assert(anonymous.text.includes('42 recorded pageviews; uncollected tracked identifiers; partial'));
-assert.equal((anonymous.html.match(/<strong>Not collected<\/strong>/g)??[]).length,17);
+assert.equal((anonymous.html.match(/<strong>Not collected<\/strong>/g)??[]).length,registry.ALL_TRAFFIC_SITES.length-1);
 console.log('PASS identifier availability: unconfigured/query failure/missing counts stay unavailable; explicit successful zero stays uncollected; HTML/text numeric counts unchanged');
 const maliciousRegistry={...registry,ALL_TRAFFIC_SITES:registry.ALL_TRAFFIC_SITES.map((s,i)=>i? s:{...s,name:'Bodega <img src="x"> & friends'})};
 const malicious=load('src/lib/traffic/morning-format.ts',{'./date':dates,'./sites':maliciousRegistry}).renderTrafficDeliveryReport([{period,reports:reports.map(r=>({...r,state:'<script>private-fixture</script>'}))}]);
@@ -92,7 +92,7 @@ function luminance(hex){const channels=hex.slice(1).match(/../g).map(h=>parseInt
 for(const [foreground,background]of [['#525a64','#ffffff'],['#0d1115','#ffffff'],['#c8aa72','#07090b'],['#f0ece4','#07090b'],['#b9c0c6','#07090b'],['#0d1115','#c8aa72']]){
   const values=[luminance(foreground),luminance(background)].sort((a,b)=>b-a);assert((values[0]+0.05)/(values[1]+0.05)>=4.5);
 }
-console.log(`PASS email presentation: HTML/text counts and periods,18 spaced sites, unavailable/recorded-zero distinction, combined-period separation, escaping/privacy, no tracked assets, contrast; ${Buffer.byteLength(daily.html)} daily/${Buffer.byteLength(combined.html)} combined HTML bytes; no send.`);
+console.log(`PASS email presentation: HTML/text counts and periods,${registry.ALL_TRAFFIC_SITES.length} spaced sites, unavailable/recorded-zero distinction, combined-period separation, escaping/privacy, no tracked assets, contrast; ${Buffer.byteLength(daily.html)} daily/${Buffer.byteLength(combined.html)} combined HTML bytes; no send.`);
 const previewIndex=process.argv.indexOf('--preview');
 if(previewIndex>=0){
   const directory=path.resolve(process.argv[previewIndex+1]);fs.mkdirSync(directory,{recursive:true});

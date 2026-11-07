@@ -105,7 +105,9 @@ console.log('PASS existing production feed stores with new gates absent/disabled
 const modernDates=load('src/lib/traffic/date.ts',{});
 const modernSanitize=load('src/lib/traffic/sanitize.ts',{});
 const modernSites=load('src/lib/traffic/sites.ts',{'./sanitize':modernSanitize});
-const modernStore=load('src/lib/traffic/store.ts',{'node:fs':fs,'node:crypto':crypto,'node:path':{default:path},'./date':modernDates,'./sites':modernSites,
+const modernFirst=load('src/lib/traffic/first-party.ts',{'./sanitize':modernSanitize,'./sites':modernSites});
+const modernTrials=load('src/lib/traffic/trial-events.ts',{'./first-party':modernFirst});
+const modernStore=load('src/lib/traffic/store.ts',{'node:fs':fs,'node:crypto':crypto,'node:path':{default:path},'./date':modernDates,'./sites':modernSites,'./trial-events':modernTrials,
   '@vercel/postgres':{createPool(){throw Error('Unexpected reporting pool creation');}}});
 const reader=new modernStore.__test.PostgresTrafficStore('postgres://synthetic.test/traffic',pool);
 const beforeRead=statements.length;

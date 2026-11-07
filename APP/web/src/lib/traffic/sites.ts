@@ -73,6 +73,7 @@ export const HOSTED_TRAFFIC_SITES: readonly TrafficSite[] = [
   hosted("maracaibo", "Maracaibo", ["/play/maracaibo-street-football", "/table/maracaibo/:table"]),
   hosted("olympia", "Olympia", ["/olympia", "/olympia/play", "/demo/olympia-sandwich/index.html"]),
   hosted("project-seed", "Project Seed", ["/demo/project-seed", "/play/project-seed"]),
+  hosted("el-mariachi", "El Mariachi", ["/el-mariachi", "/el-mariachi/play"]),
   hosted("vital-vibes", "Vital Vibes", ["/vital-vibes"]),
   hosted("scrambled", "Scrambled", ["/demo/scrambled"]),
   hosted("las-palmas", "Las Palmas", ["/demo/las-palmas", "/play/las-palmas", "/table/las-palmas-lynnhaven/:table"]),

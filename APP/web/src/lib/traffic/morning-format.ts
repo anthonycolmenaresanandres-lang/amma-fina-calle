@@ -1,6 +1,17 @@
 import type { TrafficReport } from "./site-traffic";
 import { calendarRange, type TrafficDeliveryPeriod } from "./date";
-import { ALL_TRAFFIC_SITES as TRAFFIC_SITES } from "./sites";
+import { ALL_TRAFFIC_SITES } from "./sites";
+
+// Presentation order only. Do not alter the production collector's registry.
+const TRAFFIC_SITES = [...ALL_TRAFFIC_SITES].sort((a, b) =>
+  (a.id === "bodega" ? 0 : a.id === "colattao" ? 1 : 2) - (b.id === "bodega" ? 0 : b.id === "colattao" ? 1 : 2));
+
+function isTrialSite(siteId: string): boolean { return siteId === "project-seed" || siteId === "el-mariachi"; }
+function trialMetricSummary(metrics: NonNullable<TrafficReport["trialMetrics"]>, siteId: string): string {
+  const meaning = siteId === "project-seed" ? "A start is a new-run Start action, not a successful-load guarantee; completion means all three rounds succeed. Round retries do not add starts." :
+    "A start begins a round; completion means reaching its result by timer or clearing the courtyard, not necessarily winning.";
+  return `Recorded trial events (coverage unverified): menu pageviews ${metrics.menuPageviews}; game-page views ${metrics.gamePageviews}; game starts ${metrics.gameStarts}; game completions ${metrics.gameCompletions}. ${meaning} These are events, not people or physical QR scans; starts/completions in overlapping periods are not added.`;
+}
 
 export function renderMorningReport(date: string, reports: TrafficReport[]) {
   return renderTrafficPeriodReport({ kind: "daily", first: date, last: date, range: calendarRange(date, date) }, reports);
@@ -36,17 +47,18 @@ export function renderTrafficPeriodReport(period: TrafficDeliveryPeriod, reports
       }
       if (report.state === "empty") lines.push(`Last verified pageview: ${report.lastObservedAt}`);
     }
+    if (isTrialSite(site.id)) lines.push(report.trialMetrics ? trialMetricSummary(report.trialMetrics, site.id) : "Trial event metrics unavailable; no estimate is shown.");
     lines.push("");
   }
   lines.push("Only verified production hostnames and explicitly listed public pages are included.",
-    "Tracked identifiers are not identifiable people. Anonymous first-party collection measures pageviews only, not physical QR scans. Configuration probes do not verify ingestion or prove zero traffic.",
+    "Tracked identifiers are not identifiable people. Recorded pageviews and trial game events are not physical QR scans. Configuration probes do not verify ingestion or prove zero traffic.",
     "Private dashboard: https://finacalleos.com/customers/traffic");
   return { subject: `Fina Calle traffic by site — ${date}`, text: lines.join("\n") };
 }
 
 export type TrafficReportBundle = { period: TrafficDeliveryPeriod; reports: TrafficReport[] };
 
-type EmailMetric = { state: string; pageviews?: number; identifiers?: number; identifiersUncollected: boolean; summary: string };
+type EmailMetric = { state: string; pageviews?: number; identifiers?: number; identifiersUncollected: boolean; summary: string; trialSummary?: string };
 type EmailSite = { name: string; kind: string; values: EmailMetric[] };
 
 function htmlText(value: string | number): string {
@@ -73,6 +85,7 @@ function renderDeliveryHtml(bundles: TrafficReportBundle[], labels: string[], si
         ${primary}${recordedDetail}
         <p style="margin:0;color:${ink};font-size:15px;line-height:1.6;"><strong>${metric.identifiers === undefined ? metric.identifiersUncollected ? "Not collected" : "Unavailable" : htmlText(metric.identifiers.toLocaleString("en-US"))}</strong> ${metric.identifiers === undefined ? "&mdash; tracked identifiers" : "tracked identifiers"}</p>
         <p style="margin:6px 0 0;color:${muted};font-size:13px;line-height:1.6;">Coverage status: ${htmlText(metric.state)}</p>
+        ${metric.trialSummary ? `<p style="margin:8px 0 0;color:${muted};font-size:14px;line-height:1.6;">${htmlText(metric.trialSummary)}</p>` : ""}
       </td></tr>`;
     }).join("");
     return `<tr><td style="padding:30px 24px 32px;border-bottom:1px solid #dce0e4;">
@@ -131,9 +144,10 @@ export function renderTrafficDeliveryReport(bundles: TrafficReportBundle[]) {
       // source establishes that identifiers were not collected.
       const identifiersUncollected = report.identifiedPageviews === 0 &&
         report.state !== "unconfigured" && report.state !== "unavailable";
-      return { state: report.state, pageviews, identifiers, identifiersUncollected,
+      const trialSummary = isTrialSite(site.id) ? report.trialMetrics ? trialMetricSummary(report.trialMetrics, site.id) : "Trial event metrics unavailable; no estimate is shown." : undefined;
+      return { state: report.state, pageviews, identifiers, identifiersUncollected, trialSummary,
         summary: pageviews === undefined ? `${report.state}: unavailable` :
-          `${pageviews} recorded pageviews; ${identifiers ?? (identifiersUncollected ? "uncollected" : "unavailable")} tracked identifiers; ${report.state}` };
+          `${pageviews} recorded pageviews; ${identifiers ?? (identifiersUncollected ? "uncollected" : "unavailable")} tracked identifiers; ${report.state}${trialSummary ? `. ${trialSummary}` : ""}` };
     }),
   }));
   const caveats = [

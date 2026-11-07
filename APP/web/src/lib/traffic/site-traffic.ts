@@ -7,7 +7,7 @@ import { getTrafficStore, trafficDatabaseUrl } from "./store";
 import { ALL_TRAFFIC_SITES as TRAFFIC_SITES, trafficSite, type TrafficSite } from "./sites";
 
 export type TrafficRange = { since: string; until: string; timezone?: string };
-type Diagnostics = { siteKind?: TrafficSite["kind"]; since?: string; until?: string; timezone?: string; checkedAt?: string | null; lastSuccessfulCheck?: string | null; collectionStart?: string | null; firstObservedAt?: string | null; lastObservedAt?: string | null; coverage?: ReturnType<typeof assessCoverage>; observedPageviews?: number; observedIdentifiers?: number; identifiedPageviews?: number; recorded?: RangeReport };
+type Diagnostics = { trialMetrics?: RangeReport["trialMetrics"]; siteKind?: TrafficSite["kind"]; since?: string; until?: string; timezone?: string; checkedAt?: string | null; lastSuccessfulCheck?: string | null; collectionStart?: string | null; firstObservedAt?: string | null; lastObservedAt?: string | null; coverage?: ReturnType<typeof assessCoverage>; observedPageviews?: number; observedIdentifiers?: number; identifiedPageviews?: number; recorded?: RangeReport };
 export type TrafficReport = Diagnostics & (
   | {
       state: "ready"; siteId: TrafficSite["id"]; siteName: string; domains: readonly string[]; analyticsUrl: string;
@@ -43,7 +43,7 @@ export async function getSiteTrafficReport(site: TrafficSite, range: TrafficRang
       store.getCollectionChecks?.(site.id, Date.parse(range.since), Date.parse(range.until)) ?? Promise.resolve([]),
     ]);
     const coverage = assessCoverage(checks, range.since, range.until, report.pageviews);
-    const diagnostics = { ...base, coverage, checkedAt: coverage.checkedAt, lastSuccessfulCheck: coverage.lastSuccessfulCheck, collectionStart: coverage.collectionStart,
+    const diagnostics = { ...base, ...(report.trialMetrics ? { trialMetrics: report.trialMetrics } : {}), coverage, checkedAt: coverage.checkedAt, lastSuccessfulCheck: coverage.lastSuccessfulCheck, collectionStart: coverage.collectionStart,
       firstObservedAt: observed.firstObservedAt, lastObservedAt: observed.lastObservedAt,
       identifiedPageviews: report.identifiedPageviews ?? 0 };
     if (coverage.state !== "ready") {

@@ -45,6 +45,7 @@ export interface DailyReport {
 }
 
 export interface RangeReport {
+  trialMetrics?: import("./trial-events").TrialMetrics;
   siteId: string;
   pageviews: number;
   uniqueVisitors: number;

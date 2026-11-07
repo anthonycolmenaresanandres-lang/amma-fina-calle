@@ -17,6 +17,7 @@ import path from "node:path";
 import type { DailyReport, NormalizedEvent, ObservationWindow, PathCount, RangeReport, ReferrerCount, TrafficStore } from "./types";
 import { todayRange } from "./date";
 import { trafficSite } from "./sites";
+import { countTrialEvents, isTrialSite, TRIAL_PATHS, type TrialMetrics, type TrialSiteId } from "./trial-events";
 
 const TOP_LIMIT = 10;
 
@@ -46,7 +47,8 @@ function localDay(ts: number, timezone: string): string {
 }
 
 function buildRangeReport(events: NormalizedEvent[], siteId: string, timezone: string): RangeReport {
-  const visits = uniqueEvents(events).filter((event) => event.eventType === "pageview");
+  events = uniqueEvents(events);
+  const visits = events.filter((event) => event.eventType === "pageview");
   const days = new Map<string, NormalizedEvent[]>();
   const paths = new Map<string, number>();
   const referrers = new Map<string, number>();
@@ -61,7 +63,8 @@ function buildRangeReport(events: NormalizedEvent[], siteId: string, timezone: s
   const top = (values: Map<string, number>) => [...values]
     .map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count).slice(0, TOP_LIMIT);
   return {
-    siteId, pageviews: visits.length, identifiedPageviews: visits.filter((event) => event.visitorId).length, uniqueVisitors: new Set(visits.map((event) => event.visitorId).filter(Boolean)).size,
+    siteId, ...(isTrialSite(siteId) ? { trialMetrics: countTrialEvents(siteId, events) } : {}),
+    pageviews: visits.length, identifiedPageviews: visits.filter((event) => event.visitorId).length, uniqueVisitors: new Set(visits.map((event) => event.visitorId).filter(Boolean)).size,
     daily: [...days].map(([date, rows]) => ({ date, pageviews: rows.length,
       visitors: new Set(rows.map((row) => row.visitorId).filter(Boolean)).size })).sort((a, b) => a.date.localeCompare(b.date)),
     topPaths: top(paths).map(({ key, count }) => ({ path: key, count })),
@@ -76,8 +79,10 @@ function buildReport(
   timezone: string,
   dateStr: string,
 ): DailyReport {
-  events = uniqueEvents(events);
-  const pageviews = events.filter((event) => event.eventType === "pageview").length;
+  // Daily traffic describes real pageviews only, including referrers,
+  // identifiers and freshness. Game telemetry and QA cannot affect it.
+  events = uniqueEvents(events).filter((event) => event.eventType === "pageview");
+  const pageviews = events.length;
   const visitors = new Set(events.map((event) => event.visitorId).filter(Boolean));
   const pathCounts = new Map<string, number>();
   const referrerCounts = new Map<string, number>();
@@ -212,6 +217,19 @@ class PostgresTrafficStore implements TrafficStore {
     return createPool({ connectionString: this.connectionString, max: 2, connectionTimeoutMillis: 3000, query_timeout: 3000, idleTimeoutMillis: 1000 });
   }
 
+  private async getTrialMetrics(siteId: TrialSiteId, start: string, end: string, onlyPath: string): Promise<TrialMetrics> {
+    const pool = await this.getPool();
+    const paths = TRIAL_PATHS[siteId];
+    const result = await pool.query(`SELECT
+      COUNT(*) FILTER (WHERE event_type='pageview' AND path=$4) AS menu,
+      COUNT(*) FILTER (WHERE event_type='pageview' AND path=$5) AS game,
+      COUNT(*) FILTER (WHERE event_type='game_start' AND path=$5) AS starts,
+      COUNT(*) FILTER (WHERE event_type='game_complete' AND path=$5) AS completions
+      FROM traffic_events WHERE site_id=$1 AND ts >= $2 AND ts < $3 AND ($6='' OR path=$6)`, [siteId, start, end, paths.menu, paths.game, onlyPath]);
+    const row = result.rows[0];
+    return { menuPageviews: Number(row.menu), gamePageviews: Number(row.game), gameStarts: Number(row.starts), gameCompletions: Number(row.completions) };
+  }
+
   async getCollectionChecks(siteId: string, startMs: number, endMs: number) {
     const pool = await this.getPool();
     try {
@@ -283,7 +301,7 @@ class PostgresTrafficStore implements TrafficStore {
         COUNT(DISTINCT NULLIF(visitor_id, '')) AS unique_visitors,
         MAX(ts) AS last_updated
       FROM traffic_events
-      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND event_type = 'pageview'
     `;
     const paths = await pool.sql`
       SELECT path, COUNT(*) AS count
@@ -294,7 +312,7 @@ class PostgresTrafficStore implements TrafficStore {
     const referrers = await pool.sql`
       SELECT referrer_host AS referrer, COUNT(*) AS count
       FROM traffic_events
-      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND referrer_host IS NOT NULL
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND event_type = 'pageview' AND referrer_host IS NOT NULL
       GROUP BY referrer_host ORDER BY count DESC LIMIT ${TOP_LIMIT}
     `;
 
@@ -345,7 +363,8 @@ class PostgresTrafficStore implements TrafficStore {
     `;
     const row = totals.rows[0] ?? {};
     return {
-      siteId, pageviews: Number(row.pageviews ?? 0), identifiedPageviews: Number(row.identified_pageviews ?? 0), uniqueVisitors: Number(row.visitors ?? 0),
+      siteId, ...(isTrialSite(siteId) ? { trialMetrics: await this.getTrialMetrics(siteId, start, end, selectedPath) } : {}),
+      pageviews: Number(row.pageviews ?? 0), identifiedPageviews: Number(row.identified_pageviews ?? 0), uniqueVisitors: Number(row.visitors ?? 0),
       daily: daily.rows.map((item) => ({ date: String(item.day), pageviews: Number(item.pageviews), visitors: Number(item.visitors) })),
       topPaths: paths.rows.map((item) => ({ path: String(item.path), count: Number(item.count) })),
       topReferrers: referrers.rows.map((item) => ({ referrer: String(item.referrer), count: Number(item.count) })),
