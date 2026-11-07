@@ -69,4 +69,26 @@ assert.equal(beforeSend({type:'pageview',url:'https://finacalleos.com/el-mariach
 assert.equal(beforeSend({type:'pageview',url:'https://finacalleos.com/el-mariachi/play'}),null);
 state.clear();const genuine={type:'pageview',url:'https://finacalleos.com/el-mariachi'};assert.equal(beforeSend(genuine),genuine);
 console.log('PASS native Analytics excludes QA and subsequent same-tab QA navigation while preserving genuine views');
+// Execute the actual component's button handlers and original round engine.
+// Effects/renderers are intentionally idle; no browser or live events involved.
+const engine=load('src/app/el-mariachi/hole-engine.ts');
+let hook=0,starts=0;
+const hooks=[];
+const react={useState(initial){const i=hook++;if(!(i in hooks))hooks[i]=typeof initial==='function'?initial():initial;return [hooks[i],v=>{hooks[i]=typeof v==='function'?v(hooks[i]):v;}];},
+  useRef(initial){const i=hook++;return hooks[i]??(hooks[i]={current:initial});},useCallback:fn=>fn,useEffect(){}};
+const jsx=(type,props)=>({type,props});
+const game=load('src/app/el-mariachi/MariachiRush.tsx',{'react':react,'react/jsx-runtime':{jsx,jsxs:jsx,Fragment:'fragment'},
+  'next/image':{},'next/link':{},'lucide-react':{},'@/lib/traffic/trial-client':{createTrialRun:()=>({start(){starts++;},complete(){}})},
+  './ElMariachiNav':{},'./hole-engine':engine,'./hole-drawing':{},'./hole-camera':{},'./game.module.css':{default:{}}},{},{document:{hidden:false},performance:{now:()=>1000}});
+const render=()=>{hook=0;return game.default({locationSlug:'fixture',locationName:'Fixture',orderUrl:'https://example.test'});};
+const textOf=node=>node==null||node===false?'':typeof node==='string'||typeof node==='number'?String(node):Array.isArray(node)?node.map(textOf).join(''):textOf(node.props?.children);
+function button(tree,label){if(!tree||typeof tree!=='object')return null;if(tree.type==='button'&&textOf(tree).trim()===label)return tree;
+  for(const child of [tree.props?.children].flat(Infinity)){const found=button(child,label);if(found)return found;}return null;}
+const play=button(render(),'Play');assert(play);play.props.onClick();play.props.onClick();assert.equal(starts,1);
+button(render(),'Pause').props.onClick();assert(button(render(),'Resume'));
+button(render(),'Resume').props.onClick();assert.equal(starts,1);assert(!button(render(),'Resume'));
+button(render(),'Pause').props.onClick();const restart=button(render(),'Restart round');assert(restart);
+restart.props.onClick();restart.props.onClick();assert.equal(starts,2);assert(!button(render(),'Resume'));
+assert.equal(button(render(),'Pause').props.disabled,false);
+console.log('PASS actual Play/Pause/Resume/Restart handlers: paused restart creates one fresh round; resume/rapid clicks do not duplicate starts');
 await db.close();

@@ -42,7 +42,7 @@ export default function CourtyardSweep({ locationSlug, locationName, orderUrl }:
   const publish = useCallback(() => { setView({ ...round.current.state }); }, []);
   const start = useCallback(() => {
     if (document.hidden) return;
-    if (!["ready", "result"].includes(round.current.state.mode)) return;
+    if (!["ready", "paused", "result"].includes(round.current.state.mode)) return;
     clearInput();
     round.current.start(performance.now());
     trialRun.current = createTrialRun();

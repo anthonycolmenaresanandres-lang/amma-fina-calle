@@ -68,6 +68,22 @@ async function main() {
   });
   const other=await store.getRangeReport("el-mariachi",now-1,now+1,"America/New_York");
   assert.deepEqual(other.trialMetrics,result.trialMetrics);
+  // A newer QA referrer/identifier must not change any genuine today metric.
+  const genuine = {...samples[0], siteId:"el-mariachi", path:"/el-mariachi", ts:now-60000,
+    referrerHost:"real.example", visitorId:"real-synthetic-id", eventId:randomUUID()};
+  const qa = {...genuine, ts:now+1000, eventType:"qa_pageview", referrerHost:"qa.example", visitorId:"qa-synthetic-id", eventId:randomUUID()};
+  await store.insertEvents([genuine,qa]);
+  const today=await store.getTodayReport("el-mariachi","America/New_York");
+  const realToday=__test.buildReport([...samples.filter(e=>e.siteId==="el-mariachi"),genuine],"el-mariachi","America/New_York",today.date);
+  const qaToday=__test.buildReport([...samples.filter(e=>e.siteId==="el-mariachi"),genuine,qa],"el-mariachi","America/New_York",today.date);
+  check("real SQL and file daily reports exclude newer QA referrers, identifiers and freshness",()=>{
+    assert.deepEqual(qaToday,realToday);
+    assert.equal(today.pageviews,realToday.pageviews);assert.equal(today.uniqueVisitors,realToday.uniqueVisitors);
+    assert.equal(today.lastUpdated,realToday.lastUpdated);assert.deepEqual(today.topReferrers,realToday.topReferrers);
+    const qaOnly=__test.buildReport([genuine,qa],"el-mariachi","America/New_York",today.date);
+    assert.equal(qaOnly.lastUpdated,new Date(genuine.ts).toISOString());assert.equal(qaOnly.uniqueVisitors,1);
+    assert.deepEqual(qaOnly.topReferrers,[{referrer:"real.example",count:1}]);
+  });
   const failedStore=new __test.PostgresTrafficStore("postgres://unused.test/traffic",{...pool,query:async()=>{throw Error("Synthetic aggregate failure");}} as never);
   await assert.rejects(()=>failedStore.getRangeReport("project-seed",now-1,now+1,"America/New_York"));
   const menuOnly=await store.getRangeReport("project-seed",now-1,now+1,"America/New_York","/demo/project-seed");

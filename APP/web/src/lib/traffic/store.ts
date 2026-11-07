@@ -79,8 +79,10 @@ function buildReport(
   timezone: string,
   dateStr: string,
 ): DailyReport {
-  events = uniqueEvents(events);
-  const pageviews = events.filter((event) => event.eventType === "pageview").length;
+  // Daily traffic describes real pageviews only, including referrers,
+  // identifiers and freshness. Game telemetry and QA cannot affect it.
+  events = uniqueEvents(events).filter((event) => event.eventType === "pageview");
+  const pageviews = events.length;
   const visitors = new Set(events.map((event) => event.visitorId).filter(Boolean));
   const pathCounts = new Map<string, number>();
   const referrerCounts = new Map<string, number>();
@@ -299,7 +301,7 @@ class PostgresTrafficStore implements TrafficStore {
         COUNT(DISTINCT NULLIF(visitor_id, '')) AS unique_visitors,
         MAX(ts) AS last_updated
       FROM traffic_events
-      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end}
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND event_type = 'pageview'
     `;
     const paths = await pool.sql`
       SELECT path, COUNT(*) AS count
@@ -310,7 +312,7 @@ class PostgresTrafficStore implements TrafficStore {
     const referrers = await pool.sql`
       SELECT referrer_host AS referrer, COUNT(*) AS count
       FROM traffic_events
-      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND referrer_host IS NOT NULL
+      WHERE site_id = ${siteId} AND ts >= ${start} AND ts < ${end} AND event_type = 'pageview' AND referrer_host IS NOT NULL
       GROUP BY referrer_host ORDER BY count DESC LIMIT ${TOP_LIMIT}
     `;
 
