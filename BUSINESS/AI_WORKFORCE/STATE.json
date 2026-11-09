@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-09-25T09:00:00-04:00",
+  "last_updated_at": "2026-11-09T08:31:28-05:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -320,7 +320,32 @@
       "next_action": "Review the 2026-09-25 Second Street Managing Partner outreach; no custom build before interest."
     }
   ],
-  "alerts": [],
+  "alerts": [
+    {
+      "id": "vbfh-youth-soccer-2026-11-08-registration-cutoff",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Youth Soccer Winter 2026-27 registration deadline",
+      "old_value": "Nov 8, 2026 deadline was upcoming as of Nov 2",
+      "new_value": "Nov 8 deadline has passed as of Nov 9; actual late registration/waitlist availability UNKNOWN",
+      "verified_at": "2026-11-09",
+      "source": "https://beachfieldhouse.com/activity/youth-soccer/",
+      "next_action": "Do not claim regular registration is open. Confirm late registration/waitlist with official registration provider or VBFH staff; production knowledge change needs Anthony's approval."
+    },
+    {
+      "id": "vbfh-youth-basketball-stale-fall-only-2026-11-09",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Youth Basketball seasonal information stale",
+      "old_value": "Fall 2026 season Sept 13–Oct 25 with registration closure Aug 30",
+      "new_value": "As of Nov 9, published page still displays only expired Fall season, while prompting registration; current/new season and enrollment status UNKNOWN",
+      "verified_at": "2026-11-09",
+      "source": "https://beachfieldhouse.com/activity/youth-basketball/",
+      "next_action": "Do not promise an upcoming basketball season or open registration. Ask VBFH staff for updated dates and verify before production knowledge change."
+    }
+  ],
   "decision_debt": [],
   "dedupe": {
     "esm-vbfh-existing-draft": "1a0c6119e510bd1",
