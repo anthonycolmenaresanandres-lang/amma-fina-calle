@@ -4,10 +4,26 @@ import { appendFileSync } from "node:fs";
 const repository = "anthonycolmenaresanandres-lang/amma-fina-calle";
 export async function scheduleContext(env = process.env, fetcher = fetch) {
   if (env.GITHUB_REPOSITORY !== repository || !/^\d{1,16}$/.test(env.GITHUB_RUN_ID ?? "")) throw Error("invalid_run_context");
-  const response = await fetcher(`https://api.github.com/repos/${repository}/actions/runs/${env.GITHUB_RUN_ID}`, {
-    headers: { Accept: "application/vnd.github+json" }, redirect: "error", signal: AbortSignal.timeout(15000),
-  });
-  if (!response.ok) throw Error("run_context_unavailable");
+  const url = `https://api.github.com/repos/${repository}/actions/runs/${env.GITHUB_RUN_ID}`;
+  // Unauthenticated public-metadata read: absorb transient GitHub API unavailability
+  // (secondary rate limits, 5xx, network blips) with bounded backoff, still fail closed.
+  const transient = new Set([403, 408, 429, 500, 502, 503, 504]);
+  let response;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      response = await fetcher(url, {
+        headers: { Accept: "application/vnd.github+json" }, redirect: "error", signal: AbortSignal.timeout(15000),
+      });
+    } catch (error) {
+      if (attempt === 3) throw error instanceof Error ? error : Error("run_context_unavailable");
+      await new Promise(resolve => setTimeout(resolve, 1500 * attempt));
+      continue;
+    }
+    if (response.ok) break;
+    if (attempt === 3 || !transient.has(response.status)) throw Error("run_context_unavailable");
+    await new Promise(resolve => setTimeout(resolve, 1500 * attempt));
+  }
+  if (!response?.ok) throw Error("run_context_unavailable");
   const reader = response.body?.getReader();
   if (!reader) throw Error("invalid_run_context");
   const chunks = []; let bytes = 0;
