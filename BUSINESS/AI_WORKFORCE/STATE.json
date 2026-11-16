@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-11-09T08:31:28-05:00",
+  "last_updated_at": "2026-11-16T08:33:45-05:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -344,6 +344,30 @@
       "verified_at": "2026-11-09",
       "source": "https://beachfieldhouse.com/activity/youth-basketball/",
       "next_action": "Do not promise an upcoming basketball season or open registration. Ask VBFH staff for updated dates and verify before production knowledge change."
+    },
+    {
+      "id": "vbfh-lil-kickers-upper-age-conflict-2026-11-16",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Lil' Kickers eligibility upper-age range",
+      "old_value": "Not previously flagged; program upper-age guidance lacked a verified conflict record",
+      "new_value": "Official program intro says ages 18 months–9 years; SEASON INFORMATION says 18 months–7 years. Actual eligibility at ages 8–9 UNKNOWN.",
+      "verified_at": "2026-11-16",
+      "source": "https://beachfieldhouse.com/activity/lil-kickers/",
+      "next_action": "Voice Gateway must avoid definitive eligibility for 8–9-year-olds; ask VBFH youth staff or check official registration eligibility before any production knowledge update. Approval needed."
+    },
+    {
+      "id": "vbfh-youth-soccer-birthyear-conflict-2026-11-16",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Youth Soccer birth-year eligibility",
+      "old_value": "Previously verified winter Dec 4, 2026–Mar 7, 2027, $96, registration cut off Nov 8; age/birth-year discrepancy not recorded",
+      "new_value": "Official youth soccer overview says ages 4–18 (born 2007–2020), while the Recreation division explicitly lists a 2020/2021 birth-year bracket; 2021 child eligibility is inconsistent across the same page.",
+      "verified_at": "2026-11-16",
+      "source": "https://beachfieldhouse.com/activity/youth-soccer/",
+      "next_action": "Voice Gateway should not reject 2021-born players based on overview; defer specific eligibility to VBFH or verified official registration rules. Approval needed before updating production."
     }
   ],
   "decision_debt": [],
