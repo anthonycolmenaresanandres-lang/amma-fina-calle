@@ -18,6 +18,10 @@ on:
 
 permissions:
   contents: read
+  # Lets the built-in GITHUB_TOKEN authenticate the run-metadata read in the
+  # "Anchor to original run date" step so it is not throttled by the shared-IP
+  # unauthenticated rate limit. Read-only; no send/recipient scope is granted.
+  actions: read
 concurrency:
   group: traffic-report-mail
   cancel-in-progress: false
@@ -37,8 +41,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Anchor to original run date (public metadata, no token)
+      - name: Anchor to original run date (public metadata, read-only token)
         id: context
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: node APP/web/scripts/traffic-schedule-context.mjs
       - name: Request one fixed-recipient aggregate email
         env:
