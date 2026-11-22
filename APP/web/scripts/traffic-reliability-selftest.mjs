@@ -131,4 +131,7 @@ assert(error);assert.equal(mailTriggerDiagnostic(error).code,'response_outcome_u
 const runEnv={GITHUB_REPOSITORY:'anthonycolmenaresanandres-lang/amma-fina-calle',GITHUB_RUN_ID:'123'};
 assert.equal(await scheduleContext(runEnv,async()=>Response.json({id:123,repository:{full_name:runEnv.GITHUB_REPOSITORY},head_branch:'main',event:'schedule',created_at:'2026-10-24T15:59:00Z'})),'2026-10-24');checks++;
 await assert.rejects(()=>scheduleContext(runEnv,async()=>Response.json({id:123,repository:{full_name:'other/repo'}})));checks++;
+let ctxHeaders;const captureFetch=async(_url,opts)=>{ctxHeaders=opts.headers;return Response.json({id:123,repository:{full_name:runEnv.GITHUB_REPOSITORY},head_branch:'main',event:'schedule',created_at:'2026-10-24T15:59:00Z'});};
+await scheduleContext(runEnv,captureFetch);assert.equal(ctxHeaders.Authorization,undefined);checks++;
+await scheduleContext({...runEnv,GITHUB_TOKEN:'ghs_selftest'},captureFetch);assert.equal(ctxHeaders.Authorization,'Bearer ghs_selftest');checks++;
 console.log(`PASS ${checks} traffic reliability groups: late/DST/cadence, real SQL claims and immutability, retries, partial/unavailable, current-day recovery, watchdog and original run dates. No live requests or sends.`);
