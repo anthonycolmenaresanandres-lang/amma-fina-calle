@@ -33,3 +33,11 @@ Rules:
 - Output: 2 newly detected YELLOW customer-answer eligibility conflicts. These are newly detected risks, not proven website changes since Nov 9. No production changes or external sends.
 - Handoff: Voice Gateway maintainer/Anthony to withhold definitive eligibility claims for Lil' Kickers ages 8–9 and Youth Soccer birth year 2021 until VBFH confirms; approval before production knowledge edit.
 - Approval needed: Yes, for production knowledge edits.
+
+## 2026-11-23 08:35 ET — VBFH Knowledge Agent
+- Input: November 16 internal verified baseline, Worker Contract, knowledge/handoff SOPs, current official VBFH pages.
+- Evidence: Youth Soccer winter end now Feb 28 (previous Mar 7) [https://beachfieldhouse.com/activity/youth-soccer/]. Winter 2027 league schedules and Dec 20 registration cutoffs now published for Adult Basketball ($122.50), Adult Soccer ($105), Adult Volleyball ($105), Youth Basketball ($122.50), Youth Volleyball ($90) [official individual /activity/ pages]. Lil Kickers winter now Nov 30–Feb 23 at $20/class; Lil Fielders Dec 8–Feb 28 at $20/class; Skills Institute Dec 1–Feb 22 at $22/class; Lil Bumpers Dec 4–Feb 26 at $20/class. Lil Kickers current age info conflicts 18 mo–9 vs 18 mo–8. Official /location/ lists Thanksgiving Day closure, relevant Nov 26, 2026.
+- Action: Checked VBFH homepage, adult and youth league pages, kids programs, hours, rentals, parties, drop-ins, and camps. Direct-linked DaySmart registration page returned no usable capacity. Deduplicated preexisting youth soccer birth-year, Lil Kickers age, summer-only youth flag football, camp and rental contact conflicts. Updated state branch: resolved youth-basketball fall-only alert; refreshed Lil Kickers age alert; added 4 actionable winter/closure alerts.
+- Output: New or refreshed winter schedules/prices and customer-answer guardrails; current enrollment capacity UNKNOWN. No customer sends, paid activity or production changes.
+- Handoff: Voice Gateway maintainer / Anthony review official winter schedule facts, implement holiday guardrail and correct Youth Soccer end date, kids class pricing after owner approval. TTL 24h registration/holiday, 7d dates/fees.
+- Approval needed: Yes before production knowledge edits.
