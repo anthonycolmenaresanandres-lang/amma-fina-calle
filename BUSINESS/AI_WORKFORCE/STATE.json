@@ -1,7 +1,7 @@
 {
   "version": 2,
   "branch": "ops/ai-workforce-state",
-  "last_updated_at": "2026-11-16T08:33:45-05:00",
+  "last_updated_at": "2026-11-23T08:35:11-05:00",
   "rules": {
     "unknown_is_not_zero": true,
     "no_external_send_without_owner_approval": true,
@@ -336,14 +336,17 @@
     {
       "id": "vbfh-youth-basketball-stale-fall-only-2026-11-09",
       "owner": "VBFH Knowledge Agent",
-      "status": "OPEN",
+      "status": "RESOLVED",
       "severity": "YELLOW",
       "fact": "Youth Basketball seasonal information stale",
       "old_value": "Fall 2026 season Sept 13–Oct 25 with registration closure Aug 30",
       "new_value": "As of Nov 9, published page still displays only expired Fall season, while prompting registration; current/new season and enrollment status UNKNOWN",
       "verified_at": "2026-11-09",
       "source": "https://beachfieldhouse.com/activity/youth-basketball/",
-      "next_action": "Do not promise an upcoming basketball season or open registration. Ask VBFH staff for updated dates and verify before production knowledge change."
+      "next_action": "Do not promise an upcoming basketball season or open registration. Ask VBFH staff for updated dates and verify before production knowledge change.",
+      "resolved_at": "2026-11-23T08:35:11-05:00",
+      "resolution": "Official youth basketball page now publishes Winter Jan 3–Feb 28, 2027, closes Dec 20, $122.50/player; capacity UNKNOWN.",
+      "resolution_source": "https://beachfieldhouse.com/activity/youth-basketball/"
     },
     {
       "id": "vbfh-lil-kickers-upper-age-conflict-2026-11-16",
@@ -352,10 +355,10 @@
       "severity": "YELLOW",
       "fact": "Lil' Kickers eligibility upper-age range",
       "old_value": "Not previously flagged; program upper-age guidance lacked a verified conflict record",
-      "new_value": "Official program intro says ages 18 months–9 years; SEASON INFORMATION says 18 months–7 years. Actual eligibility at ages 8–9 UNKNOWN.",
-      "verified_at": "2026-11-16",
+      "new_value": "As of 2026-11-23 official intro says 18 months–9 years, SEASON INFORMATION now says 18 months–8 years (previously 7); upper age 9 remains conflicting.",
+      "verified_at": "2026-11-23",
       "source": "https://beachfieldhouse.com/activity/lil-kickers/",
-      "next_action": "Voice Gateway must avoid definitive eligibility for 8–9-year-olds; ask VBFH youth staff or check official registration eligibility before any production knowledge update. Approval needed."
+      "next_action": "Do not promise eligibility for 9-year-olds. Staff confirmation required; winter classes now Nov 30–Feb 23, $20/class."
     },
     {
       "id": "vbfh-youth-soccer-birthyear-conflict-2026-11-16",
@@ -368,6 +371,66 @@
       "verified_at": "2026-11-16",
       "source": "https://beachfieldhouse.com/activity/youth-soccer/",
       "next_action": "Voice Gateway should not reject 2021-born players based on overview; defer specific eligibility to VBFH or verified official registration rules. Approval needed before updating production."
+    },
+    {
+      "id": "vbfh-youth-soccer-winter-end-date-revised-2026-11-23",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Youth Soccer Winter 2026–27 published season end date",
+      "old_value": "December 4, 2026–March 7, 2027 (verified November 16 baseline)",
+      "new_value": "December 4, 2026–February 28, 2027; $96/player, registration deadline Nov 8 passed; late enrollment capacity UNKNOWN.",
+      "verified_at": "2026-11-23",
+      "source": "https://beachfieldhouse.com/activity/youth-soccer/",
+      "next_action": "Voice knowledge maintainer should correct end date after Anthony approves; avoid promising late enrollment."
+    },
+    {
+      "id": "vbfh-winter-leagues-2027-published-2026-11-23",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Winter 2027 adult and youth league schedules and fees now officially published",
+      "old_value": "Earlier verified pages emphasized Holiday 2026 and youth basketball only Fall 2026.",
+      "new_value": "Adult basketball Jan 8–Feb 26 $122.50; adult soccer Jan 4–Feb 26 $105; adult volleyball Jan 4–Feb 25 $105; youth basketball Jan 3–Feb 28 $122.50; youth volleyball Jan 3–Feb 28 $90; all list registration closing Dec 20, 2026 or when full. Adult flag football still shows Holiday Oct 30–Dec 18 and no verified winter offering.",
+      "verified_at": "2026-11-23",
+      "sources": [
+        "https://beachfieldhouse.com/activity/adult-basketball/",
+        "https://beachfieldhouse.com/activity/adult-soccer/",
+        "https://beachfieldhouse.com/activity/adult-volleyball/",
+        "https://beachfieldhouse.com/activity/youth-basketball/",
+        "https://beachfieldhouse.com/activity/youth-volleyball/",
+        "https://beachfieldhouse.com/activity/adult-flag-football/"
+      ],
+      "next_action": "Verify in voice knowledge baseline which winter leagues are already loaded; prepare factual updates; provider roster/capacity unavailable, so never guarantee spots."
+    },
+    {
+      "id": "vbfh-winter-lils-classes-revised-2026-11-23",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Winter kids classes schedules and fees differ from earlier baseline",
+      "old_value": "Lil Kickers Dec 8–Mar 1 $18.50/class; Lil Fielders Dec 8–Mar 1 $17.50/class; Skills Institute Dec 8–Mar 1 $19.50/class.",
+      "new_value": "Lil Kickers Nov 30–Feb 23 $20/class; Lil Fielders Dec 8–Feb 28 $20/class; Skills Institute Dec 1–Feb 22 $22/class; Lil Bumpers Dec 4–Feb 26 $20/class.",
+      "verified_at": "2026-11-23",
+      "sources": [
+        "https://beachfieldhouse.com/activity/lil-kickers/",
+        "https://beachfieldhouse.com/activity/lil-fielders/",
+        "https://beachfieldhouse.com/activity/skills-institute/",
+        "https://beachfieldhouse.com/activity/lil-bumpers/"
+      ],
+      "next_action": "Update draft knowledge entries by class, not a single blanket winter date/fee; seek Anthony approval before production."
+    },
+    {
+      "id": "vbfh-thanksgiving-closure-2026-11-26",
+      "owner": "VBFH Knowledge Agent",
+      "status": "OPEN",
+      "severity": "YELLOW",
+      "fact": "Imminent Thanksgiving holiday facility closure",
+      "old_value": "Regular Thursday published facility hours Monday–Friday 1pm–11pm, subject to schedule.",
+      "new_value": "Official location page lists Thanksgiving Day as a holiday closure. Thursday November 26, 2026 is Thanksgiving; do not quote weekday open hours for that date.",
+      "verified_at": "2026-11-23",
+      "source": "https://beachfieldhouse.com/location/",
+      "next_action": "Voice assistant holiday-hours guardrail needed before Nov 26; production changes approval-gated. Retire alert after holiday."
     }
   ],
   "decision_debt": [],
