@@ -3841,3 +3841,5 @@ Anthony explicitly approved implementing/testing/releasing El Mariachi tracking 
 2026-11-25 OUT | Codex | Signatures-only Location 02 draft written and visually checked; exact 5 items and local 404/200 gates pass. No live data, contact or deployment.
 
 2026-11-25 IN | Codex | Bodega Location 02 public menu release preparation on separate feature worktree. Prepare the standard PR for Anthony; no collateral client changes.
+
+2026-11-25 OUT | Codex | Isolated Location 02 publication route and regression test. Scope leaves Holland Road and site configuration unchanged. Exact signature test and targeted lint passed. Hold for PR checks and Anthony to merge; verify both public routes afterward.

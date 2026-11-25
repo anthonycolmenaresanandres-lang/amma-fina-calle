@@ -60,4 +60,3 @@
 .bodega-second h2 { font-size: clamp(1.05rem, 4vw, 1.28rem); line-height: 1.22; font-weight: 750; }
 .bodega-second li p { margin-top: .15rem; font-size: .9rem; color: var(--soft-ink); }
 .bodega-second .bodega-second__foot { margin-top: 1.35rem; color: var(--soft-ink); font-size: .8rem; }
-

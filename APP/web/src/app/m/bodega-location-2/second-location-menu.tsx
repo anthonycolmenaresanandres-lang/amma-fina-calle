@@ -19,7 +19,7 @@ export function SecondLocationMenu({ seal = sealPath }: { seal?: string }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={seal} width="88" height="88" alt="" className="bodega-second__seal" />
         <p className="bodega-second__brand">Bodega Café</p>
-        <p className="bodega-second__tag">Location 02 · Menu preview</p>
+        <p className="bodega-second__tag">Location 02</p>
       </header>
       <section className="bodega-second__menu" aria-labelledby="bodega-signature-title">
         <p className="bodega-second__caption">THE HOUSE FAVORITES</p>
@@ -33,7 +33,7 @@ export function SecondLocationMenu({ seal = sealPath }: { seal?: string }) {
           ))}
         </ul>
       </section>
-      <footer className="bodega-second__foot"><p>Draft for review. Not available for ordering.</p></footer>
+      <footer className="bodega-second__foot"><p>Menu only. Online ordering is not available.</p></footer>
     </main>
   );
 }
