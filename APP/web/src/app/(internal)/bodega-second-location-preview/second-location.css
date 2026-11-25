@@ -1,0 +1,63 @@
+.bodega-second {
+  --paper: #f6f2e6;
+  --ink: #18231f;
+  --pine: #225740;
+  --soft-ink: #47554d;
+  --rule: #a8b7a9;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100svh;
+  padding: clamp(1.25rem, 6vw, 4rem) 0 2rem;
+  font: 1rem/1.5 Arial, Helvetica, sans-serif;
+}
+.bodega-second, .bodega-second * { box-sizing: border-box; }
+.bodega-second :is(h1, h2, p, ul) { margin: 0; }
+.bodega-second :is(.bodega-second__mast, .bodega-second__menu, .bodega-second__foot) {
+  width: min(calc(100% - 3rem), 37rem);
+  margin-inline: auto;
+}
+.bodega-second .bodega-second__mast {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 1rem;
+  border-bottom: 1px solid var(--pine);
+  padding-bottom: 1.2rem;
+}
+.bodega-second .bodega-second__seal {
+  grid-row: 1 / span 2;
+  display: block;
+  width: clamp(3.25rem, 13vw, 5.5rem);
+  height: auto;
+  border-radius: 50%;
+  clip-path: circle(47%);
+}
+.bodega-second .bodega-second__brand { align-self: end; font-weight: 800; font-size: 1.1rem; }
+.bodega-second .bodega-second__tag { align-self: start; color: var(--soft-ink); font-size: .86rem; }
+.bodega-second .bodega-second__menu { padding-top: clamp(1.8rem, 5vw, 3rem); }
+.bodega-second .bodega-second__caption { color: var(--pine); font-size: .72rem; font-weight: 800; letter-spacing: .15em; }
+.bodega-second h1 {
+  margin: .55rem 0 1.35rem;
+  color: var(--pine);
+  font: 700 clamp(2.5rem, 12vw, 5.1rem)/.91 Georgia, serif;
+  letter-spacing: -.07em;
+}
+.bodega-second .bodega-second__list { list-style: none; padding: 0; border-top: 1px solid var(--rule); }
+.bodega-second li {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: .55rem;
+  padding: .68rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.bodega-second .bodega-second__number {
+  color: var(--pine);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+}
+.bodega-second h2 { font-size: clamp(1.05rem, 4vw, 1.28rem); line-height: 1.22; font-weight: 750; }
+.bodega-second li p { margin-top: .15rem; font-size: .9rem; color: var(--soft-ink); }
+.bodega-second .bodega-second__foot { margin-top: 1.35rem; color: var(--soft-ink); font-size: .8rem; }
+
