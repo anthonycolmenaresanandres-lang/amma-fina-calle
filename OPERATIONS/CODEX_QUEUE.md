@@ -1412,3 +1412,10 @@ Isolated codex/trial-tracking-20261030 from8abc28bd. Exact brand mapping; one de
 
 ## IN 2026-11-07 authorized traffic repair release
 Anthony explicitly approved implementing/testing/releasing El Mariachi tracking and traffic emails, with at most one clearly labeled owner-only verification if needed. Reuse PR362 and existing tracking branch; preserve all products, weekly Monday cadence and existing recipient. Shared flag remains off; El Mariachi gets a separate activation flag, Seed remains separate. Runtime database identity must be positively matched before exact migration002; no001, credentials/grants/security changes, paid service, bulk backfill or client sends. Fixed identity SELECT exposed only by existing ops-admin GET; mail check emits sanitized private diagnostic logs, never identity in its response. Excluded qa_ event types and native Analytics QA suppression support clean mobile tests. Existing integration-list403 not retried. Generic marker cleanup and broad-context diagnostic patch were rejected by automatic review and did not execute; explicit marker-only history retention and GET-authorized diagnostic boundaries were then verified and applied safely. Release plan APP/web/traffic/RELEASE_20261107.md.
+
+## [ ] Bodega Café second location | 2026-11-25
+Direct request: second location has its own menu; only existing Signature Cafecito drinks for this review.
+Scope: isolated local preview with no production link or changes to Holland Road, Square, billing, QR, or analytics. Address, hours, pricing and ordering remain unset.
+
+## Bodega Café Location 02 public menu | 2026-11-25
+Anthony directly requested publication of the separate signatures-only page. Prepare PR from current deployed main; existing Holland Road, ordering, address/hours/prices, Square, QR, analytics, billing, access and settings stay untouched. Follow the checked PR workflow, no direct main push.

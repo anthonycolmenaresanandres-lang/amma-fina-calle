@@ -3835,3 +3835,11 @@ Isolated codex/trial-tracking-20261030 from8abc28bd. Exact brand mapping; one de
 
 ## IN 2026-11-07 authorized traffic repair release
 Anthony explicitly approved implementing/testing/releasing El Mariachi tracking and traffic emails, with at most one clearly labeled owner-only verification if needed. Reuse PR362 and existing tracking branch; preserve all products, weekly Monday cadence and existing recipient. Shared flag remains off; El Mariachi gets a separate activation flag, Seed remains separate. Runtime database identity must be positively matched before exact migration002; no001, credentials/grants/security changes, paid service, bulk backfill or client sends. Fixed identity SELECT exposed only by existing ops-admin GET; mail check emits sanitized private diagnostic logs, never identity in its response. Excluded qa_ event types and native Analytics QA suppression support clean mobile tests. Existing integration-list403 not retried. Generic marker cleanup and broad-context diagnostic patch were rejected by automatic review and did not execute; explicit marker-only history retention and GET-authorized diagnostic boundaries were then verified and applied safely. Release plan APP/web/traffic/RELEASE_20261107.md.
+
+2026-11-25 IN | Codex | Bodega location 02 signatures-only preview; separate branch, no production changes.
+
+2026-11-25 OUT | Codex | Signatures-only Location 02 draft written and visually checked; exact 5 items and local 404/200 gates pass. No live data, contact or deployment.
+
+2026-11-25 IN | Codex | Bodega Location 02 public menu release preparation on separate feature worktree. Prepare the standard PR for Anthony; no collateral client changes.
+
+2026-11-25 OUT | Codex | Isolated Location 02 publication route and regression test. Scope leaves Holland Road and site configuration unchanged. Exact signature test and targeted lint passed. Hold for PR checks and Anthony to merge; verify both public routes afterward.
