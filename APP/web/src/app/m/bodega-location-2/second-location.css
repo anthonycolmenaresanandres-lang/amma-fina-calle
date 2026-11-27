@@ -12,7 +12,7 @@
 }
 .bodega-second, .bodega-second * { box-sizing: border-box; }
 .bodega-second :is(h1, h2, p, ul) { margin: 0; }
-.bodega-second :is(.bodega-second__mast, .bodega-second__menu, .bodega-second__foot) {
+.bodega-second :is(.bodega-second__mast, .bodega-second__menu, .bodega-second__arcade, .bodega-second__foot) {
   width: min(calc(100% - 3rem), 37rem);
   margin-inline: auto;
 }
@@ -60,3 +60,12 @@
 .bodega-second h2 { font-size: clamp(1.05rem, 4vw, 1.28rem); line-height: 1.22; font-weight: 750; }
 .bodega-second li p { margin-top: .15rem; font-size: .9rem; color: var(--soft-ink); }
 .bodega-second .bodega-second__foot { margin-top: 1.35rem; color: var(--soft-ink); font-size: .8rem; }
+
+.bodega-second .bodega-second__arcade { padding-top: 1.5rem; }
+.bodega-second .bodega-second__arcade a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--pine); font: 700 clamp(1.25rem, 5vw, 1.75rem)/1.15 Georgia, serif;
+  text-underline-offset: .17em;
+}
+.bodega-second .bodega-second__arcade a:focus-visible { outline: 2px solid var(--pine); outline-offset: 3px; }
+.bodega-second .bodega-second__arcade p:last-child { color: var(--soft-ink); font-size: .9rem; }
